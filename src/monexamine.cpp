@@ -96,8 +96,7 @@ bool monexamine::pet_menu( monster &z )
         if( !z.inv.empty() ) {
             amenu.addentry( drop_all, true, 'd', _( "Remove all items from bag" ) );
         }
-    }
-    if( !z.has_effect( effect_has_bag ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
+    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag to %s" ), pet_name );
     }
     if( z.has_effect( effect_harnessed ) ) {
@@ -153,13 +152,10 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
         } else if( g->u.get_skill_level( skill_survival ) < 1 ) {
             amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
-        } else if( g->u.get_weight() >= z.get_weight() / 5 ) {
+        } else if( g->u.get_weight() >= z.get_weight() * z.get_mountable_weight_ratio() ) {
             amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
         } else if( !z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 4 ) {
             amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
-        } else if( z.has_effect( effect_saddled ) && g->u.get_skill_level( skill_survival ) < 1 ) {
-            amenu.addentry( mount, false, 'r', _( "Despite the saddle, you still don't know how to ride %s" ),
-                            pet_name );
         }
     } else {
         const itype &type = *item::find_type( z.type->mech_battery );
