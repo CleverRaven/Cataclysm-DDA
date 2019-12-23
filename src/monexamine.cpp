@@ -59,6 +59,7 @@ bool monexamine::pet_menu( monster &z )
         push_zlave,
         rename,
         attach_bag,
+        remove_bag,
         drop_all,
         give_items,
         mon_armor_add,
@@ -89,12 +90,15 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_zlave, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
-    if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ) {
+    if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
-        amenu.addentry( drop_all, true, 'd', _( "Drop all items except armor" ) );
+        amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
+        if( !z.inv.empty() ) {
+            amenu.addentry( drop_all, true, 'd', _( "Remove all items from bag" ) );
+        }
     }
     if( !z.has_effect( effect_has_bag ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        amenu.addentry( attach_bag, true, 'b', _( "Attach bag" ) );
+        amenu.addentry( attach_bag, true, 'b', _( "Attach bag to %s" ), pet_name );
     }
     if( z.has_effect( effect_harnessed ) ) {
         amenu.addentry( mon_harness_remove, true, 'H', _( "Remove vehicle harness from %s" ), pet_name );
@@ -198,6 +202,9 @@ bool monexamine::pet_menu( monster &z )
             break;
         case attach_bag:
             attach_bag_to( z );
+            break;
+        case remove_bag:
+            remove_bag_from( z );
             break;
         case drop_all:
             dump_items( z );
@@ -478,41 +485,39 @@ void monexamine::attach_bag_to( monster &z )
     }
 
     item &it = *loc;
-    // force it to the front of the monster's inventory in case they have armor on
-    z.inv.insert( z.inv.begin(), it );
-    add_msg( _( "You mount the %1$s on your %2$s, ready to store gear." ),
-             it.display_name(), pet_name );
-    g->u.i_rem( &*loc );
+    z.storage_item = it;
+    add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
+    g->u.i_rem( &it );
     z.add_effect( effect_has_bag, 1_turns, num_bp, true );
     // Update encumbrance in case we were wearing it
     g->u.flag_encumbrance();
     g->u.moves -= 200;
 }
 
+void monexamine::remove_bag_from( monster &z )
+{
+    std::string pet_name = z.get_name();
+    if( z.storage_item ) {
+        if( !z.inv.empty() ) {
+            dump_items( z );
+        }
+        g->m.add_item_or_charges( g->u.pos(), z.storage_item.value() );
+        add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
+        z.storage_item = cata::nullopt;
+        g->u.moves -= 200;
+    } else {
+        add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
+    }
+    z.remove_effect( effect_has_bag );
+}
+
 void monexamine::dump_items( monster &z )
 {
     std::string pet_name = z.get_name();
-    int armor_index = 0;
-    bool found_armor = false;
     for( auto &it : z.inv ) {
-        if( z.has_effect( effect_monster_armor ) && it.is_pet_armor( true ) ) {
-            found_armor = true;
-        } else {
-            armor_index += 1;
-            g->m.add_item_or_charges( z.pos(), it );
-        }
+        g->m.add_item_or_charges( g->u.pos(), it );
     }
-    item armor;
-    if( found_armor ) {
-        armor = z.inv[ armor_index ];
-    }
-
     z.inv.clear();
-    z.remove_effect( effect_has_bag );
-    if( found_armor ) {
-        armor.set_var( "pet_armor", "true" );
-        z.add_item( armor );
-    }
     add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
     g->u.moves -= 200;
 }
@@ -520,57 +525,37 @@ void monexamine::dump_items( monster &z )
 bool monexamine::give_items_to( monster &z )
 {
     std::string pet_name = z.get_name();
-    if( z.inv.empty() ) {
+    if( !z.storage_item ) {
         add_msg( _( "There is no container on your %s to put things in!" ), pet_name );
         return true;
     }
 
-    int armor_index = INT_MIN;
-    if( z.has_effect( effect_monster_armor ) ) {
-        armor_index = 0;
-        for( auto &it : z.inv ) {
-            if( it.is_pet_armor( true ) ) {
-                break;
-            } else {
-                armor_index += 1;
-            }
+    item &storage = z.storage_item.value();
+    units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
+    units::volume max_volume = storage.get_storage();
+    for( const item &it : z.inv ) {
+        max_volume -= it.volume();
+    }
+
+    std::list<std::pair<int, int>> items = game_menus::inv::multidrop( g->u );
+    std::list<std::pair<int, int>> to_move;
+    for( const std::pair<int, int> &itq : items ) {
+        const item &it = g->u.i_at( itq.first );
+        units::volume item_volume = it.volume() * itq.second;
+        units::mass item_weight = it.weight() * itq.second;
+        if( max_weight < item_weight ) {
+            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
+            continue;
+        } else if( max_volume < item_volume ) {
+            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
+            continue;
+        } else {
+            to_move.insert( to_move.end(), itq );
         }
     }
+    z.add_effect( effect_controlled, 5_turns );
+    g->u.drop( to_move, z.pos(), true );
 
-    // might be a bag, might be armor
-    item &storage = z.inv[0];
-    units::volume max_cap = storage.get_storage();
-    units::mass max_weight = z.weight_capacity() - storage.weight();
-    if( armor_index != 0 && armor_index != INT_MIN ) {
-        item &armor = z.inv[armor_index];
-        max_cap += armor.get_storage() + armor.volume();
-        max_weight -= armor.weight();
-    }
-
-    if( z.inv.size() > 1 ) {
-        for( auto &i : z.inv ) {
-            max_cap -= i.volume();
-            max_weight -= i.weight();
-        }
-    }
-
-    if( max_weight <= 0_gram ) {
-        add_msg( _( "%1$s is overburdened.  You can't transfer your %2$s." ),
-                 pet_name, storage.tname( 1 ) );
-        return true;
-    }
-    if( max_cap <= 0_ml ) {
-        add_msg( _( "There's no room in your %1$s's %2$s for that, it's too bulky!" ),
-                 pet_name, storage.tname( 1 ) );
-        return true;
-    }
-
-    const auto items_to_stash = game_menus::inv::multidrop( g->u );
-    if( !items_to_stash.empty() ) {
-        g->u.drop( items_to_stash, z.pos(), true );
-        z.add_effect( effect_controlled, 5_turns );
-        return true;
-    }
     return false;
 }
 
