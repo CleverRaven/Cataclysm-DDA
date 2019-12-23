@@ -8,7 +8,7 @@
     "species": [ "ROBOT" ],
     "diff": 20,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 45,
     "speed": 100,
     "material": "alien_resin",

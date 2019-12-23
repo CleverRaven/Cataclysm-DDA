@@ -2,7 +2,7 @@
   "id": "afs_dough",
   "type": "COMESTIBLE",
   "name": "dough",
-  "weight": 226,
+  "weight": "226 g",
   "color": "yellow",
   "comestible_type": "FOOD",
   "symbol": "%",
@@ -10,7 +10,7 @@
   "quench": -5,
   "description": "Flour mixed with water, kneaded into a gooey paste.  This dough can be used to bake bread more efficiently than with just flour.",
   "price": 100,
-  "volume": 2,
+  "volume": "500 ml",
   "charges": 2,
   "flags": [
     "EATEN_HOT"

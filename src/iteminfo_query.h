@@ -34,6 +34,7 @@ enum class iteminfo_parts : size_t {
     FOOD_PORTIONS,
     FOOD_SMELL,
     FOOD_VITAMINS,
+    FOOD_VIT_EFFECTS,
     FOOD_CANNIBALISM,
     FOOD_TAINT,
     FOOD_POISON,
