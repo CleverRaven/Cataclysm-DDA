@@ -6,6 +6,7 @@ Use the `Home` key to return to the top.
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
+    + [`data/json/items/comestibles`](#datajsonitemscomestibles)
   * [`data/json/requirements/`](#datajsonrequirements)
   * [`data/json/vehicles/`](#datajsonvehicles)
 - [Generic properties and formatting](#generic-properties-and-formatting)
@@ -160,7 +161,7 @@ Use the `Home` key to return to the top.
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
 # File descriptions
-Here's a quick summary of what each of the JSON files contain, broken down by folder.
+Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
 
 ## `data/json/`
 
@@ -258,6 +259,8 @@ See below for specifics on the various items
 | toolmod.json       | modifications of tools
 | tools.json         | tools and items that can be (a)ctivated
 | vehicle_parts.json | components of vehicles when they aren't on the vehicle
+
+### `data/json/items/comestibles`
 
 ## `data/json/requirements/`
 
