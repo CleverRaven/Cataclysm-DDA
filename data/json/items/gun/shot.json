@@ -127,6 +127,7 @@
     "clip_size": 8,
     "valid_mod_locations": [
       [ "accessories", 2 ],
+      [ "mechanism", 4 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
@@ -214,6 +215,7 @@
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
