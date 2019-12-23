@@ -5859,10 +5859,15 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
                                         get_fire_fuel_string( lp ) ) - 1;
             line += lines;
         } else {
+            // display tile special detail if it exists (blood stain, puddle of acid ..)
             mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
         }
     }
-    mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
+    // only display new line if there is items to show
+    int size = std::distance( tmpfield.begin(), tmpfield.end() );
+    if( size > 0 ) {
+        mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
+    }
 }
 
 void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
@@ -5961,7 +5966,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
             }
 
             if( it.second.first > 1 ) {
-                trim_and_print( w_look, point( column, ++line ), max_width, c_white,
+                trim_and_print( w_look, point( column, ++line ), max_width, it.second.second,
                                 pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
                                 it.first.c_str(), it.second.first );
             } else {
