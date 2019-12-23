@@ -640,17 +640,12 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // dipslay aspect
     mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect :" ) );
-
-    std::vector<std::string> line1 = foldstring( type->get_description(), getmaxx( w ) - 11 - column );
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        if( i == 0 ) {
-            mvwprintz( w, point( column + 9, vStart ), c_white, line1[i] );
-        } else {
-            mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
-        }
-
+        if ( i == 0 )
+            ++vStart;
+        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
 
     std::string effects = get_effect_status();
