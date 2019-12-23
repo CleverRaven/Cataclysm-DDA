@@ -132,12 +132,12 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
-        g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) >= 1 ) {
-        amenu.addentry( attach_saddle, true, 'h', _( "Attach a saddle to %s" ), pet_name );
+        g->u.has_item_with_flag( "TACK" ) && g->u.get_skill_level( skill_survival ) >= 1 ) {
+        amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_saddled ) ) {
-        amenu.addentry( remove_saddle, true, 'h', _( "Remove the saddle from %s" ), pet_name );
+        amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
-               g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) < 1 ) {
+               g->u.has_item_with_flag( "TACK" ) && g->u.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
     }
     if( z.has_flag( MF_PAY_BOT ) ) {
@@ -267,6 +267,17 @@ int monexamine::pet_armor_pos( monster &z )
     return g->u.get_item_position( loc.get_item() );
 }
 
+int monexamine::tack_pos()
+{
+    auto filter = []( const item & it ) {
+        return it.has_flag( "TACK" );
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Tack" ) );
+
+    return g->u.get_item_position( loc.get_item() );
+}
+
 void monexamine::remove_battery( monster &z )
 {
     g->m.add_item_or_charges( g->u.pos(), *z.battery_item );
@@ -384,12 +395,12 @@ void monexamine::attach_or_remove_saddle( monster &z )
 {
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
+        g->u.i_add( z.tack_item.value() );
         z.tack_item = cata::nullopt;
-        g->u.i_add( item( "riding_saddle" ) );
     } else {
         z.add_effect( effect_saddled, 1_turns, num_bp, true );
-        z.tack_item = item( "riding_saddle" );
-        g->u.use_amount( "riding_saddle", 1 );
+        z.tack_item = g->u.i_at( tack_pos() );
+        g->u.use_amount( z.tack_item.value().typeId(), 1 );
     }
 }
 

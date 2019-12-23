@@ -2127,14 +2127,8 @@ void monster::die( Creature *nkiller )
         return;
     }
     // We were carrying a creature, deposit the rider
-    if( has_effect( effect_ridden ) ) {
-        if( has_effect( effect_saddled ) ) {
-            item riding_saddle( "riding_saddle", 0 );
-            g->m.add_item_or_charges( pos(), riding_saddle );
-        }
-        if( mounted_player ) {
-            mounted_player->forced_dismount();
-        }
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mounted_player->forced_dismount();
     }
     g->set_critter_died();
     dead = true;
@@ -2646,7 +2640,8 @@ void monster::add_msg_player_or_npc( const game_message_type type,
     }
 }
 
-units::mass monster::get_carried_weight() {
+units::mass monster::get_carried_weight()
+{
     units::mass total_weight = 0_gram;
     if( tack_item ) {
         total_weight += tack_item->weight();

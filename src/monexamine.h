@@ -21,6 +21,7 @@ void remove_bag_from( monster &z );
 void dump_items( monster &z );
 bool give_items_to( monster &z );
 int pet_armor_pos( monster &z );
+int tack_pos();
 bool add_armor( monster &z );
 void remove_armor( monster &z );
 void remove_harness( monster &z );
