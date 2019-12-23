@@ -877,15 +877,15 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
     cata::optional<tripoint> target_pos;
     if( place_randomly ) {
         const tripoint_range target_range = points_in_radius( p.pos(), 1 );
-        target_pos = random_point( target_range, []( const tripoint & ) {
-            return true;
+        target_pos = random_point( target_range, []( const tripoint & t ) {
+            return !g->m.passable( t );
         } );
     } else {
         const std::string query = _( "Place npc where?" );
         target_pos = choose_adjacent( _( "Place npc where?" ) );
-        if( !target_pos ) {
-            return 0;
-        }
+    }
+    if( !target_pos ) {
+        return 0;
     }
     if( !g->m.passable( target_pos.value() ) ) {
         p.add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
