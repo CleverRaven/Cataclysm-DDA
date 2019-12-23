@@ -26,6 +26,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "units.h"
 #include "bodypart.h"
 #include "debug.h"
 #include "enums.h"
@@ -248,6 +249,24 @@ bool monexamine::pet_menu( monster &z )
             break;
     }
     return true;
+}
+
+units::mass monexamine::get_weight_on_monster( monster &z )
+{
+    units::mass total_weight = 0_gram;
+    if( z.tack_item ) {
+        total_weight += z.tack_item->weight();
+    }
+    if( z.storage_item ) {
+        total_weight += z.storage_item->weight();
+    }
+    if( z.armor_item ) {
+        total_weight += z.armor_item->weight();
+    }
+    for( const item &it : z.inv ) {
+        total_weight += it.weight();
+    }
+    return total_weight;
 }
 
 int monexamine::pet_armor_pos( monster &z )
