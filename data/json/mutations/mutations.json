@@ -1,6 +1,39 @@
 [
   {
     "type": "mutation",
+    "id": "INT_DOWN_3",
+    "name": "Brain-Dead",
+    "points": -5,
+    "description": "Your mind has devolved rapidly, undoing hundreds of generations of evolution. Intelligence - 5",
+    "changes_to": [ "INT_DOWN_3" ]
+    "requires": [ "INT_DOWN_2" ]
+    "threshreq": [ "CHIMERA", "RAT", "TROGLOBITE" ]
+    "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
+    "passive_mods": { "int_mod": -5 }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_DOWN_2",
+    "name": "Unintelligent",
+    "points": -2,
+    "description": "Your mind is degrading. Intelligence - 2",
+    "changes_to": [ "INT_DOWN_3" ]
+    "requires": [ "INT_DOWN" ]
+    "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
+    "passive_mods": { "int_mod": -2 }
+   },
+   {
+    "type": "mutation",
+    "id": "INT_DOWN",
+    "name": "Less Smart",
+    "points": -1,
+    "description": "You feel your thoughts slowing down. Intelligence - 1",
+    "changes_to": [ "INT_DOWN_2" ]
+    "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
+    "passive_mods": { "int_mod": -1 }
+  },
+  {
+    "type": "mutation",
     "id": "FLEET",
     "name": "Fleet-Footed",
     "points": 2,
