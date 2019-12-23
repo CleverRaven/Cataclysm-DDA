@@ -5,7 +5,6 @@
     "name": "Brain-Dead",
     "points": -5,
     "description": "Your mind has devolved rapidly, undoing hundreds of generations of evolution. Intelligence - 5",
-    "changes_to": [ "INT_DOWN_3" ],
     "requires": [ "INT_DOWN_2" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_TROGLOBITE" ],
     "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
