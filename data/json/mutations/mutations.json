@@ -6,6 +6,7 @@
     "points": -5,
     "description": "Your mind has devolved rapidly, undoing hundreds of generations of evolution. Intelligence - 5",
     "requires": [ "INT_DOWN_2" ],
+    "cancels": [ "INT_DOWN", "INT_DOWN_2" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_TROGLOBITE" ],
     "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
     "passive_mods": { "int_mod": -5 }
