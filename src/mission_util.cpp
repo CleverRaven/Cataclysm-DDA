@@ -458,7 +458,7 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
         return false;
     }
 
-    if( jo.has_member( "om_special" ) && jo.has_member( "om_terrain" ) ) {
+    if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
         const auto mission_func = [update_map, om_terrain]( mission * miss ) {
             tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
