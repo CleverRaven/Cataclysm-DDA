@@ -1322,12 +1322,38 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                       const iteminfo_query *parts, int batch, bool debug ) const
 {
-    const nutrients nutr = g->u.compute_effective_nutrients( *food_item );
+    nutrients min_nutr;
+    nutrients max_nutr;
+
+    std::string recipe_exemplar = get_var( "recipe_exemplar", "" );
+    if( recipe_exemplar.empty() ) {
+        min_nutr = max_nutr = g->u.compute_effective_nutrients( *food_item );
+    } else {
+        std::tie( min_nutr, max_nutr ) =
+            g->u.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ) );
+    }
+
+    bool show_nutr = parts->test( iteminfo_parts::FOOD_NUTRITION ) ||
+                     parts->test( iteminfo_parts::FOOD_VITAMINS );
+    if( min_nutr != max_nutr && show_nutr ) {
+        info.emplace_back(
+            "FOOD", _( "Nutrition will <color_cyan>vary with chosen ingredients</color>." ) );
+        if( recipe_dict.is_item_on_loop( food_item->typeId() ) ) {
+            info.emplace_back(
+                "FOOD", _( "Nutrition range cannot be calculated accurately due to "
+                           "<color_red>recipe loops</color>." ) );
+        }
+    }
+
     const std::string space = "  ";
-    if( nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
+    if( max_nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                                      "", iteminfo::no_newline, nutr.kcal ) );
+                                      "", iteminfo::no_newline, min_nutr.kcal ) );
+            if( max_nutr.kcal != min_nutr.kcal ) {
+                info.push_back( iteminfo( "FOOD", _( "-" ),
+                                          "", iteminfo::no_newline, max_nutr.kcal ) );
+            }
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
             info.push_back( iteminfo( "FOOD", space + _( "Quench: " ),
@@ -1351,30 +1377,34 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
-    const std::string required_vits = enumerate_as_string(
-                                          nutr.vitamins.begin(),
-                                          nutr.vitamins.end(),
-    []( const std::pair<vitamin_id, int> &v ) {
+    auto format_vitamin = [&]( const std::pair<vitamin_id, int> &v, bool display_vitamins ) {
+        const bool is_vitamin = v.first->type() == vitamin_type::VITAMIN;
         // only display vitamins that we actually require
-        return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 &&
-                 v.first->type() == vitamin_type::VITAMIN && !v.first->has_flag( "NO_DISPLAY" ) ) ?
-               string_format( "%s (%i%%)", v.first.obj().name(),
-                              static_cast<int>( v.second * g->u.vitamin_rate( v.first ) /
-                                                1_days * 100 ) ) :
-               std::string();
+        if( g->u.vitamin_rate( v.first ) == 0_turns || v.second == 0 ||
+            display_vitamins != is_vitamin || v.first->has_flag( "NO_DISPLAY" ) ) {
+            return std::string();
+        }
+        const double multiplier = g->u.vitamin_rate( v.first ) / 1_days * 100;
+        const int min_value = min_nutr.get_vitamin( v.first );
+        const int max_value = v.second;
+        const int min_rda = lround( min_value * multiplier );
+        const int max_rda = lround( max_value * multiplier );
+        const std::string format = min_rda == max_rda ? "%s (%i%%)" : "%s (%i-%i%%)";
+        return string_format( format, v.first->name(), min_value, max_value );
+    };
+
+    const std::string required_vits = enumerate_as_string(
+                                          max_nutr.vitamins.begin(),
+                                          max_nutr.vitamins.end(),
+    [&]( const std::pair<vitamin_id, int> &v ) {
+        return format_vitamin( v, true );
     } );
 
     const std::string effect_vits = enumerate_as_string(
-                                        nutr.vitamins.begin(),
-                                        nutr.vitamins.end(),
-    []( const std::pair<vitamin_id, int> &v ) {
-        // only display vitamins that we actually require
-        return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 &&
-                 v.first->type() != vitamin_type::VITAMIN && !v.first->has_flag( "NO_DISPLAY" ) ) ?
-               string_format( "%s (%i%%)", v.first.obj().name(),
-                              static_cast<int>( v.second * g->u.vitamin_rate( v.first ) /
-                                                1_days * 100 ) ) :
-               std::string();
+                                        max_nutr.vitamins.begin(),
+                                        max_nutr.vitamins.end(),
+    [&]( const std::pair<vitamin_id, int> &v ) {
+        return format_vitamin( v, false );
     } );
 
     if( !required_vits.empty() && parts->test( iteminfo_parts::FOOD_VITAMINS ) ) {

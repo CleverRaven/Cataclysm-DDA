@@ -486,6 +486,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
@@ -757,6 +758,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         }
@@ -1164,6 +1166,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
+                    catacurses::clear();
                     catacurses::refresh();
                     return 1;
                 }
@@ -1171,6 +1174,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 // erase entire window to avoid overlapping of query with possible popup about invalid worldname
                 werase( w_confirmation );
                 wrefresh( w_confirmation );
+                catacurses::clear();
                 catacurses::refresh();
 
                 if( valid_worldname( worldname ) ) {
