@@ -1469,7 +1469,8 @@
       [ "halter_top", 30 ],
       [ "linuxtshirt", 10 ],
       [ "iceaxe", 30 ],
-      [ "tourist_table", 30 ]
+      [ "tourist_table", 30 ],
+      [ "fitness_band", 10 ]
     ]
   },
   {
@@ -1881,7 +1882,8 @@
       [ "tarp", 10 ],
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 5 ],
-      [ "mess_tin", 10 ]
+      [ "mess_tin", 10 ],
+      [ "fitness_band", 10 ]
     ]
   },
   {

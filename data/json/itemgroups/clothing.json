@@ -287,7 +287,8 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
-      { "item": "game_watch", "prob": 20 }
+      { "item": "game_watch", "prob": 20 },
+      { "item": "fitness_band", "prob": 10 }
     ]
   },
   {
@@ -462,7 +463,8 @@
       [ "aspirin", 30 ],
       [ "water_clean", 30 ],
       [ "sports_drink", 30 ],
-      [ "1st_aid", 20 ]
+      [ "1st_aid", 20 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {
