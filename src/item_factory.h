@@ -254,7 +254,7 @@ class Item_factory
          * @param msg Stream in which all error messages are printed.
          * @param ammo Ammo type to check.
          */
-        bool check_ammo_type( std::ostream &msg, const ammotype &ammo ) const;
+        bool check_ammo_type( std::string &msg, const ammotype &ammo ) const;
 
         /**
          * Called before creating a new template and handles inheritance via copy-from

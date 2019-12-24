@@ -1,7 +1,6 @@
 #include "effect.h"
 
 #include <map>
-#include <sstream>
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
@@ -499,32 +498,32 @@ std::string effect::disp_name() const
     }
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
-    std::ostringstream ret;
+    std::string ret;
     if( eff_type->use_name_ints() ) {
         const translation &d_name = eff_type->name[ std::min<size_t>( intensity,
                                                       eff_type->name.size() ) - 1 ];
         if( d_name.empty() ) {
             return std::string();
         }
-        ret << d_name;
+        ret += d_name.translated();
     } else {
         if( eff_type->name[0].empty() ) {
             return std::string();
         }
-        ret << eff_type->name[0];
+        ret += eff_type->name[0].translated();
         if( intensity > 1 ) {
             if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
-                ret << " [" << texitify_healing_power( intensity ) << "]";
+                ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
-                ret << " [" << intensity << "]";
+                ret += string_format( " [%d]", intensity );
             }
         }
     }
     if( bp != num_bp ) {
-        ret << " (" << body_part_name( bp ) << ")";
+        ret += string_format( " (%s)", body_part_name( bp ) );
     }
 
-    return ret.str();
+    return ret;
 }
 
 // Used in disp_desc()
@@ -540,41 +539,41 @@ struct desc_freq {
 
 std::string effect::disp_desc( bool reduced ) const
 {
-    std::ostringstream ret;
+    std::string ret;
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
     }
     // Newline if necessary
-    if( !ret.str().empty() && ret.str().back() != '\n' ) {
-        ret << "\n";
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
     }
 
     // Then print pain/damage/coughing/vomiting, we don't display pkill, health, or radiation
@@ -646,21 +645,21 @@ std::string effect::disp_desc( bool reduced ) const
         }
     }
     if( !constant.empty() ) {
-        ret << _( "Const: " ) << enumerate_as_string( constant ) << " ";
+        ret += _( "Const: " ) + enumerate_as_string( constant ) + " ";
     }
     if( !frequent.empty() ) {
-        ret << _( "Freq: " ) << enumerate_as_string( frequent ) << " ";
+        ret += _( "Freq: " ) + enumerate_as_string( frequent ) + " ";
     }
     if( !uncommon.empty() ) {
-        ret << _( "Unfreq: " ) << enumerate_as_string( uncommon ) << " ";
+        ret += _( "Unfreq: " ) + enumerate_as_string( uncommon ) + " ";
     }
     if( !rare.empty() ) {
-        ret << _( "Rare: " ) << enumerate_as_string( rare ); // No space needed at the end
+        ret += _( "Rare: " ) + enumerate_as_string( rare ); // No space needed at the end
     }
 
     // Newline if necessary
-    if( !ret.str().empty() && ret.str().back() != '\n' ) {
-        ret << "\n";
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
     }
 
     std::string tmp_str;
@@ -679,14 +678,14 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret << string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( bp ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret << _( tmp_str );
+            ret += _( tmp_str );
         }
     }
 
-    return ret.str();
+    return ret;
 }
 
 std::string effect::disp_short_desc( bool reduced ) const

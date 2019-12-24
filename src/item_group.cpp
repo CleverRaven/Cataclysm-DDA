@@ -195,7 +195,9 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
-    , dirt( 0, 9999 ) // min and max should follow max_dirt in ranged.cpp
+      // Dirt in guns is capped unless overwritten in the itemgroup
+      // most guns should not be very dirty or dirty at all
+    , dirt( 0, 500 )
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )

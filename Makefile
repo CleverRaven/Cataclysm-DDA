@@ -91,6 +91,9 @@ WARNINGS = \
   -Wold-style-cast \
   -Woverloaded-virtual \
   -Wpedantic
+ifndef CLANG
+  WARNINGS += -Wsuggest-override
+endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g

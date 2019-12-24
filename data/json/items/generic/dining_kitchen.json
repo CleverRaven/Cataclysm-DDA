@@ -808,8 +808,8 @@
     "category": "other",
     "description": "A stainless steel mesh colander, for washing rice, vegetables or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
-    "volume": 2,
-    "weight": 318,
+    "volume": "500 ml",
+    "weight": "318 g",
     "symbol": ")",
     "price": 600,
     "price_postapoc": 5
@@ -819,8 +819,8 @@
     "name": "splatter guard",
     "description": "A stainless steel mesh screen for preventing flying oil from getting all over your nice counters (or you) when frying.",
     "type": "GENERIC",
-    "volume": 2,
-    "weight": 357,
+    "volume": "500 ml",
+    "weight": "357 g",
     "symbol": ")",
     "price": 600,
     "price_postapoc": 5

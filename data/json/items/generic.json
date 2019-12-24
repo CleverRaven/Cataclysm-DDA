@@ -3058,7 +3058,7 @@
     "category": "tools",
     "name": "survival kit",
     "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
-    "weight": 1612,
+    "weight": "1612 g",
     "volume": "1 L",
     "price": 5000,
     "material": "aluminum",
