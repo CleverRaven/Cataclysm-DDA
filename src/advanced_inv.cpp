@@ -1276,7 +1276,7 @@ void advanced_inventory::display()
                             g->u.activity.str_values.push_back( "force_ground" );
                         }
 
-                        g->u.activity.values.push_back( idx );
+                        g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
                         g->u.activity.values.push_back( amount_to_move );
 
                         // exit so that the activity can be carried out
