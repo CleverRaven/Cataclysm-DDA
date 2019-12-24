@@ -1,6 +1,6 @@
 #include "avatar_action.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <functional>
 #include <memory>

@@ -1,6 +1,6 @@
 #include "mapgen.h"
 
-#include <assert.h>
+#include <cassert>
 #include <cstdlib>
 #include <algorithm>
 #include <list>

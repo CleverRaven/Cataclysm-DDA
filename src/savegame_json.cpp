@@ -5,7 +5,7 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <limits.h>
+#include <climits>
 #include <cctype>
 #include <cstddef>
 #include <algorithm>

@@ -3,7 +3,7 @@
 #include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
 
-#include <stdint.h>
+#include <cstdint>
 #include <climits>
 #include <algorithm>
 #include <cassert>

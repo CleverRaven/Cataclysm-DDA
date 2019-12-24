@@ -1,6 +1,6 @@
 #include "behavior.h"
 
-#include <assert.h>
+#include <cassert>
 #include <list>
 #include <set>
 #include <unordered_map>

@@ -1,6 +1,6 @@
 #include "npctrade.h"
 
-#include <limits.h>
+#include <climits>
 #include <cstdlib>
 #include <algorithm>
 #include <string>

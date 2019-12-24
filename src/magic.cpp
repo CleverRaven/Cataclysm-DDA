@@ -1,6 +1,6 @@
 #include "magic.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>
