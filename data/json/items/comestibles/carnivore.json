@@ -18,7 +18,7 @@
     "name": "fillet of fish",
     "name_plural": "fillets of fish",
     "description": "Freshly caught fish.  Makes a passable meal raw.",
-    "//": "Nutrition information based on cod",
+    "//": "Nutrition information based on whitefish",
     "weight": "148 g",
     "volume": "250 ml",
     "price": 500,
@@ -26,7 +26,7 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
-    "calories": 121
+    "calories": 260
   },
   {
     "id": "fish_cooked",
