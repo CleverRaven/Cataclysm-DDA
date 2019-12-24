@@ -1949,7 +1949,7 @@ void inventory_compare_selector::set_filter()
     // If there is a previous inventory item selected,
     // reselect it.
     if( previous ) {
-        bool found = select( previous.any_item() );
+        select( previous.any_item() );
         toggle_entry( &previous );
     }
 }
