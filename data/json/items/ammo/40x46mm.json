@@ -108,6 +108,17 @@
     "casing": "40x46mm_m118_casing"
   },
   {
+    "id": "40x46mm_sponge",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm sponge",
+    "description": "A 40mm sponge round that delivers strong impact on target, causing pain and disorientation.  May still injure or kill.",
+    "price": 5000,
+    "price_postapoc": 10000,
+    "damage": 5,
+    "extend": { "effects": [ "BEANBAG" ] }
+  },
+  {
     "id": "40x46mm_slug_m199",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
