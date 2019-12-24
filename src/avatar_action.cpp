@@ -1018,9 +1018,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     // you must wield the item to throw it
     if( !you.is_wielding( *orig ) ) {
-        if( you.wield( *orig ) ) {
-            orig = &you.weapon;
-        } else {
+        if( !you.wield( *orig ) ) {
             return;
         }
     }
