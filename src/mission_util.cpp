@@ -439,9 +439,6 @@ void mission_util::set_reveal_any( const JsonArray &ja,
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    if( !jo.has_member( "om_terrain" ) ) {
-        jo.throw_error( "'om_terrain' is required for assign_mission_target" );
-    }
     mission_target_params p = parse_mission_om_target( jo );
     const auto mission_func = [p]( mission * miss ) {
         mission_target_params mtp = p;
