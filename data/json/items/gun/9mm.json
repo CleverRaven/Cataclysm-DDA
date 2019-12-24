@@ -345,7 +345,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": "Beretta M9A1",
-    "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of US armed force from 1985 only until recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer framed handguns and the FBI's adoption of .40S&W.",
+    "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of US armed force from 1985 only until recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40S&W.",
     "weight": "961 g",
     "volume": "560 ml",
     "price": 65000,
