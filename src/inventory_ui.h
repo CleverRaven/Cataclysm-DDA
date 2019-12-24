@@ -653,7 +653,7 @@ class inventory_compare_selector : public inventory_multiselector
 
         void toggle_entry( inventory_entry *entry );
 
-        virtual void set_filter();
+        void set_filter() override;
 };
 
 // This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
