@@ -1928,6 +1928,33 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
+void inventory_compare_selector::set_filter()
+{
+    // Making this static allows selected item to be
+    // persistent across a second filter.
+    static inventory_entry previous;
+    // If an entry is selected save a copy of it.
+    if( compared.size() == 1 ) {
+        previous = compared.front();
+    } else {
+        previous = inventory_entry();
+    }
+
+    // Ensure the existing compared pointer is cleared
+    // before the filter is set.
+    compared.clear();
+
+    inventory_multiselector::set_filter();
+
+    // If there is a previous inventory item selected,
+    // reselect it.
+    if( previous ) {
+        bool found = select( previous.any_item() );
+        toggle_entry( &previous );
+    }
+}
+
+
 inventory_iuse_selector::inventory_iuse_selector(
     const player &p,
     const std::string &selector_title,

@@ -492,7 +492,7 @@ class inventory_selector
 
         void resize_window( int width, int height );
         void refresh_window() const;
-        void set_filter();
+        virtual void set_filter();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
@@ -652,6 +652,8 @@ class inventory_compare_selector : public inventory_multiselector
         std::vector<inventory_entry> compared;
 
         void toggle_entry( inventory_entry *entry );
+
+        virtual void set_filter();
 };
 
 // This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
