@@ -13,8 +13,7 @@
     "description": "There is a crater here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_crater" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_fumarole",
@@ -23,8 +22,7 @@
     "description": "There is a fumarole here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fumarole" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_collegekids",
@@ -53,8 +51,7 @@
     "description": "Roadworks are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_roadworks" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_mayhem",
@@ -63,8 +60,7 @@
     "description": "Road mayhem is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_mayhem" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_roadblock",
@@ -223,8 +219,7 @@
     "description": "This area is covered with a single type of trees.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grove" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_shrubbery",
@@ -233,8 +228,7 @@
     "description": "This area is covered with a single type of shrubs.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_clearcut",
@@ -243,8 +237,7 @@
     "description": "Most trees in this area were uniformly cut down.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clearcut" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_pond",
@@ -253,8 +246,7 @@
     "description": "Small pond is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_pond" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_trees",
@@ -284,8 +276,7 @@
     "description": "Small clay deposit is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clay_deposit" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_dead_vegetation",
@@ -294,8 +285,7 @@
     "description": "Dead vegetation is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_dead_vegetation" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_point_dead_vegetation",
@@ -304,8 +294,7 @@
     "description": "Dead vegetation is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_dead_vegetation" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_burned_ground",
@@ -314,8 +303,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_point_burned_ground",
@@ -324,8 +312,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_marloss_pilgrimage",
@@ -344,8 +331,7 @@
     "description": "Several spent casings are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
     "sym": "x",
-    "color": "yellow",
-    "autonote": true
+    "color": "yellow"
   },
   {
     "id": "mx_looters",
