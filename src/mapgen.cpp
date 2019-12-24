@@ -7752,31 +7752,37 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
 
-    // If the existing map is rotated, we need to rotate it back to the north
-    // orientation before applying our updates.
-    const int rotation = oter_get_rotation( overmap_buffer.ter( omt_pos ) );
-    if( rotation > 0 ) {
-        md.m.rotate( rotation, true );
-    }
-
-    const bool applied = update_map( md, offset, verify );
-
-    // If we rotated the map before applying updates, we now need to rotate
-    // it back to where we found it.
-    if( rotation ) {
-        md.m.rotate( 4 - rotation, true );
-    }
-
-    if( applied ) {
-        md.m.save();
-    }
-
-    return applied;
+    return update_map( md, offset, verify );
 }
 
 bool update_mapgen_function_json::update_map( mapgendata &md, const point &offset,
         const bool verify ) const
 {
+    class rotation_guard
+    {
+        public:
+            rotation_guard( const mapgendata &md )
+                : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
+                // If the existing map is rotated, we need to rotate it back to the north
+                // orientation before applying our updates.
+                if( rotation != 0 ) {
+                    md.m.rotate( rotation, true );
+                }
+            }
+
+            ~rotation_guard() {
+                // If we rotated the map before applying updates, we now need to rotate
+                // it back to where we found it.
+                if( rotation != 0 ) {
+                    md.m.rotate( 4 - rotation, true );
+                }
+            }
+        private:
+            const mapgendata &md;
+            const int rotation;
+    };
+    rotation_guard rot( md );
+
     for( auto &elem : setmap_points ) {
         if( verify && elem.has_vehicle_collision( md, offset ) ) {
             return false;
@@ -7829,6 +7835,16 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
         return false;
     }
     return update_function->second[0]->update_map( omt_pos, point_zero, miss, cancel_on_collision );
+}
+
+bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &dat,
+                             const bool cancel_on_collision )
+{
+    const auto update_function = update_mapgen.find( update_mapgen_id );
+    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
+        return false;
+    }
+    return update_function->second[0]->update_map( dat, point_zero, cancel_on_collision );
 }
 
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(

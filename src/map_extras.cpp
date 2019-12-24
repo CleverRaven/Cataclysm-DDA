@@ -2740,14 +2740,13 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
         }
         case map_extra_method::mapgen: {
-            tripoint over( abs_sub );
-            sm_to_omt( over );
-            mapgendata dat( over, m, 0.0f, calendar::turn, nullptr );
+            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::turn, nullptr );
             run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            run_mapgen_update_func( extra.generator_id, sm_to_omt_copy( abs_sub ) );
+            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::start_of_cataclysm, nullptr );
+            run_mapgen_update_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::null:
