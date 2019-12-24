@@ -4,7 +4,7 @@
     "id": "NC_CAPTIVE",
     "name": "Captive",
     "job_description": "I got captured by those jerks.",
-    "comment": "OK followers since the player will prob escort them to safety.",
+    "//": "OK followers since the player will prob escort them to safety.",
     "bonus_str": { "rng": [ -1, 2 ] },
     "bonus_dex": { "rng": [ -1, 2 ] },
     "skills": [
@@ -31,7 +31,7 @@
     "type": "npc_class",
     "id": "NC_MUTANT_CAPTIVE",
     "name": "Refugee",
-    "comment": "Random mutations. Mostly visible.",
+    "//": "Random mutations.  Mostly visible.",
     "job_description": "I got locked up those yahoos.",
     "bonus_str": { "rng": [ -2, 4 ] },
     "bonus_dex": { "rng": [ -2, 4 ] },

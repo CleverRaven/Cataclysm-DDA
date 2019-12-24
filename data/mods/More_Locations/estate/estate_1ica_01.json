@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_1ica",
-    "comment": "first floor, inner corner A. can't think of a better way to name inside angles",
+    "//": "first floor, inner corner A. can't think of a better way to name inside angles",
     "weight": 99,
     "method": "json",
     "object": {

@@ -4,17 +4,18 @@ Use the `Home` key to return to the top.
 
 - [Introduction](#introduction)
 - [File descriptions](#file-descriptions)
-  * [`data/json/`](#-data-json--)
-  * [`data/json/items/`](#-data-json-items--)
-  * [`data/json/requirements/`](#-data-json-requirements--)
-  * [`data/json/vehicles/`](#-data-json-vehicles--)
+  * [`data/json/`](#datajson)
+  * [`data/json/items/`](#datajsonitems)
+    + [`data/json/items/comestibles`](#datajsonitemscomestibles)
+  * [`data/json/requirements/`](#datajsonrequirements)
+  * [`data/json/vehicles/`](#datajsonvehicles)
 - [Generic properties and formatting](#generic-properties-and-formatting)
   * [Generic properties](#generic-properties)
   * [Formatting](#formatting)
     + [Time duration](#time-duration)
     + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
-  * [`data/json/` JSONs](#-data-json---jsons)
+  * [`data/json/` JSONs](#datajson-jsons)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Item Groups](#item-groups)
@@ -38,7 +39,7 @@ Use the `Home` key to return to the top.
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
-    + [Scent Types](#scent_type)
+    + [Scent Types](#scent_types)
     + [Scores](#scores)
       - [`event_transformation`](#-event-transformation-)
       - [`event_statistic`](#-event-statistic-)
@@ -51,7 +52,7 @@ Use the `Home` key to return to the top.
     + [Vehicle Placement](#vehicle-placement)
     + [Vehicle Spawn](#vehicle-spawn)
     + [Vehicles](#vehicles)
-- [`data/json/items/` JSONs](#-data-json-items---jsons)
+- [`data/json/items/` JSONs](#datajsonitems-jsons)
     + [Generic Items](#generic-items)
     + [Ammo](#ammo)
     + [Magazine](#magazine)
@@ -69,15 +70,15 @@ Use the `Home` key to return to the top.
     + [Seed Data](#seed-data)
     + [Artifact Data](#artifact-data)
     + [Brewing Data](#brewing-data)
-      - [`Charge_type`](#-charge-type-)
-      - [`Effects_carried`](#-effects-carried-)
-      - [`effects_worn`](#-effects-worn-)
-      - [`effects_wielded`](#-effects-wielded-)
-      - [`effects_activated`](#-effects-activated-)
+      - [`Charge_type`](#charge_type)
+      - [`Effects_carried`](#effects_carried)
+      - [`effects_worn`](#effects_worn)
+      - [`effects_wielded`](#effects_wielded)
+      - [`effects_activated`](#effects_activated)
     + [Software Data](#software-data)
     + [Fuel data](#fuel-data)
     + [Use Actions](#use-actions)
-- [`json/` JSONs](#-json---jsons)
+- [`json/` JSONs](#json-jsons)
     + [Harvest](#harvest)
       - [`id`](#-id-)
       - [`type`](#-type-)
@@ -124,13 +125,13 @@ Use the `Home` key to return to the top.
       - [`items`](#-items--1)
       - [`map_deconstruct_info`](#-map-deconstruct-info-)
       - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
-    + [`items`](#-items--2)
-    + [`plant_data`](#-plant-data--1)
+    + [`items`](#-items-2)
+    + [`plant_data`](#plant_data-1)
       - [`transform`](#-transform-)
       - [`base`](#-base-)
       - [`growth_multiplier`](#-growth-multiplier-)
       - [`harvest_multiplier`](#-harvest-multiplier-)
-    + [clothing_mod](#clothing-mod)
+    + [clothing_mod](#clothing_mod)
 - [Scenarios](#scenarios)
   * [`description`](#-description--1)
   * [`name`](#-name--2)
@@ -160,7 +161,7 @@ Use the `Home` key to return to the top.
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
 # File descriptions
-Here's a quick summary of what each of the JSON files contain, broken down by folder.
+Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
 
 ## `data/json/`
 
@@ -259,6 +260,8 @@ See below for specifics on the various items
 | tools.json         | tools and items that can be (a)ctivated
 | vehicle_parts.json | components of vehicles when they aren't on the vehicle
 
+### `data/json/items/comestibles`
+
 ## `data/json/requirements/`
 
 Standard components and tools for crafting
@@ -292,7 +295,7 @@ Groups of vehicle definitions with self-explanatory names of files:
 | vehicles.json
 
 # Generic properties and formatting
-This section describes properties and formatting that are applied to all of the JSON files.
+This section describes properties and formatting applied to all of the JSON files.
 
 ## Generic properties
 A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
@@ -940,6 +943,10 @@ Note that even though most statistics yield an integer, you should still use
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
+"cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
+"rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
+"rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
 "bodytemp_sleep" : 50, // Additional units of bodytemp which are applied when sleeping
 "initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
@@ -1372,10 +1379,10 @@ When adding a new book, please use this color key:
 * Magazines: `pink`
 * “Paperbacks” Short enjoyment books (including novels): `light_cyan`
 * “Hardbacks” Long enjoyment books (including novels): `light_blue`
-* “Small textbook” Beginner level textbooks, guides and martial arts books: `dark_green`
-* “Large textbook” Advanced level textbooks and advanced guides: `dark_blue`
+* “Small textbook” Beginner level textbooks, guides and martial arts books: `green`
+* “Large textbook” Advanced level textbooks and advanced guides: `blue`
 * Religious books: `dark_gray`
-* “Printouts” (including spiral-bound and similar) Technical documents, (technical?) protocols, (lab) journals: `light_green`
+* “Printouts” (including spiral-bound, binders, and similar) Technical documents, (technical?) protocols, (lab) journals, personal diaries: `light_green`
 * Other reading material/non-books (use only if every other category does not apply): `light_gray`
 
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
@@ -1408,6 +1415,8 @@ CBMs can be defined like this:
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
+"monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
+                            // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
 "nutrition" : 0,            // Hunger satisfied (OBSOLETE)
 "tool" : "apparatus",       // Tool required to be eaten/drank

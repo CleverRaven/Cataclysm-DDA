@@ -1,7 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
-#include <sstream>
 #include <cstddef>
 
 #include "bionics.h"
@@ -161,13 +160,13 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
 //generates the string that show how much power a bionic uses
 static std::string build_bionic_powerdesc_string( const bionic &bio )
 {
-    std::ostringstream power_desc;
+    std::string power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
-    power_desc << bio.id->name;
+    power_desc += bio.id->name.translated();
     if( !power_string.empty() ) {
-        power_desc << ", " << power_string;
+        power_desc += ", " + power_string;
     }
-    return power_desc.str();
+    return power_desc;
 }
 
 static void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,

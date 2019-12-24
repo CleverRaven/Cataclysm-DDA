@@ -2180,6 +2180,21 @@
   },
   {
     "type": "recipe",
+    "result": "40mm_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "scrambler",
     "obsolete": true
   }

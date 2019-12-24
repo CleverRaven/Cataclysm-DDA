@@ -52,7 +52,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod(
-    JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
+    const JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
     const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
@@ -62,7 +62,7 @@ static void extract_mod(
 }
 
 static void load_mutation_mods(
-    JsonObject &jsobj, const std::string &member,
+    const JsonObject &jsobj, const std::string &member,
     std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
@@ -79,7 +79,7 @@ static void load_mutation_mods(
     }
 }
 
-void mutation_category_trait::load( JsonObject &jsobj )
+void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
     new_category.id = jsobj.get_string( "id" );
@@ -199,7 +199,7 @@ void mutation_category_trait::check_consistency()
     }
 }
 
-static mut_attack load_mutation_attack( JsonObject &jo )
+static mut_attack load_mutation_attack( const JsonObject &jo )
 {
     mut_attack ret;
     jo.read( "attack_text_u", ret.attack_text_u );
@@ -215,16 +215,14 @@ static mut_attack load_mutation_attack( JsonObject &jo )
     jo.read( "chance", ret.chance );
 
     if( jo.has_array( "base_damage" ) ) {
-        JsonArray jo_dam = jo.get_array( "base_damage" );
-        ret.base_damage = load_damage_instance( jo_dam );
+        ret.base_damage = load_damage_instance( jo.get_array( "base_damage" ) );
     } else if( jo.has_object( "base_damage" ) ) {
         JsonObject jo_dam = jo.get_object( "base_damage" );
         ret.base_damage = load_damage_instance( jo_dam );
     }
 
     if( jo.has_array( "strength_damage" ) ) {
-        JsonArray jo_dam = jo.get_array( "strength_damage" );
-        ret.strength_damage = load_damage_instance( jo_dam );
+        ret.strength_damage = load_damage_instance( jo.get_array( "strength_damage" ) );
     } else if( jo.has_object( "strength_damage" ) ) {
         JsonObject jo_dam = jo.get_object( "strength_damage" );
         ret.strength_damage = load_damage_instance( jo_dam );
@@ -247,7 +245,7 @@ static mut_attack load_mutation_attack( JsonObject &jo )
     return ret;
 }
 
-static social_modifiers load_mutation_social_mods( JsonObject &jo )
+static social_modifiers load_mutation_social_mods( const JsonObject &jo )
 {
     social_modifiers ret;
     jo.read( "lie", ret.lie );
@@ -256,12 +254,12 @@ static social_modifiers load_mutation_social_mods( JsonObject &jo )
     return ret;
 }
 
-void mutation_branch::load_trait( JsonObject &jo, const std::string &src )
+void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 {
     trait_factory.load( jo, src );
 }
 
-void mutation_branch::load( JsonObject &jo, const std::string & )
+void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", raw_name );
@@ -330,6 +328,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
+    optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
@@ -368,6 +368,19 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
+    if( jo.has_object( "rand_cut_bonus" ) ) {
+        JsonObject sm = jo.get_object( "rand_cut_bonus" );
+        rand_cut_bonus.first = sm.get_int( "min" );
+        rand_cut_bonus.second = sm.get_int( "max" );
+    }
+
+    if( jo.has_object( "rand_bash_bonus" ) ) {
+        JsonObject sm = jo.get_object( "rand_bash_bonus" );
+        rand_bash_bonus.first = sm.get_int( "min" );
+        rand_bash_bonus.second = sm.get_int( "max" );
+    }
+
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
@@ -560,7 +573,7 @@ std::vector<std::string> dream::messages() const
     return ret;
 }
 
-void dream::load( JsonObject &jsobj )
+void dream::load( const JsonObject &jsobj )
 {
     dream newdream;
 
@@ -579,7 +592,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
     return a->name() < b->name();
 }
 
-void mutation_branch::load_trait_blacklist( JsonObject &jsobj )
+void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 {
     for( const std::string &line : jsobj.get_array( "traits" ) ) {
         trait_blacklist.insert( trait_id( line ) );
@@ -610,7 +623,7 @@ void mutation_branch::finalize_trait_blacklist()
     }
 }
 
-void mutation_branch::load_trait_group( JsonObject &jsobj )
+void mutation_branch::load_trait_group( const JsonObject &jsobj )
 {
     const trait_group::Trait_group_tag group_id( jsobj.get_string( "id" ) );
     const std::string subtype = jsobj.get_string( "subtype", "old" );
@@ -639,27 +652,28 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     return *found->second;
 }
 
-void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                        const bool is_collection )
+void mutation_branch::load_trait_group( const JsonArray &entries,
+                                        const trait_group::Trait_group_tag &gid, const bool is_collection )
 {
     Trait_group &tg = make_group_or_throw( gid, is_collection );
 
-    while( entries.has_more() ) {
+    for( const JsonValue &entry : entries ) {
         // Backwards-compatibility with old format ["TRAIT", 100]
-        if( entries.test_array() ) {
-            JsonArray subarr = entries.next_array();
+        if( entry.test_array() ) {
+            JsonArray subarr = entry.get_array();
 
             trait_id id( subarr.get_string( 0 ) );
             tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
-            JsonObject subobj = entries.next_object();
+            JsonObject subobj = entry.get_object();
             add_entry( tg, subobj );
         }
     }
 }
 
-void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
+void mutation_branch::load_trait_group( const JsonObject &jsobj,
+                                        const trait_group::Trait_group_tag &gid,
                                         const std::string &subtype )
 {
     if( subtype != "distribution" && subtype != "collection" && subtype != "old" ) {
@@ -683,36 +697,35 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         }
     }
     if( jsobj.has_member( "traits" ) ) {
-        JsonArray traits = jsobj.get_array( "traits" );
-        while( traits.has_more() ) {
-            if( traits.test_string() ) {
-                tg.add_trait_entry( trait_id( traits.next_string() ), 100 );
-            } else if( traits.test_array() ) {
-                JsonArray subtrait = traits.next_array();
+        for( const JsonValue &entry : jsobj.get_array( "traits" ) ) {
+            if( entry.test_string() ) {
+                tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
+            } else if( entry.test_array() ) {
+                JsonArray subtrait = entry.get_array();
                 tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
             } else {
-                JsonObject subobj = traits.next_object();
+                JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
             }
         }
     }
     if( jsobj.has_member( "groups" ) ) {
-        JsonArray traits = jsobj.get_array( "groups" );
-        while( traits.has_more() ) {
-            if( traits.test_string() ) {
-                tg.add_group_entry( trait_group::Trait_group_tag( traits.next_string() ), 100 );
-            } else if( traits.test_array() ) {
-                JsonArray subtrait = traits.next_array();
-                tg.add_group_entry( trait_group::Trait_group_tag( traits.get_string( 0 ) ), subtrait.get_int( 1 ) );
+        for( const JsonValue &entry : jsobj.get_array( "groups" ) ) {
+            if( entry.test_string() ) {
+                tg.add_group_entry( trait_group::Trait_group_tag( entry.get_string() ), 100 );
+            } else if( entry.test_array() ) {
+                JsonArray subtrait = entry.get_array();
+                tg.add_group_entry( trait_group::Trait_group_tag( subtrait.get_string( 0 ) ),
+                                    subtrait.get_int( 1 ) );
             } else {
-                JsonObject subobj = traits.next_object();
+                JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
             }
         }
     }
 }
 
-void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
+void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 {
     std::unique_ptr<Trait_creation_data> ptr;
     int probability = obj.get_int( "prob", 100 );
@@ -728,8 +741,7 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
 
     if( ptr ) {
         Trait_group &tg2 = dynamic_cast<Trait_group &>( *ptr );
-        while( jarr.has_more() ) {
-            JsonObject job2 = jarr.next_object();
+        for( const JsonObject &job2 : jarr ) {
             add_entry( tg2, job2 );
         }
         tg.add_entry( std::move( ptr ) );

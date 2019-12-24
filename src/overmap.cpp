@@ -62,7 +62,7 @@ class map_extra;
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
 
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -332,7 +332,7 @@ std::string overmap_land_use_code::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
-void overmap_land_use_code::load( JsonObject &jo, const std::string &src )
+void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     assign( jo, "land_use_code", land_use_code, strict );
@@ -360,7 +360,7 @@ void overmap_land_use_code::check() const
 
 }
 
-void overmap_land_use_codes::load( JsonObject &jo, const std::string &src )
+void overmap_land_use_codes::load( const JsonObject &jo, const std::string &src )
 {
     land_use_codes.load( jo, src );
 }
@@ -387,12 +387,12 @@ const std::vector<overmap_land_use_code> &overmap_land_use_codes::get_all()
     return land_use_codes.get_all();
 }
 
-void overmap_specials::load( JsonObject &jo, const std::string &src )
+void overmap_specials::load( const JsonObject &jo, const std::string &src )
 {
     specials.load( jo, src );
 }
 
-void city_buildings::load( JsonObject &jo, const std::string &src )
+void city_buildings::load( const JsonObject &jo, const std::string &src )
 {
     // Just an alias
     overmap_specials::load( jo, src );
@@ -525,7 +525,7 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::string &id_base,
         const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
@@ -550,7 +550,7 @@ std::string oter_type_t::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
-void oter_type_t::load( JsonObject &jo, const std::string &src )
+void oter_type_t::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -770,7 +770,7 @@ bool oter_t::is_hardcoded() const
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
 }
 
-void overmap_terrains::load( JsonObject &jo, const std::string &src )
+void overmap_terrains::load( const JsonObject &jo, const std::string &src )
 {
     terrain_types.load( jo, src );
 }
@@ -874,7 +874,7 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
     return city_distance.contains( cit.get_distance_from( p ) );
 }
 
-void overmap_special::load( JsonObject &jo, const std::string &src )
+void overmap_special::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
@@ -910,6 +910,19 @@ void overmap_special::finalize()
             }
         }
     }
+
+    // Calculate dimensions
+    tripoint dimension_min;
+    tripoint dimension_max;
+    for( auto &t : terrains ) {
+        dimension_min = tripoint( std::min( dimension_min.x, t.p.x ),
+                                  std::min( dimension_min.y, t.p.y ),
+                                  std::min( dimension_min.z, t.p.z ) );
+        dimension_max = tripoint( std::max( dimension_max.x, t.p.x ),
+                                  std::max( dimension_max.y, t.p.y ),
+                                  std::max( dimension_max.z, t.p.z ) );
+    }
+    dimensions = box( dimension_min, dimension_max );
 
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
@@ -1416,6 +1429,11 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
+    if( g->gametype() == SGAME_DEFENSE ) {
+        dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
+        return;
+    }
+
     dbg( D_INFO ) << "overmap::generate start…";
 
     populate_connections_out_from_neighbors( north, east, south, west );
@@ -1788,6 +1806,26 @@ void overmap::process_mongroups()
 void overmap::clear_mon_groups()
 {
     zg.clear();
+}
+
+void overmap::clear_overmap_special_placements()
+{
+    overmap_special_placements.clear();
+}
+void overmap::clear_cities()
+{
+    cities.clear();
+}
+void overmap::clear_connections_out()
+{
+    connections_out.clear();
+}
+
+void overmap::place_special_forced( const overmap_special_id &special_id, const tripoint &p,
+                                    om_direction::type dir )
+{
+    static city invalid_city;
+    place_special( *special_id, p, dir, invalid_city, false, false );
 }
 
 void mongroup::wander( const overmap &om )

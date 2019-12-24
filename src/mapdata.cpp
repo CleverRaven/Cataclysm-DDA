@@ -197,7 +197,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( "EMPTY_GROUP" ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
+bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -239,8 +239,7 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
     }
 
     if( j.has_member( "items" ) ) {
-        JsonIn &stream = *j.get_raw( "items" );
-        drop_group = item_group::load_item_group( stream, "collection" );
+        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     } else {
         drop_group = "EMPTY_GROUP";
     }
@@ -255,7 +254,8 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
+bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
+                                 bool is_furniture )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -269,15 +269,14 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );
 
-    JsonIn &stream = *j.get_raw( "items" );
-    drop_group = item_group::load_item_group( stream, "collection" );
+    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     return true;
 }
 
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
-bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
+bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -291,7 +290,7 @@ bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( JsonObject &jsobj, const std::string &member )
+bool plant_data::load( const JsonObject &jsobj, const std::string &member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -343,7 +342,7 @@ ter_t null_terrain_t()
 }
 
 template<typename C, typename F>
-void load_season_array( JsonObject &jo, const std::string &key, C &container, F load_func )
+void load_season_array( const JsonObject &jo, const std::string &key, C &container, F load_func )
 {
     if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );
@@ -372,7 +371,7 @@ std::string map_data_common_t::name() const
     return _( name_ );
 }
 
-void map_data_common_t::load_symbol( JsonObject &jo )
+void map_data_common_t::load_symbol( const JsonObject &jo )
 {
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
@@ -427,7 +426,7 @@ const std::set<std::string> &map_data_common_t::get_harvest_names() const
     return hid.is_null() ? null_names : hid->names();
 }
 
-void load_furniture( JsonObject &jo, const std::string &src )
+void load_furniture( const JsonObject &jo, const std::string &src )
 {
     if( furniture_data.empty() ) {
         furniture_data.insert( null_furniture_t() );
@@ -435,7 +434,7 @@ void load_furniture( JsonObject &jo, const std::string &src )
     furniture_data.load( jo, src );
 }
 
-void load_terrain( JsonObject &jo, const std::string &src )
+void load_terrain( const JsonObject &jo, const std::string &src )
 {
     if( terrain_data.empty() ) { // TODO: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
@@ -1099,7 +1098,7 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
-void map_data_common_t::load( JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
@@ -1136,7 +1135,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "description", description );
 }
 
-void ter_t::load( JsonObject &jo, const std::string &src )
+void ter_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
@@ -1239,7 +1238,12 @@ size_t furn_t::count()
     return furniture_data.size();
 }
 
-void furn_t::load( JsonObject &jo, const std::string &src )
+bool furn_t::is_movable() const
+{
+    return move_str_req >= 0;
+}
+
+void furn_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
@@ -1251,7 +1255,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
-    assign( jo, "max_volume", max_volume, src == "dda" );
+    optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );

@@ -12,7 +12,7 @@
 #include "translations.h"
 #include "mapdata.h"
 
-const species_id MOLLUSK( "MOLLUSK" );
+static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {

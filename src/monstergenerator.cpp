@@ -297,7 +297,7 @@ void monster_adjustment::apply( mtype &mon )
 
 static std::vector<monster_adjustment> adjustments;
 
-void load_monster_adjustment( JsonObject &jsobj )
+void load_monster_adjustment( const JsonObject &jsobj )
 {
     monster_adjustment adj;
     adj.species = species_id( jsobj.get_string( "species" ) );
@@ -549,6 +549,7 @@ void MonsterGenerator::init_defense()
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
+    defense_map["RETURN_FIRE"] = &mdefense::return_fire; //Blind fire on unseen attacker
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -563,12 +564,12 @@ void MonsterGenerator::set_species_ids( mtype &mon )
     }
 }
 
-void MonsterGenerator::load_monster( JsonObject &jo, const std::string &src )
+void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &src )
 {
     mon_templates->load( jo, src );
 }
 
-mon_effect_data load_mon_effect_data( JsonObject &e )
+mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                             e.get_bool( "affect_hit_bp", false ),
@@ -593,7 +594,7 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
         }
 };
 
-void mtype::load( JsonObject &jo, const std::string &src )
+void mtype::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -678,8 +679,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
-        JsonArray arr = jo.get_array( "melee_damage" );
-        melee_damage = load_damage_instance( arr );
+        melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo );
     }
@@ -697,8 +697,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "death_drops" ) ) {
-        JsonIn &stream = *jo.get_raw( "death_drops" );
-        death_drops = item_group::load_item_group( stream, "distribution" );
+        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
     }
 
     assign( jo, "harvest", harvest );
@@ -830,12 +829,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
                   ( vision_day + 2 * vision_night ) * 0.01;
 }
 
-void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
+void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )
 {
     mon_species->load( jo, src );
 }
 
-void species_type::load( JsonObject &jo, const std::string & )
+void species_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "footsteps", footsteps, "footsteps." );
     footsteps = _( footsteps );
@@ -875,7 +874,7 @@ class mattack_hardcoded_wrapper : public mattack_actor
             return std::make_unique<mattack_hardcoded_wrapper>( *this );
         }
 
-        void load_internal( JsonObject &, const std::string & ) override {}
+        void load_internal( const JsonObject &, const std::string & ) override {}
 };
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
@@ -904,7 +903,8 @@ void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
     attack_map.emplace( wrapper->id, wrapper );
 }
 
-mtype_special_attack MonsterGenerator::create_actor( JsonObject &obj, const std::string &src ) const
+mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
+        const std::string &src ) const
 {
     // Legacy support: tolerate attack types being specified as the type
     const std::string type = obj.get_string( "type", "monster_attack" );
@@ -943,7 +943,7 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject &obj, const std:
     return mtype_special_attack( std::move( new_attack ) );
 }
 
-void mattack_actor::load( JsonObject &jo, const std::string &src )
+void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -962,12 +962,12 @@ void mattack_actor::load( JsonObject &jo, const std::string &src )
     was_loaded = true;
 }
 
-void MonsterGenerator::load_monster_attack( JsonObject &jo, const std::string &src )
+void MonsterGenerator::load_monster_attack( const JsonObject &jo, const std::string &src )
 {
     add_attack( create_actor( jo, src ) );
 }
 
-void mtype::add_special_attack( JsonObject obj, const std::string &src )
+void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
 {
     mtype_special_attack new_attack = MonsterGenerator::generator().create_actor( obj, src );
 
@@ -1014,7 +1014,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( JsonObject &jo, const std::string &member,
+void mtype::add_special_attacks( const JsonObject &jo, const std::string &member,
                                  const std::string &src )
 {
 
@@ -1022,19 +1022,18 @@ void mtype::add_special_attacks( JsonObject &jo, const std::string &member,
         return;
     }
 
-    JsonArray outer = jo.get_array( member );
-    while( outer.has_more() ) {
-        if( outer.test_array() ) {
-            add_special_attack( outer.next_array(), src );
-        } else if( outer.test_object() ) {
-            add_special_attack( outer.next_object(), src );
+    for( const JsonValue &entry : jo.get_array( member ) ) {
+        if( entry.test_array() ) {
+            add_special_attack( entry.get_array(), src );
+        } else if( entry.test_object() ) {
+            add_special_attack( entry.get_object(), src );
         } else {
-            outer.throw_error( "array element is neither array nor object." );
+            entry.throw_error( "array element is neither array nor object." );
         }
     }
 }
 
-void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_name,
+void mtype::remove_special_attacks( const JsonObject &jo, const std::string &member_name,
                                     const std::string & )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {

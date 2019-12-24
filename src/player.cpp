@@ -7,7 +7,6 @@
 #include <iterator>
 #include <map>
 #include <string>
-#include <sstream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -102,92 +101,53 @@
 
 const double MAX_RECOIL = 3000;
 
-const mtype_id mon_player_blob( "mon_player_blob" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_swimming( "swimming" );
-const skill_id skill_throw( "throw" );
-const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_swimming( "swimming" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_recently_coughed( "recently_coughed" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_disinfected( "disinfected" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_evil( "evil" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowy_led( "glowy_led" );
-const efftype_id effect_got_checked( "got_checked" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_grabbing( "grabbing" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_winded( "winded" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_pet( "pet" );
-
-const species_id ROBOT( "ROBOT" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_recently_coughed( "recently_coughed" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_magnesium_supplements( "magnesium" );
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
@@ -970,12 +930,7 @@ void player::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
-        if( get_stamina() + modifier < 0 ) {
-            add_effect( effect_winded, 10_turns );
-        }
         mod_stamina( modifier );
-        set_stamina( std::min( get_stamina(), get_stamina_max() ) );
-        set_stamina( std::max( 0, get_stamina() ) );
     } else {
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
@@ -1004,9 +959,16 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_opposite_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->cancels ) {
+    for( const trait_id &i : flag->cancels ) {
         if( has_trait( i ) ) {
             return true;
+        }
+    }
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+        for( const trait_id &canceled_trait : mut.first->cancels ) {
+            if( canceled_trait == flag ) {
+                return true;
+            }
         }
     }
     return false;
@@ -2063,7 +2025,8 @@ int player::impact( const int force, const tripoint &p )
         armor_eff = 0.25f; // Not much
         if( !slam && vp->part_with_feature( "ROOF", true ) ) {
             // Roof offers better landing than frame or pavement
-            effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
+            // TODO: Make this not happen with heavy duty/plated roof
+            effective_force /= 2;
         }
     } else {
         // Slamming into terrain/furniture
@@ -2199,8 +2162,8 @@ void player::knock_back_to( const tripoint &to )
     } else if( g->m.impassable( to ) ) { // Wait, it's a wall
 
         // It's some kind of wall.
-        apply_damage( nullptr, bp_torso,
-                      3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        apply_damage( nullptr, bp_torso, 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -2307,17 +2270,17 @@ void player::update_stomach( const time_point &from, const time_point &to )
 
     if( five_mins > 0 ) {
         // Digest nutrients in stomach, they are destined for the guts (except water)
-        nutrients digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
         // Digest nutrients in guts, they will be distributed to needs levels
-        nutrients digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         set_thirst( std::max(
                         -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
-            mod_stored_kcal( digested_to_body.kcal );
-            vitamins_mod( digested_to_body.vitamins, false );
+            mod_stored_kcal( digested_to_body.nutr.kcal );
+            vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
     }
     if( stomach.time_since_ate() > 10_minutes ) {
@@ -3141,9 +3104,9 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
-            mod_stat( "stamina", bound_mod_to_vals( get_stamina(), val,
-                                                    it.get_max_val( "STAMINA", reduced ),
-                                                    it.get_min_val( "STAMINA", reduced ) ) );
+            mod_stamina( bound_mod_to_vals( get_stamina(), val,
+                                            it.get_max_val( "STAMINA", reduced ),
+                                            it.get_min_val( "STAMINA", reduced ) ) );
         }
     }
 
@@ -3646,9 +3609,13 @@ bool player::consume_item( item &target )
     return false;
 }
 
-bool player::consume( int target_position )
+bool player::consume( item_location loc )
 {
-    auto &target = i_at( target_position );
+    item &target = *loc;
+    const bool wielding = is_wielding( target );
+    const bool worn = is_worn( target );
+    const bool inv_item = !( wielding || worn );
+
     if( consume_item( target ) ) {
 
         const bool was_in_container = !can_consume_as_is( target );
@@ -3660,13 +3627,13 @@ bool player::consume( int target_position )
         }
 
         //Restack and sort so that we don't lie about target's invlet
-        if( target_position >= 0 ) {
+        if( inv_item ) {
             inv.restack( *this );
         }
 
-        if( was_in_container && target_position == -1 ) {
+        if( was_in_container && wielding ) {
             add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
-        } else if( was_in_container && target_position < -1 ) {
+        } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {
             bool drop_it = false;
@@ -3686,7 +3653,7 @@ bool player::consume( int target_position )
                 add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
             }
         }
-    } else if( target_position >= 0 ) {
+    } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
         }
@@ -4077,7 +4044,8 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
+                !elem.has_flag( "POWERARMOR_COMPATIBLE" ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -4106,8 +4074,8 @@ ret_val<bool> player::can_wear( const item &it ) const
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( is_wearing_power_armor( &has_helmet ) &&
-            ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
+        if( !it.has_flag( "POWERARMOR_COMPATIBLE" ) && ( ( is_wearing_power_armor( &has_helmet ) &&
+                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
         }
     }
@@ -4328,19 +4296,6 @@ hint_rating player::rate_action_wear( const item &it ) const
     return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
 }
 
-hint_rating player::rate_action_change_side( const item &it ) const
-{
-    if( !is_worn( it ) ) {
-        return HINT_IFFY;
-    }
-
-    if( !it.is_sided() ) {
-        return HINT_CANT;
-    }
-
-    return HINT_GOOD;
-}
-
 bool player::can_reload( const item &it, const itype_id &ammo ) const
 {
     if( !it.is_reloadable_with( ammo ) ) {
@@ -4538,17 +4493,21 @@ void player::mend_item( item_location &&obj, bool interactive )
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::ostringstream descr;
+            std::string descr;
             if( method.turns_into ) {
-                descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
+                descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
                                         method.turns_into->obj().name() );
             }
-            descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+            if( method.also_mends ) {
+                descr += string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
+                                        method.also_mends->obj().name() );
+            }
+            descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
                                     to_string_approx( method.time ) );
             if( method.skills.empty() ) {
-                descr << string_format( _( "Skills: <color_cyan>none</color>\n" ) );
+                descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
-                descr << string_format( _( "Skills: %s\n" ),
+                descr += string_format( _( "Skills: %s\n" ),
                                         enumerate_as_string( method.skills.begin(), method.skills.end(),
                 [this]( const std::pair<skill_id, int> &sk ) -> std::string {
                     if( get_skill_level( sk.first ) >= sk.second )
@@ -4567,10 +4526,14 @@ void player::mend_item( item_location &&obj, bool interactive )
                 } ) );
             }
 
-            std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
-            std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
+            for( const std::string &line : tools ) {
+                descr += line + "\n";
+            }
+            for( const std::string &line : comps ) {
+                descr += line + "\n";
+            }
 
-            const std::string desc = method.description + "\n\n" + colorize( descr.str(), col );
+            const std::string desc = method.description + "\n\n" + colorize( descr, col );
             menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
         }
         menu.query();
@@ -4797,46 +4760,6 @@ player::wear_item( const item &to_wear, bool interactive )
     return new_item_it;
 }
 
-bool player::change_side( item &it, bool interactive )
-{
-    if( !it.swap_side() ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You cannot swap the side on which your %s is worn." ),
-                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
-                                   it.tname() );
-        }
-        return false;
-    }
-
-    if( interactive ) {
-        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
-                               _( "<npcname> swaps the side on which their %s is worn." ),
-                               it.tname() );
-    }
-
-    mod_moves( -250 );
-    reset_encumbrance();
-
-    return true;
-}
-
-bool player::change_side( int pos, bool interactive )
-{
-    item &it( i_at( pos ) );
-
-    if( !is_worn( it ) ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You are not wearing that item." ),
-                                   _( "<npcname> isn't wearing that item." ) );
-        }
-        return false;
-    }
-
-    return change_side( it, interactive );
-}
-
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if( !it.is_armor() ) {
@@ -4934,7 +4857,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            it.tname() );
 
-    mod_moves( -250 );    // TODO: Make this variable
+    // TODO: Make this variable
+    mod_moves( -250 );
     worn.erase( iter );
 
     recalc_sight_limits();
@@ -5254,8 +5178,6 @@ void player::use( int inventory_position )
 void player::use( item_location loc )
 {
     item &used = *loc.get_item();
-    int inventory_position = loc.where() == item_location::type::character ?
-                             this->get_item_position( &used ) : INT_MIN;
 
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -5281,12 +5203,12 @@ void player::use( item_location loc )
                                      used.is_medication() ||
                                      used.get_contained().is_food() ||
                                      used.get_contained().is_medication() ) ) {
-        consume( inventory_position );
+        consume( loc );
 
     } else if( used.is_book() ) {
-        // TODO: Remove this nasty cast once this and related functions are migrated to avatar
-        if( avatar *u = dynamic_cast<avatar *>( this ) ) {
-            u->read( inventory_position );
+        // TODO: Handle this with dynamic dispatch.
+        if( avatar *u = as_avatar() ) {
+            u->read( used );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
@@ -6378,32 +6300,35 @@ std::string player::weapname( unsigned int truncate ) const
     }
 }
 
-bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
+bool player::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
-    if( pos < 0 ) {
+    if( internal_item == nullptr ) {
         std::vector<std::string> opts;
         std::transform( container.contents.begin(), container.contents.end(),
         std::back_inserter( opts ), []( const item & elem ) {
             return elem.display_name();
         } );
         if( opts.size() > 1 ) {
-            pos = uilist( _( "Wield what?" ), opts );
+            int pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
         } else {
-            pos = 0;
+            internal_item = &container.contents.front();
         }
     }
 
-    if( pos >= static_cast<int>( container.contents.size() ) ) {
+    const bool has = std::any_of( container.contents.begin(),
+    container.contents.end(), [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
+    if( !has ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
 
-    auto target = std::next( container.contents.begin(), pos );
-    const auto ret = can_wield( *target );
+    const ret_val<bool> ret = can_wield( *internal_item );
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
@@ -6418,8 +6343,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
         inv.unsort();
     }
 
-    weapon = std::move( *target );
-    container.contents.erase( target );
+    weapon = std::move( *internal_item );
+    container.contents.remove_if( [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
     container.on_contents_changed();
 
     inv.update_invlet( weapon );

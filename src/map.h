@@ -265,6 +265,14 @@ class map
             }
         }
 
+        bool check_seen_cache( const tripoint &p ) const {
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
+                return true;
+            }
+            return false;
+        }
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
@@ -1783,6 +1791,10 @@ class map
 
         void update_submap_active_item_status( const tripoint &p );
 
+        // Just exposed for unit test introspection.
+        const std::set<tripoint> &get_submaps_with_active_items() const {
+            return submaps_with_active_items;
+        }
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;

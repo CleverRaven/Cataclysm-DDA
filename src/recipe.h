@@ -62,6 +62,10 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
+        // Slower equivalent of is_blacklisted that needs to be used before
+        // recipe finalization happens
+        bool will_be_blacklisted() const;
+
         std::function<bool( const item & )> get_component_filter() const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
@@ -116,7 +120,7 @@ class recipe
             return reversible;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */

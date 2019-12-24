@@ -43,28 +43,24 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_countdown( "countdown" );
-const efftype_id effect_docile( "docile" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_dragging( "dragging" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_operating( "operating" );
-const efftype_id effect_pacified( "pacified" );
-const efftype_id effect_pushed( "pushed" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_harnessed( "harnessed" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
-const species_id ROBOT( "ROBOT" );
-const species_id WORM( "WORM" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 bool monster::wander()
 {
@@ -987,7 +983,7 @@ void monster::nursebot_operate( player *dragged_foe )
             add_effect( effect_countdown, 2_turns );// there's still time to get away
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
         } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-            sounds::sound( pos(), 8, sounds::sound_t::speech,
+            sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
@@ -1230,7 +1226,8 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
 bool monster::bash_at( const tripoint &p )
 {
     if( p.z != posz() ) {
-        return false; // TODO: Remove this
+        // TODO: Remove this
+        return false;
     }
 
     //Hallucinations can't bash stuff.
@@ -1333,7 +1330,8 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
     if( p.z != posz() ) {
-        return false; // TODO: Remove this
+        // TODO: Remove this
+        return false;
     }
 
     if( p == g->u.pos() ) {

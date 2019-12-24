@@ -54,8 +54,6 @@ void resonance_cascade( const tripoint &p );
 void scrambler_blast( const tripoint &p );
 /** Triggers an EMP blast at p. */
 void emp_blast( const tripoint &p );
-/** Nuke the area at p - global overmap terrain coordinates! */
-void nuke( const tripoint &p );
 // shockwave applies knockback to all targets within radius of p
 // parameters force, stun, and dam_mult are passed to knockback()
 // ignore_player determines if player is affected, useful for bionic, etc.
@@ -66,7 +64,7 @@ void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
 } // namespace explosion_handler
 
-shrapnel_data load_shrapnel_data( JsonObject &jo );
-explosion_data load_explosion_data( JsonObject &jo );
+shrapnel_data load_shrapnel_data( const JsonObject &jo );
+explosion_data load_explosion_data( const JsonObject &jo );
 
 #endif

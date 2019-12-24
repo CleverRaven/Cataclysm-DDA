@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <limits>
-#include <sstream>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -62,12 +61,12 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( JsonObject &jo, const std::string &src )
+void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
 }
 
-void quality::load( JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -156,9 +155,9 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     }
 }
 
-void quality_requirement::load( JsonArray &jsarr )
+void quality_requirement::load( const JsonValue &value )
 {
-    JsonObject quality_data = jsarr.next_object();
+    const JsonObject quality_data = value.get_object();
     type = quality_id( quality_data.get_string( "id" ) );
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
@@ -168,27 +167,27 @@ void quality_requirement::load( JsonArray &jsarr )
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
 
-void tool_comp::load( JsonArray &ja )
+void tool_comp::load( const JsonValue &value )
 {
-    if( ja.test_string() ) {
+    if( value.test_string() ) {
         // constructions uses this format: [ "tool", ... ]
-        type = ja.next_string();
+        type = value.get_string();
         count = -1;
     } else {
-        JsonArray comp = ja.next_array();
+        JsonArray comp = value.get_array();
         type = comp.get_string( 0 );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
     }
     if( count == 0 ) {
-        ja.throw_error( "tool count must not be 0" );
+        value.throw_error( "tool count must not be 0" );
     }
     // Note: negative count means charges (of the tool) should be consumed
 }
 
-void item_comp::load( JsonArray &ja )
+void item_comp::load( const JsonValue &value )
 {
-    JsonArray comp = ja.next_array();
+    JsonArray comp = value.get_array();
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
     size_t handled = 2;
@@ -201,20 +200,19 @@ void item_comp::load( JsonArray &ja )
         }
     }
     if( count <= 0 ) {
-        ja.throw_error( "item count must be a positive number" );
+        value.throw_error( "item count must be a positive number" );
     }
 }
 
 template<typename T>
-void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector<T> > &objs )
+void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs )
 {
-    while( jsarr.has_more() ) {
-        if( jsarr.test_array() ) {
+    for( const JsonValue &entry : jsarr ) {
+        if( entry.test_array() ) {
             std::vector<T> choices;
-            JsonArray ja = jsarr.next_array();
-            while( ja.has_more() ) {
+            for( const JsonValue &subentry : entry.get_array() ) {
                 choices.push_back( T() );
-                choices.back().load( ja );
+                choices.back().load( subentry );
             }
             if( !choices.empty() ) {
                 objs.push_back( choices );
@@ -223,7 +221,7 @@ void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector
             // tool qualities don't normally use a list of alternatives
             // each quality is mandatory.
             objs.push_back( std::vector<T>( 1 ) );
-            objs.back().back().load( jsarr );
+            objs.back().back().load( entry );
         }
     }
 }
@@ -264,16 +262,13 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 
-    JsonArray jsarr = jsobj.get_array( "components" );
-    requirement_data::load_obj_list( jsarr, req.components );
-    jsarr = jsobj.get_array( "qualities" );
-    requirement_data::load_obj_list( jsarr, req.qualities );
-    jsarr = jsobj.get_array( "tools" );
-    requirement_data::load_obj_list( jsarr, req.tools );
+    load_obj_list( jsobj.get_array( "components" ), req.components );
+    load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
+    load_obj_list( jsobj.get_array( "tools" ), req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -311,65 +306,65 @@ template<typename T>
 std::string requirement_data::print_all_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
-    std::ostringstream buffer;
+    std::string buffer;
     for( const auto &list : objs ) {
-        if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+        if( !buffer.empty() ) {
+            buffer += std::string( "\n" ) + _( "and " );
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer += _( " or " );
             }
-            buffer << it->to_string();
+            buffer += it->to_string();
         }
     }
-    if( buffer.str().empty() ) {
+    if( buffer.empty() ) {
         return std::string();
     }
-    return header + "\n" + buffer.str() + "\n";
+    return header + "\n" + buffer + "\n";
 }
 
 std::string requirement_data::list_all() const
 {
-    std::ostringstream buffer;
-    buffer << print_all_objs( _( "These tools are required:" ), tools );
-    buffer << print_all_objs( _( "These tools are required:" ), qualities );
-    buffer << print_all_objs( _( "These components are required:" ), components );
-    return buffer.str();
+    std::string buffer;
+    buffer += print_all_objs( _( "These tools are required:" ), tools );
+    buffer += print_all_objs( _( "These tools are required:" ), qualities );
+    buffer += print_all_objs( _( "These components are required:" ), components );
+    return buffer;
 }
 
 template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
-    std::ostringstream buffer;
+    std::string buffer;
     for( const auto &list : objs ) {
         if( any_marked_available( list ) ) {
             continue;
         }
-        if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+        if( !buffer.empty() ) {
+            buffer += std::string( "\n" ) + _( "and " );
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer += _( " or " );
             }
-            buffer << it->to_string();
+            buffer += it->to_string();
         }
     }
-    if( buffer.str().empty() ) {
+    if( buffer.empty() ) {
         return std::string();
     }
-    return header + "\n" + buffer.str() + "\n";
+    return header + "\n" + buffer + "\n";
 }
 
 std::string requirement_data::list_missing() const
 {
-    std::ostringstream buffer;
-    buffer << print_missing_objs( _( "These tools are missing:" ), tools );
-    buffer << print_missing_objs( _( "These tools are missing:" ), qualities );
-    buffer << print_missing_objs( _( "These components are missing:" ), components );
-    return buffer.str();
+    std::string buffer;
+    buffer += print_missing_objs( _( "These tools are missing:" ), tools );
+    buffer += print_missing_objs( _( "These tools are missing:" ), qualities );
+    buffer += print_missing_objs( _( "These components are missing:" ), components );
+    return buffer;
 }
 
 void quality_requirement::check_consistency( const std::string &display_name ) const

@@ -58,28 +58,22 @@
 #include "point.h"
 #include "weather.h"
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_speech( "speech" );
-const skill_id skill_tailor( "tailor" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_traps( "traps" );
-const skill_id skill_archery( "archery" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
-const efftype_id effect_riding( "riding" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;
@@ -1706,7 +1700,10 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
         comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
     } else {
         for( int i = 0; i < checks; i++ ) {
-            comp.practice( *skill_practice.pick(), difficulty );
+            skill_id *ident = skill_practice.pick();
+            if( ident ) {
+                comp.practice( *ident, difficulty );
+            }
         }
     }
 }
@@ -1983,7 +1980,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
             ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
-        if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        if( g->u.has_trait( trait_DEBUG_HS ) ) {
             available.push_back( guy );
         } else if( deadline == calendar::before_time_starts ) {
             if( guy->companion_mission_time_ret <= calendar::turn ) {

@@ -318,7 +318,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
     }, "weather test file" );
 }
 
-weather_generator weather_generator::load( JsonObject &jo )
+weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
     ret.base_temperature = jo.get_float( "base_temperature", 0.0 );

@@ -76,14 +76,14 @@ class profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( JsonObject &jo, const std::string &src );
-        static void load_item_substitutions( JsonObject &jo );
+        static void load_profession( const JsonObject &jo, const std::string &src );
+        static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession

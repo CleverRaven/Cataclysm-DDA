@@ -51,6 +51,7 @@ enum spell_flag {
     RANDOM_TARGET, // picks a random valid target within your range instead of normal behavior.
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
+    PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     LAST
 };
 
@@ -102,7 +103,7 @@ struct fake_spell {
 
     spell get_spell( int input_level ) const;
 
-    void load( JsonObject &jo );
+    void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
@@ -249,8 +250,8 @@ class spell_type
 
         enum_bitset<spell_flag> spell_tags;
 
-        static void load_spell( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_spell( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.
          */

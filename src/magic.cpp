@@ -103,6 +103,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
+        case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -133,7 +134,7 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void spell_type::load_spell( JsonObject &jo, const std::string &src )
+void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
 }
@@ -193,7 +194,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( JsonObject &jo, const std::string & )
+void spell_type::load( const JsonObject &jo, const std::string & )
 {
     static const
     std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
@@ -318,9 +319,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    JsonObject learning = jo.get_object( "learn_spells" );
-    for( std::string n : learning.get_member_names() ) {
-        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
+    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+        learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
 
@@ -1880,7 +1880,7 @@ void spellbook_callback::select( int entnum, uilist *menu )
     draw_spellbook_info( spells[entnum], menu );
 }
 
-void fake_spell::load( JsonObject &jo )
+void fake_spell::load( const JsonObject &jo )
 {
     std::string temp_id;
     mandatory( jo, false, "id", temp_id );

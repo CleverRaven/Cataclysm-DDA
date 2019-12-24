@@ -42,7 +42,7 @@ oter_type_id overmap_location::get_random_terrain() const
     return random_entry( terrains );
 }
 
-void overmap_location::load( JsonObject &jo, const std::string & )
+void overmap_location::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "terrains", terrains );
@@ -85,7 +85,7 @@ void overmap_location::finalize()
     }
 }
 
-void overmap_locations::load( JsonObject &jo, const std::string &src )
+void overmap_locations::load( const JsonObject &jo, const std::string &src )
 {
     locations.load( jo, src );
 }

@@ -208,12 +208,13 @@ struct mtype {
         enum_bitset<mon_trigger> fear;
         enum_bitset<mon_trigger> placate;
 
-        void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
-        void remove_special_attacks( JsonObject &jo, const std::string &member_name,
+        void add_special_attacks( const JsonObject &jo, const std::string &member_name,
+                                  const std::string &src );
+        void remove_special_attacks( const JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
 
         void add_special_attack( JsonArray inner, const std::string &src );
-        void add_special_attack( JsonObject obj, const std::string &src );
+        void add_special_attack( const JsonObject &obj, const std::string &src );
 
     public:
         mtype_id id;
@@ -379,9 +380,9 @@ struct mtype {
         std::string get_footsteps() const;
 
         // Historically located in monstergenerator.cpp
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 };
 
-mon_effect_data load_mon_effect_data( JsonObject &e );
+mon_effect_data load_mon_effect_data( const JsonObject &e );
 
 #endif

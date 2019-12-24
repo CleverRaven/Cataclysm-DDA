@@ -200,7 +200,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         /*@{*/
         /**
@@ -229,9 +229,9 @@ struct trap {
          */
         /**
          * Loads the trap and adds it to the trapmap, and the traplist.
-         * @throw std::string if the json is invalid as usual.
+         * @throw JsonError if the json is invalid as usual.
          */
-        static void load_trap( JsonObject &jo, const std::string &src );
+        static void load_trap( const JsonObject &jo, const std::string &src );
         /**
          * Releases the loaded trap objects in trapmap and traplist.
          */

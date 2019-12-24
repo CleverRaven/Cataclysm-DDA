@@ -82,7 +82,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( JsonObject &jo, const std::string &src )
+void recipe::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -481,6 +481,23 @@ std::string recipe::result_name() const
     }
 
     return name;
+}
+
+bool recipe::will_be_blacklisted() const
+{
+    if( requirements_.is_blacklisted() ) {
+        return true;
+    }
+
+    auto any_is_blacklisted = []( const std::vector<std::pair<requirement_id, int>> &reqs ) {
+        auto req_is_blacklisted = []( const std::pair<requirement_id, int> &req ) {
+            return req.first->is_blacklisted();
+        };
+
+        return std::any_of( reqs.begin(), reqs.end(), req_is_blacklisted );
+    };
+
+    return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
 }
 
 std::function<bool( const item & )> recipe::get_component_filter() const

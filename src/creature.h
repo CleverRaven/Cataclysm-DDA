@@ -402,6 +402,7 @@ class Creature
         virtual int get_num_dodges() const;
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
+        virtual int get_num_dodges_base() const;
 
         virtual int get_env_resist( body_part bp ) const;
 
@@ -474,7 +475,7 @@ class Creature
         virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus( int nblocks );
-        virtual void set_num_dodges_bonus( int ndodges );
+        virtual void mod_num_dodges_bonus( int ndodges );
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
@@ -779,7 +780,7 @@ class Creature
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
 
-        static void load_hit_range( JsonObject & );
+        static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
         static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**
@@ -818,7 +819,7 @@ class Creature
         // Store data of *this* class in the stream
         void store( JsonOut &jsout ) const;
         // Load creature data from the given json object.
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
     private:
         int pain;

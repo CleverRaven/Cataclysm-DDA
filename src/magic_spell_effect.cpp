@@ -686,7 +686,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     if( energy_source == "MANA" ) {
         p->magic.mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
-        p->mod_stat( "stamina", healing );
+        p->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
         p->mod_fatigue( -healing );
@@ -694,11 +694,15 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         if( healing > 0 ) {
             p->mod_power_level( units::from_kilojoule( healing ) );
         } else {
-            p->mod_stat( "stamina", healing );
+            p->mod_stamina( healing );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
-        p->mod_pain_noresist( -healing );
+        if( sp.has_flag( PAIN_NORESIST ) ) {
+            p->mod_pain_noresist( -healing );
+        } else {
+            p->mod_pain( -healing );
+        }
     } else if( energy_source == "HEALTH" ) {
         p->mod_healthy( healing );
     } else {

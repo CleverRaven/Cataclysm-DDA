@@ -5,6 +5,7 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <set>
 #include <string>
 
 #include "calendar.h"
@@ -48,6 +49,10 @@ class vitamin
             return name_.translated();
         }
 
+        bool has_flag( const std::string &flag ) const {
+            return flags_.count( flag ) > 0;
+        }
+
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
         const efftype_id &deficiency() const {
             return deficiency_;
@@ -80,7 +85,7 @@ class vitamin
         int severity( int qty ) const;
 
         /** Load vitamin from JSON definition */
-        static void load_vitamin( JsonObject &jo );
+        static void load_vitamin( const JsonObject &jo );
 
         /** Get all currently loaded vitamins */
         static const std::map<vitamin_id, vitamin> &all();
@@ -102,6 +107,7 @@ class vitamin
         time_duration rate_;
         std::vector<std::pair<int, int>> disease_;
         std::vector<std::pair<int, int>> disease_excess_;
+        std::set<std::string> flags_;
 };
 
 #endif

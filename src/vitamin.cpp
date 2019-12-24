@@ -47,7 +47,7 @@ int vitamin::severity( int qty ) const
     return 0;
 }
 
-void vitamin::load_vitamin( JsonObject &jo )
+void vitamin::load_vitamin( const JsonObject &jo )
 {
     vitamin vit;
 
@@ -76,6 +76,10 @@ void vitamin::load_vitamin( JsonObject &jo )
 
     for( JsonArray e : jo.get_array( "disease_excess" ) ) {
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
+    }
+
+    for( std::string e : jo.get_array( "flags" ) ) {
+        vit.flags_.insert( e );
     }
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {

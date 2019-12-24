@@ -101,6 +101,7 @@ class monster : public Creature
         void poly( const mtype_id &id );
         bool can_upgrade();
         void hasten_upgrade();
+        int get_upgrade_time() const;
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();
@@ -544,7 +545,7 @@ class monster : public Creature
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
