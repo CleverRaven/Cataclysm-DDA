@@ -601,6 +601,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart ), c_light_gray, _( "Entity : " ) );
     mvwprintz( w, point( column + 9, vStart ), c_white, name() );
 
+    const auto att = get_attitude();
+    std::string effects = get_effect_status();
+    //size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
+    size_t used_space = utf8_width( "Entity : " ) + utf8_width( name() ) + 3;
+    trim_and_print( w, point( used_space, vStart ), getmaxx( w ) - used_space - 2,
+                    h_white, effects );
+
     // display health
     nc_color color = c_white;
     std::string sText;
@@ -620,7 +627,6 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column + 9, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
 
     // display stance
-    const auto att = get_attitude();
     mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Stance : " ) );
     mvwprintz( w, point( column + 9, vStart ), att.second, att.first );
 
@@ -646,11 +652,6 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
         mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
-
-    std::string effects = get_effect_status();
-    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
-    trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
-                    h_white, effects );
 
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
