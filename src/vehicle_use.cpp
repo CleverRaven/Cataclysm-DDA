@@ -1799,7 +1799,7 @@ item_count_tuple vehicle::select_comestible_liquid( const std::vector<item_count
     int choice = std::numeric_limits<int>::min();
     int idx = 0;
 
-    if( liquids.empty() ) {
+    if( !liquids.empty() ) {
         for( auto &liquid : liquids ) {
             const item *p_item = std::get<0>( liquid );
             selectmenu.addentry( idx++, true, MENU_AUTOASSIGN, p_item->tname( std::get<1>( liquid ) ) );
