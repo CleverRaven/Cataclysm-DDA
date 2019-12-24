@@ -7302,7 +7302,7 @@ int Character::heartrate_bpm() const
     //Some values are picked to make sense from math point of view
     //and seem correct but effects may vary in real life.
     //This needs more attention from experienced contributors to work more smooth.
-    //Average healthy bpm is 60-80. That's a simple imitation of mormal distribution.
+    //Average healthy bpm is 60-80. That's a simple imitation of normal distribution.
     //Must a better way to do that. Possibly this value should be generated with player creation.
     int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 );
     //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
@@ -7369,9 +7369,8 @@ int Character::heartrate_bpm() const
     //health effect that can make things better or worse is applied in the end.
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
-    float healthy_modifier = 0;
     //a bit arbitary formula that can use some love
-    healthy_modifier = -0.05 * round( healthy / 20 );
+    float healthy_modifier = -0.05 * round( healthy / 20 );
     heartbeat *= 1 + healthy_modifier;
     //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
     const int cur_pain = get_perceived_pain();

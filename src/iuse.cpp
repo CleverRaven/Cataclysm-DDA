@@ -4420,7 +4420,7 @@ int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
         const int bpm = p->heartrate_bpm();
         p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
         //Maybe should pick better words
-        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(),  bpm );
+        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
         if( bpm > 179 ) {
             p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
                                      "Your pulse is getting too high, champion!'" ), it->tname() );
