@@ -2918,6 +2918,10 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         const dynamic_line_t no = from_member( jo, "no" );
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_bool( sub_member ) ) {
+                // This also marks the member as visited.
+                if( !jo.get_bool( sub_member ) ) {
+                    jo.throw_error( "value must be true", sub_member );
+                }
                 dcondition = conditional_t<dialogue>( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
