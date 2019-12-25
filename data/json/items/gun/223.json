@@ -53,7 +53,7 @@
     "name": "FN F2000",
     "description": "A fully ambidextrous Belgian bullpup rifle chambered in NATO 5.56x45mm rounds, this futuristic looking assault rifle features a compact and modular design that resembles a tuna fish.",
     "weight": "3400 g",
-    "volume": "1500 ml",
+    "volume": "1600 ml",
     "price": 2000000,
     "to_hit": -1,
     "bashing": 10,
@@ -72,12 +72,12 @@
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 4 ]
     ],
-    "built_in_mods": [
+    "default_mods": [
       "barrel_ported",
-      "grip_mount",
-      "rail_mount",
-      "sights_mount",
       "tele_sight"
+    ],
+    "built_in_mods": [
+      "rail_mount"
     ],
     "magazines": [
       [ "223", [ "stanag30", "survivor223mag" ] ]
@@ -90,7 +90,6 @@
       [ "sling", 1 ],
       [ "barrel", 1 ],
       [ "underbarrel", 1 ],
-      [ "rail", 2 ]
     ]
   },
 
