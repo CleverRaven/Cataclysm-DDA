@@ -273,7 +273,7 @@
     "id": "bot_turret_riot",
     "type": "TOOL",
     "name": "inactive riot control turret",
-    "description": "This is an inactive riot control turret.  Using this item involves loading the unit with the factory-loaded beanbag rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
+    "description": "This is an inactive riot control turret.  Using this item involves loading the unit with the 40x46mm M1006 sponge rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
     "weight": "125000 g",
     "volume": "60 L",
     "price": 200500,
