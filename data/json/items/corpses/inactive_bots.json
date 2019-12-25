@@ -270,6 +270,28 @@
     }
   },
   {
+    "id": "bot_turret_riot",
+    "type": "TOOL",
+    "name": "inactive riot control turret",
+    "description": "This is an inactive riot control turret.  Using this item involves loading the unit with the factory-loaded beanbag rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
+    "weight": "125000 g",
+    "volume": "60 L",
+    "price": 200500,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_riot",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_turret",
     "type": "TOOL",
     "name": "inactive turret",

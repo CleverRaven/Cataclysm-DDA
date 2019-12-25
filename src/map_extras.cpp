@@ -108,6 +108,7 @@ static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
@@ -525,14 +526,16 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     const auto spawn_turret = [&]( int x, int y ) {
-        if( one_in( 2 ) ) {
+        if( one_in( 3 ) ) {
             m.add_spawn( mon_turret_bmg, 1, point( x, y ) );
-        } else {
+        } else if( one_in( 2 ) ) {
             m.add_spawn( mon_turret_rifle, 1, point( x, y ) );
+        } else {
+            m.add_spawn( mon_turret_riot, 1, point( x, y ) );
         }
     };
     bool mil = false;
-    if( one_in( 3 ) ) {
+    if( one_in( 6 ) ) {
         mil = true;
     }
     if( mil ) { //Military doesn't joke around with their barricades!
@@ -573,14 +576,21 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
             }
         }
 
-        if( one_in( 3 ) ) { // Chicken delivery
-            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 7, abs_sub.z ), 0, 70,
-                           -1 );
-            m.add_spawn( mon_chickenbot, 1, point( 12, 12 ) );
-        } else if( one_in( 2 ) ) { // TAAANK
+        if( one_in( 2 ) ) {
             // The truck's wrecked...with fuel.  Explosive barrel?
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 8 ), 0, 70, -1 );
-            m.add_spawn( mon_tankbot, 1, point( 12, 12 ) );
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ), 0, 70, -1 );
+            if( road_at_north ) {
+                spawn_turret( 12, 6 );
+            }
+            if( road_at_east ) {
+                spawn_turret( 18, 12 );
+            }
+            if( road_at_south ) {
+                spawn_turret( 12, 18 );
+            }
+            if( road_at_west ) {
+                spawn_turret( 6, 12 );
+            }
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
@@ -616,22 +626,22 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
         if( road_at_north ) {
             line_furn( &m, f_barricade_road, 4, 3, 10, 3 );
             line_furn( &m, f_barricade_road, 13, 3, 19, 3 );
-            m.add_spawn( mon_turret_rifle, 1, point( 12, 1 ) );
+            m.add_spawn( mon_turret_riot, 1, point( 12, 1 ) );
         }
         if( road_at_east ) {
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 4, SEEX * 2 - 3, 10 );
             line_furn( &m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19 );
-            m.add_spawn( mon_turret_rifle, 1, point( SEEX * 2 - 1, 12 ) );
+            m.add_spawn( mon_turret_riot, 1, point( SEEX * 2 - 1, 12 ) );
         }
         if( road_at_south ) {
             line_furn( &m, f_barricade_road, 4, SEEY * 2 - 3, 10, SEEY * 2 - 3 );
             line_furn( &m, f_barricade_road, 13, SEEY * 2 - 3, 19, SEEY * 2 - 3 );
-            m.add_spawn( mon_turret_rifle, 1, point( 12, SEEY * 2 - 1 ) );
+            m.add_spawn( mon_turret_riot, 1, point( 12, SEEY * 2 - 1 ) );
         }
         if( road_at_west ) {
             line_furn( &m, f_barricade_road, 3, 4, 3, 10 );
             line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
-            m.add_spawn( mon_turret_rifle, 1, point( 1, 12 ) );
+            m.add_spawn( mon_turret_riot, 1, point( 1, 12 ) );
         }
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
@@ -2740,14 +2750,13 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
         }
         case map_extra_method::mapgen: {
-            tripoint over( abs_sub );
-            sm_to_omt( over );
-            mapgendata dat( over, m, 0.0f, calendar::turn, nullptr );
+            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::turn, nullptr );
             run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            run_mapgen_update_func( extra.generator_id, sm_to_omt_copy( abs_sub ) );
+            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::start_of_cataclysm, nullptr );
+            run_mapgen_update_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::null:
