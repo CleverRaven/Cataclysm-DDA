@@ -394,7 +394,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
 {
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
-        g->u.i_add( z.tack_item.value() );
+        g->u.i_add( *z.tack_item );
         z.tack_item = cata::nullopt;
     } else {
         int pos = tack_pos();
@@ -405,7 +405,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
         }
         z.add_effect( effect_saddled, 1_turns, num_bp, true );
         z.tack_item = g->u.i_at( pos );
-        g->u.use_amount( z.tack_item.value().typeId(), 1 );
+        g->u.use_amount( ( *z.tack_item ).typeId(), 1 );
     }
 }
 
@@ -513,7 +513,7 @@ void monexamine::remove_bag_from( monster &z )
         if( !z.inv.empty() ) {
             dump_items( z );
         }
-        g->m.add_item_or_charges( g->u.pos(), z.storage_item.value() );
+        g->m.add_item_or_charges( g->u.pos(), *z.storage_item );
         add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
         z.storage_item = cata::nullopt;
         g->u.moves -= 200;
@@ -542,7 +542,7 @@ bool monexamine::give_items_to( monster &z )
         return true;
     }
 
-    item &storage = z.storage_item.value();
+    item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_storage();
     for( const item &it : z.inv ) {
@@ -609,7 +609,7 @@ void monexamine::remove_armor( monster &z )
     std::string pet_name = z.get_name();
     if( z.armor_item ) {
         z.armor_item->erase_var( "pet_armor" );
-        g->m.add_item_or_charges( z.pos(), z.armor_item.value() );
+        g->m.add_item_or_charges( z.pos(), *z.armor_item );
         add_msg( _( "You remove the %1$s from %2$s." ), z.armor_item->display_name(), pet_name );
         z.armor_item = cata::nullopt;
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
