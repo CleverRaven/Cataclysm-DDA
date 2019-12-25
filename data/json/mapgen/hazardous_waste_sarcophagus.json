@@ -155,7 +155,6 @@
         { "monster": "mon_hazmatbot", "x": 26, "y": 37 },
         { "monster": "mon_hazmatbot", "x": 22, "y": 29 }
       ],
-      "//": "There is 4th security reminder with name 'Security Reminder [1058]' and action 'sr4_mess'. Add it when our computer UI will support more than 9 options.",
       "computers": {
         "5": {
           "name": "SRCF Security Terminal",
@@ -164,6 +163,7 @@
             { "name": "Security Reminder [1055]", "action": "sr1_mess" },
             { "name": "Security Reminder [1056]", "action": "sr2_mess" },
             { "name": "Security Reminder [1057]", "action": "sr3_mess" },
+            { "name": "Security Reminder [1058]", "action": "sr4_mess" },
             { "name": "EPA: Report All Potential Containment Breaches [3873643]", "action": "srcf_1_mess" },
             { "name": "SRCF: Internal Memo, EPA [2918024]", "action": "srcf_2_mess" },
             { "name": "CDC: Internal Memo, Standby [2918115]", "action": "srcf_3_mess" },
