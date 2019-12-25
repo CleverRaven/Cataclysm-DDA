@@ -628,6 +628,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
             tmp_x2 = jmapgen_int( pjo, "x2" );
             tmp_y2 = jmapgen_int( pjo, "y2" );
             if( !check_inbounds( tmp_x2, tmp_y2, pjo ) ) {
+                pjo.allow_omitted_members();
                 continue;
             }
         }
