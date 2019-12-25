@@ -2,8 +2,6 @@
 #ifndef MONEXAMINE_H
 #define MONEXAMINE_H
 
-#include "units.h"
-
 class monster;
 
 namespace monexamine

@@ -33,7 +33,6 @@
 #include "player_activity.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "units.h"
 #include "type_id.h"
 #include "pimpl.h"
 #include "point.h"
