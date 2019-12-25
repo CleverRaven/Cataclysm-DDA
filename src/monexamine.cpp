@@ -397,8 +397,14 @@ void monexamine::attach_or_remove_saddle( monster &z )
         g->u.i_add( z.tack_item.value() );
         z.tack_item = cata::nullopt;
     } else {
+        int pos = tack_pos();
+
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
         z.add_effect( effect_saddled, 1_turns, num_bp, true );
-        z.tack_item = g->u.i_at( tack_pos() );
+        z.tack_item = g->u.i_at( pos );
         g->u.use_amount( z.tack_item.value().typeId(), 1 );
     }
 }
