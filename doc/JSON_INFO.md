@@ -488,6 +488,8 @@ The syntax listed here is still valid.
 | `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
+| `soft`   | Optional boolean. Default is false.
+| `reinforces`   | Optional boolean. Default is false.
 
 There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
 
