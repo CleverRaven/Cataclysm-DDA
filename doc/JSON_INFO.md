@@ -487,6 +487,8 @@ The syntax listed here is still valid.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
 | `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
 
+There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
+
 ```C++
 {
     "type": "material",
