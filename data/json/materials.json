@@ -563,7 +563,7 @@
     "specific_heat_solid": 2.03,
     "latent_heat": 57,
     "edible": true,
-    "rotting": true,
+    "rotting": false,
     "bash_resist": 0,
     "cut_resist": 0,
     "acid_resist": 1,
