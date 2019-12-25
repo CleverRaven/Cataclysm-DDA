@@ -4971,9 +4971,9 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "sausage", 2 ], [ "sausage_cooked", 2 ], [ "bratwurst_sausage", 2 ] ],
-      [ [ "curry_powder", 20 ], [ "chilly-p", 20 ] ],
-      [ [ "ketchup", 4 ] ]
+      [ [ "sausage", 1 ], [ "sausage_cooked", 1 ], [ "bratwurst_sausage", 2 ] ],
+      [ [ "curry_powder", 10 ], [ "chilly-p", 10 ] ],
+      [ [ "ketchup", 2 ] ]
     ]
   },
   {
