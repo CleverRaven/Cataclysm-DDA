@@ -320,6 +320,7 @@ std::string computer::save_data() const
 
 void computer::load_data( const std::string &data )
 {
+    static const std::set<std::string> blacklisted_options = {{ "Launch_Missile" }};
     options.clear();
     failures.clear();
 
@@ -340,7 +341,9 @@ void computer::load_data( const std::string &data )
         int tmpsec;
 
         dump >> tmpname >> tmpaction >> tmpsec;
-
+        if( blacklisted_options.find( tmpname ) != blacklisted_options.end() ) {
+            continue;
+        }
         add_option( string_replace( tmpname, "_", " " ), static_cast<computer_action>( tmpaction ),
                     tmpsec );
     }
@@ -631,69 +634,8 @@ void computer::activate_function( computer_action action )
         }
         break;
 
-        case COMPACT_MISS_LAUNCH: {
-            // Target Acquisition.
-            tripoint target = ui::omap::choose_point( 0 );
-            if( target == overmap::invalid_tripoint ) {
-                add_msg( m_info, _( "Target acquisition canceled." ) );
-                return;
-            }
-
-            // TODO: Z
-            target.z = 0;
-
-            if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
-                add_msg( m_info, _( "Nuclear missile launched!" ) );
-                //Remove the option to fire another missile.
-                options.clear();
-            } else {
-                add_msg( m_info, _( "Nuclear missile launch aborted." ) );
-                return;
-            }
-            g->refresh_all();
-
-            //Put some smoke gas and explosions at the nuke location.
-            const tripoint nuke_location = { g->u.pos() - point( 12, 0 ) };
-            for( const auto &loc : g->m.points_in_radius( nuke_location, 5, 0 ) ) {
-                if( one_in( 4 ) ) {
-                    g->m.add_field( loc, fd_smoke, rng( 1, 9 ) );
-                }
-            }
-
-            //Only explode once. But make it large.
-            explosion_handler::explosion( nuke_location, 2000, 0.7, true );
-
-            //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
-            // For each level between here and the surface, remove the missile
-            for( int level = g->get_levz(); level <= 0; level++ ) {
-                map tmpmap;
-                tmpmap.load( tripoint( g->get_levx(), g->get_levy(), level ), false );
-
-                if( level < 0 ) {
-                    tmpmap.translate( t_missile, t_hole );
-                } else {
-                    tmpmap.translate( t_metal_floor, t_hole );
-                }
-                tmpmap.save();
-            }
-
-            const oter_id oter = overmap_buffer.ter( target );
-            g->events().send<event_type::launches_nuke>( oter );
-            for( const tripoint &p : g->m.points_in_radius( target, 2 ) ) {
-                // give it a nice rounded shape
-                if( !( p.x == target.x - 2 && p.y == target.y - 2 ) &&
-                    !( p.x == target.x - 2 && p.y == target.y + 2 ) &&
-                    !( p.x == target.x + 2 && p.y == target.y - 2 ) &&
-                    !( p.x == target.x + 2 && p.y == target.y + 2 ) ) {
-                    // TODO: other Z-levels.
-                    explosion_handler::nuke( tripoint( p.xy(), 0 ) );
-                }
-            }
-
-            activate_failure( COMPFAIL_SHUTDOWN );
-        }
-        break;
-
+        case COMPACT_OBSOLETE:
+            break;
         case COMPACT_MISS_DISARM:
             // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
@@ -1659,21 +1601,7 @@ void computer::print_newline()
     wprintz( w_terminal, c_green, "\n" );
 }
 
-computer_option computer_option::from_json( const JsonObject &jo )
-{
-    std::string name = jo.get_string( "name" );
-    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
-    int sec = jo.get_int( "security", 0 );
-    return computer_option( name, action, sec );
-}
-
-computer_failure computer_failure::from_json( const JsonObject &jo )
-{
-    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
-    return computer_failure( type );
-}
-
-computer_action computer_action_from_string( const std::string &str )
+static computer_action computer_action_from_string( const std::string &str )
 {
     static const std::map<std::string, computer_action> actions = {{
             { "null", COMPACT_NULL },
@@ -1694,7 +1622,6 @@ computer_action computer_action_from_string( const std::string &str )
             { "maps", COMPACT_MAPS },
             { "map_sewer", COMPACT_MAP_SEWER },
             { "map_subway", COMPACT_MAP_SUBWAY },
-            { "miss_launch", COMPACT_MISS_LAUNCH },
             { "miss_disarm", COMPACT_MISS_DISARM },
             { "list_bionics", COMPACT_LIST_BIONICS },
             { "elevator_on", COMPACT_ELEVATOR_ON },
@@ -1738,7 +1665,7 @@ computer_action computer_action_from_string( const std::string &str )
     return COMPACT_NULL;
 }
 
-computer_failure_type computer_failure_type_from_string( const std::string &str )
+static computer_failure_type computer_failure_type_from_string( const std::string &str )
 {
     static const std::map<std::string, computer_failure_type> fails = {{
             { "null", COMPFAIL_NULL },
@@ -1762,4 +1689,17 @@ computer_failure_type computer_failure_type_from_string( const std::string &str 
 
     debugmsg( "Invalid computer failure %s", str );
     return COMPFAIL_NULL;
+}
+computer_option computer_option::from_json( const JsonObject &jo )
+{
+    std::string name = jo.get_string( "name" );
+    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
+    int sec = jo.get_int( "security", 0 );
+    return computer_option( name, action, sec );
+}
+
+computer_failure computer_failure::from_json( const JsonObject &jo )
+{
+    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
+    return computer_failure( type );
 }

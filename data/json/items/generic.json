@@ -2405,6 +2405,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "teddy_bear",
+    "symbol": "o",
+    "color": "brown",
+    "name": "teddy bear",
+    "description": "A mass produced plush teddy bear.  It is wearing a little red tshirt but no pants.",
+    "price": 200,
+    "material": [ "cotton" ],
+    "weight": "444 g",
+    "volume": "850 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "money_bundle",
     "name": "money bundle",
     "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
@@ -2959,7 +2972,7 @@
     "description": "A broken turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "62650 g",
+    "weight": "72650 g",
     "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
@@ -2968,11 +2981,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_riot",
+    "symbol": ",",
+    "color": "blue",
+    "name": "broken riot control turret",
+    "description": "A broken riot control turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
     "name": "broken M249 autonomous CROWS II",
-    "weight": "70000 g",
+    "weight": "75 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2981,7 +3003,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken M240 autonomous CROWS II",
-    "weight": "70000 g",
+    "weight": "75 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2990,7 +3012,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken M2 autonomous CROWS II",
-    "weight": "100000 g",
+    "weight": "100 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2999,7 +3021,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken laser turret",
-    "weight": "110000 g",
+    "weight": "110 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -3012,8 +3034,8 @@
     "description": "A broken secubot, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
-    "volume": "65000 ml",
+    "weight": "100 kg",
+    "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3029,8 +3051,8 @@
     "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
-    "volume": "65000 ml",
+    "weight": "100 kg",
+    "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,

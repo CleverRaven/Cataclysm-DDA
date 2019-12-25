@@ -8,10 +8,10 @@
     "value": 50000,
     "start": {
       "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": { "om_terrain": "haz_sar", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "haz_sar_b1",
+    "destination": "haz_sar_b_1",
     "dialogue": {
       "describe": "You wouldn't believe what I found...",
       "offer": "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  Check this out, it was on its approach to pick up a team sent to secure and destroy something called a 'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded message for the team leader, I guess.  If we want to join up with what remains of the government then now may be our only chance.",
