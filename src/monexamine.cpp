@@ -544,10 +544,7 @@ bool monexamine::give_items_to( monster &z )
 
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    units::volume max_volume = storage.get_storage();
-    for( const item &it : z.inv ) {
-        max_volume -= it.volume();
-    }
+    units::volume max_volume = storage.get_storage() - z.get_carried_volume();
 
     std::list<std::pair<int, int>> items = game_menus::inv::multidrop( g->u );
     std::list<std::pair<int, int>> to_move;
@@ -562,6 +559,8 @@ bool monexamine::give_items_to( monster &z )
             add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
             continue;
         } else {
+            max_weight -= item_weight;
+            max_volume -= item_volume;
             to_move.insert( to_move.end(), itq );
         }
     }
@@ -584,13 +583,15 @@ bool monexamine::add_armor( monster &z )
     item &armor = g->u.i_at( pos );
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     if( max_weight <= armor.weight() ) {
-        add_msg( pgettext( "pet armor",  "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ), pet_name );
+        add_msg( pgettext( "pet armor",  "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
+                 pet_name );
         return true;
     }
 
     armor.set_var( "pet_armor", "true" );
     z.armor_item = armor;
-    add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(), pet_name );
+    add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
+             pet_name );
     g->u.i_rem( pos );
     z.add_effect( effect_monster_armor, 1_turns, num_bp, true );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
@@ -610,7 +611,8 @@ void monexamine::remove_armor( monster &z )
     if( z.armor_item ) {
         z.armor_item->erase_var( "pet_armor" );
         g->m.add_item_or_charges( z.pos(), *z.armor_item );
-        add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(), pet_name );
+        add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
+                 pet_name );
         z.armor_item = cata::nullopt;
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
         g->u.moves -= 200;

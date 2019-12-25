@@ -2647,6 +2647,15 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
+units::volume monster::get_carried_volume()
+{
+    units::volume total_volume = 0_ml;
+    for( const item &it : inv ) {
+        total_volume += it.volume();
+    }
+    return total_volume;
+}
+
 void monster::move_special_item_to_inv( cata::optional<item> *it )
 {
     if( *it ) {

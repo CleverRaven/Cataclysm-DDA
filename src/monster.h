@@ -442,6 +442,7 @@ class monster : public Creature
         cata::optional<item> storage_item; // storage item for monster carrying items
         cata::optional<item> battery_item; // item to power mechs
         units::mass get_carried_weight();
+        units::volume get_carried_volume();
         void move_special_item_to_inv( cata::optional<item> *it );
 
         // DEFINING VALUES
