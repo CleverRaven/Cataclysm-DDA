@@ -2158,22 +2158,11 @@ void monster::die( Creature *nkiller )
         }
     }
     // Drop items stored in optionals
-    if( tack_item ) {
-        add_item( *tack_item );
-        tack_item = cata::nullopt;
-    }
-    if( armor_item ) {
-        add_item( *armor_item );
-        armor_item = cata::nullopt;
-    }
-    if( storage_item ) {
-        add_item( *storage_item );
-        storage_item = cata::nullopt;
-    }
-    if( tied_item ) {
-        add_item( *tied_item );
-        tied_item = cata::nullopt;
-    }
+    move_special_item_to_inv( &tack_item );
+    move_special_item_to_inv( &armor_item );
+    move_special_item_to_inv( &storage_item );
+    move_special_item_to_inv( &tied_item );
+
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
         add_item( item( "snare_trigger", 0 ) );
@@ -2656,6 +2645,14 @@ units::mass monster::get_carried_weight()
         total_weight += it.weight();
     }
     return total_weight;
+}
+
+void monster::move_special_item_to_inv( cata::optional<item> *it )
+{
+    if( *it ) {
+        add_item( **it );
+        *it = cata::nullopt;
+    }
 }
 
 bool monster::is_dead() const
