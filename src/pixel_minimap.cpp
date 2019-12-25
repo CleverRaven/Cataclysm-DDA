@@ -23,13 +23,13 @@
 
 #include <algorithm>
 #include <array>
-#include <assert.h>
+#include <cassert>
 #include <bitset>
 #include <cmath>
 #include <iterator>
 #include <memory>
 #include <set>
-#include <stdlib.h>
+#include <cstdlib>
 #include <utility>
 #include <vector>
 

@@ -1,6 +1,6 @@
 #include "game_inventory.h"
 
-#include <math.h>
+#include <cmath>
 #include <climits>
 #include <cstddef>
 #include <functional>

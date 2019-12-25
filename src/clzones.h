@@ -2,7 +2,7 @@
 #ifndef CLZONES_H
 #define CLZONES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>

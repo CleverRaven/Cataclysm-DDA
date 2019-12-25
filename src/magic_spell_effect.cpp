@@ -1,6 +1,6 @@
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>

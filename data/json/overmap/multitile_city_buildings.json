@@ -78,6 +78,15 @@
   },
   {
     "type": "city_building",
+    "id": "house_inner_garden",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_inner_garden_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_inner_garden_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_electronics",
     "locations": [ "land" ],
     "overmaps": [

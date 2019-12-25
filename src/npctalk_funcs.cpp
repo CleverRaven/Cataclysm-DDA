@@ -372,7 +372,7 @@ void talk_function::assign_camp( npc &p )
 
 void talk_function::stop_guard( npc &p )
 {
-    if( p.mission != NPC_MISSION_GUARD_ALLY && p.mission != NPC_MISSION_ASSIGNED_CAMP ) {
+    if( !p.is_player_ally() ) {
         p.set_attitude( NPCATT_NULL );
         p.set_mission( NPC_MISSION_NULL );
         return;
@@ -766,6 +766,7 @@ void talk_function::leave( npc &p )
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
+    p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
 }
 

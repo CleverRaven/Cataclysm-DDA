@@ -2566,13 +2566,21 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         return string_format( _( "Draw %s" ), elem.display_name() );
     } );
 
+    item *internal_item = nullptr;
     if( opts.size() > 1 ) {
-        const int ret = uilist( string_format( _( "Use %s" ), it.tname() ), opts );
+        int ret = uilist( string_format( _( "Use %s" ), it.tname() ), opts );
         if( ret < 0 ) {
             pos = -2;
         } else {
             pos += ret;
+            if( opts.size() != it.contents.size() ) {
+                ret--;
+            }
+            auto iter = std::next( it.contents.begin(), ret );
+            internal_item = &*iter;
         }
+    } else {
+        internal_item = &it.contents.front();
     }
 
     if( pos < -1 ) {
@@ -2583,13 +2591,13 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, pos, false, draw_cost );
+            p.wield_contents( it, internal_item, false, draw_cost );
         } else {
-            p.wield_contents( it, pos );
+            p.wield_contents( it, internal_item );
         }
 
     } else {
-        auto loc = game_menus::inv::holster( p, it );
+        item_location loc = game_menus::inv::holster( p, it );
 
         if( !loc ) {
             p.add_msg_if_player( _( "Never mind." ) );
