@@ -319,6 +319,7 @@
   {
     "id": "nanomaterials",
     "type": "item_group",
+    "subtype": "collection",
     "entries": [ { "item": "nanomaterial", "prob": 100 } ]
   }
 ]
