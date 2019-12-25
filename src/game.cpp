@@ -1,7 +1,7 @@
 #include "game.h"
 
-#include <wctype.h>
-#include <assert.h>
+#include <cwctype>
+#include <cassert>
 #include <cstdio>
 #include <algorithm>
 #include <chrono>

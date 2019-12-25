@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
 #include <bitset>
 #include <string>

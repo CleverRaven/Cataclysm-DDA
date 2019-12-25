@@ -2,7 +2,7 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
