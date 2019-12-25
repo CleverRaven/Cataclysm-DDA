@@ -103,7 +103,6 @@ static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
 static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-static const mtype_id mon_chickenbot( "mon_chickenbot" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
