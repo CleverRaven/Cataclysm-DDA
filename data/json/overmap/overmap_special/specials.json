@@ -1089,14 +1089,14 @@
     "id": "Hazardous Waste Sarcophagus",
     "overmaps": [
       { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
-      { "point": [ 0, 0, 0 ], "overmap": "haz_sar_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "haz_sar_entrance_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "haz_sar_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "haz_sar_north" },
-      { "point": [ 0, 0, -2 ], "overmap": "haz_sar_b1_north" },
-      { "point": [ 1, 0, -2 ], "overmap": "haz_sar_entrance_b1_north" },
-      { "point": [ 0, 1, -2 ], "overmap": "haz_sar_b1_north" },
-      { "point": [ 1, 1, -2 ], "overmap": "haz_sar_b1_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "haz_sar_1_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "haz_sar_1_2_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "haz_sar_1_3_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "haz_sar_1_4_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "haz_sar_b_1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "haz_sar_b_2_north" },
+      { "point": [ 1, 1, -2 ], "overmap": "haz_sar_b_3_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "haz_sar_b_4_north" }
     ],
     "connections": [ { "point": [ 1, -1, 0 ] } ],
     "locations": [ "land" ],

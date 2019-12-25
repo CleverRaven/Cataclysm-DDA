@@ -1542,7 +1542,6 @@ class map
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
         void draw_spiral( mapgendata &dat );
-        void draw_sarcophagus( mapgendata &dat );
         void draw_fema( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );

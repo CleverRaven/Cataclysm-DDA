@@ -706,7 +706,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old.compare( 0, 5, "cabin" ) == 0 ||
                    old.compare( 0, 5, "pond_" ) == 0 ||
                    old.compare( 0, 6, "bandit" ) == 0 ||
-                   old.compare( 0, 7, "haz_sar" ) == 0 ||
+                   old.compare( 0, 7, "haz_sar" ) == 0 || // remove after 0.E.
                    old.compare( 0, 7, "shelter" ) == 0 ||
                    old.compare( 0, 8, "campsite" ) == 0 ||
                    old.compare( 0, 9, "pwr_large" ) == 0 ||
