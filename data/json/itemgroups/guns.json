@@ -229,6 +229,7 @@
     "id": "guns_rifle_milspec",
     "//": "Military specification rifles only ever found at military sites.",
     "items": [
+	  { "item": "fn_f2000", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "m107a1", "prob": 30, "charges-min": 0, "charges-max": 10 },
       { "item": "m134", "prob": 10, "charges-min": 0, "charges-max": 100 },
