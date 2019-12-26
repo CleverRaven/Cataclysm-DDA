@@ -3827,11 +3827,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = label( quantity );
     }
 
-    std::string ammotext;
-    if( is_gun() && ammo_required() ) {
-        ammotext = " (" + ammotype( *ammo_types( true ).begin() )->name() + ")";
-    }
-
     std::string tagtext;
     if( is_food() ) {
         if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
@@ -3946,9 +3941,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6: used ammo (e.g "(bolts"). %7s: tags (e.g. "(wet) (poor fit)").
-    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s" ), damtext, burntext, modtext,
-                                     vehtext, maintext, ammotext, tagtext );
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
+    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext, burntext, modtext,
+                                     vehtext, maintext, tagtext );
 
     if( truncate != 0 ) {
         ret = utf8_truncate( ret, truncate + truncate_override );
@@ -4033,12 +4028,19 @@ std::string item::display_name( unsigned int quantity ) const
         if( is_money() ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
+            std::string ammotext;
+            if( is_gun() && ammo_required() ) {
+                ammotext = " " + ammotype( *ammo_types( true ).begin() )->name() + "";
+            }
+
             if( max_amount != 0 ) {
-                amt = string_format( " (%i/%i)", amount, max_amount );
+                amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
             } else {
-                amt = string_format( " (%i)", amount );
+                amt = string_format( " (%i%s)", amount, ammotext );
             }
         }
+    } else if( is_gun() && ammo_required() ) {
+        amt = " (" + ammotype( *ammo_types( true ).begin() )->name() + ")";
     }
 
     // This is a hack to prevent possible crashing when displaying maps as items during character creation
