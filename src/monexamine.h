@@ -2,8 +2,6 @@
 #ifndef MONEXAMINE_H
 #define MONEXAMINE_H
 
-#include "item_location.h"
-
 class monster;
 
 namespace monexamine
@@ -20,8 +18,6 @@ void attach_bag_to( monster &z );
 void remove_bag_from( monster &z );
 void dump_items( monster &z );
 bool give_items_to( monster &z );
-item_location pet_armor_loc( monster &z );
-item_location tack_loc();
 bool add_armor( monster &z );
 void remove_armor( monster &z );
 void remove_harness( monster &z );

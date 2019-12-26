@@ -253,7 +253,7 @@ bool monexamine::pet_menu( monster &z )
     return true;
 }
 
-item_location monexamine::pet_armor_loc( monster &z )
+static item_location pet_armor_loc( monster &z )
 {
     auto filter = [z]( const item & it ) {
         return z.type->bodytype == it.get_pet_armor_bodytype() &&
@@ -264,7 +264,7 @@ item_location monexamine::pet_armor_loc( monster &z )
     return game_menus::inv::titled_filter_menu( filter, g->u, _( "Pet armor" ) );
 }
 
-item_location monexamine::tack_loc()
+static item_location tack_loc()
 {
     auto filter = []( const item & it ) {
         return it.has_flag( "TACK" );
