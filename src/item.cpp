@@ -3826,11 +3826,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     } else {
         maintext = label( quantity );
     }
-	
-	std::string calibertext;
-	if( is_gun() && ammo_required() ){
-		calibertext = " (" + ammotype( *ammo_types( true ).begin() )->name() + ")";		
-	}
+
+    std::string ammotext;
+    if( is_gun() && ammo_required() ) {
+        ammotext = " (" + ammotype( *ammo_types( true ).begin() )->name() + ")";
+    }
 
     std::string tagtext;
     if( is_food() ) {
@@ -3946,9 +3946,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6: used ammo (e.g "(bolts"). %7s: tags (e.g. "(wet) (poor fit)").
     std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s" ), damtext, burntext, modtext,
-                                     vehtext, maintext, calibertext, tagtext );
+                                     vehtext, maintext, ammotext, tagtext );
 
     if( truncate != 0 ) {
         ret = utf8_truncate( ret, truncate + truncate_override );
