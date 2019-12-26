@@ -8,7 +8,7 @@
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
     "weight": "4100 g",
     "price": 23000,
-    "relative": { "weight": -500, "volume": -2, "range": -6, "ranged_damage": -3, "dispersion": 60, "barrel_length": -2 }
+    "relative": { "volume": -2, "range": -6, "ranged_damage": -3, "dispersion": 60, "barrel_length": -2 }
   },
   {
     "id": "mosin44_ebr",
