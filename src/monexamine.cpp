@@ -253,7 +253,7 @@ bool monexamine::pet_menu( monster &z )
     return true;
 }
 
-int monexamine::pet_armor_pos( monster &z )
+item_location monexamine::pet_armor_loc( monster &z )
 {
     auto filter = [z]( const item & it ) {
         return z.type->bodytype == it.get_pet_armor_bodytype() &&
@@ -261,20 +261,16 @@ int monexamine::pet_armor_pos( monster &z )
                z.get_volume() <= it.get_pet_armor_max_vol();
     };
 
-    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Pet armor" ) );
-
-    return g->u.get_item_position( loc.get_item() );
+    return game_menus::inv::titled_filter_menu( filter, g->u, _( "Pet armor" ) );
 }
 
-int monexamine::tack_pos()
+item_location monexamine::tack_loc()
 {
     auto filter = []( const item & it ) {
         return it.has_flag( "TACK" );
     };
 
-    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Tack" ) );
-
-    return g->u.get_item_position( loc.get_item() );
+    return game_menus::inv::titled_filter_menu( filter, g->u, _( "Tack" ) );
 }
 
 void monexamine::remove_battery( monster &z )
@@ -397,15 +393,15 @@ void monexamine::attach_or_remove_saddle( monster &z )
         g->u.i_add( *z.tack_item );
         z.tack_item = cata::nullopt;
     } else {
-        int pos = tack_pos();
+        item_location loc = tack_loc();
 
-        if( pos == INT_MIN ) {
+        if( !loc ) {
             add_msg( _( "Never mind." ) );
             return;
         }
         z.add_effect( effect_saddled, 1_turns, num_bp, true );
-        z.tack_item = g->u.i_at( pos );
-        g->u.use_amount( ( *z.tack_item ).typeId(), 1 );
+        z.tack_item = *loc;
+        loc.remove_item();
     }
 }
 
@@ -573,14 +569,14 @@ bool monexamine::give_items_to( monster &z )
 bool monexamine::add_armor( monster &z )
 {
     std::string pet_name = z.get_name();
-    int pos = pet_armor_pos( z );
+    item_location loc = pet_armor_loc( z );
 
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return true;
     }
 
-    item &armor = g->u.i_at( pos );
+    item &armor = *loc;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     if( max_weight <= armor.weight() ) {
         add_msg( pgettext( "pet armor",  "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
@@ -592,7 +588,7 @@ bool monexamine::add_armor( monster &z )
     z.armor_item = armor;
     add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
              pet_name );
-    g->u.i_rem( pos );
+    loc.remove_item();
     z.add_effect( effect_monster_armor, 1_turns, num_bp, true );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
     g->u.moves -= 200;
