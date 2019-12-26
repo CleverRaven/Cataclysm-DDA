@@ -79,8 +79,8 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -735,6 +735,9 @@ std::set<point> vehicle::immediate_path( int rotate )
 
 void vehicle::stop_autodriving()
 {
+    if( !is_autodriving && !is_patrolling && !is_following ) {
+        return;
+    }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
             autodrive( 0, 10 );
@@ -4458,7 +4461,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             g->u.mod_thirst( 1 );
             g->u.mod_fatigue( 1 );
         }
-        g->u.mod_stat( "stamina", -( base_burn + mod ) );
+        g->u.mod_stamina( -( base_burn + mod ) );
         add_msg( m_debug, "Load: %d", load );
         add_msg( m_debug, "Mod: %d", mod );
         add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );

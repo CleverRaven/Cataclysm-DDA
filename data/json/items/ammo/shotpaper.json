@@ -24,7 +24,7 @@
     "type": "AMMO",
     "name": "buckshot paper cartridge",
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot.",
-    "weight": 26,
+    "weight": "26 g",
     "volume": "250 ml",
     "material": [ "paper", "powder", "lead" ],
     "color": "white",

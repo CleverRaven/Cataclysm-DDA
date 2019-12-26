@@ -1,6 +1,6 @@
 #include "output.h"
 
-#include <errno.h>
+#include <cerrno>
 #include <cctype>
 #include <cstdio>
 #include <algorithm>

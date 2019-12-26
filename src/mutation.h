@@ -125,6 +125,11 @@ struct mutation_branch {
         float hp_adjustment = 0.0f;
         // Modify strength stat without changing HP
         float str_modifier = 0.0f;
+        //melee bonuses
+        int cut_dmg_bonus = 0;
+        std::pair<int, int> rand_cut_bonus;
+        int bash_dmg_bonus = 0;
+        std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         float dodge_modifier = 0.0f;
         float speed_modifier = 1.0f;
@@ -316,7 +321,7 @@ struct mutation_branch {
          * Callback for the init system (@ref DynamicDataLoader), loads a trait
          * group definitions.
          * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         static void load_trait_group( const JsonObject &jsobj );
 
@@ -332,7 +337,7 @@ struct mutation_branch {
          * @param gid The ID of the group that is to be loaded.
          * @param subtype The type of the trait group, either "collection", "distribution" or "old"
          * (i.e. the old list-based format, `[ ["TRAIT", 100] ]`).
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         static void load_trait_group( const JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
                                       const std::string &subtype );
@@ -355,7 +360,7 @@ struct mutation_branch {
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
+        static void load_trait_group( const JsonArray &entries, const trait_group::Trait_group_tag &gid,
                                       bool is_collection );
 
         /**

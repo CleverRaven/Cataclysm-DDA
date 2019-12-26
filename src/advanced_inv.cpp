@@ -193,6 +193,8 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "ammo/charge type" );
         case SORTBY_SPOILAGE:
             return _( "spoilage" );
+        case SORTBY_PRICE:
+            return _( "barter value" );
     }
     return "!BUG!";
 }
@@ -550,6 +552,11 @@ struct advanced_inv_sorter {
             case SORTBY_SPOILAGE:
                 if( d1.items.front()->spoilage_sort_order() != d2.items.front()->spoilage_sort_order() ) {
                     return d1.items.front()->spoilage_sort_order() < d2.items.front()->spoilage_sort_order();
+                }
+                break;
+            case SORTBY_PRICE:
+                if( d1.items.front()->price( true ) != d2.items.front()->price( true ) ) {
+                    return d1.items.front()->price( true ) > d2.items.front()->price( true );
                 }
                 break;
         }
@@ -989,6 +996,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_DAMAGE,   true, 'd', get_sortname( SORTBY_DAMAGE ) );
     sm.addentry( SORTBY_AMMO,     true, 'a', get_sortname( SORTBY_AMMO ) );
     sm.addentry( SORTBY_SPOILAGE,   true, 's', get_sortname( SORTBY_SPOILAGE ) );
+    sm.addentry( SORTBY_PRICE, true, 'b', get_sortname( SORTBY_PRICE ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,

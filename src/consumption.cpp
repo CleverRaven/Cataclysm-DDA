@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <string>
 #include <limits>
-#include <sstream>
 #include <tuple>
 #include <cmath>
 
@@ -24,6 +23,8 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -36,31 +37,29 @@
 #include "enums.h"
 #include "flat_set.h"
 
-namespace
-{
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
 
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
 
-const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
 
-const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_digestion( "bio_digestion" );
-const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
@@ -81,8 +80,6 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-} // namespace
-
 int player::stomach_capacity() const
 {
     if( has_trait( trait_id( "GIZZARD" ) ) ) {
@@ -101,20 +98,24 @@ int player::stomach_capacity() const
 }
 
 // TODO: Move pizza scraping here.
-static int compute_default_effective_kcal( const item &comest, const player &p )
+static int compute_default_effective_kcal( const item &comest, const player &p,
+        const cata::flat_set<std::string> &extra_flags = {} )
 {
     static const trait_id trait_CARNIVORE( "CARNIVORE" );
     static const trait_id trait_GIZZARD( "GIZZARD" );
     static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
     static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
 
-    assert( comest.get_comestible() );
+    if( !comest.get_comestible() ) {
+        return 0;
+    }
 
     // As float to avoid rounding too many times
     float kcal = comest.get_comestible()->default_nutrition.kcal;
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
-    if( comest.has_flag( "RAW" ) && !comest.has_flag( "COOKED" ) ) {
+    bool cooked = comest.has_flag( "COOKED" ) || extra_flags.count( "COOKED" );
+    if( comest.has_flag( "RAW" ) && !cooked ) {
         kcal *= 0.75f;
     }
 
@@ -150,7 +151,9 @@ static int compute_default_effective_kcal( const item &comest, const player &p )
 static std::map<vitamin_id, int> compute_default_effective_vitamins(
     const item &it, const player &p )
 {
-    assert( it.get_comestible() );
+    if( !it.get_comestible() ) {
+        return {};
+    }
 
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
@@ -178,9 +181,9 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 // Calculate the effective nutrients for a given item, taking
 // into account player traits but not item components.
 static nutrients compute_default_effective_nutrients( const item &comest,
-        const player &p )
+        const player &p, const cata::flat_set<std::string> &extra_flags = {} )
 {
-    return { compute_default_effective_kcal( comest, p ),
+    return { compute_default_effective_kcal( comest, p, extra_flags ),
              compute_default_effective_vitamins( comest, p ) };
 }
 
@@ -210,6 +213,114 @@ nutrients player::compute_effective_nutrients( const item &comest ) const
     } else {
         return compute_default_effective_nutrients( comest, *this );
     }
+}
+
+// Calculate range of nutrients obtainable for a given item when crafted via
+// the given recipe
+std::pair<nutrients, nutrients> player::compute_nutrient_range(
+    const item &comest, const recipe_id &recipe_i,
+    const cata::flat_set<std::string> &extra_flags ) const
+{
+    if( !comest.is_comestible() ) {
+        return {};
+    }
+
+    // if item has components, will derive calories from that instead.
+    if( comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        nutrients result = compute_default_effective_nutrients( comest, *this );
+        return { result, result };
+    }
+
+    nutrients tally_min;
+    nutrients tally_max;
+
+    const recipe &rec = *recipe_i;
+
+    cata::flat_set<std::string> our_extra_flags = extra_flags;
+
+    if( rec.hot_result() ) {
+        our_extra_flags.insert( "COOKED" );
+    }
+
+    const requirement_data requirements = rec.requirements();
+    const requirement_data::alter_item_comp_vector &component_requirements =
+        requirements.get_components();
+
+    for( const std::vector<item_comp> &component_options : component_requirements ) {
+        nutrients this_min;
+        nutrients this_max;
+        bool first = true;
+        for( const item_comp &component_option : component_options ) {
+            std::pair<nutrients, nutrients> component_option_range =
+                compute_nutrient_range( component_option.type, our_extra_flags );
+            component_option_range.first *= component_option.count;
+            component_option_range.second *= component_option.count;
+
+            if( first ) {
+                std::tie( this_min, this_max ) = component_option_range;
+                first = false;
+            } else {
+                this_min.min_in_place( component_option_range.first );
+                this_max.max_in_place( component_option_range.second );
+            }
+        }
+        tally_min += this_min;
+        tally_max += this_max;
+    }
+
+    for( const std::pair<itype_id, int> &byproduct : rec.byproducts ) {
+        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
+        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+        tally_min -= byproduct_nutr;
+        tally_max -= byproduct_nutr;
+    }
+
+    int charges = comest.count();
+    return { tally_min / charges, tally_max / charges };
+}
+
+// Calculate the range of nturients possible for a given item across all
+// possible recipes
+std::pair<nutrients, nutrients> player::compute_nutrient_range(
+    const itype_id &comest_id, const cata::flat_set<std::string> &extra_flags ) const
+{
+    const itype *comest = item::find_type( comest_id );
+    if( !comest->comestible ) {
+        return {};
+    }
+
+    item comest_it( comest, calendar::turn, 1 );
+    // The default nutrients are always a possibility
+    nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
+
+    if( comest->item_tags.count( "NUTRIENT_OVERRIDE" ) ||
+        recipe_dict.is_item_on_loop( comest->get_id() ) ) {
+        return { min_nutr, min_nutr };
+    }
+
+    nutrients max_nutr = min_nutr;
+
+    for( const recipe_id &rec : comest->recipes ) {
+        nutrients this_min;
+        nutrients this_max;
+
+        item result_it = rec->create_result();
+        if( result_it.contents.size() == 1 ) {
+            const item alt_result = result_it.contents.front();
+            if( alt_result.typeId() == comest_it.typeId() ) {
+                result_it = alt_result;
+            }
+        }
+        if( result_it.typeId() != comest_it.typeId() ) {
+            debugmsg( "When creating recipe result expected %s, got %s\n",
+                      comest_it.typeId(), result_it.typeId() );
+        }
+        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
+        min_nutr.min_in_place( this_min );
+        max_nutr.max_in_place( this_max );
+    }
+
+    return { min_nutr, max_nutr };
 }
 
 int player::nutrition_for( const item &comest ) const
@@ -252,6 +363,21 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
             fun *= ( 1.0f - rottedness );
         } else {
             fun *= ( 1.0f + rottedness );
+        }
+    }
+
+    // Food is less enjoyable when eaten too often.
+    if( fun > 0 || comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+        for( const consumption_event &event : consumption_history ) {
+            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
+                event.component_hash == comest.make_component_hash() ) {
+                fun -= comest.get_comestible()->monotony_penalty;
+                // This effect can't drop fun below 0, unless the food has the right flag.
+                if( fun <= 0 && !comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+                    fun = 0;
+                    break; // 0 is the lowest we'll go, no need to keep looping.
+                }
+            }
         }
     }
 
@@ -578,23 +704,23 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         if( !interactive ) {
             return consequences.front();
         }
-        std::ostringstream req;
+        std::string req;
         for( const auto &elem : consequences ) {
-            req << elem.str() << std::endl;
+            req += elem.str() + "\n";
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
         std::string food_tame = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
-            req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
         } else if( !eat_verb && comest->comesttype == "DRINK" ) {
-            req << string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
         } else {
-            req << string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
 
-        if( !query_yn( req.str() ) ) {
+        if( !query_yn( req ) ) {
             return consequences.front();
         }
     }
@@ -924,6 +1050,13 @@ bool player::eat( item &food, bool force )
     if( will_vomit ) {
         vomit();
     }
+
+    consumption_history.emplace_back( food );
+    // Clean out consumption_history so it doesn't get bigger than needed.
+    while( consumption_history.front().time < calendar::turn - 2_days ) {
+        consumption_history.pop_front();
+    }
+
     return true;
 }
 

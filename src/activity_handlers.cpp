@@ -98,23 +98,20 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_survival( "survival" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_computer( "computer" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_computer( "computer" );
 
-const species_id HUMAN( "HUMAN" );
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_milked( "milked" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_under_op( "under_operation" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_saddled( "saddled" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
@@ -326,7 +323,7 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( roll < 0 ) {
         return;
     }
-    if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
+    if( item::find_type( itype_id( what ) )->bionic ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
         for( const std::string &flg : flags ) {
             cbm.set_flag( flg );
@@ -1018,7 +1015,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    item_location &target = act->targets.back();
+    item_location target = act->targets.back();
 
     // Corpses can disappear (rezzing!), so check for that
     if( !target || !target->is_corpse() ) {
@@ -1133,7 +1130,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
     // all action types - yields
     butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
-
+    // after this point, if there was a liquid handling from the harvest,
+    // and the liquid handling was interrupted, then the activity was cancelled,
+    // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
         for( auto &content : contents ) {
@@ -1159,14 +1158,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case BUTCHER_FULL:
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case F_DRESS:
             // partial failure
@@ -1223,7 +1226,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case SKIN:
             switch( rng( 1, 4 ) ) {
@@ -1245,7 +1250,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case DISMEMBER:
             switch( rng( 1, 3 ) ) {
@@ -1261,14 +1268,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
     }
 
@@ -1735,7 +1746,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
 
     // Stabbing weapons are a lot less effective at pulping
     const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),
@@ -1783,7 +1794,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_effort );
+            p->mod_stamina( -pulp_effort );
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -1860,8 +1871,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string msg = _( "You reload the %s." );
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
-            _( "You struggle to reload the fouled %s, but manage to loosen some debris and make it somewhat operational." );
-        p->moves -= 2500;
+            _( "You manage to loosen some debris and make your %s somewhat operational." );
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
     }
 
@@ -2525,7 +2535,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
     if( heat == nullptr ) {
         return;
     }
-    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    item &target = *heat->get_food();
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( "EATEN_COLD" ) ) {
@@ -2585,6 +2595,10 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     target->faults.erase( *f );
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
+    }
+    // also_mends removes not just the fault picked to be mended, but this as well.
+    if( method->also_mends ) {
+        target->faults.erase( *method->also_mends );
     }
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
@@ -2703,22 +2717,22 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    g->eat();
+    avatar_action::eat( g->u );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_food );
+    avatar_action::eat( g->u, game_menus::inv::consume_food( g->u ) );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_drink );
+    avatar_action::eat( g->u, game_menus::inv::consume_drink( g->u ) );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_meds );
+    avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
 }
 
 void activity_handlers::move_items_do_turn( player_activity *act, player *p )
@@ -2921,7 +2935,7 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 
 void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
-    p->mod_stat( "stamina", -20 );
+    p->mod_stamina( -20 );
 }
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
@@ -3129,12 +3143,13 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const bionic_id bid( act->str_values[cbm_id] );
     const bionic_id upbid( act->str_values[upgraded_cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
-    const bool u_see = p->is_player() ? true : g->u.sees( p->pos() ) &&
-                       !g->u.has_effect( effect_narcosis );
+    const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
+                       g->u.has_bionic( bionic_id( "bio_painkiller" ) ) || g->u.has_trait( trait_id( "NOPAIN" ) ) );
 
     const int difficulty = act->values.front();
 
     const time_duration half_op_duration = difficulty * 10_minutes;
+    const time_duration message_freq = difficulty * 2_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
     if( autodoc && g->m.inbounds( p->pos() ) ) {
@@ -3177,7 +3192,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     if( time_left > half_op_duration ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
@@ -3185,7 +3200,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
             }
         } else {
-            if( calendar::once_every( 5_minutes ) && u_see ) {
+            if( calendar::once_every( message_freq ) && u_see ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is meticulously cutting you open." ),
                                           _( "The Autodoc is meticulously cutting <npcname> open." ) );
@@ -3229,7 +3244,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     } else if( act->values[1] > 0 ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
@@ -3237,14 +3252,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
             }
         } else {
-            if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+            if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is stitching you back up." ),
                                           _( "The Autodoc is stitching <npcname> back up." ) );
             }
         }
     } else {
-        if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+        if( calendar::once_every( message_freq ) && u_see && autodoc ) {
             p->add_msg_player_or_npc( m_bad,
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
@@ -4459,7 +4474,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic.mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->mod_stat( "stamina", -cost );
+                p->mod_stamina( -cost );
                 break;
             case bionic_energy:
                 p->mod_power_level( -units::from_kilojoule( cost ) );

@@ -37,20 +37,19 @@
 #include "pimpl.h"
 #include "point.h"
 
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_milked( "milked" );
-const efftype_id effect_monster_armor( "monster_armor" );
-const efftype_id effect_paid( "paid" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_saddled( "monster_saddled" );
-const skill_id skill_survival( "survival" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_milked( "milked" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const skill_id skill_survival( "survival" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -253,12 +252,15 @@ bool monexamine::pet_menu( monster &z )
 
 int monexamine::pet_armor_pos( monster &z )
 {
-    int pos = g->inv_for_filter( _( "Pet armor" ), [z]( const item & it ) {
+    auto filter = [z]( const item & it ) {
         return z.type->bodytype == it.get_pet_armor_bodytype() &&
                z.get_volume() >= it.get_pet_armor_min_vol() &&
                z.get_volume() <= it.get_pet_armor_max_vol();
-    } );
-    return pos;
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Pet armor" ) );
+
+    return g->u.get_item_position( loc.get_item() );
 }
 
 void monexamine::remove_battery( monster &z )
@@ -461,21 +463,24 @@ void monexamine::rename_pet( monster &z )
 void monexamine::attach_bag_to( monster &z )
 {
     std::string pet_name = z.get_name();
-    int pos = g->inv_for_filter( _( "Bag item" ), []( const item & it ) {
-        return it.is_armor() && it.get_storage() > 0_ml;
-    } );
 
-    if( pos == INT_MIN ) {
+    auto filter = []( const item & it ) {
+        return it.is_armor() && it.get_storage() > 0_ml;
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Bag item" ) );
+
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    item &it = g->u.i_at( pos );
+    item &it = *loc;
     // force it to the front of the monster's inventory in case they have armor on
     z.inv.insert( z.inv.begin(), it );
     add_msg( _( "You mount the %1$s on your %2$s, ready to store gear." ),
              it.display_name(), pet_name );
-    g->u.i_rem( pos );
+    g->u.i_rem( &*loc );
     z.add_effect( effect_has_bag, 1_turns, num_bp, true );
     // Update encumbrance in case we were wearing it
     g->u.flag_encumbrance();

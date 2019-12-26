@@ -279,6 +279,7 @@ class mapgen_function_json_base
     public:
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
         size_t calc_index( const point &p ) const;
+        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 
     private:
         std::string jdata;
@@ -289,7 +290,7 @@ class mapgen_function_json_base
 
         void setup_common();
         bool setup_common( const JsonObject &jo );
-        void setup_setmap( JsonArray &parray );
+        void setup_setmap( const JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }

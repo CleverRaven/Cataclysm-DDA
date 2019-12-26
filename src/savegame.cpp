@@ -214,10 +214,8 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            JsonObject odata = data.get_object( "kills" );
-            std::set<std::string> members = odata.get_member_names();
-            for( const auto &member : members ) {
-                kills[mtype_id( member )] = odata.get_int( member );
+            for( const JsonMember &member : data.get_object( "kills" ) ) {
+                kills[mtype_id( member.name() )] = member.get_int();
             }
 
             for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
@@ -268,14 +266,10 @@ void game::load_shortcuts( std::istream &fin )
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
-            JsonObject qs = data.get_object( "quick_shortcuts" );
-            std::set<std::string> qsl_members = qs.get_member_names();
             quick_shortcuts_map.clear();
-            for( std::set<std::string>::iterator it = qsl_members.begin();
-                 it != qsl_members.end(); ++it ) {
-                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                qslist.clear();
-                for( const int i : qs.get_array( *it ) ) {
+            for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
+                std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
+                for( const int i : member.get_array() ) {
                     qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
@@ -712,7 +706,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old.compare( 0, 5, "cabin" ) == 0 ||
                    old.compare( 0, 5, "pond_" ) == 0 ||
                    old.compare( 0, 6, "bandit" ) == 0 ||
-                   old.compare( 0, 7, "haz_sar" ) == 0 ||
+                   old.compare( 0, 7, "haz_sar" ) == 0 || // remove after 0.E.
                    old.compare( 0, 7, "shelter" ) == 0 ||
                    old.compare( 0, 8, "campsite" ) == 0 ||
                    old.compare( 0, 9, "pwr_large" ) == 0 ||
@@ -792,6 +786,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             } else {
                 debugmsg( "Malformed Megastore" );
             }
+        } else if( old == "house_base_north" ) {
+            ter_set( pos, oter_id( "house_north" ) );
+        } else if( old == "house_base_south" ) {
+            ter_set( pos, oter_id( "house_south" ) );
+        } else if( old == "house_base_east" ) {
+            ter_set( pos, oter_id( "house_east" ) );
+        } else if( old == "house_base_west" ) {
+            ter_set( pos, oter_id( "house_west" ) );
         }
 
         for( const auto &conv : nearby ) {

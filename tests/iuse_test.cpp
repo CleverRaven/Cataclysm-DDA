@@ -1,4 +1,4 @@
-#include <limits.h>
+#include <climits>
 #include <list>
 #include <memory>
 
@@ -39,20 +39,22 @@ TEST_CASE( "use_eyedrops" )
 
     dummy.add_env_effect( efftype_id( "boomered" ), bp_eyes, 3, 12_turns );
 
+    item_location loc = item_location( dummy, &test_item );
+    REQUIRE( loc );
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
 
-    dummy.consume( test_item_pos );
+    dummy.consume( loc );
 
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
     REQUIRE( test_item.charges == 4 );
     REQUIRE( !dummy.has_effect( efftype_id( "boomered" ) ) );
 
-    dummy.consume( test_item_pos );
-    dummy.consume( test_item_pos );
-    dummy.consume( test_item_pos );
-    dummy.consume( test_item_pos );
+    dummy.consume( loc );
+    dummy.consume( loc );
+    dummy.consume( loc );
+    dummy.consume( loc );
 
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos == INT_MIN );

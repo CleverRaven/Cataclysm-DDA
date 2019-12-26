@@ -1,11 +1,13 @@
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <list>
 #include <map>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
+#include "game.h"
 #include "itype.h"
 #include "recipe_dictionary.h"
 #include "recipe.h"
@@ -14,6 +16,7 @@
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
+#include "value_ptr.h"
 
 struct all_stats {
     statistics<int> calories;
@@ -24,7 +27,7 @@ static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
     for( item_comp it : components ) {
-        auto temp = item::find_type( it.type )->comestible;
+        const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
         if( temp && temp->cooks_like.empty() ) {
             calories += temp->default_nutrition.kcal * it.count;
         } else if( temp ) {
@@ -107,7 +110,7 @@ static item food_or_food_container( const item &it )
     return it.is_food_container() ? it.contents.front() : it;
 }
 
-TEST_CASE( "recipe_permutations" )
+TEST_CASE( "recipe_permutations", "[recipe]" )
 {
     // Are these tests failing? Here's how to fix that:
     // If the average is over the upper bound, you need to increase the calories for the item
@@ -153,4 +156,21 @@ TEST_CASE( "recipe_permutations" )
             }
         }
     }
+}
+
+TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
+{
+    // This test verifies that predicted calorie ranges properly take into
+    // account the "RAW"/"COOKED" flags.
+    const item veggy_wild_cooked( "veggy_wild_cooked" );
+    const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
+
+    const avatar &u = g->u;
+
+    nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
+    std::pair<nutrients, nutrients> predicted_nutrition =
+        u.compute_nutrient_range( veggy_wild_cooked, veggy_wild_cooked_recipe );
+
+    CHECK( default_nutrition.kcal == predicted_nutrition.first.kcal );
+    CHECK( default_nutrition.kcal == predicted_nutrition.second.kcal );
 }

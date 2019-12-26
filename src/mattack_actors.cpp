@@ -25,14 +25,14 @@
 #include "material.h"
 #include "point.h"
 
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_was_laserlocked( "was_laserlocked" );
-const efftype_id effect_targeted( "targeted" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_was_laserlocked( "was_laserlocked" );
+static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_badpoison( "badpoison" );
 
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )
@@ -214,8 +214,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Optional:
     if( obj.has_array( "damage_max_instance" ) ) {
-        JsonArray arr = obj.get_array( "damage_max_instance" );
-        damage_max_instance = load_damage_instance( arr );
+        damage_max_instance = load_damage_instance( obj.get_array( "damage_max_instance" ) );
     } else if( obj.has_object( "damage_max_instance" ) ) {
         damage_max_instance = load_damage_instance( obj );
     }

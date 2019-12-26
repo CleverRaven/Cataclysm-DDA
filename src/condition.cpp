@@ -29,7 +29,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-const efftype_id effect_currently_busy( "currently_busy" );
+static const efftype_id effect_currently_busy( "currently_busy" );
 
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
@@ -894,17 +894,14 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
     bool found_sub_member = false;
     const auto parse_array = []( const JsonObject & jo, const std::string & type ) {
         std::vector<conditional_t> conditionals;
-        JsonArray ja = jo.get_array( type );
-        while( ja.has_more() ) {
-            if( ja.test_string() ) {
-                conditional_t<T> type_condition( ja.next_string() );
-                conditionals.emplace_back( type_condition );
-            } else if( ja.test_object() ) {
-                JsonObject cond = ja.next_object();
-                conditional_t<T> type_condition( cond );
+        for( const JsonValue &entry : jo.get_array( type ) ) {
+            if( entry.test_string() ) {
+                conditional_t<T> type_condition( entry.get_string() );
                 conditionals.emplace_back( type_condition );
             } else {
-                ja.skip_value();
+                JsonObject cond = entry.get_object();
+                conditional_t<T> type_condition( cond );
+                conditionals.emplace_back( type_condition );
             }
         }
         return conditionals;

@@ -160,7 +160,7 @@
     "name": "Natural Remedies of New England",
     "name_plural": "copies of Natural Remedies of New England",
     "description": "A leather bound manuscript, it features native herbal remedies with hand colored illustrations of each plant.",
-    "weight": 400,
+    "weight": "400 g",
     "volume": "1250 ml",
     "price": 50000,
     "price_postapoc": 50000,

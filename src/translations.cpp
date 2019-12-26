@@ -475,7 +475,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
-            throw_error = [&jsobj]( const std::string & msg, const int offset ) {
+            // Copying jsobj to avoid use-after-free
+            throw_error = [jsobj]( const std::string & msg, const int offset ) {
                 jsobj.get_raw( "str" )->error( msg, offset );
             };
         }
@@ -495,23 +496,23 @@ void translation::deserialize( JsonIn &jsin )
               const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
               const std::string & fix
         ) {
-            std::ostringstream err;
+            std::string err;
             switch( type ) {
                 case text_style_fix::removal:
-                    err << msg << "\n"
-                        << "    Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: remove \"" + utf32_to_utf8( std::u32string( from, to ) ) + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::insertion:
-                    err << msg << "\n"
-                        << "    Suggested fix: insert \"" << fix << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: insert \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::replacement:
-                    err << msg << "\n"
-                        << "    Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) )
-                        << "\" with \"" << fix << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: replace \"" + utf32_to_utf8( std::u32string( from, to ) )
+                          + "\" with \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
             }
             try {
@@ -519,7 +520,7 @@ void translation::deserialize( JsonIn &jsin )
                 // +1 for the starting quotation mark
                 //@todo: properly handle escape sequences inside strings, instead
                 //of using `length()` here.
-                throw_error( err.str(), 1 + str_before.length() );
+                throw_error( err, 1 + str_before.length() );
             } catch( const JsonError &e ) {
                 debugmsg( "\n%s", e.what() );
             }

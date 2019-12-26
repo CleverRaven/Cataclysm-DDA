@@ -158,16 +158,18 @@ TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
         test_npc.set_stored_kcal( 1000 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
+        item_location loc = item_location( test_npc, &food );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( test_npc.get_item_position( &food ) );
+        test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
+        item_location loc = item_location( test_npc, &water );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( test_npc.get_item_position( &water ) );
+        test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }

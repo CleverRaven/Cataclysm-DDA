@@ -200,16 +200,12 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
-        JsonArray jarray = jo.get_array( "effects" );
-        while( jarray.has_more() ) {
-            JsonObject effect_obj;
+        for( const JsonObject &effect_obj : jo.get_array( "effects" ) ) {
             time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
-                JsonArray jarray = effect_obj.get_array( "spell_effects" );
-                while( jarray.has_more() ) {
+                for( const JsonObject &fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
                     fake_spell fake;
-                    JsonObject fake_spell_obj = jarray.next_object();
                     fake.load( fake_spell_obj );
                     add_activation( dur, fake );
                 }
@@ -227,9 +223,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
                                "ALWAYS" ) );
 
     if( jo.has_array( "values" ) ) {
-        JsonArray jarray = jo.get_array( "values" );
-        while( jarray.has_more() ) {
-            JsonObject value_obj = jarray.next_object();
+        for( const JsonObject &value_obj : jo.get_array( "values" ) ) {
             const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
@@ -370,6 +364,9 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
     guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
+
+    guy.mod_num_dodges_bonus( get_value_add( mod::BONUS_DODGE ) );
+    guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 }
 
 void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const

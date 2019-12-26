@@ -4,7 +4,6 @@
 #include <cmath>
 #include <algorithm>
 #include <cstdlib>
-#include <sstream>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -88,25 +87,25 @@
 #include "magic_teleporter_list.h"
 #include "point.h"
 
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
-const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
-const skill_id skill_computer( "computer" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_survival( "survival" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
 
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -124,9 +123,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
@@ -745,7 +742,51 @@ void iexamine::elevator( player &p, const tripoint &examp )
         return;
     }
     int movez = ( examp.z < 0 ? 2 : -2 );
+
+    tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
+    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
+
+    // first find critters in the destination elevator and move them out of the way
+    for( Creature &critter : g->all_creatures() ) {
+        if( critter.is_player() ) {
+            continue;
+        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+            if( critter_omt == new_floor_omt ) {
+                for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
+                    if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
+                        g->m.passable( candidate ) &&
+                        !g->critter_at( candidate ) ) {
+                        critter.setpos( candidate );
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // move the player
     g->vertical_move( movez, false );
+
+    // finally, bring along everyone who was in the elevator with the player
+    for( Creature &critter : g->all_creatures() ) {
+        if( critter.is_player() ) {
+            continue;
+        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+
+            if( critter_omt == original_floor_omt ) {
+                for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
+                    if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
+                        candidate != p.pos() &&
+                        !g->critter_at( candidate ) ) {
+                        critter.setpos( candidate );
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -1120,7 +1161,7 @@ void iexamine::slot_machine( player &p, const tripoint & )
             add_msg( m_info, _( "You need $%d to play." ), price );
             break;
         }
-        if( !query_yn( _( played ? "Play again for $%d?" : "Insert $%d?" ), price ) ) {
+        if( !query_yn( played ? _( "Play again for $%d?" ) : _( "Insert $%d?" ), price ) ) {
             break;
         }
         p.cash -= cents( price );
@@ -5162,7 +5203,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         return;
     }
 
-    std::stringstream pop;
     time_duration time_left = 0_turns;
     int hours_left = 0;
     int minutes_left = 0;
@@ -5217,39 +5257,37 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
 
     switch( smenu.ret ) {
         case 0: { //inspect mill
+            std::string pop;
             if( active ) {
-                pop << "<color_green>" << _( "There's a mill here.  It is turning and milling." ) << "</color>"
-                    << "\n";
+                pop = colorize( _( "There's a mill here.  It is turning and milling." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop << string_format( ngettext( "It will finish milling in about %d hour.",
+                        pop += string_format( ngettext( "It will finish milling in about %d hour.",
                                                         "It will finish milling in about %d hours.",
-                                                        hours_left ), hours_left ) << "\n\n ";
+                                                        hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
-                        pop << _( "It will finish milling in less than an hour." );
+                        pop += _( "It will finish milling in less than an hour." );
                     } else {
-                        pop << string_format( _( "It should take about %d minutes to finish milling." ), minutes_left );
+                        pop += string_format( _( "It should take about %d minutes to finish milling." ), minutes_left );
                     }
                 }
             } else {
-                pop << "<color_green>" << _( "There's a mill here." ) << "</color>" << "\n";
+                pop += colorize( _( "There's a mill here." ), c_green ) + "\n";
             }
-            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
+            pop += colorize( _( "You inspect its contents and find: " ), c_green ) + "\n\n";
             if( items_here.empty() ) {
-                pop << _( "…that it is empty." );
+                pop += _( "…that it is empty." );
             } else {
                 for( const item &it : items_here ) {
                     if( it.typeId() == "fake_milling_item" ) {
-                        pop << "\n " << "<color_red>" << _( "You see some grains that are not yet milled to fine flour." )
-                            << "</color>" <<
-                            "\n ";
+                        pop += "\n" + colorize( _( "You see some grains that are not yet milled to fine flour." ),
+                                                c_red ) + "\n";
                         continue;
                     }
-                    pop << "-> " << item::nname( it.typeId(), it.charges );
-                    pop << " (" << std::to_string( it.charges ) << ")\n ";
+                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
                 }
             }
-            popup( pop.str(), PF_NONE );
+            popup( pop, PF_NONE );
             break;
         }
         case 1:
@@ -5332,7 +5370,6 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     }
 
     bool rem_f_opt = false;
-    std::stringstream pop;
     time_duration time_left = 0_turns;
     int hours_left = 0;
     int minutes_left = 0;
@@ -5424,39 +5461,37 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
     switch( smenu.ret ) {
         case 0: { //inspect smoking rack
+            std::string pop;
             if( active ) {
-                pop << "<color_green>" << _( "There's a smoking rack here.  It is lit and smoking." ) << "</color>"
-                    << "\n";
+                pop += colorize( _( "There's a smoking rack here.  It is lit and smoking." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop << string_format( ngettext( "It will finish smoking in about %d hour.",
+                        pop += string_format( ngettext( "It will finish smoking in about %d hour.",
                                                         "It will finish smoking in about %d hours.",
-                                                        hours_left ), hours_left ) << "\n\n ";
+                                                        hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
-                        pop << _( "It will finish smoking in less than an hour." ) << "\n ";
+                        pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {
-                        pop << string_format( _( "It should take about %d minutes to finish smoking." ),
-                                              minutes_left ) << "\n ";
+                        pop += string_format( _( "It should take about %d minutes to finish smoking." ),
+                                              minutes_left ) + "\n ";
                     }
                 }
             } else {
-                pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
+                pop += colorize( _( "There's a smoking rack here." ), c_green ) + "\n";
             }
-            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
+            pop += colorize( _( "You inspect its contents and find: " ), c_green ) + "\n";
             if( items_here.empty() ) {
-                pop << _( "…that it is empty." );
+                pop += _( "…that it is empty." );
             } else {
                 for( const item &it : items_here ) {
                     if( it.typeId() == "fake_smoke_plume" ) {
-                        pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" <<
-                            "\n ";
+                        pop += "\n" + colorize( _( "You see some smoldering embers there." ), c_red ) + "\n";
                         continue;
                     }
-                    pop << "-> " << item::nname( it.typeId(), it.charges );
-                    pop << " (" << std::to_string( it.charges ) << ")\n ";
+                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
                 }
             }
-            popup( pop.str(), PF_NONE );
+            popup( pop, PF_NONE );
             break;
         }
         case 1:

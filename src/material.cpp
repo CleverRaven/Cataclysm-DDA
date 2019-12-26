@@ -87,15 +87,14 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
 
-    for( const std::string &line : jsobj.get_array( "dmg_adj" ) ) {
-        _dmg_adj.push_back( line );
-    }
+    mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj, string_reader() );
 
     if( jsobj.has_array( "burn_data" ) ) {
         for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
             _burn_data.emplace_back( load_mat_burn_data( brn ) );
         }
-    } else {
+    } 
+    if( _burn_data.empty() ) {
         // If not specified, supply default
         mat_burn_data mbd;
         if( _fire_resist <= 0 ) {
@@ -108,12 +107,9 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         _burn_products.emplace_back( pair.get_string( 0 ), static_cast< float >( pair.get_float( 1 ) ) );
     }
 
-    for( const std::string &line : jsobj.get_array( "compact_accepts" ) ) {
-        _compact_accepts.emplace_back( line );
-    }
-    for( const std::string &line : jsobj.get_array( "compacts_into" ) ) {
-        _compacts_into.emplace_back( line );
-    }
+    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
+              auto_flags_reader<material_id>() );
+    optional( jsobj, was_loaded, "compacts_into", _compacts_into, string_reader() );
 }
 
 void material_type::check() const
@@ -139,24 +135,6 @@ void material_type::check() const
         if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
         }
-    }
-}
-
-int material_type::dam_resist( damage_type damtype ) const
-{
-    switch( damtype ) {
-        case DT_BASH:
-            return _bash_resist;
-        case DT_CUT:
-            return _cut_resist;
-        case DT_ACID:
-            return _acid_resist;
-        case DT_ELECTRIC:
-            return _elec_resist;
-        case DT_HEAT:
-            return _fire_resist;
-        default:
-            return 0;
     }
 }
 
@@ -278,7 +256,7 @@ bool material_type::reinforces() const
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
-    return _burn_data[ std::min<size_t>( intensity, fd_fire.obj().get_max_intensity() ) - 1 ];
+    return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
 }
 
 const mat_burn_products &material_type::burn_products() const

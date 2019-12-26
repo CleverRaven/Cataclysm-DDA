@@ -17,7 +17,7 @@
     "id": "flux_comp_gen",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "explosively pump flux compression generator",
+    "name": "explosively pumped flux compression generator",
     "description": "This large device consists mainly of a tube of copper wire surrounding a large copper tube filled with high explosives.  When detonated properly, the explosives allow the device to produce large amounts of electrical energy in a very short time.",
     "weight": "3589 g",
     "volume": "10455 ml",

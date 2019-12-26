@@ -16,5 +16,29 @@
       [ [ "sensory_cluster", 1 ] ],
       [ [ "bioweapon_chassis", 1 ] ]
     ]
+  },
+  {
+    "result": "broken_afs_mon_sentinel_lx",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module_advanced", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "huge_atomic_battery_cell", 1 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "afs_sentinel_laser", 1 ] ]
+    ]
   }
 ]

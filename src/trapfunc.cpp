@@ -34,22 +34,21 @@
 #include "point.h"
 #include "teleport.h"
 
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_throw( "throw" );
+static const skill_id skill_throw( "throw" );
 
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_heavysnare( "heavysnare" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_slimed( "slimed" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_ridden( "ridden" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );

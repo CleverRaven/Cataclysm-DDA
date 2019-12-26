@@ -14,5 +14,23 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "ident": "graphene_weave",
+    "name": "Graphene Weave",
+    "density": 10,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "bash_resist": 3,
+    "cut_resist": 3,
+    "acid_resist": 5,
+    "fire_resist": 5,
+    "elec_resist": 0,
+    "chip_resist": 10,
+    "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut"
   }
 ]

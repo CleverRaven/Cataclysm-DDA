@@ -415,12 +415,11 @@
     "color": "light_gray",
     "name": "cestus",
     "name_plural": "cestuses",
-    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.",
-    "material": [ "steel", "leather" ],
-    "volume": "500 ml",
-    "weight": "970 g",
-    "bashing": 12,
-    "qualities": [ [ "HAMMER", 1 ] ],
+    "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defence.",
+    "material": [ "leather", "steel" ],
+    "volume": "100 ml",
+    "weight": "300 g",
+    "bashing": 2,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {

@@ -105,124 +105,119 @@
 
 #include "iuse_software.h"
 
-const mtype_id mon_bee( "mon_bee" );
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_cat( "mon_cat" );
-const mtype_id mon_hologram( "mon_hologram" );
-const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_dog_thing( "mon_dog_thing" );
-const mtype_id mon_fly( "mon_fly" );
-const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_spore( "mon_spore" );
-const mtype_id mon_vortex( "mon_vortex" );
-const mtype_id mon_wasp( "mon_wasp" );
-const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_hologram( "mon_hologram" );
+static const mtype_id mon_dog_thing( "mon_dog_thing" );
+static const mtype_id mon_fly( "mon_fly" );
+static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_spore( "mon_spore" );
+static const mtype_id mon_vortex( "mon_vortex" );
+static const mtype_id mon_wasp( "mon_wasp" );
 
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_computer( "computer" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_melee( "melee" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_melee( "melee" );
 
-const species_id ROBOT( "ROBOT" );
-const species_id HALLUCINATION( "HALLUCINATION" );
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id HALLUCINATION( "HALLUCINATION" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_antibiotic( "antibiotic" );
-const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_crushed( "crushed" );
-const efftype_id effect_cureall( "cureall" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_dazed( "dazed" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_docile( "docile" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_flushot( "flushot" );
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_glowing_led( "glowy_led" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_haslight( "haslight" );
-const efftype_id effect_high( "high" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_monster_armor( "monster_armor" );
-const efftype_id effect_music( "music" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_panacea( "panacea" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_run( "run" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_saddled( "monster_saddled" );
-const efftype_id effect_sap( "sap" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slimed( "slimed" );
-const efftype_id effect_smoke( "smoke" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stimpack( "stimpack" );
-const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
-const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_teargas( "teargas" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
-const efftype_id effect_took_flumed( "took_flumed" );
-const efftype_id effect_took_prozac( "took_prozac" );
-const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
-const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
-const efftype_id effect_took_xanax( "took_xanax" );
-const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
-const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
-const efftype_id effect_webbed( "webbed" );
-const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_cureall( "cureall" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flushot( "flushot" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowing_led( "glowy_led" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_run( "run" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_stimpack( "stimpack" );
+static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_magnesium_supplements( "magnesium" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -400,10 +395,10 @@ static int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    time_duration duration = alc_strength( strength, 34_minutes, 68_minutes,
-                                           90_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
+    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
     if( p.has_trait( trait_ALCMET ) ) {
-        duration = alc_strength( strength, 9_minutes, 18_minutes, 25_minutes ) - ( alc_strength( strength,
+        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
@@ -411,9 +406,9 @@ static int alcohol( player &p, const item &it, const int strength )
         // Metabolizing it cancels out the depressant
         p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
-        duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
@@ -999,6 +994,22 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_effect( effect_poison, 1_hours );
         p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
         p->vomit();
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_npc() ) {
+        if( it->made_of( LIQUID ) ) {
+            if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
+                return 0;
+            }
+        } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
+            if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
+                return 0;
+            }
+        }
     }
     return it->type->charges_to_use();
 }
@@ -1594,15 +1605,19 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    int inventory_index = g->inv_for_filter( _( "Modify what?" ), []( const item & itm ) {
+    auto filter = []( const item & itm ) {
         return itm.has_flag( "RADIO_MODABLE" );
-    } );
-    item &modded = p->i_at( inventory_index );
+    };
 
-    if( modded.is_null() ) {
+    // note: if !p->is_npc() then p is avatar
+    item_location loc = game_menus::inv::titled_filter_menu(
+                            filter, *p->as_avatar(), _( "Modify what?" ) );
+
+    if( !loc ) {
         p->add_msg_if_player( _( "You do not have that item!" ) );
         return 0;
     }
+    item &modded = *loc;
 
     int choice = uilist( _( "Which signal should activate the item?" ), {
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
@@ -2133,9 +2148,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
             int index = to_turn<int>( calendar::turn ) % segments.size();
-            std::stringstream messtream;
-            messtream << string_format( _( "radio: %s" ), segments[index] );
-            message = messtream.str();
+            message = string_format( _( "radio: %s" ), segments[index] );
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
         if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
@@ -3017,13 +3030,14 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
         it.convert( it.typeId().substr( 0, it.typeId().size() - 4 ) + "_on" ); // 4 is the length of "_off".
         it.active = true;
+        return it.type->charges_to_use();
     } else {
         if( it.typeId() == "chainsaw_off" ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
         }
         p.add_msg_if_player( msg_failure );
+        return 0; // No charges consumed on failure.
     }
-    return it.type->charges_to_use();
 }
 
 int iuse::combatsaw_off( player *p, item *it, bool, const tripoint & )
@@ -3125,6 +3139,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         }
         p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
         it.convert( off_type ).active = false;
+        return 0; // Don't consume charges when turning off.
     }
     return it.type->charges_to_use();
 }
@@ -4357,6 +4372,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
+        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
         as_m.query();
 
         switch( as_m.ret ) {
@@ -4375,6 +4391,9 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
+            case 6:
+                loaded_software = "null";
+                break;
             default:
                 //Cancel
                 return 0;
@@ -4384,8 +4403,12 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         const int moves = to_moves<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( loaded_software == "null" ) {
+            p->assign_activity( activity_id( "ACT_GENERIC_GAME" ), to_moves<int>( 1_hours ), -1,
+                                p->get_item_position( it ), "gaming" );
+            return it->type->charges_to_use();
+        }
         p->assign_activity( activity_id( "ACT_GAME" ), moves, -1, p->get_item_position( it ), "gaming" );
-
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -4626,12 +4649,20 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
         if( map_it.typeId() == "rmi2_corpse" &&
             query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
                       map_it.color_in_inventory() ) ) ) {
-            int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
-            item &data_card = p->i_at( pos );
-            if( data_card.is_null() ) {
+
+            auto filter = []( const item & it ) {
+                return it.typeId() == "data_card";
+            };
+            avatar *you = p->as_avatar();
+            item_location loc;
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Select storage media" ) );
+            }
+            if( !loc ) {
                 add_msg( m_info, _( "Nevermind." ) );
                 return 0;
             }
+            item &data_card = *loc;
             ///\EFFECT_DEX makes using the mind splicer faster
             ///\EFFECT_FIRSTAID makes using the mind splicer faster
             const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
@@ -4679,15 +4710,20 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     }
 
     // If the player is not standing on a log, check inventory
-    int pos = g->inv_for_id( itype_id( "log" ), _( "Cut up what?" ) );
+    avatar *you = p->as_avatar();
+    item_location loc;
+    auto filter = []( const item & it ) {
+        return it.typeId() == "log";
+    };
+    if( you != nullptr ) {
+        loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Cut up what?" ) );
+    }
 
-    item &cut = p->i_at( pos );
-
-    if( cut.is_null() ) {
+    if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    p->i_rem( &cut );
+    p->i_rem( &*loc );
     cut_log_into_planks( *p );
     return it->type->charges_to_use();
 }
@@ -5500,8 +5536,8 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return( ( itm.is_food() && !itm.item_tags.count( "HOT" ) ) ||
-                ( itm.is_food_container() && !itm.contents.front().item_tags.count( "HOT" ) ) );
+        const item *food = itm.get_food();
+        return food && !food->item_tags.count( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5509,17 +5545,17 @@ static bool heat_item( player &p )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    item *target = heat->get_food();
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
-    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target.weight() ) ) ) * 10;
-    if( target.item_tags.count( "FROZEN" ) && !target.has_flag( "EATEN_COLD" ) ) {
+    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
+    if( target->item_tags.count( "FROZEN" ) && !target->has_flag( "EATEN_COLD" ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( activity_id( "ACT_HEATING" ), duration );
-    p.activity.targets.push_back( item_location( p, &target ) );
+    p.activity.targets.push_back( item_location( p, target ) );
     return true;
 }
 
@@ -5868,12 +5904,12 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    int inventory_index = g->inv_for_all( _( "Select the firearm to repair" ) );
-    item &fix = p->i_at( inventory_index );
-    if( fix.is_null() ) {
+    item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to repair" ) );
+    if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
+    item &fix = *loc;
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
@@ -5990,80 +6026,6 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
     p->toolmod_add( std::move( loc ), item_location( *p, it ) );
     return 0;
-}
-
-int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
-{
-    if( !it->ammo_sufficient() ) {
-        return 0;
-    }
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    if( p->fine_detail_vision_mod() > 4 ) {
-        p->add_msg_if_player( m_info, _( "You can't see to repair!" ) );
-        return 0;
-    }
-    /** @EFFECT_FABRICATION >0 allows use of repair kit */
-    if( p->get_skill_level( skill_fabrication ) < 1 ) {
-        p->add_msg_if_player( m_info, _( "You need a fabrication skill of 1 to use this repair kit." ) );
-        return 0;
-    }
-    static const std::set<material_id> repairable {
-        material_id( "wood" ),
-        material_id( "paper" ),
-        material_id( "bone" ),
-        material_id( "chitin" ),
-        material_id( "acidchitin" )
-    };
-    int inventory_index = g->inv_for_filter( _( "Select the item to repair" ), []( const item & itm ) {
-        return !itm.is_firearm() && itm.made_of_any( repairable ) && !itm.count_by_charges();
-    } );
-    item &fix = p->i_at( inventory_index );
-    if( fix.is_null() ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
-    }
-    if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                              fix.tname() );
-        return 0;
-    }
-    if( fix.damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
-        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                              fix.tname() );
-        return 0;
-    }
-    const std::string startdurability = fix.durability_indicator( true );
-    std::string resultdurability;
-    if( fix.damage() <= 0 ) {
-        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_fabrication, 10 );
-        fix.mod_damage( -itype::damage_scale );
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
-
-    } else if( fix.damage() > itype::damage_scale ) {
-        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_fabrication, 10 );
-        fix.mod_damage( -itype::damage_scale );
-        resultdurability = fix.durability_indicator( true );
-        p->add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix.tname( 1, false ),
-                              startdurability, resultdurability );
-
-    } else {
-        p->moves -= to_moves<int>( 3_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_fabrication, 10 );
-        fix.set_damage( 0 );
-        resultdurability = fix.durability_indicator( true );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
-                              fix.tname( 1, false ), startdurability, resultdurability );
-    }
-    return it->type->charges_to_use();
 }
 
 int iuse::bell( player *p, item *it, bool, const tripoint & )
@@ -6691,17 +6653,26 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return it->type->charges_to_use();
         }
 
+        avatar *you = p->as_avatar();
+        item_location loc;
+        auto filter = []( const item & it ) {
+            return it.has_flag( "MC_MOBILE" );
+        };
+        const std::string title = _( "Insert memory card" );
+
         if( ei_download == choice ) {
 
             p->moves -= to_moves<int>( 2_seconds );
 
-            const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
-            item &mc = p->i_at( inventory_index );
-
-            if( mc.is_null() ) {
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
+            }
+            if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
                 return it->type->charges_to_use();
             }
+            item &mc = *loc;
+
             if( !mc.has_flag( "MC_MOBILE" ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
@@ -6725,13 +6696,15 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( ei_decrypt == choice ) {
             p->moves -= to_moves<int>( 2_seconds );
-            const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
-            item &mc = p->i_at( inventory_index );
-
-            if( mc.is_null() ) {
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
+            }
+            if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
                 return it->type->charges_to_use();
             }
+            item &mc = *loc;
+
             if( !mc.has_flag( "MC_MOBILE" ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
@@ -7801,13 +7774,19 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         p->moves -= to_moves<int>( 2_seconds );
 
-        const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
-        item &mc = p->i_at( inventory_index );
-
-        if( mc.is_null() ) {
+        avatar *you = p->as_avatar();
+        item_location loc;
+        if( you != nullptr ) {
+            loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
+                return it.has_flag( "MC_MOBILE" );
+            }, *you, _( "Insert memory card" ) );
+        }
+        if( !loc ) {
             p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
             return it->type->charges_to_use();
         }
+        item &mc = *loc;
+
         if( !mc.has_flag( "MC_MOBILE" ) ) {
             p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
             return it->type->charges_to_use();
@@ -7994,19 +7973,26 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
     if( choice == 1 ) {
 
         if( bomb_it == it->contents.end() ) { //arming car with bomb
-            int inventory_index = g->inv_for_flag( "RADIOCARITEM", _( "Arm what?" ) );
-            item &put = p->i_at( inventory_index );
-            if( put.is_null() ) {
+
+            avatar *you = p->as_avatar();
+            item_location loc;
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
+                    return it.has_flag( "RADIOCARITEM" );
+                }, *you, _( "Arm what?" ) );
+            }
+            if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
                 return 0;
             }
+            item &put = *loc;
 
             if( put.has_flag( "RADIOCARITEM" ) && ( put.volume() <= 1250_ml ||
                                                     ( put.weight() <= 2_kilogram ) ) ) {
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( inventory_index ) );
+                it->put_in( p->i_rem( &put ) );
             } else if( !put.has_flag( "RADIOCARITEM" ) ) {
                 p->add_msg_if_player( _( "RC car with %s?  How?" ),
                                       put.tname() );
@@ -8831,6 +8817,16 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = p->has_charges( "UPS_off", 1 ) || p->has_charges( "adv_UPS_off", 1 );
 
+    item_location loc;
+    avatar *you = p->as_avatar();
+
+    auto filter = [&]( const item & itm ) {
+        return itm.has_flag( "IS_UPS" );
+    };
+
+    const std::string choose_ups = _( "Choose UPS:" );
+    const std::string dont_have_ups = _( "You don't have any UPS." );
+
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
@@ -8863,14 +8859,14 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                 p->add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
                 return 0;
             } else if( choice == 3 ) {
-                int pos = g->inv_for_filter( _( "Choose UPS:" ), [&]( const item & itm ) {
-                    return itm.has_flag( "IS_UPS" );
-                }, _( "You don't have any UPS." ) );
-                if( pos == INT_MIN ) {
+                if( you != nullptr )                     {
+                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+                }
+                if( !loc ) {
                     add_msg( _( "Never mind" ) );
                     return 0;
                 }
-                item &chosen = p->i_at( pos );
+                item &chosen = *loc;
                 chosen.set_var( "cable", "plugged_in" );
                 chosen.activate();
                 set_cable_active( p, it, "UPS" );
@@ -8968,15 +8964,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
         } else if( choice == 4 ) {
+            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
             // connecting self to UPS
-            int pos = g->inv_for_filter( _( "Choose UPS:" ), [&]( const item & itm ) {
-                return itm.has_flag( "IS_UPS" );
-            }, _( "You don't have any UPS." ) );
-            if( pos == INT_MIN ) {
+            if( !loc ) {
                 add_msg( _( "Never mind" ) );
                 return 0;
             }
-            item &chosen = p->i_at( pos );
+            item &chosen = *loc;
             chosen.set_var( "cable", "plugged_in" );
             chosen.activate();
             set_cable_active( p, it, "UPS_link" );
@@ -9504,7 +9498,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

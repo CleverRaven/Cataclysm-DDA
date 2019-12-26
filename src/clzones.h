@@ -2,7 +2,7 @@
 #ifndef CLZONES_H
 #define CLZONES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
@@ -28,7 +28,7 @@ class map;
 struct construction;
 
 using faction_id = string_id<faction>;
-const faction_id your_fac( "your_followers" );
+static const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
 class zone_type
@@ -39,7 +39,7 @@ class zone_type
     public:
 
         zone_type_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         zone_type() = default;
         explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),

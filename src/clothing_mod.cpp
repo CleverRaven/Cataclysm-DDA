@@ -64,24 +64,21 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "destroy_prompt", destroy_prompt );
     optional( jo, was_loaded, "restricted", restricted, false );
 
-    JsonArray jarr = jo.get_array( "mod_value" );
-    while( jarr.has_more() ) {
-        JsonObject mv_jo = jarr.next_object();
+    for( const JsonObject &mv_jo : jo.get_array( "mod_value" ) ) {
         mod_value mv;
         std::string temp_str;
         mandatory( mv_jo, was_loaded, "type", temp_str );
         mv.type = io::string_to_enum<clothing_mod_type>( temp_str );
         mandatory( mv_jo, was_loaded, "value", mv.value );
         optional( mv_jo, was_loaded, "round_up", mv.round_up );
-        JsonArray jarr_prop = mv_jo.get_array( "proportion" );
-        while( jarr_prop.has_more() ) {
-            std::string str = jarr_prop.next_string();
+        for( const JsonValue &entry : mv_jo.get_array( "proportion" ) ) {
+            const std::string &str = entry.get_string();
             if( str == "thickness" ) {
                 mv.thickness_propotion = true;
             } else if( str == "coverage" ) {
                 mv.coverage_propotion = true;
             } else {
-                jarr_prop.throw_error( R"(Invalid value, valid are: "coverage" and "thickness")" );
+                entry.throw_error( R"(Invalid value, valid are: "coverage" and "thickness")" );
             }
         }
         mod_values.push_back( mv );

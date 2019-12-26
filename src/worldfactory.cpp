@@ -8,7 +8,6 @@
 #include <iterator>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <unordered_map>
 #include <utility>
 
@@ -430,8 +429,6 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
 
-    std::ostringstream sTemp;
-
     while( true ) {
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -450,9 +447,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
-            sTemp.str( "" );
-            sTemp << i + 1;
-            mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, sTemp.str() );
+            mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
             std::string world_name = ( world_pages[selpage] )[i];
@@ -491,6 +486,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
@@ -762,6 +758,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         }
@@ -1169,6 +1166,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
+                    catacurses::clear();
                     catacurses::refresh();
                     return 1;
                 }
@@ -1176,6 +1174,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 // erase entire window to avoid overlapping of query with possible popup about invalid worldname
                 werase( w_confirmation );
                 wrefresh( w_confirmation );
+                catacurses::clear();
                 catacurses::refresh();
 
                 if( valid_worldname( worldname ) ) {
