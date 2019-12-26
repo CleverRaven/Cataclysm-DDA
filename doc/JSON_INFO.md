@@ -473,12 +473,13 @@ The syntax listed here is still valid.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
+| `acid_resist`    | Ability of a material to resist acid. Metal should be 0. Complete resistance is 3.
+| `elec_resist`    | Ability of a material to resist electricity.
+| `fire_resist`    | Ability of a material to resist fire.
+| `chip_resist`    | Ability of a material to resist chipping (like from a chisel?).
 | `bash_dmg_verb`  | Verb used when material takes bashing damage.
 | `cut_dmg_verb`   | Verb used when material takes cutting damage.
 | `dmg_adj`        | Description added to damaged item in ascending severity.
-| `acid_resist`    | Ability of a material to resist acid.
-| `elec_resist`    | Ability of a material to resist electricity.
-| `fire_resist`    | Ability of a material to resist fire.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
