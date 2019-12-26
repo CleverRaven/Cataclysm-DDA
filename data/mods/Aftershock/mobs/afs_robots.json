@@ -33,5 +33,58 @@
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  },
+  {
+    "id": "afs_mon_sentinel_lx",
+    "type": "MONSTER",
+    "name": "Wraitheon Sentinel-lx",
+    "description": "Its exterior plates sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still and with it's wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 10,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 200,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "R",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "melee_cut": 5,
+    "dodge": 8,
+    "armor_bash": 10,
+    "armor_cut": 20,
+    "vision_day": 6,
+    "vision_night": 6,
+    "path_settings": { "max_dist": 6 },
+    "revert_to_itype": "bot_sentinel_lx",
+    "special_attacks": [
+      [ "SMASH", 20 ],
+      [ "TAZER", 5 ],
+      {
+        "type": "gun",
+        "cooldown": 15,
+        "gun_type": "afs_sentinel_laser",
+        "ranges": [ [ 0, 12, "DEFAULT" ] ],
+        "targeting_sound": "\"Dispatching hostile with lethal force.\""
+      }
+    ],
+    "death_function": [ "BROKEN" ],
+    "death_drops": { "groups": [ [ "mon_afs_sentinel_lx_drops", 1 ] ] },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "GOODHEARING",
+      "PATH_AVOID_DANGER_2",
+      "HIT_AND_RUN"
+    ]
   }
 ]

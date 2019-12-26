@@ -1111,6 +1111,10 @@ void Character::recalc_hp()
         if( new_max_hp[i] == hp_max[i] ) {
             continue;
         }
+        // Avoid NaN because converting NaN to int is undefined behavior.
+        if( hp_max[i] == 0 ) {
+            continue;
+        }
         float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
                              static_cast<float>( hp_max[i] );
         hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );

@@ -40,6 +40,40 @@
     "flags": [ "WATCH", "ALARMCLOCK", "LIGHT_25" ]
   },
   {
+    "id": "afs_wraitheon_smartphone",
+    "type": "TOOL",
+    "name": "Wraitheon executive's smartphone",
+    "copy-from": "afs_atomic_smartphone",
+    "description": "Your custom crafted atomic smartphone.  Most notably a confidential executive-level override program allows you to  remotely control most robots.",
+    "price": 20000000,
+    "price_postapoc": 250000,
+    "material": [ "superalloy", "aluminum" ],
+    "use_action": [
+      {
+        "target": "afs_atomic_wraitheon_flashlight",
+        "msg": "You activate the flashlight app.",
+        "active": true,
+        "type": "transform"
+      },
+      { "revert_to": "afs_atomic_smartphone", "type": "CAMERA" },
+      { "type": "ROBOTCONTROL" }
+    ]
+  },
+  {
+    "id": "afs_atomic_wraitheon_flashlight",
+    "copy-from": "afs_atomic_smartphone_flashlight",
+    "type": "TOOL",
+    "name": "Executive's smartphone - Flashlight",
+    "name_plural": "Executive's smartphones - Flashlight",
+    "revert_to": "afs_atomic_smartphone",
+    "use_action": {
+      "target": "afs_wraitheon_smartphone",
+      "msg": "You deactivate the flashlight app.",
+      "menu_text": "Turn off flashlight",
+      "type": "transform"
+    }
+  },
+  {
     "id": "afs_atompot",
     "type": "TOOL",
     "name": "atompot",

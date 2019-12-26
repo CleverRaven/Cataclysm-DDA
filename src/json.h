@@ -996,7 +996,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
-        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), jsin( nullptr ) {}
+        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }
