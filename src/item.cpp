@@ -4030,7 +4030,7 @@ std::string item::display_name( unsigned int quantity ) const
         } else {
             std::string ammotext;
             if( ( is_gun() && ammo_required() ) || is_magazine() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
-                ammotext = " " + ammotype( *ammo_types( true ).begin() )->name() + "";
+                ammotext = " " + ammotype( *ammo_types( true ).begin() )->name();
             }
 
             if( max_amount != 0 ) {
