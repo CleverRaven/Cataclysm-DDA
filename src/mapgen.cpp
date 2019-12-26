@@ -1197,15 +1197,11 @@ class jmapgen_monster : public jmapgen_piece
             // Instead, apply a multipler to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
-            int max_odds = 100 - ( 100 - raw_odds ) / 2;
+            int max_odds = ( 100 + raw_odds ) / 2;
             float density_multiplier = 1;
             if( odds_after_density > max_odds ) {
                 density_multiplier = 1.0f * odds_after_density / max_odds;
                 odds_after_density = max_odds;
-            }
-
-            if( !x_in_y( odds_after_density, 100 ) ) {
-                return;
             }
 
             int mission_id = -1;
@@ -1226,6 +1222,10 @@ class jmapgen_monster : public jmapgen_piece
                 }
                 if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
                     spawn_count = std::max( spawn_count, 1 );
+                } else {
+                    if( !x_in_y( odds_after_density, 100 ) ) {
+                        return;
+                    }
                 }
 
                 dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
