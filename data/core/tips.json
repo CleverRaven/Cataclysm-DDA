@@ -52,7 +52,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Afraid of wildlife?  Yell until it goes away.  But beware of what comes instead." ]
+    "text": [ "Noise and fire will scare off a lot of dangerous animals." ]
   },
   {
     "type": "snippet",
@@ -122,11 +122,6 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Rotten food typically attracts bugs, and bugs got a lot bigger recently…" ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
     "text": [ "Drugs are great for quick stat boosts, but be careful of addictions or overdose." ]
   },
   {
@@ -167,7 +162,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Why walk when you can use a car?  Or a tank?" ]
+    "text": [ "Vehicles and horses can make travel a lot faster and safer." ]
   },
   {
     "type": "snippet",
@@ -202,22 +197,17 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Like to gamble?  Use mutagen!  Be a winner today!" ]
+    "text": [ "Mutagens can have unpredictable and dangerous effects.  You're gambling to get their advantages." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Smoking and napping is asking for more than a hole in your shirt." ]
+    "text": [ "Lit cigarettes can start fires. Falling asleep smoking isn't recommended." ]
   },
   {
     "type": "snippet",
     "category": "tip",
     "text": [ "You're on fire?  Stop and wait to put it out." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Why it's called chicken walker?  Because you'll chicken out every time you'll see it." ]
   },
   {
     "type": "snippet",
@@ -272,7 +262,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Thirsty on a long winter journey?  Take a thermos with you." ]
+    "text": [ "A thermos can keep its contents at a constant temperature.  Useful to stop water freezing in winter." ]
   },
   {
     "type": "snippet",
@@ -282,17 +272,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Broken limb pinned you down?  Hospitals might have next-gen tech to get you going." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
     "text": [ "Don't be afraid to make the game easier on yourself.  Worlds can be made to spawn with more resources." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Don't get caught with your pants down.  There's no toilet paper anymore anyway." ]
   },
   {
     "type": "snippet",
@@ -317,12 +297,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Learning how to play?  Visit the keybindings menu and learn your ropes." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Expect the unexpected, even if it's the Spanish Inquisition." ]
+    "text": [ "Check out the keybindings menu.  You can see all the keys you have bound to actions there." ]
   },
   {
     "type": "snippet",
@@ -342,7 +317,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Put a funnel over a jug or barrel to collect rainwater over time." ]
+    "text": [ "Put a funnel over a jug or barrel to collect rainwater over time.  Downspouts work too." ]
   },
   {
     "type": "snippet",
