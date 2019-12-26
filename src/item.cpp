@@ -4029,7 +4029,7 @@ std::string item::display_name( unsigned int quantity ) const
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
             std::string ammotext;
-            if( is_gun() && ammo_required() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
+            if( ( is_gun() && ammo_required() ) || is_magazine() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
                 ammotext = " " + ammotype( *ammo_types( true ).begin() )->name() + "";
             }
 
@@ -4039,7 +4039,8 @@ std::string item::display_name( unsigned int quantity ) const
                 amt = string_format( " (%i%s)", amount, ammotext );
             }
         }
-    } else if( is_gun() && ammo_required() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
+    } else if( ( is_gun() && ammo_required() ) || is_magazine() &&
+               get_option<bool>( "AMMO_IN_NAMES" ) ) {
         amt = " (" + ammotype( *ammo_types( true ).begin() )->name() + ")";
     }
 

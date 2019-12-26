@@ -1549,8 +1549,8 @@ void options_manager::add_options_interface()
          translate_marker( "If true, show item symbols in inventory and pick up menu." ),
          false
        );
-    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon names" ),
-         translate_marker( "If true, the default ammo is added to weaon names. For example \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
+         translate_marker( "If true, the default ammo is added to weaon and magazine names. For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
 
