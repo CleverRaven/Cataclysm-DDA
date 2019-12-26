@@ -469,7 +469,7 @@ The syntax listed here is still valid.
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Must be one continuous word, use underscores if necessary.
+| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
