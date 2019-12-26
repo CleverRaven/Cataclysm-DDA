@@ -579,7 +579,7 @@ bool monexamine::add_armor( monster &z )
     item &armor = *loc;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     if( max_weight <= armor.weight() ) {
-        add_msg( pgettext( "pet armor",  "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
+        add_msg( pgettext( "pet armor", "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
                  pet_name );
         return true;
     }
