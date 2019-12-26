@@ -131,10 +131,7 @@
     "value": 50000,
     "start": {
       "update_mapgen": [
-        {
-          "om_terrain": "evac_center_19",
-          "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ]
-        },
+        { "om_terrain": "evac_center_19", "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ] },
         {
           "om_terrain": "evac_center_7",
           "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]

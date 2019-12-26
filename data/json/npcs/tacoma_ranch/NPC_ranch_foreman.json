@@ -251,10 +251,7 @@
           "place_furniture": [ { "furn": "f_bookcase", "x": 17, "y": 11 } ],
           "place_npcs": [ { "class": "ranch_farmer_1", "x": 19, "y": 20 } ]
         },
-        {
-          "om_terrain": "ranch_camp_66",
-          "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 11 } ]
-        }
+        { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 11 } ] }
       ]
     }
   },
@@ -586,10 +583,7 @@
     },
     "end": {
       "update_mapgen": [
-        {
-          "om_terrain": "ranch_camp_59",
-          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 0, "y": 2 } ]
-        },
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 0, "y": 2 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_10" ], "x": 0, "y": 4 } ]
@@ -621,10 +615,7 @@
     },
     "end": {
       "update_mapgen": [
-        {
-          "om_terrain": "ranch_camp_59",
-          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 0, "y": 2 } ]
-        },
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 0, "y": 2 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_11" ], "x": 0, "y": 4 } ]
@@ -674,10 +665,7 @@
     },
     "end": {
       "update_mapgen": [
-        {
-          "om_terrain": "ranch_camp_49",
-          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_12" ], "x": 0, "y": 9 } ]
-        },
+        { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_12" ], "x": 0, "y": 9 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_12_done" ], "x": 0, "y": 4 } ]
@@ -714,14 +702,8 @@
     },
     "end": {
       "update_mapgen": [
-        {
-          "om_terrain": "ranch_camp_49",
-          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 9 } ]
-        },
-        {
-          "om_terrain": "ranch_camp_66",
-          "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ]
-        },
+        { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 9 } ] },
+        { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ] },
         {
           "om_terrain": "ranch_camp_70",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
@@ -793,10 +775,7 @@
       "failure": "It was a lost cause anyways..."
     },
     "end": {
-      "update_mapgen": {
-        "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ]
-      }
+      "update_mapgen": { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] }
     }
   },
   {
@@ -823,10 +802,7 @@
     },
     "end": {
       "update_mapgen": [
-        {
-          "om_terrain": "ranch_camp_51",
-          "place_nested": [ { "chunks": [ "tacoma_commune_bar_16_done" ], "x": 0, "y": 0 } ]
-        },
+        { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_16_done" ], "x": 0, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_52",
           "place_nested": [ { "chunks": [ "tacoma_commune_greenhouse_16" ], "x": 2, "y": 10 } ]
