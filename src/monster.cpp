@@ -2158,10 +2158,10 @@ void monster::die( Creature *nkiller )
         }
     }
     // Drop items stored in optionals
-    move_special_item_to_inv( &tack_item );
-    move_special_item_to_inv( &armor_item );
-    move_special_item_to_inv( &storage_item );
-    move_special_item_to_inv( &tied_item );
+    move_special_item_to_inv( tack_item );
+    move_special_item_to_inv( armor_item );
+    move_special_item_to_inv( storage_item );
+    move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
@@ -2656,11 +2656,11 @@ units::volume monster::get_carried_volume()
     return total_volume;
 }
 
-void monster::move_special_item_to_inv( cata::optional<item> *it )
+void monster::move_special_item_to_inv( cata::optional<item> &it )
 {
-    if( *it ) {
-        add_item( **it );
-        *it = cata::nullopt;
+    if( it ) {
+        add_item( *it );
+        it = cata::nullopt;
     }
 }
 
