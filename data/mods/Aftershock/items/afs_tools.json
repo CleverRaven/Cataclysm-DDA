@@ -36,21 +36,6 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "WATCH", "ALARMCLOCK", "LIGHT_25" ]
-  },
-  {
-    "id": "afs_atomic_smartphone_flashlight",
-    "copy-from": "afs_atomic_smartphone",
-    "type": "TOOL",
-    "name": "atomic smartphone - Flashlight",
-    "name_plural": "atomic smartphones - Flashlight",
-    "revert_to": "afs_atomic_smartphone",
-    "use_action": {
-      "target": "afs_atomic_smartphone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off flashlight",
-      "type": "transform"
-    },
     "//": "since we cost no battery, no reason not to keep these",
     "flags": [ "WATCH", "ALARMCLOCK", "LIGHT_25" ]
   },

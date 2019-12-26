@@ -43,7 +43,7 @@
     "species": [ "ROBOT" ],
     "diff": 10,
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": "81500 g",
     "hp": 200,
     "speed": 100,
     "material": [ "steel" ],
