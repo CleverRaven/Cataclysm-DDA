@@ -1127,8 +1127,8 @@ class jmapgen_monster_group : public jmapgen_piece
         }
 };
 /**
- * Place spawn points for a specific monster (not a group).
- * "monster": id of the monster.
+ * Place spawn points for a specific monster.
+ * "monster": id of the monster. or "group": id of the monster group.
  * "friendly": whether the new monster is friendly to the player character.
  * "name": the name of the monster (if it has one).
  * "chance": the percentage chance of a monster, affected by spawn density
@@ -1209,25 +1209,26 @@ class jmapgen_monster : public jmapgen_piece
                 mission_id = dat.mission()->get_id();
             }
 
-            if( m_id != mongroup_id::NULL_ID() ) {
-                // Spawn single monster from a group
-                dat.m.place_spawns( m_id, 1, point( x.get(), y.get() ), point( x.get(), y.get() ), 1.0f, true,
-                                    false,
-                                    name, mission_id );
+
+
+            int spawn_count = roll_remainder( density_multiplier );
+
+            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+                spawn_count = std::min( spawn_count, 1 );
+            }
+            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+                spawn_count = std::max( spawn_count, 1 );
             } else {
-                int spawn_count = roll_remainder( density_multiplier );
-
-                if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
-                    spawn_count = std::min( spawn_count, 1 );
+                if( !x_in_y( odds_after_density, 100 ) ) {
+                    return;
                 }
-                if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
-                    spawn_count = std::max( spawn_count, 1 );
-                } else {
-                    if( !x_in_y( odds_after_density, 100 ) ) {
-                        return;
-                    }
-                }
+            }
 
+            if( m_id != mongroup_id::NULL_ID() ) {
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
+                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(), point( x.get(), y.get() ),
+                                 friendly, -1, mission_id, name );
+            } else {
                 dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
                                  friendly, -1, mission_id, name );
             }
