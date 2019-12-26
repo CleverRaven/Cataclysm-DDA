@@ -331,7 +331,7 @@
   {
     "id": "cufflinks",
     "type": "ARMOR",
-    "name": "cufflinks",
+    "name": { "str": "pair of cufflinks", "str_pl": "pairs of cufflinks" },
     "description": "An unmarked, pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.  You can wear it if you like, but it won't provide any effects.",
     "weight": "15 g",
     "volume": 0,
@@ -344,7 +344,7 @@
   {
     "id": "cufflinks_intricate",
     "type": "ARMOR",
-    "name": "intricate cufflinks",
+    "name": { "str": "pair of intricate cufflinks", "str_pl": "pairs of intricate cufflinks" },
     "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.  You can wear it if you like, but it won't provide any effects.",
     "weight": "21 g",
     "volume": 0,

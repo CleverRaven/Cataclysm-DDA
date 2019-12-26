@@ -43,7 +43,7 @@
   {
     "id": "afs_energy_saber_on",
     "type": "TOOL",
-    "name": "energy saber (active)",
+    "name": { "str": "energy saber (active)", "str_pl": "energy sabers (active)" },
     "description": "This glittering blue saber of cyan light hums gently, extending from its superalloy handle.  Its edge is lethally sharp, and being made of light, it's weightless, and immune to being damaged.  It's not white-hot like in pop culture, so it can't cut through anything, but there's not much in the way of flesh that it won't slice through easily.",
     "weight": "240 g",
     "volume": "1 L",

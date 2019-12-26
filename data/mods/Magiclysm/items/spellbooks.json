@@ -126,18 +126,6 @@
     }
   },
   {
-    "id": "lightning_storm_scroll",
-    "type": "GENERIC",
-    "name": "Scroll of Lightning Storm",
-    "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
-    "weight": "129 g",
-    "volume": "500 ml",
-    "price": 25000,
-    "symbol": "?",
-    "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
-  },
-  {
     "id": "generic_spellbook",
     "type": "GENERIC",
     "name": "Nondescript Spellbook",

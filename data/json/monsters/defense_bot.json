@@ -205,7 +205,7 @@
   {
     "id": "mon_dispatch",
     "type": "MONSTER",
-    "name": { "str": "NR-031 Dispatch" },
+    "name": { "str": "NR-031 Dispatch", "str_pl": "NR-031 Dispatches" },
     "description": "The Northrop Dispatch, designed for crowd control situations, carries and deploys kamikaze drones of various types.  The bright green-and-yellow paint marks a low-force variant - *comparatively* low-force, anyways - typically deployed as guards after an area has been cleared.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
@@ -238,7 +238,7 @@
   {
     "id": "mon_dispatch_military",
     "type": "MONSTER",
-    "name": { "str": "NR-V05-M Dispatch" },
+    "name": { "str": "NR-V05-M Dispatch", "str_pl": "NR-V05-M Dispatches" },
     "description": "The Northrop Dispatch, designed for crowd control situations, carries and deploys kamikaze drones of various types.  The dark green paint job marks the lethal and feared military variant, carrying extreme and deadly firepower.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
