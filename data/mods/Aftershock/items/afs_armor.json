@@ -276,5 +276,23 @@
       "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
+  },
+  {
+    "id": "afs_sentinel_cloak",
+    "type": "ARMOR",
+    "copy-from": "jedi_cloak",
+    "name": "sentinel-lx cloak",
+    "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, its lightweight and resistant, but cannot be repaired",
+    "price": 1500000,
+    "material": [ "graphene_weave" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
+    "coverage": 85,
+    "encumbrance": 4,
+    "warmth": 30,
+    "material_thickness": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
   }
 ]
