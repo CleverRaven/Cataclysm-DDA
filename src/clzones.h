@@ -39,7 +39,7 @@ class zone_type
     public:
 
         zone_type_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         zone_type() = default;
         explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
