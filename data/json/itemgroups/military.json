@@ -32,7 +32,8 @@
     "id": "military_standard_pistols",
     "subtype": "distribution",
     "entries": [
-      { "item": "m17", "prob": 95, "charges": [ 0, 17 ] },
+      { "item": "m9", "prob": 30, "charges": [ 0, 15 ] },
+      { "item": "m17", "prob": 65, "charges": [ 0, 17 ] },
       { "item": "glock_19", "prob": 3, "charges": [ 0, 15 ] },
       { "item": "m1911_MEU", "prob": 2, "charges": [ 0, 7 ] }
     ]
