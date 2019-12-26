@@ -106,7 +106,7 @@
     "followup": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "dialogue": {
       "describe": "We've got the flag, now we need to locate US forces.",
-      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figure'n one of those choppers that were fly'n round during th outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open'er at.",
+      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figure'n one of those choppers that were fly'n round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open'er at.",
       "accepted": "Fuck ya, America!",
       "rejected": "Do you have any better ideas?",
       "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
