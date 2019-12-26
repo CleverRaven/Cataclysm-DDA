@@ -155,7 +155,7 @@
     "looks_like": "m203",
     "type": "GUN",
     "name": "M203 array",
-    "description": "Six M203 grenade launchers for use on an automated 40mm turret.",
+    "description": "An array of six M203 grenade launchers for use on the TALON UGV platform.",
     "weight": "8200 g",
     "volume": "4 L",
     "price": 250000,
@@ -169,7 +169,7 @@
     "durability": 10,
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
-    "clip_size": 16,
+    "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ]
   }
 ]
