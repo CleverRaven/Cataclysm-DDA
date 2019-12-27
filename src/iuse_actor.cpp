@@ -859,6 +859,45 @@ std::unique_ptr<iuse_actor> ups_based_armor_actor::clone() const
     return std::make_unique<ups_based_armor_actor>( *this );
 }
 
+std::unique_ptr<iuse_actor> place_npc_iuse::clone() const
+{
+    return std::make_unique<place_npc_iuse>( *this );
+}
+
+void place_npc_iuse::load( const JsonObject &obj )
+{
+    npc_class_id = string_id<npc_template>( obj.get_string( "npc_class_id" ) );
+    obj.read( "summon_msg", summon_msg );
+    obj.read( "moves", moves );
+    obj.read( "place_randomly", place_randomly );
+}
+
+int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
+{
+    cata::optional<tripoint> target_pos;
+    if( place_randomly ) {
+        const tripoint_range target_range = points_in_radius( p.pos(), 1 );
+        target_pos = random_point( target_range, []( const tripoint & t ) {
+            return !g->m.passable( t );
+        } );
+    } else {
+        const std::string query = _( "Place npc where?" );
+        target_pos = choose_adjacent( _( "Place npc where?" ) );
+    }
+    if( !target_pos ) {
+        return 0;
+    }
+    if( !g->m.passable( target_pos.value() ) ) {
+        p.add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
+        return 0;
+    }
+
+    g->m.place_npc( target_pos.value().xy(), npc_class_id );
+    p.mod_moves( -moves );
+    p.add_msg_if_player( m_info, "%s", _( summon_msg ) );
+    return 1;
+}
+
 void ups_based_armor_actor::load( const JsonObject &obj )
 {
     obj.read( "activate_msg", activate_msg );

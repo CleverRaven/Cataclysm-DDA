@@ -1852,6 +1852,13 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
+    "type": "place_npc", // place npc of specific class on the map
+    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
+    "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 50 // how many move points the action takes.
+},
+"use_action": {
     "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
     "activate_msg": "You activate your foo.", // Message when the player activates the item.
     "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
