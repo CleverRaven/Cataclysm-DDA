@@ -87,6 +87,21 @@
   },
   {
     "type": "item_group",
+    "id": "sopmod",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 }, { "item": "red_dot_sight", "prob": 20 } ]
+      },
+      { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
+      { "item": "offset_sights", "prob": 30 },
+      { "item": "shoulder_strap", "prob": 70 },
+      { "item": "rail_laser_sight", "prob": 30 },
+      { "item": "suppressor", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "military",
     "items": [
       { "group": "mil_food", "prob": 1251 },

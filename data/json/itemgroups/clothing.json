@@ -2171,26 +2171,6 @@
   },
   {
     "type": "item_group",
-    "id": "bio_op_face",
-    "items": [ [ "glasses_bal", 40 ], [ "mask_filter", 30 ], [ "mask_bal", 30 ], [ "mask_gas", 40 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "bio_op_torso",
-    "items": [ [ "dragonskin", 50 ], [ "winter_jacket_army", 10 ], [ "modularvestceramic", 40 ], [ "modularvestkevlar", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "bio_op_boots",
-    "items": [ [ "boots_combat", 1 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "bio_op_gloves",
-    "items": [ [ "gloves_tactical", 60 ], [ "gloves_fingerless", 40 ], [ "winter_gloves_army", 40 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "museum_armor",
     "items": [
       [ "armor_plate", 60 ],
