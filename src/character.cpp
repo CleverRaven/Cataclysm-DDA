@@ -210,8 +210,6 @@ static const species_id HUMAN( "HUMAN" );
 Character::Character() :
 
     visitable<Character>(),
-    hp_cur( {{ 0 }} ),
-    hp_max( {{ 0 }} ),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
@@ -219,6 +217,8 @@ Character::Character() :
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
 {
+    hp_cur.fill( 0 );
+    hp_max.fill( 1 );
     str_max = 0;
     dex_max = 0;
     per_max = 0;
@@ -1111,10 +1111,8 @@ void Character::recalc_hp()
         if( new_max_hp[i] == hp_max[i] ) {
             continue;
         }
-        // Avoid NaN because converting NaN to int is undefined behavior.
-        if( hp_max[i] == 0 ) {
-            continue;
-        }
+        // hp_max must be positive to avoiud undefined behavior.
+        hp_max[i] = std::max( hp_max[i], 1 );
         float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
                              static_cast<float>( hp_max[i] );
         hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
@@ -4042,6 +4040,7 @@ int Character::blood_loss( body_part bp ) const
     }
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
+    hp_max_sum = std::max( hp_max_sum, 1 );
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
