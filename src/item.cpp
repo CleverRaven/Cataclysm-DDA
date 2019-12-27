@@ -4024,13 +4024,21 @@ std::string item::display_name( unsigned int quantity ) const
         max_amount = to_joule( type->battery->max_capacity );
     }
 
+    std::string ammotext;
+    if( ( is_gun() && ammo_required() ) || is_magazine() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
+        if( ammo_current() != "null" ) {
+            ammotext = item( ammo_current() ).ammo_type()->name();
+        } else {
+            ammotext = ammotype( *ammo_types( true ).begin() )->name();
+        }
+    }
+
     if( amount || show_amt ) {
         if( is_money() ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
-            std::string ammotext;
-            if( ( is_gun() && ammo_required() ) || is_magazine() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
-                ammotext = " " + ammotype( *ammo_types( true ).begin() )->name();
+            if( ammotext != "" ) {
+                ammotext = " " + ammotext;
             }
 
             if( max_amount != 0 ) {
@@ -4039,9 +4047,8 @@ std::string item::display_name( unsigned int quantity ) const
                 amt = string_format( " (%i%s)", amount, ammotext );
             }
         }
-    } else if( ( is_gun() && ammo_required() ) || is_magazine() &&
-               get_option<bool>( "AMMO_IN_NAMES" ) ) {
-        amt = " (" + ammotype( *ammo_types( true ).begin() )->name() + ")";
+    } else if( ammotext != "" ) {
+        amt = " (" + ammotext + ")";
     }
 
     // This is a hack to prevent possible crashing when displaying maps as items during character creation
