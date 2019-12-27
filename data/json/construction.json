@@ -143,6 +143,18 @@
   },
   {
     "type": "construction",
+    "description": "Fill Shallow Water With Dirt",
+    "//": "Fills a shallow water with dirt.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": 60,
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 500 ] ] ],
+    "pre_terrain": "t_swater_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "description": "Build Door",
     "//": "Step 3: peephole",
     "category": "CONSTRUCT",
