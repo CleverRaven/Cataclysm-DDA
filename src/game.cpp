@@ -5828,9 +5828,10 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
+        mvwprintz(w_look, point( column, ++lines ), c_light_gray, _( "Sign   : " ) );
+        trim_and_print( w_look, point( column + 9, lines ), max_width, c_cyan,
                         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-                        u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage );
+                        u.has_trait( trait_ILLITERATE ) ? _( "???" ) : "%s", signage );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -5843,18 +5844,18 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
         if( !m.has_floor_or_support( lp ) ) {
             fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                            _( "Below: %s; No support" ),
+                            _( "Below  : %s; No support" ),
                             tile_below );
         } else {
             fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                            _( "Below: %s; Walkable" ),
+                            _( "Below  : %s; Walkable" ),
                             tile_below );
         }
     }
+    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Cover  : %d%% \n" ),
+                    m.coverage( lp ) );
     fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray,
                     _( "Type   : " ) + m.features( lp ) );
-    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Surface: %d%% \n" ),
-                    m.coverage( lp ) );
     if( line < lines ) {
         line = lines + 1;
     }
