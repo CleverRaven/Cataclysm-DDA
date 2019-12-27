@@ -185,7 +185,7 @@
       },
       {
         "id": "one_year_old_news_14",
-        "text": "THE FOREIGN DESIGNER DRUG THEY DON'T WANT YOU TO KNOW ABOUT?  Concerning reports from a source in the Boston Police Department have hinted that there is a new drug on the streets.  Move over, fentanyl: this new substance, nicknamed Forbidden City.  While it has a lower fatal overdose rate, Forbidden City is many times more addictive than heroin or methamphetamines, and is making its way quickly around the streets."
+        "text": "THE FOREIGN DESIGNER DRUG THEY DON'T WANT YOU TO KNOW ABOUT?  Concerning reports from a source in the Boston Police Department have hinted that there is a new drug on the streets.  Move over, fentanyl: this is a new substance, nicknamed Forbidden City.  While it has a lower fatal overdose rate, Forbidden City is many times more addictive than heroin or methamphetamines, and is making its way quickly around the streets."
       },
       {
         "id": "one_year_old_news_15",
@@ -195,6 +195,10 @@
         "id": "one_year_old_news_16",
         "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
       },
+      {
+        "id": "one_year_old_news_17",
+        "text": "IT CAME FROM BEYOND.  [Pictured: Margaret Antwerp holds the fragment of alien satellite that landed in her rose garden.]  It was a normal day for Margaret.  Normal, that is, until a thundering crash in her front yard nearly knocked her house over.  \"This damn thing fell right out of space, I tell you,\" she told investigative journalists from our Paranormal Investigations department.  \"It was glowing red hot, and it had burnt my prize-winning roses to a crisp.\"  The US government and air force have declined to comment, as usual."
+      }
     ]
   },
   {
@@ -228,6 +232,50 @@
       {
         "id": "months_old_news_7",
         "text": "HUNTING GOODS!  Food prices getting you down?  Why not get a crossbow or compound bow and Hunt Your Own!?  Our arrows and bolts are completely reusable, so why not hunt animals like Mother Nature intended?"
+      },
+      {
+        "id": "months_old_news_8",
+        "text": "THE SOLDIER OF THE FUTURE, AT LAST.  The military's latest powered infantry exoskeleton has been released for widespread, non-testing use.  Although numbers are still very limited, official sources say that within two years every infantry unit will have access to two powered exoskeletons for heavy operations. Within five, light exoskeletons will be the standard issue armor for US ground forces.  \"This is going to put our military so far ahead of the rest of the world, it's like we have guns while they have spears,\" General Alex Findlay said in a press release.  The new armor is powered by a proprietary fuel cell developed by the military and hoped to be ready for civilian distribution in the next few years."
+      },
+      {
+        "id": "months_old_news_9",
+        "text": "INCREASE IN \"MONSTER\" SIGHTINGS HAS EXPERTS BAFFLED.  A tenfold spike in sightings of unexplained phenomena, particularly fantastic beasts and monsters, has experts confused.  \"This could be related to the recent rise in hallucinations,\" said Dr. Barb Coulson in an interview on web-based debate show ContraPoints on Friday.  \"It's probably drugs,\" replied debate partner Leanne Jefferson, a spokesperson from MADD.  \"You're both idiots,\" moderator Natalie Wynn interjected.  \"The obvious answer is that it's monsters walking the Earth, preparing to kill us all.\""
+      },
+      {
+        "id": "months_old_news_10",
+        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMATIC DOES NOT WEAR ANY CLOTHES.  NOURISHMATIC IS SOFTWARE.  NOURISHMATIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
+      },
+      {
+        "id": "months_old_news_11",
+        "text": "ASIAN AGENTS RESPONSIBLE FOR \"MONSTER\" ATTACKS.  Sources have confirmed with photographic evidence that the rise in 'monster' sightings and attacks recently is the work of hostile Eastern agents believed to originate in either China or North Korea.  The government has refused to respond to evidence provided by our investigative journalist team proving that hallucinogenic gases and puppets were used to spawn the widely circulated social media phenomenon."
+      },
+      {
+        "id": "months_old_news_12",
+        "text": "RIOTS CONTINUE IN SOUTH AMERICA, AFRICA.  Although reports are inconsistent, it has been confirmed that widespread rioting in poverty-stricken regions of Africa and South America, as well as some parts of Indonesia, Asia, the Middle East, and Eastern Europe, have continued and only grown in severity.  \"It's obvious this is a social media effect,\" said political science professor Dr. Ely Savage.  \"Economists have been saying for some time that the current situation of developed nations forcing underdeveloped nations into semi-slavery couldn't last, and now we're seeing the repercussions.\""
+      },
+      {
+        "id": "months_old_news_13",
+        "text": "RIOT IN CARLHAVEN.  A riot broke out in a supermarket in Carlhaven, Nebraska, today.  A bystander who left the scene as violence started told police that it began with a dispute over the last box of frozen Foodplace hamburger patties, but quickly escalated \"For no reason at all\".  Police arrived on the scene and were quickly forced to deploy less-lethal weaponry in response to what was described by Sheriff Paul Redekopp as \"A complete sh*t show\".  Seven people are dead, and another six in critical condition in Carlhaven General Hospital."
+      },
+      {
+        "id": "months_old_news_14",
+        "text": "RIOT IN BANKSLEY.  Irony was hot and dangerous in Banksley, Vermont today, where a fight broke out in a local coffee shop, reportedly starting over a dispute about the details of a similar riot in Carlhaven, Nebraska.  Within an hour, the fight had expanded to engulf the local downtown core.  Danielle Louiston, a server who fled the scene, was available for phone interview.  \"It was like nothin' I've ever seen,\" describes Danielle.  \"One minute it's a normal Friday morning, the next it's a bar brawl.  By the time I got outta there, most of the restaurant was involved.  I got in my car and just bolted home, then called the cops.  Turns out they're all in the fight!  The secretary and I, we got hold of the military and finally they came in and cleared things up.\"  Stabilizing the riots required the dispatch of three National Guard units.  Casualty reports are, as yet, unavailable."
+      },
+      {
+        "id": "months_old_news_15",
+        "text": "ECONOMIC RIOTING SPREADS TO UNITED STATES.  Global economic riots, started in Africa and South America, have spread to the continental United States.  More than thirty riots were reported over the weekend, primarily in poorer regions of the Midwest and South.  \"I don't think this is related to what happened in Carlhaven or Banksley,\" a spokesperson from the National Guard said in response to media inquiry.  \"Those were isolated incidents, while this is very clearly a coordinated social media effort.\"  Police and the National Guard are containing riots as they crop up.  President Oswald, in a speech on Sunday evening, reminded Americans of our solidarity.  \"Enemies perch at our every border, watching for signs of weakness.  Now is not the time to shoot ourselves in the feet.\""
+      },
+      {
+        "id": "months_old_news_16",
+        "text": "THE MAN BEHIND THE RIOTS.  [Photograph: Interpol identification photograph of Qiang Ye, taken in Maastricht airport in June, 2019.]  Our sources in the UN have informed reporters that the investigative committee in charge of the riots currently engulfing most of the world, nicknamed the \"FriendFace Riots\" for the role of social media in spreading the violence, are the work of a discredited Chinese hacker and alleged intelligence agent, Qiang Ye.  Ye is wanted by Interpol for his involvement in a cyberterror attack on Dutch banks in 2018 that led to billions of dollars of losses for European banks.  The Chinese government has disavowed any connection to Ye since 2015.  \"One man, with an army of well-programmed bots at his control, could certainly be behind this,\" said Dr. Ely Savage, a professor of political science at Berkeley and our expert correspondent on the riots.  \"Social media is very susceptible to this sort of influence.\""
+      },
+      {
+        "id": "months_old_news_17",
+        "text": "VIOLENT OUTBREAKS CAUSED BY DRUG CONTAMINATION: Reports of riots being a social media effect were disputed today by NSA spokesperson Colonel Shawn Singer.  \"These are isolated incidents.  There is no evidence of any social media articles that are causing them, here or abroad.  The violence is random and senseless.  We are currently investigating a promising theory that a malicious contamination effect of the street drug methothexazole, known as 'Forbidden City', is responsible.  Whatever the cause, the National Guard has these riots very well contained.\""
+      },
+      {
+        "id": "months_old_news_18",
+        "text": "EDITORIAL: FORGET DRUGS OR FRIENDFACE, THESE ARE THE GAMER RIOTS.  I can't believe how many idiots are wasting their time blaming social media or drugs on the riots we're facing when the answer is obvious: this is the result of letting our kids fall to the moral iniquity of video games.  Just last week I saw my kid playing one of those stupid bleep-bloop games, all letters and numbers and symbols.  When I asked him what he was doing it was absolutely appalling.  Violence.  Cannibalism.  Humans as cattle.  Yesterday, he was arrested for participating in the riots.  Coincidence?  Pretty obviously not.  Our government is in the pocket of these video game developers, and we're all paying the price."
       }
     ]
   },
@@ -245,7 +293,7 @@
       },
       {
         "id": "weeks_old_news_3",
-        "text": "VIOLENCE OUTBREAKS CAUSED BY \"NEW DRUG\": Rumors of riots were quelled today.  \"These are isolated incidents\" said a local police chief.  \"The violence is random and senseless, our current theory is contamination in a new street drug.\""
+        "text": "VIOLENCE OUTBREAKS"
       },
       {
         "id": "weeks_old_news_4",
