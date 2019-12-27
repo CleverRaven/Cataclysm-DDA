@@ -4025,7 +4025,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     std::string ammotext;
-    if( ( is_gun() && ammo_required() ) || is_magazine() && get_option<bool>( "AMMO_IN_NAMES" ) ) {
+    if( ( ( is_gun() && ammo_required() ) || is_magazine() ) && get_option<bool>( "AMMO_IN_NAMES" ) ) {
         if( ammo_current() != "null" ) {
             ammotext = item( ammo_current() ).ammo_type()->name();
         } else {
