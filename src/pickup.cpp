@@ -572,7 +572,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         {
             const item &this_item = *stacked_here[cur_it].front();
             int item_len = utf8_width( remove_color_tags( this_item.display_name() ) ) + 6;
-            if( item_len > pickupW ) {
+            if( item_len > pickupW && item_len < TERMX) {
                 pickupW = item_len;
             }
         }
