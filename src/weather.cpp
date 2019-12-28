@@ -721,7 +721,7 @@ int get_local_windchill( double temperature, double humidity, double windpower )
         // model being designed for reasonable ambient temperature values,
         // rather than extremely high ones.
         windchill = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                    exp( 17.27 * tmptemp / ( 237.70 + tmptemp ) ) ) - 0.70 *
+                                            exp( 17.27 * tmptemp / ( 237.70 + tmptemp ) ) ) - 0.70 *
                     tmpwind - 4.00;
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
         windchill = windchill * 9 / 5;
