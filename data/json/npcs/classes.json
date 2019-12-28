@@ -444,7 +444,6 @@
     "id": "NC_Rabbit_Raiser",
     "name": "Mr Lapin",
     "job_description": "I raise rabbits.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "skills": [
