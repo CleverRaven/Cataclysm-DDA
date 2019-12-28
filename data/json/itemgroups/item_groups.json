@@ -1842,6 +1842,7 @@
       [ "scorecard", 10 ],
       [ "talking_doll", 60 ],
       [ "marble", 65 ],
+      [ "handflare_dead", 3 ],
       [ "creepy_doll", 1 ],
       [ "straw_doll", 1 ],
       [ "striped_shirt", 1 ],
