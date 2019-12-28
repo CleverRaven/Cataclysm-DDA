@@ -2977,6 +2977,12 @@
     "type": "item_group",
     "id": "jewelry_front",
     "items": [
+      { "group": "tiaras_silver", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "tiaras_gold", "prob": 3, "count": [ 1, 3 ] },
+      { "group": "tiaras_platinum", "prob": 1, "count": [ 1, 3 ] },
+      { "group": "pendant_necklaces_silver", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "pendant_necklaces_gold", "prob": 10, "count": [ 1, 3 ] },
+      { "group": "pendant_necklaces_platinum", "prob": 5, "count": [ 1, 3 ] },
       { "group": "earrings_silver", "prob": 30 },
       { "group": "earrings_gold", "prob": 10 },
       { "group": "earrings_platinum", "prob": 5 },
