@@ -2579,7 +2579,12 @@
     "type": "item_group",
     "//": "unisex socks",
     "subtype": "distribution",
-    "items": [ { "item": "socks", "prob": 70 }, { "item": "socks_ankle", "prob": 50 }, { "item": "socks_wool", "prob": 30 }, { "item": "thermal_socks", "prob": 10 } ]
+    "items": [
+      { "item": "socks", "prob": 70 },
+      { "item": "socks_ankle", "prob": 50 },
+      { "item": "socks_wool", "prob": 30 },
+      { "item": "thermal_socks", "prob": 10 }
+    ]
   },
   {
     "id": "scarfs_unisex",
