@@ -135,7 +135,7 @@
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "mon_tripod",
-    "name": "inactive craftbuddy",
+    "name": { "str": "inactive craftbuddy", "str_pl": "inactive craftbuddies" },
     "category": "other",
     "description": "A robot crafting assistant.  Useable in its current state as a portable workbench, or deployable as a traveling companion.",
     "price": 1000000,
@@ -838,7 +838,7 @@
     "id": "bot_advbot_glitter",
     "type": "TOOL",
     "copy-from": "bot_advbot_base",
-    "name": "inactive glittering lady",
+    "name": { "str": "inactive glittering lady", "str_pl": "inactive glittering ladies" },
     "description": "A salvaged advanced robot transformed into a luminous beacon of destruction.  It attacks hostile targets with its two integral lasers and blinding flashes.  Activate this item to deploy the robot.",
     "color": "yellow",
     "use_action": {

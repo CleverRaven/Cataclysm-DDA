@@ -2,7 +2,7 @@
   {
     "id": "afs_bag_of_holding",
     "type": "ARMOR",
-    "name": "bag of holding",
+    "name": { "str": "bag of holding", "str_pl": "bags of holding" },
     "description": "A sleek, unfathomably-complicated machine covered in dozens of blinking lights, worn on the back by sturdy faux-leather straps.  An electrode dangles from the back, attaching to your forehead.  How it operates without annihilating spacetime isn't quite clear, but a localized portal allows things to be stored in an extradimensional space.",
     "weight": "3401 g",
     "volume": "3 L",
@@ -125,7 +125,7 @@
     "id": "afs_hev_helmet_on",
     "type": "TOOL_ARMOR",
     "copy-from": "afs_hev_helmet",
-    "name": "hazardous environment helmet (on)",
+    "name": { "str": "hazardous environment helmet (on)", "str_pl": "hazardous environment helmets (on)" },
     "description": "Meant to pair with a compatible HEV suit, this helmet's physical protection is basic at best, but makes up for it with an air recycler that provides excellent protection from airborne contaminants.  Its light is on, illuminating the area at a cost of batteries.",
     "revert_to": "afs_hev_helmet",
     "turns_per_charge": 20,
@@ -167,7 +167,7 @@
     "id": "afs_survivor_belt",
     "copy-from": "survivor_belt",
     "type": "ARMOR",
-    "name": "survivor utility belt (holster)",
+    "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
     "use_action": {
       "type": "holster",
@@ -183,7 +183,7 @@
     "id": "survivor_belt",
     "copy-from": "survivor_belt",
     "type": "ARMOR",
-    "name": "survivor utility belt (sheath)"
+    "name": { "str": "survivor utility belt (sheath)", "str_pl": "survivor utility belts (sheath)" }
   },
   {
     "id": "afs_brigandine",

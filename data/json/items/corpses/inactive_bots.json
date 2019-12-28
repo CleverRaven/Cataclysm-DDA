@@ -799,7 +799,7 @@
   {
     "id": "bot_dispatch",
     "type": "TOOL",
-    "name": "inactive dispatch",
+    "name": { "str": "inactive dispatch", "str_pl": "inactive dispatches" },
     "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "250 kg",
@@ -824,7 +824,7 @@
   {
     "id": "bot_dispatch_military",
     "type": "TOOL",
-    "name": "inactive military dispatch",
+    "name": { "str": "inactive military dispatch", "str_pl": "inactive military dispatches" },
     "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "300 kg",
