@@ -473,7 +473,7 @@ The syntax listed here is still valid.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
-| `acid_resist`    | Ability of a material to resist acid. Metal should be 0. Complete resistance is 3.
+| `acid_resist`    | Ability of a material to resist acid.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
 | `chip_resist`    | 
