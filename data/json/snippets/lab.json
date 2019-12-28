@@ -5,10 +5,10 @@
     "text": [
       {
         "id": "ailab_snippet_1",
-        "text":  "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy has issues SEEING THE FUTURE more than a few seconds ahead, so it doesn't always get IFF right if it doesn't have a human supervisor.  Build a robot that is literally prescient and you get this kind of bitching.  The Director sent 'em back with a note that we're scientists, not firmware devs."
-        }
+        "text": "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy has issues SEEING THE FUTURE more than a few seconds ahead, so it doesn't always get IFF right if it doesn't have a human supervisor.  Build a robot that is literally prescient and you get this kind of bitching.  The Director sent 'em back with a note that we're scientists, not firmware devs."
+      }
     ]
-    },
+  },
   {
     "type": "snippet",
     "category": "biolab_notes",
@@ -78,41 +78,38 @@
         "text": "The research team headed by Dr. Isha has produced a concentrated form of mutagen that shows promising results for the treatment of many forms of disease.  Testing reveals that it inhibits the body's pain responses while bolstering the immune system and natural regenerative capabilities, though a few troubling behavioral side effects have been reported."
       },
       {
-        "id": "lab_snippet_17",
-        "text": ""
+        "id": "biolab_snippet_17",
+        "text": "EMERGENCY BROADCAST - TRANSMISSION FAILED.  Original message follows: Specimens have breached containment.  Facility lockdown initiated.  Experimental subjects have escaped and killed lab personnel.  Revivification has triggered widespread violence.  Control protocols have not been successful.  Local garrison compromised.  Please send backup.  CONTACT YOUR SYSADMIN TO ATTEMPT TO RESEND."
       },
       {
-        "id": "lab_snippet_18",
-        "text": ""
+        "id": "biolab_snippet_18",
+        "text": "The rapid uptake and die-off of XE037 we observed in mouse tissue isn't quite what we thought.  We're getting a bit better at what Dr. Takatoshi calles 'negative space spectroscopy', and we've found tiny amounts of XE037 clustered around the nuclei of the mouse's cells."
       },
       {
-        "id": "lab_snippet_19",
-        "text": ""
+        "id": "biolab_snippet_19",
+        "text": "We observed some unusual changes in Hendelson's original XE037 mouse today.  It increased in weight by over six hundred percent, so we got a dissection authorized.  It had grown a duplicate heart in its pelvis and a new glandular organ that secreted some kind of acidic ooze, it melted our scalpels.  We captured some of the ooze and sent it for further analysis.  It seems XE037 has unforseen mutagenic properties.  Good thing we're wearing our hazard suits."
       },
       {
-        "id": "lab_snippet_20",
-        "text": ""
+        "id": "biolab_snippet_20",
+        "text": "Dr. Dionne put one of her own blood samples through the mass spec on negative space mode today, on a whim.  What she found got all of us going.  Turns out we're all infected with XE037.  We've quarantined the lab until we can find out how protocol was breached.  Every one of us can't stop thinking about what happened to Hendelson's mouse.  How did Melchior miss this?  God help us."
       },
       {
-        "id": "lab_snippet_21",
-        "text": ""
+        "id": "biolab_snippet_21",
+        "text": "We contacted colleagues at XEDRA-40 via Melchior.  They ran their blood too, and got the same result we did.  They're initiating quarantine protocol as well, but now the word is out and Melchior is getting everyone to run a similar protocol.  Dr. Dionne thinks it's probably too late: we've got a full scale containment breach on our hands.  How did this happen?  We're backtracing, but we've been beyond paranoid with our protocols, it's not like we're dealing with butterscotch pudding here."
       },
       {
-        "id": "lab_snippet_22",
-        "text": ""
+        "id": "biolab_snippet_22",
+        "text": "A backtrace didn't find any evidence of a protocol breach.  We're getting reports from other XEDRA facilities now.  Contamination isn't 100%, but it's widespread.  The non-quarantined facilities are sending people out to check the surrounding areas for signs of XE037 escaping the lab.  We're running some experiments on XE037 to see how it could have broken containment."
       },
       {
-        "id": "lab_snippet_23",
-        "text": ""
+        "id": "biolab_snippet_23",
+        "text": "After we found the mutation in Henderson's mouse, we checked a few of the others.  Most weren't so dramatic, but a few others had developed similar changes.  Size increase is the most common, but a couple others had strange new organs.  One had tentacles squirming under its skin."
       },
       {
-        "id": "lab_snippet_24",
-        "text": "Our lifeform extraction program continues to produce samples of specimen XE037.  It seems to be a kind of living, semi-sentient primordial ooze, and is the basis of much of the life we have found."
+        "id": "biolab_snippet_24",
+        "text": "We exposed the XE037 colonized mice to an assortment of mutagenic and carcinogenic compounds today.  High dose radiation was interesting: too much still killed the mice, but a sub-fatal dose caused rapid mutation, incredibly rapid.  It turned yellow, grew to the size of a cat, and started shooting lightning bolts everywhere.  About a minute later it died, but that was a hell of a lightshow in the meantime."
       },
-      {
-        "id": "lab_snippet_25",
-        "text": "Specimen XE037, jokingly referred to as \"the blob\", has been observed entering a kind of dormant state, forming a depression in the floor.  Hendelson stepped into one of these pits yesterday, and was immediately coated and attacked."
-      },
+      { "id": "lab_snippet_25", "text": "" },
       {
         "id": "lab_snippet_26",
         "text": "XE037 shows promise as a catalyst for both cloning and treatments that mimic stem cells.  This is further evidence supporting Hendelson's theory of a near universal symbiotic relationship involving XE037."
@@ -299,7 +296,10 @@
       }
     ]
   },
-  
+  {
+    "type": "snippet",
+    "category": "telelab_notes",
+    "text": [
       {
         "id": "telelab_snippet_15",
         "text": "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes."
@@ -317,19 +317,29 @@
         "text": "I don't know how it happened, but a janitor managed to activate the portal while cleaning the lab, shifting in an assortment of prehistoric fauna.  Security was called in immediately but was unable to save the janitor from being torn apart.  By the time the confusion settled, all the fauna had been terminated."
       },
       {
-        "id": "lab_snippet_20",
+        "id": "telelab_snippet_20",
         "text": "Tests on the prehistoric fauna show extremely close genetic relationships with extant and extinct terranean animals.  It might be that the portal had performed a transposition in time, unfortunately the portal device was destroyed when security put down the fauna."
       },
       {
-        "id": "lab_snippet_21",
+        "id": "telelab_snippet_21",
         "text": "An incident occurred in the secondary teleportation lab, wherein a subject managed to teleport into another subject.  The latter was completely destroyed from the inside out, while the former sustained little damage.  I would like to explore the phenomenon further, but subjects are expensive."
       },
       {
-        "id": "lab_snippet_22",
+        "id": "telelab_snippet_22",
         "text": "Test subjects in the teleportation department are showing alarming symptoms.  It seems prolonged rapid transposition along the 4th dimension weakens the forces holding one on this plane."
       },
       {
-        "id": "lab_snippet_23",
+        "id": "telelab_snippet_23",
         "text": "Catastrophe struck in our teleportation department yesterday.  It seems that our test subjects are so detached from this plane that they create occasional tunnels along the 4th dimension, allowing life forms to transfer to this plane.  All subjects with prolonged exposure have been terminated."
       },
+      {
+        "id": "telelab_snippet_24",
+        "text": "Our lifeform extraction program continues to produce samples laced with XE037.  It is in mineral, water, and biological samples from dimension designate 000XE.  It is extremely difficult to analyze: we are mostly aware of its presence through mass shadows.  Dr. Takatoshi suggests it might be a dimensional variant of dark matter."
+      },
+      {
+        "id": "telelab_snippet_25",
+        "text": "Hendelson exposed a lab mouse to XE037 under control conditions.  I'm not sure how he got permission for the project.  The results were interesting: rapid uptake into the mouse's cellular tissue followed by what we presume to be a die-off, fitting previous observations that XE037 doesn't seem to be able to survive outside its native planar material.  XEDRA command is authorizing a biological research wing to take over XE037 property analysis."
+      }
+    ]
+  }
 ]
