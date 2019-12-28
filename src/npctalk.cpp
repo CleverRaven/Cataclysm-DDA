@@ -1778,7 +1778,7 @@ talk_trial::talk_trial( const JsonObject &jo )
 
     read_condition<dialogue>( jo, "condition", condition, false );
 
-    if( jo.has_array( "mod" ) ) {
+    if( jo.has_member( "mod" ) ) {
         for( JsonArray jmod : jo.get_array( "mod" ) ) {
             trial_mod this_modifier;
             this_modifier.first = jmod.next_string();
@@ -2886,11 +2886,11 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             }
             return all_lines;
         };
-    } else if( jo.has_member( "give_hint" ) ) {
+    } else if( jo.get_bool( "give_hint", false ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
         };
-    } else if( jo.has_member( "use_reason" ) ) {
+    } else if( jo.get_bool( "use_reason", false ) ) {
         function = [&]( const dialogue & d ) {
             std::string tmp = d.reason;
             d.reason.clear();
@@ -2918,6 +2918,10 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         const dynamic_line_t no = from_member( jo, "no" );
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_bool( sub_member ) ) {
+                // This also marks the member as visited.
+                if( !jo.get_bool( sub_member ) ) {
+                    jo.throw_error( "value must be true", sub_member );
+                }
                 dcondition = conditional_t<dialogue>( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );

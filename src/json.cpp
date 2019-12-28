@@ -156,13 +156,11 @@ int JsonObject::verify_position( const std::string &name,
         // so it will never indicate a valid member position
         return 0;
     }
-    visited_members.insert( name );
     return iter->second;
 }
 
 bool JsonObject::has_member( const std::string &name ) const
 {
-    visited_members.insert( name );
     return positions.count( name ) > 0;
 }
 
@@ -233,6 +231,7 @@ void JsonObject::throw_error( std::string err ) const
 JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
     int pos = verify_position( name );
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin;
 }
@@ -241,9 +240,7 @@ JsonIn *JsonObject::get_raw( const std::string &name ) const
 
 bool JsonObject::get_bool( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_bool();
+    return get_member( name ).get_bool();
 }
 
 bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
@@ -252,15 +249,14 @@ bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_bool();
 }
 
 int JsonObject::get_int( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_int();
+    return get_member( name ).get_int();
 }
 
 int JsonObject::get_int( const std::string &name, const int fallback ) const
@@ -269,15 +265,14 @@ int JsonObject::get_int( const std::string &name, const int fallback ) const
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_int();
 }
 
 double JsonObject::get_float( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_float();
+    return get_member( name ).get_float();
 }
 
 double JsonObject::get_float( const std::string &name, const double fallback ) const
@@ -286,15 +281,14 @@ double JsonObject::get_float( const std::string &name, const double fallback ) c
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_float();
 }
 
 std::string JsonObject::get_string( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_string();
+    return get_member( name ).get_string();
 }
 
 std::string JsonObject::get_string( const std::string &name, const std::string &fallback ) const
@@ -303,6 +297,7 @@ std::string JsonObject::get_string( const std::string &name, const std::string &
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_string();
 }
@@ -315,6 +310,7 @@ JsonArray JsonObject::get_array( const std::string &name ) const
     if( !pos ) {
         return JsonArray();
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return JsonArray( *jsin );
 }
@@ -343,6 +339,7 @@ JsonObject JsonObject::get_object( const std::string &name ) const
     if( !pos ) {
         return JsonObject();
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_object();
 }
@@ -355,6 +352,7 @@ bool JsonObject::has_null( const std::string &name ) const
     if( !pos ) {
         return false;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->test_null();
 }

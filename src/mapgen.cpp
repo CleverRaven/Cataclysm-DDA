@@ -628,6 +628,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
             tmp_x2 = jmapgen_int( pjo, "x2" );
             tmp_y2 = jmapgen_int( pjo, "y2" );
             if( !check_inbounds( tmp_x2, tmp_y2, pjo ) ) {
+                pjo.allow_omitted_members();
                 continue;
             }
         }
@@ -2085,7 +2086,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 
     // mandatory: every character in rows must have matching entry, unless fill_ter is set
     // "terrain": { "a": "t_grass", "b": "t_lava" }
-    if( jo.has_object( "terrain" ) ) {
+    if( jo.has_member( "terrain" ) ) {
         JsonObject pjo = jo.get_object( "terrain" );
         for( const auto &key : pjo.get_member_names() ) {
             if( key.size() != 1 ) {

@@ -308,7 +308,7 @@
       "type": "place_monster",
       "monster_id": "mon_arson_hack",
       "friendly_msg": "The arson hack flies from your hand!  Get clear!",
-      "hostile_msg": "You misprogram the arson hack! Run!",
+      "hostile_msg": "You misprogram the arson hack!  Run!",
       "difficulty": 1,
       "moves": 60,
       "place_randomly": true,
