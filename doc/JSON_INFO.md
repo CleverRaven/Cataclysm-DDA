@@ -476,7 +476,7 @@ The syntax listed here is still valid.
 | `acid_resist`    | Ability of a material to resist acid. Metal should be 0. Complete resistance is 3.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
-| `chip_resist`    | Ability of a material to resist chipping (like from a chisel?).
+| `chip_resist`    | 
 | `bash_dmg_verb`  | Verb used when material takes bashing damage.
 | `cut_dmg_verb`   | Verb used when material takes cutting damage.
 | `dmg_adj`        | Description added to damaged item in ascending severity.
