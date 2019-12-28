@@ -1118,6 +1118,7 @@
       [ "snuggie", 5 ],
       [ "flyer", 10 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "socks_wool", 30 ],
       [ "pocketwatch", 5 ],
       [ "flask_hip", 2 ],
@@ -1163,6 +1164,7 @@
     "items": [
       [ "sneakers", 80 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "tights", 20 ],
       [ "stockings", 20 ],
       [ "knee_high_boots", 20 ],
@@ -1450,7 +1452,7 @@
   {
     "type": "item_group",
     "id": "shoestore_accessories",
-    "items": [ [ "socks", 100 ], [ "thermal_socks", 25 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
+    "items": [ [ "socks", 100 ], [ "socks_ankle", 75 ], [ "thermal_socks", 25 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
   },
   {
     "type": "item_group",
@@ -2554,6 +2556,7 @@
       [ "boy_shorts", 25 ],
       [ "bra", 25 ],
       [ "socks", 45 ],
+      [ "socks_ankle", 30 ],
       [ "stockings", 20 ],
       [ "hat_cotton", 35 ],
       [ "copper_bracelet", 10 ],
@@ -2753,7 +2756,12 @@
     "type": "item_group",
     "//": "unisex socks",
     "subtype": "distribution",
-    "items": [ { "item": "socks", "prob": 70 }, { "item": "socks_wool", "prob": 30 }, { "item": "thermal_socks", "prob": 10 } ]
+    "items": [
+      { "item": "socks", "prob": 70 },
+      { "item": "socks_ankle", "prob": 50 },
+      { "item": "socks_wool", "prob": 30 },
+      { "item": "thermal_socks", "prob": 10 }
+    ]
   },
   {
     "id": "scarfs_unisex",
