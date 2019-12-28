@@ -1266,10 +1266,10 @@ void Character::check_item_encumbrance_flag()
 {
     bool update_required = check_encumbrance;
     for( auto &i : worn ) {
-        if( !update_required && i.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && i.encumbrance_update_ ) {
             update_required = true;
         }
-        i.unset_flag( "ENCUMBRANCE_UPDATE" );
+        i.encumbrance_update_ = false;
     }
 
     if( update_required ) {

@@ -3318,10 +3318,10 @@ void player::process_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
-        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && w.encumbrance_update_ ) {
             update_required = true;
         }
-        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+        w.encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();

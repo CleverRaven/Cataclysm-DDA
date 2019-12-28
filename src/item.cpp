@@ -3697,7 +3697,7 @@ void item::on_contents_changed()
         convert( type->container->unseals_into );
     }
 
-    set_flag( "ENCUMBRANCE_UPDATE" );
+    encumbrance_update_ = true;
 }
 
 void item::on_damage( int, damage_type )
