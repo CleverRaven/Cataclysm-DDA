@@ -4442,7 +4442,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     } else if( casting.has_flag( RANDOM_TARGET ) ) {
         const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
         if( !target_ ) {
-            p->add_msg_if_player( m_bad, _( "Your skill can't find a suitable target." ) );
+            p->add_msg_if_player( m_bad, _( "Your spell can't find a suitable target." ) );
             return;
         }
         target = *target_;
