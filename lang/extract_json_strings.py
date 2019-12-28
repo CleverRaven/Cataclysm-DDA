@@ -167,13 +167,17 @@ needs_plural = {
     "BIONIC_ITEM",
     "BOOK",
     "CONTAINER",
+    "ENGINE",
     "GENERIC",
     "GUN",
     "GUNMOD",
+    "MAGAZINE",
     "MONSTER",
+    "PET_ARMOR",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
+    "WHEEL",
 }
 
 # these objects can be automatically converted, but use format strings

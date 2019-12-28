@@ -20,7 +20,7 @@
   {
     "id": "focusing_lens",
     "type": "GUNMOD",
-    "name": "focusing lens",
+    "name": { "str": "focusing lens", "str_pl": "focusing lenses" },
     "description": "A set of optics to concentrate the laser beam on a smaller focus point.  This increases range and damage output, but complicates targeting.",
     "weight": "380 g",
     "volume": "250 ml",

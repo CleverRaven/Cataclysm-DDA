@@ -475,7 +475,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
-            throw_error = [&jsobj]( const std::string & msg, const int offset ) {
+            // Copying jsobj to avoid use-after-free
+            throw_error = [jsobj]( const std::string & msg, const int offset ) {
                 jsobj.get_raw( "str" )->error( msg, offset );
             };
         }

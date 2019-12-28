@@ -1026,6 +1026,11 @@
   },
   {
     "type": "item_action",
+    "id": "place_npc",
+    "name": "Activate"
+  },
+  {
+    "type": "item_action",
     "id": "place_trap",
     "name": "Place"
   },

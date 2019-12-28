@@ -2,7 +2,7 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <iosfwd>
 #include <string>
 #include <unordered_set>

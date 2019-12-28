@@ -483,6 +483,23 @@ std::string recipe::result_name() const
     return name;
 }
 
+bool recipe::will_be_blacklisted() const
+{
+    if( requirements_.is_blacklisted() ) {
+        return true;
+    }
+
+    auto any_is_blacklisted = []( const std::vector<std::pair<requirement_id, int>> &reqs ) {
+        auto req_is_blacklisted = []( const std::pair<requirement_id, int> &req ) {
+            return req.first->is_blacklisted();
+        };
+
+        return std::any_of( reqs.begin(), reqs.end(), req_is_blacklisted );
+    };
+
+    return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
+}
+
 std::function<bool( const item & )> recipe::get_component_filter() const
 {
     const item result = create_result();
