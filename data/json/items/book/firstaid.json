@@ -2,8 +2,7 @@
   {
     "id": "emergency_book",
     "type": "BOOK",
-    "name": "Guide to Advanced Emergency Care",
-    "name_plural": "Guides to Advanced Emergency Care",
+    "name": { "str": "Guide to Advanced Emergency Care", "str_pl": "copies of Guide to Advanced Emergency Care" },
     "description": "A thick textbook for paramedics describing advanced lifesaving procedures and field-expedient care methods.",
     "weight": "2063 g",
     "volume": "2 L",
@@ -23,8 +22,7 @@
   {
     "id": "mag_firstaid",
     "type": "BOOK",
-    "name": "Paramedics",
-    "name_plural": "Paramedics",
+    "name": { "str": "Paramedics", "str_pl": "issues of Paramedics" },
     "description": "An educational magazine for EMTs.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -42,8 +40,7 @@
   {
     "id": "manual_first_aid",
     "type": "BOOK",
-    "name": "The Big Book of First Aid",
-    "name_plural": "Big Books of First Aid",
+    "name": { "str": "The Big Book of First Aid", "str_pl": "copies of The Big Book of First Aid" },
     "description": "It's big and heavy, but full of great information about first aid.",
     "weight": "454 g",
     "volume": "1250 ml",
@@ -60,8 +57,7 @@
   {
     "id": "pocket_firstaid",
     "type": "BOOK",
-    "name": "Pocket Guide to First Aid",
-    "name_plural": "Pocket Guides to First Aid",
+    "name": { "str": "Pocket Guide to First Aid", "str_pl": "copies of Pocket Guide to First Aid" },
     "description": "This pocket-sized leather-bound guide to first aid combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
     "weight": "192 g",
     "volume": "250 ml",
@@ -78,7 +74,7 @@
   {
     "id": "textbook_firstaid",
     "type": "BOOK",
-    "name": "First Responder Handbook",
+    "name": { "str": "First Responder Handbook", "str_pl": "copies of First Responder Handbook" },
     "//": "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
     "description": "A hardbound book detailing advanced first aid techniques and field-expedient medical care.",
     "weight": "1360 g",
@@ -98,8 +94,7 @@
   {
     "id": "booklet_firstaid",
     "type": "BOOK",
-    "name": "First Aid Kit Instruction Booklet",
-    "name_plural": "First Aid Kit Instruction Booklets",
+    "name": { "str": "First Aid Kit Instruction Booklet", "str_pl": "copies of First Aid Kit Instruction Booklet" },
     "description": "Illustrated how-to guide for your first aid kit.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -116,8 +111,7 @@
   {
     "id": "reference_firstaid1",
     "type": "BOOK",
-    "name": "Physicians' Desk Reference",
-    "name_plural": "copies of the Physicians' Desk Reference",
+    "name": { "str": "Physicians' Desk Reference", "str_pl": "copies of Physicians' Desk Reference" },
     "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like Medisoft.  At least it doesn't need power to be used.",
     "weight": "2268 g",
     "volume": "500 ml",
@@ -134,8 +128,7 @@
   {
     "id": "reference_firstaid2",
     "type": "BOOK",
-    "name": "Merck Veterinary Manual",
-    "name_plural": "copies of The Merck Veterinary Manual",
+    "name": { "str": "Merck Veterinary Manual", "str_pl": "copies of Merck Veterinary Manual" },
     "description": "This expansive text covers 'all domestic species and diseases in veterinary medicine worldwide'.  Should you need information regarding zoonotic diseases, off-label use of medication for animals, common dysfunctions and diseases of animals, or any other veterinary reference info, this is your book.  There are some interesting new chapters on animal cloning in this edition.",
     "weight": "5790 g",
     "volume": "500 ml",
