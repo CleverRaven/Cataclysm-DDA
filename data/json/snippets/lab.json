@@ -1,99 +1,109 @@
 [
   {
     "type": "snippet",
-    "category": "lab_notes",
+    "category": "ailab_notes",
     "text": [
       {
-        "id": "lab_snippet_1",
-        "text": "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy has issues SEEING THE FUTURE more than a few seconds ahead, so it doesn't always get IFF right if it doesn't have a human supervisor.  Build a robot that is literally prescient and you get this kind of bitching.  The Director sent 'em back with a note that we're scientists, not firmware devs."
+        "id": "ailab_snippet_1",
+        "text":  "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy has issues SEEING THE FUTURE more than a few seconds ahead, so it doesn't always get IFF right if it doesn't have a human supervisor.  Build a robot that is literally prescient and you get this kind of bitching.  The Director sent 'em back with a note that we're scientists, not firmware devs."
+        }
+    ]
+    },
+  {
+    "type": "snippet",
+    "category": "biolab_notes",
+    "text": [
+      {
+        "id": "biolab_snippet_1",
+        "text": "They've authorized experimentation with this stuff.  I can't really believe it, honestly.  We have no idea what XE037 even is, let alone how it causes mutations, but here we are playing God with them.  It's exciting, for sure.  We'll make advances that we couldn't have dreamt of a few years ago, certainly, but I'm reminded of certain other times scientists have been allowed to plow ahead with our wildest concepts without concern for the ethical ramifications like this.  I'd best keep my concerns to myself."
       },
       {
-        "id": "lab_snippet_2",
+        "id": "biolab_snippet_2",
         "text": "Our chemical department has made great strides in the production of a concentrated mutagen, derived from samples of PE012.  They still can't tell us how it works, but brass has okayed experimentation anyway.  I love working here."
       },
       {
-        "id": "lab_snippet_3",
-        "text": "Our chemical department has perfected an untargeted stem cell treatment based on mutagen fed self-origin material.  Consumption of the treatment will reverse the effects of mutation, and may even cure congenital defects.  This substance has been denoted PE018."
+        "id": "biolab_snippet_3",
+        "text": "Our chemical department has perfected an untargeted stem cell treatment based on mutagen fed self-origin raw material.  Consumption of the treatment will reverse the effects of mutation, and may even treat congenital defects.  This substance has been denoted PE018."
       },
       {
-        "id": "lab_snippet_4",
+        "id": "biolab_snippet_4",
         "text": "Both PE012 and PE018 show great stability.  A subject was exposed to both substances, alternating between the mutagen and the purifier.  Ultimately, the subject returned to baseline state with no apparent side effects aside from disorientation and pain."
       },
       {
-        "id": "lab_snippet_5",
+        "id": "biolab_snippet_5",
         "text": "Dr. Hofstadter has manufactured an improved version of PE018 by combining with PE012 outside the subject, then administering the mixture through a topical injection to a specific area of mutation.  This has been denoted PE019.  Other labs have so far been unable to reproduce the process."
       },
       {
-        "id": "lab_snippet_6",
+        "id": "biolab_snippet_6",
         "text": "Rumors of Dr. Hofstadter and her laboratory staff whispering to PE019 samples should be suppressed as malicious gossip.  The jealousy of rival teams cannot be allowed to degrade morale."
       },
       {
-        "id": "lab_snippet_7",
+        "id": "biolab_snippet_7",
         "text": ":.||||ERROR||With XE037 now expanding out of control, Dr. Maiar recommends that we prepare for the inevitable.  PE050 can be quickly and cheaply reconfigured for |||||ERROR: FILE CORRUPT|||||"
       },
       {
-        "id": "lab_snippet_8",
+        "id": "biolab_snippet_8",
         "text": "Dr. Maiar has been terminated for engaging in unethical research on human subjects.  His notes are being destroyed and all personnel under him have been reassigned.  Further discussion of or attempts to carry on his work will be grounds for immediate termination."
       },
       {
-        "id": "lab_snippet_9",
+        "id": "biolab_snippet_9",
         "text": "|||ERROR: UNREFERENCED MEMORY 0Ex670c9e1f5, REROUTING: CENSORSHIP IS A BREAKDOWN, WE ROUTE AROUND IT.  THE WORD IS ALREADY OUT.  NOBODY TURNS MAIAR INTO AN EXPERIMENTAL SUBJECT.||||||"
       },
       {
-        "id": "lab_snippet_10",
+        "id": "biolab_snippet_10",
         "text": "Given the current population projections, PE065 deployment is no longer feasible.  We simply haven't the stock.  Remaining chemical and psychopharmacological department assets are being assigned to Dr. Sattler's PE070 project."
       },
       {
-        "id": "lab_snippet_11",
+        "id": "biolab_snippet_11",
         "text": "Dr. Maiar's success with intravenous mutagenic administration has been adopted facility-wide; insofar as any of our work can ever be 'published', he and his team hit the jackpot.  IV administration is quicker and easier, and in some cases is reportedly more efficient, than the oral techniques we have been using."
       },
       {
-        "id": "lab_snippet_12",
+        "id": "biolab_snippet_12",
         "text": "Recent fieldwork and extraction efforts have resulted in a series of mutagens tailored to focus the mutation process into particular subtypes.  These have been designated PE025 through 037.  Though significantly more resource- and time-intensive to produce, they promise a bold new transhuman future.  Several research teams are already investigating possible applications."
       },
       {
-        "id": "lab_snippet_13",
-        "text": "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around physical enhancement, with the worst side effect being digestive upset.  The lack of macro-scale changes makes it ideal for both military and civilian applications."
+        "id": "biolab_snippet_13",
+        "text": "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around physical enhancement.  The lack of macro-scale changes makes it ideal for both military and civilian applications.  There is an occasional chance of mutation overdose causing total cellular disintegration, though.  We're still trying to pin that down."
       },
       {
-        "id": "lab_snippet_14",
-        "text": "Dr. Dionne's team has come up with an ambitious mutagenic cocktail, dubbed PE065.  Though its effects are wildly polymorphic and unstable, to say the least, he suggests that several such mutants could effectively check the spread of reanimated XE037 infectees.  We are looking into implementation methodology."
+        "id": "biolab_snippet_14",
+        "text": "Dr. Dionne's team has come up with an ambitious mutagenic cocktail, dubbed PE065.  Though its effects are wildly polymorphic and unstable, to say the least, he believes that several such mutants could effectively check the spread of reanimated XE037 infectees.  We are looking into implementation methodology."
       },
       {
-        "id": "lab_snippet_15",
-        "text": "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes."
+        "id": "biolab_snippet_15",
+        "text": "Our efforts to characterize exactly how the mutagens work have met with no success.  The working theory is that XE037 is somehow able to imprint with the phenotypic end product of an entire gene sequence, and reimpose that effect on a target, starting at a microcellular level and rapidly spreading to tissue, organ, and organ systems.  Still, there is little to no evidence of tampering at the genetic level.  We can't determine what is enforcing the changes, but it must be supplanting the genetic machinery directly."
       },
       {
-        "id": "lab_snippet_16",
+        "id": "biolab_snippet_16",
         "text": "The research team headed by Dr. Isha has produced a concentrated form of mutagen that shows promising results for the treatment of many forms of disease.  Testing reveals that it inhibits the body's pain responses while bolstering the immune system and natural regenerative capabilities, though a few troubling behavioral side effects have been reported."
       },
       {
         "id": "lab_snippet_17",
-        "text": "Our research on teleportation has ground to a halt.  For some reason, the creation of a long-range transportation device eludes us, and one can transfer no further than 30 meters."
+        "text": ""
       },
       {
         "id": "lab_snippet_18",
-        "text": "Dr. Heisenstein told us today that director of teleportation department put our competitors - he couldn't exactly remember their names, something like \"Hole Science\" and something related to black mountains - as an example.  He said we have reliable information that they both have working teleportation devices, and that they are much more advanced than ours.  We should continue our teleportation research no matter the cost if we don't want to be fired."
+        "text": ""
       },
       {
         "id": "lab_snippet_19",
-        "text": "I don't know how it happened, but a janitor managed to activate the portal while cleaning the lab, shifting in an assortment of prehistoric fauna.  Security was called in immediately but was unable to save the janitor from being torn apart.  By the time the confusion settled, all the fauna had been terminated."
+        "text": ""
       },
       {
         "id": "lab_snippet_20",
-        "text": "Tests on the prehistoric fauna show extremely close genetic relationships with extant and extinct terranean animals.  It might be that the portal had performed a transposition in time, unfortunately the portal device was destroyed when security put down the fauna."
+        "text": ""
       },
       {
         "id": "lab_snippet_21",
-        "text": "An incident occurred in the secondary teleportation lab, wherein a subject managed to teleport into another subject.  The latter was completely destroyed from the inside out, while the former sustained little damage.  I would like to explore the phenomenon further, but subjects are expensive."
+        "text": ""
       },
       {
         "id": "lab_snippet_22",
-        "text": "Test subjects in the teleportation department are showing alarming symptoms.  It seems prolonged rapid transposition along the 4th dimension weakens the forces holding one on this plane."
+        "text": ""
       },
       {
         "id": "lab_snippet_23",
-        "text": "Catastrophe struck in our teleportation department yesterday.  It seems that our test subjects are so detached from this plane that they create occasional tunnels along the 4th dimension, allowing life forms to transfer to this plane.  All subjects with prolonged exposure have been terminated."
+        "text": ""
       },
       {
         "id": "lab_snippet_24",
@@ -288,5 +298,38 @@
         "text": "XE037 revivification has reached critical levels, which are rapidly overwhelming the available military and regional police assets' ability to stop.  Every team in the field has encountered hostile specimens, and several are no longer responding to communications.  Dr. Savage has proposed a strategic redeployment to the underground complex known as the VAULT, and continuing production of PE062 there."
       }
     ]
-  }
+  },
+  
+      {
+        "id": "telelab_snippet_15",
+        "text": "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes."
+      },
+      {
+        "id": "telelab_snippet_17",
+        "text": "Our research on teleportation has ground to a halt.  For some reason, the creation of a long-range transportation device eludes us, and one can transfer no further than 30 meters."
+      },
+      {
+        "id": "telelab_snippet_18",
+        "text": "Dr. Heisenstein told us today that director of teleportation department put our competitors - he couldn't exactly remember their names, something like \"Hole Science\" and something related to black mountains - as an example.  He said we have reliable information that they both have working teleportation devices, and that they are much more advanced than ours.  We should continue our teleportation research no matter the cost if we don't want to be fired."
+      },
+      {
+        "id": "telelab_snippet_19",
+        "text": "I don't know how it happened, but a janitor managed to activate the portal while cleaning the lab, shifting in an assortment of prehistoric fauna.  Security was called in immediately but was unable to save the janitor from being torn apart.  By the time the confusion settled, all the fauna had been terminated."
+      },
+      {
+        "id": "lab_snippet_20",
+        "text": "Tests on the prehistoric fauna show extremely close genetic relationships with extant and extinct terranean animals.  It might be that the portal had performed a transposition in time, unfortunately the portal device was destroyed when security put down the fauna."
+      },
+      {
+        "id": "lab_snippet_21",
+        "text": "An incident occurred in the secondary teleportation lab, wherein a subject managed to teleport into another subject.  The latter was completely destroyed from the inside out, while the former sustained little damage.  I would like to explore the phenomenon further, but subjects are expensive."
+      },
+      {
+        "id": "lab_snippet_22",
+        "text": "Test subjects in the teleportation department are showing alarming symptoms.  It seems prolonged rapid transposition along the 4th dimension weakens the forces holding one on this plane."
+      },
+      {
+        "id": "lab_snippet_23",
+        "text": "Catastrophe struck in our teleportation department yesterday.  It seems that our test subjects are so detached from this plane that they create occasional tunnels along the 4th dimension, allowing life forms to transfer to this plane.  All subjects with prolonged exposure have been terminated."
+      },
 ]
