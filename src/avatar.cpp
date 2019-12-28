@@ -1,7 +1,7 @@
 #include "avatar.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <map>

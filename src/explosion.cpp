@@ -825,35 +825,6 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
-void nuke( const tripoint &p )
-{
-    // TODO: nukes hit above surface, not critter = 0
-    // TODO: Z
-    tripoint p_surface( p.xy(), 0 );
-    tinymap tmpmap;
-    tmpmap.load( omt_to_sm_copy( p_surface ), false );
-    tripoint dest( 0, 0, p.z );
-    int &i = dest.x;
-    int &j = dest.y;
-    for( i = 0; i < SEEX * 2; i++ ) {
-        for( j = 0; j < SEEY * 2; j++ ) {
-            if( !one_in( 10 ) ) {
-                tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true );
-            }
-            if( one_in( 3 ) ) {
-                tmpmap.add_field( dest, fd_nuke_gas, 3 );
-            }
-            tmpmap.adjust_radiation( dest, rng( 20, 80 ) );
-        }
-    }
-    tmpmap.save();
-    overmap_buffer.ter_set( p_surface, oter_id( "crater" ) );
-    // Kill any npcs on that omap location.
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
-        npc->marked_for_death = true;
-    }
-}
-
 } // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.

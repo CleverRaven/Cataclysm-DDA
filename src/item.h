@@ -2,7 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <climits>
 #include <list>
 #include <map>

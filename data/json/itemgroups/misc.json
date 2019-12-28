@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "Smokable item and something to light it with",
-    "items": [
+    "entries": [
       {
         "distribution": [
           { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },

@@ -22,7 +22,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     const bool c_is_u = p != nullptr && p == &g->u;
     int tries = 0;
     tripoint origin = critter.pos();
-    tripoint new_pos;
+    tripoint new_pos = origin;
     //The teleportee is dimensionally anchored so nothing happens
     if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
                p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {

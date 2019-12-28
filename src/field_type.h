@@ -2,8 +2,8 @@
 #ifndef FIELD_TYPE_H
 #define FIELD_TYPE_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <algorithm>
 #include <vector>
 #include <memory>

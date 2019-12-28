@@ -10,7 +10,7 @@
     "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "max_volume": 800,
+    "max_volume": "200 L",
     "examine_action": "keg",
     "keg_capacity": 600,
     "bash": {
