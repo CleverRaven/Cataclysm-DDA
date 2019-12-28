@@ -1,5 +1,5 @@
 # Cataclysm DDA client
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1.4)
 
 SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
