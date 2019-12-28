@@ -632,12 +632,12 @@
       { "item": "copper tubing", "prob": 10 },
       { "item": "hose", "prob": 10 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
-      { "item": "candle", "count": [ 1, 2 ], "prob": 20},
+      { "item": "candle", "count": [ 1, 2 ], "prob": 20 },
       { "item": "matches", "prob": 10 },
       { "item": "toilet_paper", "prob": 80 },
       { "item": "hair_dryer", "prob": 60 },
       { "item": "curling_iron", "prob": 50 },
       { "item": "brush_toilet", "prob": 75 }
-    ]  
+    ]
   }
 ]

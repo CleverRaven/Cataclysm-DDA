@@ -1201,7 +1201,7 @@
       [ "chem_hydrogen_peroxide", 20 ],
       [ "plunger_toilet", 30 ],
       [ "plunger_futuristic", 15 ],
-      [ "toilet_paper", 10 ]  
+      [ "toilet_paper", 10 ]
     ]
   },
   {
@@ -1933,9 +1933,9 @@
       [ "shavingkit", 30 ],
       [ "elec_hairtrimmer", 15 ],
       [ "razor_blade", 5 ],
-      [ "razor_shaving", 5],
+      [ "razor_shaving", 5 ],
       [ "toothbrush_plain", 10 ],
-      [ "string_floss", 10 ],  
+      [ "string_floss", 10 ],
       [ "kilt", 5 ],
       [ "hobo_stove", 1 ],
       [ "tinder", 1 ],

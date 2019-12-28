@@ -976,7 +976,7 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
-      [ "toothbrush_plain", 10 ],  
+      [ "toothbrush_plain", 10 ],
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },
@@ -1148,7 +1148,7 @@
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
-      [ "plunger_futuristic", 25 ]  
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -1310,7 +1310,7 @@
       [ "comb_pocket", 15 ],
       [ "curler_hair", 10 ],
       [ "curling_iron", 15 ],
-      [ "brush_toilet", 15 ]  
+      [ "brush_toilet", 15 ]
     ]
   },
   {
@@ -1344,7 +1344,7 @@
       { "group": "harddrugs", "prob": 1 },
       [ "joint", 1 ],
       [ "curler_hair", 10 ],
-      [ "hairbrush", 5]  
+      [ "hairbrush", 5 ]
     ]
   },
   {
