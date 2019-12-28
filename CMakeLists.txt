@@ -102,7 +102,7 @@ ELSE (NOT DYNAMIC_LINKING)
 	ENDIF(MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 ENDIF (NOT DYNAMIC_LINKING)
 
-#Sysem specific actions
+# System specific actions
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     IF(NOT DATA_PREFIX)
         SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
@@ -167,18 +167,18 @@ ENDIF(TILES)
 
 # Set build types and display info
 IF(CMAKE_BUILD_TYPE STREQUAL Debug)
-	MESSAGE("\n")
-	MESSAGE(STATUS "Build ${PROJECT} in development mode --\n")
-	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
-	SET(CMAKE_VERBOSE_MAKEFILE ON)
-	# Since CataclusmDDA does not respect PREFIX for development builds
-	# and has funny path handlers, we should create resulting Binaries
-	# in the source redectory
-	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-		${CMAKE_SOURCE_DIR}
-		CACHE PATH "Single Directory for all Executables."
-	)
-	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
+    MESSAGE("\n")
+    MESSAGE(STATUS "Build ${PROJECT} in development mode --\n")
+    MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
+    SET(CMAKE_VERBOSE_MAKEFILE ON)
+    # Since CataclysmDDA does not respect PREFIX for development builds
+    # and has funny path handlers, we should create resulting Binaries
+    # in the source directory
+    SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+     ${CMAKE_SOURCE_DIR}
+      CACHE PATH "Single Directory for all Executables."
+    )
+    SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
 ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")

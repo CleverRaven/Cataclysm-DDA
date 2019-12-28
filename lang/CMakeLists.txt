@@ -1,4 +1,4 @@
-MESSAGE(STATUS "Process LINGUAS variable --\n")
+MESSAGE(STATUS "Process LANGUAGES variable --\n")
 
 FIND_PACKAGE(Gettext)
 
