@@ -667,6 +667,12 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "PAIN_NORESIST",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "pain altering spells can't be resisted (like with the deadened trait)"
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "context": [ "mutation" ],

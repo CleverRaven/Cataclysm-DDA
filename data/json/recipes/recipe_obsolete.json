@@ -1805,6 +1805,11 @@
   },
   {
     "type": "recipe",
+    "result": "rock_pot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "small_storage_battery",
     "obsolete": true
   },

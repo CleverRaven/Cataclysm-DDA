@@ -427,7 +427,7 @@
     "revert_to_itype": "bot_utilibot_beehive",
     "reproduction": { "baby_egg": "honeycomb", "baby_count": 50, "baby_timer": 5 },
     "baby_flags": [ "SUMMER" ],
-    "comment": [ "emit_bee_trail" ],
+    "//": [ "emit_bee_trail" ],
     "starting_ammo": { "bolt_wood": 100 },
     "special_attacks": [
       [ "PARROT", 10 ],
@@ -1438,7 +1438,7 @@
   },
   {
     "abstract": "mon_chickenbot_base",
-    "comment": "remove-special-attack doesn't work, so add this def without guns.",
+    "//": "remove-special-attack doesn't work, so add this def without guns.",
     "type": "MONSTER",
     "name": "chicken walker",
     "looks_like": "mon_chickenbot",
@@ -1535,7 +1535,7 @@
   },
   {
     "abstract": "mon_tankbot_base",
-    "comment": "remove-special-attack doesn't work, so add this def without gun attack.",
+    "//": "remove-special-attack doesn't work, so add this def without gun attack.",
     "type": "MONSTER",
     "name": "Beagle Mini-Tank UGV",
     "looks_like": "mon_tankbot",

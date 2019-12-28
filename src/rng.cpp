@@ -1,6 +1,6 @@
 #include "rng.h"
 
-#include <math.h>
+#include <cmath>
 #include <chrono>
 #include <utility>
 

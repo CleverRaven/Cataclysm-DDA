@@ -680,7 +680,6 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
-
     if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
         return;// NPCs under operation should just stay still
@@ -849,8 +848,6 @@ void npc::move()
                     const std::vector<activity_id> jobs_to_rotate = job_duties[job];
                     if( !jobs_to_rotate.empty() ) {
                         assign_activity( random_entry( jobs_to_rotate ) );
-                        set_mission( NPC_MISSION_ACTIVITY );
-                        set_attitude( NPCATT_ACTIVITY );
                         action = npc_player_activity;
                         found_job = true;
                     } else {
@@ -1357,9 +1354,17 @@ npc_action npc::method_of_attack()
 
     // reach attacks are silent and consume no ammo so prefer these if available
     int reach_range = weapon.reach_range( *this );
-    if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
-        add_msg( m_debug, "%s is trying a reach attack", disp_name() );
-        return npc_reach_attack;
+    if( !trigdist ) {
+        if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
+            add_msg( m_debug, "%s is trying a reach attack", disp_name() );
+            return npc_reach_attack;
+        }
+    } else {
+        if( reach_range > 1 && reach_range >= round( trig_dist( pos(), tar ) ) &&
+            clear_shot_reach( pos(), tar ) ) {
+            add_msg( m_debug, "%s is trying a reach attack", disp_name() );
+            return npc_reach_attack;
+        }
     }
 
     // if the best mode is within the confident range try for a shot
@@ -2595,7 +2600,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return g->m.passable( elem );
     } );
 
-    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+    cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
         const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
         [&]( const int sum, const sphere & s ) {
             return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );

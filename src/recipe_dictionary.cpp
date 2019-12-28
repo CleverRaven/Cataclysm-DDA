@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 
+#include "cata_algo.h"
 #include "cata_utility.h"
 #include "init.h"
 #include "item.h"
@@ -332,6 +333,11 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
     return recipes.end();
 }
 
+bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
+{
+    return items_on_loops.count( i );
+}
+
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
@@ -355,6 +361,49 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 
         return !error.empty();
     } );
+}
+
+void recipe_dictionary::find_items_on_loops()
+{
+    // Check for infinite recipe loops in food (which are problematic for
+    // nutrient calculations).
+    //
+    // Start by building a directed graph of itypes to potential components of
+    // those itypes.
+    items_on_loops.clear();
+    std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
+    for( const itype *i : item_controller->all() ) {
+        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+            continue;
+        }
+        std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
+        for( const recipe_id &rec : i->recipes ) {
+            const requirement_data requirements = rec->requirements();
+            const requirement_data::alter_item_comp_vector &component_requirements =
+                requirements.get_components();
+
+            for( const std::vector<item_comp> &component_options : component_requirements ) {
+                for( const item_comp &component_option : component_options ) {
+                    potential_components.push_back( component_option.type );
+                }
+            }
+        }
+    }
+
+    // Now check that graph for loops
+    std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
+    for( const std::vector<itype_id> &loop : loops ) {
+        std::string error_message =
+            "loop in comestible recipes detected: " + loop.back();
+        for( const itype_id &i : loop ) {
+            error_message += " -> " + i;
+            items_on_loops.insert( i );
+        }
+        error_message += ".  Such loops can be broken by either removing or altering "
+                         "recipes or marking one of the items involved with the NUTRIENT_OVERRIDE "
+                         "flag";
+        debugmsg( error_message );
+    }
 }
 
 void recipe_dictionary::finalize()
@@ -416,6 +465,8 @@ void recipe_dictionary::finalize()
             recipe_dict.blueprints.insert( &e.second );
         }
     }
+
+    recipe_dict.find_items_on_loops();
 }
 
 void recipe_dictionary::reset()
@@ -424,6 +475,7 @@ void recipe_dictionary::reset()
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
+    recipe_dict.items_on_loops.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )

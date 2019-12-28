@@ -878,14 +878,6 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::launches_nuke: {
-            oter_id oter = e.get<oter_id>( "target_terrain" );
-            //~ %s is terrain name
-            add( pgettext( "memorial_male", "Launched a nuke at a %s." ),
-                 pgettext( "memorial_female", "Launched a nuke at a %s." ),
-                 oter->get_name() );
-            break;
-        }
         case event_type::learns_martial_art: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {

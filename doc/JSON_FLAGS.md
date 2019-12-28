@@ -428,6 +428,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
+- ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
@@ -1079,6 +1080,11 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 
 ## Mutations
+
+#### Flags
+
+- ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
+- ```NEED_ACTIVE_TO_MELEE``` This mutation gives bonus to unarmed melee only if it's active.
 
 ### Categories
 

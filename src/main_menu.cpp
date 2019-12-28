@@ -41,7 +41,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const holiday current_holiday = holiday::christmas;
+static const holiday current_holiday = holiday::new_year;
 
 void main_menu::on_move() const
 {

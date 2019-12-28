@@ -1142,6 +1142,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_chickenbot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken chickenbot",
+    "category": "other",
+    "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "1023850 g",
+    "volume": "1100 L",
+    "bashing": 20,
+    "cutting": 15,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_mech_recon",
     "name": "broken recon mech",
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
@@ -2127,9 +2144,119 @@
     "price": 1000000,
     "price_postapoc": 100,
     "material": "diamond",
-    "weight": "120 g",
-    "volume": "250 ml",
+    "weight": "200 mg",
+    "volume": "6 ml",
     "to_hit": -5
+  },
+  {
+    "type": "GENERIC",
+    "id": "garnet",
+    "symbol": "*",
+    "color": "red",
+    "name": "garnet",
+    "description": "A sparkling garnet.",
+    "price": 800000,
+    "price_postapoc": 80,
+    "material": "gemstone",
+    "weight": "200 mg",
+    "volume": "6 ml",
+    "to_hit": -5
+  },
+  {
+    "type": "GENERIC",
+    "id": "amethyst",
+    "copy-from": "garnet",
+    "color": "blue",
+    "name": "amethyst",
+    "description": "A sparkling amethyst."
+  },
+  {
+    "type": "GENERIC",
+    "id": "aquamarine",
+    "copy-from": "garnet",
+    "color": "cyan",
+    "name": "aquamarine",
+    "description": "A sparkling aquamarine."
+  },
+  {
+    "type": "GENERIC",
+    "id": "emerald",
+    "copy-from": "garnet",
+    "color": "green",
+    "name": "emerald",
+    "description": "A sparkling emerald."
+  },
+  {
+    "type": "GENERIC",
+    "id": "alexandrite",
+    "copy-from": "garnet",
+    "color": "green",
+    "name": "alexandrite",
+    "description": "A sparkling alexandrite."
+  },
+  {
+    "type": "GENERIC",
+    "id": "pearl",
+    "copy-from": "garnet",
+    "color": "white",
+    "name": "pearl",
+    "description": "A lustrous pearl."
+  },
+  {
+    "type": "GENERIC",
+    "id": "ruby",
+    "copy-from": "garnet",
+    "color": "red",
+    "name": "ruby",
+    "description": "A sparkling ruby."
+  },
+  {
+    "type": "GENERIC",
+    "id": "peridot",
+    "copy-from": "garnet",
+    "color": "green",
+    "name": "peridot",
+    "description": "A sparkling peridot."
+  },
+  {
+    "type": "GENERIC",
+    "id": "sapphire",
+    "copy-from": "garnet",
+    "color": "blue",
+    "name": "sapphire",
+    "description": "A sparkling sapphire."
+  },
+  {
+    "type": "GENERIC",
+    "id": "opal",
+    "copy-from": "garnet",
+    "color": "white",
+    "name": "opal",
+    "description": "A lustrous opal."
+  },
+  {
+    "type": "GENERIC",
+    "id": "tourmaline",
+    "copy-from": "garnet",
+    "color": "light_red",
+    "name": "tourmaline",
+    "description": "A sparkling tourmaline."
+  },
+  {
+    "type": "GENERIC",
+    "id": "citrine",
+    "copy-from": "garnet",
+    "color": "yellow",
+    "name": "citrine",
+    "description": "A sparkling citrine."
+  },
+  {
+    "type": "GENERIC",
+    "id": "blue_topaz",
+    "copy-from": "garnet",
+    "color": "light_blue",
+    "name": "topaz",
+    "description": "A sparkling blue topaz."
   },
   {
     "type": "GENERIC",
@@ -2282,10 +2409,10 @@
     "symbol": "o",
     "color": "brown",
     "name": "teddy bear",
-    "description": "A mass produced generic teddy bear.  It is wearing a little red tshirt but no pants.",
+    "description": "A mass produced plush teddy bear.  It is wearing a little red tshirt but no pants.",
     "price": 200,
     "material": [ "cotton" ],
-    "weight": "494 g",
+    "weight": "444 g",
     "volume": "850 ml",
     "flags": [ "SLEEP_AID" ]
   },
@@ -2845,7 +2972,7 @@
     "description": "A broken turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "62650 g",
+    "weight": "72650 g",
     "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
@@ -2854,11 +2981,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_riot",
+    "symbol": ",",
+    "color": "blue",
+    "name": "broken riot control turret",
+    "description": "A broken riot control turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
     "name": "broken M249 autonomous CROWS II",
-    "weight": "70000 g",
+    "weight": "75 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2867,7 +3003,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken M240 autonomous CROWS II",
-    "weight": "70000 g",
+    "weight": "75 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2876,7 +3012,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken M2 autonomous CROWS II",
-    "weight": "100000 g",
+    "weight": "100 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2885,7 +3021,7 @@
     "symbol": ",",
     "color": "green",
     "name": "broken laser turret",
-    "weight": "110000 g",
+    "weight": "110 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -2898,8 +3034,8 @@
     "description": "A broken secubot, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
-    "volume": "65000 ml",
+    "weight": "100 kg",
+    "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -2915,8 +3051,8 @@
     "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
-    "volume": "65000 ml",
+    "weight": "100 kg",
+    "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -2944,7 +3080,7 @@
     "category": "tools",
     "name": "survival kit",
     "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
-    "weight": 1612,
+    "weight": "1612 g",
     "volume": "1 L",
     "price": 5000,
     "material": "aluminum",

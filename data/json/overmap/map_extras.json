@@ -81,7 +81,7 @@
     "type": "map_extra",
     "name": "Roadblock (Bandits)",
     "description": "This road is blocked by bandits.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_roadblock" },
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_bandits_block" },
     "sym": "x",
     "color": "yellow",
     "autonote": true

@@ -883,6 +883,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "raw_hfur",
+    "copy-from": "raw_fur",
+    "name": "raw human pelt",
+    "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "material": [ "fur", "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "id": "flesh_golem_heart",
     "name": "seeping heart",

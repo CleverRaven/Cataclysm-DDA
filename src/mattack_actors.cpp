@@ -214,8 +214,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Optional:
     if( obj.has_array( "damage_max_instance" ) ) {
-        JsonArray arr = obj.get_array( "damage_max_instance" );
-        damage_max_instance = load_damage_instance( arr );
+        damage_max_instance = load_damage_instance( obj.get_array( "damage_max_instance" ) );
     } else if( obj.has_object( "damage_max_instance" ) ) {
         damage_max_instance = load_damage_instance( obj );
     }
