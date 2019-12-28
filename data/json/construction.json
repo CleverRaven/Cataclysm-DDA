@@ -147,7 +147,7 @@
     "//": "Fills a shallow water with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 1 ] ],
-    "time": 60,
+    "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 500 ] ] ],
     "pre_terrain": "t_swater_sh",
