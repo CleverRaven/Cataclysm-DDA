@@ -122,7 +122,8 @@ enum class rechargeable_cbm {
 };
 
 enum class comfort_level {
-    uncomfortable = -999,
+    impossible = -999,
+    uncomfortable = -7,
     neutral = 0,
     slightly_comfortable = 3,
     comfortable = 5,
@@ -523,7 +524,7 @@ class player : public Character
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
-        void perform_special_attacks( Creature &t );
+        void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
@@ -671,6 +672,14 @@ class player : public Character
         /** Get calorie & vitamin contents for a comestible, taking into
          * account player traits */
         nutrients compute_effective_nutrients( const item & ) const;
+        /** Get range of possible nutrient content, for a particular recipe,
+         * depending on choice of ingredients */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const item &, const recipe_id &,
+            const cata::flat_set<std::string> &extra_flags = {} ) const;
+        /** Same, but across arbitrary recipes */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
@@ -813,7 +822,7 @@ class player : public Character
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
-        bool wield_contents( item &container, int pos = 0, bool penalties = true,
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume

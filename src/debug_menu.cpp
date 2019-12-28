@@ -1,8 +1,8 @@
 #include "debug_menu.h"
 
 // IWYU pragma: no_include <cxxabi.h>
-#include <limits.h>
-#include <stdint.h>
+#include <climits>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -67,7 +67,7 @@
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
-#include "signal.h"
+#include <csignal>
 #include "magic.h"
 #include "bodypart.h"
 #include "calendar.h"

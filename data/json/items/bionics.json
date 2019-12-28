@@ -19,7 +19,7 @@
     "abstract": "bionic_general_npc_usable",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "abstract bionic module (npc usable)",
+    "name": { "str": "abstract bionic module (npc usable)", "str_pl": "abstract bionic modules (npc usable)" },
     "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
   },
   {

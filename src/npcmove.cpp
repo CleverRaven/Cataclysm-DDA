@@ -2600,7 +2600,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return g->m.passable( elem );
     } );
 
-    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+    cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
         const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
         [&]( const int sum, const sphere & s ) {
             return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );

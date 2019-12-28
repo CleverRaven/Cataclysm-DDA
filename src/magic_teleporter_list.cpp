@@ -1,6 +1,6 @@
 #include "magic_teleporter_list.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <algorithm>
 #include <memory>

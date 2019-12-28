@@ -607,16 +607,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( last_recipe != current[line] ) {
                 last_recipe = current[line];
                 tmp = current[line]->create_result();
+                tmp.set_var( "recipe_exemplar", last_recipe->ident().str() );
             }
             tmp.info( true, thisItem, count );
-
-            // If it's food that can have variable nutrition, add disclaimer.
-            // Hidden if the user is attempting to page through components.
-            if( ( tmp.is_food_container() || tmp.is_food() ) && !tmp.has_flag( "NUTRIENT_OVERRIDE" ) &&
-                display_mode == 0 ) {
-                ypos += fold_and_print( w_data, point( xpos + 2, ypos ), pane - 2, c_light_gray,
-                                        _( "Shown nutrition is <color_cyan>estimated</color>, varying with <color_cyan>chosen ingredients</color>." ) );
-            }
 
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;

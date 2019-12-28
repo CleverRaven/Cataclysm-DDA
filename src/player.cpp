@@ -1923,7 +1923,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
-        if( !weapon.is_null() && !can_wield( weapon ).success() ) {
+        if( !weapon.is_null() && can_unwield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
             i_rem( &weapon );
         }
@@ -5780,7 +5780,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     } else if( plantsleep ) {
         if( vp || furn_at_pos != f_null ) {
             // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
             if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
@@ -5793,7 +5793,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             }
             // Sleep ain't happening
             else {
-                comfort = static_cast<int>( comfort_level::uncomfortable );
+                comfort = static_cast<int>( comfort_level::impossible );
             }
         }
         // Has webforce
@@ -5802,7 +5802,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Thick Web and you're good to go
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else {
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         }
     }
 
@@ -6300,32 +6300,35 @@ std::string player::weapname( unsigned int truncate ) const
     }
 }
 
-bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
+bool player::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
-    if( pos < 0 ) {
+    if( internal_item == nullptr ) {
         std::vector<std::string> opts;
         std::transform( container.contents.begin(), container.contents.end(),
         std::back_inserter( opts ), []( const item & elem ) {
             return elem.display_name();
         } );
         if( opts.size() > 1 ) {
-            pos = uilist( _( "Wield what?" ), opts );
+            int pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
         } else {
-            pos = 0;
+            internal_item = &container.contents.front();
         }
     }
 
-    if( pos >= static_cast<int>( container.contents.size() ) ) {
+    const bool has = std::any_of( container.contents.begin(),
+    container.contents.end(), [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
+    if( !has ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
 
-    auto target = std::next( container.contents.begin(), pos );
-    const auto ret = can_wield( *target );
+    const ret_val<bool> ret = can_wield( *internal_item );
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
@@ -6340,8 +6343,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
         inv.unsort();
     }
 
-    weapon = std::move( *target );
-    container.contents.erase( target );
+    weapon = std::move( *internal_item );
+    container.contents.remove_if( [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
     container.on_contents_changed();
 
     inv.update_invlet( weapon );
