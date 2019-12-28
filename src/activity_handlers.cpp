@@ -4440,7 +4440,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         } while( !target_is_valid );
     } else if( casting.has_flag( RANDOM_TARGET ) ) {
-        target = casting.random_valid_target( *p, p->pos() );
+        const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
+        if( !target_ ) {
+            p->add_msg_if_player( m_bad, _( "Your skill can't find a suitable target." ) );
+            return;
+        }
+        target = *target_;
     }
 
     // no turning back now. it's all said and done.
