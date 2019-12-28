@@ -37,6 +37,7 @@ Use the `Home` key to return to the top.
       - [`flags`](#-flags-)
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
+    + [Profession item substitution](#profession_item_substitutions)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
@@ -156,7 +157,7 @@ Use the `Home` key to return to the top.
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
-  
+
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
@@ -303,10 +304,10 @@ A few properties are applicable to most if not all json files and do not need to
 | Identifier               | Description
 |---                       |---
 | type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
-| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from. 
+| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from.
 | [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
 | [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
+| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
 
 
 
@@ -532,7 +533,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 | `default`   | Default monster, automatically fills in any remaining spawn chances.
 | `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
 | `is_safe`   | (bool) Check to not trigger safe-mode warning.
-| `is_animal` | (bool) Check if that group has only normal animals. 
+| `is_animal` | (bool) Check if that group has only normal animals.
 
 #### Monster definition
 
@@ -589,6 +590,41 @@ See MONSTERS.md
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
+
+### Profession item substitution
+
+Defines item replacements that are applied to the starting items based upon the starting traits. This allows for example to replace wool items with non-wool items when the characters starts with the wool allergy trait.
+
+If the JSON objects contains a "item" member, it defines a replacement for the given item, like this:
+
+```C++
+{
+  "type": "profession_item_substitutions",
+  "item": "sunglasses",
+  "sub": [
+    { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
+    { "present": [ "MYOPIC" ], "new": [ { "fitover_sunglasses", "ratio": 2 } ] }
+  ]
+}
+```
+This defines each item of type "sunglasses" shall be replaced with:
+- an item "fitover_sunglasses" if the character has the "HYPEROPIC" trait,
+- two items "fitover_sunglasses" if the character has the "MYOPIC" trait.
+
+If the JSON objects contains a "trait" member, it defines a replacement for multiple items that applies when the character has the given trait:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "trait": "WOOLALLERGY",
+  "sub": [
+    { "item": "blazer", "new": [ "jacket_leather_red" ] },
+    { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
+  ]
+}
+```C++
+This defines characters with the WOOLALLERGY trait get some items replaced:
+- "blazer" is converted into "jacket_leather_red",
+- each "hat_hunting" is converted into *two* "hat_cotton" items.
 
 ### Professions
 
@@ -1086,7 +1122,7 @@ Vehicle components when installed on a vehicle.
 "exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
 "fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
 "comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
-"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep. 
+"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
 "bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
 ```
 
@@ -1559,7 +1595,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "gunmod_data" : {
     "location": ...,
     "mod_targets": ...,
-    ... 
+    ...
 }
 ```
 
@@ -2157,7 +2193,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using  
+    `max` upper limit after `bas_num` and `scale_num` are calculated using
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
 
@@ -2221,7 +2257,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 #### `plant_data`
 
-(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag. 
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
 ### Terrain
 
@@ -2344,7 +2380,7 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 
 #### `floor_bedding_warmth`
 
-Bonus warmth offered by this terrain/furniture when used to sleep. 
+Bonus warmth offered by this terrain/furniture when used to sleep.
 
 #### `bonus_fire_warmth_feet`
 
