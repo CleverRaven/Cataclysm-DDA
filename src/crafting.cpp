@@ -70,8 +70,6 @@
 
 class basecamp;
 
-void drop_or_handle( const item &newit, player &p );
-
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
@@ -2259,7 +2257,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
     }
 }
 
-void drop_or_handle( const item &newit, player &p )
+void drop_or_handle( const item &newit, Character &p )
 {
     if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
