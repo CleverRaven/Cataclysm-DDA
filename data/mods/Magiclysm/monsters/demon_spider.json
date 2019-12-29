@@ -5,17 +5,6 @@
     "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
   },
   {
-    "id": "demon_spider",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
-      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
-      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
-      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
-    ]
-  },
-  {
     "id": "demon_spider_queen",
     "type": "harvest",
     "//": "separate harvest entry for future special alchemical items",
@@ -31,76 +20,6 @@
     "type": "MONSTER_FACTION",
     "name": "demon_spider",
     "base_faction": "spider"
-  },
-  {
-    "type": "material",
-    "ident": "demon_chitin",
-    "name": "Demon Chitin",
-    "density": 15,
-    "specific_heat_liquid": 4.186,
-    "specific_heat_solid": 2.108,
-    "latent_heat": 333,
-    "bash_resist": 1,
-    "cut_resist": 10,
-    "acid_resist": 3,
-    "fire_resist": 18,
-    "elec_resist": 2,
-    "chip_resist": 10,
-    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
-    "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "chipped",
-    "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
-      { "fuel": 1, "smoke": 3, "burn": 1 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
-    ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_chitin_piece",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "red",
-    "name": "chunk of demon chitin",
-    "name_plural": "chunks of demon chitin",
-    "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
-    "price": 0,
-    "material": "demon_chitin",
-    "weight": "89 g",
-    "volume": "250 ml",
-    "bashing": 1,
-    "flags": [ "TRADER_AVOID" ],
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_chitin_plate",
-    "category": "spare_parts",
-    "symbol": "/",
-    "color": "red",
-    "name": "demon chitin plate",
-    "price": 15225,
-    "material": "demon_chitin",
-    "weight": "10 kg",
-    "volume": "4 L",
-    "bashing": 12,
-    "to_hit": -4,
-    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_spider_fang",
-    "name": "demon spider fang",
-    "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
-    "weight": "270 g",
-    "to_hit": -2,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "flesh" ],
-    "volume": "250 ml",
-    "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 1500
   },
   {
     "id": "mon_demon_spiderling",
@@ -173,39 +92,6 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_demon_fireball",
-    "name": "Demon Fireball",
-    "description": "This is a monster only spell.",
-    "valid_targets": [ "hostile", "ground", "ally", "self" ],
-    "min_damage": 15,
-    "max_damage": 15,
-    "min_range": 12,
-    "max_range": 12,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "base_casting_time": 120,
-    "effect": "projectile_attack",
-    "damage_type": "fire"
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_summon_demon_spiderlings",
-    "name": "Summon Demon Spiderlings",
-    "description": "Summons 4 permanent demon spiderlings.",
-    "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
-    "valid_targets": [ "ground" ],
-    "min_damage": 4,
-    "max_damage": 4,
-    "min_range": 5,
-    "max_range": 5,
-    "min_aoe": 3,
-    "max_aoe": 3,
-    "base_casting_time": 160,
-    "effect": "summon",
-    "effect_str": "mon_demon_spiderling"
   },
   {
     "id": "mon_demon_spider_queen",
