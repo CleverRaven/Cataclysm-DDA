@@ -9,8 +9,8 @@
     "category": "other",
     "description": "A broken set of power armor fitted with an AI core for automated use.  It cannot be worn or disassembled until re-crafted into an undamaged robot.",
     "material": [ "superalloy", "plastic" ],
-    "weight": 9310,
-    "volume": 220,
+    "weight": "9310 g",
+    "volume": "55 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -23,8 +23,8 @@
     "looks_like": "power_armor_basic",
     "name": "broken basic auto armor",
     "description": "A broken set of power armor fitted with an AI core for automated use.  It cannot be worn or disassembled until re-crafted into an undamaged robot.",
-    "weight": 28010,
-    "volume": 300,
+    "weight": "28010 g",
+    "volume": "75 L",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -35,8 +35,8 @@
     "category": "other",
     "looks_like": "power_armor_heavy",
     "description": "A broken set of power armor fitted with an AI core for automated use.  It cannot be worn or disassembled until re-crafted into an undamaged robot.",
-    "weight": 30650,
-    "volume": 350,
+    "weight": "30650 g",
+    "volume": "87500 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -45,12 +45,12 @@
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "broken_tribot",
-    "name": "dead craftbuddy",
+    "name": { "str": "dead craftbuddy", "str_pl": "dead craftbuddies" },
     "category": "other",
     "description": "A broken repair robot, now limp and unmoving.  Could be gutted for parts or re-crafted into a functioning pal.",
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140 kg",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -192,8 +192,8 @@
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140 kg",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -239,8 +239,8 @@
     "category": "other",
     "description": "A broken cyborg, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140 kg",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -255,8 +255,8 @@
     "category": "other",
     "description": "A broken cyborg, now limp and unmoving.  Could be stripped down or re-crafted into a salvaged robot.",
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140 kg",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -292,7 +292,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken security robot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -300,7 +300,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken defense bot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -308,7 +308,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken riotcontrol robot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -316,7 +316,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "brown",
     "name": "broken junkyard cowboy",
-    "description": "A broken salvaged robot. Could be stripped for parts or re-crafted."
+    "description": "A broken salvaged robot.  Could be stripped for parts or re-crafted."
   },
   {
     "type": "GENERIC",
@@ -324,7 +324,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "cyan",
     "name": "broken shortcircuit samurai",
-    "description": "A broken salvaged robot. Could be stripped for parts or re-crafted."
+    "description": "A broken salvaged robot.  Could be stripped for parts or re-crafted."
   },
   {
     "type": "GENERIC",
@@ -332,7 +332,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "red",
     "name": "broken slapdash paladin",
-    "description": "A broken salvaged robot. Could be stripped for parts or re-crafted."
+    "description": "A broken salvaged robot.  Could be stripped for parts or re-crafted."
   },
   {
     "type": "GENERIC",
@@ -342,12 +342,12 @@
     "looks_like": "broken_secubot",
     "name": "broken disarmed military bot",
     "category": "other",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140 kg",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -359,7 +359,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military trainer robot",
-    "description": "A broken military trainer robot, shattered and inert. This one is armed with an integrated paintball gun. Could be stripped for parts."
+    "description": "A broken military trainer robot, shattered and inert.  This one is armed with an integrated paintball gun.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -367,7 +367,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated 5.56mm firearm. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 5.56mm firearm.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -375,7 +375,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated 7.62mm firearm. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62mm firearm.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -383,7 +383,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated 50 caliber firearm. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 50 caliber firearm.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -391,7 +391,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated 8x40mm firearm. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 8x40mm firearm.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -399,7 +399,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated flechette gun. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flechette gun.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -407,7 +407,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "red",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated 40mm grenade launcher. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 40mm grenade launcher.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -415,7 +415,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "red",
     "name": "broken military flame robot",
-    "description": "A broken military robot, shattered and inert. This one is armed with an integrated flamethrower. Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flamethrower.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -423,7 +423,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "white",
     "name": "broken robo-guardian",
-    "description": "A broken salvaged robot. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -431,7 +431,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "yellow",
     "name": "broken robote deluxe",
-    "description": "A broken deluxe robot. Could be stripped or recrafted."
+    "description": "A broken deluxe robot.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -439,7 +439,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "green",
     "name": "broken robo-protector",
-    "description": "A broken salvaged robot. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -447,7 +447,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "red",
     "name": "broken robo-defender",
-    "description": "A broken salvaged robot. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -457,12 +457,12 @@
     "looks_like": "broken_copbot",
     "name": "broken disarmed advanced bot",
     "category": "other",
-    "description": "A broken advanced robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "description": "A broken advanced robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "superalloy", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140 kg",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -474,7 +474,7 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "yellow",
     "name": "broken advanced robot",
-    "description": "A broken advanced robot. This one is armed with an integrated laser-emitter. Could be stripped for parts."
+    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -482,7 +482,7 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "magenta",
     "name": "broken advanced robot",
-    "description": "A broken advanced robot. This one is armed with an integrated plasma-ejector. Could be stripped for parts."
+    "description": "A broken advanced robot.  This one is armed with an integrated plasma-ejector.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -490,7 +490,7 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "magenta",
     "name": "broken advanced robot",
-    "description": "A broken advanced robot. This one is armed with an integrated laser-emitter. Could be stripped for parts."
+    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -498,7 +498,7 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "light_blue",
     "name": "broken advanced robot",
-    "description": "A broken advanced robot. This one is armed with an integrated electro-caster. Could be stripped for parts."
+    "description": "A broken advanced robot.  This one is armed with an integrated electro-caster.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -506,15 +506,15 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "light_blue",
     "name": "broken advanced robot",
-    "description": "A broken advanced robot. This one is armed with an integrated EMP projector. Could be stripped for parts."
+    "description": "A broken advanced robot.  This one is armed with an integrated EMP projector.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
     "id": "broken_advbot_glitter",
     "copy-from": "broken_advbot_disarmed",
     "color": "yellow",
-    "name": "broken glittering lady",
-    "description": "A broken salvaged robot. Could be stripped or recrafted."
+    "name": { "str": "broken glittering lady", "str_pl": "broken glittering ladies" },
+    "description": "A broken salvaged robot.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -522,7 +522,7 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "light_green",
     "name": "broken bitter spinster",
-    "description": "A broken salvaged robot. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -530,7 +530,7 @@
     "copy-from": "broken_chickenbot_disarmed",
     "color": "red",
     "name": "broken chainsaw horror",
-    "description": "A broken salvaged robot. Thank God it's finally dead. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Thank God it's finally dead.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -538,7 +538,7 @@
     "copy-from": "broken_chickenbot_disarmed",
     "color": "red",
     "name": "broken screeching terror",
-    "description": "A broken salvaged robot. Thank God it's finally dead. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Thank God it's finally dead.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -546,7 +546,7 @@
     "copy-from": "broken_chickenbot_disarmed",
     "color": "red",
     "name": "broken hooked nightmare",
-    "description": "A broken salvaged robot. Thank God it's finally dead. Could be stripped or recrafted."
+    "description": "A broken salvaged robot.  Thank God it's finally dead.  Could be stripped or recrafted."
   },
   {
     "type": "GENERIC",
@@ -575,8 +575,8 @@
     "price": 20000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 170200,
-    "volume": 250,
+    "weight": "170200 g",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
@@ -592,8 +592,8 @@
     "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 430000,
-    "volume": 750,
+    "weight": "430 kg",
+    "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,

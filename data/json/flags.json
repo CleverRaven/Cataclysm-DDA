@@ -7,6 +7,7 @@
   },
   {
     "id": "EFFECT_INVISIBLE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
@@ -70,6 +71,7 @@
   },
   {
     "id": "EFFECT_NIGHT_VISION",
+    "context": [  ],
     "type": "json_flag"
   },
   {
@@ -144,6 +146,7 @@
   {
     "id": "ETHEREAL_ITEM",
     "type": "json_flag",
+    "context": [  ],
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
   },
   {
@@ -503,6 +506,13 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
   },
   {
+    "id": "POWERARMOR_COMPATIBLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
+    "info": "This item can be worn simultaneously with power armor."
+  },
+  {
     "id": "furred",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -660,6 +670,12 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "PAIN_NORESIST",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "pain altering spells can't be resisted (like with the deadened trait)"
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "context": [ "mutation" ],
@@ -667,38 +683,47 @@
   },
   {
     "id": "EFFECT_FEATHER_FALL",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_BIO_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_BASH_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_CUT_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_ACID_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_STAB_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_HEAT_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_COLD_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "ELECTRIC_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {

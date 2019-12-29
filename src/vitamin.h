@@ -5,6 +5,7 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <set>
 #include <string>
 
 #include "calendar.h"
@@ -46,6 +47,10 @@ class vitamin
 
         std::string name() const {
             return name_.translated();
+        }
+
+        bool has_flag( const std::string &flag ) const {
+            return flags_.count( flag ) > 0;
         }
 
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
@@ -102,6 +107,7 @@ class vitamin
         time_duration rate_;
         std::vector<std::pair<int, int>> disease_;
         std::vector<std::pair<int, int>> disease_excess_;
+        std::set<std::string> flags_;
 };
 
 #endif

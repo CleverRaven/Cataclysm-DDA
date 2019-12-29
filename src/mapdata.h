@@ -371,6 +371,8 @@ struct furn_t : map_data_common_t {
 
     static size_t count();
 
+    bool is_movable() const;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };

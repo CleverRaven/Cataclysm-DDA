@@ -1,4 +1,4 @@
-#include <limits.h>
+#include <climits>
 #include <sstream>
 #include <algorithm>
 #include <list>

@@ -258,6 +258,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
@@ -427,6 +428,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
+- ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
@@ -1078,6 +1080,11 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 
 ## Mutations
+
+#### Flags
+
+- ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
+- ```NEED_ACTIVE_TO_MELEE``` This mutation gives bonus to unarmed melee only if it's active.
 
 ### Categories
 

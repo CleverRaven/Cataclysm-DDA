@@ -2,8 +2,7 @@
   {
     "id": "decoy_anarch",
     "type": "BOOK",
-    "name": "AAA Guide",
-    "name_plural": "AAA Guide",
+    "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
     "weight": "220 g",
     "volume": "500 ml",
@@ -39,8 +38,7 @@
   {
     "id": "manual_driving",
     "type": "BOOK",
-    "name": "The Rules of the Road",
-    "name_plural": "The Rules of the Road",
+    "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
     "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
     "weight": "404 g",
     "volume": "500 ml",
@@ -57,8 +55,7 @@
   {
     "id": "textbook_anarch",
     "type": "BOOK",
-    "name": "AAA Guide",
-    "name_plural": "AAA Guide",
+    "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
     "weight": "223 g",
     "volume": "500 ml",

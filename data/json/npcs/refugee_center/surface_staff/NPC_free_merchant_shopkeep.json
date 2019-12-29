@@ -415,7 +415,6 @@
       "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "om_special": "evac_center",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
@@ -426,7 +425,6 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "om_special": "evac_center",
         "set": [ { "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
       }
     },
@@ -556,7 +554,6 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_8",
-        "om_special": "evac_center",
         "set": [
           { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 1 },
           { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 3 }

@@ -595,7 +595,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         }
     }
     if( !throw_assist ) {
-        mod_stat( "stamina", stamina_cost );
+        mod_stamina( stamina_cost );
     }
 
     const skill_id &skill_used = skill_throw;
@@ -1254,6 +1254,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
+    const bool allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
+
     const tripoint src = pc.pos();
     tripoint dst = pc.pos();
 
@@ -1549,7 +1551,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             action = aim_mode->action;
         }
 
-        if( g->m.has_zlevels() && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
+        if( allow_zlevel_shift && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
             // Just determine our delta-z.
             const int dz = action == "LEVEL_UP" ? 1 : -1;
 

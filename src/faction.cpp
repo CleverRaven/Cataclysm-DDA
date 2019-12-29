@@ -1,6 +1,6 @@
 #include "faction.h"
 
-#include <assert.h>
+#include <cassert>
 #include <cstdlib>
 #include <bitset>
 #include <map>
