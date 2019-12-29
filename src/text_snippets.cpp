@@ -18,28 +18,27 @@ void snippet_library::load_snippet( const JsonObject &jsobj )
     hash_to_id_migration = cata::nullopt;
     const std::string category = jsobj.get_string( "category" );
     if( jsobj.has_array( "text" ) ) {
-        JsonArray jarr = jsobj.get_array( "text" );
-        add_snippets_from_json( category, jarr );
+        add_snippets_from_json( category, jsobj.get_array( "text" ) );
     } else {
         add_snippet_from_json( category, jsobj );
     }
 }
 
-void snippet_library::add_snippets_from_json( const std::string &category, JsonArray &jarr )
+void snippet_library::add_snippets_from_json( const std::string &category, const JsonArray &jarr )
 {
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::add_snippets_from_json called after snippet_library::migrate_hash_to_id." );
     }
     hash_to_id_migration = cata::nullopt;
-    while( jarr.has_more() ) {
-        if( jarr.test_string() ) {
+    for( const JsonValue &entry : jarr ) {
+        if( entry.test_string() ) {
             translation text;
-            if( !jarr.read_next( text ) ) {
-                jarr.throw_error( "Error reading snippet from JSON array" );
+            if( !entry.read( text ) ) {
+                entry.throw_error( "Error reading snippet from JSON array" );
             }
             snippets_by_category[category].no_id.emplace_back( text );
         } else {
-            JsonObject jo = jarr.next_object();
+            JsonObject jo = entry.get_object();
             add_snippet_from_json( category, jo );
         }
     }

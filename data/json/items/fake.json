@@ -17,7 +17,7 @@
     "id": "fake_burrowing",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "teeth and claws",
+    "name": { "str": "teeth and claws", "str_pl": "teeth and claws" },
     "flags": "TRADER_AVOID",
     "use_action": [ "BURROW" ],
     "qualities": [ [ "DIG", 3 ] ]
@@ -58,7 +58,7 @@
     "id": "bio_scalpel",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "autonomous surgical scalpels",
+    "name": { "str": "autonomous surgical scalpels", "str_pl": "autonomous surgical scalpels" },
     "flags": [ "TRADER_AVOID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },

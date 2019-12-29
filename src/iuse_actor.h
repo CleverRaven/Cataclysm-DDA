@@ -15,6 +15,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
+class npc_template;
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
@@ -333,6 +334,24 @@ class change_scent_iuse : public iuse_actor
 
         change_scent_iuse() : iuse_actor( "change_scent" ) { }
         ~change_scent_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
+ * This iuse contains the logic to summon an npc on the map.
+ */
+class place_npc_iuse : public iuse_actor
+{
+    public:
+        string_id<npc_template> npc_class_id;
+        bool place_randomly = false;
+        int moves = 100;
+        std::string summon_msg;
+
+        place_npc_iuse() : iuse_actor( "place_npc" ) { }
+        ~place_npc_iuse() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;

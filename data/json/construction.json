@@ -1101,7 +1101,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },
@@ -1113,9 +1113,33 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Build Dry Stone Wall",
+    "//": "Step 1: half the wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "rock", 12 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_drystone_wall_half"
+  },
+  {
+    "type": "construction",
+    "description": "Build Dry Stone Wall",
+    "//": "Step 2: the full wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 16 ] ] ],
+    "pre_terrain": "t_drystone_wall_half",
+    "post_terrain": "t_drystone_wall"
   },
   {
     "type": "construction",

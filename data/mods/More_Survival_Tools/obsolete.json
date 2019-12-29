@@ -8,5 +8,15 @@
     "id": "bolt_bone",
     "type": "MIGRATION",
     "replace": "bolt_crude"
+  },
+  {
+    "id": "resin_cord",
+    "type": "MIGRATION",
+    "replace": "slime_scrap"
+  },
+  {
+    "type": "recipe",
+    "result": "resin_cord",
+    "obsolete": true
   }
 ]

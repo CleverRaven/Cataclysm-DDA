@@ -50,6 +50,9 @@ If the activity needs any information during its execution or when it's finished
 
 Those values are automatically saved and restored when loading a game. Other than that they are not changed/examined by any common code. Different types of activities can use them however they need to.
 
+If you are adding an activity that may be possible for NPCs to perform, then please make the activity placement in absolute coords.
+As the local coordinate system is based on the avatar position.
+
 ### `activity_handlers::<activity>_do_turn` function
 
 To prevent an infinite loop, ensure that one of the following is satisfied:

@@ -2,7 +2,7 @@
 
 #include "sdl_utils.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 
 #include "color.h"

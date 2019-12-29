@@ -1,6 +1,6 @@
 #include "magic.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>
@@ -103,6 +103,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
+        case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -1091,10 +1092,9 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             source.add_msg_if_player( sp.message() );
 
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( _self ) {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
-                } else {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                        _self ? source.pos() : target ) ) {
+                    sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( _self ) {
@@ -1110,10 +1110,9 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( extra_spell.self ) {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
-                } else {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                        extra_spell.self ? source.pos() : target ) ) {
+                    sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( extra_spell.self ) {
@@ -1126,20 +1125,20 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-tripoint spell::random_valid_target( const Creature &caster, const tripoint &caster_pos ) const
+cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
+        const tripoint &caster_pos ) const
 {
-    const std::set<tripoint> area = spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
-                                    range(), false );
     std::set<tripoint> valid_area;
-    for( const tripoint &target : area ) {
+    for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
+            range(), false ) ) {
         if( is_valid_target( caster, target ) ) {
             valid_area.emplace( target );
         }
     }
-    size_t rand_i = rng( 0, valid_area.size() - 1 );
-    auto iter = valid_area.begin();
-    std::advance( iter, rand_i );
-    return *iter;
+    if( valid_area.empty() ) {
+        return cata::nullopt;
+    }
+    return random_entry( valid_area );
 }
 
 // player

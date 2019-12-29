@@ -6,6 +6,7 @@ Use the `Home` key to return to the top.
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
+    + [`data/json/items/comestibles`](#datajsonitemscomestibles)
   * [`data/json/requirements/`](#datajsonrequirements)
   * [`data/json/vehicles/`](#datajsonvehicles)
 - [Generic properties and formatting](#generic-properties-and-formatting)
@@ -160,7 +161,7 @@ Use the `Home` key to return to the top.
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
 # File descriptions
-Here's a quick summary of what each of the JSON files contain, broken down by folder.
+Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
 
 ## `data/json/`
 
@@ -258,6 +259,8 @@ See below for specifics on the various items
 | toolmod.json       | modifications of tools
 | tools.json         | tools and items that can be (a)ctivated
 | vehicle_parts.json | components of vehicles when they aren't on the vehicle
+
+### `data/json/items/comestibles`
 
 ## `data/json/requirements/`
 
@@ -466,7 +469,7 @@ The syntax listed here is still valid.
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Must be one continuous word, use underscores if necessary.
+| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
@@ -483,6 +486,12 @@ The syntax listed here is still valid.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
 | `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `edible`   | Optional boolean. Default is false.
+| `rotting`   | Optional boolean. Default is false.
+| `soft`   | Optional boolean. Default is false.
+| `reinforces`   | Optional boolean. Default is false.
+
+There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
 
 ```C++
 {
@@ -940,6 +949,10 @@ Note that even though most statistics yield an integer, you should still use
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
+"cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
+"rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
+"rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
 "bodytemp_sleep" : 50, // Additional units of bodytemp which are applied when sleeping
 "initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
@@ -1328,6 +1341,19 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
     "required_level" : 2
 }
 ```
+
+Since many book names are proper names, it's often necessary to explicitly specify
+the plural forms. The following is the game's convention on plural names of books:
+
+1. For non-periodical books (textbooks, manuals, spellbooks, etc.),
+    1. If the book's singular name is a proper name, then the plural name is `copies of (singular name)`. For example, the plural name of `Lessons for the Novice Bowhunter` is `copies of Lessons for the Novice Bowhunter`.
+    2. Otherwise, the plural name is the usual plural of the singular name. For example, the plural name of `tactical baton defense manual` is `tactical baton defense manuals`
+2. For periodicals (magazines and journals),
+    1. If the periodical's singular name is a proper name, and doesn't end with "Magazine", "Weekly", "Monthly", etc., the plural name is `issues of (singular name)`. For example, the plural name of `Archery for Kids` is `issues of Archery for Kids`.
+    2. Otherwise, the periodical's plural name is the usual plural of the singular name. For example, the plural name of `Crafty Crafter's Quarterly` is `Crafty Crafter's Quarterlies`.
+3. For board games (represented internally as book items),
+    1. If the board game's singular name is a proper name, the plural is `sets of (singular name)`. For example, the plural name of `Picturesque` is `sets of Picturesque`.
+    2. Otherwise the plural name is the usual plural. For example, the plural of `deck of cards` is `decks of cards`.
 
 #### Conditional Naming
 
@@ -1847,6 +1873,13 @@ The contents of use_action fields can either be a string indicating a built-in f
     "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
     "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
     "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "place_npc", // place npc of specific class on the map
+    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
+    "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 50 // how many move points the action takes.
 },
 "use_action": {
     "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work

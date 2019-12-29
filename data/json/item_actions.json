@@ -86,11 +86,6 @@
   },
   {
     "type": "item_action",
-    "id": "MISC_REPAIR",
-    "name": "Repair wood/paper/bone/chitin"
-  },
-  {
-    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": "Attach as toolmod"
   },
@@ -297,6 +292,11 @@
   {
     "type": "item_action",
     "id": "BLECH",
+    "name": "Drink"
+  },
+  {
+    "type": "item_action",
+    "id": "BLECH_BECAUSE_UNCLEAN",
     "name": "Drink"
   },
   {
@@ -1022,6 +1022,11 @@
   {
     "type": "item_action",
     "id": "place_monster",
+    "name": "Activate"
+  },
+  {
+    "type": "item_action",
+    "id": "place_npc",
     "name": "Activate"
   },
   {

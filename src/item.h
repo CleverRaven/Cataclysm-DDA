@@ -2,7 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <climits>
 #include <list>
 #include <map>
@@ -274,7 +274,7 @@ class item : public visitable<item>
          */
         /*@{*/
         static item make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
-                                 time_point turn = calendar::turn, const std::string &name = "" );
+                                 time_point turn = calendar::turn, const std::string &name = "", int upgrade_time = -1 );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -1134,6 +1134,11 @@ class item : public visitable<item>
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
         float get_freeze_point() const; // Farenheit
+
+        // If this is food, returns itself.  If it contains food, return that
+        // contents.  Otherwise, returns nullptr.
+        item *get_food();
+        const item *get_food() const;
 
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
@@ -2132,6 +2137,11 @@ class item : public visitable<item>
         int temperature = 0;       // Temperature of the item (in 0.00001 K).
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
+
+        // Set when the item / its content changes. Used for worn item with
+        // encumbrance depending on their content.
+        // This not part serialized or compared on purpose!
+        bool encumbrance_update_ = false;
 
     private:
         /**

@@ -10,6 +10,10 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
+<a href="https://repology.org/project/cataclysm-dda/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging status" align="right">
+</a>
+
 Visit [our website](http://cataclysmdda.org) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
@@ -28,8 +32,6 @@ Ncurses and tiles version avaliable in [official repos](https://src.fedoraprojec
 
 `sudo dnf install cataclysm-dda`
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg)](https://repology.org/project/cataclysm-dda/versions)
-
 ## Compile
 
 Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).
@@ -41,7 +43,7 @@ We also have the following build guides:
 
 ## Contribute
 
-Cataclysm:Dark Days Ahead is the result of contributions from over 900 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm:Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=146201)](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
