@@ -58,7 +58,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ "melee", 1 ],
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
