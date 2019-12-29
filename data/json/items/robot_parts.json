@@ -50,7 +50,7 @@
   {
     "type": "GENERIC",
     "id": "self_monitoring_module",
-    "name": "self monitoring sensors",
+    "name": { "str": "self monitoring sensors", "str_pl": "self monitoring sensors" },
     "description": "A array of sensors and diagnostic modules allowing the robot to perceive itself.",
     "copy-from": "robot_module_abstract"
   },

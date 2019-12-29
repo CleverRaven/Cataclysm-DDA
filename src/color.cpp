@@ -99,7 +99,7 @@ color_id color_manager::name_to_id( const std::string &name ) const
 {
     auto iter = name_map.find( name );
     if( iter == name_map.end() ) {
-        DebugLog( D_ERROR, DC_ALL ) << "couldn't parse color: " << name ;
+        debugmsg( "couldn't parse color: %s", name );
         return def_c_unset;
     }
 
@@ -559,8 +559,8 @@ nc_color color_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            DebugLog( D_WARNING, DC_ALL ) << "Deprecated foreground color suffix was used: (" <<
-                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
+            debugmsg( "Deprecated foreground color suffix was used: (%d) in (%s).  Please update mod that uses that.",
+                      i.second, color );
         }
     }
 
@@ -604,8 +604,8 @@ nc_color bgcolor_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            DebugLog( D_WARNING, DC_ALL ) << "Deprecated background color suffix was used: (" <<
-                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
+            debugmsg( "Deprecated background color suffix was used: (%s) in (%s).  Please update mod that uses that.",
+                      i.second, color );
         }
     }
 

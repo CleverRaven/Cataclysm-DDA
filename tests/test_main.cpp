@@ -13,9 +13,9 @@
 #endif // _GLIBCXX_DEBUG
 
 #define CATCH_CONFIG_RUNNER
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <algorithm>
 #include <cstring>
 #include <chrono>

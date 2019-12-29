@@ -1,6 +1,6 @@
 #include "monattack.h"
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>

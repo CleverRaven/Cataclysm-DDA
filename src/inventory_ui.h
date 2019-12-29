@@ -2,7 +2,7 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>

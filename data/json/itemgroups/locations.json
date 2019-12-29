@@ -2704,6 +2704,7 @@
       [ "coat_lab", 40 ],
       [ "boots_steel", 5 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "mocassins", 20 ],
       [ "bandana", 35 ],
       [ "glasses_eye", 90 ],

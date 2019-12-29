@@ -2,8 +2,7 @@
   {
     "id": "mag_guns",
     "type": "BOOK",
-    "name": "Guns n Ammo",
-    "name_plural": "Guns n Ammo",
+    "name": { "str": "Guns n Ammo", "str_pl": "issues of Guns n Ammo" },
     "description": "Reviews of firearms, and various useful tips about their use.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -21,7 +20,7 @@
   {
     "id": "manual_gun",
     "type": "BOOK",
-    "name": "The Gun Owner's Handbook",
+    "name": { "str": "The Gun Owner's Handbook", "str_pl": "copies of The Gun Owner's Handbook" },
     "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms.",
     "weight": "462 g",
     "volume": "500 ml",
@@ -38,8 +37,7 @@
   {
     "id": "pocket_firearms",
     "type": "BOOK",
-    "name": "Pocket Guide to Firearm Safety",
-    "name_plural": "Pocket Guides to Firearm Safety",
+    "name": { "str": "Pocket Guide to Firearm Safety", "str_pl": "copies of Pocket Guide to Firearm Safety" },
     "description": "This pocket-sized leather-bound guide to firearm safety combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
     "weight": "226 g",
     "volume": "250 ml",
