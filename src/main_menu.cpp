@@ -302,7 +302,7 @@ void main_menu::init_strings()
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
-                mmenu_credits + ( line.empty() ? " " : line ) + "\n";
+                mmenu_credits += ( line.empty() ? " " : line ) + "\n";
             }
         }
     } );
