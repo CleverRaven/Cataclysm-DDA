@@ -15,6 +15,8 @@ class Character;
 class item;
 struct tripoint;
 
+using morale_type = string_id<morale_type_data>;
+
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
@@ -102,6 +104,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
+void find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {

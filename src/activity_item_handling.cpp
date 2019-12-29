@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "construction.h"
 #include "clzones.h"
 #include "debug.h"
@@ -25,6 +26,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "morale.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
@@ -3116,6 +3118,93 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
     }
 
     return {};
+}
+
+void find_auto_consume( player &p, const bool food )
+{
+    if( p.is_npc() ) {
+        return;
+    }
+    if( p.has_effect( effect_nausea ) ) {
+        return;
+    }
+    const tripoint pos = p.pos();
+    zone_manager &mgr = zone_manager::get_manager();
+    const bool saprophage = p.has_trait( trait_id( "SAPROPHAGE" ) );
+    const bool saprovore = p.has_trait( trait_id( "SAPROVORE" ) );
+    const bool carnivore = p.has_trait( trait_id( "CARNIVORE" ) );
+    const bool cannibal = p.has_trait_flag( "CANNIBAL" );
+    zone_type_id consume_type_zone = zone_type_id( "" );
+    if( food ) {
+        consume_type_zone = zone_type_id( "AUTO_EAT" );
+    } else {
+        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+    }
+    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, g->m.getabs( pos ),
+            ACTIVITY_SEARCH_DISTANCE );
+    if( dest_set.empty() ) {
+        return;
+    }
+    for( const tripoint loc : dest_set ) {
+        if( loc.z != p.pos().z ) {
+            continue;
+        }
+        map_stack food_there = g->m.i_at( g->m.getlocal( loc ) );
+        for( item &it : food_there ) {
+            item &comest = p.get_consumable_from( it );
+            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
+                comest.get_comestible_fun() < -5 ) {
+                // not good eatings.
+                continue;
+            }
+            if( !p.can_consume( it ) ) {
+                continue;
+            }
+            if( comest.rotten() && !saprophage && !saprovore ) {
+                // its gone off.
+                continue;
+            }
+            if( food && comest.get_comestible()->default_nutrition.kcal < 50 ) {
+                // not filling enough
+                continue;
+            }
+            if( ( p.allergy_type( comest ) != MORALE_NULL ) || ( carnivore &&
+                    comest.has_flag( "ALLERGEN_JUNK" ) &&
+                    !comest.has_flag( "CARNIVORE_OK" ) ) ) {
+                // allergic to.
+                continue;
+            }
+            if( comest.has_flag( "CANNIBALISM" ) && !cannibal ) {
+                // it's people.
+                continue;
+            }
+            if( !food && comest.get_comestible()->quench < 15 ) {
+                // not quenching enough
+                continue;
+            }
+            if( comest.item_tags.count( "FROZEN" ) ) {
+                // its frozen
+                continue;
+            }
+            if( comest.charges > 0 && p.stomach.stomach_remaining( p ) < comest.volume() / comest.charges &&
+                !comest.has_infinite_charges() ) {
+                // too full to eat that.
+                continue;
+            }
+            if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
+                // its frozen
+                continue;
+            }
+            item_location item_loc = item_location( map_cursor( g->m.getlocal( loc ) ), &it );
+            avatar_action::eat( g->u, item_loc );
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+                         g->m.getlocal( loc ) ), 1 ) );
+            if( it.is_container() ) {
+                it.on_contents_changed();
+            }
+            return;
+        }
+    }
 }
 
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
