@@ -67,7 +67,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
     test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
     test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
-    test_items[ "G4" ].emplace_back( "rifle_scope" );
+    test_items[ "G4" ].contents.insert_legacy( item( "rifle_scope" ) );
 
     if( what == "AMMO" ) {
         header = {
@@ -212,14 +212,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->gun ) {
                 item gun( e );
                 if( !gun.magazine_integral() ) {
-                    gun.emplace_back( gun.magazine_default() );
+                    gun.contents.insert_legacy( item( gun.magazine_default() ) );
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
-                    gun.emplace_back( "barrel_small" );
+                    gun.contents.insert_legacy( item( "barrel_small" ) );
                     dump( test_npcs[ "S1" ], gun );
                 }
             }

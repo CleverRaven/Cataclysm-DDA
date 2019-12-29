@@ -64,6 +64,7 @@ class item_location::impl
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
+        class item_in_container;
 
         impl() = default;
         impl( item *i ) : what( i->get_safe_reference() ), needs_unpacking( false ) {}
@@ -344,9 +345,8 @@ class item_location::impl::item_on_person : public item_location::impl
                 // holsters may also adjust the volume cost factor
 
                 if( parents.back()->can_holster( obj, true ) ) {
-                    auto ptr = dynamic_cast<const holster_actor *>
-                               ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
-                    mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
+                    mv += who->as_player()->item_handling_cost( obj, false,
+                            parents.back()->contents.obtain_cost( obj ) );
 
                 } else if( parents.back()->is_bandolier() ) {
                     auto ptr = dynamic_cast<const bandolier_actor *>
@@ -478,6 +478,101 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 };
 
+class item_location::impl::item_in_container : public item_location::impl
+{
+    private:
+        item_location container;
+
+        // figures out the index for the item, which is where it is in the total list of contents
+        // note: could be a better way of handling this?
+        int calc_index() const {
+            int idx = 0;
+            for( const item &it : container->contents.all_items() ) {
+                if( target() == &it ) {
+                    return idx;
+                }
+                idx++;
+            }
+            if( idx == 0 ) {
+                return -1;
+            }
+            return idx;
+        }
+    public:
+        item_in_container( const item_location &container, item *which ) :
+            impl( which ), container( container ) {}
+
+        void serialize( JsonOut &js ) const override {
+            js.start_object();
+            js.member( "idx", calc_index() );
+            js.member( "type", "in_container" );
+            js.member( "parent", container );
+            js.end_object();
+        }
+
+        item *unpack( int idx ) const override {
+            std::list<item> all_items = container->contents.all_items();
+            auto iter = all_items.begin();
+            std::advance( iter, idx );
+            if( iter != all_items.end() ) {
+                return &*iter;
+            } else {
+                return nullptr;
+            }
+        }
+
+        std::string describe( const Character * ) const override {
+            if( !target() ) {
+                return std::string();
+            }
+            return _( string_format( "inside %s", container->tname() ) );
+        }
+
+        type where() const override {
+            return type::container;
+        }
+
+        tripoint position() const override {
+            return container.position();
+        }
+
+        void remove_item() override {
+            container->contents.remove_item( *target() );
+        }
+
+        int obtain( Character &ch, int qty ) override {
+            ch.mod_moves( -obtain_cost( ch, qty ) );
+
+            item obj = target()->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
+                remove_item();
+                return inv;
+            }
+        }
+
+        int obtain_cost( const Character &ch, int qty ) const override {
+            if( !target() ) {
+                return 0;
+            }
+
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
+            }
+
+            const int container_mv = container->contents.obtain_cost( *target() );
+            if( container_mv == 0 ) {
+                debugmsg( string_format( "ERROR: %s does not contain %s", container->tname(), target()->tname() ) );
+                return 0;
+            }
+            return container_mv + container.obtain_cost( ch, qty );
+        }
+};
+
 const item_location item_location::nowhere;
 
 item_location::item_location()
@@ -491,6 +586,9 @@ item_location::item_location( Character &ch, item *which )
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
+
+item_location::item_location( const item_location &container, item *which )
+    : ptr( new impl::item_in_container( container, which ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {

@@ -66,6 +66,11 @@ class item_pocket
         bool is_type( pocket_type ptype ) const;
         bool empty() const;
 
+        std::list<item> all_items();
+        std::list<item> all_items() const;
+        std::list<item *> all_items_ptr( pocket_type pk_type );
+        std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
+
         item &back();
         const item &back() const;
         item &front();
@@ -117,6 +122,10 @@ class item_pocket
         // cost of getting an item from this pocket
         // @TODO: make move cost vary based on other contained items
         int obtain_cost( const item &it ) const;
+
+        // this is used for the visitable interface. returns true if no further visiting is required
+        bool remove_internal( const std::function<bool( item & )> &filter,
+                              int &count, std::list<item> &res );
         // @relates visitable
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );

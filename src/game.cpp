@@ -8326,7 +8326,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     // for holsters and ammo pouches try to reload any contained item
     if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents.front();
+        it = &it->contents.legacy_front();
     }
 
     // for bandoliers we currently defer to iuse_actor methods
@@ -8535,6 +8535,8 @@ void game::wield( item_location &loc )
                 }
                 break;
             }
+            case item_location::type::container:
+                break;
             case item_location::type::invalid:
                 debugmsg( "Failed wield from invalid item location" );
                 break;

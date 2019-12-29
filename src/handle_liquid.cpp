@@ -121,7 +121,7 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
     return true;
 }
 
-bool handle_liquid_from_container( std::list<item>::iterator in_container,
+bool handle_liquid_from_container( item *in_container,
                                    item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
@@ -134,13 +134,13 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
     if( in_container->charges > 0 ) {
         return false;
     }
-    container.contents.erase( in_container );
+    container.contents.remove_item( *in_container );
     return true;
 }
 
 bool handle_liquid_from_container( item &container, int radius )
 {
-    return handle_liquid_from_container( container.contents.begin(), container, radius );
+    return handle_liquid_from_container( &container.contents.legacy_front(), container, radius );
 }
 
 static bool get_liquid_target( item &liquid, item *const source, const int radius,
@@ -195,7 +195,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && &cont->contents.front() == &liquid ) ) {
+        if( cont == source || ( !cont->contents.empty() && &cont->contents.legacy_front() == &liquid ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -338,6 +338,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                             g->m.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
                             break;
                         case item_location::type::character:
+                        case item_location::type::container:
                         case item_location::type::invalid:
                             break;
                     }

@@ -223,7 +223,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            for( item &remain : armor.contents ) {
+            for( item &remain : armor.contents.all_items() ) {
                 g->m.add_item_or_charges( pos(), remain );
             }
         } else {

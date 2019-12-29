@@ -211,7 +211,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
             THEN( "the associated magazine is reloaded" ) {
                 CHECK( mag.ammo_remaining() > 0 );
-                CHECK( mag.contents.front().type == ammo.type );
+                CHECK( mag.contents.legacy_front().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
@@ -243,7 +243,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                 THEN( "the associated magazine is reloaded" ) {
                     CHECK( mag.ammo_remaining() > 0 );
-                    CHECK( mag.contents.front().type == ammo.type );
+                    CHECK( mag.contents.legacy_front().type == ammo.type );
                 }
                 WHEN( "the player triggers auto reload again" ) {
                     g->reload_weapon( false );
@@ -260,7 +260,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                         THEN( "the second associated magazine is reloaded" ) {
                             CHECK( mag2.ammo_remaining() > 0 );
-                            CHECK( mag2.contents.front().type == ammo.type );
+                            CHECK( mag2.contents.legacy_front().type == ammo.type );
                         }
                         WHEN( "the player triggers auto reload again" ) {
                             g->reload_weapon( false );

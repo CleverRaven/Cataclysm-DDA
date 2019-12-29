@@ -1084,7 +1084,7 @@ void defense_game::caravan()
             // Guns bought from the caravan should always come with an empty
             // magazine.
             if( tmp.is_gun() && !tmp.magazine_integral() ) {
-                tmp.emplace_back( tmp.magazine_default() );
+                tmp.contents.insert_legacy( item( tmp.magazine_default() ) );
             }
 
             for( int j = 0; j < item_count[0][i]; j++ ) {

@@ -145,7 +145,8 @@ TEST_CASE( "starting_items" )
                     g->u.male = i == 0;
                     std::list<item> items = prof->items( g->u.male, traits );
                     for( const item &it : items ) {
-                        items.insert( items.begin(), it.contents.begin(), it.contents.end() );
+                        std::list<item> all_items{ it.contents.all_items() };
+                        items.insert( items.begin(), all_items.begin(), all_items.end() );
                     }
 
                     for( const item &it : items ) {

@@ -52,7 +52,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
-        for( const item &i : drop_item.contents ) {
+        for( const item &i : drop_item.contents.all_items() ) {
             g->m.add_item_or_charges( pt, i );
         }
         // TODO: Non-glass breaking
@@ -68,7 +68,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s bursts!" ), drop_item.tname() );
         }
 
-        for( const item &i : drop_item.contents ) {
+        for( const item &i : drop_item.contents.all_items() ) {
             g->m.add_item_or_charges( pt, i );
         }
 

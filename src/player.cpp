@@ -99,6 +99,7 @@
 #include "flat_set.h"
 #include "stomach.h"
 #include "teleport.h"
+#include "item_contents.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -2729,7 +2730,7 @@ bool player::consume( item_location loc )
         const bool was_in_container = !can_consume_as_is( target );
 
         if( was_in_container ) {
-            i_rem( &target.contents.front() );
+            i_rem( &target.contents.legacy_front() );
         } else {
             i_rem( &target );
         }
@@ -2854,7 +2855,7 @@ item::reload_option player::select_ammo( const item &base,
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
-            return e.ammo->contents.front().display_name();
+            return e.ammo->contents.legacy_front().display_name();
 
         } else {
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
@@ -2914,7 +2915,7 @@ item::reload_option player::select_ammo( const item &base,
         row += string_format( " %-7d ", sel.moves() );
 
         if( base.is_gun() || base.is_magazine() ) {
-            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() :
+            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.legacy_front().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 if( ammo->ammo->prop_damage ) {
@@ -2947,7 +2948,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     for( auto i = 0; i < static_cast<int>( opts.size() ); ++i ) {
-        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() :
+        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.legacy_front() :
                            *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -3041,7 +3042,7 @@ item::reload_option player::select_ammo( const item &base,
 
     const item_location &sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
-            sel->contents.front().typeId() :
+            sel->contents.legacy_front().typeId() :
             sel->typeId();
     return opts[ menu.ret ];
 }
@@ -3070,7 +3071,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                 continue;
             }
             auto id = ( ammo->is_ammo_container() || ammo->is_container() )
-                      ? ammo->contents.front().typeId()
+                      ? ammo->contents.legacy_front().typeId()
                       : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 // Speedloaders require an empty target.
@@ -3104,7 +3105,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                 if( base.ammo_data() ) {
                     name = base.ammo_data()->nname( 1 );
                 } else if( base.is_watertight_container() ) {
-                    name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+                    name = base.is_container_empty() ? "liquid" : base.contents.legacy_front().tname();
                 } else {
                     name = enumerate_as_string( base.ammo_types().begin(),
                     base.ammo_types().end(), []( const ammotype & at ) {
@@ -3460,7 +3461,7 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
-        qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
+        qty = clamp( ammo.contents.legacy_front().charges, 1, qty );
     } else if( ammo.is_magazine() ) {
         qty = 1;
     } else {
@@ -3678,16 +3679,7 @@ bool player::unload( item &it )
         }
 
         bool changed = false;
-        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
-        &changed]( item & e ) {
-            int old_charges = e.charges;
-            const bool consumed = this->add_or_drop_with_msg( e, true );
-            changed = changed || consumed || e.charges != old_charges;
-            if( consumed ) {
-                this->mod_moves( -this->item_handling_cost( e ) );
-            }
-            return consumed;
-        } ), it.contents.end() );
+        it.contents.legacy_unload( this, changed );
         if( changed ) {
             it.on_contents_changed();
         }
@@ -3698,7 +3690,7 @@ bool player::unload( item &it )
     std::vector<std::string> msgs( 1, it.tname() );
     std::vector<item *> opts( 1, &it );
 
-    for( auto e : it.gunmods() ) {
+    for( item *e : it.gunmods() ) {
         if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             msgs.emplace_back( e->tname() );
@@ -3755,8 +3747,8 @@ bool player::unload( item &it )
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
-        for( auto &content : target->contents ) {
-            mv += this->item_reload_cost( it, content, content.charges ) / 2;
+        for( const item &content : target->contents.all_items() ) {
+            mv += item_reload_cost( it, content, content.charges ) / 2;
         }
         g->u.activity.moves_left += mv;
 
@@ -3775,9 +3767,7 @@ bool player::unload( item &it )
         // Eject magazine consuming half as much time as required to insert it
         this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
 
-        target->contents.remove_if( [&target]( const item & e ) {
-            return target->magazine_current() == &e;
-        } );
+        target->contents.remove_item( *target->magazine_current() );
 
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
@@ -4016,10 +4006,7 @@ void player::reassign_item( item &it, int invlet )
 
 bool player::gunmod_remove( item &gun, item &mod )
 {
-    auto iter = std::find_if( gun.contents.begin(), gun.contents.end(), [&mod]( const item & e ) {
-        return &mod == &e;
-    } );
-    if( iter == gun.contents.end() ) {
+    if( !gun.contents.has_item( mod ) ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
@@ -4039,7 +4026,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     const itype *modtype = mod.type;
 
     i_add_or_drop( mod );
-    gun.contents.erase( iter );
+    gun.contents.remove_item( mod );
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
@@ -4803,9 +4790,9 @@ std::string player::weapname( unsigned int truncate ) const
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
+    } else if( weapon.is_container() && weapon.contents.legacy_size() == 1 ) {
         return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
+                              weapon.contents.legacy_front().charges );
 
     } else if( !is_armed() ) {
         return _( "fists" );
@@ -4819,8 +4806,9 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
+        std::list<item> all_items = container.contents.all_items();
         std::vector<std::string> opts;
-        std::transform( container.contents.begin(), container.contents.end(),
+        std::transform( all_items.begin(), all_items.end(),
         std::back_inserter( opts ), []( const item & elem ) {
             return elem.display_name();
         } );
@@ -4830,12 +4818,12 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
                 return false;
             }
         } else {
-            internal_item = &container.contents.front();
+            internal_item = &container.contents.legacy_front();
         }
     }
 
-    const bool has = std::any_of( container.contents.begin(),
-    container.contents.end(), [internal_item]( const item & it ) {
+    const bool has = container.contents.get_item_with(
+    [internal_item]( const item & it ) {
         return internal_item == &it;
     } );
     if( !has ) {
@@ -4859,7 +4847,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     }
 
     weapon = std::move( *internal_item );
-    container.contents.remove_if( [internal_item]( const item & it ) {
+    container.contents.remove_items_if( [internal_item]( const item & it ) {
         return internal_item == &it;
     } );
     container.on_contents_changed();
@@ -4888,10 +4876,11 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     return true;
 }
 
-void player::store( item &container, item &put, bool penalties, int base_cost )
+void player::store( item &container, item &put, bool penalties, int base_cost,
+                    item_pocket::pocket_type pk_type )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
-    container.put_in( i_rem( &put ) );
+    container.put_in( i_rem( &put ), pk_type );
     reset_encumbrance();
 }
 
@@ -5449,10 +5438,10 @@ void player::place_corpse()
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.emplace_back( "bio_power_storage" );
+        body.contents.insert_legacy( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.emplace_back( "bio_power_storage_mkII" );
+        body.contents.insert_legacy( item( "bio_power_storage_mkII" ) );
     }
     g->m.add_item_or_charges( pos(), body );
 }
@@ -5493,10 +5482,10 @@ void player::place_corpse( const tripoint &om_target )
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.emplace_back( "bio_power_storage" );
+        body.contents.insert_legacy( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.emplace_back( "bio_power_storage_mkII" );
+        body.contents.insert_legacy( item( "bio_power_storage_mkII" ) );
     }
     bay.add_item_or_charges( point( finX, finY ), body );
 }

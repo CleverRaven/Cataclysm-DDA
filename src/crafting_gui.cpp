@@ -887,7 +887,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( tmp.contents.empty() ) { // use this item
         tid = tmp.typeId();
     } else { // use the contained item
-        tid = tmp.contents.front().typeId();
+        tid = tmp.contents.legacy_front().typeId();
     }
     const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
     for( const auto &b : known_recipes ) {

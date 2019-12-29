@@ -74,7 +74,7 @@ static bool item_has_uses_recursive( const item &it )
         return true;
     }
 
-    for( const auto &elem : it.contents ) {
+    for( const auto &elem : it.contents.all_items() ) {
         if( item_has_uses_recursive( elem ) ) {
             return true;
         }

@@ -334,7 +334,7 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.front().typeId() : "null";
+                it->contents.legacy_front().typeId() : "null";
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
@@ -354,7 +354,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                     return true;
                 }
             } else {
-                if( it->contents.front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }
