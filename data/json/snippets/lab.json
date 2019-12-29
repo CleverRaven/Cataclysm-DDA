@@ -1,12 +1,84 @@
 [
   {
     "type": "snippet",
+    "category": "adminlab_notes",
+    "text": [
+      {
+        "id": "adminlab_snippet_2",
+        "text": "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?"
+      },
+      {
+        "id": "adminlab_snippet_2",
+        "text": "Our security department has identified several key flaws.  Though our surface entrance is quite secure, there are several possible points of entry below the surface."
+      },
+      {
+        "id": "adminlab_snippet_3",
+        "text": "Facilities security has been scrambling to hold onto their security contractors due to the massive uptick in fatalities; a decision was made to procure a number of semi-autonomous turrets and to increase safety.  Few of us are comfortable working with a gun over our shoulders being run electronically by a glorified mall cop, but we're assured it's safer for all of us.  We'll get Melchior to assist with AI threat recognition, which will make everyone a little more comfortable I think."
+      },
+      {
+        "id": "adminlab_snippet_4",
+        "text": "Herrera's group retained copies of the source General Carlsberg asked us to look into; with several of our facilities no longer responding, or other teams essentially 'going down with their ships', they've done their best to adapt the code to operate without Melchior's guidance.  It's likely several revisions old now, and mostly shoots at anything humanoid shaped with a heat signature, but our hope is it'll buy us all some time."
+      },
+      {
+        "id": "adminlab_snippet_5",
+        "text": "Following S37ZBE's fallout, IT has noted far too many attempts have been made to access other teams' drives and terminals, including certain unofficial directories.  Lack of sufficient monitoring means we have been unable to pinpoint the bad actors, but IT has proposed automatically dispatching the UGV's as a deterrant."
+      },
+      {
+        "id": "adminlab_snippet_6",
+        "text": "XEDRA-12 and XEDRA-40 entered voluntary quarantine status after a suspected outbreak of XE037 today.  We have elected to initiate full quarantine of any labs working with XE037 until we can confirm that the outbreak is not universal."
+      },
+      {
+        "id": "adminlab_snippet_7",
+        "text": "The outbreak has been confirmed to be non-universal.  Labs on stand-down protocol have dispatched containment teams to investigate the possibility of further expansion beyond affected facilities.  The brass is not going to like this at all."
+      },
+      {
+        "id": "adminlab_snippet_8",
+        "text": "Marketing transdimensional-obtained rare radioisotopes as \"produced by an experimental reactor\" has not just worked for funding, but paid off in infrastructure.  The government has authorized the construction of multiple radioisotope thermal generators as backup power in the hot labs.  Turns out they're cheaper when you can get plutonium at a discount."
+      },
+      {
+        "id": "adminlab_snippet_9",
+        "text": "There's been a massive security breach.  It looks like more than half of our database was copied.  IT suspects China, as usual.  The knee-jerk is to silo all our labs and force us to communicate by Melchior only."
+      },
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "ailab_notes",
     "text": [
       {
         "id": "ailab_snippet_1",
         "text": "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy has issues SEEING THE FUTURE more than a few seconds ahead, so it doesn't always get IFF right if it doesn't have a human supervisor.  Build a robot that is literally prescient and you get this kind of bitching.  The Director sent 'em back with a note that we're scientists, not firmware devs."
+      },
+      {
+        "id": "ailab_snippet_2",
+        "text": "They want to use the damn CROWS turrets we made for the military in the SECURE LABS.  These guys are fuckin' nuts.  Those things are designed for field use outdoors, against insurgents, they won't know how to handle whatever-the-fuck those guys are working with.  So guess who gets to work on the threat recognition refinements?  I basically have to write the whole thing again from scratch."
+      },
+      {
+        "id": "ailab_snippet_3",
+        "text": "So here's the thing.  All this tech is predicated on the idea that we can cheat and look a few seconds into the future to see the outcome.  Now they want us to use the same tech, but without the future sense, and they want it to work just as well.  Goddamn desk jockeys."
+      },
+      {
+        "id": "ailab_snippet_4",
+        "text": "Melchior is still operating below ten percent spec.  It's mostly a power cost issue: it just takes too much wattage to open as many microportals as they want, according to the team in XEDRA-03.  As usual, admin wants us to get the efficiency up without changing the power requirements and without any new tech from the eggheads."
+      },
+      {
+        "id": "ailab_snippet_5",
+        "text": "We managed to convince them Melchior is smarter than it really is, which will at least get them off our backs for a while.  How did we do it, you ask?  We cut down the number of dimensions scanned per second, which drops its accuracy by a few orders of magnitude, but the power savings let us scan a wider time range.  That counts for about ten percent.  The other ninety percent was getting David shelling out for a much sexier sounding voice synth package."
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "ailab_notes",
+    "text": [
+      {
+        "id": "alienlab_snippet_1",
+        "text": "Today we tested weaponry against XE142 and XE157, two amorphous subprime samples.  Their form proved to be nearly invulnerable to projectile based weaponry, but they were susceptible to directed energy weapons and flagration."
+      },
+      {
+        "id": "lab_snippet_30",
+        "text": "The vivisection program has shown mixed results, revealing an incredible degree of variation in subplane lifeforms.  Certain specimens have an internal structure that is amazingly similar to that of mammals, while others seem to have no internal structure at all."
+      },
     ]
   },
   {
@@ -109,154 +181,41 @@
         "id": "biolab_snippet_24",
         "text": "We exposed the XE037 colonized mice to an assortment of mutagenic and carcinogenic compounds today.  High dose radiation was interesting: too much still killed the mice, but a sub-fatal dose caused rapid mutation, incredibly rapid.  It turned yellow, grew to the size of a cat, and started shooting lightning bolts everywhere.  About a minute later it died, but that was a hell of a lightshow in the meantime."
       },
-      { "id": "lab_snippet_25", "text": "" },
       {
-        "id": "lab_snippet_26",
-        "text": "XE037 shows promise as a catalyst for both cloning and treatments that mimic stem cells.  This is further evidence supporting Hendelson's theory of a near universal symbiotic relationship involving XE037."
+        "id": "biolab_snippet_25",
+        "text": "oday we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope."
       },
       {
-        "id": "lab_snippet_27",
-        "text": "Several of the more advanced specimens we have retrieved show stunning similarity to XE037.  XE142 and XE157 in particular show the same amorphous, slime-like structure as XE037, suggesting a close genetic relationship."
-      },
-      {
-        "id": "lab_snippet_28",
-        "text": "Today we tested weaponry against XE142 and XE157, two amorphous subprime samples.  Their form proved to be nearly invulnerable to projectile based weaponry, but they were susceptible to directed energy weapons and flagration."
-      },
-      {
-        "id": "lab_snippet_29",
-        "text": "Our cloning department has failed to produce results.  In vats containing stem cell treatments, XE037, and control vats, the subjects simple disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms."
-      },
-      {
-        "id": "lab_snippet_30",
-        "text": "The vivisection program has shown mixed results, revealing an incredible degree of variation in subplane lifeforms.  Certain specimens have an internal structure that is amazingly similar to that of mammals, while others seem to have no internal structure at all."
-      },
-      {
-        "id": "lab_snippet_31",
-        "text": "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?"
-      },
-      {
-        "id": "lab_snippet_32",
-        "text": "Our security department has identified several key flaws.  Though our surface entrance is quite secure, there are several possible points of entry below the surface, particularly in the sewage systems."
-      },
-      {
-        "id": "lab_snippet_33",
-        "text": "Today we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress, but displayed next to no human intelligence."
-      },
-      {
-        "id": "lab_snippet_34",
-        "text": "Mendelson shows a dismaying lack of organization and security consciousness.  Containment of all samples of XE037 is of critical importance, as shown by contamination experiments."
-      },
-      {
-        "id": "lab_snippet_35",
-        "text": "Mendelson has been terminated following an incident with XE037.  A substantial mobile sample departed his lab and encountered our security forces.  Before the sample was destroyed, it managed to kill two men.  Alarmingly, their corpses displayed mobility and extreme aggression."
-      },
-      {
-        "id": "lab_snippet_36",
+        "id": "biolab_snippet_26",
         "text": "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon."
       },
       {
-        "id": "lab_snippet_37",
-        "text": "Testing XE037 on non-human mammal subjects does not appear to display the same revivifying effect, oddly enough.  Acquiring non-human subjects, sadly, is a long and costly process, and research into this area is lacking."
+        "id": "biolab_snippet_27",
+        "text": "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool."
       },
       {
-        "id": "lab_snippet_",
-        "text": "After our curious results with testing XE037 on non-human mammals, we decided to introduce the substance to some of the insects which have found their way into the lab.  Horrifyingly, XE037 caused near-instant mutation and gigantism in the insects, and security intervention was required."
-      },
-      {
-        "id": "lab_snippet_38",
-        "text": "Earlier conjecture that revivification occurred only in humans and insects was premature.  Exposure introduces a persistent, low level infection in all mammal subjects, but quickly enters a form of stasis and seems to go dormant."
-      },
-      {
-        "id": "lab_snippet_39",
-        "text": "The primary factor in determining revivification of mammalian subjects seems to be the amount of XE037 within the body at time of expiration.  Smaller mammals such as lab rats do not obtain this critical mass of XE037 before going dormant.  Larger canine subjects, however, do."
-      },
-      {
-        "id": "lab_snippet_40",
-        "text": "I swear they are talking to me.  No one believes me.  No one understands.  They whisper to me, at night, in the dark.  Please, please, make them stop."
-      },
-      {
-        "id": "lab_snippet_41",
-        "text": "Program S37ZBE, investigation of XE037 on inert human bodies, is making great strides.  Recently we found that XE037 has no effect when introduced to a deceased body; revivification only occurs when the subject is exposed to XE037 prior to expiration."
-      },
-      {
-        "id": "lab_snippet_42",
-        "text": "Attempts to surpass the XE037 mammalian stasis limit have had some success.  Direct subcutaneous injection of XE037 quickly spreads through the body, and while it immediately enters stasis after equalizing, it remains in the body."
-      },
-      {
-        "id": "lab_snippet_43",
+        "id": "biolab_snippet_43",
         "text": "There has been an incident in Lab 24, 2 casualties reported, one lethal.  A rat involved in the stasis breaking project was hooked to a monitoring machine and left over night.  Upon opening the cage, Simon Bellevue was electrocuted, and another researcher at the opposite end of the lab sustained severe current burns, despite never approaching the cage."
       },
       {
-        "id": "lab_snippet_44",
-        "text": "A post-mortem on the rat involved in the electrocution incident has revealed several changes to its internal anatomy centered around its connection with the monitoring device, and large buildups of XE037 were detected around the connection point."
+        "id": "biolab_snippet_44",
+        "text": "A post-mortem on the rat involved in the electrocution incident has revealed several changes to its internal anatomy centered around its connection with the monitoring device, and large buildups of XE037 were detected around the connection point.  There is a belief several other rat subjects experienced changes overnight as well.  This hypothesis is supported by an inventory check after the incident that found almost twenty rats had gone missing from their cages."
       },
       {
-        "id": "lab_snippet_45",
-        "text": "There is a belief several other rat subjects experienced changes overnight as well.  This hypothesis was informed when an inventory check after the incident found almost twenty rats had gone missing from their cages overnight."
+        "id": "biolab_snippet_49",
+        "text": "Subject T3D has succumbed to radiation poisoning, but not before undergoing several more physiological mutations.  Dr. Holstein is suggesting these may be an attempt by XE037 to adapt its host to an unknown stimulus.  Dr. Dionne says that's completely unfounded.  They got into a rousing twenty minute debate at the update meeting."
       },
       {
-        "id": "lab_snippet_46",
-        "text": "Exposure of large quantities of XE037 to various types of radiation have shown promising results, stimulating activity and forming interesting structural changes in the subject being tested.  Exposure to radiation on living subjects scheduled."
-      },
-      {
-        "id": "lab_snippet_47",
-        "text": "Exposure to radiation of test subject T3D indicates stimulation of internal XE037 deposits and a temporary lifting of the mammalian stasis condition."
-      },
-      {
-        "id": "lab_snippet_48",
-        "text": "As in the tests of isolated XE037 samples, prolonged radiation exposure of T3D has resulted in significant structural changes.  These do not appear to be random.  T3D appears to be in immense pain as a result of these changes, but the lack of an oral opening has rendered him unable to vocalize."
-      },
-      {
-        "id": "lab_snippet_49",
-        "text": "Subject T3D has succumbed to radiation poisoning, but not before undergoing several more physiological changes the lab boys are referring to as \"mutations\".  They do not appear to be truly random, and may be an attempt by XE037 to adapt its host to an unknown stimulus."
-      },
-      {
-        "id": "lab_snippet_50",
-        "text": "Post-mortem revivification of subject T3D occurred as expected, followed by an immediate autopsy.  The internal changes were significant, with large parts of the subject's internal anatomy replaced with \"organs\" of XE037 with unknown properties, primarily those known to succumb earlier to the effects of radiation poisoning."
+        "id": "biolab_snippet_50",
+        "text": "Post-mortem revivification of subject T3D was arrested by an immediate autopsy per XEDRA-40's new protocol: we weren't looking to study zombies today.  The internal changes were significant, with large parts of the subject's internal anatomy replaced with new or duplicated organs.  Dr. Versed over in Entomology is convinced some of his organs are scaled-up derivations of fruit fly anatomy now."
       },
       {
         "id": "lab_snippet_51",
-        "text": "Samples of XE037 from subject T3D remains extremely active.  Further experimentation on induced mutation in infected individuals shows significant potential.  Samples of the enhanced XE037, labeled PE012, have been sent to several researchers for further study."
-      },
-      {
-        "id": "lab_snippet_52",
-        "text": "S37ZBE, the special investigation into the effects of XE037 on inert human bodies, has made terrific discoveries.  It seems that it occasionally displays a mutagenic property which manifests itself after termination of the subject, resulting in a striking variety in postmortem morphology."
-      },
-      {
-        "id": "lab_snippet_53",
-        "text": "Incidence of post-mortem mutation seems to depend on several factors - leading candidates include type and amount of damage sustained leading to expiration, embedded foreign bodies at time of revivification, proximity to other revived individuals, and the body mass of the subject."
-      },
-      {
-        "id": "lab_snippet_54",
-        "text": "Time also appears to play a large role in post-mortem revivification, as does sustained trauma insufficient to permanently disable the subject.  Sufficient amounts of trauma in short periods of time lead to deactivation of XE037, but smaller amounts over several days cause it to expand."
-      },
-      {
-        "id": "lab_snippet_55",
-        "text": "S37ZBE may be put on indefinite hold shortly.  Postmortem morphological changes have reached extreme levels; this morning one subject nearly doubled in size, acquiring enough strength to reduce a concrete wall to rubble.  It required a 6 man team, heavily armed, to re-terminate the subject."
-      },
-      {
-        "id": "lab_snippet_56",
-        "text": "Jakobson insists that S37ZBE must continue, despite the extreme security and safety risks.  Nearly half of our security forces have been redirected to the S37ZBE project, simply to deal with the occasional escape of a subject."
-      },
-      {
-        "id": "lab_snippet_57",
-        "text": "Jakobson was killed today by one of S37ZBE's subjects; ironic considering how hard he fought to keep the project active.  Alarmingly, his corpse revivified immediately.  This suggests that XE037 may have contaminated the lab at large."
-      },
-      {
-        "id": "lab_snippet_58",
-        "text": "Termination of a subject which was never a part of S37ZBE has confirmed my fears.  XE037 has contaminated most, if not all of the laboratory, most likely via the water supply.  Research has started immediately into a process to destroy XE037 within the human body."
+        "text": "We were able to isolate what we believe to be re-adapted XE037 from subject T3D's cadaver.  Transdimensionally sourced XE037 is not isolated, but this post-mutagenic, post-revivification stuff seems to obey local physical laws a bit more.  We can pick it up on spectroscopy, but it has comparable physical properties to the sampels of XE037 we obtained \"abroad\".  Samples of the enhanced XE037, labeled PE012, have been sent to several researchers for further study."
       },
       {
         "id": "lab_snippet_59",
         "text": "Despite a wide variety of treatments, we have been completely unsuccessful in removing XE037 from human subjects.  Every individual displayed revivification post termination.  Interestingly, XE037 seems to be completely inert prior to termination."
-      },
-      {
-        "id": "lab_snippet_60",
-        "text": "Facilities security has been scrambling to hold onto their security contractors due to the massive uptick in fatalities; a decision was made to procure a number of obsoleted remote turrets and EOD bots to increase safety.  Few of us are comfortable working with a gun over our shoulders being run electronically by a glorified mall cop, but we're assured it's safer for all of us."
-      },
-      {
-        "id": "lab_snippet_61",
-        "text": "Following S37ZBE's fallout, IT has noted far too many attempts have been made to access other teams' drives and terminals, including certain unofficial directories.  Lack of sufficient monitoring means we have been unable to pinpoint the bad actors, but IT has proposed automatically dispatching the UGV's as a deterrant."
       },
       {
         "id": "lab_snippet_62",
@@ -283,14 +242,6 @@
         "text": "We have even more distressing news than the widespread XE037 contamination, there are reports of the XE037 mutating into various new variants.  See data files on XE037a - XE037f.  Research on the effects of these variants is ongoing.  We do know that XE037d shows signs of PE062 immunity, and XE037b can revive various breeds of canines.  However, revival is not as guaranteed as standard XE037 humanoid infection.  Canine body size seems to influence the chances.  See experiment tXE037b_c."
       },
       {
-        "id": "lab_snippet_68",
-        "text": "Today we found our solution, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plan.  The cure is worse than the disease."
-      },
-      {
-        "id": "lab_snippet_69",
-        "text": "Herrera's group retained copies of the source General Carlsberg asked us to look into; with several of our facilities no longer responding, or other teams essentially 'going down with their ships', they've done their best to adapt the code to the older equipment.  It's likely several revisions old now, and mostly shoots at anything humanoid shaped with a heat signature, but our hope is it'll buy us all some time."
-      },
-      {
         "id": "lab_snippet_70",
         "text": "XE037 revivification has reached critical levels, which are rapidly overwhelming the available military and regional police assets' ability to stop.  Every team in the field has encountered hostile specimens, and several are no longer responding to communications.  Dr. Savage has proposed a strategic redeployment to the underground complex known as the VAULT, and continuing production of PE062 there."
       }
@@ -298,8 +249,26 @@
   },
   {
     "type": "snippet",
+    "category": "clonelab_notes",
+    "text": [
+      {
+        "id": "clonelab_snippet_1",
+        "text": "Our cloning department has failed to produce results.  In vats containing stem cell treatments, XE037, and control vats, the subjects simple disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "telelab_notes",
     "text": [
+      {
+        "id": "telelab_snippet_1",
+        "text": "Probe XC-3 returned with the soil samples Dr. Takatoshi requested.  As she predicted, the samples were absolutely loaded with rare isotopes: just in that 100 gram sample, there was five times as much plutonium-244 as in the entirety of the Earth's crust, for example.  We've sent it on to phys chem for further characterization, but it's clear enough: a few kilos of dirt from 021XC could provide enough unobtainium to make XEDRA very, very rich."
+      },
+      {
+        "id": "telelab_snippet_2",
+        "text": "We've noticed an interesting phenomenon after all these probe visits to 021XC.  The travel cost is dropping, ever so slightly.  It's still a few megawatts to send a probe over, but after a few thousand trips, the cost is down 0.02 percent per portal."
+      },
       {
         "id": "telelab_snippet_15",
         "text": "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes."
@@ -339,6 +308,88 @@
       {
         "id": "telelab_snippet_25",
         "text": "Hendelson exposed a lab mouse to XE037 under control conditions.  I'm not sure how he got permission for the project.  The results were interesting: rapid uptake into the mouse's cellular tissue followed by what we presume to be a die-off, fitting previous observations that XE037 doesn't seem to be able to survive outside its native planar material.  XEDRA command is authorizing a biological research wing to take over XE037 property analysis."
+      },
+      {
+        "id": "telelab_snippet_26",
+        "text": "I swear they are talking to me.  No one believes me.  No one understands.  They whisper to me, at night, in the dark.  Please, please, make them stop."
+      },
+      {
+        "id": "telelab_snippet_27",
+        "text": "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plan.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40.  Perhaps Dr. Sidhu can make some use of this information."
+      },
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "telelab_notes",
+    "text": [  
+      { 
+        "id": "zombielab_snippet_1",
+        "text": "oday we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope." 
+      },
+      {
+        "id": "zombielab_snippet_2",
+        "text": "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon."
+      },
+      {
+        "id": "zombielab_snippet_3",
+        "text": "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool."
+      },
+      {
+        "id": "zombielab_snippet_4",
+        "text": "Testing XE037 on mouse and cat subjects does not appear to display the same revivifying effect, oddly enough.  Acquiring non-human subjects, sadly, is a long and costly process, and research into this area is lacking.  We'll send for some monkeys."
+      },
+      {
+        "id": "zombielab_snippet_5",
+        "text": "Earlier conjecture that revivification occurred only in humanss was premature.  Per earlier experiments, exposure introduces a persistent, low level infection in all mammal subjects, but quickly enters a form of stasis and seems to go dormant.  In most of our experimental subjects this has been enough to trigger mutagenicity, but not revivification.  New tests on a wider range of subjects seem to suggest that larger mammals - dogs and monkeys, thus far - are susceptible to both effects."
+      },
+      {
+        "id": "zombielab_snippet_6",
+        "text": "The primary factor in determining revivification of mammalian subjects seems to be the amount of XE037 within the body at time of expiration.  Smaller mammals such as lab rats do not obtain this critical amount of XE037 before going dormant.  Larger canine subjects, however, do."
+      },
+      {
+        "id": "zombielab_snippet_7",
+        "text": "Program S37ZBE, investigation of XE037 on inert human bodies, is making great strides.  Recently we found that XE037 has no effect when introduced to a deceased body; revivification only occurs when the subject is exposed to XE037 prior to expiration."
+      },
+      {
+        "id": "zombielab_snippet_8",
+        "text": "Attempts to surpass the XE037 mammalian stasis limit have had some success.  Direct subcutaneous injection of XE037-rich samples quickly cause mass ripples through the body that we believe indicates a rapid uptake of XE037.  These levels drop over hours, suggesting that XE037 cannot sustain itself in smaller organisms."
+      },
+      {
+        "id": "zombielab_snippet_9",
+        "text": "S37ZBE, the special investigation into the effects of XE037 on inert human bodies, has made terrific discoveries.  It seems that it occasionally displays a mutagenic property which manifests itself after termination of the subject, resulting in a striking variety in postmortem morphology."
+      },
+      {
+        "id": "zombielab_snippet_10",
+        "text": "Incidence of post-mortem mutation seems to depend on several factors - leading candidates include type and amount of damage sustained leading to expiration, proximity to other revived individuals, time since colonization by XE037, and the body mass of the subject."
+      },
+      {
+        "id": "zombielab_snippet_11",
+        "text": "We've confirmed that XE037 does have some limitations in its revivification capacity.  Once the body is sufficiently destroyed, be it by dissection or by mulching, it cannot revive.  This is convenient for our autopsy attempts, and we have added a formalized protocol to quarter cadavers immediately after death if an autopsy is planned."
+      },
+      {
+        "id": "zombielab_snippet_12",
+        "text": "S37ZBE may be put on indefinite hold shortly.  Postmortem morphological changes have reached extreme levels; this morning one subject nearly doubled in size, acquiring enough strength to reduce a concrete wall to rubble.  It required a 6 man team, heavily armed, to re-terminate the subject."
+      },
+      {
+        "id": "zombielab_snippet_13",
+        "text": "Jakobson insists that S37ZBE must continue, despite the extreme security and safety risks.  Nearly half of our security forces have been redirected to the S37ZBE project, simply to deal with the occasional escape of a subject.  We have requisitioned military assistance at facilities involved in the project."
+      },
+      {
+        "id": "zombielab_snippet_14",
+        "text": "Jakobson was killed today by one of S37ZBE's subjects; ironic considering how hard he fought to keep the project active.  Alarmingly, his corpse revivified immediately.  This suggests that XE037 may have contaminated the lab at large.  Even more alarmingly, we received an alert from Dr. Dionne in XEDRA-12 that they have detected similar signs of cross-contamination with XE037.  How can this have happened?  Even during the breach last week, we managed to keep containment protocols active!"
+      },
+      {
+        "id": "zombielab_snippet_15",
+        "text": "Termination of a subject which was never a part of S37ZBE has confirmed my fears.  XE037 has contaminated most, if not all of the laboratory.  We're in communication with XEDRA-12 over their own outbreak, and both labs have been quarantined.  While they backtrace the leak, we will start research into a process to destroy XE037 within the human body."
+      },
+      {
+        "id": "zombielab_snippet_16",
+        "text": "Dr. Takatoshi sent us interesting news: her lab serendipitously discovered that sufficient rapid teleports in a short span of time can strip out XE037 somehow, without harming the subject.  This has the unfortunate issues of needing an absolutely insane amount of electricity, and drawing the attention of what Dr. Takatoshi calls \"subplanar creatures\" and the rest of us call \"horrifying alien monstrosities\".  Still, it's a start."
+      },
+      {
+        "id": "zombielab_snippet_17",
+        "text": "Dr. Sidhu figured out a way to track what happens to XE037 when it's stripped out during teleportation, using a high-affinity biotracer and a probe that follows immediately behind the test subject.  XE037 migrates out of the body in small but significant quantities with every teleport.  We're attributing way too much intelligence to it here, but we can't help but feel this is some kind of intentional 'stowaway' effect, like it's shedding off the body to try to colonize a new dimension.  At the meeting, Dr. Sidhu told us to stop anthropomorphizing it.  It's no more a sign of intelligence than a cold virus coming out with a sneeze."
       }
     ]
   }
