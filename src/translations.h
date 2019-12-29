@@ -10,6 +10,8 @@
 
 #include "optional.h"
 
+class JsonOut;
+
 #if !defined(translate_marker)
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
@@ -159,6 +161,7 @@ class translation
          * or converted using `make_plural()`.
          **/
         void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &jout ) const;
 
         /**
          * Returns raw string if no translation is needed, otherwise returns

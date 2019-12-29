@@ -429,6 +429,17 @@ void translation::make_plural()
     }
 }
 
+void translation::serialize( JsonOut &jout ) const
+{
+    jout.start_object();
+
+    jout.member( "ctxt", ctxt );
+    jout.member( "str", raw );
+    jout.member( "str_pl", raw_pl );
+
+    jout.end_object();
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
 #ifndef CATA_IN_TOOL
