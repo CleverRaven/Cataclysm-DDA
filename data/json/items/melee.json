@@ -541,7 +541,7 @@
     "price": 1050,
     "price_postapoc": 300,
     "material": [ "aluminum", "wood" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE"],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "2068 g",
     "volume": "3250 ml",
