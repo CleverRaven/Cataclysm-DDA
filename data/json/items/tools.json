@@ -7394,7 +7394,8 @@
     "to_hit": -2,
     "bashing": 6,
     "material": "steel",
-    "use_action": { "type": "weigh_self", "max_weight": 150000 }
+    "use_action": { "type": "weigh_self", "max_weight": 150000 },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "acetylene_machine",
