@@ -71,8 +71,6 @@ class basecamp;
 
 static const efftype_id effect_contacts( "contacts" );
 
-void drop_or_handle( const item &newit, player &p );
-
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_BURROW( "BURROW" );
 
@@ -2247,7 +2245,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
     }
 }
 
-void drop_or_handle( const item &newit, player &p )
+void drop_or_handle( const item &newit, Character &p )
 {
     if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );

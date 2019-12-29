@@ -4,6 +4,7 @@
 
 #include <list>
 
+class Character;
 class item;
 class player;
 class recipe;
@@ -15,5 +16,7 @@ void remove_ammo( item &dis_item, player &p );
 void remove_ammo( std::list<item> &dis_items, player &p );
 
 const recipe *select_crafting_recipe( int &batch_size );
+
+void drop_or_handle( const item &newit, Character &p );
 
 #endif

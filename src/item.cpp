@@ -8984,6 +8984,11 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
+void item::set_last_rot_check( const time_point &pt )
+{
+    last_rot_check = pt;
+}
+
 bool item::process( player *carrier, const tripoint &pos, bool activate,
                     float insulation, const temperature_flag flag )
 {

@@ -1140,6 +1140,8 @@ class item : public visitable<item>
         item *get_food();
         const item *get_food() const;
 
+        void set_last_rot_check( const time_point &pt );
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
