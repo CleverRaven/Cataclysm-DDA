@@ -237,7 +237,7 @@
     "type": "ammunition_type",
     "id": "308",
     "name": ".308",
-    "default": "308"
+    "default": "762_51"
   },
   {
     "type": "ammunition_type",
