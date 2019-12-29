@@ -135,7 +135,6 @@
     "nested_mapgen_id": "city_block_9x9_vitamin_shop_front",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "fill_ter": "t_linoleum_white",
       "rotation": [ 0, 3 ],
       "rows": [
         "LHL   LHL",
@@ -202,7 +201,6 @@
     "//": "designed for 9x9 cellphone shop.",
     "nested_mapgen_id": "city_block_9x9_cellphone_shop_front",
     "object": {
-      "fill_ter": "t_linoleum_white",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
