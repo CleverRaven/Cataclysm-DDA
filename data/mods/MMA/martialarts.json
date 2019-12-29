@@ -16,7 +16,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_dodges": 1,
-        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ]
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "per", "scale": 0.12 } ]
       }
     ],
     "ondodge_buffs": [
@@ -28,7 +28,12 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 2,
-        "flat_bonuses": [ [ "hit", 1.0 ], [ "arpen", "bash", "per", 0.5 ], [ "arpen", "cut", "per", 0.5 ], [ "arpen", "stab", "per", 0.5 ] ]
+        "flat_bonuses": [
+          { "stat": "hit", "scale": 1.0 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
+        ]
       }
     ],
     "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
