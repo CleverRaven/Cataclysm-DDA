@@ -90,6 +90,7 @@
       [ [ "power_supply", 12 ] ],
       [ [ "storage_battery", 1 ] ],
       [ [ "flamethrower", 1 ] ]
+    ]
         },
   {
     "result": "broken_afs_mon_sentinel_lx",
