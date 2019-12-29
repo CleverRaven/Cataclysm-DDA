@@ -1567,7 +1567,7 @@ int Character::i_add_to_container( const item &it, const bool unloading )
 
     const itype_id item_type = it.typeId();
     auto add_to_container = [&it, &charges]( item & container ) {
-        auto &contained_ammo = container.contents.front();
+        item &contained_ammo = container.contents.legacy_front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
             const int diff = container.ammo_capacity() - contained_ammo.charges;
             //~ %1$s: item name, %2$s: container name
@@ -1584,7 +1584,8 @@ int Character::i_add_to_container( const item &it, const bool unloading )
     };
 
     visit_items( [ & ]( item * item ) {
-        if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
+        if( charges > 0 && item->is_ammo_container() &&
+            item_type == item->contents.legacy_front().typeId() ) {
             charges = add_to_container( *item );
             item->handle_pickup_ownership( *this );
         }
@@ -1706,7 +1707,7 @@ item Character::i_rem( const item *it )
 
 void Character::i_rem_keep_contents( const int pos )
 {
-    for( auto &content : i_rem( pos ).contents ) {
+    for( item &content : i_rem( pos ).contents.all_items() ) {
         i_add_or_drop( content );
     }
 }
@@ -1836,7 +1837,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 {
     if( obj.is_watertight_container() ) {
         if( !obj.is_container_empty() ) {
-            auto contents_id = obj.contents.front().typeId();
+            itype_id contents_id = obj.contents.legacy_front().typeId();
 
             // Look for containers with the same type of liquid as that already in our container
             src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item * node ) {
@@ -1850,7 +1851,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
 
                 if( node->is_container() && !node->is_container_empty() &&
-                    node->contents.front().typeId() == contents_id ) {
+                    node->contents.legacy_front().typeId() == contents_id ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -1886,7 +1887,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
                 for( const ammotype &at : ammo ) {
-                    if( node->contents.front().ammo_type() == at ) {
+                    if( node->contents.legacy_front().ammo_type() == at ) {
                         out = item_location( src, node );
                     }
                 }
@@ -6136,7 +6137,8 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                std::list<item> armor_contents = armor.contents.all_items();
+                worn_remains.insert( worn_remains.end(), armor_contents.begin(), armor_contents.end() );
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator

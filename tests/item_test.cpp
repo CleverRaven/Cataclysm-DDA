@@ -45,7 +45,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item gun( "win70" );
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
-    gun.contents.push_back( mod );
+    gun.contents.insert_legacy( mod );
     CHECK( gun.get_layer() == BELTED_LAYER );
 }
 

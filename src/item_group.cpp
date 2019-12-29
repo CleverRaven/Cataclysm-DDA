@@ -317,7 +317,7 @@ void Item_modifier::modify( item &new_item ) const
                           !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
+            new_item.contents.insert_legacy( item( new_item.magazine_default(), new_item.birthday() ) );
         }
 
         if( spawn_ammo ) {
@@ -337,7 +337,9 @@ void Item_modifier::modify( item &new_item ) const
 
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
-        new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
+        for( item &it : contentitems ) {
+            new_item.contents.insert_legacy( it );
+        }
     }
 
     for( auto &flag : custom_flags ) {

@@ -244,7 +244,8 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
     } else {
         it.convert( container );
-        obj = &it.emplace_back( target, calendar::turn, std::max( ammo_qty, 1 ) );
+        it.contents.insert_legacy( item( target, calendar::turn, std::max( ammo_qty, 1 ) ) );
+        obj = &it.contents.legacy_back();
     }
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
@@ -2599,10 +2600,10 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         opts.push_back( prompt );
         pos = -1;
     }
-
-    std::transform( it.contents.begin(), it.contents.end(), std::back_inserter( opts ),
-    []( const item & elem ) {
-        return string_format( _( "Draw %s" ), elem.display_name() );
+    std::list<item *> all_items = it.contents.all_items_ptr();
+    std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
+    []( const item * elem ) {
+        return string_format( _( "Draw %s" ), elem->display_name() );
     } );
 
     item *internal_item = nullptr;
@@ -2615,11 +2616,11 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             if( opts.size() != it.contents.size() ) {
                 ret--;
             }
-            auto iter = std::next( it.contents.begin(), ret );
-            internal_item = &*iter;
+            auto iter = std::next( all_items.begin(), ret );
+            internal_item = *iter;
         }
     } else {
-        internal_item = &it.contents.front();
+        internal_item = all_items.front();
     }
 
     if( pos < -1 ) {
@@ -2719,8 +2720,8 @@ bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
 
 bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
 {
-    if( !bandolier.contents.empty() && ( bandolier.contents.front().typeId() != obj.typeId() ||
-                                         bandolier.contents.front().charges >= capacity ) ) {
+    if( !bandolier.contents.empty() && ( bandolier.contents.legacy_front().typeId() != obj.typeId() ||
+                                         bandolier.contents.legacy_front().charges >= capacity ) ) {
         return false;
     }
 
@@ -2768,7 +2769,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
             sel.ammo.remove_item();
         }
     } else {
-        obj.contents.front().charges += sel.qty();
+        obj.contents.legacy_front().charges += sel.qty();
         if( sel.ammo->charges > sel.qty() ) {
             sel.ammo->charges -= sel.qty();
         } else {
@@ -2777,7 +2778,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     }
 
     p.add_msg_if_player( _( "You store the %1$s in your %2$s" ),
-                         obj.contents.front().tname( sel.qty() ),
+                         obj.contents.legacy_front().tname( sel.qty() ),
                          obj.type_name() );
 
     return true;
@@ -2796,7 +2797,7 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     std::vector<std::function<void()>> actions;
 
-    menu.addentry( -1, it.contents.empty() || it.contents.front().charges < capacity,
+    menu.addentry( -1, it.contents.empty() || it.contents.legacy_front().charges < capacity,
                    'r', _( "Store ammo in %s" ), it.type_name() );
 
     actions.emplace_back( [&] { reload( p, it ); } );
@@ -2804,9 +2805,9 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     menu.addentry( -1, !it.contents.empty(), 'u', _( "Unload %s" ), it.type_name() );
 
     actions.emplace_back( [&] {
-        if( p.i_add_or_drop( it.contents.front() ) )
+        if( p.i_add_or_drop( it.contents.legacy_front() ) )
         {
-            it.contents.erase( it.contents.begin() );
+            it.contents.remove_item( it.contents.legacy_front() );
         } else
         {
             p.add_msg_if_player( _( "Never mind." ) );
@@ -3270,7 +3271,8 @@ static bool damage_item( player &pl, item_location &fix )
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
         } else {
-            put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, fix->contents, fix.position() );
+            put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, fix->contents.all_items(),
+                                      fix.position() );
             fix.remove_item();
         }
 
@@ -4090,7 +4092,7 @@ int saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     item &obj = p.i_at( loc.obtain( p ) );
     p.add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
+    obj.contents.insert_legacy( item( "barrel_small", calendar::turn ) );
 
     return 0;
 }

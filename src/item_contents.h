@@ -40,6 +40,16 @@ class item_contents
         ret_val<bool> can_contain( const item &it ) const;
         bool empty() const;
 
+        // all the items contained in each pocket combined into one list
+        std::list<item> all_items();
+        std::list<item> all_items() const;
+        // all item pointers in a specific pocket type
+        // used for inventory screen
+        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        std::list<item *> all_items_ptr();
+        std::list<const item *> all_items_ptr() const;
+
         // total size the parent item needs to be modified based on rigidity of pockets
         units::volume item_size_modifier() const;
         units::volume total_container_capacity() const;
@@ -85,6 +95,9 @@ class item_contents
         void has_rotten_away( const tripoint &pnt );
 
         int obtain_cost( const item &it ) const;
+
+        void remove_internal( const std::function<bool( item & )> &filter,
+                              int &count, std::list<item> &res );
         // @relates visitable
         // NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,

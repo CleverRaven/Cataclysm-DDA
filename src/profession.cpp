@@ -605,8 +605,8 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
     if( iter == substitutions.end() ) {
-        for( const item &con : it.contents ) {
-            const auto sub = get_substitution( con, traits );
+        for( const item &con : it.contents.all_items() ) {
+            const std::vector<item> sub = get_substitution( con, traits );
             ret.insert( ret.end(), sub.begin(), sub.end() );
         }
         return ret;
@@ -634,7 +634,8 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
             while( result.charges > 0 ) {
                 const item pushed = result.in_its_container();
                 ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
+                result.mod_charges( pushed.contents.empty() ? -pushed.charges :
+                                    -pushed.contents.legacy_back().charges );
             }
         }
     }

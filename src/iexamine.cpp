@@ -3315,9 +3315,9 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         if( it.is_bucket() || it.is_watertight_container() ) {
             container = &it;
 
-            if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
+            if( !it.is_container_empty() && it.contents.legacy_front().typeId() == "maple_sap" ) {
                 has_sap = true;
-                charges = it.contents.front().charges;
+                charges = it.contents.legacy_front().charges;
             }
         }
     }

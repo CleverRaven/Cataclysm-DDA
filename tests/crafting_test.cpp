@@ -367,11 +367,11 @@ TEST_CASE( "charge_handling", "[crafting]" )
     SECTION( "UPS_modded_carver" ) {
         std::vector<item> tools;
         item hotplate( "hotplate", -1, 0 );
-        hotplate.contents.emplace_back( "battery_ups" );
+        hotplate.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( hotplate );
         item soldering_iron( "soldering_iron", -1, 0 );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
-        soldering_iron.contents.emplace_back( "battery_ups" );
+        soldering_iron.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( soldering_iron );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
@@ -391,11 +391,11 @@ TEST_CASE( "charge_handling", "[crafting]" )
     SECTION( "UPS_modded_carver_missing_charges" ) {
         std::vector<item> tools;
         item hotplate( "hotplate", -1, 0 );
-        hotplate.contents.emplace_back( "battery_ups" );
+        hotplate.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( hotplate );
         item soldering_iron( "soldering_iron", -1, 0 );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
-        soldering_iron.contents.emplace_back( "battery_ups" );
+        soldering_iron.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( soldering_iron );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
@@ -417,7 +417,7 @@ TEST_CASE( "tool_use", "[crafting]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        plastic_bottle.contents.insert_legacy( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -428,12 +428,12 @@ TEST_CASE( "tool_use", "[crafting]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        plastic_bottle.contents.insert_legacy( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.contents.emplace_back( "water", -1, 2 );
+        jar.contents.insert_legacy( item( "water", -1, 2 ) );
         tools.push_back( jar );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );

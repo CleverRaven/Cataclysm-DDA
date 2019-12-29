@@ -2809,7 +2809,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
-            for( auto &elem : i->contents ) {
+            for( item &elem : i->contents.all_items() ) {
                 if( !elem.is_irremovable() ) {
                     contents.push_back( elem );
                 }
@@ -3217,7 +3217,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
-            for( const item &bashed_content : bashed_item->contents ) {
+            for( const item &bashed_content : bashed_item->contents.all_items() ) {
                 smashed_contents.push_back( bashed_content );
             }
             bashed_item = bashed_items.erase( bashed_item );
@@ -6629,7 +6629,7 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
         return false;
     } else if( itm.type->container && itm.type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
-        for( auto &c : itm.contents ) {
+        for( item &c : itm.contents.all_items() ) {
             if( c.goes_bad() ) {
                 c.process_temperature_rot( 1, pnt, nullptr );
             }
@@ -6637,13 +6637,7 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
         return false;
     } else {
         // Check and remove rotten contents, but always keep the container.
-        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
-            if( has_rotten_away( *it, pnt ) ) {
-                it = itm.contents.erase( it );
-            } else {
-                ++it;
-            }
-        }
+        itm.contents.has_rotten_away( pnt );
 
         return false;
     }

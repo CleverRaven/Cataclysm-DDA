@@ -17,6 +17,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "init.h"
 #include "item.h"
 #include "item_category.h"
@@ -2183,6 +2184,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
+    assign( jo, "pocket_data", def.pocket_data );
+
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
@@ -2265,17 +2268,17 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             obj.charges = iter->second.charges;
         }
 
-        for( const auto &c : iter->second.contents ) {
-            if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item & e ) {
-            return e.typeId() == c;
-            } ) ) {
-                obj.emplace_back( c, obj.birthday() );
+        for( const std::string &c : iter->second.contents ) {
+            if( obj.contents.get_item_with( [&]( const item & e ) {
+            return e.typeId() != c;
+            } ) == nullptr ) {
+                obj.contents.insert_legacy( item( c, obj.birthday() ) );
             }
         }
 
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
-            item &child = obj.contents.back();
+            item &child = obj.contents.legacy_back();
             const int capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }

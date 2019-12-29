@@ -1621,7 +1621,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     int index = -1;
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
-        const item &real_item = it.is_container() ?  it.contents.front() : it;
+        const item &real_item = it.is_container() ?  it.contents.legacy_front() : it;
         if( filter( real_item ) ) {
             index = i;
             break;

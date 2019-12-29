@@ -455,9 +455,9 @@ void computer::activate_function( computer_action action )
                         capa = std::min( sewage.charges, capa );
                         if( elem.contents.empty() ) {
                             elem.put_in( sewage );
-                            elem.contents.front().charges = capa;
+                            elem.contents.legacy_front().charges = capa;
                         } else {
-                            elem.contents.front().charges += capa;
+                            elem.contents.legacy_front().charges += capa;
                         }
                         found_item = true;
                         break;
@@ -800,7 +800,7 @@ void computer::activate_function( computer_action action )
                 g->u.moves -= 30;
                 item software( miss->get_item_id(), 0 );
                 software.mission_id = mission_id;
-                usb->contents.clear();
+                usb->contents.clear_items();
                 usb->put_in( software );
                 print_line( _( "Software downloaded." ) );
             } else {
@@ -820,10 +820,10 @@ void computer::activate_function( computer_action action )
                         print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
                     } else if( items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Please only use container with blood sample." ) );
-                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
+                    } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                         print_error( _( "ERROR: Please only use blood samples." ) );
                     } else { // Success!
-                        const item &blood = items.only_item().contents.front();
+                        const item &blood = items.only_item().contents.legacy_front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -837,7 +837,7 @@ void computer::activate_function( computer_action action )
                             if( query_bool( _( "Download data?" ) ) ) {
                                 if( item *const usb = pick_usb() ) {
                                     item software( "software_blood_data", 0 );
-                                    usb->contents.clear();
+                                    usb->contents.clear_items();
                                     usb->put_in( software );
                                     print_line( _( "Software downloaded." ) );
                                 } else {
@@ -1394,7 +1394,7 @@ void computer::activate_failure( computer_failure_type fail )
                         print_error( _( "ERROR: Please use blood-contained samples." ) );
                     } else if( items.only_item().contents.empty() ) {
                         print_error( _( "ERROR: Blood draw kit, empty." ) );
-                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
+                    } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                         print_error( _( "ERROR: Please only use blood samples." ) );
                     } else {
                         print_error( _( "ERROR: Blood sample destroyed." ) );

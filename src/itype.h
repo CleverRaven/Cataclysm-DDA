@@ -15,6 +15,7 @@
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
+#include "item_contents.h"
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
@@ -922,6 +923,9 @@ struct itype {
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods */
         units::mass integral_weight = -1_gram;
+
+        // information related to being able to store things inside the item.
+        std::vector<pocket_data> pocket_data;
 
         /**
          * Space occupied by items of this type

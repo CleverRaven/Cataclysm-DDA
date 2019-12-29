@@ -1968,7 +1968,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             }
         } else {
             item container( container_name, calendar::turn );
-            container.emplace_back( item_name, calendar::turn, count );
+            container.contents.insert_legacy( item( item_name, calendar::turn, count ) );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
@@ -3153,7 +3153,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();
-    item &to_eat = consuming_contents ? it.contents.front() : it;
+    item &to_eat = consuming_contents ? it.contents.legacy_front() : it;
     const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
@@ -3205,7 +3205,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( consuming_contents ) {
-        it.contents.erase( it.contents.begin() );
+        it.contents.remove_item( it.contents.legacy_front() );
         return CONSUMED_SOME;
     }
 

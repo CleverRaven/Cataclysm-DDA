@@ -212,7 +212,7 @@ void item::add_rain_to_container( bool acid, int charges )
         put_in( ret );
     } else {
         // The container already has a liquid.
-        item &liq = contents.front();
+        item &liq = contents.legacy_front();
         int orig = liq.charges;
         int added = std::min( charges, capa );
         if( capa > 0 ) {
@@ -235,7 +235,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( "water_acid_weak", calendar::turn, liq.charges );
+                contents.legacy_front() = item( "water_acid_weak", calendar::turn, liq.charges );
             } else if( liq.typeId() == "water" ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1

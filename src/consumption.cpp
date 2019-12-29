@@ -305,8 +305,8 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.size() == 1 ) {
-            const item alt_result = result_it.contents.front();
+        if( result_it.contents.legacy_size() == 1 ) {
+            const item alt_result = result_it.contents.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }
@@ -1515,13 +1515,13 @@ bool player::can_consume( const item &it ) const
     }
     // checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
     return !it.is_container_empty() && !it.has_flag( "NO_RELOAD" ) &&
-           can_consume_as_is( it.contents.front() );
+           can_consume_as_is( it.contents.legacy_front() );
 }
 
 item &player::get_consumable_from( item &it ) const
 {
-    if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
-        return it.contents.front();
+    if( !it.is_container_empty() && can_consume_as_is( it.contents.legacy_front() ) ) {
+        return it.contents.legacy_front();
     } else if( can_consume_as_is( it ) ) {
         return it;
     }

@@ -228,6 +228,77 @@ const item_pocket &item_contents::legacy_pocket() const
     return fake_item::none_pocket;
 }
 
+std::list<item> item_contents::all_items()
+{
+    std::list<item> item_list;
+    for( item_pocket &pocket : contents ) {
+        std::list<item> contained_items = pocket.all_items();
+        item_list.insert( item_list.end(), contained_items.begin(), contained_items.end() );
+    }
+    return item_list;
+}
+
+std::list<item> item_contents::all_items() const
+{
+    std::list<item> item_list;
+    for( const item_pocket &pocket : contents ) {
+        std::list<item> contained_items = pocket.all_items();
+        item_list.insert( item_list.end(), contained_items.begin(), contained_items.end() );
+    }
+    return item_list;
+}
+
+std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )
+{
+    std::list<item *> all_items_internal;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( pk_type ) ) {
+            std::list<item *> contained_items = pocket.all_items_ptr( pk_type );
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
+std::list<const item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type ) const
+{
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pk_type ) ) {
+            std::list<const item *> contained_items = pocket.all_items_ptr( pk_type );
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
+std::list<item *> item_contents::all_items_ptr()
+{
+    std::list<item *> all_items_internal;
+    for( item_pocket &pocket : contents ) {
+        for( int i = 0; i < item_pocket::pocket_type::LAST; i++ ) {
+            std::list<item *> pocket_items = pocket.all_items_ptr( static_cast<item_pocket::pocket_type>( i ) );
+            all_items_internal.insert( all_items_internal.end(), pocket_items.begin(), pocket_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
+std::list<const item *> item_contents::all_items_ptr() const
+{
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        for( int i = 0; i < item_pocket::pocket_type::LAST; i++ ) {
+            std::list<const item *> pocket_items = pocket.all_items_ptr( static_cast<item_pocket::pocket_type>
+                                                   ( i ) );
+            all_items_internal.insert( all_items_internal.end(), pocket_items.begin(), pocket_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
 units::volume item_contents::item_size_modifier() const
 {
     units::volume total_vol = 0_ml;
@@ -284,6 +355,16 @@ cata::optional<item> item_contents::remove_item( const item_location &it )
         return cata::nullopt;
     }
     return remove_item( *it );
+}
+
+void item_contents::remove_internal( const std::function<bool( item & )> &filter,
+                                     int &count, std::list<item> &res )
+{
+    for( item_pocket &pocket : contents ) {
+        if( pocket.remove_internal( filter, count, res ) ) {
+            return;
+        }
+    }
 }
 
 void item_contents::clear_items()

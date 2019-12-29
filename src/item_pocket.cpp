@@ -95,6 +95,58 @@ void item_pocket::deserialize( JsonIn &jsin )
     optional( data, was_loaded, "contents", contents );
 }
 
+std::list<item> item_pocket::all_items()
+{
+    std::list<item> all_items;
+    for( item &it : contents ) {
+        all_items.emplace_back( it );
+    }
+    for( item &it : all_items ) {
+        std::list<item> all_items_internal{ it.contents.all_items() };
+        all_items.insert( all_items.end(), all_items_internal.begin(), all_items_internal.end() );
+    }
+    return all_items;
+}
+
+std::list<item> item_pocket::all_items() const
+{
+    std::list<item> all_items;
+    for( const item &it : contents ) {
+        all_items.emplace_back( it );
+    }
+    for( const item &it : all_items ) {
+        std::list<item> all_items_internal{ it.contents.all_items() };
+        all_items.insert( all_items.end(), all_items_internal.begin(), all_items_internal.end() );
+    }
+    return all_items;
+}
+
+std::list<item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type )
+{
+    std::list<item *> all_items_top;
+    for( item &it : contents ) {
+        all_items_top.push_back( &it );
+    }
+    for( item *it : all_items_top ) {
+        std::list<item *> all_items_internal{ it->contents.all_items_ptr( pk_type ) };
+        all_items_top.insert( all_items_top.end(), all_items_internal.begin(), all_items_internal.end() );
+    }
+    return all_items_top;
+}
+
+std::list<const item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type ) const
+{
+    std::list<const item *> all_items_top;
+    for( const item &it : contents ) {
+        all_items_top.push_back( &it );
+    }
+    for( const item *it : all_items_top ) {
+        std::list<const item *> all_items_internal{ it->contents.all_items_ptr( pk_type ) };
+        all_items_top.insert( all_items_top.end(), all_items_internal.begin(), all_items_internal.end() );
+    }
+    return all_items_top;
+}
+
 item &item_pocket::back()
 {
     return contents.back();
@@ -462,6 +514,23 @@ cata::optional<item> item_pocket::remove_item( const item &it )
     } else {
         return ret;
     }
+}
+
+bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
+                                   int &count, std::list<item> &res )
+{
+    for( auto it = contents.begin(); it != contents.end(); ) {
+        if( filter( *it ) ) {
+            res.splice( res.end(), contents, it++ );
+            if( --count == 0 ) {
+                return true;
+            }
+        } else {
+            it->contents.remove_internal( filter, count, res );
+            ++it;
+        }
+    }
+    return false;
 }
 
 cata::optional<item> item_pocket::remove_item( const item_location &it )
