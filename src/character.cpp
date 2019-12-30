@@ -1728,15 +1728,39 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-void Character::drop( int pos, const tripoint &where )
+std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
-    const item &it = i_at( pos );
-    const int count = it.count();
+    std::list<item *> dependent;
+    // Adds dependent worn items recursively
+    const std::function<void( const item &it )> add_dependent = [&]( const item & it ) {
+        for( item &wit : worn ) {
+            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
+                continue;
+            }
+            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            [&wit]( const item * dit ) {
+                return &wit == dit;
+            } );
+            if( iter == dependent.end() ) { // Not in the list yet
+                add_dependent( wit );
+                dependent.push_back( &wit );
+            }
+        }
+    };
 
-    drop( { std::make_pair( pos, count ) }, where );
+    if( is_worn( it ) ) {
+        add_dependent( it );
+    }
+
+    return dependent;
 }
 
-void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+void Character::drop( item_location loc, const tripoint &where )
+{
+    drop( { std::make_pair( loc, loc->count() ) }, where );
+}
+
+void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
@@ -1754,9 +1778,9 @@ void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ).success() ) {
-            activity.values.push_back( item_pair.first );
+    for( drop_location item_pair : what ) {
+        if( can_unwield( *item_pair.first ).success() ) {
+            activity.targets.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
     }

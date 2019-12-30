@@ -61,6 +61,8 @@ using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
@@ -915,7 +917,7 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+        void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
