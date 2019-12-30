@@ -59,9 +59,10 @@ double default_daylight_level()
 
 moon_phase get_moon_phase( const time_point &p )
 {
-    //One full phase every 1 rl months = 1/3 season length
-    const time_duration moon_phase_duration = calendar::season_length() / 3.0;
-    //Switch moon phase at noon so it stays the same all night
+    static constexpr time_duration synodic_month = 29.530588853 * 1_days;
+    const time_duration moon_phase_duration =
+        calendar::season_from_default_ratio() * synodic_month;
+    // Switch moon phase at noon so it stays the same all night
     const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
     const double phase_change = current_day / moon_phase_duration;
     const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
