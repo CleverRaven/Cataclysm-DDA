@@ -116,6 +116,7 @@ static const efftype_id effect_controlled( "controlled" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 static const std::string flag_AUTODOC( "AUTODOC" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 
 using namespace activity_handlers;
 
@@ -3143,7 +3144,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
                                              flag_AUTODOC );
 
-        if( !g->m.has_flag_furn( "AUTODOC_COUCH", p->pos() ) || autodocs.empty() ) {
+        if( !g->m.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 

@@ -158,6 +158,8 @@ static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
 {
@@ -2942,7 +2944,7 @@ bool mattack::nurse_operate( monster *z )
         z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
-                                        "AUTODOC_COUCH" ) ;
+                                        flag_AUTODOC_COUCH ) ;
 
         if( couch_pos.empty() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
