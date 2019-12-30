@@ -5312,7 +5312,10 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    radiation += mod;
+    if( has_trait_flag( "NO_RADIATION" ) ) {
+        return;
+    }
+    set_rad( std::max( 0, get_rad() + mod ) );
 }
 
 int Character::get_stamina() const

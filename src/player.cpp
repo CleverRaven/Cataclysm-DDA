@@ -2832,7 +2832,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( get_rad() > 0 ) {
-        set_rad( std::max( 0, get_rad() - roll_remainder( rate_multiplier / 50.0f ) ) );
+        mod_rad( -roll_remainder( rate_multiplier / 50.0f ) );
     }
 }
 
