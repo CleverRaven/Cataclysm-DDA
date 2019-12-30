@@ -418,7 +418,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         } else {
             jo.throw_error( "invalid skill_id" );
         }
-
     }
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
