@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "lab_surface_palette",
     "terrain": {
-      ".": "t_grass",
+      ".": "t_region_groundcover_urban",
       "#": "t_brick_wall",
       "|": "t_strconc_wall",
       " ": "t_strconc_floor",
@@ -27,25 +27,14 @@
       "x": "t_console_broken",
       "]": "t_sidewalk",
       "*": [
-        "t_shrub",
-        "t_shrub_rose",
-        "t_shrub_lilac",
-        "t_tree_young",
-        "t_tree",
-        "t_grass_tall",
-        "t_underbrush",
-        "t_moss",
-        "t_shrub_hydrangea"
+        [ "t_region_shrub_decorative", 4 ],
+        [ "t_region_tree_shade", 3 ],
+        [ "t_region_groundcover_forest", 3 ],
       ],
       "?": [
-        "t_shrub",
-        "t_shrub_rose",
-        "t_shrub_lilac",
-        "t_tree_young",
-        "t_tree",
-        "t_tree_maple",
-        "t_tree_walnut",
-        "t_tree_blackjack"
+        [ "t_region_shrub_decorative", 3 ],
+        [ "t_region_tree_shade", 3 ],
+        "t_region_tree_nut"
       ],
       "A": "t_atm",
       "<": "t_stairs_up",
@@ -64,6 +53,7 @@
       "d": "f_desk",
       "f": "f_fridge",
       "H": "f_sofa",
+      "h": "f_shower",
       "l": "f_locker",
       "L": "f_locker",
       "o": "f_oven",
