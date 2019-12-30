@@ -358,6 +358,30 @@
       {
         "id": "cbmlab_snippet_4",
         "text": "The first nanofab prototype is promising.  There's a major clogging problem that keeps us from making more than a few micrograms of material, but that was enough to conceptualize the plastic Dr. Barnhoff wants.  Amazingly, Admin has approved ANOTHER sample of californium to replace the clogged lattice while we figure out how to fix the first.  I'm not sure there is supposed to be this much californium on Earth.  I might see how far my security clearance gets me in learning what's going on here."
+      },
+      {
+        "id": "cbmlab_snippet_10",
+        "text": "The bioplastics are working better than we could have anticipated.  We're able to get them to interface with nerves, of course, but we've got models for versions that can serve as tissue lattices to grow blood vessels and muscle as well.  Hypothetically we could probably use this stuff to make all kinds of replacement tissue, although that tech is decades away.  In the meantime, making a digital-neural interface just got far easier than ever."
+      },
+      {
+        "id": "cbmlab_snippet_11",
+        "text": "The mice with bioplastic modules are still susceptible to skin breakdown over the surgical sites, as with indwelling prosthetics.  We haven't seen any increased sign of infection though.  The immune system recognizes the bioplastic as 'self' with the right calibration, and once it grows into the body, the bioplastic doesn't serve as a nidus for bacteria."
+      },
+      {
+        "id": "cbmlab_snippet_12",
+        "text": "We haven't completely solved the skin breakdown issue, which is going to mean prosthesis with bioplastics still has some disadvantages, but we've definitely improved it.  On dermal-facing sides of bioplastic modules, we can use a slightly different bioplastic formula to encourage the dermis to grow right into the bioplastic and interface with it.  If we can work out a way to further encourage subcutaneous fat and fibrous tissue, we might be able to get callous formation and healing of stress points, rather than ulceration and infection.  In other words, we'd get the external prosthesis-facing surface to behave like feet in a shoe rather than knees on the floor.  Even if this doesn't pan out, the ability of the skin to grow into the plastic means we can make smooth curved surfaces inside the amputation site, and matching smooth cups on the outside, for a clean distributed interface that should be miles ahead of existing technology."
+      },
+      {
+        "id": "cbmlab_snippet_13",
+        "text": "Apparently there's been a massive data leak, and we're stuck with only a couple options.  Admin is holding a meeting with the brass right now to decide whether we're going to continue developing in private, or allow a shell company to start selling some of our work publicly for extra funding.  If we don't move now, people will start manufacturing this stuff abroad."
+      },
+      {
+        "id": "cbmlab_snippet_14",
+        "text": "Dr. Barnhoff had her say, and it sounds like we're going to pull back the veil and release some CBMs for civilian use.  I can't say I'm upset about it.  As long as the actual manufacture of bioplastic stays proprietary for a while, I think most of us really want to see this stuff get somewhere where people can benefit from it."
+      },
+      {
+        "id": "cbmlab_snippet_15",
+        "text": "Tests on the AA-type modules went well today.  We should be able to switch to internally stored power supplies by the time we go to production.  The biggest trick is getting the charging cable to work without breaking the skin, but I think magnetic induction will solve that."
       }
     ]
   },
