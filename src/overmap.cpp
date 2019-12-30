@@ -582,8 +582,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
                                            << id.c_str() << " (" << name << ")";
         }
         if( !jo.has_string( "sym" ) && jo.has_number( "sym" ) ) {
-            DebugLog( D_ERROR, D_MAP_GEN ) << "sym is defined as number instead of string for overmap_terrain: "
-                                           << id.c_str() << " (" << name << ")";
+            debugmsg( "sym is defined as number instead of string for overmap_terrain %s (%s)", id.c_str(),
+                      name );
         }
         load_overmap_terrain_mapgens( jo, id.str() );
     }

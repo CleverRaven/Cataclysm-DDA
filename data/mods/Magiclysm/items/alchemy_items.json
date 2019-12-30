@@ -207,5 +207,52 @@
     "material": [ "flesh" ],
     "cutting": 7,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "demon_chitin_piece",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "red",
+    "name": "chunk of demon chitin",
+    "name_plural": "chunks of demon chitin",
+    "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
+    "price": 0,
+    "material": "demon_chitin",
+    "weight": "89 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "flags": [ "TRADER_AVOID" ],
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "demon_chitin_plate",
+    "category": "spare_parts",
+    "symbol": "/",
+    "color": "red",
+    "name": "demon chitin plate",
+    "price": 15225,
+    "material": "demon_chitin",
+    "weight": "10 kg",
+    "volume": "4 L",
+    "bashing": 12,
+    "to_hit": -4,
+    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
+  },
+  {
+    "type": "GENERIC",
+    "id": "demon_spider_fang",
+    "name": "demon spider fang",
+    "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
+    "weight": "270 g",
+    "to_hit": -2,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "cutting": 8,
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "price": 1500
   }
 ]

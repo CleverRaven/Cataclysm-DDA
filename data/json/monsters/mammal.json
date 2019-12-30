@@ -254,7 +254,7 @@
   {
     "id": "mon_cow_calf",
     "type": "MONSTER",
-    "name": "calf",
+    "name": { "str": "calf", "str_pl": "calves" },
     "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",

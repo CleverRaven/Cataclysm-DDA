@@ -495,8 +495,7 @@
   {
     "type": "BOOK",
     "id": "textbook_launcher",
-    "name": "Artillery and Field Gunnery",
-    "name_plural": "copies of Artillery and Field Gunnery",
+    "name": { "str": "Artillery and Field Gunnery", "str_pl": "copies of Artillery and Field Gunnery" },
     "max_level": 6,
     "description": "A textbook on the history of modern artillery, with a number of illustrations and excerpts from various field manuals.  A competent handloader or mechanic might find additional uses for the more technical parts of the text.",
     "weight": "1120 g",

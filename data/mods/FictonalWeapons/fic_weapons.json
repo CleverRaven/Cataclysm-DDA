@@ -227,7 +227,6 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ],
     "ammo_effects": [ "LIGHTNING", "BEANBAG" ],
-    "mode_modifier": [ [ "DEFAULT", "auto", 5 ] ],
     "ups_charges": 6,
     "skill": "smg",
     "weight": "2100 g",

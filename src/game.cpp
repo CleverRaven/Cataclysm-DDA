@@ -2108,7 +2108,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.takeoff( oThisItem );
                     break;
                 case 'd':
-                    u.drop( pos, u.pos() );
+                    u.drop( locThisItem, u.pos() );
                     break;
                 case 'U':
                     unload( oThisItem );

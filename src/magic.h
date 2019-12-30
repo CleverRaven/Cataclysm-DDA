@@ -402,7 +402,8 @@ class spell
         bool is_valid_effect_target( valid_target t ) const;
 
         // picks a random valid tripoint from @area
-        tripoint random_valid_target( const Creature &caster, const tripoint &caster_pos ) const;
+        cata::optional<tripoint> random_valid_target( const Creature &caster,
+                const tripoint &caster_pos ) const;
 };
 
 class known_magic

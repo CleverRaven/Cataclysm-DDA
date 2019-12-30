@@ -2,8 +2,7 @@
   {
     "id": "atomic_survival",
     "type": "BOOK",
-    "name": "Survival Under Atomic Attack",
-    "name_plural": "copies of Survival Under Atomic Attack",
+    "name": { "str": "Survival Under Atomic Attack", "str_pl": "copies of Survival Under Atomic Attack" },
     "description": "A wordy and intricate guide to wilderness and urban survival in a worst case scenario.  While filled with loads of useful information, the madman who wrote this was a terrible writer, and gleaning knowledge from the rants is a chore.",
     "weight": "1920 g",
     "volume": "2 L",
@@ -23,8 +22,7 @@
   {
     "id": "fun_survival",
     "type": "BOOK",
-    "name": "Through the Lens",
-    "name_plural": "Through the Lens",
+    "name": { "str": "Through the Lens", "str_pl": "copies of Through the Lens" },
     "description": "A colorful digest devoted to backpacking and wilderness photography.  The photos are beautiful, though the terminology in the sections on survivalcraft assume some proficiency.",
     "weight": "440 g",
     "volume": "250 ml",
@@ -43,8 +41,7 @@
   {
     "id": "mag_dude",
     "type": "BOOK",
-    "name": "Alpha Male Quarterly",
-    "name_plural": "Alpha Male Quarterlies",
+    "name": { "str": "Alpha Male Quarterly", "str_pl": "Alpha Male Quarterlies" },
     "description": "This is a full-size glossy men's magazine.  There's a brief article about hiking and a list of simple wilderness survival tips somewhere in between the photos of bikini-clad women and the gadget advertisements.",
     "weight": "180 g",
     "volume": "500 ml",
@@ -62,8 +59,7 @@
   {
     "id": "mag_survival",
     "type": "BOOK",
-    "name": "Outdoor Adventures",
-    "name_plural": "Outdoor Adventures",
+    "name": { "str": "Outdoor Adventures", "str_pl": "issues of Outdoor Adventures" },
     "description": "A glossy magazine about surviving and hunting in the wilderness.  There's an exciting article about a bear attack in the back pages.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -81,8 +77,7 @@
   {
     "id": "manual_survival",
     "type": "BOOK",
-    "name": "Pitching a Tent",
-    "name_plural": "copies of Pitching a Tent",
+    "name": { "str": "Pitching a Tent", "str_pl": "copies of Pitching a Tent" },
     "description": "A guide detailing the basics of woodsmanship and outdoor survival.",
     "weight": "454 g",
     "volume": "750 ml",
@@ -99,7 +94,7 @@
   {
     "id": "pocket_survival",
     "type": "BOOK",
-    "name": "Pocket Survival Guide",
+    "name": { "str": "Pocket Survival Guide", "str_pl": "copies of Pocket Survival Guide" },
     "description": "This pocket-sized leather-bound survival guide combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
     "weight": "212 g",
     "volume": "250 ml",
@@ -116,8 +111,7 @@
   {
     "id": "survival_book",
     "type": "BOOK",
-    "name": "Autobiography of a Mountain Man",
-    "name_plural": "Autobiography of a Mountain Man",
+    "name": { "str": "Autobiography of a Mountain Man", "str_pl": "copies of Autobiography of a Mountain Man" },
     "//": "Since it's a novel, price point is much more reasonable.",
     "description": "An amusing historical novel filled with detailed descriptions of surviving in the wild, potentially containing great insights for an experienced outdoorsman.",
     "weight": "1920 g",
@@ -138,7 +132,7 @@
   {
     "id": "textbook_survival",
     "type": "BOOK",
-    "name": "Outdoor Survival Guide",
+    "name": { "str": "Outdoor Survival Guide", "str_pl": "copies of Outdoor Survival Guide" },
     "description": "A thick soft-cover book filled with vital information about surviving in the wild, aimed at the experienced backpacker.",
     "weight": "910 g",
     "volume": "2 L",
@@ -157,8 +151,7 @@
   {
     "id": "isherwood_herbal_remedies",
     "type": "BOOK",
-    "name": "Natural Remedies of New England",
-    "name_plural": "copies of Natural Remedies of New England",
+    "name": { "str": "Natural Remedies of New England", "str_pl": "copies of Natural Remedies of New England" },
     "description": "A leather bound manuscript, it features native herbal remedies with hand colored illustrations of each plant.",
     "weight": "400 g",
     "volume": "1250 ml",

@@ -59,6 +59,9 @@ struct points_left;
 class faction;
 struct construction;
 
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -1075,10 +1078,11 @@ class Character : public Creature, public visitable<Character>
         ret_val<bool> can_unwield( const item &it ) const;
 
         void drop_invalid_inventory();
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where );
-        virtual void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
-                           bool stash = false );
+        void drop( item_location loc, const tripoint &where );
+        virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
 

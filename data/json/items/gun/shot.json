@@ -333,7 +333,7 @@
     "id": "remington_870_express",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": "Remington 870 express",
+    "name": { "str": "Remington 870 express", "str_pl": "Remington 870 expresses" },
     "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
     "weight": "3402 g",
     "volume": "2696 ml",
