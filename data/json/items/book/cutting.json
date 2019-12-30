@@ -2,8 +2,7 @@
   {
     "id": "mag_cutting",
     "type": "BOOK",
-    "name": "All About Swords",
-    "name_plural": "All About Swords",
+    "name": { "str": "All About Swords", "str_pl": "issues of All About Swords" },
     "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -21,8 +20,7 @@
   {
     "id": "manual_cutting",
     "type": "BOOK",
-    "name": "knife fighter's notes",
-    "name_plural": "knife fighter's notes",
+    "name": { "str": "knife fighter's notes", "str_pl": "knife fighter's notes" },
     "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral- bound paper.  Still, there are lots of useful tips for beginners.",
     "weight": "454 g",
     "volume": "250 ml",
@@ -39,8 +37,7 @@
   {
     "id": "manual_knives",
     "type": "BOOK",
-    "name": "Spetsnaz Knife Techniques",
-    "name_plural": "Spetsnaz Knife Techniques",
+    "name": { "str": "Spetsnaz Knife Techniques", "str_pl": "copies of Spetsnaz Knife Techniques" },
     "description": "A classic Soviet text on the art of attacking with a blade.",
     "weight": "454 g",
     "volume": "250 ml",

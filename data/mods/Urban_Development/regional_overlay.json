@@ -1,7 +1,6 @@
 [
   {
     "type": "region_overlay",
-    "id": "urban_buildings_overlay",
     "regions": [ "all" ],
     "city": {
       "houses": {

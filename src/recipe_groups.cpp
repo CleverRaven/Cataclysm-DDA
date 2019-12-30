@@ -57,7 +57,7 @@ void recipe_group_data::check() const
 {
     for( const auto &a : recipes ) {
         if( !a.first.is_valid() ) {
-            debugmsg( "%s is not a valid recipe", a.second );
+            debugmsg( "%s is not a valid recipe", a.first.c_str() );
         }
     }
 }

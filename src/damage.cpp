@@ -146,8 +146,7 @@ void damage_instance::deserialize( JsonIn &jsin )
         JsonObject jo = jsin.get_object();
         damage_units = load_damage_instance( jo ).damage_units;
     } else if( jsin.test_array() ) {
-        JsonArray ja = jsin.get_array();
-        damage_units = load_damage_instance( ja ).damage_units;
+        damage_units = load_damage_instance( jsin.get_array() ).damage_units;
     } else {
         jsin.error( "Expected object or array for damage_instance" );
     }
@@ -304,9 +303,7 @@ damage_instance load_damage_instance( const JsonObject &jo )
 {
     damage_instance di;
     if( jo.has_array( "values" ) ) {
-        JsonArray jarr = jo.get_array( "values" );
-        while( jarr.has_more() ) {
-            JsonObject curr = jarr.next_object();
+        for( const JsonObject &curr : jo.get_array( "values" ) ) {
             di.damage_units.push_back( load_damage_unit( curr ) );
         }
     } else if( jo.has_string( "damage_type" ) ) {
@@ -316,11 +313,10 @@ damage_instance load_damage_instance( const JsonObject &jo )
     return di;
 }
 
-damage_instance load_damage_instance( JsonArray &jarr )
+damage_instance load_damage_instance( const JsonArray &jarr )
 {
     damage_instance di;
-    while( jarr.has_more() ) {
-        JsonObject curr = jarr.next_object();
+    for( const JsonObject &curr : jarr ) {
         di.damage_units.push_back( load_damage_unit( curr ) );
     }
 

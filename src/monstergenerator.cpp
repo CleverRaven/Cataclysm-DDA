@@ -629,9 +629,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
-    if( jo.has_member( "looks_like" ) ) {
-        looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", looks_like );
 
     assign( jo, "bodytype", bodytype );
     assign( jo, "color", color );
@@ -679,8 +677,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
-        JsonArray arr = jo.get_array( "melee_damage" );
-        melee_damage = load_damage_instance( arr );
+        melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo );
     }
@@ -698,8 +695,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "death_drops" ) ) {
-        JsonIn &stream = *jo.get_raw( "death_drops" );
-        death_drops = item_group::load_item_group( stream, "distribution" );
+        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
     }
 
     assign( jo, "harvest", harvest );
@@ -1024,14 +1020,13 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string &member
         return;
     }
 
-    JsonArray outer = jo.get_array( member );
-    while( outer.has_more() ) {
-        if( outer.test_array() ) {
-            add_special_attack( outer.next_array(), src );
-        } else if( outer.test_object() ) {
-            add_special_attack( outer.next_object(), src );
+    for( const JsonValue &entry : jo.get_array( member ) ) {
+        if( entry.test_array() ) {
+            add_special_attack( entry.get_array(), src );
+        } else if( entry.test_object() ) {
+            add_special_attack( entry.get_object(), src );
         } else {
-            outer.throw_error( "array element is neither array nor object." );
+            entry.throw_error( "array element is neither array nor object." );
         }
     }
 }

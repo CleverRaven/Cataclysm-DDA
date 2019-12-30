@@ -1211,10 +1211,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else if( loc == tripoint_zero ) {
+        } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
         } else {
-            set_item_map_or_vehicle( *this, loc, newit );
+            set_item_map_or_vehicle( *this, pos(), newit );
         }
     }
 

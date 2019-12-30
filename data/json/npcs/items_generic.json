@@ -26,12 +26,12 @@
   {
     "type": "item_group",
     "id": "npc_underwear_feet_male",
-    "items": [ [ "socks", 80 ], [ "socks_wool", 20 ], [ "null", 5 ] ]
+    "items": [ [ "socks", 80 ], [ "socks_ankle", 60 ], [ "socks_wool", 20 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_feet_female",
-    "items": [ [ "socks", 50 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
+    "items": [ [ "socks", 50 ], [ "socks_ankle", 30 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
@@ -1008,6 +1008,7 @@
       [ "smrifle_primer", 2 ],
       [ "soap", 10 ],
       [ "socks", 10 ],
+      [ "socks_ankle", 10 ],
       [ "socks_wool", 10 ],
       [ "solder_wire", 5 ],
       [ "soldering_iron", 5 ],

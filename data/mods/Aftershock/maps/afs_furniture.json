@@ -10,7 +10,7 @@
     "required_str": 10,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "afs_fridge", "count": 1 } ] },
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "deployed_item": "afs_fridge",
     "examine_action": "deployed_furniture",
     "bash": {
@@ -43,7 +43,7 @@
     "required_str": 10,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "afs_freezer", "count": 1 } ] },
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "deployed_item": "afs_freezer",
     "examine_action": "deployed_furniture",
     "bash": {

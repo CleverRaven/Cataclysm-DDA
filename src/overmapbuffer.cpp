@@ -667,7 +667,7 @@ bool overmapbuffer::reveal( const tripoint &center, int radius,
 }
 
 std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest,
-        bool road_only )
+        bool road_only, bool do_boat )
 {
     std::vector<tripoint> path;
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
@@ -697,8 +697,12 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
                            !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
+        if( do_boat && ( !is_river_or_lake( oter ) ||
+                         is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
+            return pf::rejected;
+        }
         if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
-            is_ot_match( "open_air", oter, ot_match_type::type ) || oter->is_lake() ) {
+            is_ot_match( "open_air", oter, ot_match_type::type ) || ( !do_boat && oter->is_lake() ) ) {
             return pf::rejected;
         } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
             travel_cost = 10;
@@ -708,8 +712,8 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
                    is_ot_match( "bridge", oter, ot_match_type::type ) ||
                    is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
             travel_cost = 1;
-        } else if( is_river( oter ) ) {
-            travel_cost = 20;
+        } else if( is_river_or_lake( oter ) ) {
+            travel_cost = do_boat ? 1 : 20;
         }
         res += travel_cost;
         res += manhattan_dist( finish, cur.pos );

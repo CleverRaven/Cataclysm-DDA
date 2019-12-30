@@ -131,14 +131,9 @@
     "value": 50000,
     "start": {
       "update_mapgen": [
-        {
-          "om_terrain": "evac_center_19",
-          "om_special": "evac_center",
-          "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ]
-        },
+        { "om_terrain": "evac_center_19", "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ] },
         {
           "om_terrain": "evac_center_7",
-          "om_special": "evac_center",
           "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]
         }
       ]
@@ -166,7 +161,7 @@
     "difficulty": 5,
     "value": 100000,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": [ 10, 50 ] },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },

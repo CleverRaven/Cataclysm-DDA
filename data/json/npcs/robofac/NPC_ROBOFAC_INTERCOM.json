@@ -122,12 +122,10 @@
       "update_mapgen": [
         {
           "om_terrain": "robofachq_surface_b0",
-          "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
         },
         {
           "om_terrain": "robofachq_surface_entrance",
-          "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
         }
       ],

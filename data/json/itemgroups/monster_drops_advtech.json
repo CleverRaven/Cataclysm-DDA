@@ -68,53 +68,6 @@
   },
   {
     "type": "item_group",
-    "id": "tripod",
-    "items": [
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
-      [ "kevlar_plate", 10 ],
-      [ "ceramic_armor", 15 ],
-      [ "alloy_plate", 10 ],
-      [ "robot_controls", 3 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "chickenbot",
-    "items": [
-      [ "robot_controls", 5 ],
-      [ "ai_module", 5 ],
-      [ "sensor_module", 5 ],
-      [ "memory_module", 5 ],
-      [ "pathfinding_module", 5 ],
-      [ "identification_module", 5 ],
-      [ "reverse_jointed_legs", 40 ],
-      [ "chickenbot_chassis", 40 ],
-      [ "targeting_module", 5 ],
-      [ "gun_module", 30 ],
-      [ "mark19", 5 ],
-      [ "tazer", 5 ],
-      [ "m249", 5 ],
-      [ "storage_battery", 5 ],
-      [ "plut_cell", 5 ],
-      [ "mil_plate", 2 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "tankbot",
-    "items": [
-      [ "tazer", 3 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
-      [ "556", 8 ],
-      [ "alloy_plate", 10 ],
-      [ "kevlar_plate", 10 ],
-      [ "ceramic_armor", 10 ],
-      [ "hard_plate", 30 ],
-      [ "robot_controls", 5 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "turret",
     "items": [ [ "9mm", 8 ] ]
   },
