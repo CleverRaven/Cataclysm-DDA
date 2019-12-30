@@ -1159,9 +1159,20 @@ bool npc::wield( item &it )
 
     // check if the item is in a holster
     int position = inv.position_by_item( &it );
-    item &holster = inv.find_item( position );
-    if( holster.tname() != it.tname() && holster.is_holster() && !holster.contents.empty() ) {
-        invoke_item( &holster );
+    if( position != INT_MIN ) {
+        item &maybe_holster = inv.find_item( position );
+        assert( !maybe_holster.is_null() );
+        if( &maybe_holster != &it && maybe_holster.is_holster() ) {
+            assert( !maybe_holster.contents.empty() );
+            const size_t old_size = maybe_holster.contents.size();
+            invoke_item( &maybe_holster );
+            // @TODO change invoke_item to somehow report this change
+            // Hacky: test whether wielding the item from the holster has been done.
+            // (Wielding may be prevented by various reasons: see player::wield_contained)
+            if( old_size != maybe_holster.contents.size() ) {
+                return true;
+            }
+        }
     }
 
     moves -= 15;
