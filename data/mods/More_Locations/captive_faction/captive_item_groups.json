@@ -6,8 +6,8 @@
     "items": [
       {
         "distribution": [
-          { "collection": [ { "group": "captive_pants" }, { "group": "captive_shirt" } ], "chance": 100 },
-          { "group": "captive_suit", "chance": 20 }
+          { "collection": [ { "group": "captive_pants" }, { "group": "captive_shirt" } ], "prob": 100 },
+          { "group": "captive_suit", "prob": 20 }
         ]
       },
       { "group": "captive_gloves", "prob": 40 },
@@ -25,7 +25,7 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "jeans", "chance": 100, "damage": [ 1, 2 ] }, { "item": "pants", "chance": 100, "damage": [ 1, 2 ] } ]
+        "distribution": [ { "item": "jeans", "prob": 100, "damage": [ 1, 2 ] }, { "item": "pants", "prob": 100, "damage": [ 1, 2 ] } ]
       }
     ]
   },
@@ -33,47 +33,42 @@
     "type": "item_group",
     "id": "captive_shirt",
     "items": [
-      { "item": "tshirt", "chance": 100, "damage": [ 1, 2 ] },
-      { "item": "longshirt", "chance": 100, "damage": [ 1, 2 ] },
-      { "item": "undershirt", "chance": 100, "damage": [ 1, 2 ] },
-      { "item": "sweatshirt", "chance": 50, "damage": [ 1, 2 ] }
+      { "item": "tshirt", "prob": 100, "damage": [ 1, 2 ] },
+      { "item": "longshirt", "prob": 100, "damage": [ 1, 2 ] },
+      { "item": "undershirt", "prob": 100, "damage": [ 1, 2 ] },
+      { "item": "sweatshirt", "prob": 50, "damage": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "captive_suit",
-    "items": [ { "item": "jumpsuit", "chance": 100, "damage": [ 1, 2 ] } ]
+    "items": [ { "item": "jumpsuit", "prob": 100, "damage": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "id": "captive_gloves",
-    "items": [ { "item": "gloves_wraps", "chance": 100 } ]
+    "items": [ { "item": "gloves_wraps", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "captive_shoes",
     "subtype": "collection",
-    "items": [
-      { "distribution": [ { "item": "footrags", "chance": 200 }, { "item": "sneakers", "chance": 10, "damage": [ 1, 2 ] } ] }
-    ]
+    "items": [ { "distribution": [ { "item": "footrags", "prob": 200 }, { "item": "sneakers", "prob": 10, "damage": [ 1, 2 ] } ] } ]
   },
   {
     "type": "item_group",
     "id": "captive_masks",
-    "items": [ { "item": "scarf_loose", "chance": 50 } ]
+    "items": [ { "item": "scarf_loose", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "captive_eyes",
-    "items": [ { "item": "glasses_eye", "chance": 50 } ]
+    "items": [ { "item": "glasses_eye", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "captive_hat",
-    "items": [
-      { "item": "hat_cotton", "chance": 100, "damage": [ 1, 2 ] },
-      { "item": "hat_knit", "chance": 100, "damage": [ 1, 2 ] }
-    ]
+    "items": [ { "item": "hat_cotton", "prob": 100, "damage": [ 1, 2 ] }, { "item": "hat_knit", "prob": 100, "damage": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -81,7 +76,7 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "leather_pouch", "chance": 300 }, { "item": "mbag", "chance": 5 }, { "item": "fanny", "chance": 5 } ],
+        "distribution": [ { "item": "leather_pouch", "prob": 300 }, { "item": "mbag", "prob": 5 }, { "item": "fanny", "prob": 5 } ],
         "prob": 100
       }
     ]
@@ -93,14 +88,14 @@
     "items": [
       {
         "distribution": [
-          { "item": "primitive_knife", "chance": 100 },
-          { "item": "glass_shiv", "chance": 50 },
-          { "item": "rock", "chance": 200 },
-          { "item": "soap", "chance": 100 },
-          { "item": "hairpin", "chance": 100 },
-          { "item": "bottle_plastic", "chance": 100 },
-          { "item": "can_food_unsealed", "chance": 100 },
-          { "item": "string_6", "chance": 20 }
+          { "item": "primitive_knife", "prob": 100 },
+          { "item": "glass_shiv", "prob": 50 },
+          { "item": "rock", "prob": 200 },
+          { "item": "soap", "prob": 100 },
+          { "item": "hairpin", "prob": 100 },
+          { "item": "bottle_plastic", "prob": 100 },
+          { "item": "can_food_unsealed", "prob": 100 },
+          { "item": "string_6", "prob": 20 }
         ],
         "prob": 90
       },

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Graphical_Overmap_Fujistruct",
+    "name": "Graphical Overmap Fujistruct",
+    "authors": [ "Kilvoctu" ],
+    "maintainers": [ "Kilvoctu" ],
+    "description": "Fuji Structures mod support for Graphical Overmap.",
+    "category": "graphical",
+    "dependencies": [ "dda", "Graphical_Overmap", "FujiStruct" ]
+  }
+]

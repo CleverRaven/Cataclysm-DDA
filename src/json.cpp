@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <exception>
 #include <utility>
+#include <limits>
 
 #include "cata_utility.h"
 
@@ -94,7 +95,7 @@ JsonObject::JsonObject( JsonIn &j )
         positions[n] = p;
         jsin->skip_value();
     }
-    end = jsin->tell();
+    end_ = jsin->tell();
     final_separator = jsin->get_ate_separator();
 }
 
@@ -108,14 +109,17 @@ void JsonObject::finish()
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
-                dbg( D_ERROR ) << "Failed to visit member '" << name << "' in JsonObject at "
-                               << jsin->line_number( start ) << ":\n" << str() << std::endl;
+                try {
+                    throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
             }
         }
     }
 #endif
     if( jsin && jsin->good() ) {
-        jsin->seek( end );
+        jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
     }
 }
@@ -155,13 +159,11 @@ int JsonObject::verify_position( const std::string &name,
         // so it will never indicate a valid member position
         return 0;
     }
-    visited_members.insert( name );
     return iter->second;
 }
 
 bool JsonObject::has_member( const std::string &name ) const
 {
-    visited_members.insert( name );
     return positions.count( name ) > 0;
 }
 
@@ -186,8 +188,8 @@ std::string JsonObject::str() const
     // complain about unvisited members.
     allow_omitted_members();
 
-    if( jsin && end >= start ) {
-        return jsin->substr( start, end - start );
+    if( jsin && end_ >= start ) {
+        return jsin->substr( start, end_ - start );
     } else {
         return "{}";
     }
@@ -232,6 +234,7 @@ void JsonObject::throw_error( std::string err ) const
 JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
     int pos = verify_position( name );
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin;
 }
@@ -240,9 +243,7 @@ JsonIn *JsonObject::get_raw( const std::string &name ) const
 
 bool JsonObject::get_bool( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_bool();
+    return get_member( name ).get_bool();
 }
 
 bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
@@ -251,15 +252,14 @@ bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_bool();
 }
 
 int JsonObject::get_int( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_int();
+    return get_member( name ).get_int();
 }
 
 int JsonObject::get_int( const std::string &name, const int fallback ) const
@@ -268,15 +268,14 @@ int JsonObject::get_int( const std::string &name, const int fallback ) const
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_int();
 }
 
 double JsonObject::get_float( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_float();
+    return get_member( name ).get_float();
 }
 
 double JsonObject::get_float( const std::string &name, const double fallback ) const
@@ -285,15 +284,14 @@ double JsonObject::get_float( const std::string &name, const double fallback ) c
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_float();
 }
 
 std::string JsonObject::get_string( const std::string &name ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_string();
+    return get_member( name ).get_string();
 }
 
 std::string JsonObject::get_string( const std::string &name, const std::string &fallback ) const
@@ -302,6 +300,7 @@ std::string JsonObject::get_string( const std::string &name, const std::string &
     if( !pos ) {
         return fallback;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_string();
 }
@@ -314,26 +313,25 @@ JsonArray JsonObject::get_array( const std::string &name ) const
     if( !pos ) {
         return JsonArray();
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return JsonArray( *jsin );
 }
 
 std::vector<int> JsonObject::get_int_array( const std::string &name ) const
 {
-    JsonArray ja = get_array( name );
     std::vector<int> ret;
-    while( ja.has_more() ) {
-        ret.push_back( ja.next_int() );
+    for( const int entry : get_array( name ) ) {
+        ret.push_back( entry );
     }
     return ret;
 }
 
 std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
 {
-    JsonArray ja = get_array( name );
     std::vector<std::string> ret;
-    while( ja.has_more() ) {
-        ret.push_back( ja.next_string() );
+    for( const std::string &entry : get_array( name ) ) {
+        ret.push_back( entry );
     }
     return ret;
 }
@@ -344,6 +342,7 @@ JsonObject JsonObject::get_object( const std::string &name ) const
     if( !pos ) {
         return JsonObject();
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->get_object();
 }
@@ -356,6 +355,7 @@ bool JsonObject::has_null( const std::string &name ) const
     if( !pos ) {
         return false;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
     return jsin->test_null();
 }
@@ -698,9 +698,8 @@ bool JsonArray::has_object( const size_t i ) const
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const std::string &name )
 {
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
+    for( const std::string &line : json.get_array( name ) ) {
+        s.insert( line );
     }
 }
 
@@ -1020,32 +1019,101 @@ std::string JsonIn::get_string()
     throw JsonError( "something went wrong D:" );
 }
 
-int JsonIn::get_int()
+// These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
+constexpr static uint64_t neg_INT_MIN()
 {
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<int>( get_float() );
+    int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
+    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int>::max() ) + ( -x ) :
+           static_cast<uint64_t>( std::numeric_limits<int>::max() ) - x;
+}
+constexpr static uint64_t neg_INT64_MIN()
+{
+    int x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
+    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + ( -x ) :
+           static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - x;
 }
 
-std::int64_t JsonIn::get_int64()
+number_sci_notation JsonIn::get_any_int()
 {
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<int64_t>( get_float() );
+    number_sci_notation n = get_any_number();
+    if( n.exp < 0 ) {
+        error( "Integers cannot have a decimal point or negative order of magnitude." );
+    }
+    // Manually apply scientific notation, since std::pow converts to double under the hood.
+    for( int64_t i = 0; i < n.exp; i++ ) {
+        if( n.number > std::numeric_limits<uint64_t>::max() / 10ULL ) {
+            error( "Specified order of magnitude too large -- encountered overflow applying it." );
+        }
+        n.number *= 10ULL;
+    }
+    n.exp = 0;
+    return n;
+}
+
+int JsonIn::get_int()
+{
+    number_sci_notation n = get_any_int();
+    if( !n.negative && n.number > std::numeric_limits<int>::max() ) {
+        error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
+               " which is unsupported in this context." );
+    } else if( n.negative && n.number > neg_INT_MIN() ) {
+        error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
+               " which is unsupported in this context." );
+    }
+    return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
+}
+
+unsigned int JsonIn::get_uint()
+{
+    number_sci_notation n = get_any_int();
+    if( n.number > std::numeric_limits<unsigned int>::max() ) {
+        error( "Found a number greater than " +
+               std::to_string( std::numeric_limits<unsigned int>::max() ) +
+               " which is unsupported in this context." );
+    }
+    if( n.negative ) {
+        error( "Unsigned integers cannot have a negative sign." );
+    }
+    return static_cast<unsigned int>( n.number );
+}
+
+int64_t JsonIn::get_int64()
+{
+    number_sci_notation n = get_any_int();
+    if( !n.negative && n.number > std::numeric_limits<int64_t>::max() ) {
+        error( "Signed integers greater than " +
+               std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
+    } else if( n.negative && n.number > neg_INT64_MIN() ) {
+        error( "Integers less than "
+               + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
+    }
+    return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
+}
+
+uint64_t JsonIn::get_uint64()
+{
+    number_sci_notation n = get_any_int();
+    if( n.negative ) {
+        error( "Unsigned integers cannot have a negative sign." );
+    }
+    return n.number;
 }
 
 double JsonIn::get_float()
 {
+    number_sci_notation n = get_any_number();
+    return n.number * std::pow( 10.0f, n.exp ) * ( n.negative ? -1.f : 1.f );
+}
+
+number_sci_notation JsonIn::get_any_number()
+{
     // this could maybe be prettier?
     char ch;
-    bool neg = false;
-    int i = 0;
-    int e = 0;
+    number_sci_notation ret;
     int mod_e = 0;
     eat_whitespace();
     stream->get( ch );
-    if( ch == '-' ) {
-        neg = true;
+    if( ( ret.negative = ch == '-' ) ) {
         stream->get( ch );
     } else if( ch != '.' && ( ch < '0' || ch > '9' ) ) {
         // not a valid float
@@ -1061,45 +1129,41 @@ double JsonIn::get_float()
         }
     }
     while( ch >= '0' && ch <= '9' ) {
-        i *= 10;
-        i += ( ch - '0' );
+        ret.number *= 10;
+        ret.number += ( ch - '0' );
         stream->get( ch );
     }
     if( ch == '.' ) {
         stream->get( ch );
         while( ch >= '0' && ch <= '9' ) {
-            i *= 10;
-            i += ( ch - '0' );
+            ret.number *= 10;
+            ret.number += ( ch - '0' );
             mod_e -= 1;
             stream->get( ch );
         }
     }
-    if( neg ) {
-        i *= -1;
-    }
     if( ch == 'e' || ch == 'E' ) {
         stream->get( ch );
-        neg = false;
-        if( ch == '-' ) {
-            neg = true;
+        bool neg;
+        if( ( neg = ch == '-' ) ) {
             stream->get( ch );
         } else if( ch == '+' ) {
             stream->get( ch );
         }
         while( ch >= '0' && ch <= '9' ) {
-            e *= 10;
-            e += ( ch - '0' );
+            ret.exp *= 10;
+            ret.exp += ( ch - '0' );
             stream->get( ch );
         }
         if( neg ) {
-            e *= -1;
+            ret.exp *= -1;
         }
     }
     // unget the final non-number character (probably a separator)
     stream->unget();
     end_value();
-    // now put it all together!
-    return i * std::pow( 10.0f, e + mod_e );
+    ret.exp += mod_e;
+    return ret;
 }
 
 bool JsonIn::get_bool()
@@ -1332,12 +1396,21 @@ bool JsonIn::read( std::int64_t &i, bool throw_on_error )
     return true;
 }
 
+bool JsonIn::read( std::uint64_t &i, bool throw_on_error )
+{
+    if( !test_number() ) {
+        return error_or_false( throw_on_error, "Expected number" );
+    }
+    i = get_uint64();
+    return true;
+}
+
 bool JsonIn::read( unsigned int &u, bool throw_on_error )
 {
     if( !test_number() ) {
         return error_or_false( throw_on_error, "Expected number" );
     }
-    u = get_int();
+    u = get_uint();
     return true;
 }
 
@@ -1808,8 +1881,18 @@ std::ostream &operator<<( std::ostream &stream, const JsonError &err )
 template void JsonOut::write<12>( const std::bitset<12> & );
 template bool JsonIn::read<12>( std::bitset<12> &, bool throw_on_error );
 
-JsonIn &JsonArrayValueRef::seek() const
+JsonIn &JsonValue::seek() const
 {
     jsin_.seek( pos_ );
     return jsin_;
+}
+
+JsonValue JsonObject::get_member( const std::string &name ) const
+{
+    const auto iter = positions.find( name );
+    if( !jsin || iter == positions.end() ) {
+        throw_error( "requested non-existing member \"" + name + "\"" );
+    }
+    visited_members.insert( name );
+    return JsonValue( *jsin, iter->second );
 }

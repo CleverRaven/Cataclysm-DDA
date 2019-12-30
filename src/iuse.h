@@ -57,6 +57,7 @@ class iuse
         int flusleep( player *, item *, bool, const tripoint & );
         int inhaler( player *, item *, bool, const tripoint & );
         int blech( player *, item *, bool, const tripoint & );
+        int blech_because_unclean( player *, item *, bool, const tripoint & );
         int plantblech( player *, item *, bool, const tripoint & );
         int chew( player *, item *, bool, const tripoint & );
         int purifier( player *, item *, bool, const tripoint & );
@@ -174,7 +175,6 @@ class iuse
         int gun_repair( player *, item *, bool, const tripoint & );
         int gunmod_attach( player *, item *, bool, const tripoint & );
         int toolmod_attach( player *, item *, bool, const tripoint & );
-        int misc_repair( player *, item *, bool, const tripoint & );
         int rm13armor_off( player *, item *, bool, const tripoint & );
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );

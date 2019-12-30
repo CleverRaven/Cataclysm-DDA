@@ -574,7 +574,7 @@ static void grab()
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-        if( m.furn( grabp ).obj().move_str_req < 0 ) {
+        if( !m.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
@@ -675,7 +675,7 @@ static void smash()
             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-            u.activity.placement = smashp;
+            u.activity.placement = g->m.getabs( smashp );
             return; // don't smash terrain if we've smashed a corpse
         }
     }
@@ -692,7 +692,7 @@ static void smash()
             u.handle_melee_wear( u.weapon );
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
-            u.mod_stat( "stamina", mod_sta );
+            u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
@@ -966,14 +966,20 @@ static void sleep()
     }
 
     time_duration try_sleep_dur = 24_hours;
+    std::string deaf_text;
+    if( g->u.is_deaf() ) {
+        deaf_text = _( "<color_c_red> (DEAF!)</color>" );
+    }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate
-                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
-                    : _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text = can_hibernate ?
+                    _( "You're engorged to hibernate.  The alarm would only attract attention.  "
+                       "Set an alarm anyway?" ) :
+                    _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text += deaf_text;
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -981,7 +987,7 @@ static void sleep()
 
         for( int i = 3; i <= 9; ++i ) {
             as_m.entries.emplace_back( i, true, '0' + i,
-                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) );
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) + deaf_text );
         }
 
         as_m.query();
@@ -1159,7 +1165,9 @@ static void read()
     auto loc = game_menus::inv::read( u );
 
     if( loc ) {
-        u.read( loc.obtain( u ) );
+        // calling obtain() invalidates the item pointer
+        // @TODO: find a way to do this without an int index
+        u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1430,13 +1438,13 @@ void game::open_consume_item_menu()
 
     switch( as_m.ret ) {
         case 0:
-            eat( game_menus::inv::consume_food );
+            avatar_action::eat( u, game_menus::inv::consume_food( u ) );
             break;
         case 1:
-            eat( game_menus::inv::consume_drink );
+            avatar_action::eat( u, game_menus::inv::consume_drink( u ) );
             break;
         case 2:
-            eat( game_menus::inv::consume_meds );
+            avatar_action::eat( u, game_menus::inv::consume_meds( u ) );
             break;
         default:
             break;
@@ -1882,11 +1890,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                eat();
+                if( !avatar_action::eat_here( u ) ) {
+                    avatar_action::eat( u );
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
-                open_consume_item_menu();
+                if( !avatar_action::eat_here( u ) ) {
+                    open_consume_item_menu();
+                }
                 break;
 
             case ACTION_READ:
@@ -1911,16 +1923,18 @@ bool game::handle_action()
                 break;
 
             case ACTION_UNLOAD:
-                unload();
+                avatar_action::unload( u );
                 break;
 
             case ACTION_MEND:
-                mend();
+                avatar_action::mend( g->u, item_location() );
                 break;
 
-            case ACTION_THROW:
-                avatar_action::plthrow( g->u );
+            case ACTION_THROW: {
+                item_location loc;
+                avatar_action::plthrow( g->u, loc );
                 break;
+            }
 
             case ACTION_FIRE:
                 fire();
@@ -2094,7 +2108,7 @@ bool game::handle_action()
             case ACTION_IGNORE_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP ) {
                     add_msg( m_info, _( "Ignoring enemy!" ) );
-                    for( auto &elem : new_seen_mon ) {
+                    for( auto &elem : u.get_mon_visible().new_seen_mon ) {
                         monster &critter = *elem;
                         critter.ignoring = rl_dist( u.pos(), critter.pos() );
                     }

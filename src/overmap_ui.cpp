@@ -1089,14 +1089,9 @@ void create_note( const tripoint &curs )
 static bool search( tripoint &curs, const tripoint &orig, const bool show_explored,
                     const bool fast_scroll, std::string &action )
 {
-    const int radius = get_option<int>( "MAP_UI_SEARCH_RADIUS" );
-
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
-                       .description( string_format(
-                                         _( "Multiple entries separated with comma (,).  Excludes starting with hyphen (-)\n"
-                                            "Current search radius is %d.  It can be changed in options." ),
-                                         radius ) )
+                       .description( _( "Multiple entries separated with comma (,). Excludes starting with hyphen (-)." ) )
                        .query_string();
     if( term.empty() ) {
         return false;
@@ -1105,6 +1100,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
+    const int radius = OMAPX / 2; // arbitrary
     for( const tripoint &p : points_in_radius( curs, radius ) ) {
         overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
@@ -1429,12 +1425,21 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 curs.y = p.y;
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
+            bool in_road_vehicle = g->u.in_vehicle && g->u.controlling_vehicle;
+            const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
+            bool in_boat = false;
+            if( vp && in_road_vehicle ) {
+                vehicle &veh = vp->vehicle();
+                in_boat = veh.can_float() && veh.is_watercraft() && veh.is_in_water();
+                if( in_boat ) {
+                    in_road_vehicle = false;
+                }
+            }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
                 if( query_yn( _( "Travel to this point?" ) ) ) {
                     // renew the path incase of a leftover dangling path point
-                    g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, g->u.in_vehicle &&
-                                    g->u.controlling_vehicle );
+                    g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, in_road_vehicle, in_boat );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
@@ -1450,8 +1455,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             if( curs == player_omt_pos ) {
                 g->u.omt_path.clear();
             } else {
-                g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, g->u.in_vehicle &&
-                                g->u.controlling_vehicle );
+                g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, in_road_vehicle, in_boat );
             }
         } else if( action == "TOGGLE_BLINKING" ) {
             uistate.overmap_blinking = !uistate.overmap_blinking;

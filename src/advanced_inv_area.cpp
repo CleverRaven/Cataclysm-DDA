@@ -15,6 +15,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -119,9 +120,10 @@ void advanced_inv_area::init()
         case AIM_EAST:
         case AIM_NORTHWEST:
         case AIM_NORTH:
-        case AIM_NORTHEAST:
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
-                    false ) ) {
+        case AIM_NORTHEAST: {
+            const cata::optional<vpart_reference> vp =
+                g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+            if( vp ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
             } else {
@@ -131,11 +133,13 @@ void advanced_inv_area::init()
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
-                desc[1] = vpart_position( *veh, vstor ).get_label().value_or( "" );
+                std::string part_name = vp->info().name();
+                desc[1] = vp->get_label().value_or( part_name );
             }
             // get graffiti or terrain name
             desc[0] = g->m.has_graffiti_at( pos ) ?
                       g->m.graffiti_at( pos ) : g->m.name( pos );
+        }
         default:
             break;
     }
@@ -450,3 +454,10 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     }
     return stacks;
 }
+
+// instantiate the template
+template
+advanced_inv_area::itemstack advanced_inv_area::i_stacked<vehicle_stack>( vehicle_stack items );
+
+template
+advanced_inv_area::itemstack advanced_inv_area::i_stacked<map_stack>( map_stack items );

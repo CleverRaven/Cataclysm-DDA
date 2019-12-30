@@ -356,7 +356,7 @@
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 50,
-    "max_volume": 15,
+    "max_volume": "3750 ml",
     "required_str": 7,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {

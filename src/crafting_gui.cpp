@@ -82,10 +82,8 @@ void load_recipe_category( const JsonObject &jsobj )
 
         const std::string cat_name = get_cat_unprefixed( category );
 
-        craft_subcat_list[category] = std::vector<std::string>();
-        JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
-        while( subcats.has_more() ) {
-            const std::string subcat_id = subcats.next_string();
+        craft_subcat_list[category].clear();
+        for( const std::string &subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
             if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
                 jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
             }
@@ -425,15 +423,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                        _( "Press <ENTER> to attempt to craft object." ) );
         }
         // Draw borders
-        for( int i = 1; i < width - 1; ++i ) { // _
+        for( int i = 1; i < width - 1; ++i ) { // -
             mvwputch( w_data, point( i, dataHeight - 1 ), BORDER_COLOR, LINE_OXOX );
         }
         for( int i = 0; i < dataHeight - 1; ++i ) { // |
             mvwputch( w_data, point( 0, i ), BORDER_COLOR, LINE_XOXO );
             mvwputch( w_data, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
         }
-        mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // _|
-        mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // |_
+        mvwvline( w_iteminfo, point( getmaxx( w_iteminfo ) - 1, 0 ), LINE_XOXO, getmaxy( w_iteminfo ) );
+        mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
+        mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         int recmin = 0, recmax = current.size();
         if( recmax > dataLines ) {
@@ -608,16 +607,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( last_recipe != current[line] ) {
                 last_recipe = current[line];
                 tmp = current[line]->create_result();
+                tmp.set_var( "recipe_exemplar", last_recipe->ident().str() );
             }
             tmp.info( true, thisItem, count );
-
-            // If it's food that can have variable nutrition, add disclaimer.
-            // Hidden if the user is attempting to page through components.
-            if( ( tmp.is_food_container() || tmp.is_food() ) && !tmp.has_flag( "NUTRIENT_OVERRIDE" ) &&
-                display_mode == 0 ) {
-                ypos += fold_and_print( w_data, point( xpos + 2, ypos ), pane - 2, c_light_gray,
-                                        _( "Shown nutrition is <color_cyan>estimated</color>, varying with <color_cyan>chosen ingredients</color>." ) );
-            }
 
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;
@@ -1007,9 +999,15 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
             break;
         }
         case FILTERED:
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO ); // |^
+            mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
             draw_tab( w, 2, _( "Searched" ), true );
             break;
         case BATCH:
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO ); // |^
+            mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
             draw_tab( w, 2, _( "Batch" ), true );
             break;
     }
@@ -1025,17 +1023,17 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     int width = getmaxx( w );
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
-            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XXXO );
+            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XXXO ); // |-
         } else if( i == width ) { // TODO: that is always false!
-            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XOXX );
+            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XOXX ); // -|
         } else {
-            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
+            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
         }
     }
 
     for( int i = 0; i < 3; i++ ) {
-        mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |^
-        mvwputch( w, point( width - 1, i ), BORDER_COLOR,  LINE_XOXO ); // ^|
+        mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( w, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
     }
 
     switch( mode ) {
@@ -1055,8 +1053,8 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
         case BATCH:
             werase( w );
             for( int i = 0; i < 3; i++ ) {
-                mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |^
-                mvwputch( w, point( width - 1, i ), BORDER_COLOR,  LINE_XOXO ); // ^|
+                mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+                mvwputch( w, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
             }
             break;
     }

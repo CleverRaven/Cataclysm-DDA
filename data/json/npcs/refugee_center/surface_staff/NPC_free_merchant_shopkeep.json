@@ -415,7 +415,6 @@
       "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "om_special": "evac_center",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
@@ -426,7 +425,6 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "om_special": "evac_center",
         "set": [ { "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
       }
     },
@@ -434,7 +432,7 @@
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
+      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the Cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
       "accepted": "Please be careful, we don't need any more deaths.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
@@ -556,7 +554,6 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_8",
-        "om_special": "evac_center",
         "set": [
           { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 1 },
           { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 3 }

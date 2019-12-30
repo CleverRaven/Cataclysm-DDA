@@ -1805,6 +1805,11 @@
   },
   {
     "type": "recipe",
+    "result": "rock_pot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "small_storage_battery",
     "obsolete": true
   },
@@ -2180,7 +2185,52 @@
   },
   {
     "type": "recipe",
+    "result": "40mm_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "scrambler",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_chickenbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_chickenbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_tripod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_tripod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_tankbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_tankbot",
     "obsolete": true
   }
 ]

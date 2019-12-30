@@ -1,11 +1,10 @@
 #include "character.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>
 #include <numeric>
-#include <sstream>
 #include <cmath>
 #include <iterator>
 #include <memory>
@@ -119,10 +118,12 @@ static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hot_speed( "hot_speed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -210,8 +211,6 @@ static const species_id HUMAN( "HUMAN" );
 Character::Character() :
 
     visitable<Character>(),
-    hp_cur( {{ 0 }} ),
-    hp_max( {{ 0 }} ),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
@@ -219,6 +218,8 @@ Character::Character() :
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
 {
+    hp_cur.fill( 0 );
+    hp_max.fill( 1 );
     str_max = 0;
     dex_max = 0;
     per_max = 0;
@@ -550,10 +551,7 @@ void Character::set_stashed_activity( player_activity act, player_activity act_b
 
 bool Character::has_stashed_activity() const
 {
-    if( stashed_outbounds_activity ) {
-        return true;
-    }
-    return false;
+    return static_cast<bool>( stashed_outbounds_activity );
 }
 
 void Character::assign_stashed_activity()
@@ -1114,6 +1112,8 @@ void Character::recalc_hp()
         if( new_max_hp[i] == hp_max[i] ) {
             continue;
         }
+        // hp_max must be positive to avoiud undefined behavior.
+        hp_max[i] = std::max( hp_max[i], 1 );
         float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
                              static_cast<float>( hp_max[i] );
         hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
@@ -1267,10 +1267,10 @@ void Character::check_item_encumbrance_flag()
 {
     bool update_required = check_encumbrance;
     for( auto &i : worn ) {
-        if( !update_required && i.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && i.encumbrance_update_ ) {
             update_required = true;
         }
-        i.unset_flag( "ENCUMBRANCE_UPDATE" );
+        i.encumbrance_update_ = false;
     }
 
     if( update_required ) {
@@ -1729,15 +1729,39 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-void Character::drop( int pos, const tripoint &where )
+std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
-    const item &it = i_at( pos );
-    const int count = it.count();
+    std::list<item *> dependent;
+    // Adds dependent worn items recursively
+    const std::function<void( const item &it )> add_dependent = [&]( const item & it ) {
+        for( item &wit : worn ) {
+            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
+                continue;
+            }
+            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            [&wit]( const item * dit ) {
+                return &wit == dit;
+            } );
+            if( iter == dependent.end() ) { // Not in the list yet
+                add_dependent( wit );
+                dependent.push_back( &wit );
+            }
+        }
+    };
 
-    drop( { std::make_pair( pos, count ) }, where );
+    if( is_worn( it ) ) {
+        add_dependent( it );
+    }
+
+    return dependent;
 }
 
-void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+void Character::drop( item_location loc, const tripoint &where )
+{
+    drop( { std::make_pair( loc, loc->count() ) }, where );
+}
+
+void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
@@ -1755,9 +1779,9 @@ void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ).success() ) {
-            activity.values.push_back( item_pair.first );
+    for( drop_location item_pair : what ) {
+        if( can_unwield( *item_pair.first ).success() ) {
+            activity.targets.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
     }
@@ -2567,6 +2591,57 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+}
+
+hint_rating Character::rate_action_change_side( const item &it ) const
+{
+    if( !is_worn( it ) ) {
+        return HINT_IFFY;
+    }
+
+    if( !it.is_sided() ) {
+        return HINT_CANT;
+    }
+
+    return HINT_GOOD;
+}
+
+bool Character::change_side( item &it, bool interactive )
+{
+    if( !it.swap_side() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You cannot swap the side on which your %s is worn." ),
+                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
+                                   it.tname() );
+        }
+        return false;
+    }
+
+    if( interactive ) {
+        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
+                               _( "<npcname> swaps the side on which their %s is worn." ),
+                               it.tname() );
+    }
+
+    mod_moves( -250 );
+    reset_encumbrance();
+
+    return true;
+}
+
+bool Character::change_side( item_location &loc, bool interactive )
+{
+    if( !loc || !is_worn( *loc ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are not wearing that item." ),
+                                   _( "<npcname> isn't wearing that item." ) );
+        }
+        return false;
+    }
+
+    return change_side( *loc, interactive );
 }
 
 static void layer_item( std::array<encumbrance_data, num_bp> &vals,
@@ -3791,16 +3866,26 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 1 );
         } else if( temp_cur[bp] > BODYTEMP_SCORCHING ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
+            if( mutate_to_main_part( bp ) == bp ) {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
+            }
         } else if( temp_cur[bp] > BODYTEMP_VERY_HOT ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
+            if( mutate_to_main_part( bp ) == bp ) {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
+            }
         } else if( temp_cur[bp] > BODYTEMP_HOT ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
+            if( mutate_to_main_part( bp ) == bp ) {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
+            }
         } else {
             if( temp_cur[bp] >= BODYTEMP_COLD ) {
                 remove_effect( effect_cold, bp );
             }
             if( temp_cur[bp] <= BODYTEMP_HOT ) {
                 remove_effect( effect_hot, bp );
+                remove_effect( effect_hot_speed, bp );
             }
         }
         // FROSTBITE - only occurs to hands, feet, face
@@ -3980,6 +4065,7 @@ int Character::blood_loss( body_part bp ) const
     }
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
+    hp_max_sum = std::max( hp_max_sum, 1 );
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
@@ -4027,22 +4113,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
-        if( hp <= 0 )
-        {
-            return "==%==";
-        } else if( precise )
-        {
-            return string_format( "%d", hp );
-        } else
-        {
-            std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
-            nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
-                    '.' ), c_white );
-        }
-    };
 
     uilist bmenu;
     bmenu.desc_enabled = true;
@@ -4064,7 +4135,8 @@ hp_part Character::body_window( const std::string &menu_header,
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
-        const bool limb_is_broken = current_hp == 0;
+        const bool limb_is_broken = is_limb_broken( hp );
+        const bool limb_is_mending = worn_with_flag( "SPLINT", bp );
 
         if( show_all ) {
             e.allowed = true;
@@ -4079,8 +4151,8 @@ hp_part Character::body_window( const std::string &menu_header,
             e.allowed = false;
         }
 
-        std::stringstream msg;
-        std::stringstream desc;
+        std::string msg;
+        std::string desc;
         bool bleeding = has_effect( effect_bleed, e.bp );
         bool bitten = has_effect( effect_bite, e.bp );
         bool infected = has_effect( effect_infected, e.bp );
@@ -4099,90 +4171,109 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << colorize( aligned_name, all_state_col ) << " " << hp_str( current_hp, maximal_hp );
+        std::string hp_str;
+        if( limb_is_mending ) {
+            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+                              c_blue ) + "\n";
+            const auto &eff = get_effect( effect_mending, bp );
+            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-        if( limb_is_broken ) {
-            desc << colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) << "\n";
-        }
+            if( precise ) {
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+            } else {
+                const int num = mend_perc / 20;
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+            }
+        } else if( limb_is_broken ) {
+            desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
+            hp_str = "==%==";
+        } else if( precise ) {
+            hp_str = string_format( "%d", current_hp );
+        } else {
+            std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
+            hp_str = colorize( h_bar.first, h_bar.second ) +
+                     colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+        };
+        msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
         if( bleeding ) {
-            desc << colorize( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
-                                             get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) << "\n";
+            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
+                                             get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) + "\n";
             if( bleed > 0.0f ) {
-                desc << colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) << "\n";
+                desc += colorize( string_format( _( "Chance to stop: %d %%" ),
+                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc << colorize( _( "This will not stop the bleeding." ),
-                                  c_yellow ) << "\n";
+                desc += colorize( _( "This will not stop the bleeding." ),
+                                  c_yellow ) + "\n";
             }
         }
         // BANDAGE block
         if( bandaged ) {
-            desc << string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) << "\n";
+            desc += string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) + "\n";
             if( new_b_power > b_power ) {
-                desc << colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
+                                                 texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
             } else if( new_b_power > 0 ) {
-                desc << colorize( _( "You don't expect any improvement from using this." ), c_yellow ) << "\n";
+                desc += colorize( _( "You don't expect any improvement from using this." ), c_yellow ) + "\n";
             }
         } else if( new_b_power > 0 && e.allowed ) {
-            desc << colorize( string_format( _( "Expected bandage quality: %s" ),
-                                             texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+            desc += colorize( string_format( _( "Expected bandage quality: %s" ),
+                                             texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
         }
         // BITTEN block
         if( bitten ) {
-            desc << colorize( string_format( "%s: ", get_effect( effect_bite,
+            desc += colorize( string_format( "%s: ", get_effect( effect_bite,
                                              e.bp ).get_speed_name() ), c_red );
-            desc << colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) << "\n";
+            desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
             if( bite > 0 ) {
-                desc << colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 static_cast<int>( bite * 100 ) ), c_light_green ) << "\n";
+                desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
+                                                 static_cast<int>( bite * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc << colorize( _( "This will not help in cleaning this wound." ), c_yellow ) << "\n";
+                desc += colorize( _( "This will not help in cleaning this wound." ), c_yellow ) + "\n";
             }
         }
         // INFECTED block
         if( infected ) {
-            desc << colorize( string_format( "%s: ", get_effect( effect_infected,
+            desc += colorize( string_format( "%s: ", get_effect( effect_infected,
                                              e.bp ).get_speed_name() ), c_red );
-            desc << colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                              c_red ) << "\n";
+            desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
+                              c_red ) + "\n";
             if( infect > 0 ) {
-                desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
-                                                 static_cast<int>( infect * 100 ) ), c_light_green ) << "\n";
+                desc += colorize( string_format( _( "Chance to heal infection: %d %%" ),
+                                                 static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc << colorize( _( "This will not help in healing infection." ), c_yellow ) << "\n";
+                desc += colorize( _( "This will not help in healing infection." ), c_yellow ) + "\n";
             }
         }
         // DISINFECTANT (general) block
         if( disinfected ) {
-            desc << string_format( _( "Disinfected [%s]" ),
-                                   texitify_healing_power( d_power ) ) << "\n";
+            desc += string_format( _( "Disinfected [%s]" ),
+                                   texitify_healing_power( d_power ) ) + "\n";
             if( new_d_power > d_power ) {
-                desc << colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
+                                                 texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
             } else if( new_d_power > 0 ) {
-                desc << colorize( _( "You don't expect any improvement from using this." ),
-                                  c_yellow ) << "\n";
+                desc += colorize( _( "You don't expect any improvement from using this." ),
+                                  c_yellow ) + "\n";
             }
         } else if( new_d_power > 0 && e.allowed ) {
-            desc << colorize( string_format(
+            desc += colorize( string_format(
                                   _( "Expected disinfection quality: %s" ),
-                                  texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+                                  texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
         }
         // END of blocks
 
         if( ( !e.allowed && !limb_is_broken ) || ( show_all && current_hp == maximal_hp &&
                 !limb_is_broken && !bitten && !infected && !bleeding ) ) {
-            desc << colorize( _( "Healthy." ), c_green ) << "\n";
+            desc += colorize( _( "Healthy." ), c_green ) + "\n";
         }
         if( !e.allowed ) {
-            desc << colorize( _( "You don't expect any effect from using this." ), c_yellow );
+            desc += colorize( _( "You don't expect any effect from using this." ), c_yellow );
         } else {
             is_valid_choice = true;
         }
-        bmenu.addentry_desc( i, e.allowed, MENU_AUTOASSIGN, msg.str(), desc.str() );
+        bmenu.addentry_desc( i, e.allowed, MENU_AUTOASSIGN, msg, desc );
     }
 
     if( !is_valid_choice ) { // no body part can be chosen for this item/effect
@@ -4790,15 +4881,15 @@ std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 
 std::string Character::extended_description() const
 {
-    std::ostringstream ss;
+    std::string ss;
     if( is_player() ) {
         // <bad>This is me, <player_name>.</bad>
-        ss << string_format( _( "This is you - %s." ), name );
+        ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss << string_format( _( "This is %s." ), name );
+        ss += string_format( _( "This is %s." ), name );
     }
 
-    ss << std::endl << "--" << std::endl;
+    ss += "\n--\n";
 
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
@@ -4820,29 +4911,29 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
-        ss << colorize( left_justify( bp_heading, longest ), name_color );
-        ss << colorize( hp_bar.first, hp_bar.second );
+        ss += colorize( left_justify( bp_heading, longest ), name_color );
+        ss += colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // TODO: Integrate into get_hp_bar somehow
-        ss << colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
-        ss << std::endl;
+        ss += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        ss += "\n";
     }
 
-    ss << "--" << std::endl;
-    ss << _( "Wielding:" ) << " ";
+    ss += "--\n";
+    ss += _( "Wielding:" ) + std::string( " " );
     if( weapon.is_null() ) {
-        ss << _( "Nothing" );
+        ss += _( "Nothing" );
     } else {
-        ss << weapon.tname();
+        ss += weapon.tname();
     }
 
-    ss << std::endl;
-    ss << _( "Wearing:" ) << " ";
-    ss << enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
+    ss += "\n";
+    ss += _( "Wearing:" ) + std::string( " " );
+    ss += enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
 
-    return replace_colors( ss.str() );
+    return replace_colors( ss );
 }
 
 social_modifiers Character::get_mutation_social_mods() const
@@ -5225,7 +5316,15 @@ void Character::set_stamina( int new_stamina )
 
 void Character::mod_stamina( int mod )
 {
+    // TODO: Make NPCs smart enough to use stamina
+    if( is_npc() ) {
+        return;
+    }
     stamina += mod;
+    if( stamina < 0 ) {
+        add_effect( effect_winded, 10_turns );
+    }
+    stamina = clamp( 0, stamina, get_stamina_max() );
 }
 
 void Character::burn_move_stamina( int moves )
@@ -5248,7 +5347,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -5494,7 +5593,7 @@ void Character::cough( bool harmful, int loudness )
     if( harmful ) {
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
-        mod_stat( "stamina", -malus );
+        mod_stamina( -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
@@ -6209,7 +6308,7 @@ void Character::heal( body_part healed, int dam )
 
 void Character::heal( hp_part healed, int dam )
 {
-    if( hp_cur[healed] > 0 ) {
+    if( !is_limb_broken( healed ) ) {
         int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
         hp_cur[healed] += effective_heal;
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
@@ -6752,6 +6851,7 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         rooted_message();
     }
     if( is_npc() ) {
+        cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
         guy->set_attitude( NPCATT_ACTIVITY );
         guy->set_mission( NPC_MISSION_ACTIVITY );

@@ -219,7 +219,7 @@ void mdeath::splatter( monster &z )
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
-        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( "GIBBED" );
@@ -850,7 +850,7 @@ void mdeath::broken_ammo( monster &z )
 
 void make_mon_corpse( monster &z, int damageLvl )
 {
-    item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+    item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {

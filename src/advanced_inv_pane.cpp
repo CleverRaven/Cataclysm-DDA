@@ -1,3 +1,4 @@
+#include "advanced_inv_area.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"

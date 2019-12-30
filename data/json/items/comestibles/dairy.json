@@ -310,6 +310,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   }
 ]

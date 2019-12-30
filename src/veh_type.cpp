@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <memory>
 #include <numeric>
-#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
@@ -377,9 +376,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
     }
-    if( jo.has_member( "looks_like" ) ) {
-        def.looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", def.looks_like );
 
     if( jo.has_member( "color" ) ) {
         def.color = color_from_string( jo.get_string( "color" ) );
@@ -389,8 +386,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        JsonIn &stream = *jo.get_raw( "breaks_into" );
-        def.breaks_into_group = item_group::load_item_group( stream, "collection" );
+        def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
     }
 
     auto qual = jo.get_array( "qualities" );
@@ -673,16 +669,16 @@ std::string vpart_info::name() const
     }
 }
 
-int vpart_info::format_description( std::ostringstream &msg, const nc_color &format_color,
+int vpart_info::format_description( std::string &msg, const nc_color &format_color,
                                     int width ) const
 {
     int lines = 1;
-    msg << _( "<color_white>Description</color>\n" );
-    msg << "> " << "<color_" << string_from_color( format_color ) << ">";
+    msg += _( "<color_white>Description</color>\n" );
+    msg += "> <color_" + string_from_color( format_color ) + ">";
 
-    std::ostringstream long_descrip;
+    std::string long_descrip;
     if( !description.empty() ) {
-        long_descrip << description;
+        long_descrip += description.translated();
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -690,34 +686,34 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
         }
         json_flag flag = json_flag::get( flagid );
         if( !flag.info().empty() ) {
-            if( !long_descrip.str().empty() ) {
-                long_descrip << "  ";
+            if( !long_descrip.empty() ) {
+                long_descrip += "  ";
             }
-            long_descrip << _( flag.info() );
+            long_descrip += _( flag.info() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << _( nobelt.info() );
+        long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << _( nobelt.info() );
+        long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
-        long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
+        long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
     }
 
-    if( !long_descrip.str().empty() ) {
-        const auto wrap_descrip = foldstring( long_descrip.str(), width );
-        msg << wrap_descrip[0];
+    if( !long_descrip.empty() ) {
+        const auto wrap_descrip = foldstring( long_descrip, width );
+        msg += wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
-            msg << "\n  " << wrap_descrip[i];
+            msg += "\n  " + wrap_descrip[i];
         }
-        msg << "</color>\n";
+        msg += "</color>\n";
         lines += wrap_descrip.size();
     }
 
@@ -725,14 +721,14 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
-        msg << "> " << "<color_" << string_from_color( format_color ) << ">" << string_format(
-                _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
+        msg += "> <color_" + string_from_color( format_color ) + ">" + string_format(
+                   _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
-            msg << string_format( _( " and is rated at %1$d %2$s" ),
+            msg += string_format( _( " and is rated at %1$d %2$s" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
-        msg << ".</color>\n";
+        msg += ".</color>\n";
         lines += 1;
     }
     return lines;
@@ -947,13 +943,12 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
         } else if( part.has_array( "parts" ) ) {
-            JsonArray subparts = part.get_array( "parts" );
-            while( subparts.has_more() ) {
-                if( subparts.test_string() ) {
-                    std::string part_name = subparts.next_string();
+            for( const JsonValue &entry : part.get_array( "parts" ) ) {
+                if( entry.test_string() ) {
+                    std::string part_name = entry.get_string();
                     add_part_string( part_name, pos );
                 } else {
-                    JsonObject subpart = subparts.next_object();
+                    JsonObject subpart = entry.get_object();
                     add_part_obj( subpart, pos );
                 }
             }
@@ -979,9 +974,8 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
-            JsonArray item_group = spawn_info.get_array( "items" );
-            while( item_group.has_more() ) {
-                next_spawn.item_ids.push_back( item_group.next_string() );
+            for( const std::string &line : spawn_info.get_array( "items" ) ) {
+                next_spawn.item_ids.push_back( line );
             }
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
@@ -989,9 +983,8 @@ void vehicle_prototype::load( const JsonObject &jo )
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
-            JsonArray item_group_names = spawn_info.get_array( "item_groups" );
-            while( item_group_names.has_more() ) {
-                next_spawn.item_groups.push_back( item_group_names.next_string() );
+            for( const std::string &line : spawn_info.get_array( "item_groups" ) ) {
+                next_spawn.item_groups.push_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
             next_spawn.item_groups.push_back( spawn_info.get_string( "item_groups" ) );

@@ -3,6 +3,7 @@
 #define DAMAGE_H
 
 #include <array>
+#include <map>
 #include <vector>
 #include <string>
 
@@ -103,13 +104,14 @@ struct resistances {
     resistances &operator+=( const resistances &other );
 };
 
+const std::map<std::string, damage_type> &get_dt_map();
 damage_type dt_by_name( const std::string &name );
 std::string name_by_dt( const damage_type &dt );
 
 const skill_id &skill_by_dt( damage_type dt );
 
 damage_instance load_damage_instance( const JsonObject &jo );
-damage_instance load_damage_instance( JsonArray &jarr );
+damage_instance load_damage_instance( const JsonArray &jarr );
 
 resistances load_resistances_instance( const JsonObject &jo );
 

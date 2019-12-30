@@ -59,6 +59,9 @@ struct points_left;
 class faction;
 struct construction;
 
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -178,6 +181,21 @@ struct social_modifiers {
         return *this;
     }
 };
+
+struct consumption_event {
+    time_point time;
+    itype_id type_id;
+    uint64_t component_hash;
+
+    consumption_event() = default;
+    consumption_event( const item &food ) : time( calendar::turn ) {
+        type_id = food.typeId();
+        component_hash = food.make_component_hash();
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -668,6 +686,9 @@ class Character : public Creature, public visitable<Character>
                           const item &new_item ) const;
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
+
+        void serialize_consumption_history( JsonOut jsout ) const;
+        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
@@ -1057,10 +1078,11 @@ class Character : public Creature, public visitable<Character>
         ret_val<bool> can_unwield( const item &it ) const;
 
         void drop_invalid_inventory();
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where );
-        virtual void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
-                           bool stash = false );
+        void drop( item_location loc, const tripoint &where );
+        virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
 
@@ -1242,6 +1264,7 @@ class Character : public Creature, public visitable<Character>
 
         stomach_contents stomach;
         stomach_contents guts;
+        std::list<consumption_event> consumption_history;
 
         int oxygen;
         int radiation;
@@ -1483,6 +1506,15 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+
+        /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
+        bool change_side( item &it, bool interactive = true );
+        bool change_side( item_location &loc, bool interactive = true );
+
+        /** Used to determine player feedback on item use for the inventory code.
+         *  rates usability lower for non-tools (books, etc.) */
+        hint_rating rate_action_change_side( const item &it ) const;
+
         bool get_check_encumbrance() {
             return check_encumbrance;
         }

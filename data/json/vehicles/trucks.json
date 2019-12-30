@@ -891,10 +891,10 @@
       { "x": -2, "y": 1, "chance": 20, "items": [ "blanket" ] },
       { "x": -3, "y": 0, "chance": 20, "items": [ "blanket" ] },
       { "x": -3, "y": 1, "chance": 20, "items": [ "blanket" ] },
-      { "x": -4, "y": 0, "chance": 10, "items": { "item": "dog_food", "container-item": "can_medium" } },
-      { "x": -4, "y": 0, "chance": 10, "items": { "item": "dog_food", "container-item": "can_medium" } },
-      { "x": -4, "y": 1, "chance": 10, "items": { "item": "cat_food", "container-item": "can_food" } },
-      { "x": -4, "y": 1, "chance": 10, "items": { "item": "cat_food", "container-item": "can_food" } },
+      { "x": -4, "y": 0, "chance": 10, "//": { "item": "dog_food", "container-item": "can_medium" } },
+      { "x": -4, "y": 0, "chance": 10, "//": { "item": "dog_food", "container-item": "can_medium" } },
+      { "x": -4, "y": 1, "chance": 10, "//": { "item": "cat_food", "container-item": "can_food" } },
+      { "x": -4, "y": 1, "chance": 10, "//": { "item": "cat_food", "container-item": "can_food" } },
       { "x": -4, "y": 0, "chance": 3, "items": [ "beartrap" ] }
     ]
   }

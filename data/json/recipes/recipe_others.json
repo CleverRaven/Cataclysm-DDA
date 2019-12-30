@@ -742,19 +742,6 @@
   },
   {
     "type": "recipe",
-    "result": "rock_pot",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "cooking", 1 ],
-    "difficulty": 2,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 3 ] ], [ [ "cordage", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "primitive_shovel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3265,6 +3252,32 @@
   },
   {
     "type": "recipe",
+    "result": "toolbox_workshop",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 4,
+    "time": "4 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "sheet_metal_small", 5 ] ],
+      [ [ "nail", 11 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
+      [ [ "screwdriver_set", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "hammer", 1 ] ],
+      [ [ "metal_file", 1 ] ],
+      [ [ "pin_reamer", 1 ] ],
+      [ [ "hand_vice", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "vacutainer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -3633,7 +3646,10 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ], [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
+    "components": [
+      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
+      [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -4004,7 +4020,7 @@
     "components": [
       [ [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "rag", 1 ] ],
-      [ [ "razor_blade", 1 ] ],
+      [ [ "razor_shaving", 1 ] ],
       [ [ "mirror", 1 ] ],
       [ [ "plastic_chunk", 1 ], [ "skewer_bone", 4 ], [ "splinter", 4 ] ]
     ]
@@ -4436,5 +4452,40 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "razor_shaving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_stethoscope",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "book_learn": [
+      [ "mag_fabrication", 1 ],
+      [ "manual_fabrication", 1 ],
+      [ "textbook_fabrication", 1 ],
+      [ "manual_first_aid", 1 ],
+      [ "pocket_firstaid", 1 ]
+    ],
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "duct_tape", 30 ], [ "medical_tape", 30 ] ],
+      [ [ "bottle_plastic_small", 2 ], [ "funnel", 2 ], [ "metal_funnel", 2 ], [ "makeshift_funnel", 2 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "condom", 1 ], [ "balloon", 1 ] ]
+    ]
   }
 ]

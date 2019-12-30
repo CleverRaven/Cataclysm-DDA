@@ -20,7 +20,7 @@
     "text": [
       "Pink tablets!  I love those!",
       "Hey there's some pink tablets, take some!",
-      "Look, some LSD, let's play cataclysm: fun times ahead!",
+      "Look, some LSD, let's play Cataclysm: fun times ahead!",
       "Say yes to LSD, say yes to Fun!",
       "Perfect, those pink tablets will keep us going, take some!",
       "You know what would make all this more bearable?  Pink Tablets!",
@@ -1144,9 +1144,9 @@
     "category": "<BGSS_intro_question>",
     "//": "avatar response to an NPC that opens up their history.",
     "text": [
-      "Tell me about how you survived the cataclysm.",
-      "How did you survive the cataclysm?",
-      "What was the cataclysm like for you?",
+      "Tell me about how you survived the Cataclysm.",
+      "How did you survive the Cataclysm?",
+      "What was the Cataclysm like for you?",
       "How did you make it through the initial chaos?",
       "Tell me how you survived the initial wave of the Cataclysm.",
       "Was it rough surviving thus far?"
@@ -1246,7 +1246,7 @@
   {
     "type": "snippet",
     "category": "<the_cataclysm>",
-    "text": [ "the cataclysm", "the apocalypse", "the end of the world", "Armageddon", "the end of days" ]
+    "text": [ "the Cataclysm", "the apocalypse", "the end of the world", "Armageddon", "the end of days" ]
   },
   {
     "type": "snippet",

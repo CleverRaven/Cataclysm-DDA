@@ -283,7 +283,13 @@
       [ "soap", 45 ],
       [ "tailors_kit", 25 ],
       [ "shavingkit", 20 ],
-      [ "elec_hairtrimmer", 20 ]
+      [ "elec_hairtrimmer", 20 ],
+      [ "razor_shaving", 20 ],
+      [ "curler_hair", 30 ],
+      [ "hair_dryer", 40 ],
+      [ "curling_iron", 40 ],
+      [ "comb_pocket", 10 ],
+      [ "hairbrush", 10 ]
     ]
   },
   {

@@ -1338,6 +1338,10 @@ int Creature::get_num_dodges_bonus() const
 {
     return num_dodges_bonus;
 }
+int Creature::get_num_dodges_base() const
+{
+    return num_dodges;
+}
 
 // currently this is expected to be overridden to actually have use
 int Creature::get_env_resist( body_part ) const
@@ -1461,9 +1465,9 @@ void Creature::set_num_blocks_bonus( int nblocks )
 {
     num_blocks_bonus = nblocks;
 }
-void Creature::set_num_dodges_bonus( int ndodges )
+void Creature::mod_num_dodges_bonus( int ndodges )
 {
-    num_dodges_bonus = ndodges;
+    num_dodges_bonus += ndodges;
 }
 
 void Creature::set_armor_bash_bonus( int nbasharm )

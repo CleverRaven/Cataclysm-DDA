@@ -747,6 +747,7 @@
   {
     "type": "recipe",
     "result": "soap_flakes",
+    "id_suffix": "fast_cut",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
