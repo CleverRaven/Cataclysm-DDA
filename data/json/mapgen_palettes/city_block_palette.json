@@ -113,8 +113,8 @@
       ],
       "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
-      "i": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
-      "l": { "item": "fridge", "chance": 30, "repeat": [ 1, 2 ] },
+      "i": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
+      "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
     }

@@ -1284,7 +1284,7 @@
         "l": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
         "n": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
         "j": [ { "item": "restaur_bath", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "i": [ { "item": "SUS_cookware", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "i": [ { "item": "SUS_oven", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "restaur_table", "chance": 30, "repeat": [ 0, 4 ] } ],
         "J": [
           { "item": "SUS_knife_drawer", "chance": 30, "repeat": [ 0, 4 ] },
