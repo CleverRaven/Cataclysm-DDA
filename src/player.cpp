@@ -1922,8 +1922,8 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     hp_cur[hurtpart] -= dam_to_bodypart;
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
-    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
-        if( !weapon.is_null() && !can_wield( weapon ).success() ) {
+    if( is_limb_broken( hurtpart ) && ( source == nullptr || !source->is_hallucination() ) ) {
+        if( !weapon.is_null() && can_unwield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
             i_rem( &weapon );
         }
@@ -3318,10 +3318,10 @@ void player::process_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
-        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && w.encumbrance_update_ ) {
             update_required = true;
         }
-        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+        w.encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -4296,19 +4296,6 @@ hint_rating player::rate_action_wear( const item &it ) const
     return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
 }
 
-hint_rating player::rate_action_change_side( const item &it ) const
-{
-    if( !is_worn( it ) ) {
-        return HINT_IFFY;
-    }
-
-    if( !it.is_sided() ) {
-        return HINT_CANT;
-    }
-
-    return HINT_GOOD;
-}
-
 bool player::can_reload( const item &it, const itype_id &ammo ) const
 {
     if( !it.is_reloadable_with( ammo ) ) {
@@ -4773,46 +4760,6 @@ player::wear_item( const item &to_wear, bool interactive )
     return new_item_it;
 }
 
-bool player::change_side( item &it, bool interactive )
-{
-    if( !it.swap_side() ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You cannot swap the side on which your %s is worn." ),
-                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
-                                   it.tname() );
-        }
-        return false;
-    }
-
-    if( interactive ) {
-        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
-                               _( "<npcname> swaps the side on which their %s is worn." ),
-                               it.tname() );
-    }
-
-    mod_moves( -250 );
-    reset_encumbrance();
-
-    return true;
-}
-
-bool player::change_side( int pos, bool interactive )
-{
-    item &it( i_at( pos ) );
-
-    if( !is_worn( it ) ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You are not wearing that item." ),
-                                   _( "<npcname> isn't wearing that item." ) );
-        }
-        return false;
-    }
-
-    return change_side( it, interactive );
-}
-
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if( !it.is_armor() ) {
@@ -4826,34 +4773,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
     return HINT_IFFY;
 }
 
-std::list<const item *> player::get_dependent_worn_items( const item &it ) const
-{
-    std::list<const item *> dependent;
-    // Adds dependent worn items recursively
-    const std::function<void( const item &it )> add_dependent = [ & ]( const item & it ) {
-        for( const auto &wit : worn ) {
-            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
-                continue;
-            }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
-            [ &wit ]( const item * dit ) {
-                return &wit == dit;
-            } );
-            if( iter == dependent.end() ) { // Not in the list yet
-                add_dependent( wit );
-                dependent.push_back( &wit );
-            }
-        }
-    };
-
-    if( is_worn( it ) ) {
-        add_dependent( it );
-    }
-
-    return dependent;
-}
-
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
+ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;
@@ -4877,7 +4797,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff( item &it, std::list<item> *res )
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -4893,7 +4813,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                drop( get_item_position( &it ), pos() );
+                item_location loc( *this, &it );
+                drop( loc, pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
@@ -5833,7 +5754,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     } else if( plantsleep ) {
         if( vp || furn_at_pos != f_null ) {
             // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
             if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
@@ -5846,7 +5767,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             }
             // Sleep ain't happening
             else {
-                comfort = static_cast<int>( comfort_level::uncomfortable );
+                comfort = static_cast<int>( comfort_level::impossible );
             }
         }
         // Has webforce
@@ -5855,7 +5776,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Thick Web and you're good to go
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else {
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         }
     }
 
@@ -6353,32 +6274,35 @@ std::string player::weapname( unsigned int truncate ) const
     }
 }
 
-bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
+bool player::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
-    if( pos < 0 ) {
+    if( internal_item == nullptr ) {
         std::vector<std::string> opts;
         std::transform( container.contents.begin(), container.contents.end(),
         std::back_inserter( opts ), []( const item & elem ) {
             return elem.display_name();
         } );
         if( opts.size() > 1 ) {
-            pos = uilist( _( "Wield what?" ), opts );
+            int pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
         } else {
-            pos = 0;
+            internal_item = &container.contents.front();
         }
     }
 
-    if( pos >= static_cast<int>( container.contents.size() ) ) {
+    const bool has = std::any_of( container.contents.begin(),
+    container.contents.end(), [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
+    if( !has ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
 
-    auto target = std::next( container.contents.begin(), pos );
-    const auto ret = can_wield( *target );
+    const ret_val<bool> ret = can_wield( *internal_item );
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
@@ -6393,8 +6317,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
         inv.unsort();
     }
 
-    weapon = std::move( *target );
-    container.contents.erase( target );
+    weapon = std::move( *internal_item );
+    container.contents.remove_if( [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
     container.on_contents_changed();
 
     inv.update_invlet( weapon );

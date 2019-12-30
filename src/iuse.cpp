@@ -998,6 +998,22 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_npc() ) {
+        if( it->made_of( LIQUID ) ) {
+            if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
+                return 0;
+            }
+        } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
+            if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
+                return 0;
+            }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->has_trait( trait_THRESH_PLANT ) ) {
@@ -9432,19 +9448,19 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-    const std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    const drop_locations to_clean = inv_s.execute();
     if( to_clean.empty() ) {
         return 0;
     }
 
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
-    for( std::pair<int, int> pair : to_clean ) {
-        item i = p->i_at( pair.first );
-        if( pair.first == INT_MIN ) {
+    for( drop_location pair : to_clean ) {
+        if( !pair.first ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
+        item &i = *pair.first;
         total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
     }
 
@@ -9471,8 +9487,8 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     // Assign the activity values.
     p->assign_activity( activity_id( "ACT_WASH" ), required.time );
 
-    for( std::pair<int, int> pair : to_clean ) {
-        p->activity.values.push_back( pair.first );
+    for( drop_location pair : to_clean ) {
+        p->activity.targets.push_back( pair.first );
         p->activity.values.push_back( pair.second );
     }
 

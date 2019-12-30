@@ -49,7 +49,9 @@
       [ "pocket_firearms", 5 ],
       [ "newest_newspaper", 75 ],
       [ "flyer", 10 ],
-      [ "thermos", 5 ]
+      [ "thermos", 5 ],
+      [ "hairbrush", 25 ],
+      [ "comb_pocket", 50 ]
     ]
   },
   {

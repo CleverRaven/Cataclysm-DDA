@@ -270,6 +270,28 @@
     }
   },
   {
+    "id": "bot_turret_riot",
+    "type": "TOOL",
+    "name": "inactive riot control turret",
+    "description": "This is an inactive riot control turret.  Using this item involves loading the unit with the 40x46mm M1006 sponge rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
+    "weight": "125000 g",
+    "volume": "60 L",
+    "price": 200500,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_riot",
+      "difficulty": 6,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_turret",
     "type": "TOOL",
     "name": "inactive turret",
@@ -464,31 +486,6 @@
     }
   },
   {
-    "id": "bot_chickenbot",
-    "type": "TOOL",
-    "name": "inactive chicken walker",
-    "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the chicken walker will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
-    "weight": "120000 g",
-    "volume": "92500 ml",
-    "price": 50000000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_chickenbot",
-      "friendly_msg": "The chicken walker rises to its feet, sways away from you and begins surveying the area.",
-      "hostile_msg": "The chicken walker whirrs and aims directly at you. Take cover!",
-      "//": "Milspec, but was deployed in active service implying a reliable IFF",
-      "difficulty": 9,
-      "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
     "id": "bot_copbot",
     "looks_like": "broken_copbot",
     "type": "TOOL",
@@ -670,86 +667,6 @@
     }
   },
   {
-    "id": "bot_tankbot",
-    "looks_like": "broken_tankbot",
-    "type": "TOOL",
-    "name": "inactive tank drone",
-    "description": "This is an inactive Beagle Mini-Tank UGV.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the tank drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
-    "weight": "200000 g",
-    "//": "cheating a bit with the volume due to lack of proper vehicle storage options",
-    "volume": "250 L",
-    "price": 100000000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_tankbot",
-      "friendly_msg": "The tank drone rolls out and begins acquiring targets.",
-      "hostile_msg": "The tank drone swivels its turret and aims directly at you. Don your brown pants!",
-      "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
-      "difficulty": 10,
-      "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
-    "id": "broken_chickenbot",
-    "looks_like": "broken_tripod",
-    "type": "TOOL",
-    "name": "inactive chicken walker",
-    "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the tank drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
-    "weight": "190000 g",
-    "//": "cheating a bit with the volume due to lack of proper vehicle storage options",
-    "volume": "250 L",
-    "price": 100000000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_chickenbot",
-      "friendly_msg": "The chicken bot rolls out and begins acquiring targets.",
-      "hostile_msg": "The chicken bot swivels its turret and aims directly at you.  Don your brown pants!",
-      "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
-      "difficulty": 10,
-      "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
-    "id": "bot_tripod",
-    "looks_like": "broken_tripod",
-    "type": "TOOL",
-    "name": "inactive tripod",
-    "description": "This is an inactive Honda Regnal.  Using this item involves placing it on the ground, wondering how it fuels its flamethrower and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
-    "weight": "120000 g",
-    "volume": "92500 ml",
-    "price": 100000000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_tripod",
-      "friendly_msg": "The tribot rises to its feet and scans the area for contaminants.",
-      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower. Turns out you hate the smell of napalm.",
-      "//": "No observed open deployment, likely a prototype or secret project",
-      "difficulty": 15,
-      "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
     "id": "bot_turret_searchlight",
     "type": "TOOL",
     "name": "inactive milspec searchlight",
@@ -777,7 +694,7 @@
   {
     "id": "bot_dispatch",
     "type": "TOOL",
-    "name": "inactive dispatch",
+    "name": { "str": "inactive dispatch", "str_pl": "inactive dispatches" },
     "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "250 kg",
@@ -802,7 +719,7 @@
   {
     "id": "bot_dispatch_military",
     "type": "TOOL",
-    "name": "inactive military dispatch",
+    "name": { "str": "inactive military dispatch", "str_pl": "inactive military dispatches" },
     "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "300 kg",

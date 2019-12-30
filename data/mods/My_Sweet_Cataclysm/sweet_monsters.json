@@ -9,7 +9,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "weight": 2000,
+    "weight": "2 kg",
     "hp": 8,
     "speed": 150,
     "material": [ "junk" ],

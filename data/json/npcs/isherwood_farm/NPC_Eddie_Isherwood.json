@@ -222,7 +222,6 @@
       "update_mapgen": [
         {
           "om_terrain": "rural_outbuilding",
-          "om_special": "Isherwood Farms",
           "place_nested": [ { "chunks": [ "isherwood_outbuilding_kilns" ], "x": 0, "y": 0 } ],
           "set": [
             { "point": "furniture", "id": "f_kiln_empty", "x": 8, "y": 13 },

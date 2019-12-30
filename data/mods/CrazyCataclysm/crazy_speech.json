@@ -38,7 +38,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "Fantastic! You remained resolute and resourceful in an atmosphere of extreme pessimism.",
+    "sound": "Fantastic!  You remained resolute and resourceful in an atmosphere of extreme pessimism.",
     "volume": 10
   },
   {
@@ -182,19 +182,19 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "What was that? Did you say something? ",
+    "sound": "What was that?  Did you say something?",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "I'd just like to point out that you were given every opportunity to succeed.  ",
+    "sound": "I'd just like to point out that you were given every opportunity to succeed.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "What's your point, anyway? Survival?",
+    "sound": "What's your point, anyway?  Survival?",
     "volume": 20
   },
   {
@@ -254,7 +254,7 @@
   {
     "type": "snippet",
     "category": "clickbait",
-    "text": "KEVIN SACRIFICING GAMEPLAY FOR REALISM? THE SHOCKING TRUTH REVEALED"
+    "text": "KEVIN SACRIFICING GAMEPLAY FOR REALISM?  THE SHOCKING TRUTH REVEALED"
   },
   {
     "type": "snippet",
@@ -269,7 +269,7 @@
   {
     "type": "snippet",
     "category": "clickbait",
-    "text": "TRIVIALIZE THE EARLY GAME WITH THIS ONE SIMPLE SPEAR WEAPON! CONTRIBUTORS HATE HIM"
+    "text": "TRIVIALIZE THE EARLY GAME WITH THIS ONE SIMPLE SPEAR WEAPON!  CONTRIBUTORS HATE HIM"
   },
   {
     "type": "snippet",
@@ -378,7 +378,7 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"It's alive! It's alive!\"",
+    "sound": "\"It's alive!  It's alive!\"",
     "volume": 40
   },
   {

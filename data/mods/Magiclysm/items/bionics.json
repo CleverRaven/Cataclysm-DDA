@@ -6,7 +6,7 @@
     "name": "Blood Power Generator CBM",
     "description": "Using the latest advancement in technomancy this bionic is able to convert the innate energy stored in blood into bionic power.  The stronger the blood the better.  It can hold up to 100 mL of blood.",
     "price": 450000,
-    "weight": 500,
+    "weight": "500 g",
     "difficulty": 8
   }
 ]

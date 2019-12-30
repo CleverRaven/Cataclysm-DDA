@@ -49,5 +49,20 @@
       "menu_text": "Extinguish"
     },
     "flags": [ "LIGHT_6", "TRADER_AVOID" ]
+  },
+  {
+    "id": "decorative_wreath",
+    "type": "TOOL",
+    "name": "yule wreath",
+    "description": "This decorative wreath can be deployed as furniture to decorate for the winter holidays.",
+    "weight": "1814 g",
+    "volume": "4 L",
+    "price": 100,
+    "to_hit": -2,
+    "material": "wood",
+    "symbol": "0",
+    "color": "green",
+    "looks_like": "plate",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_winter_wreath" }
   }
 ]

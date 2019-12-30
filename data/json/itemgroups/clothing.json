@@ -94,14 +94,20 @@
     "items": [
       { "group": "clothing_soldier_shirt" },
       { "item": "jacket_army" },
-      { "item": "pants_army" },
-      { "item": "boots_combat" },
-      { "item": "helmet_army", "prob": 20 },
-      { "item": "gloves_tactical", "prob": 10 },
       { "item": "elbow_pads", "prob": 10 },
+      { "item": "pants_army" },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "boots_combat" },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
-      { "group": "underwear" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       {
         "distribution": [
@@ -123,14 +129,20 @@
     "items": [
       { "group": "clothing_soldier_shirt" },
       { "item": "winter_jacket_army" },
-      { "item": "winter_pants_army" },
-      { "item": "boots_combat" },
-      { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 20 },
-      { "collection": [ { "item": "gloves_liner" }, { "item": "winter_gloves_army" } ], "prob": 40 },
       { "item": "elbow_pads", "prob": 10 },
+      { "item": "winter_pants_army" },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "boots_combat" },
+      { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
+      { "collection": [ { "item": "gloves_liner" }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
-      { "group": "underwear" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       {
         "distribution": [
@@ -259,7 +271,7 @@
     "id": "clothing_tactical_leg",
     "type": "item_group",
     "//": "Tactical gear that can be strapped to the legs",
-    "items": [ [ "knee_pads", 100 ], [ "legpouch_large", 100 ], [ "legrig", 100 ] ]
+    "items": [ [ "legpouch_large", 100 ], [ "legrig", 100 ] ]
   },
   {
     "id": "clothing_tactical_torso",
@@ -523,6 +535,68 @@
     ]
   },
   {
+    "id": "cufflinks_silver",
+    "type": "item_group",
+    "items": [
+      [ "cufflinks", 50 ],
+      [ "cufflinks_intricate", 50 ],
+      [ "citrine_silver_cufflinks", 50 ],
+      [ "diamond_silver_cufflinks", 50 ],
+      [ "emerald_silver_cufflinks", 50 ],
+      [ "peridot_silver_cufflinks", 50 ],
+      [ "amethyst_silver_cufflinks", 50 ],
+      [ "sapphire_silver_cufflinks", 50 ],
+      [ "aquamarine_silver_cufflinks", 50 ],
+      [ "blue_topaz_silver_cufflinks", 50 ],
+      [ "tourmaline_silver_cufflinks", 50 ],
+      [ "alexandrite_silver_cufflinks", 50 ],
+      [ "pearl_silver_cufflinks", 50 ],
+      [ "opal_silver_cufflinks", 50 ],
+      [ "ruby_silver_cufflinks", 50 ],
+      [ "garnet_silver_cufflinks", 50 ]
+    ]
+  },
+  {
+    "id": "cufflinks_gold",
+    "type": "item_group",
+    "items": [
+      [ "citrine_gold_cufflinks", 50 ],
+      [ "diamond_gold_cufflinks", 50 ],
+      [ "emerald_gold_cufflinks", 50 ],
+      [ "peridot_gold_cufflinks", 50 ],
+      [ "amethyst_gold_cufflinks", 50 ],
+      [ "sapphire_gold_cufflinks", 50 ],
+      [ "aquamarine_gold_cufflinks", 50 ],
+      [ "blue_topaz_gold_cufflinks", 50 ],
+      [ "tourmaline_gold_cufflinks", 50 ],
+      [ "alexandrite_gold_cufflinks", 50 ],
+      [ "pearl_gold_cufflinks", 50 ],
+      [ "opal_gold_cufflinks", 50 ],
+      [ "ruby_gold_cufflinks", 50 ],
+      [ "garnet_gold_cufflinks", 50 ]
+    ]
+  },
+  {
+    "id": "cufflinks_platinum",
+    "type": "item_group",
+    "items": [
+      [ "citrine_platinum_cufflinks", 50 ],
+      [ "diamond_platinum_cufflinks", 50 ],
+      [ "emerald_platinum_cufflinks", 50 ],
+      [ "peridot_platinum_cufflinks", 50 ],
+      [ "amethyst_platinum_cufflinks", 50 ],
+      [ "sapphire_platinum_cufflinks", 50 ],
+      [ "aquamarine_platinum_cufflinks", 50 ],
+      [ "blue_topaz_platinum_cufflinks", 50 ],
+      [ "tourmaline_platinum_cufflinks", 50 ],
+      [ "alexandrite_platinum_cufflinks", 50 ],
+      [ "pearl_platinum_cufflinks", 50 ],
+      [ "opal_platinum_cufflinks", 50 ],
+      [ "ruby_platinum_cufflinks", 50 ],
+      [ "garnet_platinum_cufflinks", 50 ]
+    ]
+  },
+  {
     "id": "dental_grills",
     "type": "item_group",
     "items": [
@@ -540,6 +614,129 @@
       [ "alexandrite_dental_grill", 50 ],
       [ "ruby_dental_grill", 50 ],
       [ "garnet_dental_grill", 50 ]
+    ]
+  },
+  {
+    "id": "tiaras_silver",
+    "type": "item_group",
+    "items": [
+      [ "citrine_silver_tiara", 50 ],
+      [ "diamond_silver_tiara", 50 ],
+      [ "emerald_silver_tiara", 50 ],
+      [ "peridot_silver_tiara", 50 ],
+      [ "amethyst_silver_tiara", 50 ],
+      [ "sapphire_silver_tiara", 50 ],
+      [ "aquamarine_silver_tiara", 50 ],
+      [ "blue_topaz_silver_tiara", 50 ],
+      [ "tourmaline_silver_tiara", 50 ],
+      [ "alexandrite_silver_tiara", 50 ],
+      [ "pearl_silver_tiara", 50 ],
+      [ "opal_silver_tiara", 50 ],
+      [ "ruby_silver_tiara", 50 ],
+      [ "garnet_silver_tiara", 50 ]
+    ]
+  },
+  {
+    "id": "tiaras_gold",
+    "type": "item_group",
+    "items": [
+      [ "citrine_gold_tiara", 50 ],
+      [ "diamond_gold_tiara", 50 ],
+      [ "emerald_gold_tiara", 50 ],
+      [ "peridot_gold_tiara", 50 ],
+      [ "amethyst_gold_tiara", 50 ],
+      [ "sapphire_gold_tiara", 50 ],
+      [ "aquamarine_gold_tiara", 50 ],
+      [ "blue_topaz_gold_tiara", 50 ],
+      [ "tourmaline_gold_tiara", 50 ],
+      [ "alexandrite_gold_tiara", 50 ],
+      [ "pearl_gold_tiara", 50 ],
+      [ "opal_gold_tiara", 50 ],
+      [ "ruby_gold_tiara", 50 ],
+      [ "garnet_gold_tiara", 50 ]
+    ]
+  },
+  {
+    "id": "tiaras_platinum",
+    "type": "item_group",
+    "items": [
+      [ "citrine_platinum_tiara", 50 ],
+      [ "diamond_platinum_tiara", 50 ],
+      [ "emerald_platinum_tiara", 50 ],
+      [ "peridot_platinum_tiara", 50 ],
+      [ "amethyst_platinum_tiara", 50 ],
+      [ "sapphire_platinum_tiara", 50 ],
+      [ "aquamarine_platinum_tiara", 50 ],
+      [ "blue_topaz_platinum_tiara", 50 ],
+      [ "tourmaline_platinum_tiara", 50 ],
+      [ "alexandrite_platinum_tiara", 50 ],
+      [ "pearl_platinum_tiara", 50 ],
+      [ "opal_platinum_tiara", 50 ],
+      [ "ruby_platinum_tiara", 50 ],
+      [ "garnet_platinum_tiara", 50 ]
+    ]
+  },
+  {
+    "id": "pendant_necklaces_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_necklace", 50 ],
+      [ "citrine_silver_pendant_necklace", 50 ],
+      [ "diamond_silver_pendant_necklace", 50 ],
+      [ "emerald_silver_pendant_necklace", 50 ],
+      [ "peridot_silver_pendant_necklace", 50 ],
+      [ "amethyst_silver_pendant_necklace", 50 ],
+      [ "sapphire_silver_pendant_necklace", 50 ],
+      [ "aquamarine_silver_pendant_necklace", 50 ],
+      [ "blue_topaz_silver_pendant_necklace", 50 ],
+      [ "tourmaline_silver_pendant_necklace", 50 ],
+      [ "alexandrite_silver_pendant_necklace", 50 ],
+      [ "pearl_silver_pendant_necklace", 50 ],
+      [ "opal_silver_pendant_necklace", 50 ],
+      [ "ruby_silver_pendant_necklace", 50 ],
+      [ "garnet_silver_pendant_necklace", 50 ]
+    ]
+  },
+  {
+    "id": "pendant_necklaces_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_necklace", 50 ],
+      [ "citrine_gold_pendant_necklace", 50 ],
+      [ "diamond_gold_pendant_necklace", 50 ],
+      [ "emerald_gold_pendant_necklace", 50 ],
+      [ "peridot_gold_pendant_necklace", 50 ],
+      [ "amethyst_gold_pendant_necklace", 50 ],
+      [ "sapphire_gold_pendant_necklace", 50 ],
+      [ "aquamarine_gold_pendant_necklace", 50 ],
+      [ "blue_topaz_gold_pendant_necklace", 50 ],
+      [ "tourmaline_gold_pendant_necklace", 50 ],
+      [ "alexandrite_gold_pendant_necklace", 50 ],
+      [ "pearl_gold_pendant_necklace", 50 ],
+      [ "opal_gold_pendant_necklace", 50 ],
+      [ "ruby_gold_pendant_necklace", 50 ],
+      [ "garnet_gold_pendant_necklace", 50 ]
+    ]
+  },
+  {
+    "id": "pendant_necklaces_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_necklace", 50 ],
+      [ "citrine_platinum_pendant_necklace", 50 ],
+      [ "diamond_platinum_pendant_necklace", 50 ],
+      [ "emerald_platinum_pendant_necklace", 50 ],
+      [ "peridot_platinum_pendant_necklace", 50 ],
+      [ "amethyst_platinum_pendant_necklace", 50 ],
+      [ "sapphire_platinum_pendant_necklace", 50 ],
+      [ "aquamarine_platinum_pendant_necklace", 50 ],
+      [ "blue_topaz_platinum_pendant_necklace", 50 ],
+      [ "tourmaline_platinum_pendant_necklace", 50 ],
+      [ "alexandrite_platinum_pendant_necklace", 50 ],
+      [ "pearl_platinum_pendant_necklace", 50 ],
+      [ "opal_platinum_pendant_necklace", 50 ],
+      [ "ruby_platinum_pendant_necklace", 50 ],
+      [ "garnet_platinum_pendant_necklace", 50 ]
     ]
   },
   {
@@ -603,6 +800,132 @@
       [ "opal_platinum_earring", 50 ],
       [ "ruby_platinum_earring", 50 ],
       [ "garnet_platinum_earring", 50 ]
+    ]
+  },
+  {
+    "id": "rings_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_ring", 50 ],
+      [ "citrine_silver_ring", 50 ],
+      [ "diamond_silver_ring", 50 ],
+      [ "emerald_silver_ring", 50 ],
+      [ "peridot_silver_ring", 50 ],
+      [ "amethyst_silver_ring", 50 ],
+      [ "sapphire_silver_ring", 50 ],
+      [ "aquamarine_silver_ring", 50 ],
+      [ "blue_topaz_silver_ring", 50 ],
+      [ "tourmaline_silver_ring", 50 ],
+      [ "alexandrite_silver_ring", 50 ],
+      [ "pearl_silver_ring", 50 ],
+      [ "opal_silver_ring", 50 ],
+      [ "ruby_silver_ring", 50 ],
+      [ "garnet_silver_ring", 50 ]
+    ]
+  },
+  {
+    "id": "rings_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_ring", 50 ],
+      [ "citrine_gold_ring", 50 ],
+      [ "diamond_ring", 50 ],
+      [ "emerald_gold_ring", 50 ],
+      [ "peridot_gold_ring", 50 ],
+      [ "amethyst_gold_ring", 50 ],
+      [ "sapphire_gold_ring", 50 ],
+      [ "aquamarine_gold_ring", 50 ],
+      [ "blue_topaz_gold_ring", 50 ],
+      [ "tourmaline_gold_ring", 50 ],
+      [ "alexandrite_gold_ring", 50 ],
+      [ "pearl_gold_ring", 50 ],
+      [ "opal_gold_ring", 50 ],
+      [ "ruby_gold_ring", 50 ],
+      [ "garnet_gold_ring", 50 ]
+    ]
+  },
+  {
+    "id": "rings_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_ring", 50 ],
+      [ "citrine_platinum_ring", 50 ],
+      [ "diamond_platinum_ring", 50 ],
+      [ "emerald_platinum_ring", 50 ],
+      [ "peridot_platinum_ring", 50 ],
+      [ "amethyst_platinum_ring", 50 ],
+      [ "sapphire_platinum_ring", 50 ],
+      [ "aquamarine_platinum_ring", 50 ],
+      [ "blue_topaz_platinum_ring", 50 ],
+      [ "tourmaline_platinum_ring", 50 ],
+      [ "alexandrite_platinum_ring", 50 ],
+      [ "pearl_platinum_ring", 50 ],
+      [ "opal_platinum_ring", 50 ],
+      [ "ruby_platinum_ring", 50 ],
+      [ "garnet_platinum_ring", 50 ]
+    ]
+  },
+  {
+    "id": "bracelets_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_bracelet", 50 ],
+      [ "citrine_silver_bracelet", 50 ],
+      [ "diamond_silver_bracelet", 50 ],
+      [ "emerald_silver_bracelet", 50 ],
+      [ "peridot_silver_bracelet", 50 ],
+      [ "amethyst_silver_bracelet", 50 ],
+      [ "sapphire_silver_bracelet", 50 ],
+      [ "aquamarine_silver_bracelet", 50 ],
+      [ "blue_topaz_silver_bracelet", 50 ],
+      [ "tourmaline_silver_bracelet", 50 ],
+      [ "alexandrite_silver_bracelet", 50 ],
+      [ "pearl_silver_bracelet", 50 ],
+      [ "opal_silver_bracelet", 50 ],
+      [ "ruby_silver_bracelet", 50 ],
+      [ "garnet_silver_bracelet", 50 ]
+    ]
+  },
+  {
+    "id": "bracelets_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_bracelet", 50 ],
+      [ "citrine_gold_bracelet", 50 ],
+      [ "diamond_gold_bracelet", 50 ],
+      [ "emerald_gold_bracelet", 50 ],
+      [ "peridot_gold_bracelet", 50 ],
+      [ "amethyst_gold_bracelet", 50 ],
+      [ "sapphire_gold_bracelet", 50 ],
+      [ "aquamarine_gold_bracelet", 50 ],
+      [ "blue_topaz_gold_bracelet", 50 ],
+      [ "tourmaline_gold_bracelet", 50 ],
+      [ "alexandrite_gold_bracelet", 50 ],
+      [ "pearl_gold_bracelet", 50 ],
+      [ "opal_gold_bracelet", 50 ],
+      [ "ruby_gold_bracelet", 50 ],
+      [ "garnet_gold_bracelet", 50 ]
+    ]
+  },
+  {
+    "id": "bracelets_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_bracelet", 50 ],
+      [ "citrine_platinum_bracelet", 50 ],
+      [ "diamond_platinum_bracelet", 50 ],
+      [ "emerald_platinum_bracelet", 50 ],
+      [ "peridot_platinum_bracelet", 50 ],
+      [ "amethyst_platinum_bracelet", 50 ],
+      [ "sapphire_platinum_bracelet", 50 ],
+      [ "aquamarine_platinum_bracelet", 50 ],
+      [ "blue_topaz_platinum_bracelet", 50 ],
+      [ "tourmaline_platinum_bracelet", 50 ],
+      [ "alexandrite_platinum_bracelet", 50 ],
+      [ "pearl_platinum_bracelet", 50 ],
+      [ "opal_platinum_bracelet", 50 ],
+      [ "ruby_platinum_bracelet", 50 ],
+      [ "garnet_platinum_bracelet", 50 ]
     ]
   },
   {
@@ -795,6 +1118,7 @@
       [ "snuggie", 5 ],
       [ "flyer", 10 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "socks_wool", 30 ],
       [ "pocketwatch", 5 ],
       [ "flask_hip", 2 ],
@@ -840,6 +1164,7 @@
     "items": [
       [ "sneakers", 80 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "tights", 20 ],
       [ "stockings", 20 ],
       [ "knee_high_boots", 20 ],
@@ -1127,7 +1452,7 @@
   {
     "type": "item_group",
     "id": "shoestore_accessories",
-    "items": [ [ "socks", 100 ], [ "thermal_socks", 25 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
+    "items": [ [ "socks", 100 ], [ "socks_ankle", 75 ], [ "thermal_socks", 25 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
   },
   {
     "type": "item_group",
@@ -2033,26 +2358,6 @@
   },
   {
     "type": "item_group",
-    "id": "bio_op_face",
-    "items": [ [ "glasses_bal", 40 ], [ "mask_filter", 30 ], [ "mask_bal", 30 ], [ "mask_gas", 40 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "bio_op_torso",
-    "items": [ [ "dragonskin", 50 ], [ "winter_jacket_army", 10 ], [ "modularvestceramic", 40 ], [ "modularvestkevlar", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "bio_op_boots",
-    "items": [ [ "boots_combat", 1 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "bio_op_gloves",
-    "items": [ [ "gloves_tactical", 60 ], [ "gloves_fingerless", 40 ], [ "winter_gloves_army", 40 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "museum_armor",
     "items": [
       [ "armor_plate", 60 ],
@@ -2251,6 +2556,7 @@
       [ "boy_shorts", 25 ],
       [ "bra", 25 ],
       [ "socks", 45 ],
+      [ "socks_ankle", 30 ],
       [ "stockings", 20 ],
       [ "hat_cotton", 35 ],
       [ "copper_bracelet", 10 ],
@@ -2450,7 +2756,12 @@
     "type": "item_group",
     "//": "unisex socks",
     "subtype": "distribution",
-    "items": [ { "item": "socks", "prob": 70 }, { "item": "socks_wool", "prob": 30 }, { "item": "thermal_socks", "prob": 10 } ]
+    "items": [
+      { "item": "socks", "prob": 70 },
+      { "item": "socks_ankle", "prob": 50 },
+      { "item": "socks_wool", "prob": 30 },
+      { "item": "thermal_socks", "prob": 10 }
+    ]
   },
   {
     "id": "scarfs_unisex",

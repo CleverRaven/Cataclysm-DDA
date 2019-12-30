@@ -795,7 +795,7 @@ void rule_list::load_legacy_rules( std::istream &fin )
             const int iNum = std::count( sLine.begin(), sLine.end(), ';' );
 
             if( iNum != 2 ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
+                debugmsg( "Bad Rule: %s (will be skipped)", sLine );
             } else {
                 std::string sRule;
                 bool bActive = true;

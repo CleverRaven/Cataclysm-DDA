@@ -204,28 +204,6 @@
     ]
   },
   {
-    "id": "TANK",
-    "looks_like": "m79",
-    "type": "GUN",
-    "symbol": "(",
-    "color": "green",
-    "name": "Tankbot Main Gun",
-    "name_plural": "Tankbot Main Gun",
-    "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
-    "price": 99999999,
-    "material": "steel",
-    "skill": "launcher",
-    "ammo": "120mm",
-    "weight": "2500 g",
-    "volume": "2500 ml",
-    "bashing": 6,
-    "to_hit": -3,
-    "dispersion": 60,
-    "durability": 9,
-    "clip_size": 1,
-    "loudness": 300
-  },
-  {
     "id": "plasma_rifle",
     "looks_like": "ar15",
     "type": "GUN",
