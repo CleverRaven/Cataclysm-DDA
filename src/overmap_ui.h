@@ -17,6 +17,8 @@ namespace ui
 namespace omap
 {
 
+struct path_type;
+
 /**
  * Display overmap centered at the player's position.
  */
