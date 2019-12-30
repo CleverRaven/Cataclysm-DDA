@@ -1164,7 +1164,7 @@ void avatar::reset_stats()
     }
 
     // Radiation
-    set_fake_effect_dur( effect_irradiated, 1_turns * radiation );
+    set_fake_effect_dur( effect_irradiated, 1_turns * get_rad() );
     // Morale
     const int morale = get_morale_level();
     set_fake_effect_dur( effect_happy, 1_turns * morale );

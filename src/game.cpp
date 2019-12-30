@@ -11345,8 +11345,8 @@ void game::process_artifact( item &it, player &p )
                 break;
 
             case AEP_PBLUE:
-                if( p.radiation > 0 ) {
-                    p.radiation--;
+                if( p.get_rad() > 0 ) {
+                    p.mod_rad( -1 );
                 }
                 break;
 
@@ -11487,7 +11487,7 @@ bool check_art_charge_req( item &it )
             reqsmet = p.has_effect( effect_sleep );
             break;
         case( ACR_RAD ):
-            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
             break;
         case( ACR_WET ):
             reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),

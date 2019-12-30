@@ -4319,13 +4319,13 @@ bool npc::complain()
     }
 
     // Radiation every 10 minutes
-    if( radiation > 90 ) {
+    if( get_rad() > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
         std::string speech = _( "I'm suffering from radiation sickness…" );
-        if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
+        if( complain_about( radiation_string, 10_minutes, speech, get_rad() > 150 ) ) {
             return true;
         }
-    } else if( !radiation ) {
+    } else if( !get_rad() ) {
         deactivate_bionic_by_id( bio_radscrubber );
     }
 

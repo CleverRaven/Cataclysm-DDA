@@ -238,7 +238,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    radiation = 0;
+    set_rad( 0 );
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
@@ -5298,6 +5298,21 @@ void Character::set_stim( int new_stim )
 void Character::mod_stim( int mod )
 {
     stim += mod;
+}
+
+int Character::get_rad() const
+{
+    return radiation;
+}
+
+void Character::set_rad( int new_rad )
+{
+    radiation = new_rad;
+}
+
+void Character::mod_rad( int mod )
+{
+    radiation += mod;
 }
 
 int Character::get_stamina() const
