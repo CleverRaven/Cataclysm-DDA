@@ -360,7 +360,7 @@
     "vision_night": 40,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_stonegolem",
@@ -377,7 +377,7 @@
     "speed": 60,
     "material": [ "stone" ],
     "symbol": "X",
-    "color": "gray",
+    "color": "light_gray",
     "aggression": 10,
     "morale": 100,
     "melee_skill": 6,
@@ -392,7 +392,7 @@
     "special_attacks": [ { "type": "spell", "spell_id": "rocket_punch", "spell_level": 5, "cooldown": 10 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_irongolem",
@@ -409,7 +409,7 @@
     "speed": 50,
     "material": [ "iron" ],
     "symbol": "X",
-    "color": "black",
+    "color": "dark_gray",
     "aggression": 10,
     "morale": 100,
     "melee_skill": 6,
@@ -424,6 +424,6 @@
     "special_attacks": [ { "type": "spell", "spell_id": "gas_attack", "spell_level": 5, "cooldown": 60 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   }
 ]
