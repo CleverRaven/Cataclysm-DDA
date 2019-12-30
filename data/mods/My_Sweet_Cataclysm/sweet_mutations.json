@@ -29,7 +29,7 @@
       "ROBUST",
       "CARNIVORE"
     ],
-    "can_only_eat": [ "junk", "sugar" ],
+    "can_only_eat": [ "junk", "sugar", "honey" ],
     "can_only_heal_with": [ "caramel_ointement" ],
     "description": "You are literally made of sugar.",
     "vitamin_rates": [ [ "vitC", -900 ], [ "vitB", -900 ], [ "vitA", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
