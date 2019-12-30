@@ -1375,8 +1375,8 @@ class Character : public Creature, public visitable<Character>
         void mod_stim( int mod );
 
         int get_rad() const;
-        void set_rad(int new_rad);
-        void mod_rad(int mod);
+        void set_rad( int new_rad );
+        void mod_rad( int mod );
 
         int get_stamina() const;
         int get_stamina_max() const;
