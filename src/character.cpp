@@ -3367,7 +3367,12 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    set_thirst( thirst + nthirst );
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+        if( mut.first->flags.count( "NO_THIRST" ) > 0 ) {
+            return;
+        }
+    }
+    set_thirst( std::max( -100, thirst + nthirst ) );
 }
 
 void Character::set_thirst( int nthirst )

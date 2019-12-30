@@ -41,6 +41,7 @@
     "fat_to_max_hp": 0.1,
     "allowed_category": [ "SUGAR" ],
     "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "LEG_L", "LEG_R", "FOOT_L", "FOOT_R" ],
-    "armor": [ { "parts": "ALL", "cut": 10, "bash": 5 } ]
+    "armor": [ { "parts": "ALL", "cut": 10, "bash": 5 } ],
+    "flags": [ "NO_THIRST" ]
   }
 ]
