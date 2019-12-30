@@ -39,6 +39,34 @@
         "id": "adminlab_snippet_9",
         "text": "There's been a massive security breach.  It looks like more than half of our database was copied.  IT suspects China, as usual.  The knee-jerk is to silo all our labs and force us to communicate by Melchior only."
       },
+      {
+        "id": "adminlab_snippet_10",
+        "text": "Contamination tracking teams have confirmed the worst: XE037 is in the environment.  At this point we can't contain it, we'll have to try to find an eradication protocol.  We don't have long before we'll have to tell the brass about this."
+      },
+      {
+        "id": "adminlab_snippet_11",
+        "text": "The labs have failed to produce any workable ideas for how to eradicate XE037 even in a small scale, let alone population wide.  We have no choice but to bring this to the brass.  The implications are concerning, to say the least."
+      },
+      {
+        "id": "adminlab_snippet_12",
+        "text": "An emergency meeting was held today to discuss the possible implications of widespread XE037 contamination.  It was agreed that neutralization must be instated immediately to prevent a catastrophic event.  We'll give the labs a short window to try to find a solution before we report it to the brass; after all, they'll want answers, not just problems."
+      },
+      {
+        "id": "adminlab_snippet_13",
+        "text": "We've continued tracking XE037 contamination since detecting it in the environment, with each silo conducting parallel research.  Keeping it to silos has limited panic at least.  XE037 seems to have continued spreading, but doesn't appear to be replicating beyond a very low base level.  No revivification has been reported.  Perhaps there just isn't enough of it to cause problems."
+      },
+      {
+        "id": "adminlab_snippet_14",
+        "text": "It seems to have gone as we'd hoped it would.  XE037 levels have plateaued in the environment, across all the testing sites.  It's just a trace alien contaminant in our world now, I guess.  I don't see any way this could cause long term problems."
+      },
+      {
+        "id": "adminlab_snippet_15",
+        "text": "Our hope that XE037 contamination was self-limiting was pure optimism.  We're detecting significant jumps in human populations now, including among our own personnel.  God, it's in me, even as I write this I have to acknowledge the fact.  We haven't got a choice but to engage maximum prejudice.  We're meeting with the military tomorrow to desilo the facilities and begin a full scale war on XE037."
+      },
+      {
+        "id": "adminlab_snippet_16",
+        "text": "XE037 revivification has reached critical levels, which are rapidly overwhelming the available military and regional police assets' ability to stop.  Every team in the field has encountered hostile specimens, and several are no longer responding to communications.  Dr. Savage has proposed a strategic redeployment to the underground complex known as the VAULT, and continuing production of PE062 there."
+      }
     ]
   },
   {
@@ -63,22 +91,102 @@
       },
       {
         "id": "ailab_snippet_5",
-        "text": "We managed to convince them Melchior is smarter than it really is, which will at least get them off our backs for a while.  How did we do it, you ask?  We cut down the number of dimensions scanned per second, which drops its accuracy by a few orders of magnitude, but the power savings let us scan a wider time range.  That counts for about ten percent.  The other ninety percent was getting David shelling out for a much sexier sounding voice synth package."
+        "text": "We managed to convince them Melchior is smarter than it really is, which will at least get them off our backs for a while.  How did we do it, you ask?  We cut down the number of dimensions scanned per second, which drops its accuracy by a few orders of magnitude, but the power savings let us scan a wider time range.  That counts for about ten percent.  The other ninety percent was getting Davids to shell out for a much sexier sounding voice synth package."
+      },
+      {
+        "id": "ailab_snippet_6",
+        "text": "We are really obviously in heavier competition with the private industry than the other XEDRA silos.  Melchior detected a fairly clever attempt at database injection through one of Melchior's access points to external units.  It was shut down very quickly, but we traced the origin back to Dr. Silverstein and the group that left to form Uncanny.  They already took half our best people, do they really have to try to steal our work too?  Admin was unhelpful, no big surprise there.  Everyone knows they're cozy with Silverstein.  Don't know why he doesn't just ask them directly for all our most classified stuff."
+      },
+      {
+        "id": "ailab_snippet_7",
+        "text": "Dr. Silverstein left, along with half a dozen of our best programmers.  Apparently they have an agreement to start a private startup that will present some of our findings as new research.  It figures Silverstein would come up with a way to get rich and hog the limelight for discoveries we can never make public."
+      },
+      {
+        "id": "ailab_snippet_8",
+        "text": "The big exodus after Dr. Silverstein wasn't all bad.  With him no longer swaggering around and getting in the way, Davids and Kohler were able to try out that perf package they wanted to run on Melchior core traffic.  It worked better than anticipated.  Once we work this into Melchior's central hub, we'll be able to communicate with dispersed XEDRA silos basically as fast as Melchior can process.  That'll let us store Melchior's actual main unit back at Hub01, and just have little booster versions of it at the local lab level.  $aving$ is a language admin speaks."
+      },
+      {
+        "id": "ailab_snippet_9",
+        "text": "I swear, working here is like running a preschool.  Vaughn and Kohler set up a live fire version of the new modified UGV that Davids and Amad have been working on.  Then they left it in their office, turned on, with IFF fully active.  Davids and Amad screamed like children before getting hosed down… with paintballs.  I guess they must have stayed up all night modifying the stupid thing's loadout.  On the bright side, it was funny, and really emphasized how completely terrible their IFF still is."
+      },
+      {
+        "id": "ailab_snippet_10",
+        "text": "Those ass - pardon me.  Reverse dictation and overwrite.  Our esteemed colleagues at Uncanny have pushed their version of \"deep learning heuristic AI\" public.  They're just attributing everything Melchior does to a little chip, and telling everyone it's \"deep learning and we don't fully understand it\".  Amazingly, even the comp sci experts seem to be buying it.  I guess there wasn't much chance anyone was going to guess that the central server is actually literally seeing possible futures."
       }
     ]
   },
   {
     "type": "snippet",
-    "category": "ailab_notes",
+    "category": "alienlab_notes",
     "text": [
       {
         "id": "alienlab_snippet_1",
         "text": "Today we tested weaponry against XE142 and XE157, two amorphous subprime samples.  Their form proved to be nearly invulnerable to projectile based weaponry, but they were susceptible to directed energy weapons and flagration."
       },
       {
-        "id": "lab_snippet_30",
+        "id": "alienlab_snippet_2",
         "text": "The vivisection program has shown mixed results, revealing an incredible degree of variation in subplane lifeforms.  Certain specimens have an internal structure that is amazingly similar to that of mammals, while others seem to have no internal structure at all."
       },
+      {
+        "id": "alienlab_snippet_3",
+        "text": "We successfully induced resin expression in subject CC-09.  Once we got it expressing, we got gallons of the stuff, designated CC-09-R1.  The first few times, it hardened within a few minutes, but we managed to isolate a few samples in sealed jars to send for spectroscopy.  It seems to harden much slower in the absence of air; what exactly catalyzes the setting remains to be seen."
+      },
+      {
+        "id": "alienlab_snippet_4",
+        "text": "The resin expressed by CC-09, designated CC-09-R1, was quite amenable to NMR study.  We gained some really interesting insights into how it meshes with CC-09 internal structures to form a carapace.  Siobhan thinks she can adapt the concepts to human biology, and is applying for a grant to study this further."
+      },
+      {
+        "id": "alienlab_snippet_5",
+        "text": "We got a treasure trove of new specimens from XEDRA-40 today, from subplane designate 020XE.  We dubbed the samples XE142.  Due to proximity, we assumed they might share chemical properties with some of the specimens from 000XE, but so far they seem totally unrelated (which calls into question our naming conventions, but it's too late now).  The new specimens seem to be made of recognizable cellular matter, and quite biologically sophisticated.  Individuals, if XE142 can be said to have individuals, are amorphous, but complex: they form a firm outer gel coat, and ultrasound probing suggests that the XE142 matter inside coalesces into specialized internal organs.  When XE142 samples combine, the organs and coat appear to reform to suit the new, larger organism."
+      },
+      {
+        "id": "alienlab_snippet_6",
+        "text": "Well-meaning exploratory teams from XEDRA-40 brought us back what they thought was a relative of XE142, from adjacent subplane 021XE.  It does not, in fact, seem to be related to me.  Like XE142, XE157 is amorphous.  There the similarities end: it is almost impervious to any attempts to sample it, regenerating rapidly from damage.  It ate my scalpel, then stretched out a pod and ate my entire tool tray before splitting in two.  We've isolated the specimens until we can figure out how to study them without driving tool budgets through the roof.  On the bright side, they're surprisingly not all that hostile, even compared to XE142."
+      },
+      {
+        "id": "alienlab_snippet_7",
+        "text": "We got a sample of what I can only describe as \"alien hamburger\" from XEDRA-40 today.  They say the probe was being chased by some kind of enormous creature in 079XE.  It managed to get an appendage through the portal, but they shut it down and it was sliced off.  The bit of claw that remained on this side rapidly degraded to mush.  We haven't been able to ascertain exactly why, but Melchior helped us model molecular coherence with the physical laws applying in 079XE: this has yielded the working hypothesis that in 079XE, it is possible for nitrogen groups to form a stable durable bond akin to a disulphide bridge.  These bonds might have been critical to holding the thing together, and when the became less stable in our world, the creature collapsed."
+      },
+      {
+        "id": "alienlab_snippet_8",
+        "text": "Admin asked us to vivisect a bunch of samples from 001AA today.  It was boring, as predicted.  We were unable to identify any functional differences between samples from our Earth, and samples from a functionally identical mirror.  What a shock."
+      },
+      {
+        "id": "alienlab_snippet_9",
+        "text": "Admin has been on a kick getting us to study samples from close mirrors today.  They must have an ulterior motive, but I can't think what.  We took a look at stuff from 020-040AA.  By the later ends of it we were finding minor evolutionary differences, as expected, all well within the range of genetic drift.  Maybe tomorrow they'll get us something that diverges along the theta axis instead, and we'll prove MORE things we already knew!"
+      },
+      {
+        "id": "alienlab_snippet_10",
+        "text": "Spent most of the day elbow deep in samples of XE142.  If nothing else, I think dead XE142 matter could make a half decent adhesive.  Got a little on the counter and it took me hours to scrub it clean."
+      },
+      {
+        "id": "alienlab_snippet_11",
+        "text": "One of the probes captured some images of various things from 020XE that appear to be related to XE142.  It looks like there are variant organisms that form some kind of symbiotic relationship with the XE142's we're familiar with.  They were unable to procure a sample: it was much more hostile than the mostly docile XE142 we've come to know and love."
+      },
+      {
+        "id": "alienlab_snippet_12",
+        "text": "CC-09 started echoing words again today.  It had stopped shortly before it started expressing resin.  Is there some kind of life cycle in play here?  It's still expressing CC-09-R1 whenever we need it, but it keeps repeating random noises back at me again, like some kind of freaky outer space parrot."
+      },
+      {
+        "id": "alienlab_snippet_13",
+        "text": "Part of the security detail watching the CC samples got put off by the echoing behavior, and actually broke containment to try to shoot the thing.  No word on what could possibly have possessed him to attempt that.  Normally we'd be demoting him to test subject, but there wasn't much left of him to demote.  CC-11 was successfully recaptured with no further casualties."
+      },
+      {
+        "id": "alienlab_snippet_14",
+        "text": "We got a bizarre report from the morgue; apparently Mandrake, the security officer who attacked CC-11, tried to climb back out of his drawer in the morgue.  I was getting ready to defend myself, because I was damn sure he was dead.  I'd had a good close look at his heart and lungs.  Then they clarified it for me: when they got him out of the drawer, Mandrake was still dead.  Just moving.  We're looking into how CC-11 did this.  Mandrake has been contained in a holding cell for further observation."
+      },
+      {
+        "id": "alienlab_snippet_15",
+        "text": "We've taken every sample I can think of from Mandrake - or rather, Mandrake's gruesome reanimated corpse - and hit nothing but dead ends.  I don't think we're going to get any further.  Some mooks from admin came and packaged him up for transport to XEDRA-12, and with the new siloed information I don't know if we'll get to find out what happened to him.  We've been put under quarantine though, so that's fun.  So much for going to the movies tomorrow night."
+      },
+      {
+        "id": "alienlab_snippet_16",
+        "text": "Dr. Takatoshi personally requested we do some experiments on a sample she had retrieved from 000XE.  It was a piece of wood-like material.  The material itself was interesting, but she didn't care about that.  She wanted us to study what was \"between\" the wood.  Indeed, based on her protocols, we found spaces in the material where we could pick up detectable mass, but weren't able to interact with it with any of our spectrographs.  We're dubbing the contaminant XE037 per naming protocol."
+      },
+      {
+        "id": "alienlab_snippet_17",
+        "text": "Whatever XE037 is, or is not, it's contagious, but it seems to only have an interest in biomatter, and a much higher affinity to biomatter from planes at the X locus along the theta axis.  A new team is being formed and siloed out to research it in more detail."
+      }
     ]
   },
   {
@@ -194,66 +302,62 @@
         "text": "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool."
       },
       {
-        "id": "biolab_snippet_43",
+        "id": "biolab_snippet_28",
         "text": "There has been an incident in Lab 24, 2 casualties reported, one lethal.  A rat involved in the stasis breaking project was hooked to a monitoring machine and left over night.  Upon opening the cage, Simon Bellevue was electrocuted, and another researcher at the opposite end of the lab sustained severe current burns, despite never approaching the cage."
       },
       {
-        "id": "biolab_snippet_44",
+        "id": "biolab_snippet_29",
         "text": "A post-mortem on the rat involved in the electrocution incident has revealed several changes to its internal anatomy centered around its connection with the monitoring device, and large buildups of XE037 were detected around the connection point.  There is a belief several other rat subjects experienced changes overnight as well.  This hypothesis is supported by an inventory check after the incident that found almost twenty rats had gone missing from their cages."
       },
       {
-        "id": "biolab_snippet_49",
+        "id": "biolab_snippet_30",
         "text": "Subject T3D has succumbed to radiation poisoning, but not before undergoing several more physiological mutations.  Dr. Holstein is suggesting these may be an attempt by XE037 to adapt its host to an unknown stimulus.  Dr. Dionne says that's completely unfounded.  They got into a rousing twenty minute debate at the update meeting."
       },
       {
-        "id": "biolab_snippet_50",
+        "id": "biolab_snippet_31",
         "text": "Post-mortem revivification of subject T3D was arrested by an immediate autopsy per XEDRA-40's new protocol: we weren't looking to study zombies today.  The internal changes were significant, with large parts of the subject's internal anatomy replaced with new or duplicated organs.  Dr. Versed over in Entomology is convinced some of his organs are scaled-up derivations of fruit fly anatomy now."
       },
       {
-        "id": "lab_snippet_51",
+        "id": "biolab_snippet_32",
         "text": "We were able to isolate what we believe to be re-adapted XE037 from subject T3D's cadaver.  Transdimensionally sourced XE037 is not isolated, but this post-mutagenic, post-revivification stuff seems to obey local physical laws a bit more.  We can pick it up on spectroscopy, but it has comparable physical properties to the sampels of XE037 we obtained \"abroad\".  Samples of the enhanced XE037, labeled PE012, have been sent to several researchers for further study."
       },
       {
-        "id": "lab_snippet_59",
+        "id": "biolab_snippet_33",
         "text": "Despite a wide variety of treatments, we have been completely unsuccessful in removing XE037 from human subjects.  Every individual displayed revivification post termination.  Interestingly, XE037 seems to be completely inert prior to termination."
       },
       {
-        "id": "lab_snippet_62",
+        "id": "biolab_snippet_34",
         "text": "We have finally found success in S37BEP, our emergency investigation into the destruction of XE037 in living subjects.  8 of 10 of the subjects showed no revivification, despite confirmed dosages of XE037."
       },
       {
-        "id": "lab_snippet_63",
+        "id": "biolab_snippet_35",
         "text": "PE062, our \"cure\" for XE037 contamination, has neared perfection.  Sadly, the production of PE062 is a costly and time-consuming process.  What is more, the substance shows no effect on postmortem subjects whatsoever; a substance which renders XE037 inert after it has activated would be immensely useful in the case of an outbreak."
       },
       {
-        "id": "lab_snippet_64",
-        "text": "An alarming discovery has been made.  A colony of XE037 has formed nearly a half mile from the laboratory.  It is unclear how it escaped; it is quite possible that it is in the ground water now."
-      },
-      {
-        "id": "lab_snippet_65",
-        "text": "An emergency meeting was held today to discuss the possible implications of widespread XE037 contamination.  It was agreed that neutralization must be instated immediately to prevent a catastrophic event."
-      },
-      {
-        "id": "lab_snippet_66",
-        "text": "It has begun.  The XE037 contamination has spread for miles, and those who have since deceased have revivified.  It is my fear that extremely large populations will be decimated by this pandemic.  We must find a way to remove XE037 from revivified bodies."
-      },
-      {
-        "id": "lab_snippet_67",
-        "text": "We have even more distressing news than the widespread XE037 contamination, there are reports of the XE037 mutating into various new variants.  See data files on XE037a - XE037f.  Research on the effects of these variants is ongoing.  We do know that XE037d shows signs of PE062 immunity, and XE037b can revive various breeds of canines.  However, revival is not as guaranteed as standard XE037 humanoid infection.  Canine body size seems to influence the chances.  See experiment tXE037b_c."
-      },
-      {
-        "id": "lab_snippet_70",
-        "text": "XE037 revivification has reached critical levels, which are rapidly overwhelming the available military and regional police assets' ability to stop.  Every team in the field has encountered hostile specimens, and several are no longer responding to communications.  Dr. Savage has proposed a strategic redeployment to the underground complex known as the VAULT, and continuing production of PE062 there."
+        "id": "clonelab_snippet_1",
+        "text": "Our cloning department has failed to produce results.  In vats containing stem cell treatments, XE037, and control vats, the subjects simply disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms."
       }
     ]
   },
   {
     "type": "snippet",
-    "category": "clonelab_notes",
+    "category": "cbmlab_notes",
     "text": [
       {
-        "id": "clonelab_snippet_1",
-        "text": "Our cloning department has failed to produce results.  In vats containing stem cell treatments, XE037, and control vats, the subjects simple disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms."
+        "id": "cbmlab_snippet_1",
+        "text": "We've established a new research team specifically to look into reverse engineering the properties of sample CC-09-R1.  See notes prior to [REDACTED: See XEDRA-SILOPROTOCOL or speak to an administrator for assistance].  They managed to steal Gloria Barnhoff away from Veridian Dynamics, it's a real coup."
+      },
+      {
+        "id": "cbmlab_snippet_2",
+        "text": "Dr. Barnhoff already has an idea for how we could recreate some of the self-organizing properties of CC-09-R1.  Trouble is, it's pure silliness: it uses a molecular lattice of californium and a particle accelerator to basically 3D print certain types of molecules.  We had a good laugh, but she just stared at us."
+      },
+      {
+        "id": "cbmlab_snippet_3",
+        "text": "Admin approved Barnhoff's request.  According to my math, the californium she requested alone is worth hundreds of millions of dollars.  We're going to start work on a prototype fabricator tomorrow."
+      },
+      {
+        "id": "cbmlab_snippet_4",
+        "text": "The first nanofab prototype is promising.  There's a major clogging problem that keeps us from making more than a few micrograms of material, but that was enough to conceptualize the plastic Dr. Barnhoff wants.  Amazingly, Admin has approved ANOTHER sample of californium to replace the clogged lattice while we figure out how to fix the first.  I'm not sure there is supposed to be this much californium on Earth.  I might see how far my security clearance gets me in learning what's going on here."
       }
     ]
   },
@@ -315,17 +419,17 @@
       },
       {
         "id": "telelab_snippet_27",
-        "text": "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plan.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40.  Perhaps Dr. Sidhu can make some use of this information."
-      },
+        "text": "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plan.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40 via Melchior.  Perhaps Dr. Sidhu can make some use of this information."
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "telelab_notes",
-    "text": [  
-      { 
+    "text": [
+      {
         "id": "zombielab_snippet_1",
-        "text": "oday we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope." 
+        "text": "oday we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope."
       },
       {
         "id": "zombielab_snippet_2",
