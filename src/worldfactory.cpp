@@ -486,6 +486,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
@@ -757,6 +758,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         }
@@ -1164,6 +1166,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
+                    catacurses::clear();
                     catacurses::refresh();
                     return 1;
                 }
@@ -1171,6 +1174,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 // erase entire window to avoid overlapping of query with possible popup about invalid worldname
                 werase( w_confirmation );
                 wrefresh( w_confirmation );
+                catacurses::clear();
                 catacurses::refresh();
 
                 if( valid_worldname( worldname ) ) {
@@ -1328,14 +1332,10 @@ void WORLD::load_options( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
+        jo.allow_omitted_members();
         const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
                                   jo.get_string( "value" ) );
-
-        // Verify format of options file
-        if( !jo.has_string( "info" ) || !jo.has_string( "default" ) ) {
-            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
-        }
 
         if( name == "CORE_VERSION" ) {
             version = std::max( std::atoi( value.c_str() ), 0 );

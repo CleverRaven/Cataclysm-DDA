@@ -2,7 +2,7 @@
 #ifndef CONSTRUCTION_CATEGORY_H
 #define CONSTRUCTION_CATEGORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <vector>
 

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "silo_ftrc" ],
-    "comment": "finale. top right corner",
+    "//": "finale. top right corner",
     "method": "json",
     "weight": 100,
     "object": {

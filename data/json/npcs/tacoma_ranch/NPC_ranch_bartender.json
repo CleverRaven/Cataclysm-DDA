@@ -93,7 +93,6 @@
     "end": {
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ]
       }
     }
@@ -124,7 +123,6 @@
       "effect": { "npc_add_trait": "NPC_BRANDY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ]
       }
     }
@@ -155,7 +153,6 @@
       "effect": { "npc_add_trait": "NPC_RUM" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ]
       }
     }
@@ -186,7 +183,6 @@
       "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 0, "y": 0 } ]
       }
     }

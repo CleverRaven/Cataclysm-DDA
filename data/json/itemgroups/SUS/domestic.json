@@ -607,5 +607,37 @@
       { "item": "seasoning_italian", "prob": 65 },
       { "item": "seasoning_salt", "prob": 65 }
     ]
+  },
+  {
+    "id": "SUS_bathroom_toiletries",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This is a category for all the items which appear in bathrooms, which are NOT immediately useful medicines. This list is created in part to not ruin player's chances of finding antibiotics, antifungals and asprin, as it suppliments the current bathroom drops instead of replacing. Item probabilities are loosely based on how likely families would take an item with them when evacuating.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap_holder", "prob": 40 },
+      { "item": "soap", "count": [ 1, 4 ], "prob": 60 },
+      { "item": "bleach", "prob": 15 },
+      { "item": "ammonia", "prob": 20 },
+      { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 75 },
+      { "item": "shavingkit", "prob": 1 },
+      { "item": "mirror", "prob": 25 },
+      { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 },
+      { "item": "hairbrush", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "curler_hair", "prob": 25 },
+      { "item": "string_floss", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "comb_pocket", "count": [ 1, 2 ], "prob": 55 },
+      { "item": "plunger_toilet", "prob": 90 },
+      { "item": "plunger_futuristic", "prob": 20 },
+      { "item": "cu_pipe", "prob": 10 },
+      { "item": "hose", "prob": 10 },
+      { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "candle", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "matches", "prob": 10 },
+      { "item": "toilet_paper", "prob": 80 },
+      { "item": "hair_dryer", "prob": 60 },
+      { "item": "curling_iron", "prob": 50 },
+      { "item": "brush_toilet", "prob": 75 }
+    ]
   }
 ]

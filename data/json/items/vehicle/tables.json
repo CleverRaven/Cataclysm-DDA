@@ -26,7 +26,7 @@
   {
     "type": "GENERIC",
     "id": "workbench",
-    "name": "workbench",
+    "name": { "str": "workbench", "str_pl": "workbenches" },
     "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
     "weight": "23000 g",
     "material": [ "steel" ],

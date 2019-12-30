@@ -735,6 +735,9 @@ std::set<point> vehicle::immediate_path( int rotate )
 
 void vehicle::stop_autodriving()
 {
+    if( !is_autodriving && !is_patrolling && !is_following ) {
+        return;
+    }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
             autodrive( 0, 10 );
@@ -4458,7 +4461,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             g->u.mod_thirst( 1 );
             g->u.mod_fatigue( 1 );
         }
-        g->u.mod_stat( "stamina", -( base_burn + mod ) );
+        g->u.mod_stamina( -( base_burn + mod ) );
         add_msg( m_debug, "Load: %d", load );
         add_msg( m_debug, "Mod: %d", mod );
         add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );

@@ -186,13 +186,7 @@
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
-      "update_mapgen": [
-        {
-          "om_terrain": "cabin_isherwood",
-          "om_special": "Isherwood Farms",
-          "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ]
-        }
-      ]
+      "update_mapgen": [ { "om_terrain": "cabin_isherwood", "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ] } ]
     }
   }
 ]

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <memory>
 
 #include "avatar.h"

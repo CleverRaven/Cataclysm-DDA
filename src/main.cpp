@@ -19,7 +19,7 @@
 #if defined(_WIN32)
 #include "platform_win.h"
 #else
-#include <signal.h>
+#include <csignal>
 #endif
 #include "color.h"
 #include "crash.h"

@@ -1911,7 +1911,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION", "SOURCE_WEAPON", "RISK_HIGH" ]
   },
   {
@@ -1921,7 +1920,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1931,7 +1929,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1941,7 +1938,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1951,7 +1947,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1961,7 +1956,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1971,7 +1965,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1981,7 +1974,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -1991,7 +1983,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -2001,7 +1992,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -2011,7 +2001,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -2021,7 +2010,6 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "extras": "field",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -2030,8 +2018,7 @@
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -2039,8 +2026,7 @@
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -2048,8 +2034,7 @@
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -2057,8 +2042,7 @@
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -2066,8 +2050,7 @@
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -2075,8 +2058,7 @@
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

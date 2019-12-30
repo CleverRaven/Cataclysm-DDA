@@ -195,7 +195,9 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
-    , dirt( 0, 9999 ) // min and max should follow max_dirt in ranged.cpp
+      // Dirt in guns is capped unless overwritten in the itemgroup
+      // most guns should not be very dirty or dirty at all
+    , dirt( 0, 500 )
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
@@ -588,22 +590,22 @@ static Group_tag get_unique_group_id()
     }
 }
 
-Group_tag item_group::load_item_group( JsonIn &stream, const std::string &default_subtype )
+Group_tag item_group::load_item_group( const JsonValue &value, const std::string &default_subtype )
 {
-    if( stream.test_string() ) {
-        return stream.get_string();
-    } else if( stream.test_object() ) {
+    if( value.test_string() ) {
+        return value.get_string();
+    } else if( value.test_object() ) {
         const Group_tag group = get_unique_group_id();
 
-        JsonObject jo = stream.get_object();
+        JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
         item_controller->load_item_group( jo, group, subtype );
 
         return group;
-    } else if( stream.test_array() ) {
+    } else if( value.test_array() ) {
         const Group_tag group = get_unique_group_id();
 
-        JsonArray jarr = stream.get_array();
+        JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
         // from the caller of this function.
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
@@ -613,7 +615,7 @@ Group_tag item_group::load_item_group( JsonIn &stream, const std::string &defaul
 
         return group;
     } else {
-        stream.error( "invalid item group, must be string (group id) or object/array (the group data)" );
+        value.throw_error( "invalid item group, must be string (group id) or object/array (the group data)" );
         // stream.error always throws, this is here to prevent a warning
         return Group_tag{};
     }
