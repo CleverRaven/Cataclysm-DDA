@@ -105,7 +105,6 @@
     "pierce": 12,
     "dispersion": 90,
     "durability": 7,
-    "clip_size": 80,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NO_RELOAD" ]
   }
