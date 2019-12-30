@@ -2246,7 +2246,9 @@
       [ "toolbox", 5 ],
       [ "apron_leather", 10 ],
       [ "bio_meteorologist", 10 ],
-      [ "chem_aluminium_sulphate", 20 ]
+      [ "chem_aluminium_sulphate", 20 ],
+      [ "plunger_toilet", 10 ],
+      [ "plunger_futuristic", 5 ]
     ]
   },
   {

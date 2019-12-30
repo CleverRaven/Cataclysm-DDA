@@ -271,13 +271,6 @@
     "copy-from": "schematics_generic"
   },
   {
-    "id": "schematics_chickenbot",
-    "type": "BOOK",
-    "name": { "str": "chicken walker schematics", "str_pl": "chicken walker schematics" },
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
     "id": "schematics_hazmatbot",
     "type": "BOOK",
     "name": { "str": "cleaner bot schematics", "str_pl": "cleaner bot schematics" },
@@ -303,20 +296,6 @@
     "type": "BOOK",
     "name": { "str": "lab defense bot schematics", "str_pl": "lab defense bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the lab defense bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_tankbot",
-    "type": "BOOK",
-    "name": { "str": "tank drone schematics", "str_pl": "tank drone schematics" },
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the tank drone.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_tripod",
-    "type": "BOOK",
-    "name": { "str": "tripod schematics", "str_pl": "tripod schematics" },
-    "description": "Bearing the logo of Honda, those are assembly plans, design specs, and technical drawings for the tripod.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {

@@ -2108,7 +2108,7 @@ bool game::handle_action()
             case ACTION_IGNORE_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP ) {
                     add_msg( m_info, _( "Ignoring enemy!" ) );
-                    for( auto &elem : new_seen_mon ) {
+                    for( auto &elem : u.get_mon_visible().new_seen_mon ) {
                         monster &critter = *elem;
                         critter.ignoring = rl_dist( u.pos(), critter.pos() );
                     }

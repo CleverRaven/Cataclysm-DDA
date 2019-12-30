@@ -1922,7 +1922,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     hp_cur[hurtpart] -= dam_to_bodypart;
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
-    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
+    if( is_limb_broken( hurtpart ) && ( source == nullptr || !source->is_hallucination() ) ) {
         if( !weapon.is_null() && can_unwield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
             i_rem( &weapon );
@@ -4773,34 +4773,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
     return HINT_IFFY;
 }
 
-std::list<const item *> player::get_dependent_worn_items( const item &it ) const
-{
-    std::list<const item *> dependent;
-    // Adds dependent worn items recursively
-    const std::function<void( const item &it )> add_dependent = [ & ]( const item & it ) {
-        for( const auto &wit : worn ) {
-            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
-                continue;
-            }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
-            [ &wit ]( const item * dit ) {
-                return &wit == dit;
-            } );
-            if( iter == dependent.end() ) { // Not in the list yet
-                add_dependent( wit );
-                dependent.push_back( &wit );
-            }
-        }
-    };
-
-    if( is_worn( it ) ) {
-        add_dependent( it );
-    }
-
-    return dependent;
-}
-
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
+ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;
@@ -4824,7 +4797,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff( item &it, std::list<item> *res )
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -4840,7 +4813,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                drop( get_item_position( &it ), pos() );
+                item_location loc( *this, &it );
+                drop( loc, pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;

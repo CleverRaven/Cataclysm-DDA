@@ -1553,6 +1553,7 @@ bool game::do_turn()
         }
     }
     update_stair_monsters();
+    mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
@@ -2108,7 +2109,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.takeoff( oThisItem );
                     break;
                 case 'd':
-                    u.drop( pos, u.pos() );
+                    u.drop( locThisItem, u.pos() );
                     break;
                 case 'U':
                     unload( oThisItem );
@@ -3818,194 +3819,15 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
 // Print monster info to the given window
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &unique_types = mon_visible.unique_types;
+    const auto &unique_mons = mon_visible.unique_mons;
+    const auto &dangerous = mon_visible.dangerous;
+
     const int width = getmaxx( w ) - 2 * hor_padding;
     const int maxheight = getmaxy( w );
 
     const int startrow = 0;
-
-    int newseen = 0;
-    const int iProxyDist = ( get_option<int>( "SAFEMODEPROXIMITY" ) <= 0 ) ? MAX_VIEW_DISTANCE :
-                           get_option<int>( "SAFEMODEPROXIMITY" );
-    // 7 0 1    unique_types uses these indices;
-    // 6 8 2    0-7 are provide by direction_from()
-    // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<const mtype *> unique_mons[9];
-    // dangerous_types tracks whether we should print in red to warn the player
-    bool dangerous[8];
-    for( auto &dangerou : dangerous ) {
-        dangerou = false;
-    }
-
-    tripoint view = u.pos() + u.view_offset;
-    new_seen_mon.clear();
-
-    static int previous_turn = 0;
-    // @todo change current_turn to time_point
-    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
-
-    for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
-        const auto m = dynamic_cast<monster *>( c );
-        const auto p = dynamic_cast<npc *>( c );
-        const auto dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
-        const int mx = POSX + ( c->posx() - view.x );
-        const int my = POSY + ( c->posy() - view.y );
-        int index = 8;
-        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
-            // for compatibility with old code, see diagram below, it explains the values for index,
-            // also might need revisiting one z-levels are in.
-            switch( dir_to_mon ) {
-                case ABOVENORTHWEST:
-                case NORTHWEST:
-                case BELOWNORTHWEST:
-                    index = 7;
-                    break;
-                case ABOVENORTH:
-                case NORTH:
-                case BELOWNORTH:
-                    index = 0;
-                    break;
-                case ABOVENORTHEAST:
-                case NORTHEAST:
-                case BELOWNORTHEAST:
-                    index = 1;
-                    break;
-                case ABOVEWEST:
-                case WEST:
-                case BELOWWEST:
-                    index = 6;
-                    break;
-                case ABOVECENTER:
-                case CENTER:
-                case BELOWCENTER:
-                    index = 8;
-                    break;
-                case ABOVEEAST:
-                case EAST:
-                case BELOWEAST:
-                    index = 2;
-                    break;
-                case ABOVESOUTHWEST:
-                case SOUTHWEST:
-                case BELOWSOUTHWEST:
-                    index = 5;
-                    break;
-                case ABOVESOUTH:
-                case SOUTH:
-                case BELOWSOUTH:
-                    index = 4;
-                    break;
-                case ABOVESOUTHEAST:
-                case SOUTHEAST:
-                case BELOWSOUTHEAST:
-                    index = 3;
-                    break;
-            }
-        }
-
-        rule_state safemode_state = RULE_NONE;
-        const bool safemode_empty = get_safemode().empty();
-
-        if( m != nullptr ) {
-            //Safemode monster check
-            auto &critter = *m;
-
-            const monster_attitude matt = critter.attitude( &u );
-            const int mon_dist = rl_dist( u.pos(), critter.pos() );
-            safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
-
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
-                    ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
-                if( index < 8 && critter.sees( g->u ) ) {
-                    dangerous[index] = true;
-                }
-
-                if( !safemode_empty || mon_dist <= iProxyDist ) {
-                    bool passmon = false;
-                    if( critter.ignoring > 0 ) {
-                        if( safe_mode != SAFE_MODE_ON ) {
-                            critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
-                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
-                                   ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
-                            passmon = true;
-                        }
-                        critter.lastseen_turn = current_turn;
-                    }
-
-                    if( !passmon ) {
-                        newseen++;
-                        new_seen_mon.push_back( shared_from( critter ) );
-                    }
-                }
-            }
-
-            auto &vec = unique_mons[index];
-            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
-                vec.push_back( critter.type );
-            }
-        } else if( p != nullptr ) {
-            //Safe mode NPC check
-
-            const int npc_dist = rl_dist( u.pos(), p->pos() );
-            safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
-                             npc_dist );
-
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
-                    p->get_attitude() == NPCATT_KILL ) ) {
-                if( !safemode_empty || npc_dist <= iProxyDist ) {
-                    newseen++;
-                }
-            }
-            unique_types[index].push_back( p );
-        }
-    }
-
-    if( newseen > mostseen ) {
-        if( newseen - mostseen == 1 ) {
-            if( !new_seen_mon.empty() ) {
-                monster &critter = *new_seen_mon.back();
-                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "%s spotted!" ), critter.name() ) );
-                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
-                    add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
-                    if( !u.has_effect( effect_adrenaline_mycus ) ) {
-                        u.add_effect( effect_adrenaline_mycus, 30_minutes );
-                    } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
-                        // Triffids present.  We ain't got TIME to adrenaline comedown!
-                        u.add_effect( effect_adrenaline_mycus, 15_minutes );
-                        u.mod_pain( 3 ); // Does take it out of you, though
-                        add_msg( m_info, _( "Our fibers strain with renewed wrath!" ) );
-                    }
-                }
-            } else {
-                //Hostile NPC
-                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 _( "Hostile survivor spotted!" ) );
-            }
-        } else {
-            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
-        }
-        turnssincelastmon = 0;
-        if( safe_mode == SAFE_MODE_ON ) {
-            set_safe_mode( SAFE_MODE_STOP );
-        }
-    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
-               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
-        turnssincelastmon += current_turn - previous_turn;
-        if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
-            set_safe_mode( SAFE_MODE_ON );
-            add_msg( m_info, _( "Safe mode ON!" ) );
-        }
-    }
-
-    if( newseen == 0 && safe_mode == SAFE_MODE_STOP ) {
-        set_safe_mode( SAFE_MODE_ON );
-    }
-
-    previous_turn = current_turn;
-    mostseen = newseen;
 
     // Print the direction headings
     // Reminder:
@@ -4126,6 +3948,202 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         }
     }
 }
+
+void game::mon_info_update( )
+{
+    int newseen = 0;
+    const int safe_proxy_dist = get_option<int>( "SAFEMODEPROXIMITY" );
+    const int iProxyDist = ( safe_proxy_dist <= 0 ) ? MAX_VIEW_DISTANCE :
+                           safe_proxy_dist;
+
+    monster_visible_info &mon_visible = u.get_mon_visible();
+    auto &new_seen_mon = mon_visible.new_seen_mon;
+    auto &unique_types = mon_visible.unique_types;
+    auto &unique_mons = mon_visible.unique_mons;
+    auto &dangerous = mon_visible.dangerous;
+
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+    for( auto &t : unique_types ) {
+        t.clear();
+    }
+    for( auto &m : unique_mons ) {
+        m.clear();
+    }
+    std::fill( dangerous, dangerous + sizeof( dangerous ), false );
+
+    const tripoint view = u.pos() + u.view_offset;
+    new_seen_mon.clear();
+
+    static int previous_turn = 0;
+    // @todo change current_turn to time_point
+    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
+    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
+
+    for( Creature *c : u.get_visible_creatures( MAPSIZE_X ) ) {
+        monster *m = dynamic_cast<monster *>( c );
+        npc *p = dynamic_cast<npc *>( c );
+        const direction dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
+        const int mx = POSX + ( c->posx() - view.x );
+        const int my = POSY + ( c->posy() - view.y );
+        int index = 8;
+        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
+            // for compatibility with old code, see diagram below, it explains the values for index,
+            // also might need revisiting one z-levels are in.
+            switch( dir_to_mon ) {
+                case ABOVENORTHWEST:
+                case NORTHWEST:
+                case BELOWNORTHWEST:
+                    index = 7;
+                    break;
+                case ABOVENORTH:
+                case NORTH:
+                case BELOWNORTH:
+                    index = 0;
+                    break;
+                case ABOVENORTHEAST:
+                case NORTHEAST:
+                case BELOWNORTHEAST:
+                    index = 1;
+                    break;
+                case ABOVEWEST:
+                case WEST:
+                case BELOWWEST:
+                    index = 6;
+                    break;
+                case ABOVECENTER:
+                case CENTER:
+                case BELOWCENTER:
+                    index = 8;
+                    break;
+                case ABOVEEAST:
+                case EAST:
+                case BELOWEAST:
+                    index = 2;
+                    break;
+                case ABOVESOUTHWEST:
+                case SOUTHWEST:
+                case BELOWSOUTHWEST:
+                    index = 5;
+                    break;
+                case ABOVESOUTH:
+                case SOUTH:
+                case BELOWSOUTH:
+                    index = 4;
+                    break;
+                case ABOVESOUTHEAST:
+                case SOUTHEAST:
+                case BELOWSOUTHEAST:
+                    index = 3;
+                    break;
+            }
+        }
+
+        rule_state safemode_state = RULE_NONE;
+        const bool safemode_empty = get_safemode().empty();
+
+        if( m != nullptr ) {
+            //Safemode monster check
+            monster &critter = *m;
+
+            const monster_attitude matt = critter.attitude( &u );
+            const int mon_dist = rl_dist( u.pos(), critter.pos() );
+            safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
+
+            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+                    ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
+                if( index < 8 && critter.sees( g->u ) ) {
+                    dangerous[index] = true;
+                }
+
+                if( !safemode_empty || mon_dist <= iProxyDist ) {
+                    bool passmon = false;
+                    if( critter.ignoring > 0 ) {
+                        if( safe_mode != SAFE_MODE_ON ) {
+                            critter.ignoring = 0;
+                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
+                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                                   ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
+                            passmon = true;
+                        }
+                        critter.lastseen_turn = current_turn;
+                    }
+
+                    if( !passmon ) {
+                        newseen++;
+                        new_seen_mon.push_back( shared_from( critter ) );
+                    }
+                }
+            }
+
+            std::vector<const mtype *> &vec = unique_mons[index];
+            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
+                vec.push_back( critter.type );
+            }
+        } else if( p != nullptr ) {
+            //Safe mode NPC check
+
+            const int npc_dist = rl_dist( u.pos(), p->pos() );
+            safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
+                             npc_dist );
+
+            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+                    p->get_attitude() == NPCATT_KILL ) ) {
+                if( !safemode_empty || npc_dist <= iProxyDist ) {
+                    newseen++;
+                }
+            }
+            unique_types[index].push_back( p );
+        }
+    }
+
+    if( newseen > mostseen ) {
+        if( newseen - mostseen == 1 ) {
+            if( !new_seen_mon.empty() ) {
+                monster &critter = *new_seen_mon.back();
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                 string_format( _( "%s spotted!" ), critter.name() ) );
+                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
+                    add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
+                    if( !u.has_effect( effect_adrenaline_mycus ) ) {
+                        u.add_effect( effect_adrenaline_mycus, 30_minutes );
+                    } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
+                        // Triffids present.  We ain't got TIME to adrenaline comedown!
+                        u.add_effect( effect_adrenaline_mycus, 15_minutes );
+                        u.mod_pain( 3 ); // Does take it out of you, though
+                        add_msg( m_info, _( "Our fibers strain with renewed wrath!" ) );
+                    }
+                }
+            } else {
+                //Hostile NPC
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                 _( "Hostile survivor spotted!" ) );
+            }
+        } else {
+            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
+        }
+        turnssincelastmon = 0;
+        if( safe_mode == SAFE_MODE_ON ) {
+            set_safe_mode( SAFE_MODE_STOP );
+        }
+    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
+        turnssincelastmon += current_turn - previous_turn;
+        if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
+            set_safe_mode( SAFE_MODE_ON );
+            add_msg( m_info, _( "Safe mode ON!" ) );
+        }
+    }
+
+    if( newseen == 0 && safe_mode == SAFE_MODE_STOP ) {
+        set_safe_mode( SAFE_MODE_ON );
+    }
+
+    previous_turn = current_turn;
+    mostseen = newseen;
+}
+
 
 void game::cleanup_dead()
 {
@@ -8662,6 +8680,9 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     }
     // Monsters around and we don't want to run
     std::string spotted_creature_name;
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &new_seen_mon = mon_visible.new_seen_mon;
+
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
         spotted_creature_name = _( "a survivor" );

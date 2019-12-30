@@ -3236,5 +3236,16 @@
     "components": [ [ [ "log", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_logstool"
+  },
+  {
+    "type": "construction",
+    "description": "Build Decorative Tree",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "stick", 4 ], [ "log", 1 ] ], [ [ "nail", 20 ] ], [ [ "pine_bough", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_decorative_tree"
   }
 ]

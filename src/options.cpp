@@ -1245,11 +1245,6 @@ void options_manager::add_options_general()
     "ask"
        );
 
-    add( "MAP_UI_SEARCH_RADIUS", "general", translate_marker( "Map search radius" ),
-         translate_marker( "Radius around the cursor to search in the map UI.  Setting very high may be slow." ),
-         10, 4000, 100
-       );
-
     mOptionsSort["general"]++;
 
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
@@ -1548,6 +1543,10 @@ void options_manager::add_options_interface()
     add( "ITEM_SYMBOLS", "interface", translate_marker( "Show item symbols" ),
          translate_marker( "If true, show item symbols in inventory and pick up menu." ),
          false
+       );
+    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
+         translate_marker( "If true, the default ammo is added to weapon and magazine names. For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
        );
 
     mOptionsSort["interface"]++;

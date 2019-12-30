@@ -16,7 +16,8 @@
       [ "hand_drill", 20 ],
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
-      [ "toolbox", 15 ]
+      [ "toolbox", 12 ],
+      [ "toolbox_workshop", 3 ]
     ]
   },
   {
@@ -30,7 +31,8 @@
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
-      [ "toolbox", 25 ],
+      [ "toolbox", 20 ],
+      [ "toolbox_workshop", 5 ],
       [ "recharge_station", 10 ],
       [ "angular_grinder", 30 ]
     ]
@@ -193,7 +195,8 @@
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
-      [ "toolbox", 5 ]
+      [ "toolbox", 4 ],
+      [ "toolbox_workshop", 1 ]
     ]
   },
   {

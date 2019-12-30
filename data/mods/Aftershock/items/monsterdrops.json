@@ -1,18 +1,14 @@
 [
   {
-    "id": "raw_materials",
     "type": "item_group",
-    "items": [ { "group": "hardware_bulk", "prob": 100 } ]
-  },
-  {
-    "id": "plumber_gear",
-    "type": "item_group",
-    "items": [ { "group": "hardware_plumbing", "prob": 100 } ]
-  },
-  {
-    "id": "elec_parts",
-    "type": "item_group",
-    "items": [ { "group": "supplies_electronics", "prob": 100 } ]
+    "id": "tripod",
+    "items": [
+      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      [ "kevlar_plate", 10 ],
+      [ "ceramic_armor", 15 ],
+      [ "alloy_plate", 10 ],
+      [ "robot_controls", 3 ]
+    ]
   },
   {
     "type": "item_group",
@@ -48,17 +44,6 @@
       [ "ceramic_armor", 10 ],
       [ "hard_plate", 30 ],
       [ "robot_controls", 5 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "tripod",
-    "items": [
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
-      [ "kevlar_plate", 10 ],
-      [ "ceramic_armor", 15 ],
-      [ "alloy_plate", 10 ],
-      [ "robot_controls", 3 ]
     ]
   }
 ]
