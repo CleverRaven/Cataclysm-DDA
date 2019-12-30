@@ -1245,11 +1245,6 @@ void options_manager::add_options_general()
     "ask"
        );
 
-    add( "MAP_UI_SEARCH_RADIUS", "general", translate_marker( "Map search radius" ),
-         translate_marker( "Radius around the cursor to search in the map UI.  Setting very high may be slow." ),
-         10, 4000, 100
-       );
-
     mOptionsSort["general"]++;
 
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
