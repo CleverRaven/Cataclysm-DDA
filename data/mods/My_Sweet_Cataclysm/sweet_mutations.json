@@ -42,6 +42,6 @@
     "allowed_category": [ "SUGAR" ],
     "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "LEG_L", "LEG_R", "FOOT_L", "FOOT_R" ],
     "armor": [ { "parts": "ALL", "cut": 10, "bash": 5 } ],
-    "flags": [ "NO_THIRST" ]
+    "flags": [ "NO_THIRST", "NO_DISEASE" ]
   }
 ]

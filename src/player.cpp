@@ -2341,7 +2341,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait( trait_DISIMMUNE ) ) {
+    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
