@@ -1551,7 +1551,7 @@ void Character::mend( int rate_multiplier )
     // Wearing splints can slowly mend a broken limb back to 1 hp.
     bool any_broken = false;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        if( hp_cur[i] <= 0 ) {
+        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
             any_broken = true;
             break;
         }
@@ -1625,7 +1625,7 @@ void Character::mend( int rate_multiplier )
     }
 
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const bool broken = ( hp_cur[i] <= 0 );
+        const bool broken = is_limb_broken( static_cast<hp_part>( i ) );
         if( !broken ) {
             continue;
         }
