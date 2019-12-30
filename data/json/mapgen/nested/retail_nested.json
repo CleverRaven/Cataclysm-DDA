@@ -974,12 +974,12 @@
           { "item": "SUS_tailoring_materials", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "SUS_fur_tailoring_materials", "chance": 30, "repeat": [ 2, 6 ] }
         ],
-        "d": [ { "item": "SUS_mannequin_fur", "chance": 100 } ]
-      },
-      "B": [
-        { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
-        { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
-      ]
+        "d": [ { "item": "SUS_mannequin_fur", "chance": 100 } ],
+        "B": [
+          { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+        ]
+      }
     }
   },
   {
