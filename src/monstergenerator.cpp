@@ -629,9 +629,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
-    if( jo.has_member( "looks_like" ) ) {
-        looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", looks_like );
 
     assign( jo, "bodytype", bodytype );
     assign( jo, "color", color );

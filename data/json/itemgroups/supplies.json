@@ -108,7 +108,9 @@
       [ "pump_complex", 5 ],
       [ "well_pump", 5 ],
       [ "plastic_sheet", 20 ],
-      [ "recharge_station", 20 ]
+      [ "recharge_station", 20 ],
+      [ "plunger_toilet", 75 ],
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -128,7 +130,9 @@
       [ "jerrycan", 10 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] }
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
+      [ "plunger_futuristic", 50 ]
     ]
   },
   {

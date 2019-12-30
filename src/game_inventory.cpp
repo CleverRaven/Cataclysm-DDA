@@ -224,7 +224,7 @@ item_location game_menus::inv::titled_menu( avatar &you, const std::string &titl
 class armor_inventory_preset: public inventory_selector_preset
 {
     public:
-        armor_inventory_preset( const player &pl, const std::string &color_in ) :
+        armor_inventory_preset( player &pl, const std::string &color_in ) :
             p( pl ), color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_encumber( p ) );
@@ -265,7 +265,7 @@ class armor_inventory_preset: public inventory_selector_preset
         }
 
     protected:
-        const player &p;
+        player &p;
     private:
         std::string get_number_string( int number ) const {
             return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
@@ -277,7 +277,7 @@ class armor_inventory_preset: public inventory_selector_preset
 class wear_inventory_preset: public armor_inventory_preset
 {
     public:
-        wear_inventory_preset( const player &p, const std::string &color ) :
+        wear_inventory_preset( player &p, const std::string &color ) :
             armor_inventory_preset( p, color )
         {}
 
@@ -305,7 +305,7 @@ item_location game_menus::inv::wear( player &p )
 class take_off_inventory_preset: public armor_inventory_preset
 {
     public:
-        take_off_inventory_preset( const player &p, const std::string &color ) :
+        take_off_inventory_preset( player &p, const std::string &color ) :
             armor_inventory_preset( p, color )
         {}
 
@@ -314,7 +314,7 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = p.can_takeoff( *loc );
+            const ret_val<bool> ret = p.can_takeoff( *loc );
 
             if( !ret.success() ) {
                 return trim_punctuation_marks( ret.str() );
@@ -1324,7 +1324,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
                        );
 }
 
-std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
+drop_locations game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( p );
 
@@ -1340,7 +1340,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
-        return std::list<std::pair<int, int> >();
+        return drop_locations();
     }
 
     return inv_s.execute();

@@ -4440,14 +4440,19 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         } while( !target_is_valid );
     } else if( casting.has_flag( RANDOM_TARGET ) ) {
-        target = casting.random_valid_target( *p, p->pos() );
+        const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
+        if( !target_ ) {
+            p->add_msg_if_player( m_bad, _( "Your spell can't find a suitable target." ) );
+            return;
+        }
+        target = *target_;
     }
 
     // no turning back now. it's all said and done.
     bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
     int exp_gained = casting.casting_exp( *p );
     if( !success ) {
-        p->add_msg_if_player( m_bad, "You lose your concentration!" );
+        p->add_msg_if_player( m_bad, _( "You lose your concentration!" ) );
         if( !casting.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
             casting.gain_exp( exp_gained / 5 );

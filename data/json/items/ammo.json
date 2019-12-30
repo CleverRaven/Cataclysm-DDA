@@ -792,7 +792,7 @@
     "range": 45,
     "dispersion": 50,
     "recoil": 350,
-    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES", "FRAG" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "FRAG" ]
   },
   {
     "type": "AMMO",

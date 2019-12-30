@@ -759,8 +759,8 @@ enum aim_entry {
 
 bool advanced_inventory::move_all_items( bool nested_call )
 {
-    auto &spane = panes[src];
-    auto &dpane = panes[dest];
+    advanced_inventory_pane &spane = panes[src];
+    advanced_inventory_pane &dpane = panes[dest];
 
     // AIM_ALL source area routine
     if( spane.get_area() == AIM_ALL ) {
@@ -775,8 +775,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
             return false;
         }
 
-        auto &sarea = squares[spane.get_area()];
-        auto &darea = squares[dpane.get_area()];
+        advanced_inv_area &sarea = squares[spane.get_area()];
+        advanced_inv_area &darea = squares[dpane.get_area()];
 
         // Check first if the destination area still have enough room for moving all.
         if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
@@ -787,12 +787,12 @@ bool advanced_inventory::move_all_items( bool nested_call )
         // make sure that there are items to be moved
         bool done = false;
         // copy the current pane, to be restored after the move is queued
-        auto shadow = panes[src];
+        advanced_inventory_pane shadow = panes[src];
         // here we recursively call this function with each area in order to
         // put all items in the proper destination area, with minimal fuss
-        auto &loc = uistate.adv_inv_aim_all_location;
+        int &loc = uistate.adv_inv_aim_all_location;
         // re-entry nonsense
-        auto &entry = uistate.adv_inv_re_enter_move_all;
+        int &entry = uistate.adv_inv_re_enter_move_all;
         // if we are just starting out, set entry to initial value
         switch( static_cast<aim_entry>( entry++ ) ) {
             case ENTRY_START:
@@ -855,8 +855,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
         popup( _( "You can't put items there!" ) );
         return false;
     }
-    auto &sarea = squares[spane.get_area()];
-    auto &darea = squares[dpane.get_area()];
+    advanced_inv_area &sarea = squares[spane.get_area()];
+    advanced_inv_area &darea = squares[dpane.get_area()];
 
     // Make sure source and destination are different, otherwise items will disappear
     // Need to check actual position to account for dragged vehicles
@@ -882,31 +882,43 @@ bool advanced_inventory::move_all_items( bool nested_call )
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        std::list<std::pair<int, int>> dropped;
+        drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
-        std::list<std::pair<int, int>> dropped_favorite;
+        drop_locations dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-                const auto &stack = g->u.inv.const_stack( index );
-                const auto &it = stack.front();
+                const std::list<item> &stack = g->u.inv.const_stack( index );
+                const item &it = stack.front();
+                item_location indexed_item( g->u, const_cast<item *>( &it ) );
 
                 if( !spane.is_filtered( it ) ) {
-                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( static_cast<int>( index ),
-                            it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
+                    int count;
+                    if( it.count_by_charges() )                         {
+                        count = it.charges;
+                    } else {
+                        count = stack.size();
+                    }
+                    if( it.is_favorite ) {
+                        dropped_favorite.emplace_back( indexed_item, count );
+                    } else {
+                        dropped.emplace_back( indexed_item, count );
+                    }
                 }
             }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
             auto iter = g->u.worn.rbegin();
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
-                const size_t index = g->u.worn.size() - idx - 1;
-                const auto &it = *iter;
+                item &it = *iter;
 
                 if( !spane.is_filtered( it ) ) {
-                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( player::worn_position_to_index(
-                                index ),
-                            it.count() );
+                    item_location loc( g->u, &it );
+                    if( it.is_favorite ) {
+                        dropped_favorite.emplace_back( loc, it.count() );
+                    } else {
+                        dropped.emplace_back( loc, it.count() );
+                    }
                 }
             }
         }
@@ -1264,7 +1276,7 @@ void advanced_inventory::display()
                             g->u.activity.str_values.push_back( "force_ground" );
                         }
 
-                        g->u.activity.values.push_back( idx );
+                        g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
                         g->u.activity.values.push_back( amount_to_move );
 
                         // exit so that the activity can be carried out

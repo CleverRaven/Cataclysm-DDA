@@ -2138,6 +2138,11 @@ class item : public visitable<item>
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
 
+        // Set when the item / its content changes. Used for worn item with
+        // encumbrance depending on their content.
+        // This not part serialized or compared on purpose!
+        bool encumbrance_update_ = false;
+
     private:
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.

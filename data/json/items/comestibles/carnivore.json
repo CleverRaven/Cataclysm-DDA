@@ -500,7 +500,7 @@
     "color": "brown",
     "healthy": -8,
     "quench": -5,
-    "calories": "54",
+    "calories": 54,
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 155 ] ]
   },
   {
