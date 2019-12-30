@@ -746,6 +746,32 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
+    "id": "axe_ring",
+    "type": "ARMOR",
+    "name": "axe ring holster",
+    "description": "A combination of leather and a metal ring to hold an axe on your waist.",
+    "weight": "130 g",
+    "volume": "600 ml",
+    "price": 3000,
+    "material": [ "leather", "steel" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 2,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Sheath axe",
+      "holster_msg": "You sheath your %s",
+      "max_volume": "3250 ml",
+      "draw_cost": 10,
+      "flags": [ "SHEATH_AXE" ]
+    },
+    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "b_shorts",
     "type": "ARMOR",
     "name": "basketball shorts",

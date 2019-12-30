@@ -52,6 +52,19 @@
     "components": [ [ [ "leather", 5 ], [ "rag", 5 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ], [ [ "filament", 20, "LIST" ] ] ]
   },
   {
+    "result": "axe_ring",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ] ], [ [ "nail", 4 ] ] ]
+  },
+  {
     "result": "back_holster",
     "type": "recipe",
     "category": "CC_ARMOR",
