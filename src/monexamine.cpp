@@ -542,10 +542,10 @@ bool monexamine::give_items_to( monster &z )
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_storage() - z.get_carried_volume();
 
-    std::list<std::pair<int, int>> items = game_menus::inv::multidrop( g->u );
-    std::list<std::pair<int, int>> to_move;
-    for( const std::pair<int, int> &itq : items ) {
-        const item &it = g->u.i_at( itq.first );
+    drop_locations items = game_menus::inv::multidrop( g->u );
+    drop_locations to_move;
+    for( const drop_location &itq : items ) {
+        const item &it = *itq.first;
         units::volume item_volume = it.volume() * itq.second;
         units::mass item_weight = it.weight() * itq.second;
         if( max_weight < item_weight ) {
