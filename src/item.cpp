@@ -4024,16 +4024,31 @@ std::string item::display_name( unsigned int quantity ) const
         max_amount = to_joule( type->battery->max_capacity );
     }
 
+    std::string ammotext;
+    if( ( ( is_gun() && ammo_required() ) || is_magazine() ) && get_option<bool>( "AMMO_IN_NAMES" ) ) {
+        if( ammo_current() != "null" ) {
+            ammotext = find_type( ammo_current() )->ammo->type->name();
+        } else {
+            ammotext = ammotype( *ammo_types().begin() )->name();
+        }
+    }
+
     if( amount || show_amt ) {
         if( is_money() ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
+            if( ammotext != "" ) {
+                ammotext = " " + ammotext;
+            }
+
             if( max_amount != 0 ) {
-                amt = string_format( " (%i/%i)", amount, max_amount );
+                amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
             } else {
-                amt = string_format( " (%i)", amount );
+                amt = string_format( " (%i%s)", amount, ammotext );
             }
         }
+    } else if( ammotext != "" ) {
+        amt = " (" + ammotext + ")";
     }
 
     // This is a hack to prevent possible crashing when displaying maps as items during character creation
