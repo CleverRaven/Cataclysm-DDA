@@ -58,7 +58,7 @@
     "duration_increment": 1000,
     "min_aoe": 1,
     "max_aoe": 2,
-    "aoe_increment": 0.2\
+    "aoe_increment": 0.2
   },
   {
     "type": "SPELL",
