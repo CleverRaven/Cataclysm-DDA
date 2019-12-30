@@ -68,6 +68,7 @@
       "hells_raiders": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
+    "mon_faction": "PrepNet",
     "description": "A group of bionic preppers who had expected the collapse of the economy and global chaos, instead they were slightly more ready than others for the Cataclysm."
   }
 ]
