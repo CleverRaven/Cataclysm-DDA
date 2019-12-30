@@ -449,15 +449,16 @@ void calendar::set_season_length( const int dur )
     cur_season_length = dur;
 }
 
+static constexpr int real_world_season_length = 91;
+static constexpr int default_season_length = real_world_season_length;
+
 float calendar::season_ratio()
 {
-    static const int real_world_season_length = 91;
     return to_days<float>( season_length() ) / real_world_season_length;
 }
 
 float calendar::season_from_default_ratio()
 {
-    static const int default_season_length = 91;
     return to_days<float>( season_length() ) / default_season_length;
 }
 
