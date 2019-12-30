@@ -3129,6 +3129,7 @@ bool find_auto_consume( player &p, const bool food )
         return true;
     }
     static const std::string flag_MELTS( "MELTS" );
+    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone = zone_type_id( "" );
@@ -3173,7 +3174,8 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( comest.item_tags.count( "FROZEN" ) && !comest.has_flag( flag_MELTS ) ) {
+            if( comest.item_tags.count( "FROZEN" ) && !comest.has_flag( flag_MELTS ) &&
+                !comest.has_flag( flag_EDIBLE_FROZEN ) ) {
                 // its frozen and it aint ice cream
                 continue;
             }
