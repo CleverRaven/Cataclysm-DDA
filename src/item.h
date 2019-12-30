@@ -1953,6 +1953,7 @@ class item : public visitable<item>
 
         time_duration age() const;
         void set_age( const time_duration &age );
+        void legacy_fast_forward_time();
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );

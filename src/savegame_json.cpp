@@ -2354,6 +2354,10 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
+    // made for fast forwarding time from 0.D to 0.E
+    if( savegame_loading_version < 27 ) {
+        legacy_fast_forward_time();
+    }
 }
 
 void item::serialize( JsonOut &json ) const
@@ -3724,8 +3728,9 @@ void submap::store( JsonOut &jsout ) const
     }
 }
 
-void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_update )
+void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
+    bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
         last_touched = jsin.get_int();
     } else if( member_name == "temperature" ) {
@@ -3829,6 +3834,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 if( tmp.is_emissive() ) {
                     update_lum_add( p, tmp );
+                }
+
+                if( savegame_loading_version >= 27 && version < 27 ) {
+                    tmp.legacy_fast_forward_time();
                 }
 
                 tmp.visit_items( [ this, &p ]( item * it ) {
