@@ -4146,16 +4146,17 @@ hp_part Character::body_window( const std::string &menu_header,
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         std::string hp_str;
         if( limb_is_mending ) {
-            desc += colorize( _( "It is broken but has been set and just needs time to heal." ), c_blue ) + "\n";
+            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+                              c_blue ) + "\n";
             const auto &eff = get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-            if (precise) {
-                hp_str = colorize(string_format("=%2d%%=", mend_perc), c_blue);
+            if( precise ) {
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
             } else {
                 const int num = mend_perc / 20;
-                hp_str = colorize(std::string(num, '#') + std::string(5 - num, '='), c_blue);
-            }          
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+            }
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
