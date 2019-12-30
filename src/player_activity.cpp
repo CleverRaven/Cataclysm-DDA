@@ -132,11 +132,16 @@ void player_activity::do_turn( player &p )
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
-    if( *this && !p.is_npc() && type->valid_auto_needs() ) {
+    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
         if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
-            find_auto_consume( p, true );
-        } else if( p.get_thirst() > 130 ) {
-            find_auto_consume( p, false );
+            if( !find_auto_consume( p, true ) ) {
+                no_food_nearby_for_auto_consume = true;
+            }
+        }
+        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            if( !find_auto_consume( p, false ) ) {
+                no_drink_nearby_for_auto_consume = true;
+            }
         }
     }
     if( type->based_on() == based_on_type::TIME ) {

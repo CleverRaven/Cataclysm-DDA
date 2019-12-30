@@ -50,6 +50,8 @@ class player_activity
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
+        bool no_drink_nearby_for_auto_consume = false;
+        bool no_food_nearby_for_auto_consume = false;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
