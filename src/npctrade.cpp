@@ -63,9 +63,6 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         if( ip.loc.where() == item_location::type::character ) {
-            if( gift.typeId() == giver.weapon.typeId() ) {
-                giver.remove_weapon();
-            }
             if( ip.charges > 0 ) {
                 giver.use_charges( gift.typeId(), charges );
             } else if( ip.count > 0 ) {

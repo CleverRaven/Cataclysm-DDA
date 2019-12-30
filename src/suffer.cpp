@@ -304,7 +304,7 @@ void Character::suffer_while_awake( const int current_stim )
         if( one_turn_in( 8_hours ) ) {
             add_msg( m_bad,
                      _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
-            add_effect( effect_lying_down, 20_minutes );
+            fall_asleep( 20_minutes );
         }
     }
 
@@ -480,7 +480,8 @@ void Character::suffer_from_schizophrenia()
         str[0] = toupper( str[0] );
 
         add_msg_if_player( m_bad, "%s", str );
-        drop( get_item_position( &weapon ), pos() );
+        item_location loc( *this, &weapon );
+        drop( loc, pos() );
         return;
     }
     // Talk to self

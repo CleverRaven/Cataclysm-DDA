@@ -28,7 +28,7 @@ void json_flag::load( const JsonObject &jo )
 
     // FIXME: most flags have a "context" field that isn't used for anything
     // Test for it here to avoid errors about unvisited members
-    jo.has_member( "context" );
+    jo.get_member( "context" );
 }
 
 void json_flag::check_consistency()

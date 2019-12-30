@@ -291,6 +291,18 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
+    "result": "tabi_dress",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "book_learn": [ [ "tailor_japanese", 2 ] ],
+    "using": [ [ "sewing_standard", 6 ] ],
+    "components": [ [ [ "rag", 3 ] ] ]
+  },
+  {
     "result": "footrags",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -421,6 +433,17 @@
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 75 ] ] ]
+  },
+  {
+    "result": "socks_ankle",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 4 ] ],
+    "components": [ [ [ "rag", 2 ] ] ]
   },
   {
     "result": "stockings",

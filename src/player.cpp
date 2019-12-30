@@ -3318,10 +3318,10 @@ void player::process_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
-        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && w.encumbrance_update_ ) {
             update_required = true;
         }
-        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+        w.encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -4773,34 +4773,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
     return HINT_IFFY;
 }
 
-std::list<const item *> player::get_dependent_worn_items( const item &it ) const
-{
-    std::list<const item *> dependent;
-    // Adds dependent worn items recursively
-    const std::function<void( const item &it )> add_dependent = [ & ]( const item & it ) {
-        for( const auto &wit : worn ) {
-            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
-                continue;
-            }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
-            [ &wit ]( const item * dit ) {
-                return &wit == dit;
-            } );
-            if( iter == dependent.end() ) { // Not in the list yet
-                add_dependent( wit );
-                dependent.push_back( &wit );
-            }
-        }
-    };
-
-    if( is_worn( it ) ) {
-        add_dependent( it );
-    }
-
-    return dependent;
-}
-
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
+ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;
@@ -4824,7 +4797,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff( item &it, std::list<item> *res )
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -4840,7 +4813,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                drop( get_item_position( &it ), pos() );
+                item_location loc( *this, &it );
+                drop( loc, pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
@@ -5780,7 +5754,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     } else if( plantsleep ) {
         if( vp || furn_at_pos != f_null ) {
             // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
             if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
@@ -5793,7 +5767,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             }
             // Sleep ain't happening
             else {
-                comfort = static_cast<int>( comfort_level::uncomfortable );
+                comfort = static_cast<int>( comfort_level::impossible );
             }
         }
         // Has webforce
@@ -5802,7 +5776,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Thick Web and you're good to go
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else {
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         }
     }
 

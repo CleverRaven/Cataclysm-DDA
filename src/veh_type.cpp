@@ -376,9 +376,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
     }
-    if( jo.has_member( "looks_like" ) ) {
-        def.looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", def.looks_like );
 
     if( jo.has_member( "color" ) ) {
         def.color = color_from_string( jo.get_string( "color" ) );

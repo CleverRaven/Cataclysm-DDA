@@ -1381,7 +1381,7 @@
     "type": "ARMOR",
     "copy-from": "briefcase",
     "looks_like": "briefcase",
-    "name": "H&K operational briefcase (empty)",
+    "name": { "str": "H&K operational briefcase (empty)", "str_pl": "H&K operational briefcases (empty)" },
     "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
     "storage": "14500 ml",
     "price": 2000,
@@ -2723,7 +2723,7 @@
   {
     "id": "lame_foil",
     "type": "ARMOR",
-    "name": "lamé (foil)",
+    "name": { "str": "lamé (foil)", "str_pl": "lamés (foil)" },
     "description": "A thin, lightweight conductive vest with the zipper on the back used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
     "weight": "843 g",
     "volume": "2500 ml",
@@ -2741,7 +2741,7 @@
   {
     "id": "lame_saber",
     "type": "ARMOR",
-    "name": "lamé (saber)",
+    "name": { "str": "lamé (saber)", "str_pl": "lamés (saber)" },
     "description": "A thin, lightweight conductive jacket used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
     "weight": "1043 g",
     "volume": "2500 ml",

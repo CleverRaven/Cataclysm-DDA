@@ -58,6 +58,8 @@
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_crows_m240( "mon_crows_m240" );
 
 static const skill_id skill_computer( "computer" );
 
@@ -206,54 +208,46 @@ void computer::use()
     }
 
     // Main computer loop
+    int sel = 0;
     while( true ) {
-        //reset_terminal();
         size_t options_size = options.size();
-        print_newline();
-        print_line( "%s - %s", _( name ), _( "Root Menu" ) );
-#if defined(__ANDROID__)
-        input_context ctxt( "COMPUTER_MAINLOOP" );
-#endif
+
+        uilist computer_menu;
+        computer_menu.text = string_format( _( "%s - Root Menu" ), name );
+        computer_menu.selected = sel;
+        computer_menu.fselected = sel;
+
         for( size_t i = 0; i < options_size; i++ ) {
-            print_line( "%d - %s", i + 1, _( options[i].name ) );
-#if defined(__ANDROID__)
-            ctxt.register_manual_key( '1' + i, options[i].name );
-#endif
+            computer_menu.addentry( i, true, MENU_AUTOASSIGN, options[i].name );
         }
-        print_line( "Q - %s", _( "Quit and Shut Down" ) );
-        print_newline();
-#if defined(__ANDROID__)
-        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
-#endif
-        char ch;
-        do {
-            // TODO: use input context
-            ch = inp_mngr.get_input_event().get_first_input();
-        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= static_cast<char>( options_size ) ) );
-        if( ch == 'q' || ch == 'Q' ) {
-            break; // Exit from main computer loop
-        } else { // We selected an option other than quit.
-            ch -= '1'; // So '1' -> 0; index in options.size()
-            computer_option current = options[ch];
-            // Once you trip the security, you have to roll every time you want to do something
-            if( ( current.security + ( alerts ) ) > 0 ) {
-                print_error( _( "Password required." ) );
-                if( query_bool( _( "Hack into system?" ) ) ) {
-                    if( !hack_attempt( g->u, current.security ) ) {
-                        activate_random_failure();
-                        shutdown_terminal();
-                        return;
-                    } else {
-                        // Successfully hacked function
-                        options[ch].security = 0;
-                        activate_function( current.action );
-                    }
+
+        computer_menu.query();
+        if( computer_menu.ret < 0 || static_cast<size_t>( computer_menu.ret ) >= options.size() ) {
+            break;
+        }
+
+        sel = computer_menu.ret;
+        computer_option current = options[sel];
+        reset_terminal();
+        // Once you trip the security, you have to roll every time you want to do something
+        if( current.security + alerts > 0 ) {
+            print_error( _( "Password required." ) );
+            if( query_bool( _( "Hack into system?" ) ) ) {
+                if( !hack_attempt( g->u, current.security ) ) {
+                    activate_random_failure();
+                    shutdown_terminal();
+                    return;
+                } else {
+                    // Successfully hacked function
+                    options[sel].security = 0;
+                    activate_function( current.action );
                 }
-            } else { // No need to hack, just activate
-                activate_function( current.action );
             }
-            reset_terminal();
-        } // Done processing a selected option.
+        } else { // No need to hack, just activate
+            activate_function( current.action );
+        }
+        reset_terminal();
+        // Done processing a selected option.
     }
 
     shutdown_terminal(); // This should have been done by now, but just in case.
@@ -386,7 +380,8 @@ static void remove_submap_turrets()
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle ) &&
+            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
+              critter.type->id == mon_crows_m240 ) &&
             critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }

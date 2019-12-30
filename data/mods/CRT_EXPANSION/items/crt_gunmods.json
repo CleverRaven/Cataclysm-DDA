@@ -57,7 +57,7 @@
     "id": "beam_difractor",
     "copy-from": "beam_scatterer",
     "type": "GUNMOD",
-    "name": "diffracting lens",
+    "name": { "str": "diffracting lens", "str_pl": "diffracting lenses" },
     "description": "A set of optics made to fit on laser weapons, which will diffract the laser beam into several lower powered beams.  This slightly increases point-blank damage and makes it difficult to not hit, but reduces range",
     "range_modifier": -7,
     "damage_modifier": 2,
@@ -96,7 +96,7 @@
   {
     "id": "flash_acc_on",
     "type": "GUNMOD",
-    "name": "tactical flashlight (on)",
+    "name": { "str": "tactical flashlight (on)", "str_pl": "tactical flashlights (on)" },
     "description": "A compact flashlight which is attatched to the side of your weapon, not powerful, but good enough for tight hallways.",
     "weight": "250 g",
     "volume": "125 ml",

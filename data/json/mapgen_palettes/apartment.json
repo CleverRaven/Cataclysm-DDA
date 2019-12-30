@@ -83,12 +83,19 @@
       "d": { "item": "dresser", "chance": 70, "repeat": [ 1, 3 ] },
       "e": { "item": "fridge", "chance": 70, "repeat": [ 1, 10 ] },
       "j": { "item": "trash", "chance": 65, "repeat": [ 1, 3 ] },
-      "o": [
-        { "item": "magazines", "chance": 30 },
-        { "item": "novels", "chance": 40 },
-        { "item": "alcohol", "chance": 30 },
-        { "item": "manuals", "chance": 20 }
-      ],
+      "o": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [
+            { "group": "magazines" },
+            { "group": "SUS_fiction_bookcase" },
+            {
+              "distribution": [ { "group": "SUS_tailoring_bookcase" }, { "group": "SUS_crafts_bookcase" }, { "group": "SUS_cooking_bookcase" } ]
+            }
+          ]
+        },
+        "chance": 75
+      },
       "O": { "item": "oven", "chance": 70 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
       "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],

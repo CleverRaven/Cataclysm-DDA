@@ -129,7 +129,7 @@ class enchantment
 
         enchantment_id id;
 
-        bool was_loaded;
+        bool was_loaded = false;
 
         void serialize( JsonOut &jsout ) const;
 

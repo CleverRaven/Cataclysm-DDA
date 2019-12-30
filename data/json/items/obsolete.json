@@ -765,7 +765,7 @@
   {
     "type": "GENERIC",
     "id": "lily_flower",
-    "name": "lily",
+    "name": { "str": "lily", "str_pl": "lilies" },
     "description": "A lily stalk with some petals.",
     "weight": "40 g",
     "to_hit": -3,
@@ -791,7 +791,7 @@
   {
     "type": "GENERIC",
     "id": "lotus_flower",
-    "name": "lotus",
+    "name": { "str": "lotus", "str_pl": "lotuses" },
     "description": "A lotus stalk with some petals.",
     "weight": "40 g",
     "to_hit": -3,

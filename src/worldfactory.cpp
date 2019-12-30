@@ -1332,14 +1332,10 @@ void WORLD::load_options( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
+        jo.allow_omitted_members();
         const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
                                   jo.get_string( "value" ) );
-
-        // Verify format of options file
-        if( !jo.has_string( "info" ) || !jo.has_string( "default" ) ) {
-            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
-        }
 
         if( name == "CORE_VERSION" ) {
             version = std::max( std::atoi( value.c_str() ), 0 );
