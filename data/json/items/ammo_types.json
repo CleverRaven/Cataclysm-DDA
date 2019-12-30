@@ -219,7 +219,7 @@
     "type": "ammunition_type",
     "id": "223",
     "name": ".223",
-    "default": "223"
+    "default": "556"
   },
   {
     "type": "ammunition_type",
@@ -237,7 +237,7 @@
     "type": "ammunition_type",
     "id": "308",
     "name": ".308",
-    "default": "308"
+    "default": "762_51"
   },
   {
     "type": "ammunition_type",

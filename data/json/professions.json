@@ -586,7 +586,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "jersey", "b_shorts", "socks", "sneakers", "basketball", "sports_drink" ],
+        "items": [ "tank_top", "jersey", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -638,7 +638,7 @@
           "folding_bicycle",
           "under_armor_shorts",
           "under_armor",
-          "socks",
+          "socks_ankle",
           "sneakers",
           "sports_drink",
           "wristwatch",
@@ -1687,7 +1687,7 @@
     "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
       "both": [
-        "socks",
+        "socks_ankle",
         "under_armor_shorts",
         "under_armor",
         "tshirt",
@@ -1711,7 +1711,7 @@
     "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
     "items": {
       "both": [
-        "socks",
+        "socks_ankle",
         "under_armor_shorts",
         "under_armor",
         "tshirt",
@@ -2677,7 +2677,7 @@
     "description": "You were on your way to the dojo for your first lesson when the world ended.  And you really wanted to learn how to swim, too.",
     "points": -1,
     "items": {
-      "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks", "sneakers" ],
+      "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
@@ -2691,7 +2691,7 @@
     "traits": [ "PROF_MA_ORANGE" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "items": {
-      "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks", "sneakers" ],
+      "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
@@ -3329,7 +3329,7 @@
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 1, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "jacket_light", "jeans", "socks", "lowtops", "slingpack", "juice" ],
+        "items": [ "tshirt", "jacket_light", "jeans", "socks_ankle", "lowtops", "slingpack", "juice" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3432,7 +3432,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks", "sneakers", "runner_bag", "wristwatch" ],
+        "items": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3524,7 +3524,7 @@
     "skills": [ { "level": 4, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "hoodie", "pants_cargo", "socks", "sneakers", "runner_bag", "wristwatch" ],
+        "items": [ "tshirt", "hoodie", "pants_cargo", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],

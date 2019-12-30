@@ -3697,7 +3697,7 @@ void item::on_contents_changed()
         convert( type->container->unseals_into );
     }
 
-    set_flag( "ENCUMBRANCE_UPDATE" );
+    encumbrance_update_ = true;
 }
 
 void item::on_damage( int, damage_type )
@@ -4125,6 +4125,13 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
+    }
+
+    // if this is a gun apply all of its gunmods' weight multipliers
+    if( type->gun ) {
+        for( const item *mod : gunmods() ) {
+            ret *= mod->type->gunmod->weight_multiplier;
+        }
     }
 
     if( count_by_charges() ) {

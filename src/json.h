@@ -856,11 +856,13 @@ class JsonObject
             if( !has_member( name ) ) {
                 return fallback;
             }
+            visited_members.insert( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name ) const {
+            visited_members.insert( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
@@ -904,6 +906,7 @@ class JsonObject
             if( !pos ) {
                 return false;
             }
+            visited_members.insert( name );
             jsin->seek( pos );
             return jsin->read( t, throw_on_error );
         }
@@ -1290,6 +1293,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     if( !pos ) {
         return res;
     }
+    visited_members.insert( name );
     jsin->seek( pos );
 
     // allow single string as tag

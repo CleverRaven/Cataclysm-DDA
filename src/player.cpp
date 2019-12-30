@@ -3318,10 +3318,10 @@ void player::process_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
-        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && w.encumbrance_update_ ) {
             update_required = true;
         }
-        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+        w.encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -5780,7 +5780,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     } else if( plantsleep ) {
         if( vp || furn_at_pos != f_null ) {
             // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
             if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
@@ -5793,7 +5793,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             }
             // Sleep ain't happening
             else {
-                comfort = static_cast<int>( comfort_level::uncomfortable );
+                comfort = static_cast<int>( comfort_level::impossible );
             }
         }
         // Has webforce
@@ -5802,7 +5802,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Thick Web and you're good to go
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else {
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         }
     }
 

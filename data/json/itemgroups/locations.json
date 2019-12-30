@@ -2246,7 +2246,9 @@
       [ "toolbox", 5 ],
       [ "apron_leather", 10 ],
       [ "bio_meteorologist", 10 ],
-      [ "chem_aluminium_sulphate", 20 ]
+      [ "chem_aluminium_sulphate", 20 ],
+      [ "plunger_toilet", 10 ],
+      [ "plunger_futuristic", 5 ]
     ]
   },
   {
@@ -2704,6 +2706,7 @@
       [ "coat_lab", 40 ],
       [ "boots_steel", 5 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "mocassins", 20 ],
       [ "bandana", 35 ],
       [ "glasses_eye", 90 ],

@@ -1814,7 +1814,7 @@
   {
     "id": "tindalos_whistle",
     "type": "TOOL",
-    "name": "Whistle of Tindalos",
+    "name": { "str": "Whistle of Tindalos", "str_pl": "Whistles of Tindalos" },
     "description": "Who is this Tindalos guy?",
     "weight": "22 g",
     "volume": 0,
@@ -4026,7 +4026,7 @@
   {
     "id": "brush",
     "type": "TOOL",
-    "name": "scrub brush",
+    "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
     "description": "This is a simple scrub brush.",
     "weight": "70 g",
     "volume": "250 ml",
@@ -6271,7 +6271,7 @@
     "id": "tool_rocket_candy",
     "type": "TOOL",
     "category": "weapons",
-    "name": "rocket candy",
+    "name": { "str": "rocket candy", "str_pl": "rocket candies" },
     "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
     "weight": "250 g",
     "volume": "250 ml",
@@ -6295,7 +6295,7 @@
     "id": "tool_rocket_candy_act",
     "type": "TOOL",
     "category": "weapons",
-    "name": "burning rocket candy",
+    "name": { "str": "burning rocket candy", "str_pl": "burning rocket candies" },
     "description": "This is a chunk of rocket candy that has been lit on fire and burns with a loud hiss, spewing forth large amounts of smoke.",
     "weight": "250 g",
     "volume": "250 ml",
@@ -7394,7 +7394,8 @@
     "to_hit": -2,
     "bashing": 6,
     "material": "steel",
-    "use_action": { "type": "weigh_self", "max_weight": 150000 }
+    "use_action": { "type": "weigh_self", "max_weight": 150000 },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "acetylene_machine",

@@ -122,7 +122,8 @@ enum class rechargeable_cbm {
 };
 
 enum class comfort_level {
-    uncomfortable = -999,
+    impossible = -999,
+    uncomfortable = -7,
     neutral = 0,
     slightly_comfortable = 3,
     comfortable = 5,

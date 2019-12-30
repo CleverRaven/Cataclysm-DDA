@@ -175,6 +175,104 @@
     "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
+    "result": "garnet_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "garnet", 1 ] ] ]
+  },
+  {
+    "result": "amethyst_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
+  },
+  {
+    "result": "aquamarine_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
+  },
+  {
+    "result": "emerald_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "emerald", 1 ] ] ]
+  },
+  {
+    "result": "alexandrite_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
+  },
+  {
+    "result": "ruby_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "ruby", 1 ] ] ]
+  },
+  {
+    "result": "peridot_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "peridot", 1 ] ] ]
+  },
+  {
+    "result": "sapphire_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
+  },
+  {
+    "result": "tourmaline_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
+  },
+  {
+    "result": "citrine_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "citrine", 1 ] ] ]
+  },
+  {
+    "result": "blue_topaz_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
+  },
+  {
+    "result": "opal_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "opal", 1 ] ] ]
+  },
+  {
+    "result": "pearl_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "pearl", 1 ] ] ]
+  },
+  {
+    "result": "diamond_silver_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "diamond", 1 ] ] ]
+  },
+  {
     "result": "leather_collar",
     "type": "uncraft",
     "time": "30 s",
@@ -1554,6 +1652,83 @@
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
+    "result": "garnet_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "garnet", 1 ] ] ]
+  },
+  {
+    "result": "amethyst_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "amethyst", 1 ] ] ]
+  },
+  {
+    "result": "aquamarine_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "aquamarine", 1 ] ] ]
+  },
+  {
+    "result": "emerald_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "emerald", 1 ] ] ]
+  },
+  {
+    "result": "alexandrite_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "alexandrite", 1 ] ] ]
+  },
+  {
+    "result": "ruby_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "ruby", 1 ] ] ]
+  },
+  {
+    "result": "peridot_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "peridot", 1 ] ] ]
+  },
+  {
+    "result": "sapphire_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "sapphire", 1 ] ] ]
+  },
+  {
+    "result": "tourmaline_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "tourmaline", 1 ] ] ]
+  },
+  {
+    "result": "citrine_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "citrine", 1 ] ] ]
+  },
+  {
+    "result": "blue_topaz_dental_grill",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "blue_topaz", 1 ] ] ]
+  },
+  {
     "result": "diamond_ring",
     "type": "uncraft",
     "time": "30 s",
@@ -1699,6 +1874,104 @@
     "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
+    "result": "garnet_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "garnet", 4 ] ] ]
+  },
+  {
+    "result": "amethyst_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
+  },
+  {
+    "result": "aquamarine_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
+  },
+  {
+    "result": "emerald_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "emerald", 4 ] ] ]
+  },
+  {
+    "result": "alexandrite_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
+  },
+  {
+    "result": "ruby_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "ruby", 4 ] ] ]
+  },
+  {
+    "result": "peridot_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "peridot", 4 ] ] ]
+  },
+  {
+    "result": "sapphire_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
+  },
+  {
+    "result": "tourmaline_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
+  },
+  {
+    "result": "citrine_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "citrine", 4 ] ] ]
+  },
+  {
+    "result": "blue_topaz_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
+  },
+  {
+    "result": "opal_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "opal", 4 ] ] ]
+  },
+  {
+    "result": "pearl_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "pearl", 4 ] ] ]
+  },
+  {
+    "result": "diamond_gold_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "diamond", 4 ] ] ]
+  },
+  {
     "result": "gold_dental_grill",
     "type": "uncraft",
     "time": "30 s",
@@ -1711,6 +1984,104 @@
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
+  },
+  {
+    "result": "garnet_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "garnet", 2 ] ] ]
+  },
+  {
+    "result": "amethyst_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
+  },
+  {
+    "result": "aquamarine_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
+  },
+  {
+    "result": "emerald_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "emerald", 2 ] ] ]
+  },
+  {
+    "result": "alexandrite_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
+  },
+  {
+    "result": "ruby_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "ruby", 2 ] ] ]
+  },
+  {
+    "result": "peridot_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "peridot", 2 ] ] ]
+  },
+  {
+    "result": "sapphire_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
+  },
+  {
+    "result": "tourmaline_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
+  },
+  {
+    "result": "citrine_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "citrine", 2 ] ] ]
+  },
+  {
+    "result": "blue_topaz_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
+  },
+  {
+    "result": "opal_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "opal", 2 ] ] ]
+  },
+  {
+    "result": "pearl_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "diamond_gold_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "diamond", 2 ] ] ]
   },
   {
     "result": "gold_watch",
@@ -2216,6 +2587,104 @@
     "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
+    "result": "gold_ring",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ] ]
+  },
+  {
+    "result": "garnet_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "garnet", 1 ] ] ]
+  },
+  {
+    "result": "amethyst_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
+  },
+  {
+    "result": "aquamarine_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
+  },
+  {
+    "result": "emerald_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "emerald", 1 ] ] ]
+  },
+  {
+    "result": "alexandrite_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
+  },
+  {
+    "result": "ruby_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "ruby", 1 ] ] ]
+  },
+  {
+    "result": "peridot_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "peridot", 1 ] ] ]
+  },
+  {
+    "result": "sapphire_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
+  },
+  {
+    "result": "tourmaline_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
+  },
+  {
+    "result": "citrine_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "citrine", 1 ] ] ]
+  },
+  {
+    "result": "blue_topaz_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
+  },
+  {
+    "result": "opal_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "opal", 1 ] ] ]
+  },
+  {
+    "result": "pearl_gold_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "pearl", 1 ] ] ]
+  },
+  {
     "result": "roadmap",
     "type": "uncraft",
     "time": "30 s",
@@ -2264,11 +2733,207 @@
     "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
+    "result": "garnet_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "garnet", 4 ] ] ]
+  },
+  {
+    "result": "amethyst_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
+  },
+  {
+    "result": "aquamarine_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
+  },
+  {
+    "result": "emerald_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "emerald", 4 ] ] ]
+  },
+  {
+    "result": "alexandrite_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
+  },
+  {
+    "result": "ruby_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "ruby", 4 ] ] ]
+  },
+  {
+    "result": "peridot_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "peridot", 4 ] ] ]
+  },
+  {
+    "result": "sapphire_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
+  },
+  {
+    "result": "tourmaline_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
+  },
+  {
+    "result": "citrine_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "citrine", 4 ] ] ]
+  },
+  {
+    "result": "blue_topaz_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
+  },
+  {
+    "result": "opal_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "opal", 4 ] ] ]
+  },
+  {
+    "result": "pearl_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "pearl", 4 ] ] ]
+  },
+  {
+    "result": "diamond_silver_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "diamond", 4 ] ] ]
+  },
+  {
     "result": "silver_ear",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
+  },
+  {
+    "result": "garnet_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "garnet", 2 ] ] ]
+  },
+  {
+    "result": "amethyst_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
+  },
+  {
+    "result": "aquamarine_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
+  },
+  {
+    "result": "emerald_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "emerald", 2 ] ] ]
+  },
+  {
+    "result": "alexandrite_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
+  },
+  {
+    "result": "ruby_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "ruby", 2 ] ] ]
+  },
+  {
+    "result": "peridot_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "peridot", 2 ] ] ]
+  },
+  {
+    "result": "sapphire_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
+  },
+  {
+    "result": "tourmaline_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
+  },
+  {
+    "result": "citrine_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "citrine", 2 ] ] ]
+  },
+  {
+    "result": "blue_topaz_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
+  },
+  {
+    "result": "opal_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "opal", 2 ] ] ]
+  },
+  {
+    "result": "pearl_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "diamond_silver_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "diamond", 2 ] ] ]
   },
   {
     "result": "sm_extinguisher",
@@ -3096,6 +3761,104 @@
     "components": [ [ [ "platinum_small", 8 ] ] ]
   },
   {
+    "result": "garnet_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "garnet", 4 ] ] ]
+  },
+  {
+    "result": "amethyst_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
+  },
+  {
+    "result": "aquamarine_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
+  },
+  {
+    "result": "emerald_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "emerald", 4 ] ] ]
+  },
+  {
+    "result": "alexandrite_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
+  },
+  {
+    "result": "ruby_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "ruby", 4 ] ] ]
+  },
+  {
+    "result": "peridot_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "peridot", 4 ] ] ]
+  },
+  {
+    "result": "sapphire_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
+  },
+  {
+    "result": "tourmaline_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
+  },
+  {
+    "result": "citrine_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "citrine", 4 ] ] ]
+  },
+  {
+    "result": "blue_topaz_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
+  },
+  {
+    "result": "opal_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "opal", 4 ] ] ]
+  },
+  {
+    "result": "pearl_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "pearl", 4 ] ] ]
+  },
+  {
+    "result": "diamond_platinum_bracelet",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "diamond", 4 ] ] ]
+  },
+  {
     "result": "platinum_dental_grill",
     "type": "uncraft",
     "time": "30 s",
@@ -3110,6 +3873,104 @@
     "components": [ [ [ "platinum_small", 2 ] ] ]
   },
   {
+    "result": "garnet_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "garnet", 2 ] ] ]
+  },
+  {
+    "result": "amethyst_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
+  },
+  {
+    "result": "aquamarine_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
+  },
+  {
+    "result": "emerald_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "emerald", 2 ] ] ]
+  },
+  {
+    "result": "alexandrite_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
+  },
+  {
+    "result": "ruby_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "ruby", 2 ] ] ]
+  },
+  {
+    "result": "peridot_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "peridot", 2 ] ] ]
+  },
+  {
+    "result": "sapphire_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
+  },
+  {
+    "result": "tourmaline_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
+  },
+  {
+    "result": "citrine_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "citrine", 2 ] ] ]
+  },
+  {
+    "result": "blue_topaz_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
+  },
+  {
+    "result": "opal_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "opal", 2 ] ] ]
+  },
+  {
+    "result": "pearl_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "diamond_platinum_earring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "diamond", 2 ] ] ]
+  },
+  {
     "result": "platinum_watch",
     "type": "uncraft",
     "time": "36 s",
@@ -3122,6 +3983,104 @@
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ] ]
+  },
+  {
+    "result": "garnet_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "garnet", 1 ] ] ]
+  },
+  {
+    "result": "amethyst_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
+  },
+  {
+    "result": "aquamarine_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
+  },
+  {
+    "result": "emerald_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "emerald", 1 ] ] ]
+  },
+  {
+    "result": "alexandrite_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
+  },
+  {
+    "result": "ruby_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "ruby", 1 ] ] ]
+  },
+  {
+    "result": "peridot_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "peridot", 1 ] ] ]
+  },
+  {
+    "result": "sapphire_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
+  },
+  {
+    "result": "tourmaline_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
+  },
+  {
+    "result": "citrine_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "citrine", 1 ] ] ]
+  },
+  {
+    "result": "blue_topaz_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
+  },
+  {
+    "result": "opal_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "opal", 1 ] ] ]
+  },
+  {
+    "result": "pearl_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "pearl", 1 ] ] ]
+  },
+  {
+    "result": "diamond_platinum_ring",
+    "type": "uncraft",
+    "time": "60 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
     "result": "razor_shaving",

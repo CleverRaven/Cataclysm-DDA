@@ -376,9 +376,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
-    if( jo.has_member( "looks_like" ) ) {
-        looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", looks_like );
 
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string & str ) {
         if( str == "LINE_XOXO" ) {

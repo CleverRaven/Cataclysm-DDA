@@ -93,7 +93,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
             _burn_data.emplace_back( load_mat_burn_data( brn ) );
         }
-    } 
+    }
     if( _burn_data.empty() ) {
         // If not specified, supply default
         mat_burn_data mbd;

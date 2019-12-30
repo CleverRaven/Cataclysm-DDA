@@ -171,7 +171,7 @@
     "type": "profession",
     "ident": "mil_cbrn",
     "name": "Operator CBRN",
-    "description": "Chemical weapons? Check.  Biological outbreak? Check.  Nuclear war? Check.  Sounds like the perfect job for you!",
+    "description": "Chemical weapons?  Check.  Biological outbreak?  Check.  Nuclear war?  Check.  Sounds like the perfect job for you!",
     "points": 5,
     "skills": [
       { "level": 1, "name": "survival" },
