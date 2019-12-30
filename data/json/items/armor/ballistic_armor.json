@@ -16,7 +16,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 20,
     "flags": [ "STURDY", "OUTER" ]
   }
 ]
