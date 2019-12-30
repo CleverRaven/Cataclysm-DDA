@@ -1330,7 +1330,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     if( data.select != tripoint( -1, -1, -1 ) ) {
         curs = tripoint( data.select );
     }
-
+    bool chosen_water_option = false;
     // Configure input context for navigating the map.
     input_context ictxt( "OVERMAP" );
     ictxt.register_action( "ANY_INPUT" );
@@ -1437,8 +1437,16 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 ptype.only_water = veh.can_float() && veh.is_watercraft() && veh.is_in_water();
                 ptype.only_road = !ptype.only_water;
             } else {
-                // by foot.
-                ptype.amphibious = true;
+                const oter_id oter = overmap_buffer.ter( curs );
+                // if we choose a water tile, then we dont need to be prompted if we want to swim
+                if( is_river_or_lake( oter ) ) {
+                    ptype.amphibious = true;
+                } else if( !chosen_water_option ) {
+                    if( query_yn( _( "Allow swimming to get to destination?" ) ) ) {
+                        ptype.amphibious = true;
+                    }
+                    chosen_water_option = true;
+                }
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
