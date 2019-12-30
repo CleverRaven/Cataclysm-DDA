@@ -13,32 +13,43 @@
     "symbol": ";",
     "color": "light_green",
     "use_action": [
-      {
-        "target": "afs_atomic_smartphone_flashlight",
-        "msg": "You activate the flashlight app.",
-        "active": true,
+        {
+          "target": "afs_atomic_smartphone_flashlight",
+          "msg": "You activate the flashlight app.",
+          "active": true,
+          "type": "transform"
+        },
+        "CAMERA",
+        "MP3"
+      ],
+      "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    },
+    {
+      "id": "afs_atomic_smartphone_music",
+      "copy-from": "afs_atomic_smartphone",
+      "type": "TOOL",
+      "name": "aomic smartphone - music",
+      "name_plural": "atomic smartphones - music",
+      "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+      "revert_to": "afs_atomic_smartphone",
+      "use_action": "MP3_ON",
+      "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    },
+    {
+      "id": "afs_atomic_smartphone_flashlight",
+      "copy-from": "afs_atomic_smartphone",
+      "type": "TOOL",
+      "name": "atomic smartphone - Flashlight",
+      "name_plural": "atomic smartphones - Flashlight",
+      "revert_to": "afs_atomic_smartphone",
+      "use_action": {
+        "target": "afs_atomic_smartphone",
+        "msg": "You deactivate the flashlight app.",
+        "menu_text": "Turn off flashlight",
         "type": "transform"
       },
-      { "revert_to": "afs_atomic_smartphone", "type": "CAMERA" }
-    ],
-    "flags": [ "WATCH", "ALARMCLOCK" ]
-  },
-  {
-    "id": "afs_atomic_smartphone_flashlight",
-    "copy-from": "afs_atomic_smartphone",
-    "type": "TOOL",
-    "name": "atomic smartphone - Flashlight",
-    "name_plural": "atomic smartphones - Flashlight",
-    "revert_to": "afs_atomic_smartphone",
-    "use_action": {
-      "target": "afs_atomic_smartphone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off flashlight",
-      "type": "transform"
+      "flags": [ "WATCH", "LIGHT_25", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
     },
-    "//": "since we cost no battery, no reason not to keep these",
-    "flags": [ "WATCH", "ALARMCLOCK", "LIGHT_25" ]
-  },
   {
     "id": "afs_atompot",
     "type": "TOOL",
