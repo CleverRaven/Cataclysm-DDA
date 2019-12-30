@@ -123,6 +123,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -4085,22 +4086,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
-        if( hp <= 0 )
-        {
-            return "==%==";
-        } else if( precise )
-        {
-            return string_format( "%d", hp );
-        } else
-        {
-            std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
-            nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
-                    '.' ), c_white );
-        }
-    };
 
     uilist bmenu;
     bmenu.desc_enabled = true;
@@ -4122,7 +4108,8 @@ hp_part Character::body_window( const std::string &menu_header,
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
-        const bool limb_is_broken = current_hp == 0;
+        const bool limb_is_broken = is_limb_broken( hp );
+        const bool limb_is_mending = worn_with_flag( "SPLINT", bp );
 
         if( show_all ) {
             e.allowed = true;
@@ -4157,11 +4144,29 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg += colorize( aligned_name, all_state_col ) + " " + hp_str( current_hp, maximal_hp );
+        std::string hp_str;
+        if( limb_is_mending ) {
+            desc += colorize( _( "It is broken but has been set and just needs time to heal." ), c_blue ) + "\n";
+            const auto &eff = get_effect( effect_mending, bp );
+            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-        if( limb_is_broken ) {
+            if (precise) {
+                hp_str = colorize(string_format("=%2d%%=", mend_perc), c_blue);
+            } else {
+                const int num = mend_perc / 20;
+                hp_str = colorize(std::string(num, '#') + std::string(5 - num, '='), c_blue);
+            }          
+        } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
-        }
+            hp_str = "==%==";
+        } else if( precise ) {
+            hp_str = string_format( "%d", current_hp );
+        } else {
+            std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
+            hp_str = colorize( h_bar.first, h_bar.second ) +
+                     colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+        };
+        msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
         if( bleeding ) {
@@ -6275,7 +6280,7 @@ void Character::heal( body_part healed, int dam )
 
 void Character::heal( hp_part healed, int dam )
 {
-    if( hp_cur[healed] > 0 ) {
+    if( !is_limb_broken( healed ) ) {
         int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
         hp_cur[healed] += effective_heal;
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
