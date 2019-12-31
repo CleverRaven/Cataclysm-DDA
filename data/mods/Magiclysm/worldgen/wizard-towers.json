@@ -1,5 +1,222 @@
 [
   {
+    "type": "furniture",
+    "id": "f_magic_bench",
+    "name": "enchanter's workbench",
+    "looks_like": "f_table",
+    "description": "An ornate oak cabinet topped by a durable resin countertop resistant to most alchemical spills and burns.  It has wired in electrical and gas fittings, and has been decorated with several protection runes - mostly ornamental.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
+        { "item": "wood_panel", "count": [ 1, 2 ] },
+        { "item": "2x4", "count": [ 3, 4 ] }
+      ]
+    },
+    "max_volume": 7000,
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "splinter", "count": [ 2, 8 ] },
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cu_pipe", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alembic",
+    "name": "standing alembic",
+    "looks_like": "f_still",
+    "description": "A large glass and copper alembic for distilling alchemical concoctions.  It consists of a copper pot with rising spires of twisted glass draining into various removable bottles.",
+    "symbol": "&",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "still_lab",
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pot_copper", "count": 1 },
+        { "item": "pipe_glass", "count": [ 1, 4 ] },
+        { "item": "glass_tube_small", "charges": [ 5, 10 ] },
+        { "item": "stopcock", "count": [ 1, 5 ] },
+        { "item": "flask_glass", "count": [ 1, 3 ] }
+      ]
+    },
+    "max_volume": 7000,
+    "bash": {
+      "str_min": 4,
+      "str_max": 10,
+      "sound": "glass breaking!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap_copper", "count": [ 10, 20 ] },
+        { "item": "stopcock", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 25, 50 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_orrery",
+    "name": "orrery",
+    "looks_like": "f_statue",
+    "description": "This is a beautiful, non-scale model of the solar system.  A complex series of gears allows the relative motions of the planets to be studied at the turn of a crank.  This more modern version also has bluetooth and could have been controlled with an app, if there was any power anymore.",
+    "symbol": "@",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "clockworks", "count": [ 10, 30 ] },
+        { "item": "scrap", "count": [ 10, 20 ] },
+        { "item": "pipe", "charges": 9 },
+        { "item": "wire", "count": [ 10, 20 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    },
+    "max_volume": 7000,
+    "bash": {
+      "str_min": 20,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 10, 100 ] },
+        { "item": "pipe", "count": [ 1, 5 ] },
+        { "item": "wire", "count": [ 3, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_huge_mana_crystal",
+    "name": "huge mana crystal",
+    "description": "This is a mana crystal that juts from the ground as if it had sprouted up like a weed.  It pulses with a delicate yellow energy, occasionally bursting with flashes of pent-up light.",
+    "symbol": "]",
+    "color": "white_yellow",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "looks_like": "f_boulder_large",
+    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "emissions": [ "emit_glimmer" ],
+    "light_emitted": 12,
+    "bash": {
+      "str_min": 25,
+      "str_max": 35,
+      "sound": "glass shattering!",
+      "sound_fail": "mana crackling!",
+      "items": [
+        { "item": "crystallized_mana", "charges": [ 0, 10 ] },
+        { "item": "small_mana_crystal", "count": [ 0, 3 ] },
+        { "item": "glass_shard", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "id": "mon_plasticgolem",
+    "type": "MONSTER",
+    "name": { "str": "plastic golem" },
+    "description": "Traditionally, making a golem is a months-long process involving hand tools and precision craftsmanship.  A stone golem is as much a work of art as it is a magical device.  The advent of 3D printing made it easy to get into the golem-making hobby, and plastic golems have soared in popularity.",
+    "default_faction": "factionless",
+    "volume": "150 L",
+    "weight": "70 kg",
+    "hp": 120,
+    "speed": 90,
+    "material": [ "plastic" ],
+    "symbol": "G",
+    "color": "light_gray",
+    "aggression": 30,
+    "morale": 100,
+    "armor_bash": 18,
+    "armor_cut": 6,
+    "melee_skill": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_cut": 3,
+    "vision_day": 30,
+    "vision_night": 30,
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "regenerates": 10,
+    "death_drops": 
+      { "item": "plastic_chunk", "prob": 100, "count": [ 5, 10 ] },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_plasticgolem",
+    "symbol": "x",
+    "color": "light_gray",
+    "name": "broken plastic golem",
+    "category": "other",
+    "description": "A broken plastic golem, like a giant action figure chewed up by an equally giant puppy.  You could smash it up into recycled plastic bits.",
+    "price": 100,
+    "material": [ "plastic" ],
+    "weight": "70 kg",
+    "volume": "150 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOWER_GOLEM",
+    "default": "mon_plasticgolem",
+    "//": "Cheap golems used to defend the average wizard's tower.",
+    "monsters": [
+      { "monster": "mon_plasticgolem", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_claygolem", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_stonegolem", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_irongolem", "freq": 5, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_tools_and_loot",
+    "//": "Stuff you would find in an average wizard's workshop.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_common", "prob": 60 },
+      { "group": "jewelry_safe", "prob": 10 },
+      { "group": "jewelry_front", "prob": 8 },
+      { "group": "potions_common", "prob": 15 },
+      { "distribution": [
+      { "group": "enchanted_wands_lesser", "prob": 15 },
+      { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
+      { "group": "enchanted_rings_common", "prob": 20 },
+      { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_combat_items", "prob": 10 },
+      { "group": "enchanted_belts", "prob": 2 }
+      ], "prob": 15 },
+      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      [ "toolbox", 10 ]
+    ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "wizardtower1_ground", "wizardtower1_living", "wizardtower1_golems", "wizardtower1_study", "wizardtower1_roof" ] ],
@@ -13,18 +230,18 @@
         "!,,,,,,###EBB|###,,[[[,!.......###EBBE###..............!!!!!!!!!!.......................................................",
         "!,,,,#w#aa BB|BB#w#[[[,!.....###aa BB dd###..........!!!!!!!!!!!!!!.....................................................",
         "!,,,##Ad     |    ##[[,!....##bb       Adb##........!!!!!!!!!!!!!!!!....................................................",
-        "!,,,w     bbb|aEb  #[[,!....#b            b#........!!!!!######!!!!!.............#wwww#..................!!!!!!.........",
-        "!,,##||||+||||||||+##[,!...##||||||HH ||+||##......!!!!!##  | ##!!!!!...........##    ##................!!!!!!!!........",
-        "!,,#<               =[,!...#>    <|||+|a  uuw......!!!!##>  |  ##!!!!..........##    dd##..............!!!!!!!!!!.......",
-        "!,##<            hhh##!!..##>         |   uu##....!!!!##    |   ##!!!!........## M   dAd##............!!!!!!!!!!!!......",
-        "!##|||+|         123cw,,.;w|||||      |&   ||#....!!!!#     |    #!!!!........w          w............!!!!!!!!!!!!......",
-        ",#WD|& |   hTTh     ow,,.;wH  A|A  ## |CsC +t#....!!!!#    ##    #!!!!........w    ##    w............!!!!!!!!!!!!......",
-        ",#  +  |   hTTh     5w,,.;wH  b||| ##+||||+||#....!!!!#    ##    #!!!!........w    ##    w............!!!!!!!!!!!!......",
-        ",#fh|st|            4w,,.;wH     + |u   t|  U#....!!!!#    |     #!!!!........w          w............!!!!!!!!!!!!......",
-        ",########U        &F##,,.;##H   A| |u    | U##....!!!!##   |    ##!!!!........##        ##............!!!!!!!!!!!!......",
-        ",#UUU&  +     |||+||#,,,.;;#HHHbb| |u CsC|cc#......!!!!##  |  <##!!!!..........##     >##..............!!!!!!!!!!.......",
-        ",#      #    ||dd   #,,,.;;##|||||+||+|||||##......!!!!!## |  ##!!!!!...........##    ##................!!!!!!!!........",
-        ",#      #   ||ihd   #,,,.;;;#E +         Adw;.......!!!!!######!!!!!.............#wwww#..................!!!!!!.........",
+        "!,,,w     bbb|aEb  #[[,!....#b            b#........!!!!!###ww#!!!!!.............#wwww#..................!!!!!!.........",
+        "!,,##||||+||||||||+##[,!...##||||||HH ||+||##......!!!!!##|V  ##!!!!!...........##mm  ##................!!!!!!!!........",
+        "!,,#<               =[,!...#>    <|||+|a  uuw......!!!!##>|V  8##!!!!..........##mh   F##..............!!!!!!!!!!.......",
+        "!,##<      hTTh  hhh##!!..##>         |   uu##....!!!!##  |V  08##!!!!........## y  c  c##............!!!!!!!!!!!!......",
+        "!##|||+|   hTTh  123cw,,.;w|||||      |&   ||#....!!!!#U  |V    mw!!!!........w    9cL   w............!!!!!!!!!!!!......",
+        ",#WD|& |   hTTh     ow,,.;wH  A|A  ## |CsC +t#....!!!!#U  |##  hmw!!!!........w   9##cc  w............!!!!!!!!!!!!......",
+        ",#  +  |   hTTh     5w,,.;wH  b||| ##+||||+||#....!!!!##M####   mw!!!!........wd  9##    w............!!!!!!!!!!!!......",
+        ",#fx|st|            4w,,.;wH     + |u   t|  U#....!!!!#0    #   mw!!!!........wdA  99    w............!!!!!!!!!!!!......",
+        ",########         &F##,,.;##H   A| |u    | U##....!!!!##0   #  0##!!!!........## O      ##............!!!!!!!!!!!!......",
+        ",#UUU&  +    |67| ||#,,,.;;#HHHbb| |u CsC|cc#......!!!!##0  # <##!!!!..........##     >##..............!!!!!!!!!!.......",
+        ",#      #    ||||   #,,,.;;##|||||+||+|||||##......!!!!!##0 M ##!!!!!...........##    ##................!!!!!!!!........",
+        ",#      #   ||HHHH  w,,,.;;;#E +         Adw;.......!!!!!######!!!!!.............#wwww#..................!!!!!!.........",
         ",#      #   +       #,,,.;;;##E|b        d##;.......!!!!!!!!!!!!!!!!....................................................",
         ",#      #||+|b     b#,,,.;;;;###b  BB   #w#;;........!!!!!!!!!!!!!!.....................................................",
         ",#      #A  |H     bw,,,.;;;;;;###EBBE###;;;;..........!!!!!!!!!!.......................................................",
@@ -74,8 +291,10 @@
       "H": "f_sofa",
       "i": "f_filing_cabinet",
       "I": "f_dishwasher",
-      "M": "f_huge_mana_crystal",
+      "L": "f_alembic",
+      "m": "f_magic_bench",
       "o": "f_oven",
+      "O": "f_orrery",
       "r": "f_rack",
       "R": "f_rack",
       "s": "f_sink",
@@ -83,19 +302,72 @@
       "T": "f_table",
       "u": "f_bathtub",
       "U": "f_utility_shelf",
+      "V": "f_utility_shelf",
       "W": "f_washer",
+      "x": "f_water_heater",
+      "y": "f_huge_mana_crystal",
       "Y": "f_rack_coat",
       "1": "f_cupboard",
       "2": "f_cupboard",
       "3": "f_cupboard",
       "4": "f_cupboard",
-      "5": "f_sink"
+      "5": "f_sink",
+      "6": "f_cupboard",
+      "7": "f_cupboard",
+      "8": "f_bookcase",
+      "9": "f_bookcase"
+    },
+    "items": {
+      "&": { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] },
+      "a": [
+        { "item": "dresser", "chance": 50, "repeat": [ 1, 8 ] },
+        { "item": "allclothes", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "enchanted_misc", "chance": 5 }
+      ],
+      "b": [ { "item": "novels", "chance": 50, "repeat": [ 1, 15 ] }, { "item": "homebooks", "chance": 25, "repeat": [ 1, 5 ] } ],
+      "B": { "item": "bed", "chance": 20 },
+      "c": { "item": "kitchen_counters", "chance": 5, "repeat": [ 1, 3 ] },
+      "C": { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
+      "d": { "item": "SUS_office_desk", "chance": 25 },
+      "D": { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
+      "E": { "item": "dresser", "chance": 50, "repeat": [ 1, 5 ] },
+      "f": [ { "item": "SUS_fridge", "chance": 95 }, { "item": "potions_common", "chance": 5, "repeat": [ 1, 3 ] } ],
+      "i": [ { "item": "SUS_office_filing_cabinet", "chance": 30 }, { "item": "office", "chance": 50, "repeat": [ 1, 4 ] } ],
+      "I": { "item": "SUS_dishwasher", "chance": 50 },
+      "m": { "item": "magic_tools_and_loot", "chance": 25 },
+      "o": { "item": "SUS_oven", "chance": 70 },
+      "r": { "item": "a_television", "chance": 100 },
+      "R": { "item": "shoes", "chance": 20, "repeat": [ 1, 4 ] },
+      "U": [ { "item": "tools_common", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "mischw", "chance": 10 } ],
+      "V": [
+        { "item": "tools_general", "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "mischw", "chance": 10 },
+        { "item": "magic_tools_and_loot", "chance": 5 }
+      ],
+      "Y": [ { "item": "coat_rack", "chance": 70 }, { "item": "magic_shop_clothes", "chance": 30 } ],
+      "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+      "2": [ { "item": "SUS_cookware", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 50 } ],
+      "3": [ { "item": "SUS_utensils", "chance": 100 }, { "item": "SUS_knife_drawer", "chance": 100 } ],
+      "4": [ { "item": "SUS_junk_drawer", "chance": 100 }, { "item": "SUS_appliances_cupboard", "chance": 100 } ],
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "6": { "item": "SUS_pantry", "chance": 100 },
+      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 50 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+      "8": [ { "item": "homebooks", "chance": 45, "repeat": [ 1, 5 ] }, { "item": "spellbook_loot_1", "chance": 5 } ],
+      "9": [
+        { "item": "homebooks", "chance": 45, "repeat": [ 1, 5 ] },
+        { "item": "spellbook_loot_1", "chance": 15 },
+        { "item": "spellbook_loot_2", "chance": 1 }
+      ]
+    },
+    "monsters": { "0": { "monster": "GROUP_TOWER_GOLEM" }
     }
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_ground",
     "copy-from": "generic_city_building",
+    "sym": "W",
+    "color": "light_blue",
     "name": "wizard tower"
   },
   {
@@ -129,72 +401,5 @@
       { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
       { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
     ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_huge_mana_crystal",
-    "name": "huge mana crystal",
-    "description": "This is a mana crystal that juts from the ground as if it had sprouted up like a weed.  It pulses with a delicate yellow energy, occasionally bursting with flashes of pent-up light.",
-    "symbol": "]",
-    "color": "white_yellow",
-    "move_cost_mod": -1,
-    "coverage": 75,
-    "required_str": -1,
-    "looks_like": "f_boulder_large",
-    "flags": [ "TRANSPARENT", "EMITTER" ],
-    "emissions": [ "emit_glimmer" ],
-    "light_emitted": 12,
-    "bash": {
-      "str_min": 25,
-      "str_max": 35,
-      "sound": "glass shattering!",
-      "sound_fail": "mana crackling!",
-      "items": [
-        { "item": "crystallized_mana", "charges": [ 0, 10 ] },
-        { "item": "small_mana_crystal", "count": [ 0, 3 ] },
-        { "item": "glass_shard", "count": [ 8, 12 ] }
-      ]
-    }
-  },
-  {
-    "type": "ammunition_type",
-    "id": "crystallized_mana",
-    "name": "crystallized mana",
-    "default": "crystallized_mana"
-  },
-  {
-    "type": "AMMO",
-    "id": "crystallized_mana",
-    "category": "spare_parts",
-    "price": 1000,
-    "name": "crystallized mana",
-    "name_plural": "crystallized mana",
-    "symbol": "=",
-    "color": "yellow",
-    "description": "Some crystallized mana. This can be reloaded into rechargable mana crystals, but can never be unloaded.",
-    "flags": "TRADER_AVOID",
-    "volume": "100 ml",
-    "ammo_type": "crystallized_mana",
-    "reload_time": 1,
-    "count": 100,
-    "looks_like": "battery",
-    "fuel": { "energy": 1 }
-  },
-  {
-    "id": "small_mana_crystal",
-    "type": "MAGAZINE",
-    "category": "spare_parts",
-    "name": "small mana crystal",
-    "name_plural": "small mana crystals",
-    "description": "This is a small mana crystal specifically designed to be attached to wand tips.",
-    "weight": 5,
-    "volume": 1,
-    "price": 1500,
-    "symbol": "=",
-    "color": "yellow",
-    "ammo_type": "crystallized_mana",
-    "capacity": 50,
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   }
 ]

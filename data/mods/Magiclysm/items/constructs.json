@@ -6,7 +6,7 @@
     "color": "brown",
     "name": "broken clay golem",
     "category": "other",
-    "description": "A broken clay golem, looking like piece of post-modern art.  Could be smashed for clay.",
+    "description": "A broken clay golem, looking like a piece of post-modern art.  Could be smashed for clay.",
     "price": 10000,
     "material": [ "clay" ],
     "weight": "122 kg",
