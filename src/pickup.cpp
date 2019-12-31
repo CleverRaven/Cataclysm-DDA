@@ -636,10 +636,16 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const std::string pickup_chars =
                 ctxt.get_available_single_char_hotkeys( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" );
             int idx = -1;
-            for( int i = 1; i < pickupH; i++ ) {
-                mvwprintw( w_pickup, point( 0, i ),
-                           "                                                " );
+
+            //clear all items names
+            std::string clear_buffer = "";
+            for( int cur_column = 0; cur_column <= pickupW; cur_column += 10 ) {
+                clear_buffer += "          ";
             }
+            for( int cur_row = 1; cur_row < pickupH; cur_row++ ) {
+                mvwprintw( w_pickup, point( 0, cur_row ), clear_buffer );
+            }
+
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {
                 int raw_input_char_value = static_cast<char>( raw_input_char ) - '0';
