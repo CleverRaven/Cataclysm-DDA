@@ -536,7 +536,7 @@
       { "x": -1, "y": 0, "chance": 5, "items": [ "mag_glam" ] }
     ]
   },
- {
+  {
     "id": "car_hatch",
     "type": "vehicle",
     "name": "Hatchback",
