@@ -2,11 +2,13 @@
 
 #include "calendar.h"
 #include "rng.h"
+#include "stringmaker.h"
 
 TEST_CASE( "moon_phases_take_28_days", "[calendar]" )
 {
+    CAPTURE( calendar::season_length() );
     // This test only makes sense if the seasons are set to the default length
-    REQUIRE( calendar::season_from_default_ratio() == 1 );
+    REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
 
     const int num_days = GENERATE( take( 100, random( 0, 1000 ) ) );
     const time_point first_time = calendar::turn_zero + time_duration::from_days( num_days );
