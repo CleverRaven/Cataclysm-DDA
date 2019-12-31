@@ -2034,6 +2034,47 @@ void units::energy::deserialize( JsonIn &jsin )
 
 static void migrate_toolmod( item &it );
 
+void item::craft_data::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "making", making->ident().str() );
+    jsout.member( "comps_used", comps_used );
+    jsout.member( "next_failure_point", next_failure_point );
+    jsout.member( "tools_to_continue", tools_to_continue );
+    jsout.member( "cached_tool_selections", cached_tool_selections );
+    jsout.end_object();
+}
+
+void item::craft_data::deserialize( JsonIn &jsin )
+{
+    deserialize( jsin.get_object() );
+}
+
+void item::craft_data::deserialize( const JsonObject &obj )
+{
+    making = &recipe_id( obj.get_string( "making" ) ).obj();
+    obj.read( "comps_used", comps_used );
+    next_failure_point = obj.get_int( "next_failure_point", -1 );
+    tools_to_continue = obj.get_bool( "tools_to_continue", false );
+    obj.read( "cached_tool_selections", cached_tool_selections );
+}
+
+// Template parameter because item::craft_data is private and I don't want to make it public.
+template<typename T>
+static void load_legacy_craft_data( io::JsonObjectInputArchive &archive, T &value )
+{
+    if( archive.has_member( "making" ) ) {
+        value = cata::make_value<typename T::element_type>();
+        value->deserialize( archive );
+    }
+}
+
+// Dummy function as we never load anything from an output archive.
+template<typename T>
+static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
+{
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2055,10 +2096,6 @@ void item::io( Archive &archive )
             corpse = &mtype_id( id ).obj();
         }
     };
-    const auto load_making = [this]( const std::string & id ) {
-        making = &recipe_id( id ).obj();
-    };
-
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
     }, io::required_tag() );
@@ -2109,17 +2146,10 @@ void item::io( Archive &archive )
     []( const mtype & i ) {
         return i.id.str();
     } );
-    archive.template io<const recipe>( "making", making, load_making,
-    []( const recipe & i ) {
-        return i.ident().str();
-    } );
+    archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
-    archive.io( "comps_used", comps_used, io::empty_default_tag() );
-    archive.io( "next_failure_point", next_failure_point, -1 );
-    archive.io( "tools_to_continue", tools_to_continue, false );
-    archive.io( "cached_tool_selections", cached_tool_selections, io::empty_default_tag() );
 
     archive.io( "relic_data", relic_data );
 
@@ -2129,6 +2159,8 @@ void item::io( Archive &archive )
         return;
     }
     /* Loading has finished, following code is to ensure consistency and fixes bugs in saves. */
+
+    load_legacy_craft_data( archive, craft_data_ );
 
     double float_damage = 0;
     if( archive.read( "damage", float_damage ) ) {
