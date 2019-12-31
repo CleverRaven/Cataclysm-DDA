@@ -7332,43 +7332,28 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                         int fake_map_z )
+fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                    const int fake_map_z )
 {
     const tripoint tripoint_below_zero( 0, 0, fake_map_z );
 
-    bool do_terset = true;
     set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const tripoint gridp( gridx, gridy, fake_map_z );
-            submap *tmpsub = MAPBUFFER.lookup_submap( gridp );
-            if( tmpsub == nullptr ) {
-                generate_uniform( gridp, ter_type );
-                do_terset = false;
-                tmpsub = MAPBUFFER.lookup_submap( gridp );
-                if( tmpsub == nullptr ) {
-                    dbg( D_ERROR ) << "failed to generate a fake submap at 0,0,-9 ";
-                    debugmsg( "failed to generate a fake submap at 0,0,-9" );
-                    return false;
-                }
-            }
-            const size_t gridn = get_nonant( gridp );
+            std::unique_ptr<submap> sm = std::make_unique<submap>();
 
-            setsubmap( gridn, tmpsub );
+            std::uninitialized_fill_n( &sm->ter[0][0], SEEX * SEEY, ter_type );
+            std::uninitialized_fill_n( &sm->frn[0][0], SEEX * SEEY, fur_type );
+            std::uninitialized_fill_n( &sm->trp[0][0], SEEX * SEEY, trap_type );
+
+            setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );
+
+            temp_submaps_.emplace_back( std::move( sm ) );
         }
     }
-
-    for( const tripoint &pos : points_in_rectangle( tripoint_below_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, fake_map_z ) ) ) {
-        if( do_terset ) {
-            ter_set( pos, ter_type );
-        }
-        furn_set( pos, fur_type );
-        trap_set( pos, trap_type );
-    }
-    return true;
 }
+
+fake_map::~fake_map() = default;
 
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {

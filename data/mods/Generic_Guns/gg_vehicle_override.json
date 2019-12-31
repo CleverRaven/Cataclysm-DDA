@@ -70,7 +70,6 @@
     "color": "green",
     "broken_color": "green",
     "size": 2000,
-    "range": 12,
     "breaks_into": [ { "item": "m134", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   }

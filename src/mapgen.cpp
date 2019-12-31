@@ -7272,8 +7272,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
             const std::string &update_mapgen_id )
 {
     const int fake_map_z = -9;
-    const tripoint tripoint_below_zero( 0, 0, fake_map_z );
-    const tripoint tripoint_fake_map_edge( 23, 23, fake_map_z );
 
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
@@ -7284,10 +7282,8 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    tinymap fake_map;
-    if( !fake_map.fake_load( f_null, t_dirt, tr_null, fake_map_z ) ) {
-        return std::make_pair( terrains, furnitures );
-    }
+    ::fake_map fake_map( f_null, t_dirt, tr_null, fake_map_z );
+
     oter_id any = oter_id( "field" );
     // just need a variable here, it doesn't need to be valid
     const regional_settings dummy_settings;
@@ -7296,20 +7292,13 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
                         any, any, 0, dummy_settings, fake_map, any, 0.0f, calendar::turn, nullptr );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : fake_map.points_in_rectangle( tripoint_below_zero,
-                tripoint_fake_map_edge ) ) {
+        for( const tripoint &pos : fake_map.points_on_zlevel( fake_map_z ) ) {
             ter_id ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
-                if( terrains.find( ter_at_pos ) == terrains.end() ) {
-                    terrains[ter_at_pos] = 0;
-                }
                 terrains[ter_at_pos] += 1;
             }
             if( fake_map.has_furn( pos ) ) {
                 furn_id furn_at_pos = fake_map.furn( pos );
-                if( furnitures.find( furn_at_pos ) == furnitures.end() ) {
-                    furnitures[furn_at_pos] = 0;
-                }
                 furnitures[furn_at_pos] += 1;
             }
         }

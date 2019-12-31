@@ -1033,45 +1033,45 @@ void Character::suffer_from_radiation()
     }
 
     if( calendar::once_every( 15_minutes ) ) {
-        if( radiation < 0 ) {
-            radiation = 0;
-        } else if( radiation > 2000 ) {
-            radiation = 2000;
+        if( get_rad() < 0 ) {
+            set_rad( 0 );
+        } else if( get_rad() > 2000 ) {
+            set_rad( 2000 );
         }
-        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < radiation ) {
+        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < get_rad() ) {
             mutate();
-            radiation -= 50;
-        } else if( radiation > 50 && rng( 1, 3000 ) < radiation && ( stomach.contains() > 0_ml ||
+            mod_rad( -50 );
+        } else if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() && ( stomach.contains() > 0_ml ||
                    radiation_increasing || !in_sleep_state() ) ) {
             vomit();
-            radiation -= 1;
+            mod_rad( -1 );
         }
     }
 
     const bool radiogenic = has_trait( trait_RADIOGENIC );
-    if( radiogenic && calendar::once_every( 30_minutes ) && radiation > 0 ) {
+    if( radiogenic && calendar::once_every( 30_minutes ) && get_rad() > 0 ) {
         // At 200 irradiation, twice as fast as REGEN
-        if( x_in_y( radiation, 200 ) ) {
+        if( x_in_y( get_rad(), 200 ) ) {
             healall( 1 );
             if( rad_mut == 0 ) {
                 // Don't heal radiation if we're generating it naturally
                 // That would counter the main downside of radioactivity
-                radiation -= 5;
+                mod_rad( -5 );
             }
         }
     }
 
-    if( !radiogenic && radiation > 0 ) {
+    if( !radiogenic && get_rad() > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
         const int hmod = get_healthy_mod();
-        if( hmod > 200 - radiation ) {
-            set_healthy_mod( std::max( -200, 200 - radiation ) );
+        if( hmod > 200 - get_rad() ) {
+            set_healthy_mod( std::max( -200, 200 - get_rad() ) );
         }
     }
 
-    if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
+    if( get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( get_rad(), 1000 ) ) {
         hurtall( 1, nullptr );
-        radiation -= 5;
+        mod_rad( -5 );
     }
 
     if( !reactor_plut && !tank_plut && !slow_rad ) {
@@ -1146,7 +1146,7 @@ void Character::suffer_from_radiation()
         tank_plut *= 0.6;
     }
     while( slow_rad >= 1000 ) {
-        radiation += 1;
+        mod_rad( 1 );
         slow_rad -= 1000;
     }
 }
@@ -1504,7 +1504,7 @@ bool Character::irradiate( float rads, bool bypass )
         }
 
         int rads_max = roll_remainder( rads );
-        radiation += rng( 0, rads_max );
+        mod_rad( rng( 0, rads_max ) );
 
         // Apply rads to any radiation badges.
         for( item *const it : inv_dump() ) {
@@ -1578,8 +1578,8 @@ void Character::mend( int rate_multiplier )
         healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_ALCOHOL ) );
     }
 
-    if( radiation > 0 && !has_trait( trait_RADIOGENIC ) ) {
-        healing_factor *= clamp( ( 1000.0f - radiation ) / 1000.0f, 0.0f, 1.0f );
+    if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
+        healing_factor *= clamp( ( 1000.0f - get_rad() ) / 1000.0f, 0.0f, 1.0f );
     }
 
     // Bed rest speeds up mending

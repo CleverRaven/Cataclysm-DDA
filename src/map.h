@@ -1834,8 +1834,15 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                        int fake_map_z );
 };
 
+class fake_map : public tinymap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                  int fake_map_z );
+        ~fake_map();
+};
 #endif

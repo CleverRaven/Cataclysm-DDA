@@ -11,7 +11,7 @@
       { "item": "pants_cargo" },
       { "item": "kevlar" },
       { "item": "leather_pouch" },
-      { "item": "balclava" },
+      { "item": "balclava", "prob": 75 },
       { "item": "bootsheath" }
     ]
   },
