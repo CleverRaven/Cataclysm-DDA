@@ -63,8 +63,9 @@ moon_phase get_moon_phase( const time_point &p )
     const time_duration moon_phase_duration =
         calendar::season_from_default_ratio() * synodic_month;
     // Switch moon phase at noon so it stays the same all night
-    const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
-    const double phase_change = current_day / moon_phase_duration;
+    const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
+    const time_duration nearest_midnight = num_middays * 1_days;
+    const double phase_change = nearest_midnight / moon_phase_duration;
     const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
     return static_cast<moon_phase>( current_phase );

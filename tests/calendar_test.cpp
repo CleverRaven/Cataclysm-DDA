@@ -22,3 +22,17 @@ TEST_CASE( "moon_phases_take_28_days", "[calendar]" )
     CHECK( ( get_moon_phase( first_time ) == get_moon_phase( later_29_days ) ||
              get_moon_phase( first_time ) == get_moon_phase( later_30_days ) ) );
 }
+
+TEST_CASE( "moon_phase_changes_at_noon", "[calendar]" )
+{
+    // This test only makes sense if the seasons are set to the default length
+    REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
+
+    const int num_days = GENERATE( take( 100, random( 0, 1000 ) ) );
+    const time_point midnight = calendar::turn_zero + time_duration::from_days( num_days );
+    const time_point earlier_11_hours = midnight - 11_hours;
+    const time_point later_11_hours = midnight + 11_hours;
+
+    CAPTURE( num_days );
+    CHECK( get_moon_phase( earlier_11_hours ) == get_moon_phase( later_11_hours ) );
+}
