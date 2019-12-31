@@ -19,9 +19,9 @@
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_TECHNO_KID", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
-      { "text": "About the mission...", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
-        "text": "About one of those missions...",
+        "text": "About one of those missions…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
         "condition": "has_many_assigned_missions"
       },
@@ -31,7 +31,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TECHNO_KID_INTRO",
-    "dynamic_line": "Yes, yes...  *electrical crackling* Isn't it beautiful?",
+    "dynamic_line": "Yes, yes… *electrical crackling* Isn't it beautiful?",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_TECHNO_KID_LEAVE" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_TECHNO_KID" },

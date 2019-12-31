@@ -12,10 +12,10 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "Where did I put that blasted...",
+      "describe": "Where did I put that blasted…",
       "offer": "I seem to have misplaced my book, The Tome of The Battle Mage.  That worthless apprentice probably stole it.  Bring it to me.",
       "accepted": "...What? Oh youre still here. Go find my book.",
-      "rejected": "Just as useless as that apprentice...",
+      "rejected": "Just as useless as that apprentice…",
       "advice": "You want me to do your job for you? Bah.  That apprentice said something about wanting to look around town, you might start there.  Oh, and it's called The Tome of The Battle Mage, you can read at least the title can't you?",
       "inquire": "Where's my book?",
       "success": "Finally.  Took you long enough.",
@@ -37,13 +37,13 @@
     "end": { "u_buy_item:": "techno_fundamentals" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "More power...moar power...MOAR POWAA!",
+      "describe": "More power… moar power… MOAR POWAA!",
       "offer": "I need more power.  Find me more power storage and I'll give you this book.",
       "accepted": "I don't care where it comes from so long as it's clean.",
       "rejected": "You want more power too, don't you?",
       "advice": "Electronic Stores might have what I need.  Or you could just cut it out of something.",
       "inquire": "Find anything?",
-      "success": "Perfect. More power...  power...",
+      "success": "Perfect. More power… power…",
       "success_lie": "I don't understand.",
       "failure": "I must find more power, this setback is inconvenient."
     }
@@ -65,7 +65,7 @@
       "describe": "Will you answer the call?",
       "offer": "This world has fallen to chaos and death.  Remove 50 of the cursed from this world; assist me in purging this curse and you shall be rewarded.",
       "accepted": "Blessed be.  I shall observe your efforts and judge you as one of the many or one of the few.",
-      "rejected": "You will not help purge this curse? Perhaps you are a part of the curse...",
+      "rejected": "You will not help purge this curse? Perhaps you are a part of the curse…",
       "advice": "The awakened congregate in towns and cities, the closer to the center the more you will find.",
       "inquire": "Blessed be.",
       "success": "Blessed be.  You are one of the few.  We shall do great works together.",

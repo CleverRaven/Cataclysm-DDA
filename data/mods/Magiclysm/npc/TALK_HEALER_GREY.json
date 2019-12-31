@@ -19,9 +19,9 @@
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_HEALER_GREY", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
-      { "text": "About the mission...", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
-        "text": "About one of those missions...",
+        "text": "About one of those missions…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
         "condition": "has_many_assigned_missions"
       },
