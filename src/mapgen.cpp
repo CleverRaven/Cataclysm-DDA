@@ -7272,8 +7272,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
             const std::string &update_mapgen_id )
 {
     const int fake_map_z = -9;
-    const tripoint tripoint_below_zero( 0, 0, fake_map_z );
-    const tripoint tripoint_fake_map_edge( 23, 23, fake_map_z );
 
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
@@ -7296,8 +7294,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
                         any, any, 0, dummy_settings, fake_map, any, 0.0f, calendar::turn, nullptr );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : fake_map.points_in_rectangle( tripoint_below_zero,
-                tripoint_fake_map_edge ) ) {
+        for( const tripoint &pos : fake_map.points_on_zlevel( fake_map_z ) ) {
             ter_id ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
                 terrains[ter_at_pos] += 1;
