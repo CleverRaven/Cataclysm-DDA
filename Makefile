@@ -101,6 +101,9 @@ DEBUGSYMS = -g
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
 
+# Tells ccache to keep comments, as they can be meaningful to the compiler (as to suppress warnings).
+export CCACHE_COMMENTS=1
+
 # Disable debug. Comment this out to get logging.
 #DEFINES = -DENABLE_LOGGING
 
@@ -209,7 +212,7 @@ ifdef CLANG
     LDFLAGS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD) -C
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
     LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
   else
     CXX = $(CROSS)$(CLANGCMD)
@@ -227,7 +230,7 @@ else
   # Appears that the default value of $LD is unsuitable on most systems
   OS_LINKER := $(CXX)
   ifdef CCACHE
-    CXX = ccache $(CROSS)$(OS_COMPILER) -C
+    CXX = ccache $(CROSS)$(OS_COMPILER)
     LD  = ccache $(CROSS)$(OS_LINKER)
   else
     CXX = $(CROSS)$(OS_COMPILER)
