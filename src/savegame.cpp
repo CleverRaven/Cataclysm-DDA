@@ -49,7 +49,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 26;
+const int savegame_version = 27;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -1224,8 +1224,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
 
 void overmap::serialize_view( std::ostream &fout ) const
 {
-    static const int first_overmap_view_json_version = 25;
-    fout << "# version " << first_overmap_view_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
@@ -1349,8 +1348,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
 
 void overmap::serialize( std::ostream &fout ) const
 {
-    static const int first_overmap_json_version = 26;
-    fout << "# version " << first_overmap_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
