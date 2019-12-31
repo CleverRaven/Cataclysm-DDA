@@ -892,7 +892,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
                     // if the item does not belong to your fraction then add the stolen symbol
                     if( !this_item.is_owned_by( g->u, true ) ) {
-                        std::string stolen = "<color_light_red>!</color>";
                         item_name = string_format( "<color_light_red>!</color> %s", item_name );
                     }
 
