@@ -17,6 +17,6 @@
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 20,
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ]
   }
 ]

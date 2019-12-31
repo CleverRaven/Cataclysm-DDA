@@ -11,6 +11,6 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "TORSO" ],
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   }
 ]
