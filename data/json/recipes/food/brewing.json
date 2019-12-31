@@ -237,7 +237,7 @@
   {
     "type": "recipe",
     "result": "brew_vinegar",
-    "result_mult": 7,
+    "result_mult": 10,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -246,8 +246,8 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "components": [
-      [ [ "water", 7 ], [ "water_clean", 7 ] ],
-      [ [ "juice", 14 ], [ "apple_cider", 7 ], [ "cheap_wine", 21, "LIST" ], [ "worthy_wine", 15, "LIST" ] ]
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "juice", 2 ], [ "apple_cider", 4 ], [ "cheap_wine", 2, "LIST" ], [ "worthy_wine", 1, "LIST" ] ]
     ]
   }
 ]
