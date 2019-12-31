@@ -102,11 +102,11 @@
     "color": "magenta",
     "skill": "launcher",
     "range": 30,
-    "ranged_damage": 16,
+    "ranged_damage": 19,
     "pierce": 12,
     "dispersion": 90,
     "durability": 7,
-    "loudness": 8,
+    "loudness": 4,
     "clip_size": 80,
     "ammo_effects": "ACID",
     "flags": [ "NO_UNLOAD", "NON-FOULING" ]
