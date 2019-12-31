@@ -7300,16 +7300,10 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
                 tripoint_fake_map_edge ) ) {
             ter_id ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
-                if( terrains.find( ter_at_pos ) == terrains.end() ) {
-                    terrains[ter_at_pos] = 0;
-                }
                 terrains[ter_at_pos] += 1;
             }
             if( fake_map.has_furn( pos ) ) {
                 furn_id furn_at_pos = fake_map.furn( pos );
-                if( furnitures.find( furn_at_pos ) == furnitures.end() ) {
-                    furnitures[furn_at_pos] = 0;
-                }
                 furnitures[furn_at_pos] += 1;
             }
         }
