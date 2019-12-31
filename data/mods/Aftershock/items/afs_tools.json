@@ -19,7 +19,7 @@
         "active": true,
         "type": "transform"
       },
-      { "type": "CAMERA" }
+      "CAMERA"
     ],
     "flags": [ "WATCH", "ALARMCLOCK" ]
   },
@@ -44,7 +44,7 @@
     "type": "TOOL",
     "name": "Wraitheon executive's smartphone",
     "copy-from": "afs_atomic_smartphone",
-    "description": "Your custom crafted atomic smartphone.  Most notably a confidential executive-level override program allows you to  remotely control most robots.",
+    "description": "Your custom crafted atomic smartphone.  Most notably a confidential executive-level override program allows you to remotely control most robots.",
     "price": 20000000,
     "price_postapoc": 250000,
     "material": [ "superalloy", "aluminum" ],
@@ -55,8 +55,8 @@
         "active": true,
         "type": "transform"
       },
-      { "revert_to": "afs_atomic_smartphone", "type": "CAMERA" },
-      { "type": "ROBOTCONTROL" }
+      "CAMERA",
+      "ROBOTCONTROL"
     ]
   },
   {

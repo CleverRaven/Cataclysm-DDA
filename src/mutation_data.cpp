@@ -411,6 +411,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         spells_learned.emplace( sp, ja.next_int() );
     }
 
+    for( JsonArray ja : jo.get_array( "craft_skill_bonus" ) ) {
+        const skill_id skid( ja.next_string() );
+        if( skid.is_valid() ) {
+            craft_skill_bonus.emplace( skid, ja.next_int() );
+        } else {
+            jo.throw_error( "invalid skill_id" );
+        }
+    }
+
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
         const body_part bp = get_body_part_token( ja.next_string() );
         lumination.emplace( bp, ja.next_float() );
