@@ -601,7 +601,6 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart ), c_light_gray, _( "Entity : " ) );
     mvwprintz( w, point( column + 9, vStart ), c_white, name() );
 
-    const auto att = get_attitude();
     std::string effects = get_effect_status();
     //size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
     size_t used_space = utf8_width( "Entity : " ) + utf8_width( name() ) + 3;
@@ -618,24 +617,25 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // display sense
     std::string senses_str = "--";
     if( sees( g->u ) ) {
-        senses_str = _( "It is aware of your presence" );
+        senses_str = _( "Aware of your presence" );
     } else {
-        senses_str = _( "It hasn't noticed you" );
+        senses_str = _( "Unaware of your presence" );
     }
 
     mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Senses : " ) );
     mvwprintz( w, point( column + 9, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
 
     // display stance
+    const auto att = get_attitude();
     mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Stance : " ) );
     mvwprintz( w, point( column + 9, vStart ), att.second, att.first );
 
     // display threat
     int threatlvl = type->difficulty;
     nc_color threatlvl_color = c_white;
-    if( threatlvl >= 8 ) {
+    if( threatlvl >= 20 ) {
         threatlvl_color = c_red;
-    } else if( threatlvl >= 4 ) {
+    } else if( threatlvl >= 10 ) {
         threatlvl_color = c_yellow;
     } else if( threatlvl >= 0 ) {
         threatlvl_color = c_blue;
@@ -645,16 +645,21 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column + 9, vStart ), threatlvl_color, to_string( threatlvl ) );
 
     // dipslay aspect
-    //mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect :" ) );
-    vStart++;
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect :" ) );
+    std::vector<std::string> line1 = foldstring( type->get_description(), getmaxx( w ) - 10 - column );
+
+    int offset = utf8_width( line1[0] );
+    std::string test = type->get_description().substr( offset );
+    std::vector<std::string> lines = foldstring( test, getmaxx( w ) - 2 - column );
+
+    mvwprintz( w, point( column + 9, vStart ), c_dark_gray, line1[0] );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
+        mvwprintz( w, point( column, ++vStart ), c_dark_gray, lines[i] );
     }
-
+    ++vStart;
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider  : %s" ), mounted_player->disp_name() );
     }
 
     if( size_bonus > 0 ) {
