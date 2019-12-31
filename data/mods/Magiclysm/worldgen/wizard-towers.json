@@ -1,0 +1,200 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "wizardtower1_ground", "wizardtower1_living", "wizardtower1_golems", "wizardtower1_study", "wizardtower1_roof" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!#####...................;;;;;........................................................................",
+        "!,,,,,,,,,,,,,,,,,,[[[[#...................;;;;;........................................................................",
+        "!,^,,,,,,######,,,,[[[[#.........#wwww#....;;;;;.........!!!!!!.........................................................",
+        "!,,,,,,###EBB|###,,[[[,!.......###EBBE###..............!!!!!!!!!!.......................................................",
+        "!,,,,#w#aa BB|BB#w#[[[,!.....###aa BB dd###..........!!!!!!!!!!!!!!.....................................................",
+        "!,,,##Ad     |    ##[[,!....##bb       Adb##........!!!!!!!!!!!!!!!!....................................................",
+        "!,,,w     bbb|aEb  #[[,!....#b            b#........!!!!!######!!!!!.............#wwww#..................!!!!!!.........",
+        "!,,##||||+||||||||+##[,!...##||||||HH ||+||##......!!!!!##  | ##!!!!!...........##    ##................!!!!!!!!........",
+        "!,,#<               =[,!...#>    <|||+|a  uuw......!!!!##>  |  ##!!!!..........##    dd##..............!!!!!!!!!!.......",
+        "!,##<            hhh##!!..##>         |   uu##....!!!!##    |   ##!!!!........## M   dAd##............!!!!!!!!!!!!......",
+        "!##|||+|         123cw,,.;w|||||      |&   ||#....!!!!#     |    #!!!!........w          w............!!!!!!!!!!!!......",
+        ",#WD|& |   hTTh     ow,,.;wH  A|A  ## |CsC +t#....!!!!#    ##    #!!!!........w    ##    w............!!!!!!!!!!!!......",
+        ",#  +  |   hTTh     5w,,.;wH  b||| ##+||||+||#....!!!!#    ##    #!!!!........w    ##    w............!!!!!!!!!!!!......",
+        ",#fh|st|            4w,,.;wH     + |u   t|  U#....!!!!#    |     #!!!!........w          w............!!!!!!!!!!!!......",
+        ",########U        &F##,,.;##H   A| |u    | U##....!!!!##   |    ##!!!!........##        ##............!!!!!!!!!!!!......",
+        ",#UUU&  +     |||+||#,,,.;;#HHHbb| |u CsC|cc#......!!!!##  |  <##!!!!..........##     >##..............!!!!!!!!!!.......",
+        ",#      #    ||dd   #,,,.;;##|||||+||+|||||##......!!!!!## |  ##!!!!!...........##    ##................!!!!!!!!........",
+        ",#      #   ||ihd   #,,,.;;;#E +         Adw;.......!!!!!######!!!!!.............#wwww#..................!!!!!!.........",
+        ",#      #   +       #,,,.;;;##E|b        d##;.......!!!!!!!!!!!!!!!!....................................................",
+        ",#      #||+|b     b#,,,.;;;;###b  BB   #w#;;........!!!!!!!!!!!!!!.....................................................",
+        ",#      #A  |H     bw,,,.;;;;;;###EBBE###;;;;..........!!!!!!!!!!.......................................................",
+        ",#MMMMMM#R  |H     r#,,,.;;;;;;;;#wwww#;;;;;;............!!!!!!.........................................................",
+        ",*______## Y|H    A##,,,........;;;;;;;;;;;;;...........................................................................",
+        ",*______*#=##ww#ww##,,,,.........;;;;;;;;;;;............................................................................"
+      ],
+      "palettes": [ "wizardtower1_palette" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "wizardtower1_palette",
+    "terrain": {
+      ",": "t_region_groundcover_urban",
+      ".": "t_open_air",
+      "*": "t_region_shrub_decorative",
+      "_": "t_pavement",
+      ";": "t_tile_flat_roof",
+      "^": "t_region_tree_fruit",
+      "[": "t_sidewalk",
+      "!": "t_privacy_fence",
+      "#": "t_rock_wall",
+      "|": "t_wall_w",
+      "M": "t_door_metal_locked",
+      "+": "t_door_c",
+      "=": "t_door_locked",
+      "w": "t_window_domestic",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up"
+    },
+    "furniture": {
+      "&": "f_trashcan",
+      "a": "f_wardrobe",
+      "A": "f_armchair",
+      "b": "f_bookcase",
+      "B": "f_bed",
+      "c": "f_cupboard",
+      "C": "f_counter",
+      "d": "f_desk",
+      "D": "f_dryer",
+      "e": "f_water_heater",
+      "E": "f_dresser",
+      "f": "f_home_furnace",
+      "F": "f_fridge",
+      "h": "f_chair",
+      "H": "f_sofa",
+      "i": "f_filing_cabinet",
+      "I": "f_dishwasher",
+      "M": "f_huge_mana_crystal",
+      "o": "f_oven",
+      "r": "f_rack",
+      "R": "f_rack",
+      "s": "f_sink",
+      "t": "f_toilet",
+      "T": "f_table",
+      "u": "f_bathtub",
+      "U": "f_utility_shelf",
+      "W": "f_washer",
+      "Y": "f_rack_coat",
+      "1": "f_cupboard",
+      "2": "f_cupboard",
+      "3": "f_cupboard",
+      "4": "f_cupboard",
+      "5": "f_sink"
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_ground",
+    "copy-from": "generic_city_building",
+    "name": "wizard tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_living",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_golems",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_roof",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "city_building",
+    "id": "wizard_tower_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wizardtower1_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wizardtower1_living_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wizardtower1_golems_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_huge_mana_crystal",
+    "name": "huge mana crystal",
+    "description": "This is a mana crystal that juts from the ground as if it had sprouted up like a weed.  It pulses with a delicate yellow energy, occasionally bursting with flashes of pent-up light.",
+    "symbol": "]",
+    "color": "white_yellow",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "looks_like": "f_boulder_large",
+    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "emissions": [ "emit_glimmer" ],
+    "light_emitted": 12,
+    "bash": {
+      "str_min": 25,
+      "str_max": 35,
+      "sound": "glass shattering!",
+      "sound_fail": "mana crackling!",
+      "items": [
+        { "item": "crystallized_mana", "charges": [ 0, 10 ] },
+        { "item": "small_mana_crystal", "count": [ 0, 3 ] },
+        { "item": "glass_shard", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "ammunition_type",
+    "id": "crystallized_mana",
+    "name": "crystallized mana",
+    "default": "crystallized_mana"
+  },
+  {
+    "type": "AMMO",
+    "id": "crystallized_mana",
+    "category": "spare_parts",
+    "price": 1000,
+    "name": "crystallized mana",
+    "name_plural": "crystallized mana",
+    "symbol": "=",
+    "color": "yellow",
+    "description": "Some crystallized mana. This can be reloaded into rechargable mana crystals, but can never be unloaded.",
+    "flags": "TRADER_AVOID",
+    "volume": "100 ml",
+    "ammo_type": "crystallized_mana",
+    "reload_time": 1,
+    "count": 100,
+    "looks_like": "battery",
+    "fuel": { "energy": 1 }
+  },
+  {
+    "id": "small_mana_crystal",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "small mana crystal",
+    "name_plural": "small mana crystals",
+    "description": "This is a small mana crystal specifically designed to be attached to wand tips.",
+    "weight": 5,
+    "volume": 1,
+    "price": 1500,
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "crystallized_mana",
+    "capacity": 50,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+  }
+]
