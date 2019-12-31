@@ -1956,18 +1956,17 @@ void game::handle_key_blocking_activity()
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
-* @param pos position of item in inventory
+* @param locThisItem the item
 * @param iStartX Left coordinate of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
-int game::inventory_item_menu( int pos, int iStartX, int iWidth,
+int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidth,
                                const inventory_item_menu_positon position )
 {
     int cMenu = static_cast<int>( '+' );
 
-    item &oThisItem = u.i_at( pos );
-    item_location locThisItem( u, &oThisItem );
+    item &oThisItem = *locThisItem;
     if( u.has_item( oThisItem ) ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
@@ -8949,16 +8948,28 @@ bool game::walk_move( const tripoint &dest_loc )
     u.set_underwater( false );
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
-        if( !u.movement_mode_is( CMM_RUN ) ) {
-            std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
+            !prompt_dangerous_tile( dest_loc ) ) {
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
+                   ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
-        } else if( !get_option<bool>( "DANGEROUS_RUNNING" ) ) {
-            if( !prompt_dangerous_tile( dest_loc ) ) {
-                return true;
-            }
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
+                   ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "NEVER" &&
+                   !u.movement_mode_is( CMM_RUN ) ) {
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
+            return true;
         }
     }
     // Used to decide whether to print a 'moving is slow message
@@ -11345,8 +11356,8 @@ void game::process_artifact( item &it, player &p )
                 break;
 
             case AEP_PBLUE:
-                if( p.radiation > 0 ) {
-                    p.radiation--;
+                if( p.get_rad() > 0 ) {
+                    p.mod_rad( -1 );
                 }
                 break;
 
@@ -11487,7 +11498,7 @@ bool check_art_charge_req( item &it )
             reqsmet = p.has_effect( effect_sleep );
             break;
         case( ACR_RAD ):
-            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
             break;
         case( ACR_WET ):
             reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),

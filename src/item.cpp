@@ -4037,7 +4037,7 @@ std::string item::display_name( unsigned int quantity ) const
         if( is_money() ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
-            if( ammotext != "" ) {
+            if( !ammotext.empty() ) {
                 ammotext = " " + ammotext;
             }
 
@@ -4047,7 +4047,7 @@ std::string item::display_name( unsigned int quantity ) const
                 amt = string_format( " (%i%s)", amount, ammotext );
             }
         }
-    } else if( ammotext != "" ) {
+    } else if( !ammotext.empty() ) {
         amt = " (" + ammotext + ")";
     }
 

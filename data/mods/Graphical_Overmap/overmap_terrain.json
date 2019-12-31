@@ -22867,34 +22867,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "haz_sar_entrance",
-    "copy-from": "haz_sar_entrance",
-    "sym": "Õ",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar",
-    "copy-from": "haz_sar",
-    "sym": "Õ",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_entrance_b1",
-    "copy-from": "haz_sar_entrance_b1",
-    "sym": "Õ",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_b1",
-    "copy-from": "haz_sar_b1",
-    "sym": "Õ",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "pump_station_1",
     "copy-from": "pump_station_1",
     "sym": "Ö",

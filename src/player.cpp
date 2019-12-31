@@ -2231,7 +2231,7 @@ void player::update_body( const time_point &from, const time_point &to )
             reset_activity_level();
         }
         // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
     }
 
@@ -2274,8 +2274,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
         // Digest nutrients in guts, they will be distributed to needs levels
         food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
-        set_thirst( std::max(
-                        -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
+        mod_thirst( - units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
@@ -2342,7 +2341,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait( trait_DISIMMUNE ) ) {
+    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
@@ -2832,8 +2831,8 @@ void player::regen( int rate_multiplier )
         }
     }
 
-    if( radiation > 0 ) {
-        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 50.0f ) );
+    if( get_rad() > 0 ) {
+        mod_rad( -roll_remainder( rate_multiplier / 50.0f ) );
     }
 }
 
@@ -2999,10 +2998,10 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "RAD", val, reduced, mod ) ) {
-            radiation += bound_mod_to_vals( radiation, val, it.get_max_val( "RAD", reduced ), 0 );
+            mod_rad( bound_mod_to_vals( get_rad(), val, it.get_max_val( "RAD", reduced ), 0 ) );
             // Radiation can't go negative
-            if( radiation < 0 ) {
-                radiation = 0;
+            if( get_rad() < 0 ) {
+                set_rad( 0 );
             }
         }
     }
@@ -6436,7 +6435,7 @@ void player::environmental_revert_effect()
     set_stim( 0 );
     set_pain( 0 );
     set_painkiller( 0 );
-    radiation = 0;
+    set_rad( 0 );
 
     recalc_sight_limits();
     reset_encumbrance();

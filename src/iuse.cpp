@@ -1252,7 +1252,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         iuse dummy;
         dummy.purifier( &p, &it, false, p.pos() );
         if( effect == 6 ) {
-            p.radiation = 0;
+            p.set_rad( 0 );
         }
     } else if( effect == 7 ) {
 
@@ -1397,7 +1397,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
         this->purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
-        p->radiation = 0;
+        p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
                               _( "As it settles in, you feel ecstasy radiating through every part of your body…" ) );
@@ -3427,14 +3427,14 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
             }
             const tripoint &pnt = *pnt_;
             if( pnt == g->u.pos() ) {
-                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
+                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
                                       p->leak_level( "RADIOACTIVE" ) );
                 break;
             }
             if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
-                                      person.name, person.radiation,
+                                      person.name, person.get_rad(),
                                       person.leak_level( "RADIOACTIVE" ) );
             }
             break;
@@ -5819,12 +5819,12 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         return 0;
     } else {
         p->add_msg_if_player( _( "You activate your radiation biomonitor." ) );
-        if( p->radiation >= 1 ) {
+        if( p->get_rad() >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
             p->add_msg_player_or_say( m_info,
                                       _( "Your radiation level: %d mSv." ),
                                       _( "It says here that my radiation level is %d mSv." ),
-                                      p->radiation );
+                                      p->get_rad() );
         } else {
             p->add_msg_player_or_say( m_info,
                                       _( "You are not currently irradiated." ),
@@ -6290,7 +6290,9 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-
+            if( r.never_learn ) {
+                continue;
+            }
             if( science ) {
                 if( r.difficulty >= 3 && one_in( r.difficulty + 1 ) ) {
                     candidates.push_back( &r );
