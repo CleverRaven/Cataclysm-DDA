@@ -149,7 +149,7 @@
       {
         "text": "Please, my family is starving.",
         "condition": { "not": { "u_has_var": "u_trade_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
-        "trial": { "type": "LIE", "difficulty": 3, "mod": { "trust": 2 } },
+        "trial": { "type": "LIE", "difficulty": 3, "mod": [ [ "trust", 2 ] ] },
         "success": {
           "topic": "TALK_GODCO_food_guard_ask_food_success",
           "effect": { "u_add_var": "u_trade_food_guard", "type": "general", "context": "meeting", "value": "yes" }
