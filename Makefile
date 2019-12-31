@@ -40,6 +40,8 @@
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+#  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
@@ -185,7 +187,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -666,11 +668,17 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
+    ifeq ($(LIBBACKTRACE),1)
+      LDFLAGS += -lbacktrace
+    endif
   endif
 endif
 
 ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
+  ifeq ($(LIBBACKTRACE),1)
+      DEFINES += -DLIBBACKTRACE
+  endif
 endif
 
 ifeq ($(LOCALIZE),1)
