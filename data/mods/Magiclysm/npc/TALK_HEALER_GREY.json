@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "healer_grey",
       "value": "yes",
-      "no": "I must purge this land of its curse. Will you help or hinder our mission?",
+      "no": "I must purge this land of its curse.  Will you help or hinder our mission?",
       "yes": "Blessed be."
     },
     "responses": [
@@ -31,7 +31,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_HEALER_GREY_INTRO",
-    "dynamic_line": "Blessed be. May you purge that which opposes the calm.",
+    "dynamic_line": "Blessed be.  May you purge that which opposes the calm.",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_HEALER_GREY_LEAVE" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_HEALER_GREY" },

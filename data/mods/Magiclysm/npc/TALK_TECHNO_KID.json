@@ -31,7 +31,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TECHNO_KID_INTRO",
-    "dynamic_line": "Yes, yes... *electrical crackling* Isn't it beautiful?",
+    "dynamic_line": "Yes, yes...  *electrical crackling* Isn't it beautiful?",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_TECHNO_KID_LEAVE" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_TECHNO_KID" },
