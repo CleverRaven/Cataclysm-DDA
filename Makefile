@@ -209,7 +209,7 @@ ifdef CLANG
     LDFLAGS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD) -C
     LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
   else
     CXX = $(CROSS)$(CLANGCMD)
@@ -227,7 +227,7 @@ else
   # Appears that the default value of $LD is unsuitable on most systems
   OS_LINKER := $(CXX)
   ifdef CCACHE
-    CXX = ccache $(CROSS)$(OS_COMPILER)
+    CXX = ccache $(CROSS)$(OS_COMPILER) -C
     LD  = ccache $(CROSS)$(OS_LINKER)
   else
     CXX = $(CROSS)$(OS_COMPILER)
