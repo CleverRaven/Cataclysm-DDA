@@ -1140,9 +1140,11 @@ void options_manager::add_options_general()
          false
        );
 
-    add( "DANGEROUS_RUNNING", "general", translate_marker( "Dangerous running" ),
-         translate_marker( "If true, the player will not be prevented from moving into known hazardous tiles while running." ),
-         false
+    add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
+         translate_marker( "Dangerous terrain warning prompt" ),
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
+    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+    "ALWAYS"
        );
 
     mOptionsSort["general"]++;
@@ -1545,7 +1547,7 @@ void options_manager::add_options_interface()
          false
        );
     add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
-         translate_marker( "If true, the default ammo is added to weapon and magazine names. For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         translate_marker( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
 
