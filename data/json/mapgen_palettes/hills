@@ -1,0 +1,14 @@
+[
+  {
+    "type": "palette",
+    "id": "hills",
+    "terrain": {
+      " ": [ [ "t_grass", 10 ], [ "t_grass_long", 2 ], [ "t_shrub", 1 ], [ "t_dirt", 5 ] ],
+      "#": "t_rock",
+      ")": "t_slope_up",
+      "(": "t_slope_down",
+      "S": [ [ "t_grass", 15 ], [ "t_tree_young", 2 ], [ "t_shrub", 2 ], "t_tree", "t_tree_pine", "t_tree_hickory" ],
+      "T": [ "t_tree", "t_tree_hickory", "t_tree_pine" ]
+    }
+  }
+]
