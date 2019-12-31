@@ -29,6 +29,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -73,8 +74,6 @@ static const efftype_id effect_contacts( "contacts" );
 void drop_or_handle( const item &newit, player &p );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
-static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_BURROW( "BURROW" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
@@ -923,17 +922,12 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if( has_trait( trait_PAWS ) || has_trait( trait_PAWS_LARGE ) ) {
-        int paws_rank_penalty = 0;
-        if( has_trait( trait_PAWS_LARGE ) ) {
-            paws_rank_penalty += 1;
+    for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+        for( const std::pair<skill_id, int> &skib : mut.first->craft_skill_bonus ) {
+            if( making.skill_used == skib.first ) {
+                skill_dice += skib.second;
+            }
         }
-        if( making.skill_used == skill_id( "electronics" )
-            || making.skill_used == skill_id( "tailor" )
-            || making.skill_used == skill_id( "mechanics" ) ) {
-            paws_rank_penalty += 1;
-        }
-        skill_dice -= paws_rank_penalty * 4;
     }
 
     // Sides on dice is 16 plus your current intelligence

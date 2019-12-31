@@ -2401,6 +2401,21 @@
   },
   {
     "type": "city_building",
+    "id": "city_block_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "city_block2_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "city_block2_flr2_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "city_block2_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "city_block2_flr2_2_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "city_block2_3_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "city_block2_flr2_3_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "city_block2_4_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "city_block2_flr2_4_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "craft_shop",
     "locations": [ "land" ],
     "overmaps": [

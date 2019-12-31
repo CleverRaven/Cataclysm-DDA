@@ -2178,7 +2178,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
-    return( rl_dist( pos(), p ) <= 1 &&
+    return( rl_dist( pos(), p ) <= 1 && g->m.has_floor( p ) && !g->is_dangerous_tile( p ) &&
             ( g->m.passable( p ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
               ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
@@ -4319,13 +4319,13 @@ bool npc::complain()
     }
 
     // Radiation every 10 minutes
-    if( radiation > 90 ) {
+    if( get_rad() > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
         std::string speech = _( "I'm suffering from radiation sickness…" );
-        if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
+        if( complain_about( radiation_string, 10_minutes, speech, get_rad() > 150 ) ) {
             return true;
         }
-    } else if( !radiation ) {
+    } else if( !get_rad() ) {
         deactivate_bionic_by_id( bio_radscrubber );
     }
 

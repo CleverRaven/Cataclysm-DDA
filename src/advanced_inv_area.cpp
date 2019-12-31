@@ -454,3 +454,10 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     }
     return stacks;
 }
+
+// instantiate the template
+template
+advanced_inv_area::itemstack advanced_inv_area::i_stacked<vehicle_stack>( vehicle_stack items );
+
+template
+advanced_inv_area::itemstack advanced_inv_area::i_stacked<map_stack>( map_stack items );
