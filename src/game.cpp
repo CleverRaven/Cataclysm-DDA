@@ -5831,7 +5831,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Sign  : " ) );
-        trim_and_print( w_look, point( column + 8, line ), max_width, c_cyan,
+        trim_and_print( w_look, point( column + 8, line ), max_width - 8, c_cyan,
                         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
                         u.has_trait( trait_ILLITERATE ) ? _( "???" ) : "%s", signage );
     }
