@@ -601,7 +601,7 @@
       { "x": -1, "y": 2, "part": "door" },
       { "x": -2, "y": -1, "part": "frame_sw" },
       { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
-      { "x": -2, "y": -1, "part": "tank_small", "fuel": "gasoline" },
+      { "x": -2, "y": -1, "part": "tank_medium", "fuel": "gasoline" },
       { "x": -2, "y": -1, "part": "halfboard_sw" },
       { "x": -2, "y": 0, "part": "frame_horizontal" },
       { "x": -2, "y": 0, "part": "hatch" },
@@ -610,7 +610,7 @@
       { "x": -2, "y": 1, "part": "hatch" },
       { "x": -2, "y": 2, "part": "frame_se" },
       { "x": -2, "y": 2, "parts": [ "wheel_mount_medium", "wheel" ] },
-      { "x": -2, "y": 2, "part": "tank_small", "fuel": "gasoline" },
+      { "x": -2, "y": 2, "part": "tank_medium", "fuel": "gasoline" },
       { "x": -2, "y": 2, "part": "halfboard_se" }
     ],
     "items": [
