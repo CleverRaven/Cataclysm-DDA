@@ -238,7 +238,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    radiation = 0;
+    set_rad( 0 );
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
@@ -3367,7 +3367,10 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    set_thirst( thirst + nthirst );
+    if( has_trait_flag( "NO_THIRST" ) ) {
+        return;
+    }
+    set_thirst( std::max( -100, thirst + nthirst ) );
 }
 
 void Character::set_thirst( int nthirst )
@@ -5295,6 +5298,24 @@ void Character::set_stim( int new_stim )
 void Character::mod_stim( int mod )
 {
     stim += mod;
+}
+
+int Character::get_rad() const
+{
+    return radiation;
+}
+
+void Character::set_rad( int new_rad )
+{
+    radiation = new_rad;
+}
+
+void Character::mod_rad( int mod )
+{
+    if( has_trait_flag( "NO_RADIATION" ) ) {
+        return;
+    }
+    set_rad( std::max( 0, get_rad() + mod ) );
 }
 
 int Character::get_stamina() const

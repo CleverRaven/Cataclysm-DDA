@@ -2627,7 +2627,8 @@
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
-    "category": [ "PLANT", "SLIME", "TROGLOBITE" ]
+    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
+    "flags": [ "NO_DISEASE" ]
   },
   {
     "type": "mutation",

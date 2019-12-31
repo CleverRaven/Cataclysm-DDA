@@ -1267,7 +1267,6 @@ class Character : public Creature, public visitable<Character>
         std::list<consumption_event> consumption_history;
 
         int oxygen;
-        int radiation;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1374,6 +1373,10 @@ class Character : public Creature, public visitable<Character>
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
+
+        int get_rad() const;
+        void set_rad( int new_rad );
+        void mod_rad( int mod );
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -1700,6 +1703,8 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        int radiation;
 
         scenttype_id type_of_scent;
 

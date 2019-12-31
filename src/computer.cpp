@@ -1126,7 +1126,7 @@ void computer::activate_function( computer_action action )
                 print_newline();
             }
             print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
-            print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), g->u.radiation );
+            print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), g->u.get_rad() );
             print_newline();
             query_any( _( "Press any key…" ) );
             break;

@@ -464,7 +464,7 @@ bool player::activate_bionic( int b, bool eff_only )
         std::vector<std::string> good;
         std::vector<std::string> bad;
 
-        if( radiation > 0 ) {
+        if( get_rad() > 0 ) {
             bad.push_back( _( "Irradiated" ) );
         }
 
@@ -537,12 +537,12 @@ bool player::activate_bionic( int b, bool eff_only )
             mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
         }
     } else if( bio.id == "bio_geiger" ) {
-        add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
+        add_msg_if_player( m_info, _( "Your radiation level: %d" ), get_rad() );
     } else if( bio.id == "bio_radscrubber" ) {
-        if( radiation > 4 ) {
-            radiation -= 5;
+        if( get_rad() > 4 ) {
+            mod_rad( -5 );
         } else {
-            radiation = 0;
+            set_rad( 0 );
         }
     } else if( bio.id == "bio_adrenaline" ) {
         if( has_effect( effect_adrenaline ) ) {
