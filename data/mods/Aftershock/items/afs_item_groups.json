@@ -55,30 +55,6 @@
     ]
   },
   {
-    "id": "schematics",
-    "//": "override of vanilla schematics, includes tripod, chickenbot, tankbot",
-    "type": "item_group",
-    "items": [
-      [ "schematics_nursebot", 10 ],
-      [ "schematics_grocerybot", 20 ],
-      [ "schematics_copbot", 50 ],
-      [ "schematics_eyebot", 50 ],
-      [ "schematics_secubot", 50 ],
-      [ "schematics_skitterbot", 50 ],
-      [ "schematics_chickenbot", 5 ],
-      [ "schematics_hazmatbot", 50 ],
-      [ "schematics_riotbot", 50 ],
-      [ "schematics_sciencebot", 10 ],
-      [ "schematics_tankbot", 5 ],
-      [ "schematics_tripod", 5 ],
-      [ "schematics_molebot", 20 ],
-      [ "schematics_dispatch", 25 ],
-      [ "schematics_dispatch_military", 20 ],
-      [ "schematics_antimateriel", 20 ],
-      [ "schematics_searchlight", 50 ]
-    ]
-  },
-  {
     "id": "jewelry_accessories",
     "type": "item_group",
     "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_tooth", 35 ], [ "afs_titanium_ring", 35 ] ]
@@ -131,10 +107,7 @@
   {
     "type": "item_group",
     "id": "steel_mill_foundry",
-    "items": [
-      { "item": "afs_titanium_small", "prob": 10, "count": [ 2, 8 ] },
-      { "item": "afs_scrap_titanium", "prob": 5, "count": [ 1, 4 ] }
-    ]
+    "items": [ [ "afs_titanium_small", 5 ], { "item": "afs_scrap_titanium", "prob": 5, "count": [ 1, 4 ] } ]
   },
   {
     "id": "oa_ig_rd_metal_trash",
@@ -147,7 +120,7 @@
     "items": [
       { "item": "afs_titanium_frame", "prob": 5 },
       { "item": "afs_scrap_titanium", "prob": 5, "count": [ 2, 8 ] },
-      { "item": "afs_titanium_small", "prob": 5, "count": [ 10, 20 ] }
+      [ "afs_titanium_small", 5 ]
     ]
   },
   {
