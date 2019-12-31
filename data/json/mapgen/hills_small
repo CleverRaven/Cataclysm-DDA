@@ -1,0 +1,110 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hills_small" ],
+    "//": "Ground level - Z-0.",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "       S     S         S",
+        "                 T      ",
+        " S     S            S   ",
+        "          S             ",
+        "   S    T            S  ",
+        "      S          S      ",
+        "               T        ",
+        "     S  T             S ",
+        "    )))))))))))))))     ",
+        " S  )#############)     ",
+        "   T)#############)S    ",
+        "    )#############)     ",
+        "    )#############)T   S",
+        "  S )#############)     ",
+        "    )#############)     ",
+        "  T )#############)  S  ",
+        "    )))))))))))))))     ",
+        "S      S     T  S       ",
+        "     T           S    S ",
+        "   S   S        T       ",
+        "            S      S    ",
+        "      T                S",
+        "    S      S            ",
+        "                  S     "
+      ],
+      "palettes": [ "hills" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hills_small_mid" ],
+    "//": "Middle level - Z-1.",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvv(((((((((((((((vvvvv",
+        "vvvv(        S   S(vvvvv",
+        "vvvv( S   T       (vvvvv",
+        "vvvv(       S     (vvvvv",
+        "vvvv(S  )))))   S (vvvvv",
+        "vvvv(   )###)     (vvvvv",
+        "vvvv( S )))))    S(vvvvv",
+        "vvvv(   T    S    (vvvvv",
+        "vvvv(((((((((((((((vvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "hills" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hills_small_top" ],
+    "//": "Top level - Z-2.",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvv(((((vvvvvvvvvvv",
+        "vvvvvvvv(   (vvvvvvvvvvv",
+        "vvvvvvvv(((((vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "hills" ]
+    }
+  }
+]
