@@ -2198,41 +2198,41 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
 
     // display name
-    mvwprintz( w, point( column, line ), c_light_gray, _( "Entity : " ) );
-    mvwprintz( w, point( column + 9, line ), c_white, name );
+    mvwprintz( w, point( column, line ), c_light_gray, _( "Entity: " ) );
+    trim_and_print( w, point( column + 8, line ), iWidth - 8, c_white, name );
 
     // display health bars
-    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Health : " ) );
-    mvwprintz( w, point( column + 9, line ),
+    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Health: " ) );
+    mvwprintz( w, point( column + 8, line ),
                get_hp_bar( hp_percentage(), 200 ).second,
                get_hp_bar( hp_percentage(), 100 ).first );
 
     // display senses
     if( sees( g->u ) ) {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses : " ) );
-        mvwprintz( w, point( column + 9, line ), c_yellow, _( "Aware of your presence!" ) );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses: " ) );
+        mvwprintz( w, point( column + 8, line ), c_yellow, _( "Aware of your presence" ) );
     } else {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses : " ) );
-        mvwprintz( w, point( column + 9, line ), c_green, _( "Ignoring your presence" ) );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses: " ) );
+        mvwprintz( w, point( column + 8, line ), c_green, _( "Unaware of you" ) );
     }
 
     // display stance
     Attitude att = attitude_to( g->u );
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
-    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Stance : " ) );
-    mvwprintz( w, point( column + 9, line ), res.second, res.first.translated() );
+    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Stance: " ) );
+    mvwprintz( w, point( column + 8, line ), res.second, res.first.translated() );
 
     // display weapon
     if( is_armed() ) {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wield  : " ) );
-        trim_and_print( w, point( column + 9, line ), iWidth, c_red, weapon.tname() );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wield : " ) );
+        trim_and_print( w, point( column + 8, line ), iWidth, c_red, weapon.tname() );
     }
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
     nc_color color ) {
         // function to build a list of worn apparel, first line is shorter due to label taking space.
         // build 1st line
-        const std::vector<std::string> shortlist = foldstring( str_in, iWidth - 9 );
+        const std::vector<std::string> shortlist = foldstring( str_in, iWidth - 8 );
         // calc how much we could cram into the first line
         int offset = utf8_width( shortlist[0] );
         // substract that from initial string
@@ -2241,7 +2241,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         const std::vector<std::string> longlist = foldstring( test, iWidth );
 
         // print 1st line, from shortlist with label offset
-        mvwprintz( w, point( column + 9, line++ ), color, shortlist[0] );
+        mvwprintz( w, point( column + 8, line++ ), color, shortlist[0] );
 
         // print the rest from longlist
         for( auto it = longlist.begin(); it < longlist.end() && line < last_line; ++it, ++line ) {
@@ -2255,7 +2255,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( !worn_str.empty() ) {
         // display worn apparel
         const std::string wearing = worn_str;
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Apparel: " ) );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Outfit: " ) );
         enumerate_print( wearing, c_dark_gray );
     }
 
@@ -2276,7 +2276,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        const std::string mutations = _( "Traits : " ) + trait_str;
+        const std::string mutations = _( "Traits: " ) + trait_str;
         enumerate_print( mutations, c_green );
     }
 
