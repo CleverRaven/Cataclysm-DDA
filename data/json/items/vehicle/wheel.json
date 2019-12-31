@@ -156,7 +156,7 @@
     "id": "wheel_10",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": {"str": "set of wheels", "str_pl": "sets of wheels"},
+    "name": { "str": "set of wheels", "str_pl": "sets of wheels" },
     "description": "A set of four small wheels with tough rubber tires.",
     "weight": "4 kg",
     "volume": "4 L",
