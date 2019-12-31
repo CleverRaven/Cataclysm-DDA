@@ -4,6 +4,9 @@
 
 #include <memory>
 
+class JsonIn;
+class JsonOut;
+
 namespace cata
 {
 
@@ -23,6 +26,24 @@ class value_ptr : public std::unique_ptr<T>
         value_ptr &operator=( value_ptr<T> other ) {
             std::unique_ptr<T>::operator=( std::move( other ) );
             return *this;
+        }
+
+        template<typename Stream = JsonOut>
+        void serialize( Stream &jsout ) const {
+            if( this->get() ) {
+                this->get()->serialize( jsout );
+            } else {
+                jsout.write_null();
+            }
+        }
+        template<typename Stream = JsonIn>
+        void deserialize( Stream &jsin ) {
+            if( jsin.test_null() ) {
+                this->reset();
+            } else {
+                this->reset( new T() );
+                this->get()->deserialize( jsin );
+            }
         }
 };
 

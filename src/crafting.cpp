@@ -956,7 +956,7 @@ int item::get_next_failure_point() const
         debugmsg( "get_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
         return INT_MAX;
     }
-    return next_failure_point >= 0 ? next_failure_point : INT_MAX;
+    return craft_data_->next_failure_point >= 0 ? craft_data_->next_failure_point : INT_MAX;
 }
 
 void item::set_next_failure_point( const player &crafter )
@@ -969,7 +969,7 @@ void item::set_next_failure_point( const player &crafter )
     const int percent_left = 10000000 - item_counter;
     const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
 
-    next_failure_point = item_counter + failure_point_delta;
+    craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
 
 static void destroy_random_component( item &craft, const player &crafter )
@@ -1036,7 +1036,7 @@ requirement_data item::get_continue_reqs() const
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return requirement_data::continue_requirements( comps_used, components );
+    return requirement_data::continue_requirements( craft_data_->comps_used, components );
 }
 
 void item::inherit_flags( const item &parent )
