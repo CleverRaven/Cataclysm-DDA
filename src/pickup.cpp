@@ -622,6 +622,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int selected = 0;
         int iScrollPos = 0;
 
+        std::string clear_buffer = "";
+        for( int cur_column = 0; cur_column <= pickupW; cur_column += 10 ) {
+            clear_buffer += "          ";
+        }
+
         std::string filter;
         std::string new_filter;
         // Indexes of items that match the filter
@@ -638,10 +643,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             int idx = -1;
 
             //clear all items names
-            std::string clear_buffer = "";
-            for( int cur_column = 0; cur_column <= pickupW; cur_column += 10 ) {
-                clear_buffer += "          ";
-            }
             for( int cur_row = 1; cur_row < pickupH; cur_row++ ) {
                 mvwprintw( w_pickup, point( 0, cur_row ), clear_buffer );
             }
