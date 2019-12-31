@@ -855,12 +855,12 @@
           { "item": "pants", "chance": 50 },
           { "item": "shirts", "chance": 50 },
           { "item": "leather_shop_accessories", "chance": 100 }
+        ],
+        "B": [
+          { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
         ]
-      },
-      "B": [
-        { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
-        { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
-      ]
+      }
     }
   },
   {
