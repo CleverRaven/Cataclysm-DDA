@@ -237,7 +237,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "SHORT", "CAN_SIT" ],
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "deconstruct": {
       "items": [
         { "item": "rag", "count": [ 10, 20 ] },
