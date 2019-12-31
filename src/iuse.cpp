@@ -395,10 +395,10 @@ static int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    time_duration duration = alc_strength( strength, 34_minutes, 68_minutes,
-                                           90_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
+    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
     if( p.has_trait( trait_ALCMET ) ) {
-        duration = alc_strength( strength, 9_minutes, 18_minutes, 25_minutes ) - ( alc_strength( strength,
+        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
@@ -406,9 +406,9 @@ static int alcohol( player &p, const item &it, const int strength )
         // Metabolizing it cancels out the depressant
         p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
-        duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
@@ -998,6 +998,22 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_npc() ) {
+        if( it->made_of( LIQUID ) ) {
+            if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
+                return 0;
+            }
+        } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
+            if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
+                return 0;
+            }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->has_trait( trait_THRESH_PLANT ) ) {
@@ -1236,7 +1252,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         iuse dummy;
         dummy.purifier( &p, &it, false, p.pos() );
         if( effect == 6 ) {
-            p.radiation = 0;
+            p.set_rad( 0 );
         }
     } else if( effect == 7 ) {
 
@@ -1381,7 +1397,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
         this->purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
-        p->radiation = 0;
+        p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
                               _( "As it settles in, you feel ecstasy radiating through every part of your body…" ) );
@@ -3411,14 +3427,14 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
             }
             const tripoint &pnt = *pnt_;
             if( pnt == g->u.pos() ) {
-                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
+                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
                                       p->leak_level( "RADIOACTIVE" ) );
                 break;
             }
             if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
-                                      person.name, person.radiation,
+                                      person.name, person.get_rad(),
                                       person.leak_level( "RADIOACTIVE" ) );
             }
             break;
@@ -4356,6 +4372,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
+        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
         as_m.query();
 
         switch( as_m.ret ) {
@@ -4374,6 +4391,9 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
+            case 6:
+                loaded_software = "null";
+                break;
             default:
                 //Cancel
                 return 0;
@@ -4383,8 +4403,12 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         const int moves = to_moves<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( loaded_software == "null" ) {
+            p->assign_activity( activity_id( "ACT_GENERIC_GAME" ), to_moves<int>( 1_hours ), -1,
+                                p->get_item_position( it ), "gaming" );
+            return it->type->charges_to_use();
+        }
         p->assign_activity( activity_id( "ACT_GAME" ), moves, -1, p->get_item_position( it ), "gaming" );
-
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -5551,7 +5575,7 @@ static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
-        return food && food->item_tags.count( "HOT" );
+        return food && !food->item_tags.count( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5833,12 +5857,12 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         return 0;
     } else {
         p->add_msg_if_player( _( "You activate your radiation biomonitor." ) );
-        if( p->radiation >= 1 ) {
+        if( p->get_rad() >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
             p->add_msg_player_or_say( m_info,
                                       _( "Your radiation level: %d mSv." ),
                                       _( "It says here that my radiation level is %d mSv." ),
-                                      p->radiation );
+                                      p->get_rad() );
         } else {
             p->add_msg_player_or_say( m_info,
                                       _( "You are not currently irradiated." ),
@@ -6304,7 +6328,9 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-
+            if( r.never_learn ) {
+                continue;
+            }
             if( science ) {
                 if( r.difficulty >= 3 && one_in( r.difficulty + 1 ) ) {
                     candidates.push_back( &r );
@@ -9462,19 +9488,19 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-    const std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    const drop_locations to_clean = inv_s.execute();
     if( to_clean.empty() ) {
         return 0;
     }
 
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
-    for( std::pair<int, int> pair : to_clean ) {
-        item i = p->i_at( pair.first );
-        if( pair.first == INT_MIN ) {
+    for( drop_location pair : to_clean ) {
+        if( !pair.first ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
+        item &i = *pair.first;
         total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
     }
 
@@ -9501,8 +9527,8 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     // Assign the activity values.
     p->assign_activity( activity_id( "ACT_WASH" ), required.time );
 
-    for( std::pair<int, int> pair : to_clean ) {
-        p->activity.values.push_back( pair.first );
+    for( drop_location pair : to_clean ) {
+        p->activity.targets.push_back( pair.first );
         p->activity.values.push_back( pair.second );
     }
 
@@ -9512,7 +9538,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

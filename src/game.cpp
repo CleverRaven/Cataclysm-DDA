@@ -1,7 +1,7 @@
 #include "game.h"
 
-#include <wctype.h>
-#include <assert.h>
+#include <cwctype>
+#include <cassert>
 #include <cstdio>
 #include <algorithm>
 #include <chrono>
@@ -1173,22 +1173,35 @@ bool game::cleanup_at_end()
             bool queryReset = false;
 
             if( get_option<std::string>( "WORLD_END" ) == "query" ) {
-                uilist smenu;
-                smenu.allow_cancel = false;
-                smenu.addentry( 0, true, 'k', "%s", _( "Keep world" ) );
-                smenu.addentry( 1, true, 'r', "%s", _( "Reset world" ) );
-                smenu.addentry( 2, true, 'd', "%s", _( "Delete world" ) );
-                smenu.query();
+                bool decided = false;
+                std::string buffer = _( "Warning: NPC interactions and some other global flags "
+                                        "will not all reset when starting a new character in an "
+                                        "already-played world.  This can lead to some strange "
+                                        "behavior.\n\n"
+                                        "Are you sure you wish to keep this world?"
+                                      );
 
-                switch( smenu.ret ) {
-                    case 0:
-                        break;
-                    case 1:
-                        queryReset = true;
-                        break;
-                    case 2:
-                        queryDelete = true;
-                        break;
+                while( !decided ) {
+                    uilist smenu;
+                    smenu.allow_cancel = false;
+                    smenu.addentry( 0, true, 'r', "%s", _( "Reset world" ) );
+                    smenu.addentry( 1, true, 'd', "%s", _( "Delete world" ) );
+                    smenu.addentry( 2, true, 'k', "%s", _( "Keep world" ) );
+                    smenu.query();
+
+                    switch( smenu.ret ) {
+                        case 0:
+                            queryReset = true;
+                            decided = true;
+                            break;
+                        case 1:
+                            queryDelete = true;
+                            decided = true;
+                            break;
+                        case 2:
+                            decided = query_yn( buffer );
+                            break;
+                    }
                 }
             }
 
@@ -1540,6 +1553,7 @@ bool game::do_turn()
         }
     }
     update_stair_monsters();
+    mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
@@ -1942,18 +1956,17 @@ void game::handle_key_blocking_activity()
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
-* @param pos position of item in inventory
+* @param locThisItem the item
 * @param iStartX Left coordinate of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
-int game::inventory_item_menu( int pos, int iStartX, int iWidth,
+int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidth,
                                const inventory_item_menu_positon position )
 {
     int cMenu = static_cast<int>( '+' );
 
-    item &oThisItem = u.i_at( pos );
-    item_location locThisItem( u, &oThisItem );
+    item &oThisItem = *locThisItem;
     if( u.has_item( oThisItem ) ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
@@ -2089,13 +2102,13 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     avatar_action::plthrow( u, locThisItem );
                     break;
                 case 'c':
-                    change_side( pos );
+                    u.change_side( locThisItem );
                     break;
                 case 'T':
                     u.takeoff( oThisItem );
                     break;
                 case 'd':
-                    u.drop( pos, u.pos() );
+                    u.drop( locThisItem, u.pos() );
                     break;
                 case 'U':
                     unload( oThisItem );
@@ -3805,194 +3818,15 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
 // Print monster info to the given window
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &unique_types = mon_visible.unique_types;
+    const auto &unique_mons = mon_visible.unique_mons;
+    const auto &dangerous = mon_visible.dangerous;
+
     const int width = getmaxx( w ) - 2 * hor_padding;
     const int maxheight = getmaxy( w );
 
     const int startrow = 0;
-
-    int newseen = 0;
-    const int iProxyDist = ( get_option<int>( "SAFEMODEPROXIMITY" ) <= 0 ) ? MAX_VIEW_DISTANCE :
-                           get_option<int>( "SAFEMODEPROXIMITY" );
-    // 7 0 1    unique_types uses these indices;
-    // 6 8 2    0-7 are provide by direction_from()
-    // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<const mtype *> unique_mons[9];
-    // dangerous_types tracks whether we should print in red to warn the player
-    bool dangerous[8];
-    for( auto &dangerou : dangerous ) {
-        dangerou = false;
-    }
-
-    tripoint view = u.pos() + u.view_offset;
-    new_seen_mon.clear();
-
-    static int previous_turn = 0;
-    // @todo change current_turn to time_point
-    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
-
-    for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
-        const auto m = dynamic_cast<monster *>( c );
-        const auto p = dynamic_cast<npc *>( c );
-        const auto dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
-        const int mx = POSX + ( c->posx() - view.x );
-        const int my = POSY + ( c->posy() - view.y );
-        int index = 8;
-        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
-            // for compatibility with old code, see diagram below, it explains the values for index,
-            // also might need revisiting one z-levels are in.
-            switch( dir_to_mon ) {
-                case ABOVENORTHWEST:
-                case NORTHWEST:
-                case BELOWNORTHWEST:
-                    index = 7;
-                    break;
-                case ABOVENORTH:
-                case NORTH:
-                case BELOWNORTH:
-                    index = 0;
-                    break;
-                case ABOVENORTHEAST:
-                case NORTHEAST:
-                case BELOWNORTHEAST:
-                    index = 1;
-                    break;
-                case ABOVEWEST:
-                case WEST:
-                case BELOWWEST:
-                    index = 6;
-                    break;
-                case ABOVECENTER:
-                case CENTER:
-                case BELOWCENTER:
-                    index = 8;
-                    break;
-                case ABOVEEAST:
-                case EAST:
-                case BELOWEAST:
-                    index = 2;
-                    break;
-                case ABOVESOUTHWEST:
-                case SOUTHWEST:
-                case BELOWSOUTHWEST:
-                    index = 5;
-                    break;
-                case ABOVESOUTH:
-                case SOUTH:
-                case BELOWSOUTH:
-                    index = 4;
-                    break;
-                case ABOVESOUTHEAST:
-                case SOUTHEAST:
-                case BELOWSOUTHEAST:
-                    index = 3;
-                    break;
-            }
-        }
-
-        rule_state safemode_state = RULE_NONE;
-        const bool safemode_empty = get_safemode().empty();
-
-        if( m != nullptr ) {
-            //Safemode monster check
-            auto &critter = *m;
-
-            const monster_attitude matt = critter.attitude( &u );
-            const int mon_dist = rl_dist( u.pos(), critter.pos() );
-            safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
-
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
-                    ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
-                if( index < 8 && critter.sees( g->u ) ) {
-                    dangerous[index] = true;
-                }
-
-                if( !safemode_empty || mon_dist <= iProxyDist ) {
-                    bool passmon = false;
-                    if( critter.ignoring > 0 ) {
-                        if( safe_mode != SAFE_MODE_ON ) {
-                            critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
-                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
-                                   ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
-                            passmon = true;
-                        }
-                        critter.lastseen_turn = current_turn;
-                    }
-
-                    if( !passmon ) {
-                        newseen++;
-                        new_seen_mon.push_back( shared_from( critter ) );
-                    }
-                }
-            }
-
-            auto &vec = unique_mons[index];
-            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
-                vec.push_back( critter.type );
-            }
-        } else if( p != nullptr ) {
-            //Safe mode NPC check
-
-            const int npc_dist = rl_dist( u.pos(), p->pos() );
-            safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
-                             npc_dist );
-
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
-                    p->get_attitude() == NPCATT_KILL ) ) {
-                if( !safemode_empty || npc_dist <= iProxyDist ) {
-                    newseen++;
-                }
-            }
-            unique_types[index].push_back( p );
-        }
-    }
-
-    if( newseen > mostseen ) {
-        if( newseen - mostseen == 1 ) {
-            if( !new_seen_mon.empty() ) {
-                monster &critter = *new_seen_mon.back();
-                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "%s spotted!" ), critter.name() ) );
-                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
-                    add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
-                    if( !u.has_effect( effect_adrenaline_mycus ) ) {
-                        u.add_effect( effect_adrenaline_mycus, 30_minutes );
-                    } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
-                        // Triffids present.  We ain't got TIME to adrenaline comedown!
-                        u.add_effect( effect_adrenaline_mycus, 15_minutes );
-                        u.mod_pain( 3 ); // Does take it out of you, though
-                        add_msg( m_info, _( "Our fibers strain with renewed wrath!" ) );
-                    }
-                }
-            } else {
-                //Hostile NPC
-                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 _( "Hostile survivor spotted!" ) );
-            }
-        } else {
-            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
-        }
-        turnssincelastmon = 0;
-        if( safe_mode == SAFE_MODE_ON ) {
-            set_safe_mode( SAFE_MODE_STOP );
-        }
-    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
-               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
-        turnssincelastmon += current_turn - previous_turn;
-        if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
-            set_safe_mode( SAFE_MODE_ON );
-            add_msg( m_info, _( "Safe mode ON!" ) );
-        }
-    }
-
-    if( newseen == 0 && safe_mode == SAFE_MODE_STOP ) {
-        set_safe_mode( SAFE_MODE_ON );
-    }
-
-    previous_turn = current_turn;
-    mostseen = newseen;
 
     // Print the direction headings
     // Reminder:
@@ -4113,6 +3947,202 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         }
     }
 }
+
+void game::mon_info_update( )
+{
+    int newseen = 0;
+    const int safe_proxy_dist = get_option<int>( "SAFEMODEPROXIMITY" );
+    const int iProxyDist = ( safe_proxy_dist <= 0 ) ? MAX_VIEW_DISTANCE :
+                           safe_proxy_dist;
+
+    monster_visible_info &mon_visible = u.get_mon_visible();
+    auto &new_seen_mon = mon_visible.new_seen_mon;
+    auto &unique_types = mon_visible.unique_types;
+    auto &unique_mons = mon_visible.unique_mons;
+    auto &dangerous = mon_visible.dangerous;
+
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+    for( auto &t : unique_types ) {
+        t.clear();
+    }
+    for( auto &m : unique_mons ) {
+        m.clear();
+    }
+    std::fill( dangerous, dangerous + sizeof( dangerous ), false );
+
+    const tripoint view = u.pos() + u.view_offset;
+    new_seen_mon.clear();
+
+    static int previous_turn = 0;
+    // @todo change current_turn to time_point
+    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
+    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
+
+    for( Creature *c : u.get_visible_creatures( MAPSIZE_X ) ) {
+        monster *m = dynamic_cast<monster *>( c );
+        npc *p = dynamic_cast<npc *>( c );
+        const direction dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
+        const int mx = POSX + ( c->posx() - view.x );
+        const int my = POSY + ( c->posy() - view.y );
+        int index = 8;
+        if( !is_valid_in_w_terrain( point( mx, my ) ) ) {
+            // for compatibility with old code, see diagram below, it explains the values for index,
+            // also might need revisiting one z-levels are in.
+            switch( dir_to_mon ) {
+                case ABOVENORTHWEST:
+                case NORTHWEST:
+                case BELOWNORTHWEST:
+                    index = 7;
+                    break;
+                case ABOVENORTH:
+                case NORTH:
+                case BELOWNORTH:
+                    index = 0;
+                    break;
+                case ABOVENORTHEAST:
+                case NORTHEAST:
+                case BELOWNORTHEAST:
+                    index = 1;
+                    break;
+                case ABOVEWEST:
+                case WEST:
+                case BELOWWEST:
+                    index = 6;
+                    break;
+                case ABOVECENTER:
+                case CENTER:
+                case BELOWCENTER:
+                    index = 8;
+                    break;
+                case ABOVEEAST:
+                case EAST:
+                case BELOWEAST:
+                    index = 2;
+                    break;
+                case ABOVESOUTHWEST:
+                case SOUTHWEST:
+                case BELOWSOUTHWEST:
+                    index = 5;
+                    break;
+                case ABOVESOUTH:
+                case SOUTH:
+                case BELOWSOUTH:
+                    index = 4;
+                    break;
+                case ABOVESOUTHEAST:
+                case SOUTHEAST:
+                case BELOWSOUTHEAST:
+                    index = 3;
+                    break;
+            }
+        }
+
+        rule_state safemode_state = RULE_NONE;
+        const bool safemode_empty = get_safemode().empty();
+
+        if( m != nullptr ) {
+            //Safemode monster check
+            monster &critter = *m;
+
+            const monster_attitude matt = critter.attitude( &u );
+            const int mon_dist = rl_dist( u.pos(), critter.pos() );
+            safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
+
+            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+                    ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
+                if( index < 8 && critter.sees( g->u ) ) {
+                    dangerous[index] = true;
+                }
+
+                if( !safemode_empty || mon_dist <= iProxyDist ) {
+                    bool passmon = false;
+                    if( critter.ignoring > 0 ) {
+                        if( safe_mode != SAFE_MODE_ON ) {
+                            critter.ignoring = 0;
+                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
+                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                                   ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
+                            passmon = true;
+                        }
+                        critter.lastseen_turn = current_turn;
+                    }
+
+                    if( !passmon ) {
+                        newseen++;
+                        new_seen_mon.push_back( shared_from( critter ) );
+                    }
+                }
+            }
+
+            std::vector<const mtype *> &vec = unique_mons[index];
+            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
+                vec.push_back( critter.type );
+            }
+        } else if( p != nullptr ) {
+            //Safe mode NPC check
+
+            const int npc_dist = rl_dist( u.pos(), p->pos() );
+            safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
+                             npc_dist );
+
+            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+                    p->get_attitude() == NPCATT_KILL ) ) {
+                if( !safemode_empty || npc_dist <= iProxyDist ) {
+                    newseen++;
+                }
+            }
+            unique_types[index].push_back( p );
+        }
+    }
+
+    if( newseen > mostseen ) {
+        if( newseen - mostseen == 1 ) {
+            if( !new_seen_mon.empty() ) {
+                monster &critter = *new_seen_mon.back();
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                 string_format( _( "%s spotted!" ), critter.name() ) );
+                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
+                    add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
+                    if( !u.has_effect( effect_adrenaline_mycus ) ) {
+                        u.add_effect( effect_adrenaline_mycus, 30_minutes );
+                    } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
+                        // Triffids present.  We ain't got TIME to adrenaline comedown!
+                        u.add_effect( effect_adrenaline_mycus, 15_minutes );
+                        u.mod_pain( 3 ); // Does take it out of you, though
+                        add_msg( m_info, _( "Our fibers strain with renewed wrath!" ) );
+                    }
+                }
+            } else {
+                //Hostile NPC
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                 _( "Hostile survivor spotted!" ) );
+            }
+        } else {
+            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
+        }
+        turnssincelastmon = 0;
+        if( safe_mode == SAFE_MODE_ON ) {
+            set_safe_mode( SAFE_MODE_STOP );
+        }
+    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
+        turnssincelastmon += current_turn - previous_turn;
+        if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
+            set_safe_mode( SAFE_MODE_ON );
+            add_msg( m_info, _( "Safe mode ON!" ) );
+        }
+    }
+
+    if( newseen == 0 && safe_mode == SAFE_MODE_STOP ) {
+        set_safe_mode( SAFE_MODE_ON );
+    }
+
+    previous_turn = current_turn;
+    mostseen = newseen;
+}
+
 
 void game::cleanup_dead()
 {
@@ -5396,11 +5426,12 @@ static std::string get_fire_fuel_string( const tripoint &examp )
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
         if( fire ) {
-            std::stringstream ss;
-            ss << _( "There is a fire here." ) << " ";
+            std::string ss;
+            ss += _( "There is a fire here." );
+            ss += " ";
             if( fire->get_field_intensity() > 1 ) {
-                ss << _( "It's too big and unpredictable to evaluate how long it will last." );
-                return ss.str();
+                ss += _( "It's too big and unpredictable to evaluate how long it will last." );
+                return ss;
             }
             time_duration fire_age = fire->get_field_age();
             // half-life inclusion
@@ -5408,47 +5439,47 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             mod = std::max( mod, 0 );
             if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
-                    ss << _( "It's going to go out soon without extra fuel." );
-                    return ss.str();
+                    ss += _( "It's going to go out soon without extra fuel." );
+                    return ss;
                 } else {
                     fire_age = 30_minutes - fire_age;
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss << string_format(
-                               _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
-                               to_string_approx( fire_age - fire_age * mod / 5 ) );
+                        ss += string_format(
+                                  _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
+                                  to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
-                        ss << string_format(
-                               _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
-                               to_string_approx( fire_age - fire_age * mod / 5 ),
-                               to_string_approx( fire_age + fire_age * mod / 5 ) );
+                        ss += string_format(
+                                  _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
+                                  to_string_approx( fire_age - fire_age * mod / 5 ),
+                                  to_string_approx( fire_age + fire_age * mod / 5 ) );
                     }
-                    return ss.str();
+                    return ss;
                 }
             } else {
                 fire_age = fire_age * -1 + 30_minutes;
                 if( mod >= 4 ) { // = survival level 0-1
                     if( fire_age <= 1_hours ) {
-                        ss << _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
-                        return ss.str();
+                        ss += _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
+                        return ss;
                     } else if( fire_age <= 3_hours ) {
-                        ss << _( "It looks solid, and will burn for a few hours without extra fuel." );
-                        return ss.str();
+                        ss += _( "It looks solid, and will burn for a few hours without extra fuel." );
+                        return ss;
                     } else {
-                        ss << _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
-                        return ss.str();
+                        ss += _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
+                        return ss;
                     }
                 } else {
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss << string_format( _( "Without extra fuel it will burn for about %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
-                        ss << string_format( _( "Without extra fuel it will burn for between %s to %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ),
                                              to_string_approx( fire_age + fire_age * mod / 5 ) );
                     }
-                    return ss.str();
+                    return ss;
                 }
             }
         }
@@ -7444,13 +7475,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             active_pos = iter->vIG[iThisPage].pos;
                             activeItem = &( *iter );
                         }
-                        std::stringstream sText;
+                        std::string sText;
                         if( iter->vIG.size() > 1 ) {
-                            sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                            sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
                         }
-                        sText << iter->example->tname();
+                        sText += iter->example->tname();
                         if( iter->vIG[iThisPage].count > 1 ) {
-                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                            sText += string_format( "[%d]", iter->vIG[iThisPage].count );
                         }
 
                         nc_color col = c_light_green;
@@ -7463,7 +7494,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                 col = iter->example->color_in_inventory();
                             }
                         }
-                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText.str() );
+                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
@@ -8337,22 +8368,6 @@ void game::butcher()
     }
 }
 
-void game::change_side( int pos )
-{
-    if( pos == INT_MIN ) {
-        auto filter = [&]( const item & it ) {
-            return u.is_worn( it ) && it.is_sided();
-        };
-        pos = u.get_item_position( game_menus::inv::titled_filter_menu( filter, u,
-                                   _( "Change side for item" ), _( "You don't have sided items worn." ) ).get_item() );
-    }
-    if( pos == INT_MIN ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    u.change_side( pos );
-}
-
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
@@ -8664,6 +8679,9 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     }
     // Monsters around and we don't want to run
     std::string spotted_creature_name;
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &new_seen_mon = mon_visible.new_seen_mon;
+
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
         spotted_creature_name = _( "a survivor" );
@@ -8930,16 +8948,28 @@ bool game::walk_move( const tripoint &dest_loc )
     u.set_underwater( false );
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
-        if( !u.movement_mode_is( CMM_RUN ) ) {
-            std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
+            !prompt_dangerous_tile( dest_loc ) ) {
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
+                   ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
-        } else if( !get_option<bool>( "DANGEROUS_RUNNING" ) ) {
-            if( !prompt_dangerous_tile( dest_loc ) ) {
-                return true;
-            }
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
+                   ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "NEVER" &&
+                   !u.movement_mode_is( CMM_RUN ) ) {
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
+            return true;
         }
     }
     // Used to decide whether to print a 'moving is slow message
@@ -9325,7 +9355,7 @@ point game::place_player( const tripoint &dest_loc )
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = pos;
+                        u.activity.placement = g->m.getabs( pos );
                         u.activity.auto_resume = true;
                         u.activity.str_values.push_back( "auto_pulp_no_acid" );
                         return;
@@ -10749,12 +10779,12 @@ void game::update_stair_monsters()
         critter.staircount -= 4;
         // Let the player know zombies are trying to come.
         if( u.sees( dest ) ) {
-            std::stringstream dump;
+            std::string dump;
             if( critter.staircount > 4 ) {
-                dump << string_format( _( "You see a %s on the stairs" ), critter.name() );
+                dump += string_format( _( "You see a %s on the stairs" ), critter.name() );
             } else {
                 if( critter.staircount > 0 ) {
-                    dump << ( from_below ?
+                    dump += ( from_below ?
                               //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                               string_format( _( "The %1$s is almost at the top of the %2$s!" ),
                                              critter.name(),
@@ -10765,7 +10795,7 @@ void game::update_stair_monsters()
                 }
             }
 
-            add_msg( m_warning, dump.str() );
+            add_msg( m_warning, dump );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
                            _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
@@ -11279,7 +11309,7 @@ void game::process_artifact( item &it, player &p )
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You feel fatigue seeping into your body." ) );
                             u.mod_fatigue( 3 * rng( 1, 3 ) );
-                            u.mod_stat( "stamina", -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
                             it.charges++;
                         }
                         break;
@@ -11326,8 +11356,8 @@ void game::process_artifact( item &it, player &p )
                 break;
 
             case AEP_PBLUE:
-                if( p.radiation > 0 ) {
-                    p.radiation--;
+                if( p.get_rad() > 0 ) {
+                    p.mod_rad( -1 );
                 }
                 break;
 
@@ -11468,7 +11498,7 @@ bool check_art_charge_req( item &it )
             reqsmet = p.has_effect( effect_sleep );
             break;
         case( ACR_RAD ):
-            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
             break;
         case( ACR_WET ):
             reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),

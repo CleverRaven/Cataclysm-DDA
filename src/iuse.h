@@ -57,6 +57,7 @@ class iuse
         int flusleep( player *, item *, bool, const tripoint & );
         int inhaler( player *, item *, bool, const tripoint & );
         int blech( player *, item *, bool, const tripoint & );
+        int blech_because_unclean( player *, item *, bool, const tripoint & );
         int plantblech( player *, item *, bool, const tripoint & );
         int chew( player *, item *, bool, const tripoint & );
         int purifier( player *, item *, bool, const tripoint & );

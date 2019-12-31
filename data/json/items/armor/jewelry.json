@@ -27,7 +27,7 @@
     "price_postapoc": 100,
     "material": [ "wood" ],
     "symbol": "[",
-    "looks_like": "earrings",
+    "looks_like": "gold_ear",
     "color": "brown"
   },
   {
@@ -79,7 +79,7 @@
   {
     "id": "diamond_dental_grill",
     "type": "ARMOR",
-    "name": "diamond dental grill",
+    "name": { "str": "diamond dental grill" },
     "description": "Fake teeth inlaid with diamonds, worn over the teeth.  Fits horribly, but looks very shiny.  For that high-class gangsta rap look.",
     "weight": "10 g",
     "volume": 0,
@@ -96,9 +96,107 @@
     "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
   },
   {
+    "id": "garnet_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "garnet dental grill" },
+    "description": "Fake teeth inlaid with garnets, worn over the teeth.  It looks very shiny.",
+    "weight": "10 g",
+    "volume": 0,
+    "price": 30000,
+    "price_postapoc": 500,
+    "bashing": 3,
+    "cutting": 3,
+    "material": [ "gold", "gemstone" ],
+    "symbol": "[",
+    "looks_like": "gold_dental_grill",
+    "color": "red",
+    "covers": [ "MOUTH" ],
+    "encumbrance": 10,
+    "flags": [ "FANCY", "SKINTIGHT" ]
+  },
+  {
+    "id": "amethyst_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "amethyst dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with amethysts, worn over the teeth.  It looks very shiny.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with aquamarines, worn over the teeth.  It looks very shiny.",
+    "color": "cyan"
+  },
+  {
+    "id": "emerald_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "emerald dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with emeralds, worn over the teeth.  It looks very shiny.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with alexandrites, worn over the teeth.  It looks very shiny.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "ruby dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with rubys, worn over the teeth.  It looks very shiny."
+  },
+  {
+    "id": "peridot_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "peridot dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with peridots, worn over the teeth.  It looks very shiny.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "sapphire dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with sapphires, worn over the teeth.  It looks very shiny.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with tourmaline, worn over the teeth.  It looks very shiny.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "citrine dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with citrines, worn over the teeth.  It looks very shiny.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_dental_grill",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz dental grill" },
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with blue topaz, worn over the teeth.  It looks very shiny.",
+    "color": "light_blue"
+  },
+  {
     "id": "diamond_ring",
     "type": "ARMOR",
-    "name": "diamond ring",
+    "name": { "str": "diamond and gold ring" },
     "description": "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days this could be worth a fortune.  You can wear it if you like, but it won't provide any effects.",
     "weight": "12 g",
     "volume": 0,
@@ -171,7 +269,7 @@
     "price_postapoc": 50,
     "material": [ "copper" ],
     "symbol": "[",
-    "looks_like": "earrings",
+    "looks_like": "gold_ear",
     "color": "brown"
   },
   {
@@ -233,7 +331,7 @@
   {
     "id": "cufflinks",
     "type": "ARMOR",
-    "name": "cufflinks",
+    "name": { "str": "pair of cufflinks", "str_pl": "pairs of cufflinks" },
     "description": "An unmarked, pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.  You can wear it if you like, but it won't provide any effects.",
     "weight": "15 g",
     "volume": 0,
@@ -246,7 +344,7 @@
   {
     "id": "cufflinks_intricate",
     "type": "ARMOR",
-    "name": "intricate cufflinks",
+    "name": { "str": "pair of intricate cufflinks", "str_pl": "pairs of intricate cufflinks" },
     "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.  You can wear it if you like, but it won't provide any effects.",
     "weight": "21 g",
     "volume": 0,
@@ -255,6 +353,363 @@
     "material": [ "silver", "gold" ],
     "symbol": "[",
     "color": "light_gray"
+  },
+  {
+    "id": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "garnet and gold cufflinks" },
+    "description": "A pair of cufflinks with inset garnets.",
+    "weight": "15 g",
+    "volume": 0,
+    "price": 3500,
+    "price_postapoc": 100,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "cufflinks",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "diamond and gold cufflinks" },
+    "description": "A pair of cufflinks with inset diamonds.",
+    "material": [ "gold", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and gold cufflinks" },
+    "description": "A pair of cufflinks with inset amethysts.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and gold cufflinks" },
+    "description": "A pair of cufflinks with inset aquamarines.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "emerald and gold cufflinks" },
+    "description": "A pair of cufflinks with inset emeralds.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and gold cufflinks" },
+    "description": "A pair of cufflinks with inset alexandrites.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "ruby and gold cufflinks" },
+    "description": "A pair of cufflinks with inset rubies."
+  },
+  {
+    "id": "peridot_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "peridot and gold cufflinks" },
+    "description": "A pair of cufflinks with inset peridots.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and gold cufflinks" },
+    "description": "A pair of cufflinks with inset sapphires.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and gold cufflinks" },
+    "description": "A pair of cufflinks with inset tourmalines.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "citrine and gold cufflinks" },
+    "description": "A pair of cufflinks with inset citrines.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and gold cufflinks" },
+    "description": "A pair of cufflinks with inset blue topaz.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "opal and gold cufflinks" },
+    "description": "A pair of cufflinks with inset opals.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_cufflinks",
+    "copy-from": "garnet_gold_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "pearl and gold cufflinks" },
+    "description": "A pair of cufflinks with inset pearls.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "garnet and silver cufflinks" },
+    "description": "A pair of cufflinks with inset garnets.",
+    "weight": "15 g",
+    "volume": 0,
+    "price": 3500,
+    "price_postapoc": 100,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "cufflinks",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "diamond and silver cufflinks" },
+    "description": "A pair of cufflinks with inset diamonds.",
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and silver cufflinks" },
+    "description": "A pair of cufflinks with inset amethysts.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and silver cufflinks" },
+    "description": "A pair of cufflinks with inset aquamarines.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "emerald and silver cufflinks" },
+    "description": "A pair of cufflinks with inset emeralds.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and silver cufflinks" },
+    "description": "A pair of cufflinks with inset alexandrites.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "ruby and silver cufflinks" },
+    "description": "A pair of cufflinks with inset rubies."
+  },
+  {
+    "id": "peridot_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "peridot and silver cufflinks" },
+    "description": "A pair of cufflinks with inset peridots.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and silver cufflinks" },
+    "description": "A pair of cufflinks with inset sapphires.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and silver cufflinks" },
+    "description": "A pair of cufflinks with inset tourmalines.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "citrine and silver cufflinks" },
+    "description": "A pair of cufflinks with inset citrines.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and silver cufflinks" },
+    "description": "A pair of cufflinks with inset blue topaz.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "opal and silver cufflinks" },
+    "description": "A pair of cufflinks with inset opals.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_silver_cufflinks",
+    "copy-from": "garnet_silver_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "pearl and silver cufflinks" },
+    "description": "A pair of cufflinks with inset pearls.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "garnet and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset garnets.",
+    "weight": "15 g",
+    "volume": 0,
+    "price": 3500,
+    "price_postapoc": 100,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "cufflinks",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "diamond and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset diamonds.",
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset amethysts.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset aquamarines.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "emerald and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset emeralds.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset alexandrites.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "ruby and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset rubies."
+  },
+  {
+    "id": "peridot_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "peridot and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset peridots.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset sapphires.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset tourmalines.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "citrine and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset citrines.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset blue topaz.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "opal and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset opals.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_cufflinks",
+    "copy-from": "garnet_platinum_cufflinks",
+    "type": "ARMOR",
+    "name": { "str": "pearl and platinum cufflinks" },
+    "description": "A pair of cufflinks with inset pearls.",
+    "color": "white"
   },
   {
     "id": "ear_spool",
@@ -1012,5 +1467,1809 @@
     "symbol": "s",
     "color": "dark_gray",
     "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
+    "description": "A pair of shiny diamond and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "price": 13000,
+    "price_postapoc": 500,
+    "material": [ "gold", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of garnet and gold earrings", "str_pl": "pairs of garnet and gold earrings" },
+    "description": "A pair of shiny garnet and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 300,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "gold_ear",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of amethyst and gold earrings", "str_pl": "pairs of amethyst and gold earrings" },
+    "description": "A pair of shiny amethyst and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of aquamarine and gold earrings", "str_pl": "pairs of aquamarine and gold earrings" },
+    "description": "A pair of shiny aquamarine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of emerald and gold earrings", "str_pl": "pairs of emerald and gold earrings" },
+    "description": "A pair of shiny emerald and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of alexandrite and gold earrings", "str_pl": "pairs of alexandrite and gold earrings" },
+    "description": "A pair of shiny alexandrite and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of ruby and gold earrings", "str_pl": "pairs of ruby and gold earrings" },
+    "description": "A pair of shiny ruby and gold earrings.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of peridot and gold earrings", "str_pl": "pairs of peridot and gold earrings" },
+    "description": "A pair of shiny peridot and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of sapphire and gold earrings", "str_pl": "pairs of sapphire and gold earrings" },
+    "description": "A pair of shiny sapphire and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of tourmaline and gold earrings", "str_pl": "pairs of tourmaline and gold earrings" },
+    "description": "A pair of shiny tourmaline and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of citrine and gold earrings", "str_pl": "pairs of citrine and gold earrings" },
+    "description": "A pair of shiny citrine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of blue topaz and gold earrings", "str_pl": "pairs of blue topaz and gold earrings" },
+    "description": "A pair of shiny blue topaz and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of opal and gold earrings", "str_pl": "pairs of opal and gold earrings" },
+    "description": "A pair of shiny opal and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of pearl and gold earrings", "str_pl": "pairs of pearl and gold earrings" },
+    "description": "A pair of shiny pearl and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
+    "description": "A pair of shiny diamond and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "price": 8000,
+    "price_postapoc": 2000,
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of garnet and silver earrings", "str_pl": "pairs of garnet and silver earrings" },
+    "description": "A pair of shiny garnet and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 6000,
+    "price_postapoc": 1000,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "silver_ear",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of amethyst and silver earrings", "str_pl": "pairs of amethyst and silver earrings" },
+    "description": "A pair of shiny amethyst and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of aquamarine and silver earrings", "str_pl": "pairs of aquamarine and silver earrings" },
+    "description": "A pair of shiny aquamarine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of emerald and silver earrings", "str_pl": "pairs of emerald and silver earrings" },
+    "description": "A pair of shiny emerald and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of alexandrite and silver earrings", "str_pl": "pairs of alexandrite and silver earrings" },
+    "description": "A pair of shiny alexandrite and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+    "description": "A pair of shiny ruby and silver earrings.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of peridot and silver earrings", "str_pl": "pairs of peridot and silver earrings" },
+    "description": "A pair of shiny peridot and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of sapphire and silver earrings", "str_pl": "pairs of sapphire and silver earrings" },
+    "description": "A pair of shiny sapphire and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of tourmaline and silver earrings", "str_pl": "pairs of tourmaline and silver earrings" },
+    "description": "A pair of shiny tourmaline and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of citrine and silver earrings", "str_pl": "pairs of citrine and silver earrings" },
+    "description": "A pair of shiny citrine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of blue topaz and silver earrings", "str_pl": "pairs of blue topaz and silver earrings" },
+    "description": "A pair of shiny blue topaz and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of opal and silver earrings", "str_pl": "pairs of opal and silver earrings" },
+    "description": "A pair of shiny opal and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
+    "description": "A pair of shiny pearl and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
+    "description": "A pair of shiny diamond and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "price": 12000,
+    "price_postapoc": 2900,
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of garnet and platinum earrings", "str_pl": "pairs of garnet and platinum earrings" },
+    "description": "A pair of shiny garnet and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 1800,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "platinum_ear",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of amethyst and platinum earrings", "str_pl": "pairs of amethyst and platinum earrings" },
+    "description": "A pair of shiny amethyst and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of aquamarine and platinum earrings", "str_pl": "pairs of aquamarine and platinum earrings" },
+    "description": "A pair of shiny aquamarine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of emerald and platinum earrings", "str_pl": "pairs of emerald and platinum earrings" },
+    "description": "A pair of shiny emerald and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of alexandrite and platinum earrings", "str_pl": "pairs of alexandrite and platinum earrings" },
+    "description": "A pair of shiny alexandrite and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of ruby and platinum earrings", "str_pl": "pairs of ruby and platinum earrings" },
+    "description": "A pair of shiny ruby and platinum earrings.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of peridot and platinum earrings", "str_pl": "pairs of peridot and platinum earrings" },
+    "description": "A pair of shiny peridot and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of sapphire and platinum earrings", "str_pl": "pairs of sapphire and platinum earrings" },
+    "description": "A pair of shiny sapphire and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of tourmaline and platinum earrings", "str_pl": "pairs of tourmaline and platinum earrings" },
+    "description": "A pair of shiny tourmaline and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of citrine and platinum earrings", "str_pl": "pairs of citrine and platinum earrings" },
+    "description": "A pair of shiny citrine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of blue topaz and platinum earrings", "str_pl": "pairs of blue topaz and platinum earrings" },
+    "description": "A pair of shiny blue topaz and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of opal and platinum earrings", "str_pl": "pairs of opal and platinum earrings" },
+    "description": "A pair of shiny opal and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": { "str": "pair of pearl and platinum earrings", "str_pl": "pairs of pearl and platinum earrings" },
+    "description": "A pair of shiny pearl and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "garnet and gold ring" },
+    "description": "A gold ring with a garnet mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 1800,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "gold_ring",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and gold ring" },
+    "description": "A gold ring with a amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and gold ring" },
+    "description": "A gold ring with a aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "emerald and gold ring" },
+    "description": "A gold ring with a emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and gold ring" },
+    "description": "A gold ring with a alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "ruby and gold ring" },
+    "description": "A gold ring with a ruby mounted on top of it.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "peridot and gold ring" },
+    "description": "A gold ring with a peridot mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and gold ring" },
+    "description": "A gold ring with a sapphire mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and gold ring" },
+    "description": "A gold ring with a tourmaline mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "citrine and gold ring" },
+    "description": "A gold ring with a citrine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and gold ring" },
+    "description": "A gold ring with a blue topaz mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "opal and gold ring" },
+    "description": "A gold ring with a opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_ring",
+    "copy-from": "garnet_gold_ring",
+    "type": "ARMOR",
+    "name": { "str": "pearl and gold ring" },
+    "description": "A gold ring with a pearl mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "diamond and silver ring" },
+    "description": "A silver ring with a diamond mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "price": 12000,
+    "price_postapoc": 2900,
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "garnet and silver ring" },
+    "description": "A silver ring with a garnet mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 1800,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "silver_ring",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and silver ring" },
+    "description": "A silver ring with a amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and silver ring" },
+    "description": "A silver ring with a aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "emerald and silver ring" },
+    "description": "A silver ring with a emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and silver ring" },
+    "description": "A silver ring with a alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "ruby and silver ring" },
+    "description": "A silver ring with a ruby mounted on top of it.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "peridot and silver ring" },
+    "description": "A silver ring with a peridot mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and silver ring" },
+    "description": "A silver ring with a sapphire mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and silver ring" },
+    "description": "A silver ring with a tourmaline mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "citrine and silver ring" },
+    "description": "A silver ring with a citrine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and silver ring" },
+    "description": "A silver ring with a blue topaz mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "opal and silver ring" },
+    "description": "A silver ring with a opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_silver_ring",
+    "copy-from": "garnet_silver_ring",
+    "type": "ARMOR",
+    "name": { "str": "pearl and silver ring" },
+    "description": "A silver ring with a pearl mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "diamond and platinum ring" },
+    "description": "A platinum ring with a diamond mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "price": 12000,
+    "price_postapoc": 2900,
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "garnet and platinum ring" },
+    "description": "A platinum ring with a garnet mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 1800,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "platinum_ring",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and platinum ring" },
+    "description": "A platinum ring with a amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and platinum ring" },
+    "description": "A platinum ring with a aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "emerald and platinum ring" },
+    "description": "A platinum ring with a emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and platinum ring" },
+    "description": "A platinum ring with a alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "ruby and platinum ring" },
+    "description": "A platinum ring with a ruby mounted on top of it.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "peridot and platinum ring" },
+    "description": "A platinum ring with a peridot mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and platinum ring" },
+    "description": "A platinum ring with a sapphire mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and platinum ring" },
+    "description": "A platinum ring with a tourmaline mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "citrine and platinum ring" },
+    "description": "A platinum ring with a citrine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and platinum ring" },
+    "description": "A platinum ring with a blue topaz mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "opal and platinum ring" },
+    "description": "A platinum ring with a opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_ring",
+    "copy-from": "garnet_platinum_ring",
+    "type": "ARMOR",
+    "name": { "str": "pearl and platinum ring" },
+    "description": "A platinum ring with a pearl mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "diamond and gold bracelet" },
+    "description": "A gold bracelet with sparkling diamonds.  You can wear it if you like, but it won't provide any effects.",
+    "price": 200000,
+    "looks_like": "gold_bracelet",
+    "price_postapoc": 2000,
+    "material": [ "gold", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "garnet and gold bracelet" },
+    "description": "A gold bracelet with sparkling garnets.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "gold_bracelet",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and gold bracelet" },
+    "description": "A gold bracelet with sparkling amethysts.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and gold bracelet" },
+    "description": "A gold bracelet with sparkling aquamarines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "emerald and gold bracelet" },
+    "description": "A gold bracelet with sparkling emeralds.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and gold bracelet" },
+    "description": "A gold bracelet with sparkling alexandrites.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "ruby and gold bracelet" },
+    "description": "A gold bracelet with sparkling rubies.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "peridot and gold bracelet" },
+    "description": "A gold bracelet with sparkling peridots.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and gold bracelet" },
+    "description": "A gold bracelet with sparkling sapphires.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and gold bracelet" },
+    "description": "A gold bracelet with sparkling tourmalines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "citrine and gold bracelet" },
+    "description": "A gold bracelet with sparkling citrines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and gold bracelet" },
+    "description": "A gold bracelet with sparkling blue topaz.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "opal and gold bracelet" },
+    "description": "A gold bracelet with opals.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "pearl and gold bracelet" },
+    "description": "A gold bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "diamond and silver bracelet" },
+    "description": "A silver bracelet with sparkling diamonds.  You can wear it if you like, but it won't provide any effects.",
+    "price": 200000,
+    "looks_like": "silver_bracelet",
+    "price_postapoc": 2000,
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "garnet and silver bracelet" },
+    "description": "A silver bracelet with sparkling garnets.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "silver_bracelet",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and silver bracelet" },
+    "description": "A silver bracelet with sparkling amethysts.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and silver bracelet" },
+    "description": "A silver bracelet with sparkling aquamarines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "emerald and silver bracelet" },
+    "description": "A silver bracelet with sparkling emeralds.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and silver bracelet" },
+    "description": "A silver bracelet with sparkling alexandrites.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "ruby and silver bracelet" },
+    "description": "A silver bracelet with sparkling rubies.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "peridot and silver bracelet" },
+    "description": "A silver bracelet with sparkling peridots.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and silver bracelet" },
+    "description": "A silver bracelet with sparkling sapphires.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and silver bracelet" },
+    "description": "A silver bracelet with sparkling tourmalines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "citrine and silver bracelet" },
+    "description": "A silver bracelet with sparkling citrines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and silver bracelet" },
+    "description": "A silver bracelet with sparkling blue topaz.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "opal and silver bracelet" },
+    "description": "A silver bracelet with opals.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_silver_bracelet",
+    "copy-from": "garnet_silver_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "pearl and silver bracelet" },
+    "description": "A silver bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "diamond and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling diamonds.  You can wear it if you like, but it won't provide any effects.",
+    "price": 200000,
+    "looks_like": "platinum_bracelet",
+    "price_postapoc": 2000,
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "garnet and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling garnets.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "platinum_bracelet",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling amethysts.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling aquamarines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "emerald and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling emeralds.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling alexandrites.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "ruby and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling rubies.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "peridot and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling peridots.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling sapphires.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling tourmalines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "citrine and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling citrines.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and platinum bracelet" },
+    "description": "A platinum bracelet with sparkling blue topaz.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "opal and platinum bracelet" },
+    "description": "A platinum bracelet with opals.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_bracelet",
+    "copy-from": "garnet_platinum_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "pearl and platinum bracelet" },
+    "description": "A platinum bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "garnet and gold necklace" },
+    "description": "A shiny, gold necklace adorned with a garnet pendant.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "70 g",
+    "volume": 0,
+    "price": 50000,
+    "price_postapoc": 6000,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "gold_necklace",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "diamond and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
+    "material": [ "gold", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "emerald and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "ruby and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a ruby pendant.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "peridot and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a peridot pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a sapphire pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a tourmaline pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "citrine and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a citrine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a blue topaz pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "opal and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_pendant_necklace",
+    "copy-from": "garnet_gold_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "pearl and gold pendant necklace" },
+    "description": "A shiny, gold necklace adorned with a pearl pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "garnet and silver necklace" },
+    "description": "A shiny, silver necklace adorned with a garnet pendant.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "70 g",
+    "volume": 0,
+    "price": 50000,
+    "price_postapoc": 6000,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "silver_necklace",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "diamond and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "emerald and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "ruby and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a ruby pendant.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "peridot and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a peridot pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a sapphire pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a tourmaline pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "citrine and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a citrine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a blue topaz pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "opal and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_silver_pendant_necklace",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "pearl and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a pearl pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "garnet and platinum necklace" },
+    "description": "A shiny, platinum necklace adorned with a garnet pendant.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "70 g",
+    "volume": 0,
+    "price": 50000,
+    "price_postapoc": 6000,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "platinum_necklace",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "diamond and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "emerald and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "ruby and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a ruby pendant.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "peridot and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a peridot pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a sapphire pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a tourmaline pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "citrine and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a citrine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a blue topaz pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "opal and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_pendant_necklace",
+    "copy-from": "garnet_platinum_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "pearl and platinum pendant necklace" },
+    "description": "A shiny, platinum necklace adorned with a pearl pendant.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "garnet and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with garnets.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 500000,
+    "price_postapoc": 8000,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "crown_golden",
+    "symbol": "[",
+    "color": "red",
+    "coverage": 5,
+    "encumbrance": 1,
+    "material_thickness": 1,
+    "flags": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "diamond_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "diamond and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with diamonds.",
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with amethyst.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with aquamarine.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "emerald and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with emeralds.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with alexandrites.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "ruby and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with rubies."
+  },
+  {
+    "id": "peridot_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "peridot and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with peridots.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with sapphires.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with tourmalines.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "citrine and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with citrines.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with blue topaz.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "opal and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with opals.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_tiara",
+    "copy-from": "garnet_platinum_tiara",
+    "type": "ARMOR",
+    "name": { "str": "pearl and platinum tiara" },
+    "description": "A shiny, platinum tiara adorned with pearls.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "garnet and gold tiara" },
+    "description": "A shiny, gold tiara adorned with garnets.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 400000,
+    "price_postapoc": 6000,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "crown_golden",
+    "symbol": "[",
+    "color": "red",
+    "coverage": 5,
+    "encumbrance": 1,
+    "material_thickness": 1,
+    "flags": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "diamond_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "diamond and gold tiara" },
+    "description": "A shiny, gold tiara adorned with diamonds.",
+    "material": [ "gold", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and gold tiara" },
+    "description": "A shiny, gold tiara adorned with amethyst.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and gold tiara" },
+    "description": "A shiny, gold tiara adorned with aquamarine.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "emerald and gold tiara" },
+    "description": "A shiny, gold tiara adorned with emeralds.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and gold tiara" },
+    "description": "A shiny, gold tiara adorned with alexandrites.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "ruby and gold tiara" },
+    "description": "A shiny, gold tiara adorned with rubies."
+  },
+  {
+    "id": "peridot_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "peridot and gold tiara" },
+    "description": "A shiny, gold tiara adorned with peridots.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and gold tiara" },
+    "description": "A shiny, gold tiara adorned with sapphires.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and gold tiara" },
+    "description": "A shiny, gold tiara adorned with tourmalines.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "citrine and gold tiara" },
+    "description": "A shiny, gold tiara adorned with citrines.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and gold tiara" },
+    "description": "A shiny, gold tiara adorned with blue topaz.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "opal and gold tiara" },
+    "description": "A shiny, gold tiara adorned with opals.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_tiara",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "pearl and gold tiara" },
+    "description": "A shiny, gold tiara adorned with pearls.",
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "garnet and silver tiara" },
+    "description": "A shiny, silver tiara adorned with garnets.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 200000,
+    "price_postapoc": 2000,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "crown_golden",
+    "symbol": "[",
+    "color": "red",
+    "coverage": 5,
+    "encumbrance": 1,
+    "material_thickness": 1,
+    "flags": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "diamond_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "diamond and silver tiara" },
+    "description": "A shiny, silver tiara adorned with diamonds.",
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "amethyst_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "amethyst and silver tiara" },
+    "description": "A shiny, silver tiara adorned with amethyst.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "aquamarine and silver tiara" },
+    "description": "A shiny, silver tiara adorned with aquamarine.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "emerald and silver tiara" },
+    "description": "A shiny, silver tiara adorned with emeralds.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "alexandrite and silver tiara" },
+    "description": "A shiny, silver tiara adorned with alexandrites.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "ruby and silver tiara" },
+    "description": "A shiny, silver tiara adorned with rubies."
+  },
+  {
+    "id": "peridot_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "peridot and silver tiara" },
+    "description": "A shiny, silver tiara adorned with peridots.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "sapphire and silver tiara" },
+    "description": "A shiny, silver tiara adorned with sapphires.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "tourmaline and silver tiara" },
+    "description": "A shiny, silver tiara adorned with tourmalines.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "citrine and silver tiara" },
+    "description": "A shiny, silver tiara adorned with citrines.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and silver tiara" },
+    "description": "A shiny, silver tiara adorned with blue topaz.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "opal and silver tiara" },
+    "description": "A shiny, silver tiara adorned with opals.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_silver_tiara",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "pearl and silver tiara" },
+    "description": "A shiny, silver tiara adorned with pearls.",
+    "color": "white"
   }
 ]

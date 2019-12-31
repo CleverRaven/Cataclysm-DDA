@@ -582,8 +582,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
                                            << id.c_str() << " (" << name << ")";
         }
         if( !jo.has_string( "sym" ) && jo.has_number( "sym" ) ) {
-            DebugLog( D_ERROR, D_MAP_GEN ) << "sym is defined as number instead of string for overmap_terrain: "
-                                           << id.c_str() << " (" << name << ")";
+            debugmsg( "sym is defined as number instead of string for overmap_terrain %s (%s)", id.c_str(),
+                      name );
         }
         load_overmap_terrain_mapgens( jo, id.str() );
     }
@@ -726,10 +726,10 @@ bool oter_t::is_hardcoded() const
         "ants_lab_stairs",
         "fema",
         "fema_entrance",
-        "haz_sar",
-        "haz_sar_b1",
-        "haz_sar_entrance",
-        "haz_sar_entrance_b1",
+        "haz_sar", // remove after 0.E.
+        "haz_sar_b1", // remove after 0.E.
+        "haz_sar_entrance", // remove after 0.E.
+        "haz_sar_entrance_b1", // remove after 0.E.
         "ice_lab",
         "ice_lab_stairs",
         "ice_lab_core",

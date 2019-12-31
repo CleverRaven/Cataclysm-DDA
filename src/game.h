@@ -568,7 +568,7 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( int pos, int startx = 0, int width = 50,
+        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
                                  inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
@@ -769,7 +769,6 @@ class game
 
         void butcher(); // Butcher a corpse  'B'
 
-        void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
@@ -788,6 +787,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
@@ -1003,7 +1003,6 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        std::vector<shared_ptr_fast<monster>> new_seen_mon;
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;

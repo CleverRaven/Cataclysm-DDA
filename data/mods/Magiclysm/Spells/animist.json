@@ -57,7 +57,7 @@
     "base_casting_time": 50000,
     "base_energy_cost": 5000,
     "energy_increment": 500,
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
     "final_energy_cost": 10000
   },
   {

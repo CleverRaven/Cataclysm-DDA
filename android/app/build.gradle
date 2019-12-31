@@ -37,8 +37,10 @@ if (keystorePropertiesFile.exists()) {
 def njobs = getProperty("j")
 
 def localize = getProperty("localize").toBoolean()
-def abi32 = getProperty("abi32").toBoolean()
-def abi64 = getProperty("abi64").toBoolean()
+def abi_arm_32 = getProperty("abi_arm_32").toBoolean()
+def abi_arm_64 = getProperty("abi_arm_64").toBoolean()
+def abi_x86_32 = getProperty("abi_x86_32").toBoolean()
+def abi_x86_64 = getProperty("abi_x86_64").toBoolean()
 def deps = getProperty("deps")
 def override_version = getProperty("override_version")
 def version_header_path = getProperty("version_header_path")
@@ -52,8 +54,8 @@ println("Using minSdkVersion: $override_minSdkVersion")
 println("Using targetSdkVersion: $override_targetSdkVersion")
 println("Using ndkBuildAppPlatform: $override_ndkBuildAppPlatform")
 
-if (!abi32 && !abi64) {
-    throw new GradleException("Both `abi32` and `abi64` properties are set to false")
+if (!abi_arm_32 && !abi_arm_64 && !abi_x86_32 && !abi_x86_64) {
+    throw new GradleException("All supported ABI properties are set to false!")
 }
 if (!file(deps).exists()) {
     throw new GradleException("Dependencies file does not exist:" + deps)
@@ -154,11 +156,17 @@ android {
                 // Resets the list of ABIs that Gradle should create APKs for to none.
                 reset()
                 // Specifies a list of ABIs that Gradle should create APKs for.
-                if (abi32) {
+                if (abi_arm_32) {
                     include "armeabi-v7a"
                 }
-                if (abi64) {
+                if (abi_arm_64) {
                     include "arm64-v8a"
+                }
+                if (abi_x86_32) {
+                    include "x86"
+                }
+                if (abi_x86_64) {
+                    include "x86_64"
                 }
                 // Specifies that we do not want to also generate a universal APK that includes all ABIs.
                 universalApk false

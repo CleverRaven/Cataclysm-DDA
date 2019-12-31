@@ -18,7 +18,7 @@ weather_animation_t get_weather_animation( weather_type const type )
     static const std::map<weather_type, weather_animation_t> map {
         {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_light_green, '.'}},
         {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_light_green, ','}},
-        {WEATHER_LIGHT_DRIZZLE, weather_animation_t{0.01f, c_light_green, ','}},
+        {WEATHER_LIGHT_DRIZZLE, weather_animation_t{0.01f, c_light_blue, ','}},
         {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_light_blue,  '.'}},
         {WEATHER_RAINY,        weather_animation_t {0.02f, c_light_blue,  ','}},
         {WEATHER_THUNDER,      weather_animation_t {0.02f, c_light_blue,  '.'}},

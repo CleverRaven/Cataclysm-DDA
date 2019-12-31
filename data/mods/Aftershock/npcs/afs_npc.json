@@ -8,7 +8,6 @@
     "attitude": 1,
     "mission": 0,
     "chat": "TALK_PrepNet_gardener_1",
-    "faction": "Prepnet_Phyle",
-    "mon_faction": "PrepNet"
+    "faction": "Prepnet_Phyle"
   }
 ]

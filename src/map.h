@@ -265,6 +265,11 @@ class map
             }
         }
 
+        bool check_seen_cache( const tripoint &p ) const {
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
+        }
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
@@ -1534,7 +1539,6 @@ class map
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
         void draw_spiral( mapgendata &dat );
-        void draw_sarcophagus( mapgendata &dat );
         void draw_fema( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
@@ -1830,8 +1834,15 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                        int fake_map_z );
 };
 
+class fake_map : public tinymap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                  int fake_map_z );
+        ~fake_map() override;
+};
 #endif

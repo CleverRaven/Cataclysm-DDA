@@ -1608,7 +1608,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
     }
 }
 
-inventory_selector::inventory_selector( const player &u, const inventory_selector_preset &preset )
+inventory_selector::inventory_selector( player &u, const inventory_selector_preset &preset )
     : u( u )
     , preset( preset )
     , ctxt( "INVENTORY" )
@@ -1838,7 +1838,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-inventory_multiselector::inventory_multiselector( const player &p,
+inventory_multiselector::inventory_multiselector( player &p,
         const inventory_selector_preset &preset,
         const std::string &selection_column_title ) :
     inventory_selector( p, preset ),
@@ -1867,7 +1867,7 @@ void inventory_multiselector::on_entry_add( const inventory_entry &entry )
     }
 }
 
-inventory_compare_selector::inventory_compare_selector( const player &p ) :
+inventory_compare_selector::inventory_compare_selector( player &p ) :
     inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
@@ -1929,7 +1929,7 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 }
 
 inventory_iuse_selector::inventory_iuse_selector(
-    const player &p,
+    player &p,
     const std::string &selector_title,
     const inventory_selector_preset &preset,
     const GetStats &get_st
@@ -1938,8 +1938,7 @@ inventory_iuse_selector::inventory_iuse_selector(
     get_stats( get_st ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {}
-
-std::list<std::pair<int, int>> inventory_iuse_selector::execute()
+drop_locations inventory_iuse_selector::execute()
 {
     int count = 0;
     while( true ) {
@@ -1984,7 +1983,7 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return std::list<std::pair<int, int> >();
+            return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
@@ -1993,11 +1992,11 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
         }
     }
 
-    std::list<std::pair<int, int>> dropped_pos_and_qty;
+    drop_locations dropped_pos_and_qty;
 
-    for( auto use_pair : to_use ) {
-        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( use_pair.first ),
-                                       use_pair.second ) );
+    for( const std::pair<const item *, int> &use_pair : to_use ) {
+        item_location loc( u, const_cast<item *>( use_pair.first ) );
+        dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
     }
 
     return dropped_pos_and_qty;
@@ -2029,7 +2028,7 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
     return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
-inventory_drop_selector::inventory_drop_selector( const player &p,
+inventory_drop_selector::inventory_drop_selector( player &p,
         const inventory_selector_preset &preset ) :
     inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
@@ -2060,7 +2059,7 @@ void inventory_drop_selector::process_selected( int &count,
     count = 0;
 }
 
-std::list<std::pair<int, int>> inventory_drop_selector::execute()
+drop_locations inventory_drop_selector::execute()
 {
     int count = 0;
     while( true ) {
@@ -2132,7 +2131,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return std::list<std::pair<int, int> >();
+            return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
@@ -2143,11 +2142,11 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         }
     }
 
-    std::list<std::pair<int, int>> dropped_pos_and_qty;
+    drop_locations dropped_pos_and_qty;
 
-    for( auto drop_pair : dropping ) {
-        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( drop_pair.first ),
-                                       drop_pair.second ) );
+    for( const std::pair<const item *, int> &drop_pair : dropping ) {
+        item_location loc( u, const_cast<item *>( drop_pair.first ) );
+        dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
     }
 
     return dropped_pos_and_qty;

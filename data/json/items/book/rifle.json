@@ -2,8 +2,7 @@
   {
     "id": "mag_rifle",
     "type": "BOOK",
-    "name": "Modern Rifleman",
-    "name_plural": "Modern Rifleman",
+    "name": { "str": "Modern Rifleman", "str_pl": "issues of Modern Rifleman" },
     "description": "An informative magazine all about rifles and shooting.  There is an excellent article about proper maintenance in this issue.",
     "weight": "100 g",
     "volume": "250 ml",
