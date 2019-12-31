@@ -1682,7 +1682,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Reload Wielded Item",
+    "name": "Reload Weapons",
     "category": "DEFAULTMODE",
     "id": "reload_weapon"
   },
