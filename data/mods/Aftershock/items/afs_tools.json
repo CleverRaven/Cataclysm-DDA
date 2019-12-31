@@ -28,7 +28,7 @@
     "id": "afs_atomic_smartphone_music",
     "copy-from": "afs_atomic_smartphone",
     "type": "TOOL",
-    "name": "aomic smartphone - music",
+    "name": "atomic smartphone - music",
     "name_plural": "atomic smartphones - music",
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
