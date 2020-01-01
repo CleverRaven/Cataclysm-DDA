@@ -307,8 +307,8 @@ void mapgen_hive( mapgendata &dat )
                         m->ter_set( point( i + k, j + l ), t_floor_wax );
                     }
                 }
-                m->add_spawn( mon_bee, 2, point( i, j ) );
-                m->add_spawn( mon_beekeeper, 1, point( i, j ) );
+                m->add_spawn( mon_bee, 2, { i, j, m->get_abs_sub().z } );
+                m->add_spawn( mon_beekeeper, 1, { i, j, m->get_abs_sub().z } );
                 m->ter_set( point( i, j - 3 ), t_floor_wax );
                 m->ter_set( point( i, j + 3 ), t_floor_wax );
                 m->ter_set( point( i - 1, j - 2 ), t_floor_wax );
@@ -887,7 +887,7 @@ void mapgen_road( mapgendata &dat )
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
-            m->add_spawn( mon_zombie_jackson, 1, point( SEEX, SEEY ) );
+            m->add_spawn( mon_zombie_jackson, 1, { SEEX, SEEY, m->get_abs_sub().z } );
         }
     }
 
@@ -2025,11 +2025,11 @@ void mapgen_cave_rat( mapgendata &dat )
         for( int i = SEEX - 4; i <= SEEX + 4; i++ ) {
             for( int j = SEEY - 4; j <= SEEY + 4; j++ ) {
                 if( ( i <= SEEX - 2 || i >= SEEX + 2 ) && ( j <= SEEY - 2 || j >= SEEY + 2 ) ) {
-                    m->add_spawn( mon_sewer_rat, 1, point( i, j ) );
+                    m->add_spawn( mon_sewer_rat, 1, { i, j, m->get_abs_sub().z } );
                 }
             }
         }
-        m->add_spawn( mon_rat_king, 1, point( SEEX, SEEY ) );
+        m->add_spawn( mon_rat_king, 1, { SEEX, SEEY, m->get_abs_sub().z } );
         m->place_items( "rare", 75, point( SEEX - 4, SEEY - 4 ), point( SEEX + 4, SEEY + 4 ), true,
                         dat.when() );
     } else {
@@ -2049,7 +2049,7 @@ void mapgen_cave_rat( mapgendata &dat )
                         madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
                     }
                     if( one_in( 20 ) ) {
-                        m->add_spawn( mon_sewer_rat, 1, point( cx, cy ) );
+                        m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
                     }
                 }
             }
@@ -2069,7 +2069,7 @@ void mapgen_cave_rat( mapgendata &dat )
                             madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
                         }
                         if( one_in( 20 ) ) {
-                            m->add_spawn( mon_sewer_rat, 1, point( cx, cy ) );
+                            m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
                         }
                     }
                 }
@@ -2613,9 +2613,9 @@ static void mapgen_ants_generic( mapgendata &dat )
         m->place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     }
     if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, point( SEEX, SEEY ) );
+        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
     } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, point( SEEX, SEEY ) );
+        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
     }
 
 }
@@ -2632,7 +2632,7 @@ void mapgen_ants_larvae( mapgendata &dat )
     mapgen_ants_generic( dat );
     dat.m.place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
                        dat.when() );
-    dat.m.add_spawn( mon_ant_larva, 10, point( SEEX, SEEY ) );
+    dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_ants_queen( mapgendata &dat )
@@ -2640,7 +2640,7 @@ void mapgen_ants_queen( mapgendata &dat )
     mapgen_ants_generic( dat );
     dat.m.place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
                        dat.when() );
-    dat.m.add_spawn( mon_ant_queen, 1, point( SEEX, SEEY ) );
+    dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )

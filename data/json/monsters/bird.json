@@ -23,7 +23,7 @@
     "melee_cut": 1,
     "dodge": 4,
     "harvest": "bird_tiny",
-    "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 5 },
+    "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "death_function": [ "NORMAL" ],
