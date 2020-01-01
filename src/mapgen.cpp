@@ -1041,14 +1041,11 @@ class jmapgen_liquid_item : public jmapgen_piece
 class jmapgen_item_group : public jmapgen_piece
 {
     public:
-        std::string group_id;
+        Group_tag group_id;
         jmapgen_int chance;
-        jmapgen_item_group( const JsonObject &jsi ) :
-            group_id( jsi.get_string( "item" ) )
-            , chance( jsi, "chance", 1, 1 ) {
-            if( !item_group::group_is_defined( group_id ) ) {
-                set_mapgen_defer( jsi, "item", "no such item group '" + group_id + "'" );
-            }
+        jmapgen_item_group( const JsonObject &jsi ) : chance( jsi, "chance", 1, 1 ) {
+            JsonValue group = jsi.get_member( "item" );
+            group_id = item_group::load_item_group( group, "collection" );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -1128,8 +1125,8 @@ class jmapgen_monster_group : public jmapgen_piece
         }
 };
 /**
- * Place spawn points for a specific monster (not a group).
- * "monster": id of the monster.
+ * Place spawn points for a specific monster.
+ * "monster": id of the monster. or "group": id of the monster group.
  * "friendly": whether the new monster is friendly to the player character.
  * "name": the name of the monster (if it has one).
  * "chance": the percentage chance of a monster, affected by spawn density
@@ -1198,15 +1195,11 @@ class jmapgen_monster : public jmapgen_piece
             // Instead, apply a multipler to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
-            int max_odds = 100 - ( 100 - raw_odds ) / 2;
+            int max_odds = ( 100 + raw_odds ) / 2;
             float density_multiplier = 1;
             if( odds_after_density > max_odds ) {
                 density_multiplier = 1.0f * odds_after_density / max_odds;
                 odds_after_density = max_odds;
-            }
-
-            if( !x_in_y( odds_after_density, 100 ) ) {
-                return;
             }
 
             int mission_id = -1;
@@ -1214,21 +1207,26 @@ class jmapgen_monster : public jmapgen_piece
                 mission_id = dat.mission()->get_id();
             }
 
-            if( m_id != mongroup_id::NULL_ID() ) {
-                // Spawn single monster from a group
-                dat.m.place_spawns( m_id, 1, point( x.get(), y.get() ), point( x.get(), y.get() ), 1.0f, true,
-                                    false,
-                                    name, mission_id );
+
+
+            int spawn_count = roll_remainder( density_multiplier );
+
+            if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+                spawn_count = std::min( spawn_count, 1 );
+            }
+            if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+                spawn_count = std::max( spawn_count, 1 );
             } else {
-                int spawn_count = roll_remainder( density_multiplier );
-
-                if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
-                    spawn_count = std::min( spawn_count, 1 );
+                if( !x_in_y( odds_after_density, 100 ) ) {
+                    return;
                 }
-                if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
-                    spawn_count = std::max( spawn_count, 1 );
-                }
+            }
 
+            if( m_id != mongroup_id::NULL_ID() ) {
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
+                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(), point( x.get(), y.get() ),
+                                 friendly, -1, mission_id, name );
+            } else {
                 dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
                                  friendly, -1, mission_id, name );
             }
@@ -7274,8 +7272,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
             const std::string &update_mapgen_id )
 {
     const int fake_map_z = -9;
-    const tripoint tripoint_below_zero( 0, 0, fake_map_z );
-    const tripoint tripoint_fake_map_edge( 23, 23, fake_map_z );
 
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
@@ -7286,10 +7282,8 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    tinymap fake_map;
-    if( !fake_map.fake_load( f_null, t_dirt, tr_null, fake_map_z ) ) {
-        return std::make_pair( terrains, furnitures );
-    }
+    ::fake_map fake_map( f_null, t_dirt, tr_null, fake_map_z );
+
     oter_id any = oter_id( "field" );
     // just need a variable here, it doesn't need to be valid
     const regional_settings dummy_settings;
@@ -7298,20 +7292,13 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
                         any, any, 0, dummy_settings, fake_map, any, 0.0f, calendar::turn, nullptr );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : fake_map.points_in_rectangle( tripoint_below_zero,
-                tripoint_fake_map_edge ) ) {
+        for( const tripoint &pos : fake_map.points_on_zlevel( fake_map_z ) ) {
             ter_id ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
-                if( terrains.find( ter_at_pos ) == terrains.end() ) {
-                    terrains[ter_at_pos] = 0;
-                }
                 terrains[ter_at_pos] += 1;
             }
             if( fake_map.has_furn( pos ) ) {
                 furn_id furn_at_pos = fake_map.furn( pos );
-                if( furnitures.find( furn_at_pos ) == furnitures.end() ) {
-                    furnitures[furn_at_pos] = 0;
-                }
                 furnitures[furn_at_pos] += 1;
             }
         }

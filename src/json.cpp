@@ -109,8 +109,11 @@ void JsonObject::finish()
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
-                dbg( D_ERROR ) << "Failed to visit member '" << name << "' in JsonObject at "
-                               << jsin->line_number( start ) << ":\n" << str() << std::endl;
+                try {
+                    throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
             }
         }
     }

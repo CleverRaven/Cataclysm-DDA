@@ -392,6 +392,12 @@
     "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
   },
   {
+    "id": "SHEATH_AXE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "//": "This item can be stored in a sheath of the appropriate size."
+  },
+  {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],

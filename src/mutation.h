@@ -146,6 +146,9 @@ struct mutation_branch {
         cata::optional<int> scent_mask;
         int bleed_resist = 0;
 
+        /**Map of crafting skills modifiers, can be negative*/
+        std::map<skill_id, int> craft_skill_bonus;
+
         /**What do you smell like*/
         cata::optional<scenttype_id> scent_typeid;
 

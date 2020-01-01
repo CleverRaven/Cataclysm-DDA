@@ -38,7 +38,7 @@
     "elec_resist": 0,
     "chip_resist": 10,
     "repaired_with": "material_aluminium_ingot",
-    "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
+    "dmg_adj": [ "dented", "bent", "smashed", "destroyed" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "compacts_into": [ "material_aluminium_ingot", "aluminum_foil" ]

@@ -2627,7 +2627,8 @@
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
-    "category": [ "PLANT", "SLIME", "TROGLOBITE" ]
+    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
+    "flags": [ "NO_DISEASE" ]
   },
   {
     "type": "mutation",
@@ -4853,6 +4854,7 @@
     "description": "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
     "encumbrance_always": [ [ "HAND_L", 10 ], [ "HAND_R", 10 ] ],
     "restricts_gear": [ "HAND_L", "HAND_R" ],
+    "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
     "prereqs": [ "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
     "cancels": [ "TALONS" ],
@@ -4868,6 +4870,17 @@
     "ugliness": 3,
     "mixed_effect": true,
     "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  But you can swim more effectively.",
+    "craft_skill_bonus": [
+      [ "electronics", -4 ],
+      [ "tailor", -4 ],
+      [ "mechanics", -4 ],
+      [ "firstaid", -2 ],
+      [ "computer", -2 ],
+      [ "traps", -2 ],
+      [ "fabrication", -2 ],
+      [ "cooking", -2 ],
+      [ "survival", -2 ]
+    ],
     "encumbrance_always": [ [ "HAND_L", 20 ], [ "HAND_R", 20 ] ],
     "restricts_gear": [ "HAND_L", "HAND_R" ],
     "types": [ "HANDS" ],

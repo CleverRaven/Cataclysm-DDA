@@ -1051,7 +1051,7 @@ bool npc::wear_if_wanted( const item &it )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( hp_cur[i] <= 0 && it.covers( bp ) ) {
+            if( is_limb_broken( hpp ) && it.covers( bp ) ) {
                 splint = true;
                 break;
             }
@@ -1159,9 +1159,20 @@ bool npc::wield( item &it )
 
     // check if the item is in a holster
     int position = inv.position_by_item( &it );
-    item &holster = inv.find_item( position );
-    if( holster.tname() != it.tname() && holster.is_holster() && !holster.contents.empty() ) {
-        invoke_item( &holster );
+    if( position != INT_MIN ) {
+        item &maybe_holster = inv.find_item( position );
+        assert( !maybe_holster.is_null() );
+        if( &maybe_holster != &it && maybe_holster.is_holster() ) {
+            assert( !maybe_holster.contents.empty() );
+            const size_t old_size = maybe_holster.contents.size();
+            invoke_item( &maybe_holster );
+            // @TODO change invoke_item to somehow report this change
+            // Hacky: test whether wielding the item from the holster has been done.
+            // (Wielding may be prevented by various reasons: see player::wield_contained)
+            if( old_size != maybe_holster.contents.size() ) {
+                return true;
+            }
+        }
     }
 
     moves -= 15;
@@ -1178,7 +1189,7 @@ bool npc::wield( item &it )
     return true;
 }
 
-void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+void npc::drop( const drop_locations &what, const tripoint &target,
                 bool stash )
 {
     Character::drop( what, target, stash );

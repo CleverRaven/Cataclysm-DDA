@@ -123,6 +123,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -237,7 +238,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    radiation = 0;
+    set_rad( 0 );
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
@@ -1728,15 +1729,39 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-void Character::drop( int pos, const tripoint &where )
+std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
-    const item &it = i_at( pos );
-    const int count = it.count();
+    std::list<item *> dependent;
+    // Adds dependent worn items recursively
+    const std::function<void( const item &it )> add_dependent = [&]( const item & it ) {
+        for( item &wit : worn ) {
+            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
+                continue;
+            }
+            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            [&wit]( const item * dit ) {
+                return &wit == dit;
+            } );
+            if( iter == dependent.end() ) { // Not in the list yet
+                add_dependent( wit );
+                dependent.push_back( &wit );
+            }
+        }
+    };
 
-    drop( { std::make_pair( pos, count ) }, where );
+    if( is_worn( it ) ) {
+        add_dependent( it );
+    }
+
+    return dependent;
 }
 
-void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+void Character::drop( item_location loc, const tripoint &where )
+{
+    drop( { std::make_pair( loc, loc->count() ) }, where );
+}
+
+void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
@@ -1754,9 +1779,9 @@ void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ).success() ) {
-            activity.values.push_back( item_pair.first );
+    for( drop_location item_pair : what ) {
+        if( can_unwield( *item_pair.first ).success() ) {
+            activity.targets.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
     }
@@ -3342,7 +3367,10 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    set_thirst( thirst + nthirst );
+    if( has_trait_flag( "NO_THIRST" ) ) {
+        return;
+    }
+    set_thirst( std::max( -100, thirst + nthirst ) );
 }
 
 void Character::set_thirst( int nthirst )
@@ -4088,22 +4116,7 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
-        if( hp <= 0 )
-        {
-            return "==%==";
-        } else if( precise )
-        {
-            return string_format( "%d", hp );
-        } else
-        {
-            std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
-            nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
-                    '.' ), c_white );
-        }
-    };
 
     uilist bmenu;
     bmenu.desc_enabled = true;
@@ -4125,7 +4138,8 @@ hp_part Character::body_window( const std::string &menu_header,
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
-        const bool limb_is_broken = current_hp == 0;
+        const bool limb_is_broken = is_limb_broken( hp );
+        const bool limb_is_mending = worn_with_flag( "SPLINT", bp );
 
         if( show_all ) {
             e.allowed = true;
@@ -4160,11 +4174,30 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg += colorize( aligned_name, all_state_col ) + " " + hp_str( current_hp, maximal_hp );
+        std::string hp_str;
+        if( limb_is_mending ) {
+            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+                              c_blue ) + "\n";
+            const auto &eff = get_effect( effect_mending, bp );
+            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-        if( limb_is_broken ) {
+            if( precise ) {
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+            } else {
+                const int num = mend_perc / 20;
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+            }
+        } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
-        }
+            hp_str = "==%==";
+        } else if( precise ) {
+            hp_str = string_format( "%d", current_hp );
+        } else {
+            std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
+            hp_str = colorize( h_bar.first, h_bar.second ) +
+                     colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+        };
+        msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
         if( bleeding ) {
@@ -5267,6 +5300,24 @@ void Character::mod_stim( int mod )
     stim += mod;
 }
 
+int Character::get_rad() const
+{
+    return radiation;
+}
+
+void Character::set_rad( int new_rad )
+{
+    radiation = new_rad;
+}
+
+void Character::mod_rad( int mod )
+{
+    if( has_trait_flag( "NO_RADIATION" ) ) {
+        return;
+    }
+    set_rad( std::max( 0, get_rad() + mod ) );
+}
+
 int Character::get_stamina() const
 {
     return stamina;
@@ -6278,7 +6329,7 @@ void Character::heal( body_part healed, int dam )
 
 void Character::heal( hp_part healed, int dam )
 {
-    if( hp_cur[healed] > 0 ) {
+    if( !is_limb_broken( healed ) ) {
         int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
         hp_cur[healed] += effective_heal;
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
