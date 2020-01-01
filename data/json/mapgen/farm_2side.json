@@ -185,9 +185,9 @@
         "H": { "item": "trash", "chance": 65 },
         "b": { "item": "softdrugs", "chance": 70 },
         "d": [
-          { "item": "dresser_mens", "chance": 50 },
+          { "item": "SUS_dresser_mens", "chance": 50 },
           { "item": "homeguns", "chance": 20 },
-          { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+          { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "e": { "item": "fridge", "chance": 65, "repeat": [ 1, 8 ] },
         "n": { "item": "bedroom", "chance": 65 },
