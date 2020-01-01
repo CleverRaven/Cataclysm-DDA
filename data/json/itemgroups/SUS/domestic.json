@@ -673,7 +673,7 @@
     "type": "item_group",
     "//": "clothing and wearable items for domestic desks, tables, etc.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
       { "group": "accesories_personal_womens", "prob": 50 },
       { "group": "accesories_personal_mens", "prob": 50 },
@@ -690,7 +690,7 @@
     "type": "item_group",
     "//": "clothing found in a man's wardrobe",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "shoes_unisex", "prob": 50 },
       { "item": "fishing_waders", "prob": 3 },
       { "item": "kilt", "prob": 10 },
@@ -711,7 +711,7 @@
     "type": "item_group",
     "//": "clothing found in a woman's wardrobe",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "shoes_unisex", "prob": 50 },
       { "group": "shoes_womens", "prob": 60 },
       { "item": "fishing_waders", "prob": 2 },
@@ -733,7 +733,7 @@
     "type": "item_group",
     "//": "clothing found in a man's dresser",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "accesories_personal_unisex", "prob": 10 },
       { "group": "accesories_personal_mens", "prob": 10 },
       { "group": "masks_unisex", "prob": 5 },
@@ -752,7 +752,7 @@
     "type": "item_group",
     "//": "clothing found in a woman's dresser",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "accesories_personal_unisex", "prob": 30 },
       { "group": "accesories_personal_womens", "prob": 5 },
       { "group": "masks_unisex", "prob": 5 },
