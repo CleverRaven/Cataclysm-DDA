@@ -134,7 +134,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REFUGEE_Uyen_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "There's the doc out front helping anyone that can pay… but for us up here, money mostly goes to food.  I could do a lot for basic cuts, bruises, and common stuff if I had some supplies to help out.  Could you bring me a few extra first aid kits?  Five would probably have enough to last us a while.",
       "accepted": "Thanks so much.  It's a small thing but it'd be really helpful.",
       "rejected": "That's okay.  I'm sure we'll make do somehow.",
@@ -142,7 +142,7 @@
       "inquire": "How is the search going?",
       "success": "Thanks so much.  Listen, I told some of the others what you were up to for us and we pooled our cash to thank you.  It's not much but I hope it helps… these are merch, the local money, you can trade them for goods from the shop.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "effect": [
@@ -162,7 +162,7 @@
     "count": 6,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We could still use your help...",
+      "describe": "We could still use your help…",
       "offer": "I probably shouldn't be prescribing things, but there's a ton of people needing help with sleep in here.  If you could get us some antidepressants, Rhyzaea and I can probably make sure they're doled out appropriately without people having to starve to pay for them.  Three month's worth - about 6 bottles - would last us a little while.",
       "accepted": "Thanks so much.  It's a small thing but it'd be really helpful.",
       "rejected": "That's okay.  I'm sure we'll make do somehow.",
@@ -170,7 +170,7 @@
       "inquire": "How is the search going?",
       "success": "Thanks so much.  Listen, I told some of the others what you were up to for us and we pooled our cash to thank you.  You've done a lot to help us out.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "effect": [
