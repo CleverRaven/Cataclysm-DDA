@@ -332,4 +332,41 @@ struct requirement_data {
         static const T *find_by_type( const std::vector< std::vector<T> > &vec, const ID &type );
 };
 
+// Sometimes the requirement_data is problematic, because it has overlapping
+// requirements.  For example, a survivor telescope requires
+// 1 high-quality lens
+// 1 high-quality lens OR 1 small high-quality lens
+// If there is just one high-quality lens in the available inventory then it's
+// hard to correctly detect that these requirements are impossible to satisfy.
+// In general, determining craftability is equivalent to boolean
+// satisfiability, and thus NP-hard.
+//
+// In practice, we don't expect recipes to have too much overlap, so this issue
+// should be tractable.
+//
+// However, to avoid keeping additional state during the process of searching
+// for components, we don't make the component search more complex, instead we
+// make the requirements more complex.  We replace each requirement_data with a
+// deduped_requirement_data, which contains a selection of alternative
+// requirement_data objects, each of which contains no overlapping
+// requirements.
+//
+// For the majority of recipes, there are no overlaps, and this will be
+// essentially equivalent to just a requirement_data.  However, for the few
+// problematic recipes this allows us to calculate crafting requirements more
+// accurately.
+class deduped_requirement_data
+{
+    public:
+        using alter_item_comp_vector = requirement_data::alter_item_comp_vector;
+
+        deduped_requirement_data( const requirement_data & );
+
+        std::vector<requirement_data> const &alternatives() const {
+            return alternatives_;
+        }
+    private:
+        std::vector<requirement_data> alternatives_;
+};
+
 #endif

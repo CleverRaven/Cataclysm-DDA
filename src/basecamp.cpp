@@ -690,7 +690,7 @@ basecamp_action_components::basecamp_action_components(
 bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
-    const requirement_data &req = making_.requirements();
+    const requirement_data &req = making_.deduped_requirements().select_alternative( g->u, filter );
     if( !item_selections_.empty() || !tool_selections_.empty() ) {
         debugmsg( "Reused basecamp_action_components" );
         return false;
@@ -726,11 +726,6 @@ void basecamp_action_components::consume_components()
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
-    const auto &req = making_.requirements();
-    if( item_selections_.size() != req.get_components().size() ||
-        tool_selections_.size() != req.get_tools().size() ) {
-        debugmsg( "Not all selections have been made for basecamp_action_components" );
-    }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
                             base_.inv_range );

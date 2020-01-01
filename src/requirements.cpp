@@ -8,6 +8,7 @@
 #include <list>
 #include <memory>
 #include <set>
+#include <stack>
 #include <unordered_map>
 
 #include "avatar.h"
@@ -1087,4 +1088,151 @@ void requirement_data::consolidate()
         }
     }
     components = std::move( all_comps );
+}
+
+/// Helper function for deduped_requirement_data constructor below.
+///
+/// The goal of this function is to consolidate a particular item_comp that
+/// would otherwise be duplicated between two requirements.
+///
+/// It operates recursively (increasing @p index with the depth of recursion),
+/// searching for another item_comp to marge @p leftover with.  For each
+/// compatible item_comp found it performs that merger and writes out a
+/// suitably updated form of the overall requirements to @p result.
+///
+/// If it chooses *not* to merge with any particular item_comp, then it deletes
+/// that item_comp from the options, to avoid the duplication.
+///
+/// Lastly, it also outputs a version of the requirements where @p leftover
+/// remains where it was, and all other compatible item_comp entries have been
+/// deleted.
+///
+/// @param leftover The item_comp needing to be dealt with.
+/// @param req_prefix The requirements considered so far; more will be appended
+/// to this.
+/// @param to_expand The original requirements we are working through to look
+/// for a duplicate.
+/// @param orig_index The index into the alter_item_comp_vector where @p
+/// leftover was originally to be found.  If it isn't merged with another item,
+/// then it will be re-inserted at this position.
+/// @param index The position within @p to_expand where we will next look for
+/// duplicates of @p leftover to merge with.
+/// @param result The finished requirements should be appended to this.
+static void expand_item_in_reqs(
+    const item_comp &leftover, requirement_data::alter_item_comp_vector req_prefix,
+    const requirement_data::alter_item_comp_vector &to_expand, size_t orig_index, size_t index,
+    std::vector<requirement_data::alter_item_comp_vector> &result )
+{
+    assert( req_prefix.size() >= orig_index );
+    assert( orig_index < index );
+
+    if( index == to_expand.size() ) {
+        // We reached the end without using the leftovers.  So need to add them
+        // as their own requirement, separate from everything else.
+        req_prefix.insert( req_prefix.begin() + orig_index, { leftover } );
+        result.push_back( req_prefix );
+        return;
+    }
+
+    std::vector<item_comp> this_requirement = to_expand[index];
+    auto duplicate = std::find_if( this_requirement.begin(), this_requirement.end(),
+    [&]( const item_comp & c ) {
+        return c.type == leftover.type;
+    } );
+    if( duplicate == this_requirement.end() ) {
+        // No match in this one; proceed to next
+        req_prefix.push_back( this_requirement );
+        expand_item_in_reqs( leftover, req_prefix, to_expand, orig_index, index + 1, result );
+        return;
+    }
+    // First option: amalgamate the leftovers into this requirement, which
+    // forces us to pick that specific option:
+    requirement_data::alter_item_comp_vector req = req_prefix;
+    req.push_back( { item_comp( leftover.type, leftover.count + duplicate->count ) } );
+    req.insert( req.end(), to_expand.begin() + index + 1, to_expand.end() );
+    result.push_back( req );
+
+    // Second option: use a separate option for this requirement, which means
+    // we need to recurse further to find something into which to amalgamate
+    // the original requirement
+    this_requirement.erase( duplicate );
+    if( !this_requirement.empty() ) {
+        req_prefix.push_back( this_requirement );
+        expand_item_in_reqs( leftover, req_prefix, to_expand, orig_index, index + 1, result );
+    }
+}
+
+deduped_requirement_data::deduped_requirement_data( const requirement_data &in )
+{
+    // This constructor works through a requirement_data, converting it into an
+    // equivalent set of requirement_data alternatives, where each alternative
+    // has the property that no item type appears more than once.
+    //
+    // We only deal with item requirements.  Tool requirements could be handled
+    // similarly, but no examples where they are a problem have yet been
+    // raised.
+    //
+    // We maintain a queue of requirement_data component info to be split.
+    // Each to_check struct has a vector of component requirements, and an
+    // index.  The index is the position within the vector to be checked next.
+    struct to_check {
+        alter_item_comp_vector components;
+        size_t index;
+    };
+    std::stack<to_check, std::vector<to_check>> pending;
+    pending.push( { in.get_components(), 0 } );
+
+    while( !pending.empty() ) {
+        to_check next = pending.top();
+        pending.pop();
+
+        if( next.index == next.components.size() ) {
+            alternatives_.emplace_back( in.get_tools(), in.get_qualities(), next.components );
+            continue;
+        }
+
+        // Build a set of all the itypes used in later stages of this set of
+        // requirements.
+        std::unordered_set<itype_id> later_itypes;
+        for( size_t i = next.index + 1; i != next.components.size(); ++i ) {
+            std::transform( next.components[i].begin(), next.components[i].end(),
+                            std::inserter( later_itypes, later_itypes.end() ),
+            []( const item_comp & c ) {
+                return c.type;
+            } );
+        }
+
+        std::vector<item_comp> this_requirement = next.components[next.index];
+
+        auto first_duplicated = std::stable_partition(
+                                    this_requirement.begin(), this_requirement.end(),
+        [&]( const item_comp & c ) {
+            return !later_itypes.count( c.type );
+        }
+                                );
+
+        for( auto comp_it = first_duplicated; comp_it != this_requirement.end(); ++comp_it ) {
+            // Factor this requirement out into its own separate case
+
+            alter_item_comp_vector req_prefix( next.components.begin(),
+                                               next.components.begin() + next.index );
+            std::vector<alter_item_comp_vector> result;
+            expand_item_in_reqs( *comp_it, req_prefix, next.components, next.index, next.index + 1,
+                                 result );
+            for( const alter_item_comp_vector &v : result ) {
+                // When v is smaller, that means the current requirement was
+                // deleted, in which case we don't advance index.
+                size_t index_inc = v.size() == next.components.size() ? 1 : 0;
+                pending.push( { v, next.index + index_inc } );
+            }
+        }
+
+        // Deal with all the remaining, non-duplicated ones
+        this_requirement.erase( first_duplicated, this_requirement.end() );
+        if( !this_requirement.empty() ) {
+            alter_item_comp_vector without_dupes = next.components;
+            without_dupes[next.index] = this_requirement;
+            pending.push( { without_dupes, next.index + 1 } );
+        }
+    }
 }
