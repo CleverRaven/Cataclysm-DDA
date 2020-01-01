@@ -1234,5 +1234,14 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in )
             without_dupes[next.index] = this_requirement;
             pending.push( { without_dupes, next.index + 1 } );
         }
+
+        // Because this algorithm is super-exponential in the worst case, add a
+        // sanity check to prevent things getting too far out of control.
+        static constexpr size_t max_alternatives = 20;
+        if( alternatives_.size() + pending.size() > max_alternatives ) {
+            debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
+                      "The recipe at fault should be simplified." );
+            abort();
+        }
     }
 }
