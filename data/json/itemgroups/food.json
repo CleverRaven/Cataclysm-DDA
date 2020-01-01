@@ -759,28 +759,29 @@
   {
     "type": "item_group",
     "id": "alcohol",
+    "//": "all comestible alcohol -- packaged, mixed  and homemade",
     "items": [
-      [ "whiskey", 16 ],
-      [ "vodka", 20 ],
-      [ "gin", 20 ],
-      [ "rum", 14 ],
-      [ "tequila", 12 ],
-      [ "chem_ethanol", 10 ],
-      [ "triple_sec", 12 ],
-      [ "bum_wine", 20 ],
-      [ "fruit_wine", 12 ],
-      [ "brandy", 12 ],
-      [ "drink_rumcola", 12 ],
-      [ "drink_screwdriver", 12 ],
-      [ "drink_wild_apple", 8 ],
-      [ "long_island", 6 ],
-      [ "wine_riesling", 6 ],
-      [ "wine_chardonnay", 10 ],
-      [ "wine_cabernet", 10 ],
-      [ "wine_marsala", 2 ],
-      [ "wine_vermouth", 9 ],
-      [ "wine_barley", 24 ],
-      [ "wine_noir", 2 ],
+      { "group": "alcohol_bottled_canned", "prob": 376 },
+      { "group": "mixed_alcoholic_drinks", "prob": 141 },
+      [ "dandelion_wine", 8 ],
+      [ "hb_beer", 8 ],
+      [ "moonshine", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "alcohol_bottled_canned",
+    "items": [
+      { "group": "liquor_and_spirits", "prob": 108 },
+      { "group": "wines_worthy", "prob": 39 },
+      { "group": "beer", "prob": 141 },
+      { "group": "misc_alcohol", "prob": 88 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "beer",
+    "items": [
       [ "beer", 35 ],
       [ "european_pilsner", 25 ],
       [ "pale_ale", 25 ],
@@ -788,54 +789,7 @@
       [ "stout", 15 ],
       [ "belgian_ale", 10 ],
       [ "imperial_stout", 4 ],
-      [ "single_malt_whiskey", 2 ],
-      [ "survnote", 1 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "alcohol_bottled_canned",
-    "items": [
-      [ "whiskey", 16 ],
-      [ "vodka", 20 ],
-      [ "gin", 20 ],
-      [ "rum", 14 ],
-      [ "tequila", 12 ],
-      [ "triple_sec", 12 ],
-      [ "brandy", 12 ],
-      [ "drink_rumcola", 12 ],
-      [ "drink_screwdriver", 12 ],
-      [ "drink_wild_apple", 8 ],
-      [ "drink_strawberry_surprise", 6 ],
-      [ "drink_boozeberry", 6 ],
-      [ "drink_hobo", 10 ],
-      [ "drink_kalimotxo", 10 ],
-      [ "drink_beeknees", 8 ],
-      [ "drink_wsour", 8 ],
-      [ "wine_riesling", 6 ],
-      [ "wine_chardonnay", 10 ],
-      [ "wine_cabernet", 10 ],
-      [ "wine_noir", 5 ],
-      [ "dandelion_wine", 8 ],
-      [ "wine_marsala", 2 ],
-      [ "wine_vermouth", 9 ],
-      [ "wine_barley", 24 ],
-      [ "pine_wine", 6 ],
-      [ "bum_wine", 20 ],
-      [ "fruit_wine", 12 ],
-      [ "beer", 35 ],
-      [ "european_pilsner", 25 ],
-      [ "pale_ale", 25 ],
-      [ "india_pale_ale", 25 ],
-      [ "stout", 15 ],
-      [ "belgian_ale", 10 ],
-      [ "imperial_stout", 5 ],
-      [ "hb_beer", 8 ],
-      [ "long_island", 6 ],
-      [ "mead", 10 ],
-      [ "moonshine", 8 ],
-      [ "eggnog_spiked", 5 ],
-      [ "chem_ethanol", 5 ]
+      [ "wine_barley", 2 ]
     ]
   },
   {
@@ -848,6 +802,54 @@
       [ "wine_noir", 20 ],
       [ "wine_vermouth", 25 ],
       [ "wine_marsala", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "liquor_and_spirits",
+    "items": [
+      [ "whiskey", 16 ],
+      [ "vodka", 20 ],
+      [ "gin", 20 ],
+      [ "rum", 14 ],
+      [ "tequila", 12 ],
+      [ "triple_sec", 12 ],
+      [ "brandy", 12 ],
+      [ "single_malt_whiskey", 2 ],
+      [ "single_pot_whiskey", 10 ],
+      [ "cheap_whiskey", 10 ],
+      [ "canadian_whiskey", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "misc_alcohol",
+    "items": [
+      [ "bum_wine", 20 ],
+      [ "pine_wine", 6 ],
+      [ "fruit_wine", 12 ],
+      [ "mead", 10 ],
+      [ "sherry", 10 ],
+      [ "bristol_sherry", 5 ],
+      [ "madeira", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mixed_alcoholic_drinks",
+    "items": [
+      [ "drink_rumcola", 12 ],
+      [ "drink_screwdriver", 12 ],
+      [ "drink_wild_apple", 8 ],
+      [ "long_island", 6 ],
+      [ "drink_strawberry_surprise", 6 ],
+      [ "drink_boozeberry", 6 ],
+      [ "drink_hobo", 10 ],
+      [ "drink_kalimotxo", 10 ],
+      [ "drink_beeknees", 8 ],
+      [ "drink_wsour", 8 ],
+      [ "eggnog_spiked", 5 ],
+      [ "drink_martini", 10 ]
     ]
   }
 ]
