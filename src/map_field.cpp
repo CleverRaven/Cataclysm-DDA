@@ -1286,6 +1286,32 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         furn_set( p, f_null );
                     }
                 }
+                if( curtype == fd_wind_chimes ) {
+                    const furn_t &frn = map_tile.get_furn_t();
+                    if( !frn.has_flag( "EMITTER" ) ) {
+                        cur.set_field_intensity(0);
+                    } else if( int wind_amount = get_local_windpower( g->weather.windspeed,
+                                          overmap_buffer.ter( p ), p, g->weather.winddirection,
+                                          g->is_sheltered( p ) ) ) {
+                        int volume = std::min( 30, wind_amount );
+                        static const efftype_id effect_music( "music" );
+
+                        // TODO NPCs listening to wind chimes
+                        if( g->u.can_hear( p, volume ) ) {
+                            if( calendar::once_every( 5_minutes ) ) {
+                                // descriptions aren't printed for sounds at our position
+                                if( g->u.pos() == p ) {
+                                    add_msg( _( "You listen to the wind chimes." ) );
+                                }
+                            }
+                            if( !g->u.has_effect( effect_music ) ) {
+                                g->u.add_effect( effect_music, 1_turns );
+                                g->u.add_morale( morale_type( "morale_music" ), 1, 10, 5_minutes, 2_minutes, true );
+                                sounds::ambient_sound( p, volume, sounds::sound_t::music, _( "wind chimes" ) );
+                            }
+                        }
+                    }
+                }
 
                 cur.set_field_age( cur.get_field_age() + 1_turns );
                 auto &fdata = cur.get_field_type().obj();

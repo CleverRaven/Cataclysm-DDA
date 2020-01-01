@@ -1256,5 +1256,17 @@
     "phase": "gas",
     "display_items": false,
     "display_field": true
+  },
+  {
+    "id": "fd_wind_chimes",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "wind chime music", "dangerous": false, "transparent": true }
+    ],
+    "decay_amount_factor": 0,
+    "priority": 8,
+    "phase": "gas",
+    "display_items": false,
+    "display_field": false
   }
 ]

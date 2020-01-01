@@ -28,5 +28,32 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_fog_plume" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_wind_chimes",
+    "name": "wind chimes",
+    "description": "This is a wind chime that has been set up.  It'll produce some pleasant notes if it's windy enough.",
+    "symbol": "P",
+    "looks_like": "cow_bell",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 15,
+    "required_str": 4,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EMITTER", "EASY_DECONSTRUCT" ],
+    "emissions": [ "emit_wind_chimes" ],
+    "deployed_item": "wind_chimes",
+    "examine_action": "deployed_furniture",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "string_6", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
   }
 ]

@@ -314,5 +314,10 @@
     "field": "fd_fog",
     "intensity": 2,
     "qty": 200
+  },
+  {
+    "id": "emit_wind_chimes",
+    "type": "emit",
+    "field": "fd_wind_chimes"
   }
 ]

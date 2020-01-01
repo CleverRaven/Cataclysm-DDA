@@ -309,7 +309,8 @@ extern field_type_id fd_null,
        fd_fungicidal_gas,
        fd_insecticidal_gas,
        fd_smoke_vent,
-       fd_tindalos_rift
+       fd_tindalos_rift,
+       fd_wind_chimes
        ;
 
 #endif
