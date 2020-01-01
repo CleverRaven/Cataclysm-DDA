@@ -311,12 +311,13 @@ std::string requirement_data::print_all_objs( const std::string &header,
         if( !buffer.empty() ) {
             buffer += std::string( "\n" ) + _( "and " );
         }
-        for( auto it = list.begin(); it != list.end(); ++it ) {
-            if( it != list.begin() ) {
-                buffer += _( " or " );
-            }
-            buffer += it->to_string();
-        }
+        std::vector<std::string> alternatives;
+        std::transform( list.begin(), list.end(), std::back_inserter( alternatives ),
+        []( const T & t ) {
+            return t.to_string();
+        } );
+        std::sort( alternatives.begin(), alternatives.end() );
+        buffer += join( alternatives, _( " or " ) );
     }
     if( buffer.empty() ) {
         return std::string();
