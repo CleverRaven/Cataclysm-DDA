@@ -482,7 +482,7 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
-bool player::can_start_craft( const recipe *rec, int batch_size )
+bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
 {
     if( !rec ) {
         return false;
@@ -525,7 +525,8 @@ bool player::can_start_craft( const recipe *rec, int batch_size )
                                        rec->requirements().get_qualities(),
                                        adjusted_comp_reqs );
 
-    return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
+    return start_reqs.can_make_with_inventory( crafting_inventory(),
+            rec->get_component_filter( flags ) );
 }
 
 const inventory &player::crafting_inventory( bool clear_path )
@@ -1254,7 +1255,9 @@ bool player::can_continue_craft( item &craft )
     // Avoid building an inventory from the map if we don't have to, as it is expensive
     if( !continue_reqs.is_empty() ) {
 
-        const std::function<bool( const item & )> filter = rec.get_component_filter();
+        std::function<bool( const item & )> filter = rec.get_component_filter();
+        const std::function<bool( const item & )> no_rotten_filter =
+            rec.get_component_filter( recipe_filter_flags::no_rotten );
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
@@ -1271,6 +1274,16 @@ bool player::can_continue_craft( item &craft )
         buffer += continue_reqs.list_all();
         if( !query_yn( buffer ) ) {
             return false;
+        }
+
+        if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
+                batch_size ) ) {
+            filter = no_rotten_filter;
+        } else {
+            if( !query_yn( _( "Some components required to continue are rotten.\n"
+                              "Continue crafting anyway?" ) ) ) {
+                return false;
+            }
         }
 
         inventory map_inv;
