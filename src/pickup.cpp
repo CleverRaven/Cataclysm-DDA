@@ -812,7 +812,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
             trim_and_print( w_item_info, point( 4, 0 ), item_len, selected_item.color_in_inventory(),
                             selected_item.display_name() );
-            mvwprintw( w_item_info, point( item_len + 4, 0 ), " >" );
+            wprintw( w_item_info, " >" );
             wrefresh( w_item_info );
 
             if( action == "SELECT_ALL" ) {
