@@ -2,8 +2,7 @@
   {
     "id": "donut_holes",
     "type": "COMESTIBLE",
-    "name": "donut holes",
-    "name_plural": "donut holes",
+    "name": { "str": "donut holes", "str_pl": "donut holes" },
     "weight": "226 g",
     "color": "yellow",
     "spoils_in": "10 days",

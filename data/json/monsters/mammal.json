@@ -1791,8 +1791,7 @@
   {
     "id": "mon_sheep_lamb",
     "type": "MONSTER",
-    "name": "lamb",
-    "name_plural": "lambs",
+    "name": { "str": "lamb", "str_pl": "lambs" },
     "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated.  Its body is covered in a thick layer of wool, and the males have long, spiraling horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",

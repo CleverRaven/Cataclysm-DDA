@@ -139,8 +139,7 @@
     "abstract": "rifle_manual",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "rifle with manual actions",
-    "name_plural": "rifles with manual actions",
+    "name": { "str": "rifle with manual actions", "str_pl": "rifles with manual actions" },
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [

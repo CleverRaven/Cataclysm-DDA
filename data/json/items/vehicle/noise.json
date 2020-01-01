@@ -48,8 +48,7 @@
   {
     "type": "GENERIC",
     "id": "chimes",
-    "name": "chime loudspeakers",
-    "name_plural": "chime loudspeakers",
+    "name": { "str": "chime loudspeakers", "str_pl": "chime loudspeakers" },
     "description": "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
     "weight": "2600 g",
     "to_hit": -2,

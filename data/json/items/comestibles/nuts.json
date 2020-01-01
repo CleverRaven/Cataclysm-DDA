@@ -97,8 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_pulp",
-    "name": "almond pulp",
-    "name_plural": "almond pulp",
+    "name": { "str": "almond pulp", "str_pl": "almond pulp" },
     "looks_like": "granola",
     "weight": "30 g",
     "color": "brown",
@@ -448,8 +447,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns_cooked",
-    "name": "cooked acorn meal",
-    "name_plural": "cooked acorn meal",
+    "name": { "str": "cooked acorn meal", "str_pl": "cooked acorn meal" },
     "weight": "22 g",
     "color": "brown",
     "spoils_in": "30 days",

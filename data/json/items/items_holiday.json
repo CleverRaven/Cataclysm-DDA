@@ -27,8 +27,7 @@
   {
     "id": "plastic_jack_o_lantern_lit",
     "type": "TOOL",
-    "name": "spooky jack o'lantern",
-    "name_plural": "jack o'lanterns",
+    "name": { "str": "spooky jack o'lantern", "str_pl": "jack o'lanterns" },
     "description": "There is a thick LED candle inside the pumpkin face.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.  The face shifts.",
     "weight": "113 g",
     "volume": "3964 ml",

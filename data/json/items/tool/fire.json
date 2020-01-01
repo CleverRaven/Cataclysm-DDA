@@ -2,8 +2,7 @@
   {
     "id": "flint_steel",
     "type": "TOOL",
-    "name": "flint and steel",
-    "name_plural": "sets of flint and steel",
+    "name": { "str": "flint and steel", "str_pl": "sets of flint and steel" },
     "description": "This is a magnesium bar and a carbon steel striker.  Use it to spark a flame.",
     "weight": "400 g",
     "volume": "250 ml",
