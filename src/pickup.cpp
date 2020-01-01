@@ -806,11 +806,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
             // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            int item_len = utf8_width( remove_color_tags( selected_item.display_name() ) );
-            if( item_len > itemsW - 8 ) {
-                item_len = itemsW - 8;
-            }
-            trim_and_print( w_item_info, point( 4, 0 ), item_len, selected_item.color_in_inventory(),
+            trim_and_print( w_item_info, point( 4, 0 ), itemsW - 8, selected_item.color_in_inventory(),
                             selected_item.display_name() );
             wprintw( w_item_info, " >" );
             wrefresh( w_item_info );
