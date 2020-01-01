@@ -28,7 +28,7 @@ using itype_id = std::string;
 enum available_status {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
-    a_insufficent = 0, // neraly, bt not enough for tool+component
+    a_insufficent = 0, // nearly, but not enough for tool+component
 };
 
 enum component_type : int {
