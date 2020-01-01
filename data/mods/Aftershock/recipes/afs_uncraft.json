@@ -24,6 +24,16 @@
     ]
   },
   {
+    "result": "afs_titanium_frame",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "welder", 100 ], [ "toolset", 150 ] ] ],
+    "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
+  },
+  {
     "result": "afs_titanium_tooth",
     "type": "uncraft",
     "time": "30 s",
