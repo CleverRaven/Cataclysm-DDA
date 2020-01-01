@@ -234,7 +234,7 @@ monster::monster( const mtype_id &id ) : monster()
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, 0 );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        battery_item = mech_bat_item;
+        battery_item = cata::make_value<item>( mech_bat_item );
     }
 }
 
@@ -1620,7 +1620,7 @@ bool monster::move_effects( bool )
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
                 g->m.add_item_or_charges( pos(), *tied_item );
-                tied_item = cata::nullopt;
+                tied_item.reset();
             }
         } else {
             if( tied_item ) {
@@ -1629,7 +1629,7 @@ bool monster::move_effects( bool )
                 if( !broken ) {
                     g->m.add_item_or_charges( pos(), *tied_item );
                 }
-                tied_item = cata::nullopt;
+                tied_item.reset();
                 if( u_see_me ) {
                     if( broken ) {
                         add_msg( _( "The %s snaps the bindings holding it down." ), name() );
@@ -2656,11 +2656,11 @@ units::volume monster::get_carried_volume()
     return total_volume;
 }
 
-void monster::move_special_item_to_inv( cata::optional<item> &it )
+void monster::move_special_item_to_inv( cata::value_ptr<item> &it )
 {
     if( it ) {
         add_item( *it );
-        it = cata::nullopt;
+        it.reset();
     }
 }
 

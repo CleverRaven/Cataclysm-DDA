@@ -611,7 +611,7 @@ void Character::mount_creature( monster &z )
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
             i_add( *z.tied_item );
-            z.tied_item = cata::nullopt;
+            z.tied_item.reset();
         }
     }
     z.mounted_player_id = getID();

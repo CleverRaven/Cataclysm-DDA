@@ -276,7 +276,7 @@ static item_location tack_loc()
 void monexamine::remove_battery( monster &z )
 {
     g->m.add_item_or_charges( g->u.pos(), *z.battery_item );
-    z.battery_item = cata::nullopt;
+    z.battery_item.reset();
 }
 
 void monexamine::insert_battery( monster &z )
@@ -306,10 +306,10 @@ void monexamine::insert_battery( monster &z )
         index > static_cast<int>( bat_inv.size() ) ) {
         return;
     }
-    auto bat_item = bat_inv[index - 1];
+    item *bat_item = bat_inv[index - 1];
     int item_pos = g->u.get_item_position( bat_item );
     if( item_pos != INT_MIN ) {
-        z.battery_item = *bat_item;
+        z.battery_item = cata::make_value<item>( *bat_item );
         g->u.i_rem( item_pos );
     }
 }
@@ -391,7 +391,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
         g->u.i_add( *z.tack_item );
-        z.tack_item = cata::nullopt;
+        z.tack_item.reset();
     } else {
         item_location loc = tack_loc();
 
@@ -400,7 +400,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
             return;
         }
         z.add_effect( effect_saddled, 1_turns, num_bp, true );
-        z.tack_item = *loc;
+        z.tack_item = cata::make_value<item>( *loc.get_item() );
         loc.remove_item();
     }
 }
@@ -493,7 +493,7 @@ void monexamine::attach_bag_to( monster &z )
     }
 
     item &it = *loc;
-    z.storage_item = it;
+    z.storage_item = cata::make_value<item>( it );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     g->u.i_rem( &it );
     z.add_effect( effect_has_bag, 1_turns, num_bp, true );
@@ -511,7 +511,7 @@ void monexamine::remove_bag_from( monster &z )
         }
         g->m.add_item_or_charges( g->u.pos(), *z.storage_item );
         add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
-        z.storage_item = cata::nullopt;
+        z.storage_item.reset();
         g->u.moves -= 200;
     } else {
         add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
@@ -585,7 +585,7 @@ bool monexamine::add_armor( monster &z )
     }
 
     armor.set_var( "pet_armor", "true" );
-    z.armor_item = armor;
+    z.armor_item = cata::make_value<item>( armor );
     add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
              pet_name );
     loc.remove_item();
@@ -609,7 +609,7 @@ void monexamine::remove_armor( monster &z )
         g->m.add_item_or_charges( z.pos(), *z.armor_item );
         add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
                  pet_name );
-        z.armor_item = cata::nullopt;
+        z.armor_item.reset();
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
         g->u.moves -= 200;
     } else {
@@ -646,7 +646,7 @@ void monexamine::tie_or_untie( monster &z )
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
             g->u.i_add( *z.tied_item );
-            z.tied_item = cata::nullopt;
+            z.tied_item.reset();
         }
     } else {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
@@ -669,10 +669,10 @@ void monexamine::tie_or_untie( monster &z )
             index > static_cast<int>( rope_inv.size() ) ) {
             return;
         }
-        auto rope_item = rope_inv[index - 1];
+        item *rope_item = rope_inv[index - 1];
         int item_pos = g->u.get_item_position( rope_item );
         if( item_pos != INT_MIN ) {
-            z.tied_item = *rope_item;
+            z.tied_item = cata::make_value<item>( *rope_item );
             g->u.i_rem( item_pos );
             z.add_effect( effect_tied, 1_turns, num_bp, true );
         }

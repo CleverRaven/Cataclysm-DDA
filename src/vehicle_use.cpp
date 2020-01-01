@@ -1739,7 +1739,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         m.remove_effect( effect_tied );
         if( m.tied_item ) {
             g->u.i_add( *m.tied_item );
-            m.tied_item = cata::nullopt;
+            m.tied_item.reset();
         }
     }
 }
