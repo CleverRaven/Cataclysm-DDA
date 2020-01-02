@@ -32,8 +32,9 @@
         "    S                   "
       ],
       "palettes": [ "tomb" ]
-    },
-    {
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "forest_tomb_bottom" ],
@@ -67,4 +68,5 @@
       ],
       "palettes": [ "tomb" ]
     }
+  }
 ]
