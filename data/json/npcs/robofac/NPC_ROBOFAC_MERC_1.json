@@ -203,7 +203,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "I could do with some help...",
+      "describe": "I could do with some help…",
       "offer": "I'm still supposed to scavenge for gold, I can offer you the same deal as last time.",
       "accepted": "Wonderful.",
       "rejected": "Well I'll look for the gold myself.",

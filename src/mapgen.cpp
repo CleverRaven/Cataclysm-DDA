@@ -179,10 +179,11 @@ void map::generate( const tripoint &p, const time_point &when )
             if( !spawn_details.name ) {
                 continue;
             }
-            if( const auto p = random_point( *this, [this]( const tripoint & n ) {
+            if( const cata::optional<tripoint> p =
+            random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, p->xy() );
+                add_spawn( spawn_details.name, spawn_details.pack_size, *p );
             }
         }
     }
@@ -1207,8 +1208,6 @@ class jmapgen_monster : public jmapgen_piece
                 mission_id = dat.mission()->get_id();
             }
 
-
-
             int spawn_count = roll_remainder( density_multiplier );
 
             if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
@@ -1224,11 +1223,13 @@ class jmapgen_monster : public jmapgen_piece
 
             if( m_id != mongroup_id::NULL_ID() ) {
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
-                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(), point( x.get(), y.get() ),
-                                 friendly, -1, mission_id, name );
+                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
+                { x.get(), y.get(), dat.m.get_abs_sub().z },
+                friendly, -1, mission_id, name );
             } else {
-                dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), point( x.get(), y.get() ),
-                                 friendly, -1, mission_id, name );
+                dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(),
+                { x.get(), y.get(), dat.m.get_abs_sub().z },
+                friendly, -1, mission_id, name );
             }
         }
 };
@@ -5785,8 +5786,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-        add_spawn( spawn_details.name, spawn_details.pack_size, point( x, y ), friendly, -1, mission_id,
-                   name );
+        add_spawn( spawn_details.name, spawn_details.pack_size, { x, y, abs_sub.z },
+                   friendly, -1, mission_id, name );
     }
 }
 
@@ -5921,7 +5922,7 @@ std::vector<item *> map::put_items_from_loc( const items_location &loc, const tr
     return spawn_items( p, items );
 }
 
-void map::add_spawn( const mtype_id &type, int count, const point &p, bool friendly,
+void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
                      int faction_id, int mission_id, const std::string &name ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
@@ -5932,8 +5933,8 @@ void map::add_spawn( const mtype_id &type, int count, const point &p, bool frien
     submap *place_on_submap = get_submap_at( p, offset );
 
     if( !place_on_submap ) {
-        debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
-                  type.c_str(), count, p.x, p.y );
+        debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d, %d)",
+                  type.c_str(), count, p.x, p.y, p.z );
         return;
     }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
