@@ -8180,13 +8180,13 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
     return result;
 }
 
-std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size_t radius,
-        furn_id target,
+std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+        const std::string &flag,
         size_t radiusz )
 {
     std::list<tripoint> furn_locs;
     for( const auto &furn_loc : points_in_radius( center, radius, radiusz ) ) {
-        if( furn( furn_loc ) == target ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
             furn_locs.push_back( furn_loc );
         }
     }
