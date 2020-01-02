@@ -124,14 +124,14 @@
           "item": {
             "subtype": "distribution",
             "entries": [
-              { "item": "SUS_silverware", "prob": 50 },
-              { "item": "SUS_utensils", "prob": 50 },
-              { "item": "SUS_knife_drawer", "prob": 25 },
-              { "item": "SUS_junk_drawer", "prob": 10 },
-              { "item": "SUS_dishes", "prob": 50 },
-              { "item": "SUS_appliances_cupboard", "prob": 10 },
-              { "item": "SUS_coffee_cupboard", "prob": 20 },
-              { "item": "SUS_spice_collection", "prob": 10 }
+              { "group": "SUS_silverware", "prob": 50 },
+              { "group": "SUS_utensils", "prob": 50 },
+              { "group": "SUS_knife_drawer", "prob": 25 },
+              { "group": "SUS_junk_drawer", "prob": 10 },
+              { "group": "SUS_dishes", "prob": 50 },
+              { "group": "SUS_appliances_cupboard", "prob": 10 },
+              { "group": "SUS_coffee_cupboard", "prob": 20 },
+              { "group": "SUS_spice_collection", "prob": 10 }
             ]
           },
           "chance": 75
