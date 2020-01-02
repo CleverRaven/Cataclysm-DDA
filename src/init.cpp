@@ -71,7 +71,7 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "trap.h"
-#include "tutorial.h"
+#include "gamemode_tutorial.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"

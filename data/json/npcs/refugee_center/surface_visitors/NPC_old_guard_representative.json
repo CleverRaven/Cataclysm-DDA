@@ -110,7 +110,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I don't like sending untested men into the field but if you have stayed alive so far you might have some skills.  There are at least a pair of bandits squatting in a local cabin, anyone who preys upon civilians meets a quick end… execute both of them for their crimes.  Complete this and the Old Guard will consider you an asset in the region.",
       "accepted": "Contractor, I welcome you aboard.",
       "rejected": "The States will remain a wasteland unless good men choose to save it.",
@@ -118,7 +118,7 @@
       "inquire": "Have you completed your mission?",
       "success": "The Old Guard thanks you for eliminating the criminals.  You won't be forgotten.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -131,14 +131,9 @@
     "value": 50000,
     "start": {
       "update_mapgen": [
-        {
-          "om_terrain": "evac_center_19",
-          "om_special": "evac_center",
-          "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ]
-        },
+        { "om_terrain": "evac_center_19", "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ] },
         {
           "om_terrain": "evac_center_7",
-          "om_special": "evac_center",
           "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]
         }
       ]
@@ -146,15 +141,15 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "This task is going to require a little more persuasive skill.  I believe the Hell's Raiders have an informant here to monitor who comes and goes.  I need you to find out who it is and deal with them without letting anyone else know of my suspicions.  We normally allow the Free Merchants to govern themselves so I would hate to offend them.",
       "accepted": "Thank you, please keep this discreet.",
       "rejected": "Come back when you get a chance, we could use a few good men.",
-      "advice": "If they draw first blood their friends are less likely to blame you...",
+      "advice": "If they draw first blood their friends are less likely to blame you…",
       "inquire": "You deal with the rat?",
       "success": "Thank you, I'll do the explaining if anyone else asks about it.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -166,7 +161,7 @@
     "difficulty": 5,
     "value": 100000,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": [ 10, 50 ] },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
@@ -177,7 +172,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "There is another monster troubling the merchants but this time it isn't human… at least I don't think.  Guy just disappeared while walking behind a packed caravan.  They didn't hear any shots but I suppose some raider may have been real sneaky.  Check out the area and report anything you find.",
       "accepted": "Thanks, keeping the people safe is what we try and do.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
@@ -185,7 +180,7 @@
       "inquire": "How is the search going?",
       "success": "Great work, wasn't sure what I was sending you after.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -216,15 +211,15 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
-      "accepted": "Now repeat after me…  I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic...... that I will bear true faith and allegiance to the same...... that I take this obligation freely, without any mental reservation or purpose of evasion...... and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
+      "accepted": "Now repeat after me…  I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic…… that I will bear true faith and allegiance to the same…… that I take this obligation freely, without any mental reservation or purpose of evasion…… and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies… it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
       "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

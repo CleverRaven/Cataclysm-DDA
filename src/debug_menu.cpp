@@ -1,8 +1,8 @@
 #include "debug_menu.h"
 
 // IWYU pragma: no_include <cxxabi.h>
-#include <limits.h>
-#include <stdint.h>
+#include <climits>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -27,6 +27,7 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
@@ -66,7 +67,7 @@
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
-#include "signal.h"
+#include <csignal>
 #include "magic.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -149,7 +150,8 @@ enum debug_menu_index {
     DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
-    DEBUG_LEVEL_SPELLS
+    DEBUG_LEVEL_SPELLS,
+    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION
 };
 
 class mission_debug
@@ -218,6 +220,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+            { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -518,8 +521,11 @@ void character_edit_menu()
             p.weapon = item();
             break;
         case D_ITEM_WORN: {
-            int item_pos = g->inv_for_all( _( "Make target equip" ) );
-            item &to_wear = g->u.i_at( item_pos );
+            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            if( !loc ) {
+                break;
+            }
+            item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
@@ -727,7 +733,7 @@ void character_edit_menu()
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
+            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
@@ -742,8 +748,8 @@ void character_edit_menu()
                     }
                     break;
                 case 2:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.radiation ) ) {
-                        p.radiation = value;
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_rad() ) ) {
+                        p.set_rad( value );
                     }
                     break;
                 default:
@@ -1308,7 +1314,9 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                critter.die( nullptr );
+                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                    critter.die( nullptr );
+                }
             }
             g->cleanup_dead();
         }
@@ -1693,6 +1701,9 @@ void debug()
             add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
             break;
         }
+        case DEBUG_TEST_MAP_EXTRA_DISTRIBUTION:
+            MapExtras::debug_spawn_test();
+            break;
     }
     catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );

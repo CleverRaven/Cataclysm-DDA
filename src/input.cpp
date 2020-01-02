@@ -217,11 +217,8 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             actions[action_id].name = action.get_string( "name" );
         }
 
-        // Iterate over the bindings JSON array
-        JsonArray bindings = action.get_array( "bindings" );
         t_input_event_list events;
-        while( bindings.has_more() ) {
-            JsonObject keybinding = bindings.next_object();
+        for( const JsonObject &keybinding : action.get_array( "bindings" ) ) {
             std::string input_method = keybinding.get_string( "input_method" );
             input_event new_event;
             if( input_method == "keyboard" ) {
@@ -233,11 +230,8 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             if( keybinding.has_array( "key" ) ) {
-                JsonArray keys = keybinding.get_array( "key" );
-                while( keys.has_more() ) {
-                    new_event.sequence.push_back(
-                        get_keycode( keys.next_string() )
-                    );
+                for( const std::string &line : keybinding.get_array( "key" ) ) {
+                    new_event.sequence.push_back( get_keycode( line ) );
                 }
             } else { // assume string if not array, and throw if not string
                 new_event.sequence.push_back(

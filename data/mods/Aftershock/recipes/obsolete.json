@@ -1,0 +1,25 @@
+[
+  {
+    "type": "recipe",
+    "result": "afs_dough",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "afs_from_dough",
+    "result": "flatbread",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "afs_from_dough",
+    "result": "bread",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "afs_from_dough",
+    "result": "hardtack",
+    "obsolete": true
+  }
+]

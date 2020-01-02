@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "mega_entrance",
-    "comment": "ground floor. entrance",
+    "//": "ground floor. entrance",
     "weight": 10,
     "method": "json",
     "object": {

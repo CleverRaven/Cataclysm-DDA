@@ -41,7 +41,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const holiday current_holiday = holiday::christmas;
+static const holiday current_holiday = holiday::new_year;
 
 void main_menu::on_move() const
 {
@@ -302,7 +302,7 @@ void main_menu::init_strings()
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
-                mmenu_credits + ( line.empty() ? " " : line ) + "\n";
+                mmenu_credits += ( line.empty() ? " " : line ) + "\n";
             }
         }
     } );

@@ -59,6 +59,9 @@ struct points_left;
 class faction;
 struct construction;
 
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -1075,10 +1078,11 @@ class Character : public Creature, public visitable<Character>
         ret_val<bool> can_unwield( const item &it ) const;
 
         void drop_invalid_inventory();
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where );
-        virtual void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
-                           bool stash = false );
+        void drop( item_location loc, const tripoint &where );
+        virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
 
@@ -1263,7 +1267,6 @@ class Character : public Creature, public visitable<Character>
         std::list<consumption_event> consumption_history;
 
         int oxygen;
-        int radiation;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1370,6 +1373,10 @@ class Character : public Creature, public visitable<Character>
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
+
+        int get_rad() const;
+        void set_rad( int new_rad );
+        void mod_rad( int mod );
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -1502,6 +1509,15 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+
+        /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
+        bool change_side( item &it, bool interactive = true );
+        bool change_side( item_location &loc, bool interactive = true );
+
+        /** Used to determine player feedback on item use for the inventory code.
+         *  rates usability lower for non-tools (books, etc.) */
+        hint_rating rate_action_change_side( const item &it ) const;
+
         bool get_check_encumbrance() {
             return check_encumbrance;
         }
@@ -1687,6 +1703,8 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        int radiation;
 
         scenttype_id type_of_scent;
 

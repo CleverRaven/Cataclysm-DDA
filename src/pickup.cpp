@@ -567,6 +567,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int pickupH = maxitems + pickupBorderRows;
         int pickupW = 44;
 
+        //find max length of item name and resize pickup window width
+        for( const std::list<item_stack::iterator> &cur_list : stacked_here ) {
+            const item &this_item = *cur_list.front();
+            int item_len = utf8_width( remove_color_tags( this_item.display_name() ) ) + 10;
+            if( item_len > pickupW && item_len < TERMX ) {
+                pickupW = item_len;
+            }
+        }
+
         int itemsW = pickupW;
 
         int pickupX = 0;
