@@ -4,6 +4,7 @@
     "subtype": "collection",
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
+    "ammo": 60,
     "entries": [
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
@@ -15,7 +16,7 @@
           {
             "distribution": [
               { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
-              { "group": "guns_survival", "prob": 60, "damage": [ 1, 4 ] }
+              { "group": "survivor_longguns", "prob": 60, "contents-item": "shoulder_strap", "damage": [ 1, 4 ] }
             ],
             "prob": 50
           },
@@ -86,6 +87,31 @@
       { "group": "survivor_knife", "prob": 10 },
       { "group": "survivor_melee", "prob": 40 },
       { "group": "guns_survival", "prob": 60 }
+    ]
+  },
+  {
+    "id": "survivor_longguns",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "guns_smg_improvised", "prob": 10 },
+          { "group": "guns_rifle_improvised", "prob": 100 },
+          { "group": "guns_shotgun_improvised", "prob": 100 },
+          { "group": "guns_launcher_improvised", "prob": 30 }
+        ],
+        "prob": 200
+      },
+      { "item": "ar15", "prob": 5, "charges": [ 0, 30 ] },
+      { "item": "mossberg_500", "prob": 5, "charges": [ 0, 8 ] },
+      { "item": "remington_870", "prob": 5, "charges": [ 0, 6 ] },
+      { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
+      { "item": "shotgun_410", "prob": 10, "charges": [ 0, 1 ] },
+      { "item": "shotgun_s", "prob": 10 },
+      { "item": "shotgun_d", "prob": 10, "charges": [ 0, 2 ] },
+      { "item": "sten", "prob": 20, "charges": [ 0, 32 ] },
+      { "item": "sks", "prob": 10, "charges": [ 0, 10 ] }
     ]
   }
 ]
