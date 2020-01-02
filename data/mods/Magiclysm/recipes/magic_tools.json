@@ -74,7 +74,7 @@
     "skills_required": [ "spellcraft", 3 ],
     "difficulty": 4,
     "time": "180 m",
-    "book_learn": [ "cooking_poison", 3 ],
+    "book_learn": "cooking_poison", 3,
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "demon_chitin", 16 ] ], [ [ "bone_glue", 10 ] ] ]
   }
