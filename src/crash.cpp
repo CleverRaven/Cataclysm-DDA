@@ -146,9 +146,6 @@ extern "C" {
 
 void init_crash_handlers()
 {
-#if defined(_WIN32)
-    SymInitialize( GetCurrentProcess(), nullptr, TRUE );
-#endif
     for( auto sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {

@@ -619,6 +619,19 @@ static int bt_syminfo( backtrace_state *const state, const uintptr_t addr,
 #endif
 
 #if defined(_WIN32)
+class sym_init
+{
+    public:
+        sym_init() {
+            SymInitialize( GetCurrentProcess(), nullptr, TRUE );
+        }
+
+        ~sym_init() {
+            SymCleanup( GetCurrentProcess() );
+        }
+};
+static std::unique_ptr<sym_init> sym_init_;
+
 constexpr int module_path_len = 512;
 // on some systems the number of frames to capture have to be less than 63 according to the documentation
 constexpr int bt_cnt = 62;
@@ -642,6 +655,9 @@ static void *bt[bt_cnt];
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
+    if( !sym_init_ ) {
+        sym_init_ = std::make_unique<sym_init>();
+    }
     sym.SizeOfStruct = sizeof( SYMBOL_INFO );
     sym.MaxNameLen = max_name_len;
     // libbacktrace's own backtrace capturing doesn't seem to work on Windows
