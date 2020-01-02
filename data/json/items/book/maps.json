@@ -50,14 +50,14 @@
       "radius": 180,
       "terrain": [
         "hiway",
-	"road",
-	"bridge",
-	"s_pharm",
-	"s_gun",
-	"s_grocery",
-	"s_hunting",
-	"mil_surplus",
-	"s_gas"
+        "road",
+        "bridge",
+        "s_pharm",
+        "s_gun",
+        "s_grocery",
+        "s_hunting",
+        "mil_surplus",
+        "s_gas"
       ],
       "message": "You add roads and possible supply points to your map."
     }
@@ -98,7 +98,7 @@
       "radius": 180,
       "terrain": [
         "forest_trail",
-	"trailhead"
+        "trailhead"
       ],
       "message": "You add trails and trailheads to your map."
     }
@@ -115,14 +115,14 @@
       "radius": 180,
       "terrain": [
         "hiway",
-	"road",
-	"bridge",
-	"hotel_tower",
-	"s_restaurant",
-	"cathedral",
-	"s_restaurant_fast",
-	"megastore",
-	"museum"
+        "road",
+        "bridge",
+        "hotel_tower",
+        "s_restaurant",
+        "cathedral",
+        "s_restaurant_fast",
+        "megastore",
+        "museum"
       ],
       "message": "You add roads and tourist attractions to your map."
     }
@@ -139,13 +139,13 @@
       "radius": 180,
       "terrain": [
         "hiway",
-	"road",
-	"bridge",
-	"s_restaurant_coffee",
-	"s_restaurant",
-	"bar",
-	"s_pizza_parlor",
-	"s_restaurant_fast"
+        "road",
+        "bridge",
+        "s_restaurant_coffee",
+        "s_restaurant",
+        "bar",
+        "s_pizza_parlor",
+        "s_restaurant_fast"
       ],
       "message": "You add roads and restaurants to your map."
     }
