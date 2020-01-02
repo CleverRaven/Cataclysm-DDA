@@ -141,10 +141,7 @@
         "id": "fairyat_285",
         "text": "This book, titled \"The Rattlesnake's Vengeance\" is a collection of Cherokee myths and legends.  \"285D\" is hand-written in pencil on the title page."
       },
-      {
-        "id": "fairyat_328",
-        "text": "This fairy tale book is a regional variant of \"Jack and the Beanstalk.\""
-      },
+      { "id": "fairyat_328", "text": "This fairy tale book is a regional variant of \"Jack and the Beanstalk.\"" },
       {
         "id": "fairyat_333",
         "text": "This fairy tale book is entitled \"Little Red Cap\".  It details a red-cloaked child's various encounters with talking wolves."
@@ -157,10 +154,7 @@
         "id": "fairyat_408",
         "text": "A book of Italian fairy tales translated into English.  The cover features an orange fairy juggling a lemon, a lime, and a tangerine."
       },
-      {
-        "id": "fairyat_451",
-        "text": "A book of fables about people who change into birds."
-      },
+      { "id": "fairyat_451", "text": "A book of fables about people who change into birds." },
       {
         "id": "fairyat_475",
         "text": "This compendium of amusing folk tales about the devil is titled \"Hell's Kettle: Legends of the Devil.\""
@@ -173,22 +167,10 @@
         "id": "fairyat_555",
         "text": "This is a collection of fairy tale stories warning against the consequences of extreme greed."
       },
-      {
-        "id": "fairyat_591",
-        "text": "This book is titled, \"The Thieving Pot: Folktales of the Arab World.\""
-      },
-      {
-        "id": "fairyat_653",
-        "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s."
-      },
-      {
-        "id": "fairyat_758",
-        "text": "A book by the Brothers Grimm titled, \"Eve's Unequal Children.\""
-      },
-      {
-        "id": "fairyat_766",
-        "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus."
-      },
+      { "id": "fairyat_591", "text": "This book is titled, \"The Thieving Pot: Folktales of the Arab World.\"" },
+      { "id": "fairyat_653", "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s." },
+      { "id": "fairyat_758", "text": "A book by the Brothers Grimm titled, \"Eve's Unequal Children.\"" },
+      { "id": "fairyat_766", "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus." },
       {
         "id": "fairyat_1060",
         "text": "In this fairy tale a strong man frightens an ogre by squeezing water out of a stone."
@@ -705,11 +687,7 @@
     "name": "coming of age novel",
     "copy-from": "novel_coa",
     "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
-    "relative": {
-      "time": -4,
-      "chapters": -2,
-      "fun": 1
-    }
+    "relative": { "time": -4, "chapters": -2, "fun": 1 }
   },
   {
     "id": "novel_crime",
@@ -734,10 +712,7 @@
     "name": "crime novel",
     "copy-from": "novel_crime",
     "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
-    "relative": {
-      "time": -3,
-      "chapters": -3
-    }
+    "relative": { "time": -3, "chapters": -3 }
   },
   {
     "id": "novel_drama",
@@ -955,30 +930,15 @@
         "id": "scifi1_3",
         "text": "This is a copy of \"The Lathe of Heaven\" by Ursula Le Guin.  Dirty finger-stains have smudged the occasional word."
       },
-      {
-        "id": "scifi1_4",
-        "text": "This is a copy of \"The Dispossessed\" by Ursula Le Guin."
-      },
-      {
-        "id": "scifi1_5",
-        "text": "This copy of Ray Bradbury's \"Fahrenheit 451\"."
-      },
-      {
-        "id": "scifi1_6",
-        "text": "This is a copy of \"Hyperion\" by Dan Simmons."
-      },
+      { "id": "scifi1_4", "text": "This is a copy of \"The Dispossessed\" by Ursula Le Guin." },
+      { "id": "scifi1_5", "text": "This copy of Ray Bradbury's \"Fahrenheit 451\"." },
+      { "id": "scifi1_6", "text": "This is a copy of \"Hyperion\" by Dan Simmons." },
       {
         "id": "scifi1_7",
         "text": "This is a copy of \"Endymion\" by Dan Simmons.  It opens with a poem by D.H. Lawrence:\n\nGive us gods.  Oh give them us!\nGive us gods.\nWe are so tired of men\nAnd motor-power."
       },
-      {
-        "id": "scifi1_8",
-        "text": "This is a copy of Philip K. Dick's \"Do Androids Dream of Electric Sheep?\"."
-      },
-      {
-        "id": "scifi1_9",
-        "text": "This is a dog-eared copy of \"Nova Express\" by William Burroughs."
-      },
+      { "id": "scifi1_8", "text": "This is a copy of Philip K. Dick's \"Do Androids Dream of Electric Sheep?\"." },
+      { "id": "scifi1_9", "text": "This is a dog-eared copy of \"Nova Express\" by William Burroughs." },
       {
         "id": "scifi1_10",
         "text": "This is a copy of \"Foundation\" by Isaac Asimov.  The back cover has been ripped off."
@@ -987,22 +947,13 @@
         "id": "scifi1_11",
         "text": "This is a dog-eared copy of \"Dune\" by Frank Herbert.  It has sand between some of its pages.  Weird."
       },
-      {
-        "id": "scifi1_12",
-        "text": "This is a copy of \"The Trial\" by Franz Kafka.  This book is rather worn."
-      },
-      {
-        "id": "scifi1_13",
-        "text": "This is a copy of \"The Handmaid's Tale\" by Margaret Atwood."
-      },
+      { "id": "scifi1_12", "text": "This is a copy of \"The Trial\" by Franz Kafka.  This book is rather worn." },
+      { "id": "scifi1_13", "text": "This is a copy of \"The Handmaid's Tale\" by Margaret Atwood." },
       {
         "id": "scifi1_14",
         "text": "This is a copy of \"The Windup Girl\" by Paolo Bacigalupi.  The blurb makes you wonder how Thailand fared the end of the world."
       },
-      {
-        "id": "scifi1_15",
-        "text": "This is a copy of \"Islands in the Net\" by Bruce Sterling."
-      },
+      { "id": "scifi1_15", "text": "This is a copy of \"Islands in the Net\" by Bruce Sterling." },
       {
         "id": "scifi1_16",
         "text": "This is a copy of \"Foundation and Empire\" by Isaac Asimov.  The back page contains a hand-written grocery list."
@@ -1019,10 +970,7 @@
         "id": "scifi1_19",
         "text": "This is a copy of \"The World of Null-A\" by A. E. van Vogt.  This copy looks to have been used to press flowers."
       },
-      {
-        "id": "scifi1_20",
-        "text": "This is a copy of \"Altered Carbon\" by Richard Morgan."
-      },
+      { "id": "scifi1_20", "text": "This is a copy of \"Altered Carbon\" by Richard Morgan." },
       {
         "id": "scifi1_21",
         "text": "This is a copy of Mary Shelly's \"Frankenstein\".  Wasn't that the name of the monster?"
@@ -1035,18 +983,12 @@
         "id": "scifi1_23",
         "text": "This is a copy of \"I Am Legend\" by Richard Matheson.  The sleeve is covered in dried blood."
       },
-      {
-        "id": "scifi1_24",
-        "text": "This is a copy of \"Roadside Picnic\" by Arkady and Boris Strugatsky."
-      },
+      { "id": "scifi1_24", "text": "This is a copy of \"Roadside Picnic\" by Arkady and Boris Strugatsky." },
       {
         "id": "scifi1_25",
         "text": "This is a copy of \"The Forever War\" by Joe Haldeman.  This copy looks as if it's been slightly chewed by a dog or other large animal."
       },
-      {
-        "id": "scifi1_26",
-        "text": "This is a copy of \"The Moon Is a Harsh Mistress\" by Robert A. Heinlein."
-      },
+      { "id": "scifi1_26", "text": "This is a copy of \"The Moon Is a Harsh Mistress\" by Robert A. Heinlein." },
       {
         "id": "scifi1_27",
         "text": "This is a copy of \"Cat's Cradle\" by Kurt Vonnegut.  You notice there is a typo in the authors name on the spine of the book."
@@ -1055,10 +997,7 @@
         "id": "scifi1_28",
         "text": "This is a copy of Samuel R. Delany's \"Nova\".  The cover reads \"Review Copy.  Not for re-sale.\""
       },
-      {
-        "id": "scifi1_29",
-        "text": "This is a copy of Vonnegut's \"The Sirens of Titan\"."
-      },
+      { "id": "scifi1_29", "text": "This is a copy of Vonnegut's \"The Sirens of Titan\"." },
       {
         "id": "scifi1_30",
         "text": "This is a copy of \"Grass\" by Sheri S. Tepper.  A child has scribbled over the first pages in crayon."
@@ -1071,10 +1010,7 @@
         "id": "scifi1_32",
         "text": "This is a copy of \"The Fifth Season\" by N.K. Jemsin.  It smells faintly of dirt."
       },
-      {
-        "id": "scifi1_33",
-        "text": "This is a copy of \"The Weapon Makers\" by A. E. van Vogt."
-      },
+      { "id": "scifi1_33", "text": "This is a copy of \"The Weapon Makers\" by A. E. van Vogt." },
       {
         "id": "scifi1_34",
         "text": "This is a copy of \"Record of a Spaceborn Few\" by Becky Chambers.  It looks almost brand new."
@@ -1083,10 +1019,7 @@
         "id": "scifi1_35",
         "text": "This is a copy of \"Use of Weapons\" by Ian M. Banks.  The spine is cracked and worn, some pages appear to be loose."
       },
-      {
-        "id": "scifi1_36",
-        "text": "This is a copy of Jean-Baptiste Cousin de Grainville's \"Le Dernier Homme\"."
-      },
+      { "id": "scifi1_36", "text": "This is a copy of Jean-Baptiste Cousin de Grainville's \"Le Dernier Homme\"." },
       {
         "id": "scifi1_37",
         "text": "This is a copy of Orwell's \"Nineteen Eighty-Four\".  The pages are loose and thin.  You should probably be careful with this copy."
@@ -1095,89 +1028,30 @@
         "id": "scifi1_38",
         "text": "This is a copy of Heinlein's \"Stranger in a Strange Land\".  The cover is dog-eared and worn."
       },
-      {
-        "id": "scifi1_39",
-        "text": "This is a copy of Orson Scott Card's \"Ender's Game\"."
-      },
-      {
-        "id": "scifi1_40",
-        "text": "This is a weather worn copy of \"Brave New World\" by Aldous Huxley."
-      },
-      {
-        "id": "scifi1_41",
-        "text": "This is a copy of \"The Lost World\" by Arthur Conan Doyle."
-      },
-      {
-        "id": "scifi1_42",
-        "text": "This is a copy of \"Islands in the Sky\" by Arthur C. Clarke."
-      },
-      {
-        "id": "scifi1_43",
-        "text": "This is a copy of H. G. Wells' \"The Island of Doctor Moreau\"."
-      },
-      {
-        "id": "scifi1_44",
-        "text": "This is a copy of Stanislaw Lem's \"His Masters Voice\"."
-      },
-      {
-        "id": "scifi1_45",
-        "text": "This is a copy of Fred Hoyle's \"The Black Cloud\"."
-      },
-      {
-        "id": "scifi1_46",
-        "text": "This is a copy of \"Last and First Men\" by Olaf Stapeldon."
-      },
-      {
-        "id": "scifi1_47", "text": "This is a copy of Stanislaw Lem's \"Solaris\"."
-      },
-      {
-        "id": "scifi1_48",
-        "text": "This is a copy of Theodore Sturgeon's \"More Than Human\"."
-      },
-      {
-        "id": "scifi1_49",
-        "text": "This is a copy of \"Vurt\" by Jeff Noon."
-      },
-      {
-        "id": "scifi1_50",
-        "text": "This is a copy of \"A Canticle for Leibowitz\" by Walter M. Miller Jr."
-      },
-      {
-        "id": "scifi1_51",
-        "text": "This is a copy of \"The War of The Worlds\" by H.G Wells."
-      },
-      {
-        "id": "scifi1_52",
-        "text": "This is a copy of \"Iron Sunrise\" by Charles Stross."
-      },
+      { "id": "scifi1_39", "text": "This is a copy of Orson Scott Card's \"Ender's Game\"." },
+      { "id": "scifi1_40", "text": "This is a weather worn copy of \"Brave New World\" by Aldous Huxley." },
+      { "id": "scifi1_41", "text": "This is a copy of \"The Lost World\" by Arthur Conan Doyle." },
+      { "id": "scifi1_42", "text": "This is a copy of \"Islands in the Sky\" by Arthur C. Clarke." },
+      { "id": "scifi1_43", "text": "This is a copy of H. G. Wells' \"The Island of Doctor Moreau\"." },
+      { "id": "scifi1_44", "text": "This is a copy of Stanislaw Lem's \"His Masters Voice\"." },
+      { "id": "scifi1_45", "text": "This is a copy of Fred Hoyle's \"The Black Cloud\"." },
+      { "id": "scifi1_46", "text": "This is a copy of \"Last and First Men\" by Olaf Stapeldon." },
+      { "id": "scifi1_47", "text": "This is a copy of Stanislaw Lem's \"Solaris\"." },
+      { "id": "scifi1_48", "text": "This is a copy of Theodore Sturgeon's \"More Than Human\"." },
+      { "id": "scifi1_49", "text": "This is a copy of \"Vurt\" by Jeff Noon." },
+      { "id": "scifi1_50", "text": "This is a copy of \"A Canticle for Leibowitz\" by Walter M. Miller Jr." },
+      { "id": "scifi1_51", "text": "This is a copy of \"The War of The Worlds\" by H.G Wells." },
+      { "id": "scifi1_52", "text": "This is a copy of \"Iron Sunrise\" by Charles Stross." },
       {
         "id": "scifi1_53",
         "text": "This is a copy of \"The Hunger Games\" by Suzanne Collins.  Reading the blurb reminds you of a Japanese movie you think you once caught on the television late at night."
       },
-      {
-        "id": "scifi1_54",
-        "text": "This is a copy of \"The Day of the Triffids\" by John Wyndham."
-      },
-      {
-        "id": "scifi1_55",
-        "text": "This is a copy of \"A Clockwork Orange\" by Anthony Burges."
-      },
-      {
-        "id": "scifi1_56",
-        "text": "This is a copy of \"The Man Who Fell to Earth\" by Walter Tevis."
-      },
-      {
-        "id": "scifi1_57",
-        "text": "This is a copy of \"Simulacron-3\" by Daniel F. Galouye."
-      },
-      {
-        "id": "scifi1_58",
-        "text": "This is a copy of \"The Glass Bees\" by Ernst Jünger."
-      },
-      {
-        "id": "scifi1_59",
-        "text": "This is a copy of \"Journey to The Center of the Earth\" by Jules Verne."
-      },
+      { "id": "scifi1_54", "text": "This is a copy of \"The Day of the Triffids\" by John Wyndham." },
+      { "id": "scifi1_55", "text": "This is a copy of \"A Clockwork Orange\" by Anthony Burges." },
+      { "id": "scifi1_56", "text": "This is a copy of \"The Man Who Fell to Earth\" by Walter Tevis." },
+      { "id": "scifi1_57", "text": "This is a copy of \"Simulacron-3\" by Daniel F. Galouye." },
+      { "id": "scifi1_58", "text": "This is a copy of \"The Glass Bees\" by Ernst Jünger." },
+      { "id": "scifi1_59", "text": "This is a copy of \"Journey to The Center of the Earth\" by Jules Verne." },
       {
         "id": "scifi1_60",
         "text": "This is a copy of Larry Niven's \"Ringworld\".  There are a couple of pages missing from the end of the book.  Luckily only mail-order advertisements."
@@ -1296,10 +1170,7 @@
     "name": "war novel",
     "copy-from": "novel_war",
     "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia.",
-    "relative": {
-      "time": -4,
-      "chapters": -4
-    }
+    "relative": { "time": -4, "chapters": -4 }
   },
   {
     "id": "novel_western",
@@ -1376,18 +1247,12 @@
         "id": "philosophy13",
         "text": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski.  Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube.  Provocative."
       },
-      {
-        "id": "philosophy14",
-        "text": "This is a small reader on Hegel's Dialectics."
-      },
+      { "id": "philosophy14", "text": "This is a small reader on Hegel's Dialectics." },
       {
         "id": "philosophy15",
         "text": "This is a copy of \"The State and Revolution\" by Vladimir Lenin.  In English, thankfully."
       },
-      {
-        "id": "philosophy16",
-        "text": "This is a copy of \"In Defense of Marxism\" by Leon Trotsky."
-      },
+      { "id": "philosophy16", "text": "This is a copy of \"In Defense of Marxism\" by Leon Trotsky." },
       {
         "id": "philosophy17",
         "text": "This is a copy of \"Steal This Book\" by Abbie Hoffman.  There is a security tag on the back cover.  It appears to still be active."
@@ -1400,46 +1265,22 @@
         "id": "philosophy19",
         "text": "This is a copy of \"The Female Eunuch\" by Germaine Greer.  A child has scribbled over the contents page in red crayon."
       },
-      {
-        "id": "philosophy20",
-        "text": "This is a copy of \"An Introduction to Metaphysics\" by Bergson."
-      },
+      { "id": "philosophy20", "text": "This is a copy of \"An Introduction to Metaphysics\" by Bergson." },
       {
         "id": "philosophy21",
         "text": "This is a copy of \"The Four Fundamental Concepts of Psychoanalysis\" by Jacques Lacan."
       },
-      {
-        "id": "philosophy22",
-        "text": "This is a copy of Machiavelli's \"The Prince\".  With intro by Q. Skinner."
-      },
-      {
-        "id": "philosophy23",
-        "text": "This is a copy of \"On The Revolution of Everyday Life\" by Raul Vangeigem."
-      },
+      { "id": "philosophy22", "text": "This is a copy of Machiavelli's \"The Prince\".  With intro by Q. Skinner." },
+      { "id": "philosophy23", "text": "This is a copy of \"On The Revolution of Everyday Life\" by Raul Vangeigem." },
       {
         "id": "philosophy24",
         "text": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse.  The cover contains an image of a pelican."
       },
-      {
-        "id": "philosophy25",
-        "text": "This is a copy of \"Either-Or\" by Søren Kierkegaard."
-      },
-      {
-        "id": "philosophy26",
-        "text": "This is a copy of \"Allegory of the Cave\" by Plato."
-      },
-      {
-        "id": "philosophy27",
-        "text": "This is a copy of \"Leviathan\" by Thomas Hobbes."
-      },
-      {
-        "id": "philosophy28",
-        "text": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant."
-      },
-      {
-        "id": "philosophy29",
-        "text": "This is a copy of \"Principles of Philosophy\" by Descartes."
-      },
+      { "id": "philosophy25", "text": "This is a copy of \"Either-Or\" by Søren Kierkegaard." },
+      { "id": "philosophy26", "text": "This is a copy of \"Allegory of the Cave\" by Plato." },
+      { "id": "philosophy27", "text": "This is a copy of \"Leviathan\" by Thomas Hobbes." },
+      { "id": "philosophy28", "text": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant." },
+      { "id": "philosophy29", "text": "This is a copy of \"Principles of Philosophy\" by Descartes." },
       {
         "id": "philosophy30",
         "text": "This is a copy of both \"On The Genealogy of Morals\" and \"The Gay Science\" by Friederich Nietzsche."
@@ -1500,10 +1341,7 @@
         "id": "philosophy44",
         "text": "This is a copy of \"The ABC of Communism\" by Nikolai Bukharin, one of the most influential books of early Marxism-Leninism."
       },
-      {
-        "id": "philosophy45",
-        "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises."
-      }
+      { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
     ],
     "weight": "350 g",
     "volume": "750 ml",
@@ -1730,50 +1568,20 @@
     "name": { "str": "book of classic literature", "str_pl": "books of classic literature" },
     "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
     "snippet_category": [
-      {
-        "id": "classic1",
-        "text": "This is a copy of Dickens' \"Bleak House\"."
-      },
-      {
-        "id": "classic2",
-        "text": "This is a copy of \"Great Expectations\" by Charles Dickens."
-      },
-      {
-        "id": "classic3",
-        "text": "This is a copy of William Shinderling's \"Under the Beech Trees\"."
-      },
+      { "id": "classic1", "text": "This is a copy of Dickens' \"Bleak House\"." },
+      { "id": "classic2", "text": "This is a copy of \"Great Expectations\" by Charles Dickens." },
+      { "id": "classic3", "text": "This is a copy of William Shinderling's \"Under the Beech Trees\"." },
       {
         "id": "classic4",
         "text": "This is a collection of three Jane Austen novels: \"Pride and Prejudice\", \"Sense and Sensibility\", and \"Emma\"."
       },
-      {
-        "id": "classic5",
-        "text": "This is a well-worn paperback copy of \"Lord of the Flies\"."
-      },
-      {
-        "id": "classic6",
-        "text": "This is a copy of \"To Kill a Mockingbird\" by Harper Lee."
-      },
-      {
-        "id": "classic7",
-        "text": "This is a copy of F. Scott Fitzgerald's \"The Great Gatsby.\""
-      },
-      {
-        "id": "classic8",
-        "text": "This is copy of Michael Abanaderly's lesser-known work, \"He Walks\"."
-      },
-      {
-        "id": "classic9",
-        "text": "This is a collection of several vintage science fiction stories by Ray Bradbury."
-      },
-      {
-        "id": "classic10",
-        "text": "This is a copy of \"The Adventures of Tom Sawyer\" by Mark Twain."
-      },
-      {
-        "id": "classic11",
-        "text": "This is an illustrated copy of \"Innocents Abroad\" by Mark Twain."
-      },
+      { "id": "classic5", "text": "This is a well-worn paperback copy of \"Lord of the Flies\"." },
+      { "id": "classic6", "text": "This is a copy of \"To Kill a Mockingbird\" by Harper Lee." },
+      { "id": "classic7", "text": "This is a copy of F. Scott Fitzgerald's \"The Great Gatsby.\"" },
+      { "id": "classic8", "text": "This is copy of Michael Abanaderly's lesser-known work, \"He Walks\"." },
+      { "id": "classic9", "text": "This is a collection of several vintage science fiction stories by Ray Bradbury." },
+      { "id": "classic10", "text": "This is a copy of \"The Adventures of Tom Sawyer\" by Mark Twain." },
+      { "id": "classic11", "text": "This is an illustrated copy of \"Innocents Abroad\" by Mark Twain." },
       {
         "id": "classic12",
         "text": "This is a copy of Bram Stoker's \"Dracula\", with scholarly commentary in the margins."
@@ -1810,18 +1618,9 @@
         "id": "classic20",
         "text": "This is a collection of classic renaissance era stories, headlined by \"Don Quixote\"."
       },
-      {
-        "id": "classic21",
-        "text": "This is a paperback copy of \"The Fellowship of the Ring\" by Tolkien."
-      },
-      {
-        "id": "classic22",
-        "text": "This is a paperback copy of \"The Two Towers\" by Tolkien."
-      },
-      {
-        "id": "classic23",
-        "text": "This is a paperback copy of \"The Return of the King\" by Tolkien."
-      },
+      { "id": "classic21", "text": "This is a paperback copy of \"The Fellowship of the Ring\" by Tolkien." },
+      { "id": "classic22", "text": "This is a paperback copy of \"The Two Towers\" by Tolkien." },
+      { "id": "classic23", "text": "This is a paperback copy of \"The Return of the King\" by Tolkien." },
       {
         "id": "classic24",
         "text": "This is a hardbound collection of George Orwell's works, including \"1984\" and \"Animal Farm\" as well as many of his less infamous titles."
@@ -1830,10 +1629,7 @@
         "id": "classic25",
         "text": "This is a paperback copy of \"Little Women\" by Louisa May Alcott.  It appears to have been read a great many times."
       },
-      {
-        "id": "classic26",
-        "text": "This is a paperback copy of \"Of Mice and Men\" by Steinbeck."
-      },
+      { "id": "classic26", "text": "This is a paperback copy of \"Of Mice and Men\" by Steinbeck." },
       {
         "id": "classic27",
         "text": "This is a hefty hardcover copy of \"Run and Run Again\" by Finn Calpay.  There is a lengthy forward about the controversy around the book's release."
@@ -1842,110 +1638,32 @@
         "id": "classic28",
         "text": "This is a hardcover copy of \"The Gates Have Opened\" by Arianna Methusalah.  You feel like you've read this before, but can't remember where.  Something about the book fills you with unease."
       },
-      {
-        "id": "classic29",
-        "text": "This is a copy of \"The Count of Monte Cristo\" by Dumas."
-      },
-      {
-        "id": "classic30",
-        "text": "This is a copy of \"The Secret Garden\" by Frances Burnett."
-      },
-      {
-        "id": "classic31",
-        "text": "This is a copy of \"Lieutenant Hornblower\" by C.S. Forester."
-      },
-      {
-        "id": "classic32",
-        "text": "This is a copy of \"Master and Commander\" by Patrick O'Brian."
-      },
-      {
-        "id": "classic33",
-        "text": "This is a copy of \"The Warden\" by Anthony Trollope."
-      },
-      {
-        "id": "classic34",
-        "text": "This is a copy of \"The Far Side of the World\" by Patrick O'Brian."
-      },
-      {
-        "id": "classic35",
-        "text": "This is a copy of \"HMS Surprise\" by Patrick O'Brian."
-      },
-      {
-        "id": "classic36",
-        "text": "This is a copy of \"Barchester Towers\" by Anthony Trollope."
-      },
-      {
-        "id": "classic37",
-        "text": "This is a copy of \"The Land Ironclads\" by H.G. Wells."
-      },
-      {
-        "id": "classic38",
-        "text": "This is a copy of \"The Great Boer War\" by Arthur Conan Doyle."
-      },
-      {
-        "id": "classic39",
-        "text": "This is a copy of \"The Crime of the Congo\" by Arthur Conan Doyle."
-      },
-      {
-        "id": "classic40",
-        "text": "This is a copy of \"The Parasite\" by Arthur Conan Doyle."
-      },
-      {
-        "id": "classic41",
-        "text": "This is a copy of \"By Stroke of Sword\" by Andrew Balfour."
-      },
-      {
-        "id": "classic42",
-        "text": "This is a copy of \"The Secret Agent\" by Joseph Conrad."
-      },
-      {
-        "id": "classic43",
-        "text": "This is a copy of \"Lord Jim\" by Joseph Conrad."
-      },
-      {
-        "id": "classic44",
-        "text": "This is a copy of \"Vanity Fair\" by William Makepeace Thackeray."
-      },
-      {
-        "id": "classic45",
-        "text": "This is a copy of \"The Luck of Barry Lyndon\" by William Makepeace Thackeray."
-      },
-      {
-        "id": "classic46",
-        "text": "This is a copy of \"North and South\" by Elizabeth Gaskell."
-      },
-      {
-        "id": "classic47",
-        "text": "This is a copy of \"The Mayor of Casterbridge\" by Thomas Hardy."
-      },
-      {
-        "id": "classic48",
-        "text": "This is a copy of \"Wessex Tales\" by Thomas Hardy."
-      },
-      {
-        "id": "classic49",
-        "text": "This is a copy of \"Far from the Madding Crowd\" by Thomas Hardy."
-      },
-      {
-        "id": "classic50",
-        "text": "This is a copy of \"Captains Courageous\" by Rudyard Kipling."
-      },
-      {
-        "id": "classic51",
-        "text": "This is a copy of \"The Canterbury Tales\" by Geoffrey Chaucer."
-      },
-      {
-        "id": "classic52",
-        "text": "This is a copy of \"Harold, the Last of the Saxons\" by Edward Bulwer-Lytton."
-      },
-      {
-        "id": "classic53",
-        "text": "This is a copy of \"Mr Midshipman Easy\" by Frederick Marryat."
-      },
-      {
-        "id": "classic54",
-        "text": "This is a copy of \"Peter Simple\" by Frederick Marryat."
-      }
+      { "id": "classic29", "text": "This is a copy of \"The Count of Monte Cristo\" by Dumas." },
+      { "id": "classic30", "text": "This is a copy of \"The Secret Garden\" by Frances Burnett." },
+      { "id": "classic31", "text": "This is a copy of \"Lieutenant Hornblower\" by C.S. Forester." },
+      { "id": "classic32", "text": "This is a copy of \"Master and Commander\" by Patrick O'Brian." },
+      { "id": "classic33", "text": "This is a copy of \"The Warden\" by Anthony Trollope." },
+      { "id": "classic34", "text": "This is a copy of \"The Far Side of the World\" by Patrick O'Brian." },
+      { "id": "classic35", "text": "This is a copy of \"HMS Surprise\" by Patrick O'Brian." },
+      { "id": "classic36", "text": "This is a copy of \"Barchester Towers\" by Anthony Trollope." },
+      { "id": "classic37", "text": "This is a copy of \"The Land Ironclads\" by H.G. Wells." },
+      { "id": "classic38", "text": "This is a copy of \"The Great Boer War\" by Arthur Conan Doyle." },
+      { "id": "classic39", "text": "This is a copy of \"The Crime of the Congo\" by Arthur Conan Doyle." },
+      { "id": "classic40", "text": "This is a copy of \"The Parasite\" by Arthur Conan Doyle." },
+      { "id": "classic41", "text": "This is a copy of \"By Stroke of Sword\" by Andrew Balfour." },
+      { "id": "classic42", "text": "This is a copy of \"The Secret Agent\" by Joseph Conrad." },
+      { "id": "classic43", "text": "This is a copy of \"Lord Jim\" by Joseph Conrad." },
+      { "id": "classic44", "text": "This is a copy of \"Vanity Fair\" by William Makepeace Thackeray." },
+      { "id": "classic45", "text": "This is a copy of \"The Luck of Barry Lyndon\" by William Makepeace Thackeray." },
+      { "id": "classic46", "text": "This is a copy of \"North and South\" by Elizabeth Gaskell." },
+      { "id": "classic47", "text": "This is a copy of \"The Mayor of Casterbridge\" by Thomas Hardy." },
+      { "id": "classic48", "text": "This is a copy of \"Wessex Tales\" by Thomas Hardy." },
+      { "id": "classic49", "text": "This is a copy of \"Far from the Madding Crowd\" by Thomas Hardy." },
+      { "id": "classic50", "text": "This is a copy of \"Captains Courageous\" by Rudyard Kipling." },
+      { "id": "classic51", "text": "This is a copy of \"The Canterbury Tales\" by Geoffrey Chaucer." },
+      { "id": "classic52", "text": "This is a copy of \"Harold, the Last of the Saxons\" by Edward Bulwer-Lytton." },
+      { "id": "classic53", "text": "This is a copy of \"Mr Midshipman Easy\" by Frederick Marryat." },
+      { "id": "classic54", "text": "This is a copy of \"Peter Simple\" by Frederick Marryat." }
     ],
     "weight": "350 g",
     "volume": "750 ml",
@@ -1966,14 +1684,8 @@
     "name": { "str": "collector's edition book", "str_pl": "collector's edition books" },
     "description": "A unique, valuable book that has been kept as a collector's item.",
     "snippet_category": [
-      {
-        "id": "fancy1",
-        "text": "This is a high-quality leather bound copy of Charles Dickens' \"A Tale of Two Cities\"."
-      },
-      {
-        "id": "fancy2",
-        "text": "This is a very old but well-preserved copy of Charles Dickens' \"Oliver Twist\"."
-      },
+      { "id": "fancy1", "text": "This is a high-quality leather bound copy of Charles Dickens' \"A Tale of Two Cities\"." },
+      { "id": "fancy2", "text": "This is a very old but well-preserved copy of Charles Dickens' \"Oliver Twist\"." },
       {
         "id": "fancy3",
         "text": "This high-quality copy of Jane Austen's \"Pride and Prejudice\" is dog-eared and looks to have been read many times."
@@ -1986,10 +1698,7 @@
         "id": "fancy5",
         "text": "This copy of Jane Austen's \"Sense and Sensibility\" has a certificate of authenticity declaring it to be an early edition.  It would have been worth an enormous amount of money, not long ago."
       },
-      {
-        "id": "fancy6",
-        "text": "This is an excellent quality copy of \"To Kill a Mockingbird\" by Harper Lee."
-      },
+      { "id": "fancy6", "text": "This is an excellent quality copy of \"To Kill a Mockingbird\" by Harper Lee." },
       {
         "id": "fancy7",
         "text": "This is a high-quality leather bound copy of F. Scott Fitzgerald's \"The Great Gatsby.\""
