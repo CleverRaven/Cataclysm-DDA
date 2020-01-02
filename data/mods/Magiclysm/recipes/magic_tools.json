@@ -75,7 +75,7 @@
     "difficulty": 4,
     "time": "50 m",
     "book_learn": [ "cooking_poison", 3 ],
-    "qualities": [ { "id": "CHISEL", "level": 1 } ],
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "demon_chitin", 16 ] ], [ [ "bone_glue", 10 ] ] ]
   }
 ]
