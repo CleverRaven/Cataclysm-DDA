@@ -1240,22 +1240,21 @@ void iexamine::safe( player &p, const tripoint &examp )
  */
 void iexamine::gunsafe_ml( player &p, const tripoint &examp )
 {
-    if( !( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ||
-           p.has_amount( "fc_hairpin", 1 ) ||
-           p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
+    int pick_quality = 0;
+
+    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
+        pick_quality = 5;
+    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ) {
+        pick_quality = 3;
+    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
+        pick_quality = 1;
+    }
+
+    if( pick_quality == 0 ) {
         add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
         return;
     } else if( !query_yn( _( "Pick the gun safe?" ) ) ) {
         return;
-    }
-
-    int pick_quality = 1;
-    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
-        pick_quality = 5;
-    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
-        pick_quality = 1;
-    } else {
-        pick_quality = 3;
     }
 
     p.practice( skill_mechanics, 1 );
