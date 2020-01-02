@@ -572,7 +572,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 }
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -583,7 +583,7 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
     if( !has_comps( crafting_inv, qualities, return_true<item> ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, tools, return_true<item>, batch ) ) {
+    if( !has_comps( crafting_inv, tools, return_true<item>, batch, flags ) ) {
         retval = false;
     }
     if( !has_comps( crafting_inv, components, filter, batch ) ) {
@@ -599,7 +599,7 @@ template<typename T>
 bool requirement_data::has_comps( const inventory &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
-                                  int batch )
+                                  int batch, craft_flags flags )
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
@@ -607,7 +607,8 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
         for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, filter, batch, [ &UPS_charges_used ]( int charges ) {
+            if( tool.has( crafting_inv, filter, batch, flags,
+            [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
             } ) ) {
                 tool.available = a_true;
@@ -631,8 +632,9 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv,
-                               const std::function<bool( const item & )> &, int, std::function<void( int )> ) const
+bool quality_requirement::has(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
+    craft_flags, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -649,9 +651,9 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
     return has_one ? c_dark_gray : c_red;
 }
 
-bool tool_comp::has( const inventory &crafting_inv,
-                     const std::function<bool( const item & )> &filter, int batch,
-                     std::function<void( int )> visitor ) const
+bool tool_comp::has(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
+    craft_flags flags, std::function<void( int )> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -659,7 +661,11 @@ bool tool_comp::has( const inventory &crafting_inv,
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
-        const int charges_required = count * batch * item::find_type( type )->charge_factor();
+        int charges_required = count * batch * item::find_type( type )->charge_factor();
+
+        if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
+            charges_required = charges_required / 20 + charges_required % 20;
+        }
 
         int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
         return charges_found == charges_required;
@@ -677,9 +683,9 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
     return has_one ? c_dark_gray : c_red;
 }
 
-bool item_comp::has( const inventory &crafting_inv,
-                     const std::function<bool( const item & )> &filter, int batch,
-                     std::function<void( int )> ) const
+bool item_comp::has(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
+    craft_flags, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -1162,7 +1168,8 @@ static void expand_item_in_reqs(
     }
 }
 
-deduped_requirement_data::deduped_requirement_data( const requirement_data &in )
+deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
+        const recipe_id &context )
 {
     // This constructor works through a requirement_data, converting it into an
     // equivalent set of requirement_data alternatives, where each alternative
@@ -1237,11 +1244,58 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in )
 
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
-        static constexpr size_t max_alternatives = 20;
+        // The worst case in the core game currently is chainmail_suit_faraday
+        // with 63 alternatives.
+        static constexpr size_t max_alternatives = 100;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
-                      "The recipe at fault should be simplified." );
+                      "The recipe %s should be simplified.", context.str() );
             abort();
         }
     }
+
+    // Use this to find demanding recipes without aborting entirely
+    //if( alternatives_.size() > 50 ) {
+    //    debugmsg( "Recipe %s has %zu alternatives, which is quite high.",
+    //              context.str(), alternatives_.size() );
+    //}
+}
+
+bool deduped_requirement_data::can_make_with_inventory(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+    int batch, craft_flags flags ) const
+{
+    return std::any_of( alternatives().begin(), alternatives().end(),
+    [&]( const requirement_data & alt ) {
+        return alt.can_make_with_inventory( crafting_inv, filter, batch, flags );
+    } );
+}
+
+std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+    int batch, craft_flags flags ) const
+{
+    std::vector<const requirement_data *> result;
+    for( const requirement_data &req : alternatives() ) {
+        if( req.can_make_with_inventory( crafting_inv, filter, batch, flags ) ) {
+            result.push_back( &req );
+        }
+    }
+    return result;
+}
+
+const requirement_data &deduped_requirement_data::select_alternative(
+    player &crafter, const std::function<bool( const item & )> &filter, int batch,
+    craft_flags flags ) const
+{
+    return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
+}
+
+const requirement_data &deduped_requirement_data::select_alternative(
+    player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
+    int batch, craft_flags flags ) const
+{
+    const std::vector<const requirement_data *> all_reqs =
+        feasible_alternatives( inv, filter, batch, flags );
+    return crafter.select_requirements( all_reqs, 1, inv, filter );
 }

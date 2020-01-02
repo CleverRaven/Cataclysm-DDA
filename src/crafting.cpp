@@ -323,7 +323,7 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     if( !can_make( &making, batch_size ) ) {
         std::string buffer = _( "You can no longer make that craft!" );
         buffer += "\n";
-        buffer += making.requirements().list_missing();
+        buffer += making.simple_requirements().list_missing();
         popup( buffer, PF_NONE );
         return false;
     }
@@ -472,14 +472,14 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
 bool player::can_make( const recipe *r, int batch_size )
 {
-    const inventory &crafting_inv = crafting_inventory();
+    inventory crafting_inv = crafting_inventory();
 
     if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
         return false;
     }
 
-    return r->requirements().can_make_with_inventory( crafting_inv, r->get_component_filter(),
-            batch_size );
+    return r->deduped_requirements().can_make_with_inventory(
+               crafting_inv, r->get_component_filter(), batch_size );
 }
 
 bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
@@ -488,45 +488,9 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
         return false;
     }
 
-    const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
-
-    // For tools adjust the reqired charges
-    std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
-    for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
-        std::vector<tool_comp> adjusted_alternatives;
-        for( const tool_comp &alternative : alternatives ) {
-            tool_comp adjusted_alternative = alternative;
-            if( adjusted_alternative.count > 0 ) {
-                adjusted_alternative.count *= batch_size;
-                // Only for the first 5% progress
-                adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
-            }
-            adjusted_alternatives.push_back( adjusted_alternative );
-        }
-        adjusted_tool_reqs.push_back( adjusted_alternatives );
-    }
-
-    const std::vector<std::vector<item_comp>> &comp_reqs = rec->requirements().get_components();
-
-    // For components we need to multiply by batch size to stay even with tools
-    std::vector<std::vector<item_comp>> adjusted_comp_reqs;
-    for( const std::vector<item_comp> &alternatives : comp_reqs ) {
-        std::vector<item_comp> adjusted_alternatives;
-        for( const item_comp &alternative : alternatives ) {
-            item_comp adjusted_alternative = alternative;
-            adjusted_alternative.count *= batch_size;
-            adjusted_alternatives.push_back( adjusted_alternative );
-        }
-        adjusted_comp_reqs.push_back( adjusted_alternatives );
-    }
-
-    // Qualities don't need adjustment
-    const requirement_data start_reqs( adjusted_tool_reqs,
-                                       rec->requirements().get_qualities(),
-                                       adjusted_comp_reqs );
-
-    return start_reqs.can_make_with_inventory( crafting_inventory(),
-            rec->get_component_filter( flags ) );
+    inventory inv = crafting_inventory();
+    return rec->deduped_requirements().can_make_with_inventory(
+               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
 const inventory &player::crafting_inventory( bool clear_path )
@@ -1306,7 +1270,7 @@ bool player::can_continue_craft( item &craft )
 
     if( !craft.has_tools_to_continue() ) {
 
-        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.requirements().get_tools();
+        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.simple_requirements().get_tools();
         const int batch_size = craft.charges;
 
         std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
@@ -1356,6 +1320,14 @@ bool player::can_continue_craft( item &craft )
     }
 
     return true;
+}
+const requirement_data &player::select_requirements(
+    const std::vector<const requirement_data *> &alternatives, int /*batch*/, const inventory &,
+    const std::function<bool( const item & )> &/*filter*/ ) const
+{
+    assert( !alternatives.empty() );
+    // TODO: when this is the avatar, offer the choice to the player
+    return *alternatives.front();
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */

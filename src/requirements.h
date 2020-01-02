@@ -9,6 +9,7 @@
 #include <string>
 #include <utility>
 
+#include "crafting.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -79,7 +80,8 @@ struct tool_comp : public component {
 
     void load( const JsonValue &value );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-              int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              int batch = 1, craft_flags = craft_flags::none,
+              std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -95,7 +97,8 @@ struct item_comp : public component {
 
     void load( const JsonValue &value );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-              int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              int batch = 1, craft_flags = craft_flags::none,
+              std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -116,7 +119,8 @@ struct quality_requirement {
         level( LEVEL ) { }
 
     void load( const JsonValue &value );
-    bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int = 0,
+    bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+              int = 0, craft_flags = craft_flags::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
@@ -266,7 +270,8 @@ struct requirement_data {
          * or is_crafting_component otherwise.
          */
         bool can_make_with_inventory( const inventory &crafting_inv,
-                                      const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+                                      const std::function<bool( const item & )> &filter, int batch = 1,
+                                      craft_flags = craft_flags::none ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
@@ -316,8 +321,10 @@ struct requirement_data {
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );
         template<typename T>
-        static bool has_comps( const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
-                               const std::function<bool( const item & )> &filter, int batch = 1 );
+        static bool has_comps(
+            const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
+            const std::function<bool( const item & )> &filter, int batch = 1,
+            craft_flags = craft_flags::none );
 
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
@@ -360,11 +367,28 @@ class deduped_requirement_data
     public:
         using alter_item_comp_vector = requirement_data::alter_item_comp_vector;
 
-        deduped_requirement_data( const requirement_data & );
+        deduped_requirement_data() = default;
+        deduped_requirement_data( const requirement_data &, const recipe_id &context );
 
         std::vector<requirement_data> const &alternatives() const {
             return alternatives_;
         }
+
+        std::vector<const requirement_data *> feasible_alternatives(
+            const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+            int batch = 1, craft_flags = craft_flags::none ) const;
+
+        const requirement_data &select_alternative(
+            player &, const std::function<bool( const item & )> &filter, int batch = 1,
+            craft_flags = craft_flags::none ) const;
+
+        const requirement_data &select_alternative(
+            player &, const inventory &, const std::function<bool( const item & )> &filter,
+            int batch = 1, craft_flags = craft_flags::none ) const;
+
+        bool can_make_with_inventory(
+            const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+            int batch = 1, craft_flags = craft_flags::none ) const;
     private:
         std::vector<requirement_data> alternatives_;
 };

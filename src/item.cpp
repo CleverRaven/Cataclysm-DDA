@@ -3234,7 +3234,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else {
             const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
             [ &inv ]( const recipe * r ) {
-                if( r->requirements().can_make_with_inventory( inv, r->get_component_filter() ) ) {
+                if( r->deduped_requirements().can_make_with_inventory(
+                        inv, r->get_component_filter() ) ) {
                     return r->result_name();
                 } else {
                     return string_format( "<dark>%s</dark>", r->result_name() );

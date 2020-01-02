@@ -8,7 +8,7 @@ static void test_requirement_deduplication(
 )
 {
     requirement_data in( {}, {}, before );
-    deduped_requirement_data out( in );
+    deduped_requirement_data out( in, recipe_id::NULL_ID() );
     CHECK( out.alternatives().size() == after.size() );
     while( after.size() < out.alternatives().size() ) {
         after.emplace_back();

@@ -60,9 +60,17 @@ class recipe
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
-        /** Fetch combined requirement data (inline and via "using" syntax) */
-        const requirement_data &requirements() const {
+        /** Fetch combined requirement data (inline and via "using" syntax).
+         *
+         * Use simple_requirements() for player display or when you just want to
+         * know the requirements as listed in the json files.  Use
+         * deduped_requirements() to calculate actual craftability of a recipe. */
+        const requirement_data &simple_requirements() const {
             return requirements_;
+        }
+
+        const deduped_requirement_data &deduped_requirements() const {
+            return deduped_requirements_;
         }
 
         const recipe_id &ident() const {
@@ -85,7 +93,11 @@ class recipe
 
         /** If recipe can be used for disassembly fetch the combined requirements */
         requirement_data disassembly_requirements() const {
-            return reversible ? requirements().disassembly_requirements() : requirement_data();
+            if( reversible ) {
+                return simple_requirements().disassembly_requirements();
+            } else {
+                return {};
+            }
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
@@ -182,6 +194,9 @@ class recipe
 
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
+
+        /** Deduped version constructed from the above requirements_ */
+        deduped_requirement_data deduped_requirements_;
 
         std::set<std::string> flags;
 

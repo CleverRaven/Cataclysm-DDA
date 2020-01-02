@@ -507,7 +507,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             int count = batch ? line + 1 : 1; // batch size
             nc_color col = available[ line ].color();
 
-            const auto &req = current[ line ]->requirements();
+            const auto &req = current[ line ]->simple_requirements();
 
             draw_can_craft_indicator( w_head, 0, *current[line] );
             wrefresh( w_head );
@@ -851,7 +851,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 {
     // current recipe components
     std::vector<std::pair<itype_id, std::string>> related_components;
-    const requirement_data &req = current->requirements();
+    const requirement_data &req = current->simple_requirements();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &a : comp_list ) {
             related_components.push_back( { a.type, item::nname( a.type, 1 ) } );

@@ -273,6 +273,8 @@ void recipe::finalize()
         requirements_.consolidate();
     }
 
+    deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
+
     if( contained && container == "null" ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
     }
@@ -613,7 +615,7 @@ bool recipe::hot_result() const
     //
     // TODO: Make this less of a hack
     if( create_result().is_food() ) {
-        const requirement_data::alter_tool_comp_vector &tool_lists = requirements().get_tools();
+        const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
                 if( t.type == "hotplate" ) {

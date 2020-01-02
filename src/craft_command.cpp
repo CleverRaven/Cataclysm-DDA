@@ -144,8 +144,9 @@ void craft_command::execute( const tripoint &new_loc )
         }
 
         item_selections.clear();
-        const auto needs = rec->requirements();
         const auto filter = rec->get_component_filter( flags );
+        const requirement_data &needs = rec->deduped_requirements().select_alternative(
+                                            *crafter, filter, batch_size, craft_flags::start_only );
 
         for( const auto &it : needs.get_components() ) {
             comp_selection<item_comp> is =

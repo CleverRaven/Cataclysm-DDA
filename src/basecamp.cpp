@@ -208,8 +208,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
+    const auto tools = making.simple_requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
+    const auto comps = making.simple_requirements().get_folded_components_list( pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -345,7 +345,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             basecamp_upgrade data;
             data.bldg = bldg;
             data.name = recp.blueprint_name();
-            const auto &reqs = recp.requirements();
+            const auto &reqs = recp.deduped_requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
             data.in_progress = in_progress;
             ret_data.emplace_back( data );
