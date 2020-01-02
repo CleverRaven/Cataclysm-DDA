@@ -806,9 +806,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 draw_item_info( w_item_info, dummy );
             }
             draw_custom_border( w_item_info, 0 );
+
+            // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), itemsW - 8, c_white, "%s >",
+            trim_and_print( w_item_info, point( 4, 0 ), itemsW - 8, selected_item.color_in_inventory(),
                             selected_item.display_name() );
+            wprintw( w_item_info, " >" );
             wrefresh( w_item_info );
 
             if( action == "SELECT_ALL" ) {
