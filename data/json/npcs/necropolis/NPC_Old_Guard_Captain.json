@@ -74,15 +74,15 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_NEC_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "My communications team went to secure the radio control room after we breached the facility.  I haven't heard from them since, I need you to locate them.  Their first objective was to record all active channels that were transmitting information on other survivors or facilities.  Find them and return the frequency list to me.  I'm sure they could probably use your help also.",
       "accepted": "Good luck, the communications room shouldn't be far from here.",
-      "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
+      "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks…",
       "advice": "We were briefed that the communications array was on this level.",
       "inquire": "How is the search going?",
       "success": "Thanks, let me know when you need another tasking.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -97,15 +97,15 @@
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Your assistance is greatly appreciated, we need to clear out the more ruthless monsters that are wandering up from the lower levels.  If you could cull twenty or so of what we refer to as 'nightmares' my men would be much safer.  If you've cleared out most of this floor then the lower levels should be your next target. ",
       "accepted": "Good luck, finding a clear passage to the second level may be tricky.",
-      "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
+      "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks…",
       "advice": "These creatures can swing their appendages surprisingly far.",
       "inquire": "How is the hunt going?",
       "success": "Thanks, let me know when you need another tasking.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

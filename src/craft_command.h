@@ -6,6 +6,7 @@
 #include <string>
 
 #include "point.h"
+#include "recipe.h"
 #include "requirements.h"
 
 class inventory;
@@ -95,6 +96,8 @@ class craft_command
         bool longcraft = false;
         // This is mainly here for maintainability reasons.
         player *crafter;
+
+        recipe_filter_flags flags = recipe_filter_flags::none;
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
