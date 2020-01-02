@@ -154,7 +154,7 @@
       [ "CHEM", 3 ],
       [ "DISTILL", 1 ],
       [ "WELD", 2 ],
-      [ "CUT", 2 ],
+      [ "CUT", 1 ],
       [ "CUT_FINE", 1 ],
       [ "SMOOTH", 1 ],
       [ "SAW_W", 2 ],
