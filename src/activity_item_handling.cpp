@@ -536,7 +536,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity
-    if( !items.empty() && items.size() > act.targets.size() ) {
+    if( items.size() > act.targets.size() ) {
         for( const drop_location &drop : convert_to_locations( items ) ) {
             act.targets.push_back( drop.first );
             act.values.push_back( drop.second );
