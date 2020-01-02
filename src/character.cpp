@@ -7494,7 +7494,7 @@ int Character::heartrate_bpm() const
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
     //a bit arbitary formula that can use some love
-    float healthy_modifier = -0.05 * round( healthy / 20.0f );
+    float healthy_modifier = -0.05f * round( healthy / 20.0f );
     heartbeat *= 1 + healthy_modifier;
     //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
     const int cur_pain = get_perceived_pain();
