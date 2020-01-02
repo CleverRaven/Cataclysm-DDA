@@ -2406,12 +2406,16 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "city_block2_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "city_block2_flr2_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "city_block2_roof_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "city_block2_2_north" },
       { "point": [ 1, 0, 1 ], "overmap": "city_block2_flr2_2_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "city_block2_roof_2_north" },
       { "point": [ 2, 0, 0 ], "overmap": "city_block2_3_north" },
       { "point": [ 2, 0, 1 ], "overmap": "city_block2_flr2_3_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "city_block2_roof_3_north" },
       { "point": [ 3, 0, 0 ], "overmap": "city_block2_4_north" },
-      { "point": [ 3, 0, 1 ], "overmap": "city_block2_flr2_4_north" }
+      { "point": [ 3, 0, 1 ], "overmap": "city_block2_flr2_4_north" },
+      { "point": [ 3, 0, 2 ], "overmap": "city_block2_roof_4_north" }
     ]
   },
   {
