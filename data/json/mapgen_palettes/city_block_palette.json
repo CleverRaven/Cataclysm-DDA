@@ -74,7 +74,7 @@
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
-      "O": [ { "item": "wardrobe_mens", "chance": 50 }, { "item": "wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "O": [ { "item": "SUS_wardrobe_mens", "chance": 50 }, { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
       "Q": [
         { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },
