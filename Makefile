@@ -173,6 +173,14 @@ ifndef BACKTRACE
     BACKTRACE = 1
   endif
 endif
+ifdef BACKTRACE
+  # Also enable libbacktrace on cross-compilation to Windows
+  ifndef LIBBACKTRACE
+    ifneq (,$(findstring mingw32,$(CROSS)))
+      LIBBACKTRACE = 1
+    endif
+  endif
+endif
 
 ifeq ($(RUNTESTS), 1)
   TESTS = tests
