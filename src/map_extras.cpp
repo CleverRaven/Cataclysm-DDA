@@ -665,15 +665,14 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
     const int rad = 3;
-    tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
+    const tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
 
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
-        tripoint where = random_entry( spawnzone );
-        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
-        if( g->is_empty( where ) ) {
-            one_in( 2 ) ? m.add_spawn( mon_marloss_zealot_f, 1, where ) :
-            m.add_spawn( mon_marloss_zealot_m, 1, where );
+        if( const cata::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
+        return m.passable( p );
+        } ) ) {
+            m.add_spawn( one_in( 2 ) ? mon_marloss_zealot_f : mon_marloss_zealot_m, 1, *where_ );
         }
     }
 }
@@ -2629,27 +2628,21 @@ static void mx_looters( map &m, const tripoint &abs_sub )
 {
     const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
-    /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
-    if( one_in( 4 ) && g->is_empty( center ) ) {
-        const auto &loc = m.points_in_radius( center, 1 );
+    if( one_in( 4 ) && m.passable( center ) ) {
         m.add_corpse( center );
         for( int i = 0; i < rng( 1, 3 ); i++ ) {
-            const tripoint where = random_entry( loc );
-            m.add_field( where, fd_blood, rng( 1, 3 ) );
+            m.add_field( random_entry( m.points_in_radius( center, 1 ) ), fd_blood, rng( 1, 3 ) );
         }
     }
 
     //Spawn up to 5 hostile bandits with equal chance to be ranged or melee type
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
-        const tripoint pos = random_entry( m.points_in_radius( center, rng( 1, 4 ) ) );
-        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
-        if( g->is_empty( pos ) ) {
-            if( one_in( 2 ) ) {
-                m.place_npc( pos.xy(), string_id<npc_template>( "bandit" ) );
-            } else {
-                m.place_npc( pos.xy(), string_id<npc_template>( "thug" ) );
-            }
+        if( const cata::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
+        4 ) ), [&]( const tripoint & p ) {
+        return m.passable( p );
+        } ) ) {
+            m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
         }
     }
 }
@@ -2661,8 +2654,7 @@ static void mx_corpses( map &m, const tripoint &abs_sub )
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
-        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
-        if( g->is_empty( corpse_location ) ) {
+        if( m.passable( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
             m.put_items_from_loc( "everyday_corpse", corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
