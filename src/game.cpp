@@ -4339,9 +4339,6 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     std::vector<tripoint> traj;
     traj.clear();
     traj = line_to( s, t, 0, 0 );
-    if( traj.empty() ) {
-        return;
-    }
     traj.insert( traj.begin(), s ); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line( traj, force );
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
@@ -5053,18 +5050,19 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const std::string &door_name = door_type.obj().name();
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
-    for( int i = 0; i < 20; i++ ) {
-        const int x_ = x + rng( -1, +1 );
-        const int y_ = y + rng( -1, +1 );
-        if( is_empty( {x_, y_, get_levz()} ) ) {
-            // invert direction, as game::knockback needs
-            // the source of the force that knocks back
-            kbx = -x_ + x + x;
-            kby = -y_ + y + y;
+    for( const tripoint &tmp : m.points_in_radius( p, 2 ) ) {
+        if( is_empty( pt ) ) {
+            const int
+            kbx = -tmp.x + x + x;
+            kby = -tmp.y + y + y;
             break;
         }
     }
     const tripoint kbp( kbx, kby, p.z );
+    if( kbp == p ) {
+        // cant pushback any creatures anywhere, that means the door cant close.
+        return false;
+    }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
