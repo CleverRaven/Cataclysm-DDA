@@ -5051,8 +5051,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
     for( const tripoint &tmp : m.points_in_radius( p, 2 ) ) {
-        if( is_empty( pt ) ) {
-            const int
+        if( is_empty( tmp ) ) {
             kbx = -tmp.x + x + x;
             kby = -tmp.y + y + y;
             break;
