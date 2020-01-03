@@ -27,7 +27,7 @@ using move_statistics = statistics<int>;
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
-    clear_map();
+    clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
@@ -155,7 +155,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         }
     }
     WARN( tracker );
-    clear_map();
     return -1000;
 }
 
