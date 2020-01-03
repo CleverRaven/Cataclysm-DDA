@@ -366,22 +366,6 @@ static drop_locations convert_to_locations( const player_activity &act )
     return res;
 }
 
-static drop_locations convert_to_locations( const std::list<act_item> &items )
-{
-    drop_locations res;
-
-    for( const act_item &ait : items ) {
-        if( ait.loc && ait.count > 0 ) {
-            if( res.empty() || res.back().first != ait.loc ) {
-                res.emplace_back( ait.loc, ait.count );
-            } else {
-                res.back().second += ait.count;
-            }
-        }
-    }
-    return res;
-}
-
 static std::list<act_item> convert_to_items( Character &p, const drop_locations &drop,
         std::function<bool( item_location loc )> filter )
 {
@@ -394,6 +378,16 @@ static std::list<act_item> convert_to_items( Character &p, const drop_locations 
         if( !filter( loc ) ) {
             continue;
         } else if( !p.is_worn( *loc ) && !p.is_wielding( *loc ) ) {
+            // Special case. After dropping the first few items, the remaining items are already separated.
+            // That means: `drop` already contains references to each of the items in
+            // `p.inv.const_stack`, and `count` will be 1 for each of them.
+            // If we continued without this check, we iterate over `p.inv.const_stack` multiple times,
+            // but each time stopping after visiting the first item.
+            // In the end, we would add references to the same item (the first one in the stack) multiple times.
+            if( count == 1 ) {
+                res.emplace_back( loc, 1, loc.obtain_cost( p, 1 ) );
+                continue;
+            }
             int obtained = 0;
             for( const item &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
                 if( obtained >= count ) {
@@ -517,6 +511,9 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
+        assert( ait.loc );
+        assert( ait.loc.get_item() );
+
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.loc ) ) {
@@ -538,11 +535,9 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();
-    if( !items.empty() ) {
-        for( const drop_location &drop : convert_to_locations( items ) ) {
-            act.targets.push_back( drop.first );
-            act.values.push_back( drop.second );
-        }
+    for( const act_item &ait : items ) {
+        act.targets.push_back( ait.loc );
+        act.values.push_back( ait.count );
     }
     // And cancel if its empty. If its not, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which
