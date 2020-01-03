@@ -54,7 +54,11 @@
         "_": [ [ "f_null", 10 ], [ "f_fungal_mass", 2 ], "f_fungal_clump" ],
         "&": [ [ "f_fungal_tangle", 8 ], "f_fungal_clump", "f_fungal_mass" ]
       },
-      "monster": { "X": { "monster": "mon_fungaloid_tower" }, "Y": { "monster": "mon_fungaloid_queen" }, "Z": { "monster": "mon_tripod" } }
+      "monster": {
+        "X": { "monster": "mon_fungaloid_tower" },
+        "Y": { "monster": "mon_fungaloid_queen" },
+        "Z": { "monster": "mon_tripod" }
+      }
     }
   }
 ]
