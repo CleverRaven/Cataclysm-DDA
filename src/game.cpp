@@ -2332,6 +2332,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pick_style" );
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
+    ctxt.register_action( "reload_wielded" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -8475,6 +8476,16 @@ void game::reload_item()
     }
 
     reload( item_loc );
+}
+
+void game::reload_wielded()
+{
+    if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
+        add_msg( _( "You aren't holding something you can reload." ) );
+        return;
+    }
+
+    reload( item_location( u, &u.weapon ) );
 }
 
 void game::reload_weapon( bool try_everything )
