@@ -4339,6 +4339,9 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     std::vector<tripoint> traj;
     traj.clear();
     traj = line_to( s, t, 0, 0 );
+    if( traj.empty() ) {
+        return;
+    }
     traj.insert( traj.begin(), s ); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line( traj, force );
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
