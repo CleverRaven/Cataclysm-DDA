@@ -1789,6 +1789,7 @@
     "category": [ "CHIMERA", "RAPTOR", "LIZARD" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
+    "movecost_swim_modifier": 0.9,
     "wet_protection": [
       { "part": "HEAD", "ignored": 3 },
       { "part": "LEG_L", "ignored": 10 },
@@ -1842,6 +1843,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
+    "movecost_swim_modifier": 0.75,
     "wet_protection": [
       { "part": "HEAD", "good": 7 },
       { "part": "LEG_L", "good": 21 },
@@ -3134,6 +3136,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "FISH" ],
     "wet_protection": [ { "part": "LEG_L", "good": 3 }, { "part": "LEG_R", "good": 3 } ],
+    "movecost_swim_modifier": 0.75,
     "restricts_gear": [ "LEG_L", "LEG_R" ],
     "allow_soft_gear": true
   },
@@ -3818,6 +3821,7 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "leads_to": [ "HIBERNATE" ],
     "category": [ "URSINE" ],
+    "movecost_swim_modifier": 0.95,
     "armor": [ { "parts": "ALL", "bash": 1 } ],
     "movecost_modifier": 1.05
   },
@@ -5681,6 +5685,7 @@
     "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
     "types": [ "LEGS" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
+    "movecost_swim_modifier": 0.85,
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
       { "part": "LEG_L", "neutral": 21 },
@@ -5974,6 +5979,7 @@
     "description": "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
+    "movecost_swim_modifier": 0.45,
     "purifiable": false
   },
   {

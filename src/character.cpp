@@ -5010,6 +5010,7 @@ mutation_value_map = {
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },

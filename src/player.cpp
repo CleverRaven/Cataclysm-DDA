@@ -176,7 +176,6 @@ static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -758,12 +757,9 @@ int player::swim_speed() const
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
 
-    if( !has_trait( trait_AMPHIBIAN ) ) {
-        ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
-        /** AMPHIBIAN increases base swim speed */
-    } else {
-        ret = 200 + weight_carried() / 120_gram - 50 * get_skill_level( skill_swimming );
-    }
+    // base swim speed.
+    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
+          ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
@@ -783,19 +779,6 @@ int player::swim_speed() const
     /** @EFFECT_STR increases swim speed bonus from WEBBED */
     if( has_trait( trait_WEBBED ) ) {
         ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
-    }
-    /** @EFFECT_STR increases swim speed bonus from TAIL_FIN */
-    if( has_trait( trait_TAIL_FIN ) ) {
-        ret -= 100 + str_cur * 10;
-    }
-    if( has_trait( trait_SLEEK_SCALES ) ) {
-        ret -= 100;
-    }
-    if( has_trait( trait_LEG_TENTACLES ) ) {
-        ret -= 60;
-    }
-    if( has_trait( trait_FAT ) ) {
-        ret -= 30;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
