@@ -463,8 +463,6 @@
           [ "HOOVES", 100 ]
         ]
       }
-    ],
-    "worn_override": "NC_Rabbit_Raiser_worn",
-    "weapon_override": "NC_Rabbit_Raiser_wield"
+    ]
   }
 ]
