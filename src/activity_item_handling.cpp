@@ -3132,7 +3132,7 @@ bool find_auto_consume( player &p, const bool food )
     static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
     zone_manager &mgr = zone_manager::get_manager();
-    zone_type_id consume_type_zone = zone_type_id( "" );
+    zone_type_id consume_type_zone( "" );
     if( food ) {
         consume_type_zone = zone_type_id( "AUTO_EAT" );
     } else {
