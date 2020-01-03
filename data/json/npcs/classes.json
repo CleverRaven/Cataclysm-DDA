@@ -452,17 +452,15 @@
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
       { "skill": "survival", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
-      {
-        "traits": [
-          [ "FLEET2", 100 ],
-          [ "GOODHEARING", 100 ],
-          [ "DEFT", 100 ],
-          [ "ANIMALEMPATH2", 100 ],
-          [ "LIGHTFUR", 100 ],
-          [ "HOOVES", 100 ]
-        ]
-      }
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "traits": [
+      [ "FLEET2", 100 ],
+      [ "GOODHEARING", 100 ],
+      [ "DEFT", 100 ],
+      [ "ANIMALEMPATH2", 100 ],
+      [ "LIGHTFUR", 100 ],
+      [ "HOOVES", 100 ]
     ]
   }
 ]
