@@ -703,7 +703,7 @@ void debug_write_backtrace( std::ostream &out )
                                                 // error callback
                     [&out]( const char *const msg, const int errnum ) {
                         out << "\n    (backtrace_create_state failed: errno = " << errnum
-                            << ", msg = " << ( msg ? msg : "<no msg>" ) << "),";
+                            << ", msg = " << ( msg ? msg : "[no msg]" ) << "),";
                     } );
                 } else {
                     out << "\n    (executable path exceeds " << module_path_len << " chars),";
@@ -720,7 +720,7 @@ void debug_write_backtrace( std::ostream &out )
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
-                out << "\n    (libbacktrace: " << ( symname ? symname : "<unknown symbol>" )
+                out << "\n    (libbacktrace: " << ( symname ? symname : "[unknown symbol]" )
                     << "+0x" << std::hex << pc - symval << std::dec
                     << "@0x" << std::hex << pc << std::dec
                     << "),";
@@ -728,7 +728,7 @@ void debug_write_backtrace( std::ostream &out )
             // error callback
             [&out]( const char *const msg, const int errnum ) {
                 out << "\n    (backtrace_syminfo failed: errno = " << errnum
-                    << ", msg = " << ( msg ? msg : "<no msg>" )
+                    << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
             bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
@@ -736,16 +736,16 @@ void debug_write_backtrace( std::ostream &out )
                        [&out]( const uintptr_t pc, const char *const filename,
             const int lineno, const char *const function ) -> int {
                 out << "\n    (libbacktrace: 0x" << std::hex << pc << std::dec
-                    << "    " << ( filename ? filename : "<unknown src>" )
+                    << "    " << ( filename ? filename : "[unknown src]" )
                     << ":" << lineno
-                    << "    " << ( function ? function : "<unknown func>" )
+                    << "    " << ( function ? function : "[unknown func]" )
                     << "),";
                 return 0;
             },
             // error callback
             [&out]( const char *const msg, const int errnum ) {
                 out << "\n    (backtrace_pcinfo failed: errno = " << errnum
-                    << ", msg = " << ( msg ? msg : "<no msg>" )
+                    << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
         }
