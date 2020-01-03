@@ -954,7 +954,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
 
                 std::string fmted_volume_predict = format_volume( volume_predict );
-                wprintz( w_pickup, volume_predict > g->u.volume_capacity() ? c_red : c_white, "  Vol %s",
+                wprintz( w_pickup, volume_predict > g->u.volume_capacity() ? c_red : c_white, _( "  Vol %s" ),
                          fmted_volume_predict );
 
                 std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
