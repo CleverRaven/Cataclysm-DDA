@@ -51,7 +51,6 @@
         "distribution": [
           { "group": "military_standard_assault_rifles", "contents-group": "sopmod", "prob": 75 },
           { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
-          { "group": "military_standard_sniper_rifles", "contents-item": "shoulder_strap", "prob": 10 },
           { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
         ],
         "prob": 40
