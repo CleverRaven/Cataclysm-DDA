@@ -38,8 +38,8 @@
         { "signage": "Private property. No trepassing!", "x": 18, "y": 0 }
       ],
       "place_items": [
-        { "chance": 40, "item": "alcohol", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
-        { "chance": 100, "item": "snacks", "x": 7, "y": 13 },
+        { "chance": 40, "item": "alcohol", "x": 7, "y": 13, "repeat": [ 2, 8 ] },
+        { "chance": 100, "item": "snacks", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
         { "chance": 15, "item": "snacks", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
         { "chance": 100, "item": "groce_condiment", "x": 11, "y": 13 },
         { "chance": 15, "item": "groce_condiment", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
