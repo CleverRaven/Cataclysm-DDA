@@ -144,7 +144,6 @@
   {
     "type": "construction",
     "description": "Fill Shallow Water With Dirt",
-    "//": "Fills a shallow water with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
@@ -156,7 +155,6 @@
   {
     "type": "construction",
     "description": "Fill Salt Water With Dirt",
-    "//": "Fills a salt water with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
