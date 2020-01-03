@@ -38,7 +38,8 @@
         "_": [ [ "t_fungus", 25 ], "t_fungus_mound", [ "t_tree_fungal", 3 ], [ "t_tree_fungal_young", 2 ] ],
         "&": "t_fungus_mound",
         "X": "t_fungus_mound",
-        "Y": "t_fungus_mound"
+        "Y": "t_fungus_mound",
+        "Z": "t_grass_dead"
       },
       "furniture": {
         " ": [
