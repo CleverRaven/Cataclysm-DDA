@@ -7237,7 +7237,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
 
             const auto valid_location = [&]( const tripoint & p ) {
-                return g->is_empty( p ) && tmp.can_move_to( p );
+                // Checking for creatures via g is only meaningful if this is the main game map.
+                // If it's some local map instance, the coordinates will most likely not even match.
+                return ( !g || &g->m != this || g->critter_at( p ) ) && tmp.can_move_to( p );
             };
 
             const auto place_it = [&]( const tripoint & p ) {
