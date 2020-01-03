@@ -7195,8 +7195,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             width = item_len;
         }
     }
-    if( width > TERMX ) {
-        width = TERMX;
+    if( width > TERMX - VIEW_OFFSET_X ) {
+        width = TERMX - VIEW_OFFSET_X;
     }
 
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
