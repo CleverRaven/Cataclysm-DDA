@@ -751,18 +751,18 @@
     "id": "l_def_12",
     "copy-from": "turret_blaze",
     "type": "vehicle_part",
-    "name": "L12 Defender turret",
-    "item": "l_def_12",
-    "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
+    "name": "Tavor TS12 turret",
+    "item": "tavor_12",
+    "breaks_into": [ { "item": "tavor_12", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_def_12nc",
     "copy-from": "turret_blaze",
     "type": "vehicle_part",
-    "name": "automated L12 Defender",
-    "item": "l_def_12",
-    "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
+    "name": "automated Tavor TS12",
+    "item": "tavor_12",
+    "breaks_into": [ { "item": "tavor_12", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {

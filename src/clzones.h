@@ -2,7 +2,7 @@
 #ifndef CLZONES_H
 #define CLZONES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
@@ -28,7 +28,7 @@ class map;
 struct construction;
 
 using faction_id = string_id<faction>;
-const faction_id your_fac( "your_followers" );
+static const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
 class zone_type
@@ -39,7 +39,7 @@ class zone_type
     public:
 
         zone_type_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         zone_type() = default;
         explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
@@ -48,8 +48,8 @@ class zone_type
         std::string name() const;
         std::string desc() const;
 
-        static void load_zones( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_zones( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.
          */
@@ -96,7 +96,7 @@ class zone_options
         }
 
         virtual void serialize( JsonOut & ) const {}
-        virtual void deserialize( JsonObject & ) {}
+        virtual void deserialize( const JsonObject & ) {}
 };
 
 // mark option interface
@@ -142,7 +142,7 @@ class plot_options : public zone_options, public mark_option
         std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
 
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonObject &jo_zone ) override;
+        void deserialize( const JsonObject &jo_zone ) override;
 };
 
 class blueprint_options : public zone_options, public mark_option
@@ -189,7 +189,7 @@ class blueprint_options : public zone_options, public mark_option
         std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
 
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonObject &jo_zone ) override;
+        void deserialize( const JsonObject &jo_zone ) override;
 };
 
 class loot_options : public zone_options, public mark_option
@@ -223,7 +223,7 @@ class loot_options : public zone_options, public mark_option
         std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
 
         void serialize( JsonOut &json ) const override;
-        void deserialize( JsonObject &jo_zone ) override;
+        void deserialize( const JsonObject &jo_zone ) override;
 };
 
 /**

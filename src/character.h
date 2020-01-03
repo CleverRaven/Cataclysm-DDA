@@ -59,6 +59,9 @@ struct points_left;
 class faction;
 struct construction;
 
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -178,6 +181,21 @@ struct social_modifiers {
         return *this;
     }
 };
+
+struct consumption_event {
+    time_point time;
+    itype_id type_id;
+    uint64_t component_hash;
+
+    consumption_event() = default;
+    consumption_event( const item &food ) : time( calendar::turn ) {
+        type_id = food.typeId();
+        component_hash = food.make_component_hash();
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -668,6 +686,9 @@ class Character : public Creature, public visitable<Character>
                           const item &new_item ) const;
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
+
+        void serialize_consumption_history( JsonOut jsout ) const;
+        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
@@ -680,7 +701,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override {
             return martial_arts_data.has_grab_break_tec();
-        };
+        }
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -1057,10 +1078,11 @@ class Character : public Creature, public visitable<Character>
         ret_val<bool> can_unwield( const item &it ) const;
 
         void drop_invalid_inventory();
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where );
-        virtual void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
-                           bool stash = false );
+        void drop( item_location loc, const tripoint &where );
+        virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
 
@@ -1229,6 +1251,8 @@ class Character : public Creature, public visitable<Character>
         bool in_vehicle;
         bool hauling;
 
+        player_activity stashed_outbounds_activity;
+        player_activity stashed_outbounds_backlog;
         player_activity activity;
         std::list<player_activity> backlog;
         inventory inv;
@@ -1240,9 +1264,9 @@ class Character : public Creature, public visitable<Character>
 
         stomach_contents stomach;
         stomach_contents guts;
+        std::list<consumption_event> consumption_history;
 
         int oxygen;
-        int radiation;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1295,7 +1319,8 @@ class Character : public Creature, public visitable<Character>
 
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
-
+        void assign_stashed_activity();
+        bool check_outbounds_activity( player_activity act, bool check_only = false );
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1308,7 +1333,10 @@ class Character : public Creature, public visitable<Character>
         bool has_activity( const std::vector<activity_id> &types ) const;
         void resume_backlog_activity();
         void cancel_activity();
-
+        void cancel_stashed_activity();
+        player_activity get_stashed_activity() const;
+        void set_stashed_activity( player_activity act, player_activity act_back = player_activity() );
+        bool has_stashed_activity() const;
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
@@ -1345,6 +1373,10 @@ class Character : public Creature, public visitable<Character>
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
+
+        int get_rad() const;
+        void set_rad( int new_rad );
+        void mod_rad( int mod );
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -1384,6 +1416,10 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        void update_type_of_scent( bool init = false );
+        void update_type_of_scent( trait_id mut, bool gain = true );
+        void set_type_of_scent( scenttype_id id );
+        scenttype_id get_type_of_scent() const;
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
@@ -1473,6 +1509,15 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+
+        /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
+        bool change_side( item &it, bool interactive = true );
+        bool change_side( item_location &loc, bool interactive = true );
+
+        /** Used to determine player feedback on item use for the inventory code.
+         *  rates usability lower for non-tools (books, etc.) */
+        hint_rating rate_action_change_side( const item &it ) const;
+
         bool get_check_encumbrance() {
             return check_encumbrance;
         }
@@ -1496,9 +1541,9 @@ class Character : public Creature, public visitable<Character>
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
-
+        const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE );
+                                             int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -1580,7 +1625,7 @@ class Character : public Creature, public visitable<Character>
         std::vector<const mutation_branch *> cached_mutations;
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
@@ -1658,6 +1703,10 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        int radiation;
+
+        scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 

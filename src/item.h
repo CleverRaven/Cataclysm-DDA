@@ -2,7 +2,7 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <climits>
 #include <list>
 #include <map>
@@ -15,6 +15,7 @@
 #include <utility>
 
 #include "calendar.h"
+#include "value_ptr.h"
 #include "cata_utility.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -46,6 +47,7 @@ class optional;
 class nc_color;
 class JsonIn;
 class JsonOut;
+class JsonObject;
 class iteminfo_query;
 template<typename T>
 class ret_val;
@@ -272,7 +274,7 @@ class item : public visitable<item>
          */
         /*@{*/
         static item make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
-                                 time_point turn = calendar::turn, const std::string &name = "" );
+                                 time_point turn = calendar::turn, const std::string &name = "", int upgrade_time = -1 );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -349,7 +351,7 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+         * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
          * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext, std::vector<iteminfo> &iteminfo ) const;
@@ -361,7 +363,7 @@ class item : public visitable<item>
         * properties of the @ref itype (if they are visible to the player). The returned string
         * is already translated and can be *very* long.
         * @param showtext If true, shows the item description, otherwise only the properties item type.
-        * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+        * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
         * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
         */
@@ -374,7 +376,7 @@ class item : public visitable<item>
         * properties of the @ref itype (if they are visible to the player). The returned string
         * is already translated and can be *very* long.
         * @param parts controls which parts of the iteminfo to return.
-        * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+        * @param info The properties (encapsulated into @ref iteminfo) are added to this vector,
         * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
         */
@@ -728,7 +730,7 @@ class item : public visitable<item>
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
          * is outside the reality bubble.
-         * @param smoking_duration
+         * @param processing_duration
          */
         void calc_rot_while_processing( time_duration processing_duration );
 
@@ -736,7 +738,6 @@ class item : public visitable<item>
          * Update temperature for things like food
          * Update rot for things that perish
          * All items that rot also have temperature
-         * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
          * @param pos The current position
          * @param carrier The current carrier
@@ -759,6 +760,8 @@ class item : public visitable<item>
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
+
+        int get_comestible_fun() const;
 
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
@@ -926,11 +929,11 @@ class item : public visitable<item>
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
+        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
-        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
         /*@}*/
 
         /**
@@ -1132,6 +1135,11 @@ class item : public visitable<item>
         float get_latent_heat() const;
         float get_freeze_point() const; // Farenheit
 
+        // If this is food, returns itself.  If it contains food, return that
+        // contents.  Otherwise, returns nullptr.
+        item *get_food();
+        const item *get_food() const;
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
@@ -1201,6 +1209,9 @@ class item : public visitable<item>
         /** List of all @ref components in printable form, empty if this item has
          * no components */
         std::string components_to_string() const;
+
+        /** Creates a hash from the itype_ids of this item's @ref components. */
+        uint64_t make_component_hash() const;
 
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
@@ -1788,7 +1799,7 @@ class item : public visitable<item>
          * of that gunmod, the guns range is returned only when the item has no active gunmod.
          * This function applies to guns and auxiliary gunmods. For other items, 0 is returned.
          * It includes the range given by the ammo.
-         * @param u The player that uses the weapon, their strength might affect this.
+         * @param p The player that uses the weapon, their strength might affect this.
          * It's optional and can be null.
          */
         int gun_range( const player *p ) const;
@@ -1966,7 +1977,7 @@ class item : public visitable<item>
         std::string get_owner_name() const;
         int get_min_str() const;
 
-        const cata::optional<islot_comestible> &get_comestible() const;
+        const cata::value_ptr<islot_comestible> &get_comestible() const;
 
         /**
          * Get the stored recipe for in progress crafts.
@@ -2102,13 +2113,26 @@ class item : public visitable<item>
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
 
-        // Only for in-progress crafts
-        const recipe *making = nullptr;
-        int next_failure_point = -1;
-        std::vector<item_comp> comps_used;
-        // If the crafter has insufficient tools to continue to the next 5% progress step
-        bool tools_to_continue = false;
-        std::vector<comp_selection<tool_comp>> cached_tool_selections;
+        /**
+         * Data for items that represent in-progress crafts.
+         */
+        class craft_data
+        {
+            public:
+                const recipe *making = nullptr;
+                int next_failure_point = -1;
+                std::vector<item_comp> comps_used;
+                // If the crafter has insufficient tools to continue to the next 5% progress step
+                bool tools_to_continue = false;
+                std::vector<comp_selection<tool_comp>> cached_tool_selections;
+
+                void serialize( JsonOut &jsout ) const;
+                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &obj );
+        };
+
+        cata::value_ptr<craft_data> craft_data_;
+
         // any relic data specific to this item
         cata::optional<relic> relic_data;
     public:
@@ -2126,6 +2150,11 @@ class item : public visitable<item>
         int temperature = 0;       // Temperature of the item (in 0.00001 K).
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
+
+        // Set when the item / its content changes. Used for worn item with
+        // encumbrance depending on their content.
+        // This not part serialized or compared on purpose!
+        bool encumbrance_update_ = false;
 
     private:
         /**

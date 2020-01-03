@@ -136,6 +136,7 @@ void drop_do_turn( player_activity *act, player *p );
 void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void game_do_turn( player_activity *act, player *p );
+void generic_game_do_turn( player_activity *act, player *p );
 void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );

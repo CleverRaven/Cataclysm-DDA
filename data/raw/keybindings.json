@@ -1682,7 +1682,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Reload Wielded Item",
+    "name": "Reload Weapons",
     "category": "DEFAULTMODE",
     "id": "reload_weapon"
   },
@@ -1937,6 +1937,12 @@
     "name": "View Scentmap",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Scent Type",
+    "category": "DEFAULTMODE",
+    "id": "debug_scent_type"
   },
   {
     "type": "keybinding",

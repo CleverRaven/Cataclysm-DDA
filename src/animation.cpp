@@ -689,6 +689,7 @@ void game::draw_weather( const weather_printable &w )
             weather_name = weather_acid_drop;
             break;
         // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
+        case WEATHER_LIGHT_DRIZZLE:
         case WEATHER_DRIZZLE:
         case WEATHER_RAINY:
         case WEATHER_THUNDER:

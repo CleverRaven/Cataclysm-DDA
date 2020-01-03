@@ -6,8 +6,10 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 10, "t_grass_long": 2, "t_grass_dead": 2, "t_dirt": 1 },
-        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
+        "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
+        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
         "t_region_shrub": {
           "t_underbrush": 30,
           "t_shrub": 5,
@@ -30,7 +32,7 @@
           "t_shrub_blackberry": 1,
           "t_shrub_huckleberry": 1
         },
-        "t_region_shrub_decorative": { "t_shrub": 2, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
+        "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
         "t_region_tree": {
           "t_tree": 128,
           "t_tree_young": 128,
@@ -135,20 +137,22 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_mutpoppy": 1
-        }
+        },
+        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
     "river_scale": 1.0,
     "field_coverage": {
-      "percent_coverage": 0.93,
+      "percent_coverage": 0.2,
       "default_ter": "t_shrub",
       "other": {
-        "t_region_tree": 1.2,
-        "t_region_shrub": 17,
-        "f_region_flower": 73,
-        "f_boulder_small": 1,
-        "f_boulder_medium": 0.6666,
-        "f_boulder_large": 0.3333
+        "t_region_tree": 1,
+        "t_region_shrub": 3,
+        "f_region_weed": 49,
+        "f_region_flower": 37,
+        "f_boulder_small": 5,
+        "f_boulder_medium": 4,
+        "f_boulder_large": 1
       },
       "boost_chance": 0.833,
       "boosted_percent_coverage": 2.5,
@@ -228,7 +232,7 @@
         "item_group_chance": 60,
         "item_spawn_iterations": 1,
         "clear_groundcover": false,
-        "groundcover": { "t_grass_long": 5, "t_grass_tall": 1, "t_dirt": 1 },
+        "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
           "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree": 128 } },
@@ -259,7 +263,7 @@
         "item_group_chance": 60,
         "item_spawn_iterations": 1,
         "clear_groundcover": false,
-        "groundcover": { "t_grass_long": 5, "t_grass_tall": 1, "t_dirt": 1 },
+        "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
           "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree": 100 } },
@@ -290,7 +294,7 @@
         "item_group_chance": 60,
         "item_spawn_iterations": 1,
         "clear_groundcover": false,
-        "groundcover": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "groundcover": { "t_region_groundcover_swamp": 1 },
         "clear_components": false,
         "components": {
           "trees": {
@@ -334,9 +338,7 @@
           "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_swater_sh": 12, "t_swater_dp": 1, "t_water_sh": 6 } }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": {
-          "t_water_sh": { "chance": 2, "clear_furniture": false, "furniture": { "f_cattails": 15, "f_lotus": 1, "f_lilypad": 5 } }
-        }
+        "terrain_furniture": { "t_water_sh": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
       }
     },
     "forest_trail_settings": {
@@ -367,6 +369,8 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
+          "mx_grass": 20,
+          "mx_fallen_shed": 30,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -391,6 +395,8 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
+          "mx_grass": 10,
+          "mx_fallen_shed": 20,
           "mx_shia": 1,
           "mx_spider": 200,
           "mx_jabberwock": 1,
@@ -417,6 +423,8 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
+          "mx_grass": 20,
+          "mx_fallen_shed": 60,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -430,21 +438,25 @@
         }
       },
       "field": {
-        "chance": 90,
+        "chance": 6,
         "extras": {
-          "mx_helicopter": 8,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
-          "mx_portal": 3,
-          "mx_crater": 10,
-          "mx_portal_in": 3,
+          "mx_helicopter": 6,
+          "mx_military": 2,
+          "mx_science": 1,
+          "mx_collegekids": 3,
+          "mx_drugdeal": 3,
+          "mx_supplydrop": 4,
+          "mx_portal": 1,
+          "mx_crater": 15,
+          "mx_portal_in": 1,
           "mx_point_dead_vegetation": 50,
+          "mx_grass": 700,
+          "mx_trees": 100,
+          "mx_fallen_shed": 20,
+          "mx_pond": 20,
           "mx_point_burned_ground": 50,
-          "mx_casings": 50,
-          "mx_corpses": 30
+          "mx_casings": 20,
+          "mx_corpses": 3
         }
       },
       "road": {
@@ -534,6 +546,7 @@
         "house_w_4": 40,
         "house_w_5": 40,
         "house_w_6": 40,
+        "house_inner_garden": 40,
         "emptyresidentiallot": 20,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
@@ -578,6 +591,7 @@
       },
       "shops": {
         "bus_station": 200,
+        "city_block_2": 300,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,
@@ -772,9 +786,9 @@
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
       "base_acid": 0.0,
-      "base_wind": 5.7,
-      "base_wind_distrib_peaks": 30,
-      "base_wind_season_variation": 64
+      "base_wind": 3.4,
+      "base_wind_distrib_peaks": 80,
+      "base_wind_season_variation": 50
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

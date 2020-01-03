@@ -222,7 +222,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
     }
 }
 
-void monfactions::load_monster_faction( JsonObject &jo )
+void monfactions::load_monster_faction( const JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
     std::set< std::string > by_mood = jo.get_tags( "by_mood" );

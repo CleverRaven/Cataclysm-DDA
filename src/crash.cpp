@@ -262,7 +262,10 @@ extern "C" {
 
     static void signal_handler( int sig )
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
         signal( sig, SIG_DFL );
+#pragma GCC diagnostic pop
         const char *msg;
         switch( sig ) {
             case SIGSEGV:
@@ -281,7 +284,10 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
         std::signal( SIGABRT, SIG_DFL );
+#pragma GCC diagnostic pop
         abort();
     }
 

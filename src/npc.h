@@ -34,6 +34,7 @@
 #include "item.h"
 #include "point.h"
 #include "memory_fast.h"
+#include "sounds.h"
 
 namespace auto_pickup
 {
@@ -60,6 +61,8 @@ using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
@@ -491,7 +494,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    int type;
+    sounds::sound_t type;
     int volume;
 };
 
@@ -914,7 +917,7 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+        void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
@@ -964,8 +967,9 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, int priority = 0 ) const;
+        void say( const std::string &line, sounds::sound_t spriority = sounds::sound_t::speech ) const;
         void decide_needs();
+        void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
         // How well we smash terrain (not corpses!)
@@ -1006,7 +1010,7 @@ class npc : public player
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
                              const std::string &speech, bool force = false,
-                             int priority = 0 );
+                             sounds::sound_t priority = sounds::sound_t::speech );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -1016,8 +1020,8 @@ class npc : public player
 
         int calc_spell_training_cost( bool knows, int difficulty, int level );
 
-        void handle_sound( int priority, const std::string &description, int heard_volume,
-                           const tripoint &spos );
+        void handle_sound( sounds::sound_t priority, const std::string &description,
+                           int heard_volume, const tripoint &spos );
 
         void witness_thievery( item *it );
 
@@ -1339,7 +1343,7 @@ class npc : public player
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
     private:
         // the weapon we're actually holding when using bionic fake guns
@@ -1381,7 +1385,7 @@ class npc_template
         };
         gender gender_override;
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
 };
@@ -1395,7 +1399,7 @@ struct epilogue {
 
     static epilogue_map _all_epilogue;
 
-    static void load_epilogue( JsonObject &jsobj );
+    static void load_epilogue( const JsonObject &jsobj );
     epilogue *find_epilogue( const std::string &ident );
     void random_by_group( std::string group );
 };

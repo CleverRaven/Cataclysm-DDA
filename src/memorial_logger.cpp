@@ -1,7 +1,5 @@
 #include "memorial_logger.h"
 
-#include <sstream>
-
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -83,11 +81,9 @@ void memorial_logger::add( const std::string &male_msg,
     const oter_id &cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
     const std::string &location = cur_ter->get_name();
 
-    std::stringstream log_message;
-    log_message << "| " << to_string( calendar::turn ) << " | " << location << " | " <<
-                msg;
+    std::string log_message = "| " + to_string( calendar::turn ) + " | " + location + " | " + msg;
 
-    log.push_back( log_message.str() );
+    log.push_back( log_message );
 }
 
 /**
@@ -117,13 +113,14 @@ void memorial_logger::load( std::istream &fin )
 std::string memorial_logger::dump() const
 {
     static const char *eol = cata_files::eol();
-    std::stringstream output;
+    std::string output;
 
     for( auto &elem : log ) {
-        output << elem << eol;
+        output += elem;
+        output += eol;
     }
 
-    return output.str();
+    return output;
 }
 
 void memorial_logger::write( std::ostream &file, const std::string &epitaph ) const
@@ -879,14 +876,6 @@ void memorial_logger::notify( const cata::event &e )
                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
                      cbm_name );
             }
-            break;
-        }
-        case event_type::launches_nuke: {
-            oter_id oter = e.get<oter_id>( "target_terrain" );
-            //~ %s is terrain name
-            add( pgettext( "memorial_male", "Launched a nuke at a %s." ),
-                 pgettext( "memorial_female", "Launched a nuke at a %s." ),
-                 oter->get_name() );
             break;
         }
         case event_type::learns_martial_art: {

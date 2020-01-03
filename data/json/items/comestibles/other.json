@@ -79,7 +79,7 @@
     "calories": 240,
     "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Delicious, and rich with the most beneficial substances the hive can produce, it is useful for curing all sorts of afflictions.",
     "price": 20000,
-    "//": "Didn't precisely exist pre-cataclysm, so tough to price.",
+    "//": "Didn't precisely exist pre-Cataclysm, so tough to price.",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "fun": 7
@@ -122,7 +122,7 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 174,
-    "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
+    "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-Cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
     "volume": 0,
@@ -469,7 +469,7 @@
     "name_plural": "Kentucky coffee grounds",
     "container": "bag_plastic",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "NO_CRAFT_INHERIT" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 5,
     "stack_size": 20
   },

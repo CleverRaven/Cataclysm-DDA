@@ -53,7 +53,7 @@
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
       [ [ "2x4", 4 ] ],
-      [ [ "rope_6", 2 ] ]
+      [ [ "rope_superior_short", 2, "LIST" ] ]
     ]
   },
   {
@@ -68,7 +68,11 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ], [ [ "rope_6", 2 ] ] ]
+    "components": [
+      [ [ "pipe", 4 ] ],
+      [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ],
+      [ [ "rope_natural_short", 2, "LIST" ] ]
+    ]
   },
   {
     "result": "rebar_plate",
@@ -243,11 +247,11 @@
       [ [ "condensor_coil", 2 ] ],
       [ [ "evaporator_coil", 2 ] ],
       [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_tiny", 2 ] ],
       [ [ "refrigerant_tank", 1 ] ],
-      [ [ "plastic_chunk", 8 ] ],
-      [ [ "wire", 2 ] ],
-      [ [ "fan", 1 ] ]
+      [ [ "plastic_chunk", 11 ] ],
+      [ [ "wire", 4 ] ],
+      [ [ "scrap", 1 ] ]
     ]
   },
   {

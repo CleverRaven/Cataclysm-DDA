@@ -54,37 +54,38 @@ struct construction_category;
 
 void cancel_aim_processing();
 
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_pet( "pet" );
 
-const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
-const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+static const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
+static const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
-const quality_id LIFT( "LIFT" );
+static const quality_id WELD( "WELD" );
 
-const trap_str_id tr_firewood_source( "tr_firewood_source" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
 /** Activity-associated item */
 struct act_item {
-    /// Pointer to the inventory item
-    const item *it;
+    /// inventory item
+    item_location loc;
     /// How many items need to be processed
     int count;
     /// Amount of moves that processing will consume
     int consumed_moves;
 
-    act_item( const item *it, int count, int consumed_moves )
-        : it( it ),
+    act_item( const item_location &loc, int count, int consumed_moves )
+        : loc( loc ),
           count( count ),
           consumed_moves( consumed_moves ) {}
 };
 
 // TODO: Deliberately unified with multidrop. Unify further.
-using drop_indexes = std::list<std::pair<int, int>>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<std::pair<item_location, int>>;
 
 static bool same_type( const std::list<item> &items )
 {
@@ -218,7 +219,9 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
+    // Add volume of the bag itself since it is going to be subtracted later in the for-each loop.
+    units::volume remaining_volume = pet.inv.empty() ? 0_ml :
+                                     pet.inv.front().get_storage() + pet.inv.front().volume();
     units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
@@ -349,30 +352,28 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-static drop_indexes convert_to_indexes( const player_activity &act )
+static drop_locations convert_to_locations( const player_activity &act )
 {
-    drop_indexes res;
+    drop_locations res;
 
-    if( act.values.size() % 2 != 0 ) {
+    if( act.values.size() != act.targets.size() ) {
         debugmsg( "Drop/stash activity contains an odd number of values." );
         return res;
     }
-    for( auto iter = act.values.begin(); iter != act.values.end(); iter += 2 ) {
-        res.emplace_back( *iter, *std::next( iter ) );
+    for( size_t i = 0; i < act.values.size(); i++ ) {
+        res.emplace_back( act.targets[i], act.values[i] );
     }
     return res;
 }
 
-static drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &items )
+static drop_locations convert_to_locations( const std::list<act_item> &items )
 {
-    drop_indexes res;
+    drop_locations res;
 
-    for( const auto &ait : items ) {
-        const int pos = p.get_item_position( ait.it );
-
-        if( pos != INT_MIN && ait.count > 0 ) {
-            if( res.empty() || res.back().first != pos ) {
-                res.emplace_back( pos, ait.count );
+    for( const act_item &ait : items ) {
+        if( ait.loc && ait.count > 0 ) {
+            if( res.empty() || res.back().first != ait.loc ) {
+                res.emplace_back( ait.loc, ait.count );
             } else {
                 res.back().second += ait.count;
             }
@@ -381,31 +382,30 @@ static drop_indexes convert_to_indexes( const player &p, const std::list<act_ite
     return res;
 }
 
-static std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
-        int min_pos, int max_pos )
+static std::list<act_item> convert_to_items( Character &p, const drop_locations &drop,
+        std::function<bool( item_location loc )> filter )
 {
     std::list<act_item> res;
 
-    for( const auto &rec : drop ) {
-        const auto pos = rec.first;
-        const auto count = rec.second;
+    for( const drop_location &rec : drop ) {
+        const item_location loc = rec.first;
+        const int count = rec.second;
 
-        if( pos < min_pos || pos > max_pos ) {
+        if( !filter( loc ) ) {
             continue;
-        } else if( pos >= 0 ) {
+        } else if( !p.is_worn( *loc ) && !p.is_wielding( *loc ) ) {
             int obtained = 0;
-            for( const auto &it : p.inv.const_stack( pos ) ) {
+            for( const item &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
                 if( obtained >= count ) {
                     break;
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                // TODO: Use a calculated cost
-                res.emplace_back( &it, qty, 100 );
+                item_location loc( p, const_cast<item *>( &it ) );
+                res.emplace_back( loc, qty, loc.obtain_cost( p, qty ) );
             }
         } else {
-            // TODO: Use a calculated cost
-            res.emplace_back( &p.i_at( pos ), count, pos == -1 ? 0 : 100 );
+            res.emplace_back( loc, count, p.is_wielding( *loc ) ? 0 : loc.obtain_cost( p ) );
         }
     }
 
@@ -415,35 +415,46 @@ static std::list<act_item> convert_to_items( const player &p, const drop_indexes
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-static std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
+static std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
 {
-    auto res = convert_to_items( p, drop, -1, -1 );
-    auto inv = convert_to_items( p, drop, 0, INT_MAX );
-    auto worn = convert_to_items( p, drop, INT_MIN, -2 );
+    std::list<act_item> res = convert_to_items( p, drop,
+    [&p]( item_location loc ) {
+        return p.is_wielding( *loc );
+    } );
+    std::list<act_item> inv = convert_to_items( p, drop,
+    [&p]( item_location loc ) {
+        return !p.is_wielding( *loc ) && !p.is_worn( *loc );
+    } );
+    std::list<act_item> worn = convert_to_items( p, drop,
+    [&p]( item_location loc ) {
+        return p.is_worn( *loc );
+    } );
 
     // Sort inventory items by volume in ascending order
     inv.sort( []( const act_item & first, const act_item & second ) {
-        return first.it->volume() < second.it->volume();
+        return first.loc->volume() < second.loc->volume();
     } );
     // Add missing dependent worn items (if any).
     for( const auto &wait : worn ) {
-        for( const auto dit : p.get_dependent_worn_items( *wait.it ) ) {
+        for( item *dit : p.get_dependent_worn_items( *wait.loc ) ) {
             const auto iter = std::find_if( worn.begin(), worn.end(),
             [dit]( const act_item & ait ) {
-                return ait.it == dit;
+                return &*ait.loc == dit;
             } );
 
             if( iter == worn.end() ) {
                 // TODO: Use a calculated cost
-                worn.emplace_front( dit, dit->count(), 100 );
+                const item_location loc( p, dit );
+                act_item act( loc, loc->count(), loc.obtain_cost( p, loc->count() ) );
+                worn.emplace_front( loc, loc->count(), loc.obtain_cost( p ) );
             }
         }
     }
     // Sort worn items by storage in descending order, but dependent items always go first.
     worn.sort( []( const act_item & first, const act_item & second ) {
-        return first.it->is_worn_only_with( *second.it )
-               || ( first.it->get_storage() > second.it->get_storage()
-                    && !second.it->is_worn_only_with( *first.it ) );
+        return first.loc->is_worn_only_with( *second.loc )
+               || ( first.loc->get_storage() > second.loc->get_storage()
+                    && !second.loc->is_worn_only_with( *first.loc ) );
     } );
 
     // Cumulatively increases
@@ -452,9 +463,9 @@ static std::list<act_item> reorder_for_dropping( const player &p, const drop_ind
     units::volume remaining_storage = p.volume_capacity();
 
     while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().it->get_storage();
+        storage_loss += worn.front().loc->get_storage();
         remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
-        units::volume inventory_item_volume = inv.front().it->volume();
+        units::volume inventory_item_volume = inv.front().loc->volume();
         // Does not fit
         if( remaining_storage < inventory_item_volume ) {
             break;
@@ -490,7 +501,7 @@ static void debug_drop_list( const std::list<act_item> &list )
     std::string res( "Items ordered to drop:\n" );
     for( const auto &ait : list ) {
         res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.it->display_name( ait.count ), ait.consumed_moves );
+                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
     }
     popup( res, PF_GET_KEY );
 }
@@ -499,21 +510,21 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
-    auto items = reorder_for_dropping( p, convert_to_indexes( act ) );
+    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
 
     debug_drop_list( items );
 
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
-        const auto &ait = items.front();
+        act_item &ait = items.front();
 
         p.mod_moves( -ait.consumed_moves );
 
-        if( p.is_worn( *ait.it ) ) {
-            p.takeoff( *ait.it, &res );
-        } else if( ait.it->count_by_charges() ) {
-            res.push_back( p.reduce_charges( const_cast<item *>( ait.it ), ait.count ) );
+        if( p.is_worn( *ait.loc ) ) {
+            p.takeoff( *ait.loc, &res );
+        } else if( ait.loc->count_by_charges() ) {
+            res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
         } else {
-            res.push_back( p.i_rem( ait.it ) );
+            res.push_back( p.i_rem( &*ait.loc ) );
         }
 
         items.pop_front();
@@ -525,11 +536,19 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity
-    act.values.clear();
-    if( !items.empty() ) {
-        for( const auto &drop : convert_to_indexes( p, items ) ) {
-            act.values.push_back( drop.first );
+    if( items.size() > act.targets.size() ) {
+        for( const drop_location &drop : convert_to_locations( items ) ) {
+            act.targets.push_back( drop.first );
             act.values.push_back( drop.second );
+        }
+    }
+    // remove items already dropped from the targets list by checking if pointers were invalidated
+    for( int i = act.targets.size() - 1; i >= 0; i-- ) {
+        const auto target_iter = act.targets.cbegin() + i;
+        const auto value_iter = act.values.cbegin() + i;
+        if( !*target_iter ) {
+            act.targets.erase( target_iter );
+            act.values.erase( value_iter );
         }
     }
     // And cancel if its empty. If its not, we modified in place and we will continue
@@ -605,14 +624,14 @@ void activity_on_turn_wear( player_activity &act, player &p )
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    auto items = reorder_for_dropping( *p, convert_to_indexes( *act ) );
+    std::list<act_item> items = reorder_for_dropping( *p, convert_to_locations( *act ) );
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
     units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
-        total_volume += filthy_item.it->volume();
+        total_volume += filthy_item.loc->volume();
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -636,7 +655,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
 
     for( const auto &ait : items ) {
-        item *filthy_item = const_cast<item *>( ait.it );
+        item *filthy_item = const_cast<item *>( &*ait.loc );
         filthy_item->item_tags.erase( "FILTHY" );
         p->on_worn_item_washed( *filthy_item );
     }
@@ -1168,7 +1187,7 @@ static std::string random_string( size_t length )
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const requirement_id &needed_things, player &p, const activity_id &activity_to_restore,
-                                     const bool in_loot_zones )
+                                     const bool in_loot_zones, tripoint src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
     inventory temp_inv;
@@ -1188,6 +1207,13 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                               activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
                               p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ||
                               activity_to_restore == activity_id( "ACT_MULTIPLE_FISH" );
+    bool found_welder = false;
+    for( item *elem : p.inv_dump() ) {
+        if( elem->has_quality( WELD ) ) {
+            found_welder = true;
+        }
+        temp_inv += *elem;
+    }
     for( const tripoint &elem : loot_spots ) {
         // if we are searching for things to fetch, we can skip certain thngs.
         // if, however they are already near the work spot, then the crafting / inventory fucntions will have their own method to use or discount them.
@@ -1225,8 +1251,25 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
     }
-    for( item *elem : p.inv_dump() ) {
-        temp_inv += *elem;
+    // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
+    if( !found_welder ) {
+        for( const tripoint &elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+            const optional_vpart_position vp = g->m.veh_at( elem );
+            if( vp ) {
+                vehicle &veh = vp->vehicle();
+                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+                if( weldpart ) {
+                    item welder( "welder", 0 );
+                    welder.charges = veh.fuel_left( "battery", true );
+                    welder.item_tags.insert( "PSEUDO" );
+                    temp_inv.add_item( welder );
+                    item soldering_iron( "soldering_iron", 0 );
+                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    temp_inv.add_item( soldering_iron );
+                }
+            }
+        }
     }
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
@@ -1246,6 +1289,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         const tripoint &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     // see activity_handlers.h cant_do_activity_reason enums
+    p.invalidate_crafting_inventory();
     zone_manager &mgr = zone_manager::get_manager();
     std::vector<zone_data> zones;
     if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ||
@@ -1318,7 +1362,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 const auto &reqs = vpinfo.removal_requirements();
-                const inventory &inv = p.crafting_inventory();
+                const inventory &inv = p.crafting_inventory( false );
+
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
                 // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
@@ -1336,7 +1381,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() == 0 ) {
+                if( part_elem->is_broken() || part_elem->damage() == 0 ||
+                    part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
@@ -1348,7 +1394,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 const auto &reqs = vpinfo.repair_requirements();
-                const inventory &inv = p.crafting_inventory();
+                const inventory &inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
                 // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
@@ -1568,7 +1614,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     std::vector<tripoint> already_there_spots;
     std::vector<tripoint> combined_spots;
     std::map<itype_id, int> total_map;
-    for( const tripoint &elem : g->m.points_in_radius( g->m.getlocal( p.backlog.front().placement ),
+    tripoint src_loc = g->m.getlocal( p.backlog.front().placement );
+    for( const tripoint &elem : g->m.points_in_radius( src_loc,
             PICKUP_RANGE - 1 ) ) {
         already_there_spots.push_back( elem );
         combined_spots.push_back( elem );
@@ -1593,13 +1640,13 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     }
     // if the requirements arent available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
-                                  activity_to_restore, pickup_task ) ) {
+                                  activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
     }
     // if the requirements are already near the work spot and its a construction/crafting task, then no need to fetch anything more.
     if( !pickup_task &&
         are_requirements_nearby( already_there_spots, things_to_fetch_id, p, activity_to_restore,
-                                 false ) ) {
+                                 false, src_loc ) ) {
         return requirement_map;
     }
     // a vector of every item in every tile that matches any part of the requirements.
@@ -1896,10 +1943,11 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
     if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) ) {
-        for( auto inv_elem : p.inv_dump() ) {
+        for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                p.drop( p.get_item_position( inv_elem ), src_loc );
+                item_location loc( p, inv_elem );
+                p.drop( loc, src_loc );
             }
         }
     }
@@ -2599,7 +2647,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                            reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR;
         // is it even worth fetching anything if there isnt enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
-                                      act_id, tool_pickup ) ) {
+                                      act_id, tool_pickup, src_loc ) ) {
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
@@ -2621,8 +2669,8 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                 std::vector<tripoint> candidates;
                 for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
                     // we dont want to place the components where they could interfere with our ( or someone elses ) construction spots
-                    if( ( std::find( local_src_set.begin(), local_src_set.end(),
-                                     point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
+                    if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                   point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
                         continue;
                     }
                     candidates.push_back( point_elem );
@@ -2743,14 +2791,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
-
     // Nuke the current activity, leaving the backlog alone
     p.activity = player_activity();
-
     // now we setup the target spots based on whch activity is occuring
     // the set of target work spots - potentally after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
-
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
@@ -2809,6 +2854,17 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             p.set_destination( route, player_activity( activity_to_restore ) );
             return;
         }
+        // we checked if the work spot was in darkness earlier
+        // but there is a niche case where the player is in darkness but the work spot is not
+        // this can create infinite loops
+        // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
+        // but now we are here, we check
+        if( activity_to_restore != activity_id( "ACT_TIDY_UP" ) &&
+            activity_to_restore != activity_id( "ACT_MOVE_LOOT" ) &&
+            p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
+            p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
+            return;
+        }
         //do the activity and continue if possible
         if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
             return;
@@ -2826,13 +2882,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         // tidy up leftover moved parts and tools left lying near the work spots.
         if( player_activity( activity_to_restore ).is_multi_type() ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
-            if( p.is_npc() ) {
-                npc *guy = dynamic_cast<npc *>( &p );
-                if( guy ) {
-                    guy->set_attitude( NPCATT_ACTIVITY );
-                    guy->set_mission( NPC_MISSION_ACTIVITY );
-                }
-            }
         }
     }
     p.activity_vehicle_part_index = -1;

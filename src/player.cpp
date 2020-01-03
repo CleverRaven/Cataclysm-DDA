@@ -7,7 +7,6 @@
 #include <iterator>
 #include <map>
 #include <string>
-#include <sstream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -102,138 +101,74 @@
 
 const double MAX_RECOIL = 3000;
 
-const mtype_id mon_player_blob( "mon_player_blob" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_swimming( "swimming" );
-const skill_id skill_throw( "throw" );
-const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_swimming( "swimming" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_recently_coughed( "recently_coughed" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_disinfected( "disinfected" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_evil( "evil" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowy_led( "glowy_led" );
-const efftype_id effect_got_checked( "got_checked" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_grabbing( "grabbing" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_winded( "winded" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_recently_coughed( "recently_coughed" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_magnesium_supplements( "magnesium" );
 
-const species_id ROBOT( "ROBOT" );
-
-static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
 static const bionic_id bio_armor_head( "bio_armor_head" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
-static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_carbon( "bio_carbon" );
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_dis_acid( "bio_dis_acid" );
-static const bionic_id bio_dis_shock( "bio_dis_shock" );
-static const bionic_id bio_drain( "bio_drain" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
-static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_glowy( "bio_glowy" );
-static const bionic_id bio_geiger( "bio_geiger" );
-static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_itchy( "bio_itchy" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
-static const bionic_id bio_laser( "bio_laser" );
-static const bionic_id bio_leaky( "bio_leaky" );
-static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_noise( "bio_noise" );
-static const bionic_id bio_plut_filter( "bio_plut_filter" );
-static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_recycler( "bio_recycler" );
-static const bionic_id bio_shakes( "bio_shakes" );
-static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bn_bio_solar( "bn_bio_solar" );
 static const bionic_id bio_soporific( "bio_soporific" );
-static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
-static const bionic_id bio_tools( "bio_tools" );
-static const bionic_id bio_trip( "bio_trip" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
-static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
@@ -241,58 +176,38 @@ static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
-static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
-static const trait_id trait_ADRENALINE( "ADRENALINE" );
-static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_ASTHMA( "ASTHMA" );
-static const trait_id trait_BADBACK( "BADBACK" );
-static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
-static const trait_id trait_CHAOTIC( "CHAOTIC" );
-static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
-static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
-static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
-static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_FASTHEALER( "FASTHEALER" );
-static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
-static const trait_id trait_GILLS( "GILLS" );
-static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_HUGE( "HUGE" );
@@ -300,44 +215,29 @@ static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
-static const trait_id trait_LEAVES( "LEAVES" );
-static const trait_id trait_LEAVES2( "LEAVES2" );
-static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
-static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
-static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
-static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_M_SPORES( "M_SPORES" );
-static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
-static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NO_THIRST( "NO_THIRST" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
-static const trait_id trait_PAINREC1( "PAINREC1" );
-static const trait_id trait_PAINREC2( "PAINREC2" );
-static const trait_id trait_PAINREC3( "PAINREC3" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
@@ -350,60 +250,36 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
-static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
-static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
-static const trait_id trait_REGEN( "REGEN" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SHOUT1( "SHOUT1" );
-static const trait_id trait_SHOUT2( "SHOUT2" );
-static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLEEK_SCALES( "SLEEK_SCALES" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
-static const trait_id trait_SMELLY( "SMELLY" );
-static const trait_id trait_SMELLY2( "SMELLY2" );
-static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
-static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TAIL_FIN( "TAIL_FIN" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
-static const trait_id trait_TROGLO( "TROGLO" );
-static const trait_id trait_TROGLO2( "TROGLO2" );
-static const trait_id trait_TROGLO3( "TROGLO3" );
-static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
-static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
@@ -541,26 +417,24 @@ void player::process_turn()
     if( !is_npc() ) {
         // Set our scent towards the norm
         int norm_scent = 500;
-        if( has_trait( trait_WEAKSCENT ) ) {
-            norm_scent = 300;
+        int temp_norm_scent = INT_MIN;
+        bool found_intensity = false;
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            if( scent_intensity ) {
+                found_intensity = true;
+                temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
+            }
         }
-        if( has_trait( trait_SMELLY ) ) {
-            norm_scent = 800;
+        if( found_intensity ) {
+            norm_scent = temp_norm_scent;
         }
-        if( has_trait( trait_SMELLY2 ) ) {
-            norm_scent = 1200;
-        }
-        // Not so much that you don't have a scent
-        // but that you smell like a plant, rather than
-        // a human. When was the last time you saw a critter
-        // attack a bluebell or an apple tree?
-        if( has_trait( trait_FLOWERS ) && !has_trait( trait_CHLOROMORPH ) ) {
-            norm_scent -= 200;
-        }
-        // You *are* a plant.  Unless someone hunts triffids by scent,
-        // you don't smell like prey.
-        if( has_trait( trait_CHLOROMORPH ) ) {
-            norm_scent = 0;
+
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_mask = mut->scent_mask;
+            if( scent_mask ) {
+                norm_scent += *scent_mask;
+            }
         }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
@@ -874,7 +748,7 @@ int player::swim_speed() const
         // no difference in swim speed by monster type yet.
         // TODO: difference in swim speed by monster type.
         // No monsters are currently mountable and can swim, though mods may allow this.
-        if( mon->has_flag( MF_SWIMS ) ) {
+        if( mon->swims() ) {
             ret = 25;
             ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
             return ret;
@@ -1056,12 +930,7 @@ void player::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
-        if( get_stamina() + modifier < 0 ) {
-            add_effect( effect_winded, 10_turns );
-        }
         mod_stamina( modifier );
-        set_stamina( std::min( get_stamina(), get_stamina_max() ) );
-        set_stamina( std::max( 0, get_stamina() ) );
     } else {
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
@@ -1090,9 +959,16 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_opposite_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->cancels ) {
+    for( const trait_id &i : flag->cancels ) {
         if( has_trait( i ) ) {
             return true;
+        }
+    }
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+        for( const trait_id &canceled_trait : mut.first->cancels ) {
+            if( canceled_trait == flag ) {
+                return true;
+            }
         }
     }
     return false;
@@ -2046,8 +1922,8 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     hp_cur[hurtpart] -= dam_to_bodypart;
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
-    if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
-        if( !weapon.is_null() && !can_wield( weapon ).success() ) {
+    if( is_limb_broken( hurtpart ) && ( source == nullptr || !source->is_hallucination() ) ) {
+        if( !weapon.is_null() && can_unwield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
             i_rem( &weapon );
         }
@@ -2069,8 +1945,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
         if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-            remove_med -= reduce_healing_effect( effect_disinfected, remove_med, hurt );
+            reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
 }
@@ -2150,7 +2025,8 @@ int player::impact( const int force, const tripoint &p )
         armor_eff = 0.25f; // Not much
         if( !slam && vp->part_with_feature( "ROOF", true ) ) {
             // Roof offers better landing than frame or pavement
-            effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
+            // TODO: Make this not happen with heavy duty/plated roof
+            effective_force /= 2;
         }
     } else {
         // Slamming into terrain/furniture
@@ -2286,8 +2162,8 @@ void player::knock_back_to( const tripoint &to )
     } else if( g->m.impassable( to ) ) { // Wait, it's a wall
 
         // It's some kind of wall.
-        apply_damage( nullptr, bp_torso,
-                      3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        apply_damage( nullptr, bp_torso, 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -2355,7 +2231,7 @@ void player::update_body( const time_point &from, const time_point &to )
             reset_activity_level();
         }
         // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
     }
 
@@ -2394,17 +2270,16 @@ void player::update_stomach( const time_point &from, const time_point &to )
 
     if( five_mins > 0 ) {
         // Digest nutrients in stomach, they are destined for the guts (except water)
-        nutrients digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
         // Digest nutrients in guts, they will be distributed to needs levels
-        nutrients digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
-        set_thirst( std::max(
-                        -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
+        mod_thirst( - units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
-            mod_stored_kcal( digested_to_body.kcal );
-            vitamins_mod( digested_to_body.vitamins, false );
+            mod_stored_kcal( digested_to_body.nutr.kcal );
+            vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
     }
     if( stomach.time_since_ate() > 10_minutes ) {
@@ -2466,7 +2341,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait( trait_DISIMMUNE ) ) {
+    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
@@ -2956,8 +2831,8 @@ void player::regen( int rate_multiplier )
         }
     }
 
-    if( radiation > 0 ) {
-        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 50.0f ) );
+    if( get_rad() > 0 ) {
+        mod_rad( -roll_remainder( rate_multiplier / 50.0f ) );
     }
 }
 
@@ -3123,10 +2998,10 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "RAD", val, reduced, mod ) ) {
-            radiation += bound_mod_to_vals( radiation, val, it.get_max_val( "RAD", reduced ), 0 );
+            mod_rad( bound_mod_to_vals( get_rad(), val, it.get_max_val( "RAD", reduced ), 0 ) );
             // Radiation can't go negative
-            if( radiation < 0 ) {
-                radiation = 0;
+            if( get_rad() < 0 ) {
+                set_rad( 0 );
             }
         }
     }
@@ -3228,9 +3103,9 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
-            mod_stat( "stamina", bound_mod_to_vals( get_stamina(), val,
-                                                    it.get_max_val( "STAMINA", reduced ),
-                                                    it.get_min_val( "STAMINA", reduced ) ) );
+            mod_stamina( bound_mod_to_vals( get_stamina(), val,
+                                            it.get_max_val( "STAMINA", reduced ),
+                                            it.get_min_val( "STAMINA", reduced ) ) );
         }
     }
 
@@ -3442,10 +3317,10 @@ void player::process_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
-        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && w.encumbrance_update_ ) {
             update_required = true;
         }
-        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+        w.encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -3733,9 +3608,13 @@ bool player::consume_item( item &target )
     return false;
 }
 
-bool player::consume( int target_position )
+bool player::consume( item_location loc )
 {
-    auto &target = i_at( target_position );
+    item &target = *loc;
+    const bool wielding = is_wielding( target );
+    const bool worn = is_worn( target );
+    const bool inv_item = !( wielding || worn );
+
     if( consume_item( target ) ) {
 
         const bool was_in_container = !can_consume_as_is( target );
@@ -3747,13 +3626,13 @@ bool player::consume( int target_position )
         }
 
         //Restack and sort so that we don't lie about target's invlet
-        if( target_position >= 0 ) {
+        if( inv_item ) {
             inv.restack( *this );
         }
 
-        if( was_in_container && target_position == -1 ) {
+        if( was_in_container && wielding ) {
             add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
-        } else if( was_in_container && target_position < -1 ) {
+        } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {
             bool drop_it = false;
@@ -3773,7 +3652,7 @@ bool player::consume( int target_position )
                 add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
             }
         }
-    } else if( target_position >= 0 ) {
+    } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
         }
@@ -4164,7 +4043,8 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
+                !elem.has_flag( "POWERARMOR_COMPATIBLE" ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -4193,8 +4073,8 @@ ret_val<bool> player::can_wear( const item &it ) const
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( is_wearing_power_armor( &has_helmet ) &&
-            ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
+        if( !it.has_flag( "POWERARMOR_COMPATIBLE" ) && ( ( is_wearing_power_armor( &has_helmet ) &&
+                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
         }
     }
@@ -4415,19 +4295,6 @@ hint_rating player::rate_action_wear( const item &it ) const
     return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
 }
 
-hint_rating player::rate_action_change_side( const item &it ) const
-{
-    if( !is_worn( it ) ) {
-        return HINT_IFFY;
-    }
-
-    if( !it.is_sided() ) {
-        return HINT_CANT;
-    }
-
-    return HINT_GOOD;
-}
-
 bool player::can_reload( const item &it, const itype_id &ammo ) const
 {
     if( !it.is_reloadable_with( ammo ) ) {
@@ -4625,17 +4492,21 @@ void player::mend_item( item_location &&obj, bool interactive )
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::ostringstream descr;
+            std::string descr;
             if( method.turns_into ) {
-                descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
+                descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
                                         method.turns_into->obj().name() );
             }
-            descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+            if( method.also_mends ) {
+                descr += string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
+                                        method.also_mends->obj().name() );
+            }
+            descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
                                     to_string_approx( method.time ) );
             if( method.skills.empty() ) {
-                descr << string_format( _( "Skills: <color_cyan>none</color>\n" ) );
+                descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
-                descr << string_format( _( "Skills: %s\n" ),
+                descr += string_format( _( "Skills: %s\n" ),
                                         enumerate_as_string( method.skills.begin(), method.skills.end(),
                 [this]( const std::pair<skill_id, int> &sk ) -> std::string {
                     if( get_skill_level( sk.first ) >= sk.second )
@@ -4654,10 +4525,14 @@ void player::mend_item( item_location &&obj, bool interactive )
                 } ) );
             }
 
-            std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
-            std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
+            for( const std::string &line : tools ) {
+                descr += line + "\n";
+            }
+            for( const std::string &line : comps ) {
+                descr += line + "\n";
+            }
 
-            const std::string desc = method.description + "\n\n" + colorize( descr.str(), col );
+            const std::string desc = method.description + "\n\n" + colorize( descr, col );
             menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
         }
         menu.query();
@@ -4884,46 +4759,6 @@ player::wear_item( const item &to_wear, bool interactive )
     return new_item_it;
 }
 
-bool player::change_side( item &it, bool interactive )
-{
-    if( !it.swap_side() ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You cannot swap the side on which your %s is worn." ),
-                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
-                                   it.tname() );
-        }
-        return false;
-    }
-
-    if( interactive ) {
-        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
-                               _( "<npcname> swaps the side on which their %s is worn." ),
-                               it.tname() );
-    }
-
-    mod_moves( -250 );
-    reset_encumbrance();
-
-    return true;
-}
-
-bool player::change_side( int pos, bool interactive )
-{
-    item &it( i_at( pos ) );
-
-    if( !is_worn( it ) ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You are not wearing that item." ),
-                                   _( "<npcname> isn't wearing that item." ) );
-        }
-        return false;
-    }
-
-    return change_side( it, interactive );
-}
-
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if( !it.is_armor() ) {
@@ -4937,34 +4772,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
     return HINT_IFFY;
 }
 
-std::list<const item *> player::get_dependent_worn_items( const item &it ) const
-{
-    std::list<const item *> dependent;
-    // Adds dependent worn items recursively
-    const std::function<void( const item &it )> add_dependent = [ & ]( const item & it ) {
-        for( const auto &wit : worn ) {
-            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
-                continue;
-            }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
-            [ &wit ]( const item * dit ) {
-                return &wit == dit;
-            } );
-            if( iter == dependent.end() ) { // Not in the list yet
-                add_dependent( wit );
-                dependent.push_back( &wit );
-            }
-        }
-    };
-
-    if( is_worn( it ) ) {
-        add_dependent( it );
-    }
-
-    return dependent;
-}
-
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
+ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;
@@ -4988,7 +4796,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff( item &it, std::list<item> *res )
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -5004,7 +4812,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                drop( get_item_position( &it ), pos() );
+                item_location loc( *this, &it );
+                drop( loc, pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
@@ -5021,7 +4830,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            it.tname() );
 
-    mod_moves( -250 );    // TODO: Make this variable
+    // TODO: Make this variable
+    mod_moves( -250 );
     worn.erase( iter );
 
     recalc_sight_limits();
@@ -5341,8 +5151,6 @@ void player::use( int inventory_position )
 void player::use( item_location loc )
 {
     item &used = *loc.get_item();
-    int inventory_position = loc.where() == item_location::type::character ?
-                             this->get_item_position( &used ) : INT_MIN;
 
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -5368,12 +5176,12 @@ void player::use( item_location loc )
                                      used.is_medication() ||
                                      used.get_contained().is_food() ||
                                      used.get_contained().is_medication() ) ) {
-        consume( inventory_position );
+        consume( loc );
 
     } else if( used.is_book() ) {
-        // TODO: Remove this nasty cast once this and related functions are migrated to avatar
-        if( avatar *u = dynamic_cast<avatar *>( this ) ) {
-            u->read( inventory_position );
+        // TODO: Handle this with dynamic dispatch.
+        if( avatar *u = as_avatar() ) {
+            u->read( used );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
@@ -5639,6 +5447,10 @@ int player::book_fun_for( const item &book, const player &p ) const
         } else {
             fun_bonus--;
         }
+    }
+
+    if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
+        fun_bonus /= 2;
     }
 
     return fun_bonus;
@@ -5941,7 +5753,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     } else if( plantsleep ) {
         if( vp || furn_at_pos != f_null ) {
             // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
             if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
@@ -5954,7 +5766,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             }
             // Sleep ain't happening
             else {
-                comfort = static_cast<int>( comfort_level::uncomfortable );
+                comfort = static_cast<int>( comfort_level::impossible );
             }
         }
         // Has webforce
@@ -5963,7 +5775,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Thick Web and you're good to go
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else {
-            comfort = static_cast<int>( comfort_level::uncomfortable );
+            comfort = static_cast<int>( comfort_level::impossible );
         }
     }
 
@@ -6461,32 +6273,35 @@ std::string player::weapname( unsigned int truncate ) const
     }
 }
 
-bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
+bool player::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
-    if( pos < 0 ) {
+    if( internal_item == nullptr ) {
         std::vector<std::string> opts;
         std::transform( container.contents.begin(), container.contents.end(),
         std::back_inserter( opts ), []( const item & elem ) {
             return elem.display_name();
         } );
         if( opts.size() > 1 ) {
-            pos = uilist( _( "Wield what?" ), opts );
+            int pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
         } else {
-            pos = 0;
+            internal_item = &container.contents.front();
         }
     }
 
-    if( pos >= static_cast<int>( container.contents.size() ) ) {
+    const bool has = std::any_of( container.contents.begin(),
+    container.contents.end(), [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
+    if( !has ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
 
-    auto target = std::next( container.contents.begin(), pos );
-    const auto ret = can_wield( *target );
+    const ret_val<bool> ret = can_wield( *internal_item );
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
@@ -6501,8 +6316,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
         inv.unsort();
     }
 
-    weapon = std::move( *target );
-    container.contents.erase( target );
+    weapon = std::move( *internal_item );
+    container.contents.remove_if( [internal_item]( const item & it ) {
+        return internal_item == &it;
+    } );
     container.on_contents_changed();
 
     inv.update_invlet( weapon );
@@ -6618,7 +6435,7 @@ void player::environmental_revert_effect()
     set_stim( 0 );
     set_pain( 0 );
     set_painkiller( 0 );
-    radiation = 0;
+    set_rad( 0 );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -7050,9 +6867,8 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
 std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        float dist_to_creature;
         // Fixes circular distance range for ranged attacks
-        dist_to_creature = round( rl_dist_exact( pos(), critter.pos() ) );
+        float dist_to_creature = round( rl_dist_exact( pos(), critter.pos() ) );
         return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
         && sees( critter );
@@ -7235,12 +7051,14 @@ void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
     magic.on_mutation_gain( mid, *this );
+    update_type_of_scent( mid );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
     magic.on_mutation_loss( mid );
+    update_type_of_scent( mid, false );
 }
 
 void player::on_stat_change( const std::string &stat, int value )

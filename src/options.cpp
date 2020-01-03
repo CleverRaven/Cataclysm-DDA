@@ -884,8 +884,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
             resource_names.emplace_back( resource_name,
                                          view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
             if( resource_option.count( resource_name ) != 0 ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " <<
-                                            resource_name;
+                debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
+                          operation_name, resource_name );
             } else {
                 resource_option.insert( std::pair<std::string, std::string>( resource_name, resource_dir ) );
             }
@@ -1140,6 +1140,13 @@ void options_manager::add_options_general()
          false
        );
 
+    add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
+         translate_marker( "Dangerous terrain warning prompt" ),
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
+    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+    "ALWAYS"
+       );
+
     mOptionsSort["general"]++;
 
     add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
@@ -1238,11 +1245,6 @@ void options_manager::add_options_general()
          translate_marker( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
     { { "always", translate_marker( "Always" ) }, { "ask", translate_marker( "Ask" ) }, { "never", translate_marker( "Never" ) } },
     "ask"
-       );
-
-    add( "MAP_UI_SEARCH_RADIUS", "general", translate_marker( "Map search radius" ),
-         translate_marker( "Radius around the cursor to search in the map UI.  Setting very high may be slow." ),
-         10, 4000, 100
        );
 
     mOptionsSort["general"]++;
@@ -1543,6 +1545,10 @@ void options_manager::add_options_interface()
     add( "ITEM_SYMBOLS", "interface", translate_marker( "Show item symbols" ),
          translate_marker( "If true, show item symbols in inventory and pick up menu." ),
          false
+       );
+    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
+         translate_marker( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
        );
 
     mOptionsSort["interface"]++;
@@ -1935,9 +1941,9 @@ void options_manager::add_options_world_default()
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
     translate_marker( "Handling of game world when last character dies." ), {
-        { "keep", translate_marker( "Keep" ) }, { "reset", translate_marker( "Reset" ) },
-        { "delete", translate_marker( "Delete" ) },  { "query", translate_marker( "Query" ) }
-    }, "keep"
+        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
+        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    }, "reset"
        );
 
     mOptionsSort["world_default"]++;
@@ -2686,6 +2692,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         }
@@ -2814,15 +2821,11 @@ void options_manager::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject joOptions = jsin.get_object();
+        joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
-
-        // Verify format of options file
-        if( !joOptions.has_string( "info" ) || !joOptions.has_string( "default" ) ) {
-            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
-        }
 
         add_retry( name, value );
         options[ name ].setValue( value );
@@ -3004,7 +3007,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
-        };
+        }
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }

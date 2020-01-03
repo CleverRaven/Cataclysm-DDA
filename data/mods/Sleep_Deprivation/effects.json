@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "sleep_deprived",
     "name": [ "Sleep Deprived" ],
-    "desc": [ "Your sleep debt has been steadily increasing for a while. You should get some rest." ],
+    "desc": [ "Your sleep debt has been steadily increasing for a while.  You should get some rest." ],
     "rating": "bad",
     "max_intensity": 20160,
     "int_dur_factor": 1440,

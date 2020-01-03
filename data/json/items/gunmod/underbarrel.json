@@ -141,10 +141,60 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 3,
-      "dispersion": 345,
-      "durability": 10,
+      "ranged_damage": 1,
+      "dispersion": 425,
+      "durability": 7,
       "clip_size": 7,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "GUNMOD",
+    "name": "TS12 second magazine",
+    "description": "The integrated second shotgun magazine of the Tavor TS12 which holds 5 shots.  It's irremovable.",
+    "weight": "100 g",
+    "volume": "1750 ml",
+    "integral_volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 1,
+      "dispersion": 320,
+      "durability": 6,
+      "clip_size": 5,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "GUNMOD",
+    "name": "TS12 third magazine",
+    "description": "The integrated third shotgun magazine of the Tavor TS12 which holds 5 shots.  It's irremovable.",
+    "weight": "100 g",
+    "volume": "1750 ml",
+    "integral_volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 1,
+      "dispersion": 320,
+      "durability": 6,
+      "clip_size": 5,
       "reload": 120
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -206,7 +256,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -232,7 +282,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -245,6 +295,21 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
+    "id": "M6_shotgun",
+    "type": "GUNMOD",
+    "name": "M6 Survival Gun shotgun",
+    "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
+    "volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
+    "flags": [ "RELOAD_EJECT" ]
+  },
+  {
     "id": "makeshift_bayonet",
     "copy-from": "spike",
     "type": "GENERIC",
@@ -255,8 +320,6 @@
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "qualities": [ [ "COOK", 1 ] ],
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
@@ -297,7 +360,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
   {

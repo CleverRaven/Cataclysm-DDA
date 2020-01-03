@@ -5,7 +5,6 @@
 #include <string>
 #include <array>
 #include <memory>
-#include <sstream>
 #include <unordered_map>
 #include <utility>
 
@@ -31,12 +30,6 @@
 #include "enums.h"
 #include "optional.h"
 
-const skill_id skill_melee( "melee" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_unarmed( "unarmed" );
-
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
@@ -59,14 +52,14 @@ matype_id martial_art_learned_from( const itype &type )
     return type.book->martial_art;
 }
 
-void load_technique( JsonObject &jo, const std::string &src )
+void load_technique( const JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
 }
 
 // To avoid adding empty entries
 template <typename Container>
-void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
+void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
                     const std::string &json_key, const typename Container::key_type &id )
 {
     if( jo.has_member( json_key ) ) {
@@ -74,7 +67,53 @@ void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
     }
 }
 
-void ma_requirements::load( JsonObject &jo, const std::string & )
+class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
+{
+    public:
+        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
+            JsonObject jo = jin.get_object();
+            return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            const skill_id id = skill_id( jin.get_string() );
+            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
+                return e.first == id;
+            } );
+        }
+};
+
+class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_reader>
+{
+    public:
+        std::map<std::string, damage_type> dt_map = get_dt_map();
+
+        std::pair<damage_type, int> get_next( JsonIn &jin ) const {
+            JsonObject jo = jin.get_object();
+            std::string type = jo.get_string( "type" );
+            const auto iter = get_dt_map().find( type );
+            if( iter == get_dt_map().end() ) {
+                jo.throw_error( "Invalid damage type" );
+            }
+            const damage_type dt = iter->second;
+            return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            JsonObject jo = jin.get_object();
+            std::string type = jo.get_string( "type" );
+            const auto iter = get_dt_map().find( type );
+            if( iter == get_dt_map().end() ) {
+                jo.throw_error( "Invalid damage type" );
+            }
+            damage_type id = iter->second;
+            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
+                return e.first == id;
+            } );
+        }
+};
+
+void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -85,19 +124,11 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
 
-    // TODO: De-hardcode the skills and damage types here
-    add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
-    add_if_exists( jo, min_skill, was_loaded, "min_unarmed", skill_unarmed );
-    add_if_exists( jo, min_skill, was_loaded, "min_bashing", skill_bashing );
-    add_if_exists( jo, min_skill, was_loaded, "min_cutting", skill_cutting );
-    add_if_exists( jo, min_skill, was_loaded, "min_stabbing", skill_stabbing );
-
-    add_if_exists( jo, min_damage, was_loaded, "min_bashing_damage", DT_BASH );
-    add_if_exists( jo, min_damage, was_loaded, "min_cutting_damage", DT_CUT );
-    add_if_exists( jo, min_damage, was_loaded, "min_stabbing_damage", DT_STAB );
+    optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
+    optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( JsonObject &jo, const std::string &src )
+void ma_technique::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, "" );
@@ -158,7 +189,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( JsonObject &jo, const std::string &src )
+void ma_buff::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -194,7 +225,7 @@ bool string_id<ma_buff>::is_valid() const
     return ma_buffs.is_valid( *this );
 }
 
-void load_martial_art( JsonObject &jo, const std::string &src )
+void load_martial_art( const JsonObject &jo, const std::string &src )
 {
     martialarts.load( jo, src );
 }
@@ -212,14 +243,12 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
-    JsonArray jsarr = jo.get_array( "autolearn" );
-    while( jsarr.has_more() ) {
-        JsonArray skillArray = jsarr.next_array();
+    for( JsonArray skillArray : jo.get_array( "autolearn" ) ) {
         std::string skill_name = skillArray.get_string( 0 );
         int skill_level = 0;
         std::string skill_level_string = skillArray.get_string( 1 );
@@ -457,55 +486,68 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
 
 std::string ma_requirements::get_description( bool buff ) const
 {
-    std::stringstream dump;
+    std::string dump;
 
     if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
     return pr.second > 0;
 } ) ) {
-        dump << string_format( _( "<bold>%s required: </bold>" ),
+        dump += string_format( _( "<bold>%s required: </bold>" ),
                                ngettext( "Skill", "Skills", min_skill.size() ) );
 
-        dump << enumerate_as_string( min_skill.begin(),
+        dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
             return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
-        }, enumeration_conjunction::none ) << std::endl;
+        }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( std::any_of( min_damage.begin(),
+    min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+    return pr.second > 0;
+} ) ) {
+        dump += ngettext( "<bold>Damage type required: </bold>",
+                          "<bold>Damage types required: </bold>", min_damage.size() );
+
+        dump += enumerate_as_string( min_damage.begin(),
+        min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+            return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
+        }, enumeration_conjunction::none ) + "\n";
     }
 
     if( !req_buffs.empty() ) {
-        dump << _( "<bold>Requires:</bold> " );
+        dump += _( "<bold>Requires:</bold> " );
 
-        dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
+        dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
-        }, enumeration_conjunction::none ) << std::endl;
+        }, enumeration_conjunction::none ) + "\n";
     }
 
     const std::string type = buff ? _( "activate" ) : _( "be used" );
 
     if( unarmed_allowed && melee_allowed ) {
-        dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
-                               type ) << std::endl;
+        dump += string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
+                               type ) + "\n";
         if( unarmed_weapons_allowed ) {
-            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) << std::endl;
+            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) + "\n";
         }
     } else if( unarmed_allowed ) {
-        dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
-                               type ) << std::endl;
+        dump += string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
+                               type ) + "\n";
         if( unarmed_weapons_allowed ) {
-            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) << std::endl;
+            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) + "\n";
         }
     } else if( melee_allowed ) {
-        dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
-                               type ) << std::endl;
+        dump += string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
+                               type ) + "\n";
     }
 
     if( wall_adjacent ) {
-        dump << string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
-                               type ) << std::endl;
+        dump += string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
+                               type ) + "\n";
     }
 
-    return dump.str();
+    return dump;
 }
 
 ma_technique::ma_technique()
@@ -583,7 +625,7 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
-    u.set_num_dodges_bonus( u.get_num_dodges_bonus() + dodges_bonus );
+    u.mod_num_dodges_bonus( dodges_bonus );
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
 }
 
@@ -635,53 +677,53 @@ bool ma_buff::can_melee() const
 
 std::string ma_buff::get_description( bool passive ) const
 {
-    std::stringstream dump;
-    dump << string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) << std::endl;
+    std::string dump;
+    dump += string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) + "\n";
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump << string_format( _( "<bold>%s:</bold> " ),
-                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) << std::endl << temp;
+        dump += string_format( _( "<bold>%s:</bold> " ),
+                               ngettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
     }
 
-    dump << reqs.get_description( true );
+    dump += reqs.get_description( true );
 
     if( max_stacks > 1 ) {
-        dump << string_format( _( "* Will <info>stack</info> up to <stat>%d</stat> times" ),
-                               max_stacks ) << std::endl;
+        dump += string_format( _( "* Will <info>stack</info> up to <stat>%d</stat> times" ),
+                               max_stacks ) + "\n";
     }
 
     const int turns = to_turns<int>( buff_duration );
     if( !passive && turns ) {
-        dump << string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
-                               turns, ngettext( "turn", "turns", turns ) ) << std::endl;
+        dump += string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
+                               turns, ngettext( "turn", "turns", turns ) ) + "\n";
     }
 
     if( dodges_bonus > 0 ) {
-        dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
+        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
+                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
+        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
+                               dodges_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump << string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
+        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
+                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump << string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) << std::endl;
+        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
+                               blocks_bonus, ngettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
     if( quiet ) {
-        dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
+        dump += _( "* Attacks will be completely <info>silent</info>" ) + std::string( "\n" );
     }
 
     if( stealthy ) {
-        dump << _( "* Movement will make <info>less noise</info>" ) << std::endl;
+        dump += _( "* Movement will make <info>less noise</info>" ) + std::string( "\n" );
     }
 
-    return dump.str();
+    return dump;
 }
 
 martialart::martialart()
@@ -1197,7 +1239,7 @@ float ma_technique::armor_penetration( const Character &u, damage_type type ) co
 
 std::string ma_technique::get_description() const
 {
-    std::stringstream dump;
+    std::string dump;
     std::string type;
 
     if( block_counter ) {
@@ -1214,109 +1256,112 @@ std::string ma_technique::get_description() const
         type = _( "Offensive" );
     }
 
-    dump << string_format( _( "<bold>Type:</bold> %s" ), type ) << std::endl;
+    dump += string_format( _( "<bold>Type:</bold> %s" ), type ) + "\n";
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump << _( "<bold>Bonus:</bold> " ) << std::endl << temp;
+        dump += _( "<bold>Bonus:</bold> " ) + std::string( "\n" ) + temp;
     }
 
-    dump << reqs.get_description();
+    dump += reqs.get_description();
 
     if( weighting > 1 ) {
-        dump << string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
-                               ( 100 * ( weighting - 1 ) ) ) << std::endl;
+        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+                               ( 100 * ( weighting - 1 ) ) ) + "\n";
     } else if( weighting < -1 ) {
-        dump << string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
-                               abs( weighting ) ) << std::endl;
+        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+                               abs( weighting ) ) + "\n";
     }
 
     if( crit_ok ) {
-        dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
+        dump += _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) +
+                std::string( "\n" );
     } else if( crit_tec ) {
-        dump << _( "* Will only activate on a <info>crit</info>" ) << std::endl;
+        dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
     }
 
     if( side_switch ) {
-        dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
+        dump += _( "* Moves target <info>behind</info> you" ) + std::string( "\n" );
     }
 
     if( wall_adjacent ) {
-        dump << _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) << std::endl;
+        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
+                std::string( "\n" );
     }
 
     if( downed_target ) {
-        dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
+        dump += _( "* Only works on a <info>downed</info> target" ) + std::string( "\n" );
     }
 
     if( stunned_target ) {
-        dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
+        dump += _( "* Only works on a <info>stunned</info> target" ) + std::string( "\n" );
     }
 
     if( human_target ) {
-        dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
+        dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
     if( powerful_knockback ) {
-        dump << _( "* Causes extra damage on <info>knockback collision</info>." ) << std::endl;
+        dump += _( "* Causes extra damage on <info>knockback collision</info>." ) + std::string( "\n" );
     }
 
     if( dodge_counter ) {
-        dump << _( "* Will <info>counterattack</info> when you <info>dodge</info>" ) << std::endl;
+        dump += _( "* Will <info>counterattack</info> when you <info>dodge</info>" ) + std::string( "\n" );
     }
 
     if( block_counter ) {
-        dump << _( "* Will <info>counterattack</info> when you <info>block</info>" ) << std::endl;
+        dump += _( "* Will <info>counterattack</info> when you <info>block</info>" ) + std::string( "\n" );
     }
 
     if( miss_recovery ) {
-        dump << _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) << std::endl;
+        dump += _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) +
+                std::string( "\n" );
     }
 
     if( grab_break ) {
-        dump << _( "* Will <info>break</info> a <info>grab</info>" ) << std::endl;
+        dump += _( "* Will <info>break</info> a <info>grab</info>" ) + std::string( "\n" );
     }
 
     if( aoe == "wide" ) {
-        dump << _( "* Will attack in a <info>wide arc</info> in front of you" ) << std::endl;
+        dump += _( "* Will attack in a <info>wide arc</info> in front of you" ) + std::string( "\n" );
 
     } else if( aoe == "spin" ) {
-        dump << _( "* Will attack <info>adjacent</info> enemies around you" ) << std::endl;
+        dump += _( "* Will attack <info>adjacent</info> enemies around you" ) + std::string( "\n" );
 
     } else if( aoe == "impale" ) {
-        dump << _( "* Will <info>attack</info> your target and another <info>one behind</info> it" ) <<
-             std::endl;
+        dump += _( "* Will <info>attack</info> your target and another <info>one behind</info> it" ) +
+                std::string( "\n" );
     }
 
     if( knockback_dist ) {
-        dump << string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
-                               knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) << std::endl;
+        dump += string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
+                               knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) + "\n";
     }
 
     if( knockback_follow ) {
-        dump << _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
+        dump += _( "* Will <info>follow</info> enemies after knockback." ) + std::string( "\n" );
     }
 
     if( down_dur ) {
-        dump << string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
-                               down_dur, ngettext( "turn", "turns", down_dur ) ) << std::endl;
+        dump += string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
+                               down_dur, ngettext( "turn", "turns", down_dur ) ) + "\n";
     }
 
     if( stun_dur ) {
-        dump << string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
-                               stun_dur, ngettext( "turn", "turns", stun_dur ) ) << std::endl;
+        dump += string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
+                               stun_dur, ngettext( "turn", "turns", stun_dur ) ) + "\n";
     }
 
     if( disarms ) {
-        dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
+        dump += _( "* Will <info>disarm</info> the target" ) + std::string( "\n" );
     }
 
     if( take_weapon ) {
-        dump << _( "* Will <info>disarm</info> the target and <info>take their weapon</info>" ) <<
-             std::endl;
+        dump += _( "* Will <info>disarm</info> the target and <info>take their weapon</info>" ) +
+                std::string( "\n" );
     }
 
-    return dump.str();
+    return dump;
 }
 
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
@@ -1334,51 +1379,52 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
     if( !style_selected.str().empty() ) {
         const martialart &ma = style_selected.obj();
 
-        std::ostringstream buffer;
+        std::string buffer;
 
         if( ma.force_unarmed ) {
-            buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << std::endl;
+            buffer += _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
+            buffer += "\n";
         } else if( ma.allow_melee ) {
-            buffer << _( "<bold>This style can be used with all weapons.</bold>" );
-            buffer << std::endl;
+            buffer += _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer += "\n";
         } else if( ma.strictly_melee ) {
-            buffer << _( "<bold>This is an armed combat style.</bold>" );
-            buffer << std::endl;
+            buffer += _( "<bold>This is an armed combat style.</bold>" );
+            buffer += "\n";
         }
 
-        buffer << "--" << std::endl;
+        buffer += "--\n";
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
             if( ma.arm_block_with_bio_armor_arms ) {
-                buffer << _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
-                buffer << std::endl;
+                buffer += _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
+                buffer += "\n";
             } else if( ma.arm_block != 99 ) {
-                buffer << string_format(
-                           _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
-                           ma.arm_block ) << std::endl;
+                buffer += string_format(
+                              _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                              ma.arm_block ) + "\n";
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
-                buffer << _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" );
-                buffer << std::endl;
+                buffer += _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" );
+                buffer += "\n";
             } else if( ma.leg_block != 99 ) {
-                buffer << string_format(
-                           _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
-                           ma.leg_block ) << std::endl;
+                buffer += string_format(
+                              _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                              ma.leg_block );
+                buffer += "\n";
             }
-            buffer << "--" << std::endl;
+            buffer += "--\n";
         }
 
         auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,
         bool passive = false ) {
             if( !buffs.empty() ) {
-                buffer << string_format( _( "<header>%s buffs:</header>" ), title );
+                buffer += string_format( _( "<header>%s buffs:</header>" ), title );
                 for( const auto &buff : buffs ) {
-                    buffer << std::endl << buff->get_description( passive ) ;
+                    buffer += "\n" + buff->get_description( passive );
                 }
-                buffer << "--" << std::endl;
+                buffer += "--\n";
             }
         };
 
@@ -1395,14 +1441,15 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buff_desc( _( "Get hit" ), ma.ongethit_buffs );
 
         for( const auto &tech : ma.techniques ) {
-            buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
-                                     _( tech.obj().name ) ) << std::endl;
-            buffer << tech.obj().get_description() << "--" << std::endl;
+            buffer += string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
+                                     _( tech.obj().name ) ) + "\n";
+            buffer += tech.obj().get_description() + "--\n";
         }
 
         if( !ma.weapons.empty() ) {
-            buffer << ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>", ma.weapons.size() ) << " ";
-            buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
+            buffer += ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
+                                ma.weapons.size() ) + std::string( " " );
+            buffer += enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
                 return item::nname( wid );
             } );
         }
@@ -1411,7 +1458,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                                point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
 
-        std::string text = replace_colors( buffer.str() );
+        std::string text = replace_colors( buffer );
         int width = FULL_SCREEN_WIDTH - 4;
         int height = FULL_SCREEN_HEIGHT - 2;
         const auto vFolded = foldstring( text, width );

@@ -63,7 +63,7 @@
     "volume": "1 L",
     "bashing": 13,
     "cutting": 7,
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ]
@@ -415,12 +415,11 @@
     "color": "light_gray",
     "name": "cestus",
     "name_plural": "cestuses",
-    "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.",
-    "material": [ "steel", "leather" ],
-    "volume": "500 ml",
-    "weight": "970 g",
-    "bashing": 12,
-    "qualities": [ [ "HAMMER", 1 ] ],
+    "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defence.",
+    "material": [ "leather", "steel" ],
+    "volume": "100 ml",
+    "weight": "300 g",
+    "bashing": 2,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -542,7 +541,7 @@
     "price": 1050,
     "price_postapoc": 300,
     "material": [ "aluminum", "wood" ],
-    "flags": "NONCONDUCTIVE",
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "2068 g",
     "volume": "3250 ml",
@@ -564,7 +563,7 @@
     "volume": "2500 ml",
     "bashing": 16,
     "cutting": 24,
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "to_hit": 1,
     "category": "weapons",
@@ -620,7 +619,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP" ]
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ]
   },
   {
     "id": "tazer",
@@ -665,7 +664,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
   {
     "id": "ax",
@@ -683,6 +682,6 @@
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   }
 ]

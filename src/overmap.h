@@ -295,6 +295,11 @@ class overmap
         }
 
         void clear_mon_groups();
+        void clear_overmap_special_placements();
+        void clear_cities();
+        void clear_connections_out();
+        void place_special_forced( const overmap_special_id &special_id, const tripoint &p,
+                                   om_direction::type dir );
     private:
         std::multimap<tripoint, mongroup> zg;
     public:
@@ -477,7 +482,7 @@ class overmap
         void load_legacy_monstergroups( JsonIn &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( JsonObject &jo );
+        static void load_obsolete_terrains( const JsonObject &jo );
 };
 
 bool is_river( const oter_id &ter );

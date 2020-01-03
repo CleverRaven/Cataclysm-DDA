@@ -374,8 +374,7 @@
     "sym": "H",
     "color": "i_green",
     "see_cost": 5,
-    "mondensity": 2,
-    "extras": "field"
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -416,7 +415,6 @@
     "sym": "g",
     "color": "yellow",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
     "flags": [ "SOURCE_FARMING" ]
   },
@@ -427,7 +425,6 @@
     "sym": "g",
     "color": "light_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -437,7 +434,6 @@
     "sym": "g",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
@@ -448,7 +444,6 @@
     "sym": "g",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -458,7 +453,6 @@
     "sym": "g",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
@@ -469,7 +463,6 @@
     "sym": "g",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -479,7 +472,6 @@
     "sym": "T",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -489,7 +481,6 @@
     "sym": "S",
     "color": "red",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
     "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
@@ -500,7 +491,6 @@
     "sym": "S",
     "color": "red",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -510,7 +500,6 @@
     "sym": "S",
     "color": "red",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
     "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
@@ -1353,7 +1342,7 @@
     "copy-from": "generic_city_building",
     "sym": "M",
     "color": "white",
-    "flags": [ "SOURCE_LUXURY" ]
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",

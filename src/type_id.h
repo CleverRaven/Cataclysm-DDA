@@ -20,6 +20,9 @@ using clothing_mod_id = string_id<clothing_mod>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
+class scent_type;
+using scenttype_id = string_id<scent_type>;
+
 class emit;
 using emit_id = string_id<emit>;
 

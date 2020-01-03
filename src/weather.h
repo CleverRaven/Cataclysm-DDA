@@ -45,6 +45,7 @@ enum weather_type : int {
     WEATHER_CLEAR,        //!< No effects
     WEATHER_SUNNY,        //!< Glare if no eye protection
     WEATHER_CLOUDY,       //!< No effects
+    WEATHER_LIGHT_DRIZZLE,//!< very Light rain
     WEATHER_DRIZZLE,      //!< Light rain
     WEATHER_RAINY,        //!< Lots of rain, sight penalties
     WEATHER_THUNDER,      //!< Warns of lightning to come
@@ -59,6 +60,7 @@ enum weather_type : int {
 
 enum precip_class : int {
     PRECIP_NONE,
+    PRECIP_VERY_LIGHT,
     PRECIP_LIGHT,
     PRECIP_HEAVY
 };

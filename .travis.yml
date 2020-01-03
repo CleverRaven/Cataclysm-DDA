@@ -107,7 +107,7 @@ jobs:
       android:
         components:
           - build-tools-28.0.1
-          - android-26
+          - android-28
       cache:
         # The ccache feature in Travis doesn't work for language: android, so
         # do it ourselves.
@@ -125,7 +125,7 @@ jobs:
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants
@@ -197,7 +197,7 @@ jobs:
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     - env: CLANG=clang++-7

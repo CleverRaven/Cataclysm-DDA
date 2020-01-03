@@ -2,8 +2,7 @@
   {
     "id": "mag_bashing",
     "type": "BOOK",
-    "name": "Batter Up!",
-    "name_plural": "Batter Up!",
+    "name": { "str": "Batter Up!", "str_pl": "issues of Batter Up!" },
     "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
     "weight": "80 g",
     "volume": "250 ml",

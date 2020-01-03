@@ -7,7 +7,7 @@
 
 std::vector<mod_tileset> all_mod_tilesets;
 
-void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string &base_path,
+void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path )
 {
     // This function didn't loads image data actually, loads when tileset loading.
@@ -23,6 +23,11 @@ void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string
     std::vector<std::string> compatibility = jsobj.get_string_array( "compatibility" );
     for( const std::string &compatible_tileset_id : compatibility ) {
         all_mod_tilesets.back().add_compatible_tileset( compatible_tileset_id );
+    }
+    if( jsobj.has_member( "tiles-new" ) ) {
+        // tiles-new is read when initializing graphics, inside `tileset_loader::load`.
+        // calling get_array here to suppress warnings in the unit test.
+        jsobj.get_array( "tiles-new" );
     }
 }
 

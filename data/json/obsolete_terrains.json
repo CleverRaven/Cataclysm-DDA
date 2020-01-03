@@ -269,7 +269,31 @@
       "dairy_farm_SW",
       "dairy_farm_SE",
       "megastore",
-      "megastore_entrance"
+      "megastore_entrance",
+      "haz_sar_entrance",
+      "haz_sar",
+      "haz_sar_entrance_b1",
+      "haz_sar_b1",
+      "haz_sar_entrance_north",
+      "haz_sar_north",
+      "haz_sar_entrance_b1_north",
+      "haz_sar_b1_north",
+      "haz_sar_entrance_east",
+      "haz_sar_east",
+      "haz_sar_entrance_b1_east",
+      "haz_sar_b1_east",
+      "haz_sar_entrance_south",
+      "haz_sar_south",
+      "haz_sar_entrance_b1_south",
+      "haz_sar_b1_south",
+      "haz_sar_entrance_west",
+      "haz_sar_west",
+      "haz_sar_entrance_b1_west",
+      "haz_sar_b1_west",
+      "house_base_north",
+      "house_base_south",
+      "house_base_east",
+      "house_base_west"
     ]
   }
 ]

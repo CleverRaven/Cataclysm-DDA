@@ -125,7 +125,7 @@
     "type": "monstergroup",
     "name": "GROUP_HOSPITAL",
     "default": "mon_null",
-    "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs.",
+    "//": "Hospital monster spawns.  Same as GROUP_ZOMBIE, but without Z-dogs.",
     "monsters": [ { "monster": "mon_medibot", "freq": 15, "cost_multiplier": 20, "pack_size": [ 2, 3 ] } ]
   },
   {

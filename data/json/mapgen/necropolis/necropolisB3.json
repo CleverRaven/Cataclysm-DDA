@@ -2,8 +2,7 @@
   {
     "name": "GROUP_NECROPOLIS_ROBOT",
     "type": "monstergroup",
-    "default": "mon_chickenbot",
-    "monsters": [ { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 } ]
+    "default": "mon_secubot"
   },
   {
     "name": "GROUP_NECROPOLIS_VAULT3",

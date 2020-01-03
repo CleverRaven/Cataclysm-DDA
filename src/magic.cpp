@@ -1,6 +1,6 @@
 #include "magic.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>
@@ -103,6 +103,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
+        case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -133,7 +134,7 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void spell_type::load_spell( JsonObject &jo, const std::string &src )
+void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
 }
@@ -193,7 +194,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( JsonObject &jo, const std::string & )
+void spell_type::load( const JsonObject &jo, const std::string & )
 {
     static const
     std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
@@ -251,10 +252,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
     if( jo.has_array( "extra_effects" ) ) {
-        JsonArray jarray = jo.get_array( "extra_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
             fake_spell temp;
-            JsonObject fake_spell_obj = jarray.next_object();
             temp.load( fake_spell_obj );
             additional_spells.emplace_back( temp );
         }
@@ -320,9 +319,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    JsonObject learning = jo.get_object( "learn_spells" );
-    for( std::string n : learning.get_member_names() ) {
-        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
+    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+        learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
 
@@ -1094,10 +1092,9 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             source.add_msg_if_player( sp.message() );
 
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( _self ) {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
-                } else {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                        _self ? source.pos() : target ) ) {
+                    sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( _self ) {
@@ -1113,10 +1110,9 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( extra_spell.self ) {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
-                } else {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                        extra_spell.self ? source.pos() : target ) ) {
+                    sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( extra_spell.self ) {
@@ -1129,20 +1125,20 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-tripoint spell::random_valid_target( const Creature &caster, const tripoint &caster_pos ) const
+cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
+        const tripoint &caster_pos ) const
 {
-    const std::set<tripoint> area = spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
-                                    range(), false );
     std::set<tripoint> valid_area;
-    for( const tripoint &target : area ) {
+    for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
+            range(), false ) ) {
         if( is_valid_target( caster, target ) ) {
             valid_area.emplace( target );
         }
     }
-    size_t rand_i = rng( 0, valid_area.size() - 1 );
-    auto iter = valid_area.begin();
-    std::advance( iter, rand_i );
-    return *iter;
+    if( valid_area.empty() ) {
+        return cata::nullopt;
+    }
+    return random_entry( valid_area );
 }
 
 // player
@@ -1178,9 +1174,7 @@ void known_magic::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     data.read( "mana", mana );
 
-    JsonArray parray = data.get_array( "spellbook" );
-    while( parray.has_more() ) {
-        JsonObject jo = parray.next_object();
+    for( JsonObject jo : data.get_array( "spellbook" ) ) {
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
@@ -1884,7 +1878,7 @@ void spellbook_callback::select( int entnum, uilist *menu )
     draw_spellbook_info( spells[entnum], menu );
 }
 
-void fake_spell::load( JsonObject &jo )
+void fake_spell::load( const JsonObject &jo )
 {
     std::string temp_id;
     mandatory( jo, false, "id", temp_id );

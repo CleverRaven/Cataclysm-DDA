@@ -6,7 +6,6 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <sstream>
 
 #include "cursesdef.h"
 #include "options.h"
@@ -620,9 +619,10 @@ void catacurses::init_interface()
     }
 
     // Use desired font, if possible
+    assert( !fl.typeface.empty() );
     font = CreateFontW( fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-                        PROOF_QUALITY, FF_MODERN, widen( fl.typeface ).c_str() );
+                        PROOF_QUALITY, FF_MODERN, widen( fl.typeface.front() ).c_str() );
 
     // Transparent font backgrounds
     SetBkMode( backbuffer, TRANSPARENT );

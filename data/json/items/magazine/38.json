@@ -28,5 +28,20 @@
     "ammo_type": [ "357mag", "38" ],
     "capacity": 5,
     "flags": [ "SPEEDLOADER" ]
+  },
+  {
+    "id": "38_speedloader6",
+    "type": "MAGAZINE",
+    "name": ".38/.357 6-round speedloader",
+    "description": "This speedloader can hold 6 rounds of .357 Magnum or .38 Special and quickly reload a compatible revolver.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 900,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "357mag", "38" ],
+    "capacity": 6,
+    "flags": [ "SPEEDLOADER" ]
   }
 ]
