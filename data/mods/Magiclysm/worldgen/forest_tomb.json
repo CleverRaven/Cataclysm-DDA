@@ -9,7 +9,8 @@
       "S": [ "t_shrub" ],
       "<": [ "t_slope_up" ],
       ">": [ "t_slope_down" ],
-      "#": [ "t_rock" ]
+      "#": [ "t_rock" ] 
+    }
    },
    {
     "type": "mapgen",
