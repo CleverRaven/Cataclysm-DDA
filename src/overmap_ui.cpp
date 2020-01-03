@@ -876,7 +876,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     }
 
     // Clear the legend
-    for( int i = 1; i < 55; i++ ) {
+    for( int i = 1; i < getmaxx( wbar ); i++ ) {
         for( int j = 0; j < TERMY; j++ ) {
             mvwputch( wbar, point( i, j ), c_black, ' ' );
         }
@@ -909,7 +909,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, point( 3, 1 ), 25, c_light_gray,
+            lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else if( viewing_weather ) {
@@ -959,7 +959,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         int y = 16;
 
         const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
-            y += fold_and_print( wbar, point( 1, y ), 27, color, string_format( _( "%s - %s" ),
+            y += fold_and_print( wbar, point( 1, y ), getmaxx( wbar ) - 1, color, string_format( _( "%s - %s" ),
                                  inp_ctxt->get_desc( action ),
                                  inp_ctxt->get_action_name( action ) ) );
         };
@@ -1311,7 +1311,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
-    g->w_omlegend = catacurses::newwin( TERMY, 28, point( TERMX - 28, 0 ) );
+    g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH, point( OVERMAP_WINDOW_WIDTH, 0 ) );
     g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
 
     // Draw black padding space to avoid gap between map and legend
