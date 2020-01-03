@@ -32,7 +32,7 @@
         ".##oo#####o###*###oo###.",
         "............^---........"
       ],
-      "palettes": [ "house_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "terrain": { "$": "t_carpet_green", "%": "t_shrub" },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
