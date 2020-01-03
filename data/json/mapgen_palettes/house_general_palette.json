@@ -68,10 +68,10 @@
       "@": "f_bed"
     },
     "terrain": {
-      "j": "t_grass",
-      "p": "t_grass",
-      "u": "t_grass",
-      "X": "t_grass",
+      "j": "t_region_groundcover_urban",
+      "p": "t_region_groundcover_urban",
+      "u": "t_region_groundcover_urban",
+      "X": "t_region_groundcover_urban",
       ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
       " ": "t_floor",
       "+": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
@@ -173,7 +173,7 @@
       "4": { "item": "SUS_junk_drawer", "chance": 100 },
       "5": { "item": "SUS_kitchen_sink", "chance": 100 },
       "6": { "item": "SUS_pantry", "chance": 25, "repeat": [ 1, 2 ] },
-      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 100 }, { "item": "SUS_coffee_cupboard", "chance": 100 } ],
+      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 60 }, { "item": "SUS_coffee_cupboard", "chance": 60 } ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 50 },
         { "item": "SUS_bathroom_cabinet", "chance": 50 },
