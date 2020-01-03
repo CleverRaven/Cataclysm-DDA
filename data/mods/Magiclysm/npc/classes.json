@@ -16,7 +16,8 @@
     "type": "npc_class",
     "id": "NC_OLD_MAGUS",
     "name": "Master Magus",
-    "job_description": "I'm an old Magus. Get off my lawn!",
+    "job_description": "I'm an old Magus.  Get off my lawn!",
+    "worn_override": "NC_OLD_MAGUS_worn",
     "traits": [
       { "trait": "MAGUS" },
       { "group": "BG_survival_story_RURAL" },

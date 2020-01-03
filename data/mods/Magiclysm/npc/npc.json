@@ -5,7 +5,6 @@
     "//": "old magus in the wizard tower.",
     "name_suffix": "magus",
     "class": "NC_OLD_MAGUS",
-    "worn_override": "NC_OLD_MAGUS_worn",
     "attitude": 0,
     "mission": 7,
     "mission_offered": "MISSION_GET_MAGIC_BOOK",
