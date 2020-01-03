@@ -536,12 +536,19 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity
-    act.targets.clear();
-    act.values.clear();
-    if( !items.empty() ) {
+    if( items.size() > act.targets.size() ) {
         for( const drop_location &drop : convert_to_locations( items ) ) {
             act.targets.push_back( drop.first );
             act.values.push_back( drop.second );
+        }
+    }
+    // remove items already dropped from the targets list by checking if pointers were invalidated
+    for( int i = act.targets.size() - 1; i >= 0; i-- ) {
+        const auto target_iter = act.targets.cbegin() + i;
+        const auto value_iter = act.values.cbegin() + i;
+        if( !*target_iter ) {
+            act.targets.erase( target_iter );
+            act.values.erase( value_iter );
         }
     }
     // And cancel if its empty. If its not, we modified in place and we will continue
