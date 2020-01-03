@@ -359,5 +359,453 @@
     "sym": "c",
     "color": "brown",
     "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1a",
+    "name": "military base",
+    "sym": "M",
+    "color": "dark_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8f",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8g",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8h",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_1j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8j",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_road_entrance",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_n",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_ne",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_se",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_s",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_sw",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_w",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_nw",
+    "copy-from": "mil_base_1a"
   }
 ]
