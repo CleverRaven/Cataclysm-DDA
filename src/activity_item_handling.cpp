@@ -3121,9 +3121,9 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
 
 bool find_auto_consume( player &p, const bool food )
 {
-    // returen false if there is no point searching again while the activity is still happening.
+    // return false if there is no point searching again while the activity is still happening.
     if( p.is_npc() ) {
-        return true;
+        return false;
     }
     if( p.has_effect( effect_nausea ) ) {
         return true;
@@ -3172,11 +3172,6 @@ bool find_auto_consume( player &p, const bool food )
             }
             if( !food && comest.get_comestible()->quench < 15 ) {
                 // not quenching enough
-                continue;
-            }
-            if( comest.item_tags.count( "FROZEN" ) && !comest.has_flag( flag_MELTS ) &&
-                !comest.has_flag( flag_EDIBLE_FROZEN ) ) {
-                // its frozen and it aint ice cream
                 continue;
             }
             if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
