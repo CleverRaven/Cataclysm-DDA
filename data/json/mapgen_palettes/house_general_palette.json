@@ -48,7 +48,7 @@
       "Q": "f_rack_wood",
       "R": "f_bookcase",
       "S": "f_sink",
-      "T": [ "f_floor_lamp" ],
+      "T": "f_floor_lamp",
       "U": "f_utility_shelf",
       "V": "f_glass_cabinet",
       "W": "f_washer",
@@ -98,7 +98,7 @@
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
       ],
-      "e": [ { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] } ],
+      "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
       "f": [
         { "item": "dishes_dining", "chance": 30 },
         { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
@@ -124,7 +124,7 @@
         { "item": "mechanics", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
-      "t": [ { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] } ],
+      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
       "v": [
         { "item": "art", "chance": 5 },
         { "item": "drugdealer", "chance": 10, "repeat": [ 1, 2 ] },
@@ -136,14 +136,14 @@
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
       ],
-      "x": [ { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] } ],
+      "x": { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
       "B": { "item": "shower", "chance": 30, "repeat": [ 1, 4 ] },
       "D": [
         { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "F": { "item": "SUS_fridge", "chance": 100 },
-      "I": [ { "item": "desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
       "J": { "item": "kitchen_counters", "chance": 5 },
       "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
       "N": [
