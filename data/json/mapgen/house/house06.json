@@ -33,9 +33,7 @@
         "............^..........."
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "set": [
-        { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "chance": 40, "repeat": [ 1, 2 ] }
-      ],
+      "set": [ { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "chance": 40, "repeat": [ 1, 2 ] } ],
       "terrain": { "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ] },
       "place_loot": [
         { "group": "livingroom", "x": [ 1, 10 ], "y": [ 8, 13 ], "chance": 90, "repeat": [ 1, 5 ] },
