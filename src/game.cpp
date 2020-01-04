@@ -5050,12 +5050,13 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const std::string &door_name = door_type.obj().name();
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
-    for( const tripoint &tmp : m.points_in_radius( p, 2 ) ) {
-        if( is_empty( tmp ) ) {
-            kbx = -tmp.x + x + x;
-            kby = -tmp.y + y + y;
-            break;
-        }
+    const auto valid_location = [&]( const tripoint & p ) {
+        return g->is_empty( p );
+    };
+    if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
+            valid_location ) ) {
+        kbx = -pos->x + x + x;
+        kby = -pos->y + y + y;
     }
     const tripoint kbp( kbx, kby, p.z );
     if( kbp == p ) {
