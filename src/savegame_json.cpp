@@ -163,7 +163,7 @@ void item_contents::serialize( JsonOut &json ) const
 void item_contents::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    optional( data, was_loaded, "contents", contents );
+    data.read( "contents", contents );
 }
 
 void item_pocket::serialize( JsonOut &json ) const
@@ -178,7 +178,7 @@ void item_pocket::serialize( JsonOut &json ) const
 void item_pocket::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    optional( data, was_loaded, "contents", contents );
+    data.read( "contents", contents );
 }
 
 std::vector<item> item::magazine_convert()

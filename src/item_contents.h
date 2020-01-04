@@ -107,8 +107,6 @@ class item_contents
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
-
-        bool was_loaded;
     private:
         // gets the pocket described as legacy, or creates one
         item_pocket &legacy_pocket();

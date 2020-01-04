@@ -137,8 +137,6 @@ class item_pocket
         void deserialize( JsonIn &jsin );
 
         bool operator==( const item_pocket &rhs ) const;
-
-        bool was_loaded;
     private:
         const pocket_data *data = nullptr;
         // the items inside the pocket
