@@ -148,7 +148,7 @@
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "material_soil", 60 ] ] ],
+    "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
     "pre_terrain": "t_water_sh",
     "post_terrain": "t_dirt"
   },
