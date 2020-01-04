@@ -406,7 +406,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     insert_separation_line( info );
     if( disp_pocket_number ) {
-        info.emplace_back( "DESCRIPTION", _( string_format( "<bold>Pocket %d</bold>", pocket_number ) ) );
+        info.emplace_back( "DESCRIPTION", _( "<bold>Pocket %d</bold>" ), pocket_number );
     }
     if( contents.empty() ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is empty." ) );
