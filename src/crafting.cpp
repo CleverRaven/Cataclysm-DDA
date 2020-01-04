@@ -1209,7 +1209,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
         } else {
-            set_item_map_or_vehicle( *this, pos(), newit );
+            set_item_map_or_vehicle( *this, loc, newit );
         }
     }
 
