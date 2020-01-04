@@ -884,6 +884,19 @@
   },
   {
     "type": "construction",
+    "description": "Build grate bridge over air",
+    "//": "Build metal grate on air.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+	  "qualities": [ [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "pipe", 12, "sheet_metal", 1 ] ] ],
+    "pre_terrain": "t_open_air",
+    "post_terrain": "t_grate"
+  },
+  {
+    "type": "construction",
     "description": "Build Straight Small Railroad Track",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
