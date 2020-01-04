@@ -1,0 +1,81 @@
+[
+  {
+    "type": "palette",
+    "id": "basement_utility_nest_palette",
+      "terrain": {
+	    " ": "t_null",
+	    ".": "t_thconc_floor",
+		"g": "t_thconc_floor",
+		"f": "t_thconc_floor"
+	  },
+      "furniture": {
+        "g": "f_water_heater",
+		"f": "f_home_furnace",
+		"a": [ "f_air_conditioner", "f_null", "f_counter" ]
+	  },
+      "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_N",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "gfa",
+        "...",
+        "   "
+      ]
+    },
+	"palettes": "basement_utility_nest_palette"
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_S",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "...",
+        "gfa"
+      ],
+	  "palettes": "basement_utility_nest_palette"
+    },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_W",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "a. ",
+        "f. ",
+        "g. "
+      ],
+	"palettes": "basement_utility_nest_palette"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_e",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " .a",
+        " .f",
+        " .g"
+      ],
+	"palettes": "basement_utility_nest_palette"
+    }
+  }
+]

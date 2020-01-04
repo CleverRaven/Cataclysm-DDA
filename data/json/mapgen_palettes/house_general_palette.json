@@ -183,5 +183,15 @@
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 50 }
     }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_basement_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "terrain": {
+      "^": "t_rock",
+      "#": "t_concrete_wall",
+      ".": "t_thconc_floor"
+	}
   }
 ]
