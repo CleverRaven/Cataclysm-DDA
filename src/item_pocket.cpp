@@ -433,19 +433,9 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             const translation &description = contents_item.type->description;
 
             if( contents_item.made_of_from_type( LIQUID ) ) {
-                units::volume contents_volume = contents_item.volume();
-                int converted_volume_scale = 0;
-                const double converted_volume =
-                    round_up( convert_volume( contents_volume.value(),
-                                              &converted_volume_scale ), 2 );
                 info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                iteminfo::flags f = iteminfo::no_newline;
-                if( converted_volume_scale != 0 ) {
-                    f |= iteminfo::is_decimal;
-                }
-                info.emplace_back( "CONTAINER", description + space,
-                                   string_format( "<num> %s", volume_units_abbr() ), f,
-                                   converted_volume );
+                info.emplace_back( vol_to_info( "CONTAINER", description + space,
+                                                contents_item.volume() ) );
             } else {
                 info.emplace_back( "DESCRIPTION", contents_item.display_name() );
             }
