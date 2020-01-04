@@ -1254,6 +1254,9 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
+    // Clamp range to 1+, so that we can always see where we are
+    range = std::max( 1.0f, range );
+
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
 }
