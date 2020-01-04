@@ -33,6 +33,9 @@
       "<": "t_stairs_up",
       "w": "t_window_domestic",
       "W": "t_window_bars",
+      "]": "t_bars",
+      "(": "t_door_bar_locked",
+      ")": [ "t_door_bar_c", "t_door_bar_o", "t_door_bar_locked" ],
       ".": "t_thconc_floor",
       "a": "t_open_air",
       "|": "t_wall_w",
@@ -60,7 +63,7 @@
       "O": "f_bookcase",
       "A": "f_sofa",
       "u": "f_utility_shelf",
-      "r": "f_rack",
+      "r": "f_bed",
       "i": "f_air_conditioner",
       "{": "f_dumpster",
       "N": "f_sandbag_half",
@@ -70,7 +73,8 @@
       "4": "f_center_groundsheet",
       "R": "f_firering",
       "B": "f_tourist_table",
-      "M": "f_makeshift_bed"
+      "M": "f_makeshift_bed",
+      "C": "f_crate_c"
     },
     "toilets": { "T": {  } }
   }
