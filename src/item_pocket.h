@@ -162,7 +162,7 @@ class pocket_data
         bool gastight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
-        // allows only items with the appropriate flags to be stored inside
+        // allows only items with at least one of the following flags to be stored inside
         // empty means no restriction
         std::vector<std::string> flag_restriction;
         // container's size and encumbrance does not change based on contents.

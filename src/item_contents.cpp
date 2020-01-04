@@ -202,7 +202,7 @@ size_t item_contents::num_item_stacks() const
 size_t item_contents::size() const
 {
     // always has a legacy pocket due to contstructor
-    // we want to ignore this
+    // we want to ignore the legacy pocket
     return contents.size() - 1;
 }
 
