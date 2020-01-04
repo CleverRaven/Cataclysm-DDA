@@ -1,0 +1,18 @@
+[
+  {
+    "id": "diamondplate",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "diamond plating",
+    "description": "A piece of armor plating made of clear diamond.  Incredibly strong for its weight.",
+    "weight": "6130 g",
+    "volume": "3 L",
+    "price": 12000000,
+    "to_hit": -3,
+    "bashing": 15,
+    "material": [ "diamond" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "techniques": [ "DEF_DISARM" ]
+  }
+]

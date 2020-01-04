@@ -1,0 +1,53 @@
+[
+  {
+    "id": "dboard_horizontal",
+    "type": "vehicle_part",
+    "name": "diamond barrier",
+    "item": "diamondplate",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "white",
+    "broken_color": "white",
+    "description": "A transparent, solid sheet of self-sustaining crystals.",
+    "durability": 5000,
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
+  },
+  {
+    "id": "dboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "dboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "dboard_se",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "dboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "dboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "j"
+  },
+
+]
