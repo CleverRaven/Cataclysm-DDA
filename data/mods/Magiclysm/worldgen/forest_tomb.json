@@ -27,7 +27,7 @@
     "id": "tomb_roof",
     "terrain": {
       ".": [ "t_rock_roof" ],
-      " ": [ "t_open_air" ],
+      " ": [ "t_open_air" ]
     }
   },
   {
