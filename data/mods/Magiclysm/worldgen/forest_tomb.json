@@ -12,23 +12,17 @@
       "#": [ "t_rock" ]
     },
     "furniture": { "H": "f_altar" },
-    "items": { 
+    "items": {
       "$": { "group": "magic_animist", "chance": 25 },
       "H": { "item": "summon_undead_spellbook", "chance": 100 },
       "Z": { "item": "rune_animist", "chance": 50 }
     },
-    "monster": { 
-      "x": { "monster": "mon_skeleton", "chance": 50 },
-      "Z": { "monster": "mon_zombie_necro", "chance": 100 }
-    }
+    "monster": { "x": { "monster": "mon_skeleton", "chance": 50 }, "Z": { "monster": "mon_zombie_necro", "chance": 100 } }
   },
   {
     "type": "palette",
     "id": "tomb_roof",
-    "terrain": {
-      ".": [ "t_rock_roof" ],
-      " ": [ "t_open_air" ]
-    }
+    "terrain": { ".": [ "t_rock_roof" ], " ": [ "t_open_air" ] }
   },
   {
     "type": "mapgen",
