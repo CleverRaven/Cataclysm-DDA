@@ -194,13 +194,20 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::vector<const recipe *> current;
 
     struct availability {
-        availability( const recipe *r, int batch_size = 1 ) :
-            can_craft( g->u.can_start_craft( r, recipe_filter_flags::none, batch_size ) ),
-            can_craft_non_rotten( g->u.can_start_craft( r, recipe_filter_flags::no_rotten,
-                                  batch_size ) )
-        {}
+        availability( const recipe *r, int batch_size = 1 ) {
+            inventory inv = g->u.crafting_inventory();
+            auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
+            auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+            const deduped_requirement_data &req = r->deduped_requirements();
+            can_craft = req.can_make_with_inventory( inv, all_items_filter, batch_size );
+            can_craft_non_rotten = req.can_make_with_inventory( inv, no_rotten_filter, batch_size );
+            const requirement_data &simple_req = r->simple_requirements();
+            apparently_craftable =
+                simple_req.can_make_with_inventory( inv, all_items_filter, batch_size );
+        }
         bool can_craft;
         bool can_craft_non_rotten;
+        bool apparently_craftable;
 
         nc_color selected_color() const {
             return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
@@ -602,6 +609,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Will use rotten ingredients</color>" ) );
+                }
+                if( !available[line].can_craft && available[line].apparently_craftable ) {
+                    ypos += fold_and_print(
+                                w_data, point( xpos, ypos ), pane, col,
+                                _( "<color_red>Cannot be crafted because the same item is needed "
+                                   "for multiple components</color>" ) );
                 }
                 ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
