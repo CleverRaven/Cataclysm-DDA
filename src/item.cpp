@@ -284,9 +284,10 @@ static const item *get_most_rotten_component( const item &craft )
 item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn, qty )
 {
-    making = rec;
+    craft_data_ = cata::make_value<craft_data>();
+    craft_data_->making = rec;
     components = items;
-    comps_used = selections;
+    craft_data_->comps_used = selections;
 
     if( is_food() ) {
         active = true;
@@ -753,10 +754,10 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( is_craft() && rhs.is_craft() ) {
-        if( get_making().ident() != rhs.get_making().ident() ) {
-            return false;
-        }
+    if( craft_data_ || rhs.craft_data_ ) {
+        // In-progress crafts are always distinct items. Easier to handle for the player,
+        // and there shouldn't be that many items of this type around anyway.
+        return false;
     }
     if( check_components || is_comestible() || is_craft() ) {
         //Only check if at least one item isn't using the default recipe or is comestible
@@ -2560,7 +2561,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                             "It is %d percent complete." );
                 const int percent_progress = item_counter / 100000;
                 info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                          making->result_name(),
+                                          craft_data_->making->result_name(),
                                           percent_progress ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
@@ -3799,7 +3800,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     } else if( is_armor() && has_clothing_mod() ) {
         maintext = label( quantity ) + "+1";
     } else if( is_craft() ) {
-        maintext = string_format( _( "in progress %s" ), making->result_name() );
+        maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
         if( charges > 1 ) {
             maintext += string_format( " (%d)", charges );
         }
@@ -5160,14 +5161,11 @@ int item::bash_resist( bool to_self ) const
     float mod = get_clothing_mod_val( clothing_mod_type_bash );
     int eff_thickness = 1;
 
-    // Armor gets an additional multiplier.
-    if( is_armor() || is_pet_armor() ) {
-        // base resistance
-        // Don't give reinforced items +armor, just more resistance to ripping
-        const int dmg = damage_level( 4 );
-        const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-        eff_thickness = std::max( 1, get_thickness() - eff_damage );
-    }
+    // base resistance
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const int dmg = damage_level( 4 );
+    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    eff_thickness = std::max( 1, get_thickness() - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -5192,14 +5190,11 @@ int item::cut_resist( bool to_self ) const
     float mod = get_clothing_mod_val( clothing_mod_type_cut );
     int eff_thickness = 1;
 
-    // Armor gets an additional multiplier.
-    if( is_armor() ) {
-        // base resistance
-        // Don't give reinforced items +armor, just more resistance to ripping
-        const int dmg = damage_level( 4 );
-        const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-        eff_thickness = std::max( 1, base_thickness - eff_damage );
-    }
+    // base resistance
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const int dmg = damage_level( 4 );
+    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    eff_thickness = std::max( 1, base_thickness - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -5713,7 +5708,7 @@ bool item::is_brewable() const
 bool item::is_food_container() const
 {
     return ( !contents.empty() && contents.front().is_food() ) || ( is_craft() &&
-            making->create_result().is_food_container() );
+            craft_data_->making->create_result().is_food_container() );
 }
 
 bool item::has_temperature() const
@@ -6034,7 +6029,7 @@ bool item::is_salvageable() const
 
 bool item::is_craft() const
 {
-    return making != nullptr;
+    return craft_data_ != nullptr;
 }
 
 bool item::is_funnel_container( units::volume &bigger_than ) const
@@ -9451,37 +9446,43 @@ void item::set_favorite( const bool favorite )
 
 const recipe &item::get_making() const
 {
-    if( !making ) {
+    if( !craft_data_ ) {
         debugmsg( "'%s' is not a craft or has a null recipe", tname() );
-        return recipe().ident().obj();
+        static const recipe dummy{};
+        return dummy;
     }
-    return *making;
+    assert( craft_data_->making );
+    return *craft_data_->making;
 }
 
 void item::set_tools_to_continue( bool value )
 {
-    tools_to_continue = value;
+    assert( craft_data_ );
+    craft_data_->tools_to_continue = value;
 }
 
 bool item::has_tools_to_continue() const
 {
-    return tools_to_continue;
+    assert( craft_data_ );
+    return craft_data_->tools_to_continue;
 }
 
 void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
 {
-    cached_tool_selections = selections;
+    assert( craft_data_ );
+    craft_data_->cached_tool_selections = selections;
 }
 
 const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
 {
-    return cached_tool_selections;
+    assert( craft_data_ );
+    return craft_data_->cached_tool_selections;
 }
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() ) {
-        return find_type( making->result() )->comestible;
+        return find_type( craft_data_->making->result() )->comestible;
     } else {
         return type->comestible;
     }

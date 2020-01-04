@@ -254,7 +254,7 @@ Character::Character() :
 
     name.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false };
 
     move_mode = CMM_WALK;
 
@@ -1254,6 +1254,9 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
+    // Clamp range to 1+, so that we can always see where we are
+    range = std::max( 1.0f, range );
+
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
 }
@@ -1389,13 +1392,17 @@ void Character::set_max_power_level( units::energy npower_max )
 
 void Character::mod_power_level( units::energy npower )
 {
-    int new_power = units::to_millijoule( power_level ) + units::to_millijoule( npower );
-    // An integer overflow has occurred - the sum of two positive things (power_level is always positive)
-    // cannot be negative, so if it is, we know integer overflow has occured
-    if( npower >= 0_mJ && new_power < 0 ) {
-        new_power = units::to_millijoule( max_power_level );
+    // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
+    // If the result is greater than the max power level, set power to max
+    int64_t power = static_cast<int64_t>( units::to_millijoule( power_level ) ) +
+                    static_cast<int64_t>( units::to_millijoule( npower ) );
+    units::energy new_power;
+    if( power > units::to_millijoule( max_power_level ) ) {
+        new_power = max_power_level;
+    } else {
+        new_power = power_level + npower;
     }
-    power_level = clamp( units::from_millijoule( new_power ), 0_kJ, max_power_level );
+    power_level = clamp( new_power, 0_kJ, max_power_level );
 }
 
 void Character::mod_max_power_level( units::energy npower_max )
@@ -5010,6 +5017,7 @@ mutation_value_map = {
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
@@ -6449,6 +6457,18 @@ void Character::set_type_of_scent( scenttype_id id )
 scenttype_id Character::get_type_of_scent() const
 {
     return type_of_scent;
+}
+
+void Character::restore_scent()
+{
+    const std::string prev_scent = get_value( "prev_scent" );
+    if( !prev_scent.empty() ) {
+        remove_effect( efftype_id( "masked_scent" ) );
+        set_type_of_scent( scenttype_id( prev_scent ) );
+        remove_value( "prev_scent" );
+        remove_value( "waterproof_scent" );
+        add_msg_if_player( m_info, _( "You smell like yourself again." ) );
+    }
 }
 
 void Character::spores()
