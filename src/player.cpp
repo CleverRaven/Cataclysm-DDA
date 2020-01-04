@@ -6319,6 +6319,11 @@ bool player::has_distant_destination() const
            get_destination_activity().id() == "ACT_TRAVELLING" && !omt_path.empty();
 }
 
+bool player::is_auto_moving() const
+{
+    return destination_point.has_value();
+}
+
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
