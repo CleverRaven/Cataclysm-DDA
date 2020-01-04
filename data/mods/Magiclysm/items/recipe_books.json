@@ -94,5 +94,24 @@
     "skill": "fabrication",
     "price": 30000,
     "required_level": 8
+  },
+  {
+    "id": "cooking_poison",
+    "type": "BOOK",
+    "name": { "str": "Cooking with Poison", "str_pl": "copies of Cooking with Poison" },
+    "description": "A leatherbound book with an embossed cauldron on the cover.  Inside it describes ways to purify food magically.",
+    "weight": "1 kg",
+    "volume": "750 ml",
+    "price": 7900,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "skill": "cooking",
+    "required_level": 4,
+    "max_level": 6,
+    "intelligence": 9,
+    "time": "20 m",
+    "fun": 1
   }
 ]
