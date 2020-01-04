@@ -7189,15 +7189,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     int width = 44;
 
     //find max length of item name and resize window width
-    for( const map_item_stack cur_item : ground_items ) {
+    for( const map_item_stack &cur_item : ground_items ) {
         const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
         if( item_len > width ) {
             width = item_len;
         }
     }
-    if( width > TERMX - VIEW_OFFSET_X ) {
-        width = TERMX - VIEW_OFFSET_X;
-    }
+    width = clamp( width, 44, ( TERMX - VIEW_OFFSET_X ) / 3 );
 
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
