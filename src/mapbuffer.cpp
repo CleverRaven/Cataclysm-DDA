@@ -284,9 +284,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
         std::unique_ptr<submap> sm = std::make_unique<submap>();
         tripoint submap_coordinates;
         jsin.start_object();
+        int version = 0;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
-            int version = 0;
             if( submap_member_name == "version" ) {
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
