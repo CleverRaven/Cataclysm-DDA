@@ -14,7 +14,7 @@
     "dialogue": {
       "describe": "Where did I put that blasted…",
       "offer": "I seem to have misplaced my book, The Tome of The Battle Mage.  That worthless apprentice probably stole it.  Bring it to me.",
-      "accepted": "...What? Oh you're still here. Go find my book.",
+      "accepted": "…What?  Oh you're still here.  Go find my book.",
       "rejected": "Just as useless as that apprentice…",
       "advice": "You want me to do your job for you?  Bah.  That apprentice said something about wanting to look around town, you might start there.  Oh, and it's called The Tome of The Battle Mage, you can read at least the title, can't you?",
       "inquire": "Where's my book?",
@@ -34,7 +34,7 @@
     "start": {
       "effect": [ { "npc_remove_item_with": "bio_power_storage" }, "assign_guard", { "clear_npc_rule": "investigate_noises" } ]
     },
-    "end": { "effect": [ { "u_buy_item:": "techno_fundamentals" } ] },
+    "end": { "effect": { "u_buy_item:": "techno_fundamentals" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "More power… moar power… MOAR POWAA!",
@@ -43,7 +43,7 @@
       "rejected": "You want more power too, don't you?",
       "advice": "Electronic Stores might have what I need.  Or you could just cut it out of something.",
       "inquire": "Find anything?",
-      "success": "Perfect. More power… power…",
+      "success": "Perfect.  More power… power…",
       "success_lie": "I don't understand.",
       "failure": "I must find more power, this setback is inconvenient."
     }
