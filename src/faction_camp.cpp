@@ -1266,7 +1266,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
-        entry = string_format( _( "Notes:\n"
+        entry = _( "Notes:\nAbandon this camp" );
                                   "Abandon this camp" ) );
         mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
