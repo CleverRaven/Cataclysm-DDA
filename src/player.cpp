@@ -134,6 +134,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -414,6 +415,11 @@ void player::process_turn()
     // NPCs curently dont make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
+        if( !has_effect( effect_masked_scent ) ) {
+            restore_scent();
+        }
+        const int mask_intensity = get_effect_int( effect_masked_scent );
+
         // Set our scent towards the norm
         int norm_scent = 500;
         int temp_norm_scent = INT_MIN;
@@ -435,6 +441,9 @@ void player::process_turn()
                 norm_scent += *scent_mask;
             }
         }
+
+        //mask from scent altering items;
+        norm_scent += mask_intensity;
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2

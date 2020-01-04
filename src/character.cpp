@@ -6452,6 +6452,18 @@ scenttype_id Character::get_type_of_scent() const
     return type_of_scent;
 }
 
+void Character::restore_scent()
+{
+    const std::string prev_scent = get_value( "prev_scent" );
+    if( !prev_scent.empty() ) {
+        remove_effect( efftype_id( "masked_scent" ) );
+        set_type_of_scent( scenttype_id( prev_scent ) );
+        remove_value( "prev_scent" );
+        remove_value( "waterproof_scent" );
+        add_msg_if_player( m_info, _( "You smell like yourself again." ) );
+    }
+}
+
 void Character::spores()
 {
     fungal_effects fe( *g, g->m );

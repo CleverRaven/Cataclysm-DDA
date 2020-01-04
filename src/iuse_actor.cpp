@@ -4748,3 +4748,44 @@ std::unique_ptr<iuse_actor> sew_advanced_actor::clone() const
 {
     return std::make_unique<sew_advanced_actor>( *this );
 }
+
+void change_scent_iuse::load( const JsonObject &obj )
+{
+    scenttypeid = scenttype_id( obj.get_string( "scent_typeid" ) );
+    if( !scenttypeid.is_valid() ) {
+        obj.throw_error( "Invalid scent type id.", "scent_typeid" );
+    }
+    if( obj.has_array( "effects" ) ) {
+        for( JsonObject e : obj.get_array( "effects" ) ) {
+            effects.push_back( load_effect_data( e ) );
+        }
+    }
+    assign( obj, "moves", moves );
+    assign( obj, "charges_to_use", charges_to_use );
+    assign( obj, "scent_mod", scent_mod );
+    assign( obj, "duration", duration );
+    assign( obj, "waterproof", waterproof );
+}
+
+int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
+{
+    p.set_value( "prev_scent", p.get_type_of_scent().c_str() );
+    if( waterproof ) {
+        p.set_value( "waterproof_scent", "true" );
+    }
+    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, false, scent_mod );
+    p.set_type_of_scent( scenttypeid );
+    p.mod_moves( -moves );
+    add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
+
+    // Apply the various effects.
+    for( const auto &eff : effects ) {
+        p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+    }
+    return charges_to_use;
+}
+
+std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
+{
+    return std::make_unique<change_scent_iuse>( *this );
+}

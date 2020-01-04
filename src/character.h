@@ -1420,6 +1420,8 @@ class Character : public Creature, public visitable<Character>
         void update_type_of_scent( trait_id mut, bool gain = true );
         void set_type_of_scent( scenttype_id id );
         scenttype_id get_type_of_scent() const;
+        /**restore scent after masked_scent effect run out or is removed by water*/
+        void restore_scent();
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
