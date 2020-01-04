@@ -765,6 +765,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mil_base_1k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_4k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_5k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_6k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_7k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_8k",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mil_base_road_entrance",
     "copy-from": "mil_base_1a"
   },
