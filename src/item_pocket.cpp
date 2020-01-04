@@ -274,15 +274,15 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
     return processed;
 }
 
-bool item_pocket::legacy_unload( player *guy, bool &changed )
+bool item_pocket::legacy_unload( player &guy, bool &changed )
 {
     contents.erase( std::remove_if( contents.begin(), contents.end(),
-    [guy, &changed]( item & e ) {
+    [&guy, &changed]( item & e ) {
         int old_charges = e.charges;
-        const bool consumed = guy->add_or_drop_with_msg( e, true );
+        const bool consumed = guy.add_or_drop_with_msg( e, true );
         changed = changed || consumed || e.charges != old_charges;
         if( consumed ) {
-            guy->mod_moves( -guy->item_handling_cost( e ) );
+            guy.mod_moves( -guy.item_handling_cost( e ) );
         }
         return consumed;
     } ), contents.end() );
