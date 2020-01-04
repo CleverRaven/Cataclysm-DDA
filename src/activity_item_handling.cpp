@@ -361,6 +361,11 @@ static drop_locations convert_to_locations( const player_activity &act )
         return res;
     }
     for( size_t i = 0; i < act.values.size(); i++ ) {
+        // locations may have become invalid as items are forcefully dropped
+        // when they exceed the storage volume of the character
+        if( !act.targets[i] || !act.targets[i].get_item() ) {
+            continue;
+        }
         res.emplace_back( act.targets[i], act.values[i] );
     }
     return res;
