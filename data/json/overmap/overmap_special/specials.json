@@ -317,7 +317,10 @@
   {
     "type": "overmap_special",
     "id": "Cabin_Lapin",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_lapin_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_lapin_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lapin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_lapin_north" }
+    ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
