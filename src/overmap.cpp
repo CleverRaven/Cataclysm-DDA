@@ -3228,7 +3228,8 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
         const tripoint cand = p + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::type, cand ) && !is_ot_match( "empty_rock", ter( cand )->id, ot_match_type::type ) ) {
+        if( !check_ot( "ants", ot_match_type::type, cand ) &&
+            !is_ot_match( "empty_rock", ter( cand )->id, ot_match_type::type ) ) {
             valid.push_back( r );
         }
     }
