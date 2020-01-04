@@ -302,7 +302,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 {
     const std::string space = "  ";
 
-    if( type != LEGACY_CONTAINER ) {
+    if( data->type != LEGACY_CONTAINER ) {
         if( disp_pocket_number ) {
             info.emplace_back( "DESCRIPTION", _( string_format( "Pocket %d:", pocket_number ) ) );
         }
@@ -412,7 +412,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
     // legacy container must be added to explicitly
-    if( type == pocket_type::LEGACY_CONTAINER ) {
+    if( data->type == pocket_type::LEGACY_CONTAINER ) {
         return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_LEGACY_CONTAINER );
     }
     if( it.made_of( phase_id::LIQUID ) && !data->watertight ) {
@@ -555,7 +555,7 @@ int item_pocket::obtain_cost( const item &it ) const
 
 bool item_pocket::is_type( pocket_type ptype ) const
 {
-    return ptype == type;
+    return ptype == data->type;
 }
 
 units::volume item_pocket::contains_volume() const
