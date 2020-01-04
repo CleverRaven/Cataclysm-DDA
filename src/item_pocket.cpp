@@ -1,6 +1,7 @@
 #include "item_pocket.h"
 
 #include "assign.h"
+#include "cata_utility.h"
 #include "crafting.h"
 #include "enums.h"
 #include "game.h"
@@ -316,20 +317,29 @@ static void insert_separation_line( std::vector<iteminfo> &info )
     }
 }
 
-static std::string vol_to_string( const units::volume &vol )
+static iteminfo vol_to_info( const std::string &type, const std::string &left,
+                             const units::volume &vol )
 {
+    iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
     int converted_volume_scale = 0;
     const double converted_volume =
         convert_volume( vol.value(),
                         &converted_volume_scale );
-
-    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
+    if( converted_volume_scale != 0 ) {
+        f |= iteminfo::is_decimal;
+    }
+    return iteminfo( type, left, string_format( "<num> %s", volume_units_abbr() ), f,
+                     converted_volume );
 }
 
-static std::string weight_to_string( const units::mass &weight )
+static iteminfo weight_to_info( const std::string &type, const std::string &left,
+                                const units::mass &weight )
 {
+    iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
     const double converted_weight = convert_weight( weight );
-    return string_format( "%.2f %s", converted_weight, weight_units() );
+    f |= iteminfo::is_decimal;
+    return iteminfo( type, left, string_format( "<num> %s", volume_units_abbr() ), f,
+                     converted_weight );
 }
 
 void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
@@ -345,16 +355,16 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
             info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
         }
         if( data->min_item_volume > 0_ml ) {
-            info.emplace_back( "DESCRIPTION",
-                               _( "Minimum volume of item allowed: <neutral>%s</neutral>" ),
-                               vol_to_string( data->min_item_volume ) );
+            info.emplace_back( vol_to_info( "DESCRIPTION",
+                                            _( "Minimum volume of item allowed:" ),
+                                            data->min_item_volume ) );
         }
-        info.emplace_back( "DESCRIPTION",
-                           _( string_format( "Volume Capacity: <neutral>%s</neutral>",
-                                             vol_to_string( data->max_contains_volume ) ) ) );
-        info.emplace_back( "DESCRIPTION",
-                           _( string_format( "Weight Capacity: <neutral>%s</neutral>",
-                                             weight_to_string( data->max_contains_weight ) ) ) );
+        info.emplace_back( vol_to_info( "DESCRIPTION",
+                                        _( "Volume Capacity:" ),
+                                        data->max_contains_volume ) );
+        info.emplace_back( weight_to_info( "DESCRIPTION",
+                                           _( "Weight Capacity:" ),
+                                           data->max_contains_weight ) );
 
         info.emplace_back( "DESCRIPTION",
                            _( "This pocket takes <neutral>%d</neutral> base moves to take an item out." ),

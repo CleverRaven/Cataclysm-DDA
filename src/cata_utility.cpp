@@ -255,6 +255,12 @@ double convert_weight( const units::mass &weight )
     return ret;
 }
 
+std::string weight_to_string( const units::mass &weight )
+{
+    const double converted_weight = convert_weight( weight );
+    return string_format( "%.2f %s", converted_weight, weight_units() );
+}
+
 double convert_volume( int volume )
 {
     return convert_volume( volume, nullptr );
@@ -279,6 +285,16 @@ double convert_volume( int volume, int *out_scale )
         *out_scale = scale;
     }
     return ret;
+}
+
+std::string vol_to_string( const units::volume &vol )
+{
+    int converted_volume_scale = 0;
+    const double converted_volume =
+        convert_volume( vol.value(),
+                        &converted_volume_scale );
+
+    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
 }
 
 double temp_to_celsius( double fahrenheit )
