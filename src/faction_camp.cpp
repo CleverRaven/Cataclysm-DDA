@@ -1266,6 +1266,9 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+        entry = string_format( _( "Notes:\n"
+                                  "Abandon this camp" ) );
+        mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
     get_available_missions_by_dir( mission_key, base_camps::base_dir );
@@ -1318,6 +1321,9 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Assign Jobs" ) {
         job_assignment_ui();
+    }
+    if( miss_id == "Abandon Camp" ) {
+        abandon_camp();
     }
 
     if( miss_id == "Expand Base" ) {
@@ -1559,6 +1565,27 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::abandon_camp()
+{
+    validate_assignees();
+    npc_ptr random_guy;
+    for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( c_mission.role_id != base_camps::id ) {
+            continue;
+        }
+        random_guy = guy;
+        const std::string return_msg = _( "responds to the emergency recall…" );
+        finish_return( *guy, false, return_msg, "menial", 0, true );
+    }
+    for( npc_ptr &guy : get_npcs_assigned() ) {
+        talk_function::stop_guard( *guy );
+    }
+    overmap_buffer.remove_camp( *this );
+    g->m.remove_submap_camp( random_guy->pos() );
+    add_msg( m_info, _( "You abandon %s" ), name );
 }
 
 void basecamp::job_assignment_ui()
