@@ -1585,7 +1585,7 @@ void basecamp::abandon_camp()
     }
     overmap_buffer.remove_camp( *this );
     g->m.remove_submap_camp( random_guy->pos() );
-    add_msg( m_info, _( "You abandon %s" ), name );
+    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::job_assignment_ui()
