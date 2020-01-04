@@ -5172,7 +5172,7 @@ void player::use( item_location loc )
                used.type->can_use( "CATTLEFODDER" ) ) {
         invoke_item( &used, loc.position() );
 
-    } else if( !used.is_craft() && ( used.is_food() ||
+    } else if( !used.is_craft() && !used.type->has_use() && ( used.is_food() ||
                                      used.is_medication() ||
                                      used.get_contained().is_food() ||
                                      used.get_contained().is_medication() ) ) {
