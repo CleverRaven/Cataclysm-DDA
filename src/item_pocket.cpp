@@ -302,15 +302,15 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->type != LEGACY_CONTAINER ) {
         if( disp_pocket_number ) {
-            info.emplace_back( "DESCRIPTION", _( string_format( "Pocket %d:", pocket_number ) ) );
+            info.emplace_back( "DESCRIPTION", _( "Pocket %d:" ), pocket_number );
         }
         if( data->rigid ) {
             info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
         }
         if( data->min_item_volume > 0_ml ) {
             info.emplace_back( "DESCRIPTION",
-                               _( string_format( "Minimum volume of item allowed: <neutral>%s</neutral>",
-                                                 vol_to_string( data->min_item_volume ) ) ) );
+                               _( "Minimum volume of item allowed: <neutral>%s</neutral>" ),
+                               vol_to_string( data->min_item_volume ) );
         }
         info.emplace_back( "DESCRIPTION",
                            _( string_format( "Volume Capacity: <neutral>%s</neutral>",
@@ -320,8 +320,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                              weight_to_string( data->max_contains_weight ) ) ) );
 
         info.emplace_back( "DESCRIPTION",
-                           _( string_format( "This pocket takes <neutral>%d</neutral> base moves to take an item out.",
-                                             data->moves ) ) );
+                           _( "This pocket takes <neutral>%d</neutral> base moves to take an item out." ),
+                           data->moves );
 
         if( data->watertight ) {
             info.emplace_back( "DESCRIPTION",
@@ -341,14 +341,13 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         }
         if( data->spoil_multiplier != 1.0f ) {
             info.emplace_back( "DESCRIPTION",
-                               string_format(
-                                   _( "This pocket makes contained items spoil at <neutral>%.0f%%</neutral> their original rate." ),
-                                   data->spoil_multiplier * 100 ) );
+                               _( "This pocket makes contained items spoil at <neutral>%.0f%%</neutral> their original rate." ),
+                               data->spoil_multiplier * 100 );
         }
         if( data->weight_multiplier != 1.0f ) {
             info.emplace_back( "DESCRIPTION",
-                               string_format( _( "Items in this pocket weigh <neutral>%.0f%%</neutral> their original weight." ),
-                                              data->weight_multiplier * 100 ) );
+                               _( "Items in this pocket weigh <neutral>%.0f%%</neutral> their original weight." ),
+                               data->weight_multiplier * 100 );
         }
     }
 }
