@@ -133,5 +133,455 @@
     "id": "xsolar_panel_v3",
     "type": "MIGRATION",
     "replace": "solar_panel_v3"
+  },
+  {
+    "id": "TDInc",
+    "type": "MIGRATION",
+    "replace": "TDI"
+  },
+  {
+    "id": "abolter",
+    "type": "MIGRATION",
+    "replace": "bolter"
+  },
+  {
+    "id": "abolternc",
+    "type": "MIGRATION",
+    "replace": "bolter"
+  },
+  {
+    "id": "acangun",
+    "type": "MIGRATION",
+    "replace": "cangun"
+  },
+  {
+    "id": "acangunnc",
+    "type": "MIGRATION",
+    "replace": "cangun"
+  },
+  {
+    "id": "acrnc",
+    "type": "MIGRATION",
+    "replace": "acr"
+  },
+  {
+    "id": "agattler1",
+    "type": "MIGRATION",
+    "replace": "gattler1"
+  },
+  {
+    "id": "agattler1nc",
+    "type": "MIGRATION",
+    "replace": "gattler1"
+  },
+  {
+    "id": "alasgun",
+    "type": "MIGRATION",
+    "replace": "lasgun"
+  },
+  {
+    "id": "alasgunp",
+    "type": "MIGRATION",
+    "replace": "lasgunp"
+  },
+  {
+    "id": "alasgunx",
+    "type": "MIGRATION",
+    "replace": "lasgunx"
+  },
+  {
+    "id": "american_180nc",
+    "type": "MIGRATION",
+    "replace": "american_180"
+  },
+  {
+    "id": "anailer",
+    "type": "MIGRATION",
+    "replace": "nailer"
+  },
+  {
+    "id": "anailerrc",
+    "type": "MIGRATION",
+    "replace": "nailer"
+  },
+  {
+    "id": "aneedler",
+    "type": "MIGRATION",
+    "replace": "needler"
+  },
+  {
+    "id": "aneedlerrc",
+    "type": "MIGRATION",
+    "replace": "needler"
+  },
+  {
+    "id": "ar15nc",
+    "type": "MIGRATION",
+    "replace": "ar15"
+  },
+  {
+    "id": "arailturret",
+    "type": "MIGRATION",
+    "replace": "railturret"
+  },
+  {
+    "id": "aripper",
+    "type": "MIGRATION",
+    "replace": "ripper"
+  },
+  {
+    "id": "arippernc",
+    "type": "MIGRATION",
+    "replace": "ripper"
+  },
+  {
+    "id": "ascorpion",
+    "type": "MIGRATION",
+    "replace": "scorpion"
+  },
+  {
+    "id": "ascorpionnc",
+    "type": "MIGRATION",
+    "replace": "scorpion"
+  },
+  {
+    "id": "ashardgun",
+    "type": "MIGRATION",
+    "replace": "shardgun"
+  },
+  {
+    "id": "ashardgunnc",
+    "type": "MIGRATION",
+    "replace": "shardgun"
+  },
+  {
+    "id": "ateslagun",
+    "type": "MIGRATION",
+    "replace": "teslagun"
+  },
+  {
+    "id": "atiharturret",
+    "type": "MIGRATION",
+    "replace": "tiharturret"
+  },
+  {
+    "id": "atiharturretnc",
+    "type": "MIGRATION",
+    "replace": "tiharturret"
+  },
+  {
+    "id": "bigunnc",
+    "type": "MIGRATION",
+    "replace": "bigun"
+  },
+  {
+    "id": "blunderbussnc",
+    "type": "MIGRATION",
+    "replace": "blunderbuss"
+  },
+  {
+    "id": "caliconc",
+    "type": "MIGRATION",
+    "replace": "calico"
+  },
+  {
+    "id": "carbine_flintlocknc",
+    "type": "MIGRATION",
+    "replace": "carbine_flintlock"
+  },
+  {
+    "id": "coilgunnc",
+    "type": "MIGRATION",
+    "replace": "coilgun"
+  },
+  {
+    "id": "cutternc",
+    "type": "MIGRATION",
+    "replace": "cutter"
+  },
+  {
+    "id": "cx4nc",
+    "type": "MIGRATION",
+    "replace": "cx4"
+  },
+  {
+    "id": "fn_falnc",
+    "type": "MIGRATION",
+    "replace": "fn_fal"
+  },
+  {
+    "id": "h&k416a5nc",
+    "type": "MIGRATION",
+    "replace": "h&k416a5"
+  },
+  {
+    "id": "hk_g36nc",
+    "type": "MIGRATION",
+    "replace": "hk_g36"
+  },
+  {
+    "id": "hk_g3nc",
+    "type": "MIGRATION",
+    "replace": "hk_g3"
+  },
+  {
+    "id": "hk_mp5nc",
+    "type": "MIGRATION",
+    "replace": "hk_mp5"
+  },
+  {
+    "id": "hk_ump45nc",
+    "type": "MIGRATION",
+    "replace": "hk_ump45"
+  },
+  {
+    "id": "ksgnc",
+    "type": "MIGRATION",
+    "replace": "ksg"
+  },
+  {
+    "id": "l_base_223nc",
+    "type": "MIGRATION",
+    "replace": "l_base_223"
+  },
+  {
+    "id": "l_car_223nc",
+    "type": "MIGRATION",
+    "replace": "l_car_223"
+  },
+  {
+    "id": "l_def_12nc",
+    "type": "MIGRATION",
+    "replace": "l_def_12"
+  },
+  {
+    "id": "l_dsr_223nc",
+    "type": "MIGRATION",
+    "replace": "l_dsr_223"
+  },
+  {
+    "id": "l_lmg_223nc",
+    "type": "MIGRATION",
+    "replace": "l_lmg_223"
+  },
+  {
+    "id": "l_long_45nc",
+    "type": "MIGRATION",
+    "replace": "l_long_45"
+  },
+  {
+    "id": "l_mbr_223nc",
+    "type": "MIGRATION",
+    "replace": "l_mbr_223"
+  },
+  {
+    "id": "m1014nc",
+    "type": "MIGRATION",
+    "replace": "m1014"
+  },
+  {
+    "id": "m107a1nc",
+    "type": "MIGRATION",
+    "replace": "m107a1"
+  },
+  {
+    "id": "m14ebrnc",
+    "type": "MIGRATION",
+    "replace": "m14ebr"
+  },
+  {
+    "id": "m1anc",
+    "type": "MIGRATION",
+    "replace": "m1a"
+  },
+  {
+    "id": "m27iarnc",
+    "type": "MIGRATION",
+    "replace": "m27iar"
+  },
+  {
+    "id": "m2browning_sawnnc",
+    "type": "MIGRATION",
+    "replace": "m2browning_sawn"
+  },
+  {
+    "id": "m4a1nc",
+    "type": "MIGRATION",
+    "replace": "m4a1"
+  },
+  {
+    "id": "m60nc",
+    "type": "MIGRATION",
+    "replace": "m60"
+  },
+  {
+    "id": "mac_10nc",
+    "type": "MIGRATION",
+    "replace": "mac_10"
+  },
+  {
+    "id": "marlin_9anc",
+    "type": "MIGRATION",
+    "replace": "marlin_9a"
+  },
+  {
+    "id": "mossberg_500nc",
+    "type": "MIGRATION",
+    "replace": "mossberg_500"
+  },
+  {
+    "id": "nailriflenc",
+    "type": "MIGRATION",
+    "replace": "nailrifle"
+  },
+  {
+    "id": "pipe_double_shotgunnc",
+    "type": "MIGRATION",
+    "replace": "pipe_double_shotgun"
+  },
+  {
+    "id": "pipe_shotgunnc",
+    "type": "MIGRATION",
+    "replace": "pipe_shotgun"
+  },
+  {
+    "id": "remington_870nc",
+    "type": "MIGRATION",
+    "replace": "remington_870"
+  },
+  {
+    "id": "repeatingcrossbownc",
+    "type": "MIGRATION",
+    "replace": "repeatingcrossbow"
+  },
+  {
+    "id": "revolver_shotgunnc",
+    "type": "MIGRATION",
+    "replace": "revolver_shotgun"
+  },
+  {
+    "id": "rifle_22nc",
+    "type": "MIGRATION",
+    "replace": "rifle_22"
+  },
+  {
+    "id": "rifle_308nc",
+    "type": "MIGRATION",
+    "replace": "rifle_308"
+  },
+  {
+    "id": "rifle_9mmnc",
+    "type": "MIGRATION",
+    "replace": "rifle_9mm"
+  },
+  {
+    "id": "rifle_flintlocknc",
+    "type": "MIGRATION",
+    "replace": "rifle_flintlock"
+  },
+  {
+    "id": "rm360_carbinenc",
+    "type": "MIGRATION",
+    "replace": "rm360_carbine"
+  },
+  {
+    "id": "rslaunchernc",
+    "type": "MIGRATION",
+    "replace": "rslauncher"
+  },
+  {
+    "id": "ruger_1022nc",
+    "type": "MIGRATION",
+    "replace": "ruger_1022"
+  },
+  {
+    "id": "ruger_mininc",
+    "type": "MIGRATION",
+    "replace": "ruger_mini"
+  },
+  {
+    "id": "saiga_12nc",
+    "type": "MIGRATION",
+    "replace": "saiga_12"
+  },
+  {
+    "id": "savage_111fnc",
+    "type": "MIGRATION",
+    "replace": "savage_111f"
+  },
+  {
+    "id": "scar_hnc",
+    "type": "MIGRATION",
+    "replace": "scar_h"
+  },
+  {
+    "id": "scar_lnc",
+    "type": "MIGRATION",
+    "replace": "scar_l"
+  },
+  {
+    "id": "shotgun_dnc",
+    "type": "MIGRATION",
+    "replace": "shotgun_d"
+  },
+  {
+    "id": "shotgun_snc",
+    "type": "MIGRATION",
+    "replace": "shotgun_s"
+  },
+  {
+    "id": "slaunchernc",
+    "type": "MIGRATION",
+    "replace": "slauncher"
+  },
+  {
+    "id": "steyr_augnc",
+    "type": "MIGRATION",
+    "replace": "steyr_aug"
+  },
+  {
+    "id": "surv_carbine_223nc",
+    "type": "MIGRATION",
+    "replace": "surv_carbine_223"
+  },
+  {
+    "id": "tec9nc",
+    "type": "MIGRATION",
+    "replace": "tec9"
+  },
+  {
+    "id": "uzinc",
+    "type": "MIGRATION",
+    "replace": "uzi"
+  },
+  {
+    "id": "avortexaccelerator",
+    "type": "MIGRATION",
+    "replace": "vortexaccelerator"
+  },
+  {
+    "id": "avortexacceleratornc",
+    "type": "MIGRATION",
+    "replace": "vortexaccelerator"
+  },
+  {
+    "id": "avortexbolter",
+    "type": "MIGRATION",
+    "replace": "vortexbolter"
+  },
+  {
+    "id": "avortexbolternc",
+    "type": "MIGRATION",
+    "replace": "vortexbolter"
+  },
+  {
+    "id": "avortexrifle",
+    "type": "MIGRATION",
+    "replace": "vortexrifle"
+  },
+  {
+    "id": "avortexriflenc",
+    "type": "MIGRATION",
+    "replace": "vortexrifle"
   }
 ]
