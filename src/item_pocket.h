@@ -36,7 +36,7 @@ class item_pocket
             MAGAZINE,
             LAST
         };
-        enum contain_code {
+        enum class contain_code {
             SUCCESS,
             // legacy containers can't technically contain anything
             ERR_LEGACY_CONTAINER,
