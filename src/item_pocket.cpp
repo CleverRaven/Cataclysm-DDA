@@ -48,15 +48,6 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "rigid", rigid, false );
 }
 
-void item_pocket::serialize( JsonOut &json ) const
-{
-    json.start_object();
-
-    json.member( "contents", contents );
-
-    json.end_object();
-}
-
 bool item_pocket::operator==( const item_pocket &rhs ) const
 {
     return *data == *rhs.data;
@@ -85,12 +76,6 @@ bool item_pocket::stacks_with( const item_pocket &rhs ) const
     []( const item & a, const item & b ) {
         return a.charges == b.charges && a.stacks_with( b );
     } );
-}
-
-void item_pocket::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    optional( data, was_loaded, "contents", contents );
 }
 
 std::list<item> item_pocket::all_items()

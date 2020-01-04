@@ -151,6 +151,36 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
     //    }
 }
 
+void item_contents::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "contents", contents );
+
+    json.end_object();
+}
+
+void item_contents::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    optional( data, was_loaded, "contents", contents );
+}
+
+void item_pocket::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "contents", contents );
+
+    json.end_object();
+}
+
+void item_pocket::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    optional( data, was_loaded, "contents", contents );
+}
+
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;

@@ -14,21 +14,6 @@ static pocket_data legacy_pocket_data;
 static item_pocket legacy_pocket( &legacy_pocket_data );
 } // namespace fake_item
 
-void item_contents::serialize( JsonOut &json ) const
-{
-    json.start_object();
-
-    json.member( "contents", contents );
-
-    json.end_object();
-}
-
-void item_contents::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    optional( data, was_loaded, "contents", contents );
-}
-
 void item_contents::add_legacy_pocket()
 {
     for( const item_pocket &pocket : contents ) {

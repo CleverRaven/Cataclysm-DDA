@@ -928,7 +928,7 @@ struct itype {
         units::mass integral_weight = -1_gram;
 
         // information related to being able to store things inside the item.
-        std::vector<pocket_data> pocket_data;
+        std::vector<pocket_data> pockets;
 
         /**
          * Space occupied by items of this type

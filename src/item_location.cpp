@@ -566,7 +566,7 @@ class item_location::impl::item_in_container : public item_location::impl
 
             const int container_mv = container->contents.obtain_cost( *target() );
             if( container_mv == 0 ) {
-                debugmsg( string_format( "ERROR: %s does not contain %s", container->tname(), target()->tname() ) );
+                debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
             }
             return container_mv + container.obtain_cost( ch, qty );
