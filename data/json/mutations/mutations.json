@@ -6439,6 +6439,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_BIONIC_POWERGEN",
+    "name": "Debug Bionic Powergen",
+    "points": 99,
+    "valid": false,
+    "description": "Activate to increase power by an amount you specify (can be repeated).",
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
     "id": "SQUEAMISH",
     "name": "Squeamish",
     "points": -1,
