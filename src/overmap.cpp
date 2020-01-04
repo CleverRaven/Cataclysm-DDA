@@ -3218,6 +3218,9 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     if( check_ot( "ants", ot_match_type::type, p ) && root_id != ter( p )->id ) {
         return;
     }
+    if( !is_ot_match( "empty_rock", ter( p )->id, ot_match_type::type ) ) {
+        return;
+    }
 
     ter_set( p, oter_id( root_id ) );
 
