@@ -67,10 +67,7 @@
       "str_max": 160,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [
-        { "item": "rock", "count": [ 5, 15 ] },
-        { "item": "sharp_rock", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
     }
   }
 ]
