@@ -417,6 +417,12 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         }
     }
     item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
+
+    if( cur_weapon.attack_time() > attack_speed( cur_weapon ) * 20 ) {
+        add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
+        return;
+    }
+
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
@@ -1686,6 +1692,8 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     if( tec != tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+        } else if( weapon.made_of( material_id( "glass" ) ) ) {
+            add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
         }
