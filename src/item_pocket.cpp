@@ -388,11 +388,13 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         return;
     }
     info.emplace_back( "DESCRIPTION",
-                       _( string_format( "Volume: <neutral>%s / %s</neutral>",
-                                         vol_to_string( contains_volume() ), vol_to_string( data->max_contains_volume ) ) ) );
+                       string_format( "%s: <neutral>%s / %s</neutral>", _( "Volume" ),
+                                      vol_to_string( contains_volume() ),
+                                      vol_to_string( data->max_contains_volume ) ) );
     info.emplace_back( "DESCRIPTION",
-                       _( string_format( "Weight: <neutral>%s / %s</neutral>",
-                                         weight_to_string( contains_weight() ), weight_to_string( data->max_contains_weight ) ) ) );
+                       string_format( "%s: <neutral>%s / %s</neutral>", _( "Weight" ),
+                                      weight_to_string( contains_weight() ),
+                                      weight_to_string( data->max_contains_weight ) ) );
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {
