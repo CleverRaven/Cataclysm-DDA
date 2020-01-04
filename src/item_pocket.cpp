@@ -317,31 +317,6 @@ static void insert_separation_line( std::vector<iteminfo> &info )
     }
 }
 
-static iteminfo vol_to_info( const std::string &type, const std::string &left,
-                             const units::volume &vol )
-{
-    iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
-    int converted_volume_scale = 0;
-    const double converted_volume =
-        convert_volume( vol.value(),
-                        &converted_volume_scale );
-    if( converted_volume_scale != 0 ) {
-        f |= iteminfo::is_decimal;
-    }
-    return iteminfo( type, left, string_format( "<num> %s", volume_units_abbr() ), f,
-                     converted_volume );
-}
-
-static iteminfo weight_to_info( const std::string &type, const std::string &left,
-                                const units::mass &weight )
-{
-    iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
-    const double converted_weight = convert_weight( weight );
-    f |= iteminfo::is_decimal;
-    return iteminfo( type, left, string_format( "<num> %s", volume_units_abbr() ), f,
-                     converted_weight );
-}
-
 void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                 bool disp_pocket_number ) const
 {

@@ -156,6 +156,11 @@ struct iteminfo {
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
+iteminfo vol_to_info( const std::string &type, const std::string &left,
+                      const units::volume &vol );
+iteminfo weight_to_info( const std::string &type, const std::string &left,
+                         const units::mass &weight );
+
 inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 {
     using I = std::underlying_type<iteminfo::flags>::type;
