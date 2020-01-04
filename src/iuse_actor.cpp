@@ -3067,19 +3067,22 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     return true;
 }
 
-// Returns the level of the lowest level recipe that results in item of `fix`'s type
+// Find the difficulty of the recipes that result in id
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
-// If the recipe doesn't exist, difficulty is 10
-int repair_item_actor::repair_recipe_difficulty( const player &pl,
-        const item &fix, bool training ) const
+// Returns -1 if no recipe is found
+static int find_repair_difficulty( const player &pl, const itype_id &id, bool training )
 {
-    const auto &type = fix.typeId();
-    int min = 5;
+    // If the recipe is not found, this will remain unchanged
+    int min = -1;
     for( const auto &e : recipe_dict ) {
         const auto r = e.second;
-        if( type != r.result() ) {
+        if( id != r.result() ) {
             continue;
+        }
+        // If this is the first time we found a recipe
+        if( min == -1 ) {
+            min = 5;
         }
 
         int cur_difficulty = r.difficulty;
@@ -3095,6 +3098,27 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     }
 
     return min;
+}
+
+// Returns the level of the lowest level recipe that results in item of `fix`'s type
+// Or if it has a repairs_like, the lowest level recipe that results in that.
+// If the recipe doesn't exist, difficulty is 10
+int repair_item_actor::repair_recipe_difficulty( const player &pl,
+        const item &fix, bool training ) const
+{
+    int diff = find_repair_difficulty( pl, fix.typeId(), training );
+
+    // If we don't find a recipe, see if there's a repairs_like that has a recipe
+    if( diff == -1 && !fix.type->repairs_like.empty() ) {
+        diff = find_repair_difficulty( pl, fix.type->repairs_like, training );
+    }
+
+    // If we still don't find a recipe, difficulty is 10
+    if( diff == -1 ) {
+        diff = 10;
+    }
+
+    return diff;
 }
 
 bool repair_item_actor::can_repair_target( player &pl, const item &fix,
