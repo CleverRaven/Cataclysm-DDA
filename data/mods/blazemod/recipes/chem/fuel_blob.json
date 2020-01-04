@@ -1,0 +1,68 @@
+[
+  {
+    "result": "bfeedfuel",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 1000,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bfeed", 1 ] ] ]
+  },
+  {
+    "result": "bfeed",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 2000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [
+        [ "bone", 4 ],
+        [ "bone_tainted", 4 ],
+        [ "bone_human", 4 ],
+        [ "meat", 4 ],
+        [ "meat_tainted", 4 ],
+        [ "human_flesh", 4 ],
+        [ "chitin_piece", 1 ],
+        [ "slime_scrap", 1 ],
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "bfeed",
+    "type": "recipe",
+    "id_suffix": "blob assisted",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 1000,
+    "autolearn": true,
+    "tools": [ [ [ "gloople", -1 ], [ "oozle", -1 ], [ "gray", -1 ] ] ],
+    "components": [
+      [
+        [ "corpse", 1 ],
+        [ "bone_tainted", 4 ],
+        [ "bone_human", 4 ],
+        [ "meat", 4 ],
+        [ "meat_tainted", 4 ],
+        [ "human_flesh", 4 ],
+        [ "chitin_piece", 1 ],
+        [ "slime_scrap", 1 ],
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ]
+      ]
+    ]
+  }
+]

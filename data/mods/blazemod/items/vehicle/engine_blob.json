@@ -1,0 +1,37 @@
+[
+  {
+    "id": "queen",
+    "type": "GENERIC",
+    "name": "amorphous heart",
+    "description": "This amorphous mass seems to have finished developing; its advanced internal structures testifying to that.  It is capable of locomotion through internal hydraulic pressure, capable of moving substantial loads, and, in an astounding display of intelligence, is capable of manipulating anything it's attached to, whether blob-based or otherwise, through extended pseudopods.  You think you might be able to manipulate it, and through it, all its attached parts.  Though to do so you'll have to position yourself to be in contact with it; and it appears unnervingly willing to accommodate you…",
+    "weight": "21331 g",
+    "volume": "20 L",
+    "to_hit": -5,
+    "bashing": 10,
+    "material": [ "flesh" ],
+    "symbol": ")",
+    "color": "red"
+  },
+  {
+    "id": "queengrow",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "growing mass of tendrils",
+    "name_plural": "growing mass of tendrils",
+    "description": "Not quite fully grown, this blob requires nourishment to fully develop.",
+    "weight": "25325 g",
+    "volume": "15 L",
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "flesh" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "target": "queen",
+      "msg": "The blob balloons to full size.",
+      "type": "delayed_transform",
+      "transform_age": 36000,
+      "not_ready_msg": "Whatever it's doing, it's not done yet."
+    }
+  }
+]

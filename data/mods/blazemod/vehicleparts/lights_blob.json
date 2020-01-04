@@ -1,0 +1,28 @@
+[
+  {
+    "id": "gel_lamp",
+    "type": "vehicle_part",
+    "name": "gel lamp",
+    "item": "glowie",
+    "fuel_type": "battery",
+    "symbol": "#",
+    "broken_symbol": "x",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "durability": 200,
+    "epower": 0,
+    "bonus": 200,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "glowiegrow" } ],
+    "description": "A living, glowing blob.  It produces a bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple gel lamps can illuminate the sides or rear, as well as the front.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "CONE_LIGHT", "FOLDABLE" ]
+  },
+  {
+    "id": "gel_lamp_d",
+    "type": "vehicle_part",
+    "copy-from": "gel_lamp",
+    "name": "directed gel lamp"
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "frostie",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "gelacier",
+    "description": "A biological mystery, this blob's internal structures exist in within a pool of low-density fluid that remains liquid despite being in a super-cooled state; yet possesses all the malleability of its former self.  Fragments of frost continually flake off it.  It seems pliable enough to pull apart…",
+    "weight": "6112 g",
+    "volume": "5 L",
+    "price": 500,
+    "to_hit": -3,
+    "bashing": 9,
+    "material": [ "flesh" ],
+    "symbol": "]",
+    "color": "light_blue"
+  },
+  {
+    "id": "frostiegrow",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "growing cold mass",
+    "name_plural": "growing cold mass",
+    "description": "Not quite fully grown, this blob requires nourishment to fully develop.",
+    "weight": "3562 g",
+    "volume": "2 L",
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "flesh" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "use_action": {
+      "target": "frostie",
+      "msg": "The blob balloons to full size.",
+      "type": "delayed_transform",
+      "transform_age": 9600,
+      "not_ready_msg": "Whatever it's doing, it's not done yet."
+    }
+  }
+]
