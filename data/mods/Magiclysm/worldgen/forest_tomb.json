@@ -18,8 +18,8 @@
       "Z": { "item": "rune_animist", "chance": 50 }
     },
     "monster": { 
-      "x": { "mon_skeleton", "chance": 50 },
-      "Z": { "mon_zombie_necro", "chance": 100 }
+      "x": { "monster": "mon_skeleton", "chance": 50 },
+      "Z": { "monster": "mon_zombie_necro", "chance": 100 }
     }
   },
   {
