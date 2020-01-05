@@ -40,6 +40,13 @@ struct StringMaker<cata_variant> {
     }
 };
 
+template<>
+struct StringMaker<time_duration> {
+    static std::string convert( const time_duration &d ) {
+        return string_format( "time_duration( %d ) [%s]", to_turns<int>( d ), to_string( d ) );
+    }
+};
+
 } // namespace Catch
 
 #endif // CATA_TESTS_STRINGMAKER_H

@@ -1330,9 +1330,8 @@ class map
         character_id place_npc( const point &p, const string_id<npc_template> &type,
                                 bool force = false );
         void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
-        void add_spawn( const mtype_id &type, int count, const point &p,
-                        bool friendly = false,
-                        int faction_id = -1, int mission_id = -1,
+        void add_spawn( const mtype_id &type, int count, const tripoint &p,
+                        bool friendly = false, int faction_id = -1, int mission_id = -1,
                         const std::string &name = "NONE" ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
@@ -1808,9 +1807,9 @@ class map
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
-        /**returns positions of furnitures matching target in the specified radius*/
-        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
-                furn_id target,
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const std::string &flag,
                 size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,

@@ -6,13 +6,13 @@
     "magazine": 100,
     "ammo": 60,
     "entries": [
-      { "group": "clothing_military_pilot", "prob": 65, "damage-min": 1, "damage-max": 4 },
-      { "group": "gear_soldier_sidearm", "prob": 50, "damage-min": 1, "damage-max": 4 },
-      { "item": "two_way_radio", "prob": 50, "damage-min": 1, "damage-max": 4 },
+      { "group": "clothing_military_pilot", "damage": [ 1, 4 ] },
+      { "item": "holster", "contents-group": "military_standard_pistols" },
+      { "item": "two_way_radio", "prob": 90 },
       { "item": "adderall", "prob": 40 },
-      { "item": "id_military", "prob": 5 },
-      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
-      { "group": "mil_food", "prob": 15 },
+      { "item": "id_military", "prob": 25 },
+      { "group": "military_patrol_food", "prob": 30 },
+      { "item": "cash_card", "prob": 10, "charges": [ 0, 50000 ] },
       { "group": "misc_smoking", "prob": 30 }
     ]
   }

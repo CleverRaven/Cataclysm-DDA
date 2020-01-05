@@ -54,7 +54,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I can usually use additional survival gear to kit-out the new recruits.  The most basic weapon that everyone gets is the knife spear… it provides a good mix of range, power, and ease of use when engaging the more common monsters.  Could you make me a dozen of them?  I may need more later but that should help the first few teams.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -62,7 +62,7 @@
       "inquire": "Do you have the knife spears?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -78,7 +78,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five headlamps for them?  Keeping both hands free greatly helps during combat.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -86,7 +86,7 @@
       "inquire": "Do you have the wearable flashlights?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -102,7 +102,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Clothing that can withstand the wear and tear of climbing through windows and fighting back wild animals is in high demand.  The best that we have been able to field is leather body armor but it is difficult to make with our limited resources.  Could you craft us three pairs of leather body armor?  The life-expectancy of my scavengers would drastically increase if you did.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -110,7 +110,7 @@
       "inquire": "Do you have the leather armor?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -126,7 +126,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "When outnumbered or forced to pull back my scavengers have been taught to throw Molotov cocktails to keep monsters from chasing them.  We go through one or two on every mission so we can always use a few more.  Would you be willing to make us a dozen?  I'm willing to pay you what I can for your assistance. ",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -134,7 +134,7 @@
       "inquire": "Do you have the Molotov cocktails?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

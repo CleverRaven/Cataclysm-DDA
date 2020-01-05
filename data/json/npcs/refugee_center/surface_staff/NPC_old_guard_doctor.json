@@ -75,15 +75,15 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {
-      "describe": "It could be very informative to perform an analysis of zombie blood...",
+      "describe": "It could be very informative to perform an analysis of zombie blood…",
       "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
       "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
-      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
+      "rejected": "Are you sure?  The scientific value of that blood data could be priceless…",
       "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
       "inquire": "Well, do you have the data yet?",
       "success": "Excellent!  This may be the key to removing the infection.",
       "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
-      "failure": "What a shame, that data could have proved invaluable..."
+      "failure": "What a shame, that data could have proved invaluable…"
     }
   },
   {
@@ -98,7 +98,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.",
       "accepted": "Great!  I've mapped out a route to the address.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -106,7 +106,7 @@
       "inquire": "Have you completed your mission?",
       "success": "Thanks!  This data looks damaged, but maybe I can make something out of it.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -121,7 +121,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site hidden beneath a town, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.",
       "accepted": "Great!  I've mapped out a route, it should look like a normal house.  Bring back anything you find on a USB drive.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -129,7 +129,7 @@
       "inquire": "Have you completed your mission?",
       "success": "Wonderful!  Now I just need to get an undamaged, complete archive, and we can really figure out what happened.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -144,7 +144,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_5",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
       "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -152,7 +152,7 @@
       "inquire": "Have you completed your mission?",
       "success": "Thanks!  This is a lot of data to go through.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -166,7 +166,7 @@
     "start": "reveal_lab_train_depot",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -174,7 +174,7 @@
       "inquire": "Have you completed your mission?",
       "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

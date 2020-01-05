@@ -241,7 +241,7 @@ struct mission_type {
         std::function<void( mission * )> end = mission_end::standard;
         std::function<void( mission * )> fail = mission_fail::standard;
 
-        std::map<std::string, std::string> dialogue;
+        std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
         std::function<bool( const mission_goal_condition_context & )> goal_condition;
