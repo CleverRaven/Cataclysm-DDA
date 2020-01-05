@@ -3174,8 +3174,11 @@ void overmap::build_anthill( const tripoint &p, int s )
             }
         }
     }
-    const tripoint target = random_entry( queenpoints );
-    ter_set( target, oter_id( "ants_queen" ) );
+
+    if( !queenpoints.empty() ) {
+        const tripoint target = random_entry( queenpoints );
+        ter_set( target, oter_id( "ants_queen" ) );
+    }
 
     const oter_id root_id( "ants_isolated" );
 
