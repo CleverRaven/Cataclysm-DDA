@@ -112,7 +112,7 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
     teleport::teleport( caster, min_distance, max_distance, safe, false );
 }
 
-void spell_effect::swap_pos( const spell &, Creature &caster, const tripoint &target )
+static void swap_pos( Creature &caster, const tripoint &target )
 {
     Creature *const critter = g->critter_at<Creature>( target );
     critter->setpos( caster.pos() );
@@ -457,7 +457,7 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
     damage_targets( sp, caster, spell_effect_area( sp, epicenter, spell_effect_blast, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
     if( sp.has_flag( spell_flag::SWAP_POS ) ) {
-        swap_pos( sp, caster, epicenter );
+        swap_pos( caster, epicenter );
     }
 }
 

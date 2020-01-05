@@ -69,7 +69,6 @@ enum valid_target {
     target_ally,
     target_hostile,
     target_self,
-    target_monster_id,
     target_ground,
     target_none,
     target_item,
@@ -404,7 +403,7 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
-        bool target_by_monster_id( Creature &target ) const;
+        bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
         cata::optional<tripoint> random_valid_target( const Creature &caster,
@@ -481,7 +480,6 @@ namespace spell_effect
 {
 
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
-void swap_pos( const spell &, Creature &caster, const tripoint &target );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
                     const tripoint &epicenter );
