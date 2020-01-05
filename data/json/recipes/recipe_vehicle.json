@@ -578,12 +578,9 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "steel_standard", 20 ] ],
+    "using": [ [ "steel_standard", 20 ], [ "welding_standard", 5] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ]
+    "tools": [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   },
   {
     "type": "recipe",
@@ -596,11 +593,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "using": [ [ "steel_standard", 100 ] ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ]
+    "using": [ [ "steel_standard", 100 ], [ "welding_standard", 5] ],
+    "tools": [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   },
   {
     "type": "recipe",
@@ -677,9 +671,8 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 8 ] ] ]
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 8] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
   },
   {
     "type": "recipe",
@@ -692,9 +685,8 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
+    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 4] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
   },
   {
     "type": "recipe",
@@ -706,8 +698,8 @@
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
   },
   {
@@ -721,8 +713,7 @@
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 24 ] ] ]
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 24] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
   }
 ]
