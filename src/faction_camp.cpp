@@ -1267,7 +1267,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
         entry = _( "Notes:\nAbandon this camp" );
-                                  "Abandon this camp" ) );
         mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
