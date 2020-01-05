@@ -54,7 +54,7 @@
     "type": "item_group",
     "id": "GODCO_food_guard_carried",
     "subtype": "collection",
-    "entries": [ { "group": "snacks", "prob": 75, "count": [ 1, 2 ] }, { "group": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ]
+    "entries": [ { "group": "snacks", "prob": 75, "count": [ 1, 2 ] }, { "group": "cannedfood", "prob": 50, "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -78,7 +78,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hey there.", "You're back.", "So...?" ],
+      "yes": [ "Hey there.", "You're back.", "So…?" ],
       "no": "Hey!  What are you doing up here?  You are not allowed to come here."
     },
     "responses": [
@@ -237,7 +237,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_ask_theft",
-    "dynamic_line": "Not that I know of.  I haven't seen any suspicious drops in our food supply.  I guess I'm doing a great at my job... or nobody is rotten enough to steal from our community.",
+    "dynamic_line": "Not that I know of.  I haven't seen any suspicious drops in our food supply.  I guess I'm doing a great at my job… or nobody is rotten enough to steal from our community.",
     "responses": [ { "text": "That's good to hear.", "topic": "TALK_GODCO_food_guard_1" } ]
   },
   {
@@ -253,7 +253,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I'd like to read some mystery novels.",
-      "offer": "Hmm, that would be great!  But if you do, please bring more than just one.  I could read a single novel in a day.  Could you get me... 3 mystery novels?",
+      "offer": "Hmm, that would be great!  But if you do, please bring more than just one.  I could read a single novel in a day.  Could you get me… 3 mystery novels?",
       "accepted": "Just bring it to me when you have it.",
       "rejected": "Nevermind then.  I hope you'll change your mind.",
       "advice": "I'd loot libraries and bookstores.",
