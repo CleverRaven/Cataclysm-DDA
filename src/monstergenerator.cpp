@@ -237,9 +237,11 @@ void MonsterGenerator::reset()
 
 static int calc_bash_skill( const mtype &t )
 {
-    int ret = t.melee_dice * t.melee_sides; // IOW, the critter's max bashing damage
+    // IOW, the critter's max bashing damage
+    int ret = t.melee_dice * t.melee_sides;
+    // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
     if( t.has_flag( MF_BORES ) ) {
-        ret *= 15; // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
+        ret *= 15;
     } else if( t.has_flag( MF_DESTROYS ) ) {
         ret *= 2.5;
     } else if( !t.has_flag( MF_BASHES ) ) {
@@ -354,7 +356,8 @@ void MonsterGenerator::finalize_mtypes()
             mon.armor_fire = 0;
         }
 
-        mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
+        // Lower bound for hp scaling
+        mon.hp = std::max( mon.hp, 1 );
 
         finalize_pathfinding_settings( mon );
     }
@@ -407,47 +410,84 @@ void MonsterGenerator::init_phases()
 
 void MonsterGenerator::init_death()
 {
-    death_map["NORMAL"] = &mdeath::normal;// Drop a body
-    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
-    death_map["ACID"] = &mdeath::acid;// Acid instead of a body
-    death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
-    death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3
-    death_map["KILL_VINES"] = &mdeath::kill_vines;// Kill all nearby vines
-    death_map["VINE_CUT"] = &mdeath::vine_cut;// Kill adjacent vine if it's cut
-    death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;// Destroy all roots
-    death_map["FUNGUS"] = &mdeath::fungus;// Explodes in spores D:
-    death_map["DISINTEGRATE"] = &mdeath::disintegrate;// Falls apart
-    death_map["WORM"] = &mdeath::worm;// Spawns 2 half-worms
-    death_map["DISAPPEAR"] = &mdeath::disappear;// Hallucination disappears
-    death_map["GUILT"] = &mdeath::guilt;// Morale penalty
-    death_map["BRAINBLOB"] = &mdeath::brainblob;// Frees blobs, redirects to brainblob()
-    death_map["BLOBSPLIT"] = &mdeath::blobsplit;// Creates more blobs
-    death_map["JACKSON"] = &mdeath::jackson;// Reverts dancers
-    death_map["MELT"] = &mdeath::melt;// Normal death, but melts
-    death_map["AMIGARA"] = &mdeath::amigara;// Removes hypnosis if last one
-    death_map["THING"] = &mdeath::thing;// Turn into a full thing
-    death_map["EXPLODE"] = &mdeath::explode;// Damaging explosion
-    death_map["FOCUSEDBEAM"] = &mdeath::focused_beam;// Blinding ray
-    death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
-    death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
-    death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
-    death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
-    death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
+    // Drop a body
+    death_map["NORMAL"] = &mdeath::normal;
+    // Explodes in gibs and chunks
+    death_map["SPLATTER"] = &mdeath::splatter;
+    // Acid instead of a body
+    death_map["ACID"] = &mdeath::acid;
+    // Explodes in vomit :3
+    death_map["BOOMER"] = &mdeath::boomer;
+    // Explodes in glowing vomit :3
+    death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;
+    // Kill all nearby vines
+    death_map["KILL_VINES"] = &mdeath::kill_vines;
+    // Kill adjacent vine if it's cut
+    death_map["VINE_CUT"] = &mdeath::vine_cut;
+    // Destroy all roots
+    death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;
+    // Explodes in spores D:
+    death_map["FUNGUS"] = &mdeath::fungus;
+    // Falls apart
+    death_map["DISINTEGRATE"] = &mdeath::disintegrate;
+    // Spawns 2 half-worms
+    death_map["WORM"] = &mdeath::worm;
+    // Hallucination disappears
+    death_map["DISAPPEAR"] = &mdeath::disappear;
+    // Morale penalty
+    death_map["GUILT"] = &mdeath::guilt;
+    // Frees blobs, redirects to brainblob()
+    death_map["BRAINBLOB"] = &mdeath::brainblob;
+    // Creates more blobs
+    death_map["BLOBSPLIT"] = &mdeath::blobsplit;
+    // Reverts dancers
+    death_map["JACKSON"] = &mdeath::jackson;
+    // Normal death, but melts
+    death_map["MELT"] = &mdeath::melt;
+    // Removes hypnosis if last one
+    death_map["AMIGARA"] = &mdeath::amigara;
+    // Turn into a full thing
+    death_map["THING"] = &mdeath::thing;
+    // Damaging explosion
+    death_map["EXPLODE"] = &mdeath::explode;
+    // Blinding ray
+    death_map["FOCUSEDBEAM"] = &mdeath::focused_beam;
+    // Spawns a broken robot.
+    death_map["BROKEN"] = &mdeath::broken;
+    // Cure verminitis
+    death_map["RATKING"] = &mdeath::ratking;
+    // Sight returns to normal
+    death_map["DARKMAN"] = &mdeath::darkman;
+    // Explodes in toxic gas
+    death_map["GAS"] = &mdeath::gas;
+    // All breathers die
+    death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;
     // Gives a message about destroying ammo and then calls "BROKEN"
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;
-    death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
-    death_map["FUNGALBURST"] = &mdeath::fungalburst;// Explode with a cloud of fungal haze.
-    death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
-    death_map["DETONATE"] = &mdeath::detonate; // Take them with you
-    death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
-    death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
-    death_map["FIREBALL"] = &mdeath::fireball;// Explode in a fireball
-    death_map["CONFLAGRATION"] = &mdeath::conflagration; // Explode in a huge fireball
+    // Explode like a huge smoke bomb.
+    death_map["SMOKEBURST"] = &mdeath::smokeburst;
+    // Explode with a cloud of fungal haze.
+    death_map["FUNGALBURST"] = &mdeath::fungalburst;
+    // Snicker-snack!
+    death_map["JABBERWOCKY"] = &mdeath::jabberwock;
+    // Take them with you
+    death_map["DETONATE"] = &mdeath::detonate;
+    // Game over!  Defense mode
+    death_map["GAMEOVER"] = &mdeath::gameover;
+    // Spawn some cockroach nymphs
+    death_map["PREG_ROACH"] = &mdeath::preg_roach;
+    // Explode in a fireball
+    death_map["FIREBALL"] = &mdeath::fireball;
+    // Explode in a huge fireball
+    death_map["CONFLAGRATION"] = &mdeath::conflagration;
 
     /* Currently Unimplemented */
-    //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
-    //death_map["HOWL"] = &mdeath::howl;// Wolf's howling
-    //death_map["RATTLE"] = &mdeath::rattle;// Rattles like a rattlesnake
+    // Screams loudly
+    //death_map["SHRIEK"] = &mdeath::shriek;
+    // Wolf's howling
+    //death_map["HOWL"] = &mdeath::howl;
+    // Rattles like a rattlesnake
+    //death_map["RATTLE"] = &mdeath::rattle;
 }
 
 void MonsterGenerator::init_attack()
@@ -549,10 +589,14 @@ void MonsterGenerator::init_attack()
 
 void MonsterGenerator::init_defense()
 {
-    defense_map["NONE"] = &mdefense::none; //No special attack-back
-    defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
-    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
-    defense_map["RETURN_FIRE"] = &mdefense::return_fire; //Blind fire on unseen attacker
+    // No special attack-back
+    defense_map["NONE"] = &mdefense::none;
+    // Shock attacker on hit
+    defense_map["ZAPBACK"] = &mdefense::zapback;
+    // Splash acid on the attacker
+    defense_map["ACIDSPLASH"] = &mdefense::acidsplash;
+    // Blind fire on unseen attacker
+    defense_map["RETURN_FIRE"] = &mdefense::return_fire;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
