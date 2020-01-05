@@ -38,10 +38,60 @@
   },
   {
     "type": "city_building",
+    "id": "house_suicide",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_suicide_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_suicide_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_quiverfull",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_quiverfull_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_04_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_toolshed",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_toolshed_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_toolshed_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "house_04",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_04_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_04_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_05",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_05_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_04_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_05ab",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_05ab_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_04_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
