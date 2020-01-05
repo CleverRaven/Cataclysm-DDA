@@ -4201,7 +4201,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
             hp_str = colorize( h_bar.first, h_bar.second ) +
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
-        };
+        }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
