@@ -4817,7 +4817,6 @@ void item::calc_rot( time_point time, int temp )
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
     }
-    
     if( item_tags.count( "MUSHY" ) ) {
         factor = 3.0;
     }
