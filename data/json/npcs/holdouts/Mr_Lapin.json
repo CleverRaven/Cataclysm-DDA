@@ -33,7 +33,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_WARRENER_DOINGR",
+    "id": "TALK_WARRENER_DOING",
     "dynamic_line": "I raise my rabbits, I seem to have more in common with them every day.",
     "responses": [ { "text": "Well, then…", "topic": "TALK_WARRENER" } ]
   },
