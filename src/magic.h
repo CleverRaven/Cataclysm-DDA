@@ -481,7 +481,7 @@ namespace spell_effect
 {
 
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
-void swap_pos( const spell &sp, Creature &caster, const tripoint &target );
+void swap_pos( const spell &, Creature &caster, const tripoint &target );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
                     const tripoint &epicenter );
