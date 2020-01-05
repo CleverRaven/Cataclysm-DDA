@@ -2058,6 +2058,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
 
+    if( jo.has_member( "repairs_like" ) ) {
+        jo.read( "repairs_like", def.repairs_like );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
