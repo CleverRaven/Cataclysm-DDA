@@ -7557,14 +7557,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     int iInfoHeight = 14;
     const int width = 45;
     const int offsetX = TERMX - VIEW_OFFSET_X - width; //VIEW_OFFSET_X;
-    catacurses::window w_monsters = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
+    catacurses::window w_monsters = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1,
                                     width - 2, point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
-    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                           width, point( offsetX, VIEW_OFFSET_Y ) );
-    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
-                                        point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
-    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width + 1,
-            point( offsetX, TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
+    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 +
+                                           1, width, point( offsetX, VIEW_OFFSET_Y ) );
+
+    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 2, width - 2,
+                                        point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y + 1 ) );
+    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width, point( offsetX,
+            TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
 
     const int max_gun_range = u.weapon.gun_range( &u );
 
@@ -7572,29 +7573,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     u.view_offset = tripoint_zero;
 
     int iActive = 0; // monster index that we're looking at
-    const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
+    const int iMaxRows = TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
     cata::optional<tripoint> iLastActivePos;
     Creature *cCurMon = nullptr;
 
-    for( int j = 0; j < iInfoHeight - 1; j++ ) {
-        mvwputch( w_monster_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
-        mvwputch( w_monster_info_border, point( width - 1, j ), c_light_gray, LINE_XOXO );
-    }
-
-    for( int j = 0; j < width - 1; j++ ) {
-        mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
-    }
-
-    mvwputch( w_monsters_border, point_zero, BORDER_COLOR, LINE_OXXO ); // |^
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwhline( w_monsters_border, point( 1, 0 ), 0, width );
-    mvwputch( w_monsters_border, point( width - 1, 0 ), BORDER_COLOR, LINE_OOXX ); // ^|
-
-    for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
-        mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
-    }
+    draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XXXO, LINE_XOXX );
+    draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
+                        true );
 
     mvwprintz( w_monsters_border, point( 2, 0 ), c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
@@ -7668,20 +7654,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         if( monster_list.empty() ) {
-            mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
-                      LINE_XOXO ); // |
-            mvwputch( w_monsters_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
-                      BORDER_COLOR, LINE_XOXO ); // |
-            wrefresh( w_monsters_border );
             mvwprintz( w_monsters, point( 2, 10 ), c_white, _( "You don't see any monsters around you!" ) );
         } else {
             werase( w_monsters );
-
-            mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
-                      LINE_XXXO ); // |-
-            mvwputch( w_monsters_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
-                      BORDER_COLOR,
-                      LINE_XOXX ); // -|
 
             const int iNumMonster = monster_list.size();
             const int iMenuSize = monster_list.size() + mSortCategory.size();
@@ -7794,17 +7769,20 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             werase( w_monster_info );
             cCurMon->print_info( w_monster_info, 1, 11, 1 );
 
+            draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
+                                true );
+
             if( bVMonsterLookFire ) {
-                mvwprintz( w_monsters, point( 1, getmaxy( w_monsters ) - 3 ), c_light_green,
-                           ctxt.press_x( "look" ) );
-                wprintz( w_monsters, c_light_gray, " %s", _( "to look around" ) );
+                mvwprintw( w_monster_info_border, point( 1, 0 ), "< " );
+                wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "look" ) );
+                wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
 
                 if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                    wprintz( w_monsters, c_light_gray, "%s", " " );
-                    mvwprintz( w_monsters, point( 24, getmaxy( w_monsters ) - 3 ), c_light_green,
-                               ctxt.press_x( "fire" ) );
-                    wprintz( w_monsters, c_light_gray, " %s", _( "to shoot" ) );
+                    wprintw( w_monster_info_border, " " );
+                    wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "fire" ) );
+                    wprintz( w_monster_info_border, c_light_gray, " %s", _( "to shoot" ) );
                 }
+                wprintw( w_monster_info_border, " >" );
             }
 
             // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
@@ -7815,29 +7793,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
             draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
                             point_south );
-            wrefresh( w_monsters_border );
         }
-
-        // repairing the damage caused by refreshing the whole screen for w_terrain
-        // the previous situation was only refreshing the screen minus sidebar width.
-        for( int j = 0; j < iInfoHeight - 1; j++ ) {
-            mvwputch( w_monster_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
-            mvwputch( w_monster_info_border, point( width - 1, j ), c_light_gray, LINE_XOXO );
-        }
-
-        for( int j = 0; j < width - 1; j++ ) {
-            mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
-        }
-
-        for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
-            mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-            mvwputch( w_monsters_border, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
-        }
-
-        mvwputch( w_monster_info_border, point( 0, getmaxy( w_monster_info_border ) - 1 ), BORDER_COLOR,
-                  LINE_XXOO );  // |_
-        mvwputch( w_monster_info_border, point( width - 1, getmaxy( w_monster_info_border ) - 1 ),
-                  BORDER_COLOR, LINE_XOOX ); // _|
 
         wrefresh( w_monsters_border );
         wrefresh( w_monster_info_border );
