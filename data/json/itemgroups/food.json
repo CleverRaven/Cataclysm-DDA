@@ -851,5 +851,45 @@
       [ "eggnog_spiked", 5 ],
       [ "drink_martini", 10 ]
     ]
+  },
+  {
+    "id": "barbecue",
+    "type": "item_group",
+    "items": [
+      [ "beer", 15 ],
+      [ "meat", 65 ],
+      [ "glazed_tenderloin", 55 ],
+      [ "fish", 10 ],
+      [ "fish_smoked", 5 ],
+      [ "meat_smoked", 60 ],
+      [ "sausage", 35 ],
+      [ "bratwurst_sausage", 30 ],
+      [ "hotdogs_frozen", 65 ],
+      [ "hotdogs_cooked", 65 ],
+      [ "chilidogs", 30 ],
+      [ "currywurst", 15 ],
+      [ "lettuce", 45 ],
+      [ "tomato", 45 ],
+      [ "onion", 30 ],
+      [ "chili_pepper", 30 ],
+      [ "corn", 20 ],
+      [ "irradiated_lettuce", 20 ],
+      [ "irradiated_tomato", 20 ],
+      [ "irradiated_onion", 5 ],
+      [ "irradiated_corn", 10 ],
+      [ "bacon", 20 ],
+      [ "potato_baked", 15 ],
+      [ "bread", 40 ],
+      [ "ketchup", 80 ],
+      [ "mustard", 75 ],
+      { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "pickle", 20 ],
+      [ "cheeseburger", 30 ],
+      [ "hamburger", 70 ],
+      [ "cheese", 45 ],
+      [ "ceramic_plate", 30 ],
+      [ "knife_steak", 45 ],
+      [ "tongs", 60 ]
+    ]
   }
 ]
