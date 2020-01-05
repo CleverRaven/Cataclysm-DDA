@@ -3,10 +3,10 @@
     "type": "palette",
     "id": "mil_base_palette",
     "terrain": {
-      " ": "t_region_groundcover_urban",
+      " ": [ [ "t_region_groundcover", 750 ], "t_pit_shallow", "t_dirtmound" ],
       ",": "t_dirt",
       "N": "t_dirt",
-      "x": [ [ "t_chainfence", 5 ], "t_dirt" ],
+      "x": [ [ "t_chainfence", 10 ], "t_chainfence_posts", "t_dirt" ],
       "X": "t_chainfence",
       "G": "t_chaingate_c",
       "_": "t_pavement",
@@ -21,7 +21,7 @@
       "s": "t_sidewalk",
       "{": "t_sidewalk",
       "I": "t_column",
-      "b": [ [ "t_brick_wall", 40 ], "t_pit_shallow" ],
+      "b": [ [ "t_brick_wall", 50 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
       "f": "t_fence_wire",
       "+": [ [ "t_door_c", 2 ], "t_door_o" ],
@@ -81,8 +81,13 @@
       "C": "f_crate_c",
       "L": "f_shower",
       "6": "f_water_heater",
-      "7": "f_standing_tank"
+      "7": "f_standing_tank",
+      "q": "f_drill_press",
+      "Q": "f_bandsaw",
+      "v": "f_heavy_lathe",
+      "V": "f_workbench"
     },
+    "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] } },
     "toilets": { "T": {  } }
   }
 ]
