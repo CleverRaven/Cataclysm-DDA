@@ -191,7 +191,11 @@ units::mass item_pocket::item_weight_modifier() const
 {
     units::mass total_mass = 0_gram;
     for( const item &it : contents ) {
-        total_mass += it.weight() * data->weight_multiplier;
+        if ( it.is_gunmod() ) {
+            total_mass += it.weight( true, true ) * data->weight_multiplier;
+        } else {
+            total_mass += it.weight() * data->weight_multiplier;
+        }
     }
     return total_mass;
 }

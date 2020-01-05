@@ -4232,11 +4232,6 @@ units::mass item::weight( bool, bool integral ) const
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
-    if( is_gun() ) {
-        for( const item *elem : gunmods() ) {
-            ret += elem->weight( true, true );
-        }
-    }
     ret += contents.item_weight_modifier();
 
     return ret;
