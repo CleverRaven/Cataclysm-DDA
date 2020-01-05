@@ -96,7 +96,6 @@ static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
 static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
-static const mtype_id mon_leech_pod_cluster( "mon_leech_pod_cluster" );
 static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
 static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
