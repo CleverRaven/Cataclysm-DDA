@@ -99,7 +99,6 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
         case spell_flag::SWAP_POS: return "SWAP_POS";
-        case spell_flag::SWAP_KILLS_TARGET: return "SWAP_KILLS_TARGET";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
