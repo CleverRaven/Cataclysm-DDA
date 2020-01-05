@@ -178,6 +178,7 @@ class pocket_data
         bool operator==( const pocket_data &rhs ) const;
 
         void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 template<>

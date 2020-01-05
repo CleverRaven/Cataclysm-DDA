@@ -107,7 +107,7 @@ bool item_contents::process( const itype &type, player *carrier, const tripoint 
     return true;
 }
 
-bool item_contents::legacy_unload( player *guy, bool &changed )
+bool item_contents::legacy_unload( player &guy, bool &changed )
 {
     for( item_pocket &pocket : contents ) {
         pocket.legacy_unload( guy, changed );

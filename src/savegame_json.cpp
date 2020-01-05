@@ -181,6 +181,12 @@ void item_pocket::deserialize( JsonIn &jsin )
     data.read( "contents", contents );
 }
 
+void pocket_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
 std::vector<item> item::magazine_convert()
 {
     std::vector<item> res;

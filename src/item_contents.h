@@ -63,7 +63,7 @@ class item_contents
         bool detonate( const tripoint &p, std::vector<item> &drops );
         bool process( const itype &type, player *carrier, const tripoint &pos, bool activate,
                       float insulation, temperature_flag flag );
-        bool legacy_unload( player *guy, bool &changed );
+        bool legacy_unload( player &guy, bool &changed );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
 
