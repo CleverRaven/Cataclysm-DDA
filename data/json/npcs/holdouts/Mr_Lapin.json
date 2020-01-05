@@ -41,7 +41,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_WARRENER_WORLD",
-    "dynamic_line": "People come to me to learn how to keep rabbits.  They learn and they go. I like to think I'm making the world better.",
+    "dynamic_line": "People come to me to learn how to keep rabbits.  They learn and they go.  I like to think I'm making the world better.",
     "responses": [
       { "text": "…", "topic": "TALK_WARRENER" },
       { "text": "That sounds optimistic?", "topic": "TALK_WARRENER_WORLD_OPTIMISTIC" }
@@ -59,7 +59,7 @@
     "dynamic_line": {
       "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "LIGHTFUR" ],
       "yes": "Same way you got yours, I bet.",
-      "no": "CRISPR? Radiation? Something in the water? Maybe it was bunnies."
+      "no": "CRISPR?  Radiation?  Something in the water?  Maybe it was bunnies."
     },
     "responses": [
       { "text": "So it goes", "topic": "TALK_WARRENER" },
