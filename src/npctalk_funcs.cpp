@@ -293,7 +293,7 @@ void talk_function::goto_location( npc &p )
                                  iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
