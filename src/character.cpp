@@ -4123,8 +4123,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-
-
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;

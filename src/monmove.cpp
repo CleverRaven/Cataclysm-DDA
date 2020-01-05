@@ -1112,7 +1112,6 @@ tripoint monster::scent_move()
             right_scent = false;
         }
 
-
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
             continue;
         }

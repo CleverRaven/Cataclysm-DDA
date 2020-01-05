@@ -4142,7 +4142,6 @@ void game::mon_info_update( )
     mostseen = newseen;
 }
 
-
 void game::cleanup_dead()
 {
     // Dead monsters need to stay in the tracker until everything else that needs to die does so
