@@ -1791,6 +1791,7 @@ int npc::value( const item &it, int market_price ) const
 void healing_options::clear_all()
 {
     bandage = false;
+    disinfect = false;
     bleed = false;
     bite = false;
     infect = false;
@@ -1803,7 +1804,7 @@ bool healing_options::all_false()
 
 bool healing_options::any_true()
 {
-    return bandage || bleed || bite || infect;
+    return bandage || bleed || bite || infect || disinfect;
 }
 
 void healing_options::set_all()
@@ -1812,6 +1813,7 @@ void healing_options::set_all()
     bleed = true;
     bite = true;
     infect = true;
+    disinfect = true;
 }
 
 bool npc::has_healing_item( healing_options try_to_fix )
@@ -1842,6 +1844,9 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
         if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
             fix_p->bandage = true;
         }
+        if( try_to_fix.disinfect && !fix_p->disinfect && actor.disinfectant_power > 0.0f ) {
+            fix_p->disinfect = true;
+        }
         if( try_to_fix.bleed && !fix_p->bleed && actor.bleed > 0 ) {
             fix_p->bleed = true;
         }
@@ -1853,6 +1858,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
         }
         // if we've found items for everything we're looking for, we're done
         if( ( !try_to_fix.bandage || fix_p->bandage ) &&
+            ( !try_to_fix.disinfect || fix_p->disinfect ) &&
             ( !try_to_fix.bleed || fix_p->bleed ) &&
             ( !try_to_fix.bite || fix_p->bite ) &&
             ( !try_to_fix.infect || fix_p->infect ) ) {
@@ -1875,6 +1881,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 
         auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
         if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
+            ( try_to_fix.disinfect && actor.disinfectant_power > 0.0f ) ||
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
             ( try_to_fix.bite && actor.bite > 0 ) ||
             ( try_to_fix.infect && actor.infect > 0 ) ) {

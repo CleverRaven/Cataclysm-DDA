@@ -504,6 +504,7 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
 
 struct healing_options {
     bool bandage;
+    bool disinfect;
     bool bleed;
     bool bite;
     bool infect;
