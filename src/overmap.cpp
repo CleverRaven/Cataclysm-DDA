@@ -3174,9 +3174,6 @@ void overmap::build_anthill( const tripoint &p, int s )
             }
         }
     }
-    if( queenpoints.empty() ) {
-        debugmsg( "No queenpoints when building anthill" );
-    }
     const tripoint target = random_entry( queenpoints );
     ter_set( target, oter_id( "ants_queen" ) );
 
