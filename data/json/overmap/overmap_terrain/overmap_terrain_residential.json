@@ -587,5 +587,90 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_11",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_11_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_12",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_12_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_13",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_13_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_14",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_14_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_15",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_15_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
   }
 ]
