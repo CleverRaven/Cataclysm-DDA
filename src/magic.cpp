@@ -52,6 +52,7 @@ std::string enum_to_string<valid_target>( valid_target data )
         case valid_target::target_hostile: return "hostile";
         case valid_target::target_self: return "self";
         case valid_target::target_ground: return "ground";
+        case valid_target::target_monster_id: return "monster_id";
         case valid_target::target_none: return "none";
         case valid_target::target_item: return "item";
         case valid_target::target_fd_fire: return "fd_fire";
@@ -97,6 +98,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
+        case spell_flag::SWAP_POS: return "SWAP_POS";
+        case spell_flag::SWAP_KILLS_TARGET: return "SWAP_KILLS_TARGET";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
@@ -247,6 +250,15 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
+
+    if( jo.has_array( "targeted_monster_ids" ) ) {
+        for( JsonObject mon : jo.get_array( "targeted_monster_ids" ) ) {
+            targeted_monster_ids.insert( mtype_id( mon.get_string( "monster_id" ) ) );
+        }
+    }
+
+    const auto targeted_monster_flag_reader = enum_flags_reader<spell_flag> { "targeted_monster_flags" };
+    optional( jo, was_loaded, "flags", spell_tags, targeted_monster_flag_reader );
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -895,6 +907,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
+        valid = valid || ( is_valid_target( target_monster_id ) && target_by_monster_id( *cr ) );
     } else {
         valid = is_valid_target( target_ground );
     }
@@ -904,6 +917,22 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 bool spell::is_valid_effect_target( valid_target t ) const
 {
     return type->effect_targets[t];
+}
+
+bool spell::target_by_monster_id( Creature &target ) const
+{
+    bool valid = false;
+    monster *const mon = dynamic_cast<monster *>( &target );
+    if( type->targeted_monster_ids.empty() ) {
+        debugmsg( "ERROR: spell %s set to target specific monster_ids, but no targeted_monster_ids were specified",
+                  type->id.c_str() );
+    }
+    for( mtype_id mon_id : type->targeted_monster_ids ) {
+        if( mon->type->id == mon_id ) {
+            valid = true;
+        }
+    }
+    return valid;
 }
 
 std::string spell::description() const

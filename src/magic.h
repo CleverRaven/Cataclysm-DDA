@@ -35,6 +35,7 @@ template <typename E> struct enum_traits;
 enum spell_flag {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     IGNORE_WALLS, // spell's aoe goes through walls
+    SWAP_POS, // a projectile spell swaps the positions of the caster and target
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
     SILENT, // spell makes no noise at target
@@ -68,6 +69,7 @@ enum valid_target {
     target_ally,
     target_hostile,
     target_self,
+    target_monster_id,
     target_ground,
     target_none,
     target_item,
@@ -245,6 +247,8 @@ class spell_type
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
 
+        std::set<mtype_id> targeted_monster_ids;
+
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
 
@@ -400,6 +404,7 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
+        bool target_by_monster_id( Creature &target ) const;
 
         // picks a random valid tripoint from @area
         cata::optional<tripoint> random_valid_target( const Creature &caster,
@@ -476,6 +481,7 @@ namespace spell_effect
 {
 
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
+void swap_pos( const spell &sp, Creature &caster, const tripoint &target );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
                     const tripoint &epicenter );
