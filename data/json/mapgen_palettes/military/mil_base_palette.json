@@ -5,6 +5,7 @@
     "terrain": {
       " ": "t_region_groundcover_urban",
       ",": "t_dirt",
+      "N": "t_dirt",
       "x": [ [ "t_chainfence", 5 ], "t_dirt" ],
       "X": "t_chainfence",
       "G": "t_chaingate_c",
@@ -26,7 +27,7 @@
       "+": [ [ "t_door_c", 2 ], "t_door_o" ],
       "=": [ [ "t_door_locked_interior", 3 ], "t_door_c", "t_door_o" ],
       "d": "t_door_metal_c",
-      "z": [ [ "t_door_metal_pickable", 3 ], "t_door_metal_c" ],
+      "z": "t_door_metal_pickable",
       "D": "t_door_metal_locked",
       "g": "t_reinforced_glass",
       ">": "t_stairs_down",
@@ -45,8 +46,11 @@
       "n": "t_dirtmound",
       "&": "t_grate",
       "e": "t_gates_mech_control",
+      "5": "t_card_military",
       "*": "t_gas_tank",
-      "%": "t_pit_corpsed"
+      "%": "t_pit_corpsed",
+      "8": "t_wall_metal",
+      "9": "t_metal_floor"
     },
     "furniture": {
       "P": "f_sign",
@@ -74,7 +78,10 @@
       "R": "f_firering",
       "B": "f_tourist_table",
       "M": "f_makeshift_bed",
-      "C": "f_crate_c"
+      "C": "f_crate_c",
+      "L": "f_shower",
+      "6": "f_water_heater",
+      "7": "f_standing_tank"
     },
     "toilets": { "T": {  } }
   }
