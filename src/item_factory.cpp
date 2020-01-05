@@ -795,6 +795,7 @@ void Item_factory::init()
     add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
+    add_actor( std::make_unique<change_scent_iuse>() );
     add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
@@ -2055,6 +2056,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // TODO: Move to finalization
         def.thrown_damage.clear();
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
+    }
+
+    if( jo.has_member( "repairs_like" ) ) {
+        jo.read( "repairs_like", def.repairs_like );
     }
 
     if( jo.has_member( "damage_states" ) ) {

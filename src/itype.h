@@ -861,6 +861,9 @@ struct itype {
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
+        // What item this item repairs like if it doesn't have a recipe
+        itype_id repairs_like;
+
         std::string snippet_category;
         translation description; // Flavor text
 

@@ -691,6 +691,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if( jo.has_array( "scents_ignored" ) ) {
+        for( const std::string &line : jo.get_array( "scents_ignored" ) ) {
+            scents_ignored.emplace( line );
+        }
+    }
+
     int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
         bonus_cut = jo.get_int( "melee_cut" );
@@ -1081,6 +1087,11 @@ void MonsterGenerator::check_monster_definitions() const
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
                 debugmsg( "monster %s has unknown scents_tracked %s", mon.id.c_str(), s_id.c_str() );
+            }
+        }
+        for( const scenttype_id &s_id : mon.scents_ignored ) {
+            if( !s_id.is_empty() && !s_id.is_valid() ) {
+                debugmsg( "monster %s has unknown scents_ignored %s", mon.id.c_str(), s_id.c_str() );
             }
         }
         for( auto &s : mon.starting_ammo ) {

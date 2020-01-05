@@ -209,5 +209,22 @@
     "durability": 9,
     "clip_size": 1,
     "loudness": 300
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_titanium_bat",
+    "name": "titanium bat",
+    "description": "A luxury baseball bat made out of titanium that was banned from competitive sport due to the increased performance that put defenders at risk.",
+    "weight": "680 g",
+    "to_hit": 3,
+    "color": "light_gray",
+    "symbol": "/",
+    "material": [ "titanium" ],
+    "looks_like": "bat_metal",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "DURABLE_MELEE" ],
+    "volume": "1750 ml",
+    "bashing": 22,
+    "price": 20000
   }
 ]
