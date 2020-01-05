@@ -325,7 +325,7 @@
     "id": "holographic_transposition",
     "type": "SPELL",
     "name": "Holographic Transposition",
-    "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself cant tell you apart, who could?",
+    "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself can't tell you apart, who could?",
     "valid_targets": [ "hostile", "ally" ],
     "targeted_monster_ids": [ "mon_mirror_image", "mon_hologram" ],
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC", "SWAP_POS" ],
