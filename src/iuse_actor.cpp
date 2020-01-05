@@ -4648,8 +4648,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            // @TODO Fix for UTF-8 strings
-            // @TODO find other places where this is used and make a global function for all
+            // @TODO: Fix for UTF-8 strings
+            // @TODO: find other places where this is used and make a global function for all
             static const auto tolower = []( std::string t ) {
                 if( !t.empty() ) {
                     t.front() = std::tolower( t.front() );

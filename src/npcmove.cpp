@@ -235,7 +235,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @todo: Rate fire higher than smoke
+                // @TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }

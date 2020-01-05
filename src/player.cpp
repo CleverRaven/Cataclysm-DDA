@@ -2206,7 +2206,7 @@ void player::update_body( const time_point &from, const time_point &to )
         update_needs( five_mins );
         regen( five_mins );
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
-        //@todo change @ref med to take time_duration
+        //@TODO: change @ref med to take time_duration
         mend( five_mins * to_turns<int>( 5_minutes ) );
     }
     if( ticks_between( from, to, 24_hours ) > 0 ) {
@@ -6909,7 +6909,7 @@ void player::place_corpse( const tripoint &om_target )
     // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.)
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // Q: Why use furn_str_id instead of f_null?
-    // @todo fix it, see above.
+    // @TODO: fix it, see above.
     if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id( "f_null" ) ) {

@@ -3975,7 +3975,7 @@ void game::mon_info_update( )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    // @todo change current_turn to time_point
+    // @TODO: change current_turn to time_point
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -4722,7 +4722,7 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> mon, const tripo
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
@@ -4753,7 +4753,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
