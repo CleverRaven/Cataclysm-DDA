@@ -323,6 +323,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
+        } else if( elem->is_blind() ) {
+            reasons.push_back( string_format( _( "% is blind." ), elem->disp_name( true ) ) );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
@@ -1164,7 +1166,7 @@ void avatar::reset_stats()
     }
 
     // Radiation
-    set_fake_effect_dur( effect_irradiated, 1_turns * radiation );
+    set_fake_effect_dur( effect_irradiated, 1_turns * get_rad() );
     // Morale
     const int morale = get_morale_level();
     set_fake_effect_dur( effect_happy, 1_turns * morale );

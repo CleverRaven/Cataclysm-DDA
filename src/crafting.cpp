@@ -29,6 +29,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -73,8 +74,6 @@ static const efftype_id effect_contacts( "contacts" );
 void drop_or_handle( const item &newit, player &p );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
-static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_BURROW( "BURROW" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
@@ -483,7 +482,7 @@ bool player::can_make( const recipe *r, int batch_size )
             batch_size );
 }
 
-bool player::can_start_craft( const recipe *rec, int batch_size )
+bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
 {
     if( !rec ) {
         return false;
@@ -526,7 +525,8 @@ bool player::can_start_craft( const recipe *rec, int batch_size )
                                        rec->requirements().get_qualities(),
                                        adjusted_comp_reqs );
 
-    return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
+    return start_reqs.can_make_with_inventory( crafting_inventory(),
+            rec->get_component_filter( flags ) );
 }
 
 const inventory &player::crafting_inventory( bool clear_path )
@@ -923,17 +923,12 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if( has_trait( trait_PAWS ) || has_trait( trait_PAWS_LARGE ) ) {
-        int paws_rank_penalty = 0;
-        if( has_trait( trait_PAWS_LARGE ) ) {
-            paws_rank_penalty += 1;
+    for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+        for( const std::pair<skill_id, int> &skib : mut.first->craft_skill_bonus ) {
+            if( making.skill_used == skib.first ) {
+                skill_dice += skib.second;
+            }
         }
-        if( making.skill_used == skill_id( "electronics" )
-            || making.skill_used == skill_id( "tailor" )
-            || making.skill_used == skill_id( "mechanics" ) ) {
-            paws_rank_penalty += 1;
-        }
-        skill_dice -= paws_rank_penalty * 4;
     }
 
     // Sides on dice is 16 plus your current intelligence
@@ -962,7 +957,7 @@ int item::get_next_failure_point() const
         debugmsg( "get_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
         return INT_MAX;
     }
-    return next_failure_point >= 0 ? next_failure_point : INT_MAX;
+    return craft_data_->next_failure_point >= 0 ? craft_data_->next_failure_point : INT_MAX;
 }
 
 void item::set_next_failure_point( const player &crafter )
@@ -975,7 +970,7 @@ void item::set_next_failure_point( const player &crafter )
     const int percent_left = 10000000 - item_counter;
     const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
 
-    next_failure_point = item_counter + failure_point_delta;
+    craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
 
 static void destroy_random_component( item &craft, const player &crafter )
@@ -1042,7 +1037,7 @@ requirement_data item::get_continue_reqs() const
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return requirement_data::continue_requirements( comps_used, components );
+    return requirement_data::continue_requirements( craft_data_->comps_used, components );
 }
 
 void item::inherit_flags( const item &parent )
@@ -1214,7 +1209,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
         } else {
-            set_item_map_or_vehicle( *this, pos(), newit );
+            set_item_map_or_vehicle( *this, loc, newit );
         }
     }
 
@@ -1260,7 +1255,9 @@ bool player::can_continue_craft( item &craft )
     // Avoid building an inventory from the map if we don't have to, as it is expensive
     if( !continue_reqs.is_empty() ) {
 
-        const std::function<bool( const item & )> filter = rec.get_component_filter();
+        std::function<bool( const item & )> filter = rec.get_component_filter();
+        const std::function<bool( const item & )> no_rotten_filter =
+            rec.get_component_filter( recipe_filter_flags::no_rotten );
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
@@ -1277,6 +1274,16 @@ bool player::can_continue_craft( item &craft )
         buffer += continue_reqs.list_all();
         if( !query_yn( buffer ) ) {
             return false;
+        }
+
+        if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
+                batch_size ) ) {
+            filter = no_rotten_filter;
+        } else {
+            if( !query_yn( _( "Some components required to continue are rotten.\n"
+                              "Continue crafting anyway?" ) ) ) {
+                return false;
+            }
         }
 
         inventory map_inv;

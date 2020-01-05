@@ -952,8 +952,7 @@ furn_id f_null,
         f_brazier,
         f_firering,
         f_tourist_table,
-        f_camp_chair,
-        f_autodoc_couch;
+        f_camp_chair;
 
 void set_furn_ids()
 {
@@ -1065,7 +1064,6 @@ void set_furn_ids()
     f_wind_mill_active = furn_id( "f_wind_mill_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
-    f_autodoc_couch = furn_id( "f_autodoc_couch" );
     f_firering = furn_id( "f_firering" );
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );

@@ -11,7 +11,7 @@
       { "item": "pants_cargo" },
       { "item": "kevlar" },
       { "item": "leather_pouch" },
-      { "item": "balclava", "chance": 75 },
+      { "item": "balclava", "prob": 75 },
       { "item": "bootsheath" }
     ]
   },
@@ -19,7 +19,7 @@
     "type": "item_group",
     "id": "afs_gardener_carried",
     "subtype": "collection",
-    "entries": [ { "group": "hardware", "count": [ 1, 2 ] }, { "group": "snacks", "repeat": [ 1, 3 ] } ]
+    "entries": [ { "group": "hardware", "count": [ 1, 2 ] }, { "group": "snacks", "count": [ 1, 3 ] } ]
   },
   {
     "type": "item_group",

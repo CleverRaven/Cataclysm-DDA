@@ -518,7 +518,7 @@ void game::init_ui( const bool resized )
     /**
      * Doing the same thing as above for the overmap
      */
-    static const int OVERMAP_LEGEND_WIDTH = 28;
+    OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
     OVERMAP_WINDOW_HEIGHT = TERMY;
     OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
     to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
@@ -1956,18 +1956,17 @@ void game::handle_key_blocking_activity()
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
-* @param pos position of item in inventory
+* @param locThisItem the item
 * @param iStartX Left coordinate of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
-int game::inventory_item_menu( int pos, int iStartX, int iWidth,
+int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidth,
                                const inventory_item_menu_positon position )
 {
     int cMenu = static_cast<int>( '+' );
 
-    item &oThisItem = u.i_at( pos );
-    item_location locThisItem( u, &oThisItem );
+    item &oThisItem = *locThisItem;
     if( u.has_item( oThisItem ) ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
@@ -2333,6 +2332,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pick_style" );
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
+    ctxt.register_action( "reload_wielded" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -5051,18 +5051,19 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const std::string &door_name = door_type.obj().name();
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
-    for( int i = 0; i < 20; i++ ) {
-        const int x_ = x + rng( -1, +1 );
-        const int y_ = y + rng( -1, +1 );
-        if( is_empty( {x_, y_, get_levz()} ) ) {
-            // invert direction, as game::knockback needs
-            // the source of the force that knocks back
-            kbx = -x_ + x + x;
-            kby = -y_ + y + y;
-            break;
-        }
+    const auto valid_location = [&]( const tripoint & p ) {
+        return g->is_empty( p );
+    };
+    if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
+            valid_location ) ) {
+        kbx = -pos->x + x + x;
+        kby = -pos->y + y + y;
     }
     const tripoint kbp( kbx, kby, p.z );
+    if( kbp == p ) {
+        // cant pushback any creatures anywhere, that means the door cant close.
+        return false;
+    }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
@@ -7541,8 +7542,16 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
+        draw_custom_border( w_item_info, bDrawLeft, true, true, true, LINE_XXXO, LINE_XOXX, true, true );
 
-        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
+        if( iItemNum > 0 ) {
+            // print info window title: < item name >
+            mvwprintw( w_item_info, point( 2, 0 ), "< " );
+            trim_and_print( w_item_info, point( 4, 0 ), width - 8, activeItem->example->color_in_inventory(),
+                            activeItem->example->display_name() );
+            wprintw( w_item_info, " >" );
+        }
+
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -8478,6 +8487,16 @@ void game::reload_item()
     reload( item_loc );
 }
 
+void game::reload_wielded()
+{
+    if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
+        add_msg( _( "You aren't holding something you can reload." ) );
+        return;
+    }
+    item_location item_loc = item_location( u, &u.weapon );
+    reload( item_loc );
+}
+
 void game::reload_weapon( bool try_everything )
 {
     // As a special streamlined activity, hitting reload repeatedly should:
@@ -8949,16 +8968,28 @@ bool game::walk_move( const tripoint &dest_loc )
     u.set_underwater( false );
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
-        if( !u.movement_mode_is( CMM_RUN ) ) {
-            std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
+            !prompt_dangerous_tile( dest_loc ) ) {
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
+                   ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
-        } else if( !get_option<bool>( "DANGEROUS_RUNNING" ) ) {
-            if( !prompt_dangerous_tile( dest_loc ) ) {
-                return true;
-            }
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
+                   ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "NEVER" &&
+                   !u.movement_mode_is( CMM_RUN ) ) {
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
+            return true;
         }
     }
     // Used to decide whether to print a 'moving is slow message
@@ -11345,8 +11376,8 @@ void game::process_artifact( item &it, player &p )
                 break;
 
             case AEP_PBLUE:
-                if( p.radiation > 0 ) {
-                    p.radiation--;
+                if( p.get_rad() > 0 ) {
+                    p.mod_rad( -1 );
                 }
                 break;
 
@@ -11487,7 +11518,7 @@ bool check_art_charge_req( item &it )
             reqsmet = p.has_effect( effect_sleep );
             break;
         case( ACR_RAD ):
-            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+            reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
             break;
         case( ACR_WET ):
             reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),

@@ -48,6 +48,7 @@ class map;
 class npc;
 struct pathfinding_settings;
 class recipe;
+enum class recipe_filter_flags : int;
 struct islot_comestible;
 struct itype;
 class monster;
@@ -1045,7 +1046,7 @@ class player : public Character
          * The player is not required to have enough tool charges to finish crafting, only to
          * complete the first step (total / 20 + total % 20 charges)
          */
-        bool can_start_craft( const recipe *rec, int batch_size = 1 );
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**

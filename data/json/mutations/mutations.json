@@ -1789,6 +1789,7 @@
     "category": [ "CHIMERA", "RAPTOR", "LIZARD" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
+    "movecost_swim_modifier": 0.9,
     "wet_protection": [
       { "part": "HEAD", "ignored": 3 },
       { "part": "LEG_L", "ignored": 10 },
@@ -1842,6 +1843,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
+    "movecost_swim_modifier": 0.75,
     "wet_protection": [
       { "part": "HEAD", "good": 7 },
       { "part": "LEG_L", "good": 21 },
@@ -2627,7 +2629,8 @@
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
-    "category": [ "PLANT", "SLIME", "TROGLOBITE" ]
+    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
+    "flags": [ "NO_DISEASE" ]
   },
   {
     "type": "mutation",
@@ -3133,6 +3136,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "FISH" ],
     "wet_protection": [ { "part": "LEG_L", "good": 3 }, { "part": "LEG_R", "good": 3 } ],
+    "movecost_swim_modifier": 0.75,
     "restricts_gear": [ "LEG_L", "LEG_R" ],
     "allow_soft_gear": true
   },
@@ -3817,6 +3821,7 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "leads_to": [ "HIBERNATE" ],
     "category": [ "URSINE" ],
+    "movecost_swim_modifier": 0.95,
     "armor": [ { "parts": "ALL", "bash": 1 } ],
     "movecost_modifier": 1.05
   },
@@ -4853,6 +4858,7 @@
     "description": "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
     "encumbrance_always": [ [ "HAND_L", 10 ], [ "HAND_R", 10 ] ],
     "restricts_gear": [ "HAND_L", "HAND_R" ],
+    "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
     "prereqs": [ "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
     "cancels": [ "TALONS" ],
@@ -4868,6 +4874,17 @@
     "ugliness": 3,
     "mixed_effect": true,
     "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  But you can swim more effectively.",
+    "craft_skill_bonus": [
+      [ "electronics", -4 ],
+      [ "tailor", -4 ],
+      [ "mechanics", -4 ],
+      [ "firstaid", -2 ],
+      [ "computer", -2 ],
+      [ "traps", -2 ],
+      [ "fabrication", -2 ],
+      [ "cooking", -2 ],
+      [ "survival", -2 ]
+    ],
     "encumbrance_always": [ [ "HAND_L", 20 ], [ "HAND_R", 20 ] ],
     "restricts_gear": [ "HAND_L", "HAND_R" ],
     "types": [ "HANDS" ],
@@ -5668,6 +5685,7 @@
     "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
     "types": [ "LEGS" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
+    "movecost_swim_modifier": 0.85,
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
       { "part": "LEG_L", "neutral": 21 },
@@ -5961,6 +5979,7 @@
     "description": "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
+    "movecost_swim_modifier": 0.45,
     "purifiable": false
   },
   {
@@ -6415,6 +6434,16 @@
     "points": 99,
     "valid": false,
     "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_BIONIC_POWERGEN",
+    "name": "Debug Bionic Powergen",
+    "points": 99,
+    "valid": false,
+    "description": "Activate to increase power by an amount you specify (can be repeated).",
     "debug": true,
     "active": true
   },

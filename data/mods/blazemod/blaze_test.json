@@ -874,7 +874,6 @@
     "color": "pink",
     "broken_color": "pink",
     "size": 10,
-    "range": 18,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }

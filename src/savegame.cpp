@@ -49,7 +49,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 26;
+const int savegame_version = 27;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -706,7 +706,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old.compare( 0, 5, "cabin" ) == 0 ||
                    old.compare( 0, 5, "pond_" ) == 0 ||
                    old.compare( 0, 6, "bandit" ) == 0 ||
-                   old.compare( 0, 7, "haz_sar" ) == 0 || // remove after 0.E.
                    old.compare( 0, 7, "shelter" ) == 0 ||
                    old.compare( 0, 8, "campsite" ) == 0 ||
                    old.compare( 0, 9, "pwr_large" ) == 0 ||
@@ -786,6 +785,52 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             } else {
                 debugmsg( "Malformed Megastore" );
             }
+
+        } else if( old.compare( 0, 7, "haz_sar" ) == 0 ) {
+            if( old == "haz_sar_entrance" || old == "haz_sar_entrance_north" ) {
+                ter_set( pos, oter_id( "haz_sar_1_1_north" ) );
+                ter_set( pos + point_west, oter_id( "haz_sar_1_2_north" ) );
+                ter_set( pos + point_south, oter_id( "haz_sar_1_3_north" ) );
+                ter_set( pos + point_south_west, oter_id( "haz_sar_1_4_north" ) );
+            } else if( old == "haz_sar_entrance_south" ) {
+                ter_set( pos, oter_id( "haz_sar_1_1_south" ) );
+                ter_set( pos + point_north, oter_id( "haz_sar_1_2_south" ) );
+                ter_set( pos + point_west, oter_id( "haz_sar_1_3_south" ) );
+                ter_set( pos + point_north_west, oter_id( "haz_sar_1_4_south" ) );
+            } else if( old == "haz_sar_entrance_east" ) {
+                ter_set( pos, oter_id( "haz_sar_1_1_east" ) );
+                ter_set( pos + point_north, oter_id( "haz_sar_1_2_east" ) );
+                ter_set( pos + point_west, oter_id( "haz_sar_1_3_east" ) );
+                ter_set( pos + point_north_west, oter_id( "haz_sar_1_4_east" ) );
+            } else if( old == "haz_sar_entrance_west" ) {
+                ter_set( pos, oter_id( "haz_sar_1_1_west" ) );
+                ter_set( pos + point_south, oter_id( "haz_sar_1_2_west" ) );
+                ter_set( pos + point_east, oter_id( "haz_sar_1_3_west" ) );
+                ter_set( pos + point_south_east, oter_id( "haz_sar_1_4_west" ) );
+            }
+
+            if( old == "haz_sar_entrance_b1" || old == "haz_sar_entrance_b1_north" ) {
+                ter_set( pos, oter_id( "haz_sar_b_1_north" ) );
+                ter_set( pos + point_west, oter_id( "haz_sar_b_2_north" ) );
+                ter_set( pos + point_south, oter_id( "haz_sar_b_3_north" ) );
+                ter_set( pos + point_south_west, oter_id( "haz_sar_b_4_north" ) );
+            } else if( old == "haz_sar_entrance_b1_south" ) {
+                ter_set( pos, oter_id( "haz_sar_b_1_south" ) );
+                ter_set( pos + point_north, oter_id( "haz_sar_b_2_south" ) );
+                ter_set( pos + point_west, oter_id( "haz_sar_b_3_south" ) );
+                ter_set( pos + point_north_west, oter_id( "haz_sar_b_4_south" ) );
+            } else if( old == "haz_sar_entrance_b1_east" ) {
+                ter_set( pos, oter_id( "haz_sar_b_1_east" ) );
+                ter_set( pos + point_north, oter_id( "haz_sar_b_2_east" ) );
+                ter_set( pos + point_west, oter_id( "haz_sar_b_3_east" ) );
+                ter_set( pos + point_north_west, oter_id( "haz_sar_b_4_east" ) );
+            } else if( old == "haz_sar_entrance_b1_west" ) {
+                ter_set( pos, oter_id( "haz_sar_b_1_west" ) );
+                ter_set( pos + point_south, oter_id( "haz_sar_b_2_west" ) );
+                ter_set( pos + point_east, oter_id( "haz_sar_b_3_west" ) );
+                ter_set( pos + point_south_east, oter_id( "haz_sar_b_4_west" ) );
+            }
+
         } else if( old == "house_base_north" ) {
             ter_set( pos, oter_id( "house_north" ) );
         } else if( old == "house_base_south" ) {
@@ -1179,8 +1224,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
 
 void overmap::serialize_view( std::ostream &fout ) const
 {
-    static const int first_overmap_view_json_version = 25;
-    fout << "# version " << first_overmap_view_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
@@ -1304,8 +1348,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
 
 void overmap::serialize( std::ostream &fout ) const
 {
-    static const int first_overmap_json_version = 26;
-    fout << "# version " << first_overmap_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();

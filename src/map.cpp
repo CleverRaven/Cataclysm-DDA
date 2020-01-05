@@ -6678,7 +6678,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt.xy(), false );
+        add_spawn( spawn_details.name, 1, pnt, false );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -7237,7 +7237,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
 
             const auto valid_location = [&]( const tripoint & p ) {
-                return g->is_empty( p ) && tmp.can_move_to( p );
+                // Checking for creatures via g is only meaningful if this is the main game map.
+                // If it's some local map instance, the coordinates will most likely not even match.
+                return ( !g || &g->m != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
             };
 
             const auto place_it = [&]( const tripoint & p ) {
@@ -7332,43 +7334,28 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                         int fake_map_z )
+fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                    const int fake_map_z )
 {
     const tripoint tripoint_below_zero( 0, 0, fake_map_z );
 
-    bool do_terset = true;
     set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const tripoint gridp( gridx, gridy, fake_map_z );
-            submap *tmpsub = MAPBUFFER.lookup_submap( gridp );
-            if( tmpsub == nullptr ) {
-                generate_uniform( gridp, ter_type );
-                do_terset = false;
-                tmpsub = MAPBUFFER.lookup_submap( gridp );
-                if( tmpsub == nullptr ) {
-                    dbg( D_ERROR ) << "failed to generate a fake submap at 0,0,-9 ";
-                    debugmsg( "failed to generate a fake submap at 0,0,-9" );
-                    return false;
-                }
-            }
-            const size_t gridn = get_nonant( gridp );
+            std::unique_ptr<submap> sm = std::make_unique<submap>();
 
-            setsubmap( gridn, tmpsub );
+            std::uninitialized_fill_n( &sm->ter[0][0], SEEX * SEEY, ter_type );
+            std::uninitialized_fill_n( &sm->frn[0][0], SEEX * SEEY, fur_type );
+            std::uninitialized_fill_n( &sm->trp[0][0], SEEX * SEEY, trap_type );
+
+            setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );
+
+            temp_submaps_.emplace_back( std::move( sm ) );
         }
     }
-
-    for( const tripoint &pos : points_in_rectangle( tripoint_below_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, fake_map_z ) ) ) {
-        if( do_terset ) {
-            ter_set( pos, ter_type );
-        }
-        furn_set( pos, fur_type );
-        trap_set( pos, trap_type );
-    }
-    return true;
 }
+
+fake_map::~fake_map() = default;
 
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
@@ -8195,13 +8182,13 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
     return result;
 }
 
-std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size_t radius,
-        furn_id target,
+std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+        const std::string &flag,
         size_t radiusz )
 {
     std::list<tripoint> furn_locs;
     for( const auto &furn_loc : points_in_radius( center, radius, radiusz ) ) {
-        if( furn( furn_loc ) == target ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
             furn_locs.push_back( furn_loc );
         }
     }

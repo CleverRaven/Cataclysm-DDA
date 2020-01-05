@@ -1628,17 +1628,17 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            if( !relevant ) {
+            if( !relevant || !relevant->is_gun() ) {
                 // skip this action
             } else if( on_mode_change ) {
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
-                ammo = relevant->gun_current_mode().target->ammo_data();
-                range = relevant->gun_current_mode().target->gun_range( &pc );
                 if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
                     relevant->gun_cycle_mode();
                 }
+                ammo = relevant->gun_current_mode().target->ammo_data();
+                range = relevant->gun_current_mode().target->gun_range( &pc );
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( !relevant ) {

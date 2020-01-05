@@ -527,6 +527,9 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
+    add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
+    add_hardcoded_attack( "LEECH_SPAWNER", mattack::leech_spawner );
+    add_hardcoded_attack( "MON_LEECH_EVOLUTION", mattack::mon_leech_evolution );
     add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
@@ -685,6 +688,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "scents_tracked" ) ) {
         for( const std::string &line : jo.get_array( "scents_tracked" ) ) {
             scents_tracked.emplace( line );
+        }
+    }
+
+    if( jo.has_array( "scents_ignored" ) ) {
+        for( const std::string &line : jo.get_array( "scents_ignored" ) ) {
+            scents_ignored.emplace( line );
         }
     }
 
@@ -1078,6 +1087,11 @@ void MonsterGenerator::check_monster_definitions() const
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
                 debugmsg( "monster %s has unknown scents_tracked %s", mon.id.c_str(), s_id.c_str() );
+            }
+        }
+        for( const scenttype_id &s_id : mon.scents_ignored ) {
+            if( !s_id.is_empty() && !s_id.is_valid() ) {
+                debugmsg( "monster %s has unknown scents_ignored %s", mon.id.c_str(), s_id.c_str() );
             }
         }
         for( auto &s : mon.starting_ammo ) {

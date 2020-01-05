@@ -101,6 +101,9 @@ DEBUGSYMS = -g
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
 
+# Tells ccache to keep comments, as they can be meaningful to the compiler (as to suppress warnings).
+export CCACHE_COMMENTS=1
+
 # Disable debug. Comment this out to get logging.
 #DEFINES = -DENABLE_LOGGING
 
