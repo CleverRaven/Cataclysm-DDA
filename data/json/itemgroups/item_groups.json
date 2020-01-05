@@ -3102,7 +3102,7 @@
     "type": "item_group",
     "items": [
       [ "citrine", 50 ],
-      [ "diamond", 50 ],
+      [ "diamond", 100 ],
       [ "emerald", 50 ],
       [ "peridot", 50 ],
       [ "amethyst", 50 ],
@@ -3111,7 +3111,7 @@
       [ "blue_topaz", 50 ],
       [ "tourmaline", 50 ],
       [ "alexandrite", 50 ],
-      [ "pearl", 50 ],
+      [ "pearl", 100 ],
       [ "opal", 50 ],
       [ "ruby", 50 ],
       [ "garnet", 50 ]
