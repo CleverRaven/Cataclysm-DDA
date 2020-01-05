@@ -1473,7 +1473,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* It was frozen once and after thawing became <bad>mushy and "
-                                  "tasteless</bad>.  It will rot if thawed again." ) );
+                                  "tasteless</bad>.  It will rot quickly if thawed again." ) );
         }
         if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
             info.emplace_back( "DESCRIPTION",
@@ -4816,6 +4816,9 @@ void item::calc_rot( time_point time, int temp )
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
+    }
+    if( item_tags.count( "MUSHY" ) ) {
+        factor = 3.0;
     }
 
     if( item_tags.count( "COLD" ) ) {
@@ -8167,8 +8170,6 @@ void item::apply_freezerburn()
     }
     if( !item_tags.count( "MUSHY" ) ) {
         item_tags.insert( "MUSHY" );
-    } else {
-        set_relative_rot( 1.01 );
     }
 }
 
