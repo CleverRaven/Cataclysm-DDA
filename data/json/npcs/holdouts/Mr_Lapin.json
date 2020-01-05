@@ -8,6 +8,7 @@
     "gender": "male",
     "class": "NC_Rabbit_Raiser",
     "attitude": 0,
+    "mission": 7,
     "mission_offered": "MISSION_Warrener_LOG_1",
     "chat": "TALK_WARRENER",
     "faction": "no_faction"
