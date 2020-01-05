@@ -596,7 +596,6 @@
     "id": "magic_animist",
     "//": "A distribution of animist magical scrolls.",
     "type": "item_group",
-    "subtype": "distribution",
     "items": [
       { "item": "spell_scroll_smite", "prob": 20 },
       { "item": "spell_scroll_recover_pain", "prob": 20 },
