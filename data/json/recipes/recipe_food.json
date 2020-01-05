@@ -3655,6 +3655,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "5 m",
+    "flags": [ "SECRET" ],
     "book_learn": [
       [ "textbook_chemistry", 6 ],
       [ "adv_chemistry", 6 ],
