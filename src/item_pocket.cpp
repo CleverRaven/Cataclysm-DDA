@@ -108,8 +108,10 @@ std::list<item> item_pocket::all_items() const
 std::list<item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type )
 {
     std::list<item *> all_items_top;
-    for( item &it : contents ) {
-        all_items_top.push_back( &it );
+    if( is_type( pk_type ) ) {
+        for ( item &it : contents ) {
+            all_items_top.push_back( &it );
+        }
     }
     for( item *it : all_items_top ) {
         std::list<item *> all_items_internal{ it->contents.all_items_ptr( pk_type ) };
@@ -121,8 +123,10 @@ std::list<item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type )
 std::list<const item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type ) const
 {
     std::list<const item *> all_items_top;
-    for( const item &it : contents ) {
-        all_items_top.push_back( &it );
+    if( is_type( pk_type ) ) {
+        for( const item &it : contents ) {
+            all_items_top.push_back( &it );
+        }
     }
     for( const item *it : all_items_top ) {
         std::list<const item *> all_items_internal{ it->contents.all_items_ptr( pk_type ) };
@@ -584,6 +588,11 @@ int item_pocket::obtain_cost( const item &it ) const
 bool item_pocket::is_type( pocket_type ptype ) const
 {
     return ptype == data->type;
+}
+
+bool item_pocket::is_valid() const
+{
+    return data != nullptr;
 }
 
 units::volume item_pocket::contains_volume() const

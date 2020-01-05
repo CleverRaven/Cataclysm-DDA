@@ -37,6 +37,19 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     } );
 }
 
+void item_contents::combine( const item_contents &rhs )
+{
+    for( const item_pocket &pocket : rhs.contents ) {
+        if( !pocket.is_valid() || pocket.is_type( item_pocket::pocket_type::LEGACY_CONTAINER ) ) {
+            for( const item it : pocket.all_items() ) {
+                insert_legacy( it );
+            }
+        } else {
+            debugmsg( "ERROR: pocket_type loading unhandled" );
+        }
+    }
+}
+
 ret_val<bool> item_contents::can_contain( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );

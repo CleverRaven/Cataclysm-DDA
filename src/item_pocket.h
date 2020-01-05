@@ -63,6 +63,7 @@ class item_pocket
 
         bool stacks_with( const item_pocket &rhs ) const;
 
+        bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool empty() const;
 

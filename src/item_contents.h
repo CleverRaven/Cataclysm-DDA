@@ -71,6 +71,10 @@ class item_contents
         cata::optional<item> remove_item( const item &it );
         cata::optional<item> remove_item( const item_location &it );
 
+        // attempts to put the input contents into the item_contents
+        // copies the content items
+        // used to help with loading
+        void combine( const item_contents &rhs );
         // tries to put an item in a pocket. returns false on failure
         // has similar code to can_contain in order to avoid running it twice
         ret_val<bool> insert_item( const item &it );

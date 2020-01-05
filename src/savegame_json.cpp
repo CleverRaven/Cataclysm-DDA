@@ -2409,12 +2409,14 @@ void item::deserialize( JsonIn &jsin )
     // migration code, used to be std::list<item>
     if( data.has_array( "contents" ) ) {
         std::list<item> item_list;
-        optional( data, false, "contents", item_list );
+        data.read( "contents", item_list );
         for( const item &it : item_list ) {
             contents.insert_legacy( it );
         }
     } else {
-        optional( data, false, "contents", contents );
+        item_contents temp_contents;
+        data.read( "contents", temp_contents );
+        contents.combine( temp_contents );
     }
 }
 
