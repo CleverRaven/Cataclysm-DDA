@@ -7554,7 +7554,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
 game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list )
 {
-    int iInfoHeight = 14;
+    const int iInfoHeight = 15;
     const int width = 45;
     const int offsetX = TERMX - VIEW_OFFSET_X - width; //VIEW_OFFSET_X;
     catacurses::window w_monsters = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1,
@@ -7767,7 +7767,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             cCurMon = monster_list[iActive];
 
             werase( w_monster_info );
-            cCurMon->print_info( w_monster_info, 1, 11, 1 );
+            cCurMon->print_info( w_monster_info, 1, iInfoHeight - 3, 1 );
 
             draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
                                 true );
