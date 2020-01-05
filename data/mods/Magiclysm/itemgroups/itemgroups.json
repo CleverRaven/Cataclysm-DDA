@@ -603,5 +603,5 @@
       { "item": "spell_scroll_summon_skeleton", "prob": 20 },
       { "item": "copper_infuser", "prob": 10 }
     ]
-  },
+  }
 ]
