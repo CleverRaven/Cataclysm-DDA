@@ -109,7 +109,7 @@ std::list<item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type )
 {
     std::list<item *> all_items_top;
     if( is_type( pk_type ) ) {
-        for ( item &it : contents ) {
+        for( item &it : contents ) {
             all_items_top.push_back( &it );
         }
     }
@@ -191,7 +191,7 @@ units::mass item_pocket::item_weight_modifier() const
 {
     units::mass total_mass = 0_gram;
     for( const item &it : contents ) {
-        if ( it.is_gunmod() ) {
+        if( it.is_gunmod() ) {
             total_mass += it.weight( true, true ) * data->weight_multiplier;
         } else {
             total_mass += it.weight() * data->weight_multiplier;

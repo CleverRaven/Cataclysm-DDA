@@ -4622,9 +4622,9 @@ std::vector<item *> item::toolmods()
 {
     std::vector<item *> res;
     if( is_tool() ) {
-        for( item &e : contents.all_items() ) {
-            if( e.is_toolmod() ) {
-                res.push_back( &e );
+        for( item *e : contents.all_items_ptr() ) {
+            if( e->is_toolmod() ) {
+                res.push_back( e );
             }
         }
     }
@@ -4635,9 +4635,9 @@ std::vector<const item *> item::toolmods() const
 {
     std::vector<const item *> res;
     if( is_tool() ) {
-        for( const item &e : contents.all_items() ) {
-            if( e.is_toolmod() ) {
-                res.push_back( &e );
+        for( const item *e : contents.all_items_ptr() ) {
+            if( e->is_toolmod() ) {
+                res.push_back( e );
             }
         }
     }
