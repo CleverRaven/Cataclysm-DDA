@@ -578,9 +578,9 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "steel_standard", 20 ], [ "welding_standard", 5] ],
+    "using": [ [ "steel_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -593,8 +593,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "using": [ [ "steel_standard", 100 ], [ "welding_standard", 5] ],
-    "tools": [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    "using": [ [ "steel_standard", 100 ], [ "welding_standard", 5 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -671,7 +671,7 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 8] ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ]
   },
   {
@@ -685,7 +685,7 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 4] ],
+    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ]
   },
   {
@@ -713,7 +713,7 @@
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 24] ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 24 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ]
   }
 ]
