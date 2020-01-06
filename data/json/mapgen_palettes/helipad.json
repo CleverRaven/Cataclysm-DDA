@@ -25,6 +25,7 @@
       "l": "t_thconc_floor",
       "R": "t_thconc_floor",
       "s": "t_thconc_floor",
+      "*": "t_thconc_floor",
       "M": "t_door_metal_locked",
       ",": "t_concrete_y",
       "o": "t_sidewalk",

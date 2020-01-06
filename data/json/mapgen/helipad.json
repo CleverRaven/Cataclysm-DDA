@@ -15,7 +15,7 @@
         ".F..pppppppppppppppppM___C_____B___C_CC_B__|..F.",
         ".F..pppppppppppppppppM_______C____CCCCC____|..F.",
         ".F..pppppppppppppppppM_B__C___B__B___C_B___|..F.",
-        ".F..pppppyppppyppppppM__________________B__|..F.",
+        ".F..pppppyppppyppppppM________*_________B__|..F.",
         ".F..pppppyppppyppppppM__B___C___B__C__B____|..F.",
         ".F..pppppyppppyppp...|____C___B____________|..F.",
         ".F..pppppyppppypppooom___________B______%__|..F.",
@@ -116,11 +116,10 @@
         "H": { "item": "SUS_spice_collection" }
       },
       "place_monsters": [
-        { "monster": "mon_mech_lifter", "x": 27, "y": 10, "chance": 25 },
         { "monster": "GROUP_MIL_WEAK", "x": 32, "y": 15, "density": 0.75 },
         { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 15 }
       ],
-      "monster": { "T": { "monster": "mon_turret_rifle" } },
+      "monster": { "T": { "monster": "mon_turret_rifle" }, "*": { "monster": "mon_mech_lifter" } },
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
         { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 90, "status": -1 },
