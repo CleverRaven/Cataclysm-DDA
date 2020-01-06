@@ -11,12 +11,16 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "utility_3x3_N",
-    "object": { "mapgensize": [ 3, 3 ], "rotation": [ 0, 3 ], "rows": [
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
         "gfa",
         "...",
         "   "
-      ] },
-    "palettes": "basement_utility_nest_palette"
+      ],
+      "palettes": [ "basement_utility_nest_palette" ]
+    }
   },
   {
     "type": "mapgen",
@@ -31,7 +35,7 @@
         "...",
         "gfa"
       ],
-      "palettes": "basement_utility_nest_palette"
+      "palettes": [ "basement_utility_nest_palette" ]
     }
   },
   {
@@ -47,7 +51,7 @@
         "f. ",
         "g. "
       ],
-      "palettes": "basement_utility_nest_palette"
+      "palettes": [ "basement_utility_nest_palette" ]
     }
   },
   {
@@ -63,7 +67,7 @@
         " .f",
         " .g"
       ],
-      "palettes": "basement_utility_nest_palette"
+      "palettes": [ "basement_utility_nest_palette" ]
     }
   },
   {
@@ -75,6 +79,7 @@
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
       "rows": [
+        "............",
         "....ElHHHl..",
         "..........T.",
         "..........ER",
@@ -131,7 +136,8 @@
         "..H........T",
         "....lll....E",
         "............",
-        ".....$......"
+        ".....$......",
+        "............"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "terrain": {
@@ -166,17 +172,18 @@
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "..,,,,,,,,.",
-        "..,X,,,,X,.",
-        "..,,,,,,,,.",
-        "..,,,,,,,,.",
-        "..,cc,,uu,.",
-        "..,,,,,,,,.",
-        "...........",
-        "....AA.....",
-        "..CCCC.....",
-        "..S........",
-        "..!...$...."
+        "............",
+        "..,,,,,,,,..",
+        "..,X,,,,X,..",
+        "..,,,,,,,,..",
+        "..,,,,,,,,..",
+        "..,cc,,uu,..",
+        "..,,,,,,,,..",
+        "............",
+        ".........AA.",
+        ".......CCCC.",
+        ".......S....",
+        ".......!...$"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "terrain": {

@@ -1561,7 +1561,7 @@
         "    ",
         "RHHH"
       ],
-      "palettes": [ "house_general_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "furniture": { "P": "f_filing_cabinet" },
       "items": {
         "H": { "item": "bed", "chance": 15 },
@@ -1584,7 +1584,7 @@
         " h  ",
         "rrrP"
       ],
-      "palettes": [ "house_general_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "furniture": { "P": "f_filing_cabinet" },
       "items": {
         "H": { "item": "bed", "chance": 15 },
