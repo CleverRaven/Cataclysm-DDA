@@ -75,31 +75,35 @@
           "item": {
             "subtype": "distribution",
             "entries": [
-              { "group": "military_patrol_food", "prob": 50, "repeat": [ 3, 5 ] },
-              { "group": "infantry_common_gear", "prob": 5, "repeat": [ 0, 2 ] },
-              { "group": "mil_food", "prob": 40, "repeat": [ 2, 5 ] },
-              { "group": "infantry_medical_gear", "prob": 5, "repeat": [ 0, 2 ] },
-              { "group": "supplies_metal", "prob": 150, "repeat": [ 2, 5 ] },
-              { "group": "supplies_mechanics", "prob": 50, "repeat": [ 0, 2 ] }
+              { "group": "military_patrol_food", "prob": 50 },
+              { "group": "infantry_common_gear", "prob": 5 },
+              { "group": "mil_food", "prob": 40 },
+              { "group": "infantry_medical_gear", "prob": 5 },
+              { "group": "supplies_metal", "prob": 150 },
+              { "group": "supplies_mechanics", "prob": 50 }
             ]
           },
-          "chance": 75
+          "chance": 75,
+          "repeat": [ 3, 5 ]
         },
         "r": {
-          "subtype": "distribution",
-          "entries": [ { "group": "military_standard_assault_rifles", "prob": 45 }, { "group": "military_standard_shotguns", "prob": 5 } ],
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "military_standard_assault_rifles", "prob": 45 }, { "group": "military_standard_shotguns", "prob": 5 } ]
+          },
           "chance": 10
         },
         "l": {
           "item": {
             "subtype": "distribution",
             "entries": [
-              { "group": "army_personal_locker", "prob": 50, "repeat": [ 1, 5 ] },
-              { "group": "military_patrol_food", "prob": 25, "repeat": [ 2, 8 ] },
-              { "group": "supplies_plumbing", "prob": 50, "repeat": [ 1, 2 ] }
-            ],
-            "chance": 33
-          }
+              { "group": "army_personal_locker", "prob": 50 },
+              { "group": "military_patrol_food", "prob": 25 },
+              { "group": "supplies_plumbing", "prob": 50 }
+            ]
+          },
+          "chance": 33,
+          "repeat": [ 1, 5 ]
         },
         "L": { "item": "army_personal_locker", "repeat": [ 0, 4 ] },
         "d": { "item": "SUS_office_desk" },
