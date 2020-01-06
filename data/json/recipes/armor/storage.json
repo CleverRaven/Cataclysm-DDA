@@ -397,7 +397,7 @@
     "time": "6 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "result": "leather_belt",

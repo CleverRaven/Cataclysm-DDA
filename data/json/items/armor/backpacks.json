@@ -575,7 +575,7 @@
     "id": "boxpack",
     "type": "ARMOR",
     "name": "box backpack",
-    "description": "A makeshift backpack comprised of a wooden box and a couple of ropes.",
+    "description": "A makeshift backpack comprised of a wooden box and a pair of ropes.",
     "weight": "8000 g",
     "to_hit": -5,
     "color": "brown",
