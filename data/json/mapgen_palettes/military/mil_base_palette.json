@@ -50,7 +50,11 @@
       "*": "t_gas_tank",
       "%": "t_pit_corpsed",
       "8": "t_wall_metal",
-      "9": "t_metal_floor"
+      "9": "t_metal_floor",
+      "}": "t_sewage_pipe",
+      "J": "t_generator_broken",
+      "p": "t_plut_generator",
+      "Z": "t_radio_tower"
     },
     "furniture": {
       "P": "f_sign",
@@ -82,12 +86,18 @@
       "L": "f_shower",
       "6": "f_water_heater",
       "7": "f_standing_tank",
+      "H": "f_standing_tank",
+      "j": "f_home_furnace",
       "q": "f_drill_press",
       "Q": "f_bandsaw",
       "v": "f_heavy_lathe",
       "V": "f_workbench"
     },
-    "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] } },
+    "liquids": {
+      "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },
+      "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] },
+      "H": { "liquid": "diesel", "amount": [ 0, 30000 ] }
+    },
     "toilets": { "T": {  } }
   }
 ]
