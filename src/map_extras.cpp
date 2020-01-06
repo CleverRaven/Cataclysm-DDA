@@ -926,7 +926,7 @@ static void mx_portal( map &m, const tripoint &abs_sub )
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
         const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
-            /// @todo wrong: this checks for creatures on the main game map. Not within the map m.
+            /// @TODO: wrong: this checks for creatures on the main game map. Not within the map m.
             return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
         } );
 

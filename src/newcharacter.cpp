@@ -1646,6 +1646,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
+            if( r.has_flag( "SECRET" ) ) {
+                continue;
+            }
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;

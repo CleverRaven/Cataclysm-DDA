@@ -382,7 +382,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         rand_bash_bonus.second = sm.get_int( "max" );
     }
 
-
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );

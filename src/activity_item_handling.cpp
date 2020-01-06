@@ -361,23 +361,12 @@ static drop_locations convert_to_locations( const player_activity &act )
         return res;
     }
     for( size_t i = 0; i < act.values.size(); i++ ) {
-        res.emplace_back( act.targets[i], act.values[i] );
-    }
-    return res;
-}
-
-static drop_locations convert_to_locations( const std::list<act_item> &items )
-{
-    drop_locations res;
-
-    for( const act_item &ait : items ) {
-        if( ait.loc && ait.count > 0 ) {
-            if( res.empty() || res.back().first != ait.loc ) {
-                res.emplace_back( ait.loc, ait.count );
-            } else {
-                res.back().second += ait.count;
-            }
+        // locations may have become invalid as items are forcefully dropped
+        // when they exceed the storage volume of the character
+        if( !act.targets[i] || !act.targets[i].get_item() ) {
+            continue;
         }
+        res.emplace_back( act.targets[i], act.values[i] );
     }
     return res;
 }
@@ -394,6 +383,16 @@ static std::list<act_item> convert_to_items( Character &p, const drop_locations 
         if( !filter( loc ) ) {
             continue;
         } else if( !p.is_worn( *loc ) && !p.is_wielding( *loc ) ) {
+            // Special case. After dropping the first few items, the remaining items are already separated.
+            // That means: `drop` already contains references to each of the items in
+            // `p.inv.const_stack`, and `count` will be 1 for each of them.
+            // If we continued without this check, we iterate over `p.inv.const_stack` multiple times,
+            // but each time stopping after visiting the first item.
+            // In the end, we would add references to the same item (the first one in the stack) multiple times.
+            if( count == 1 ) {
+                res.emplace_back( loc, 1, loc.obtain_cost( p, 1 ) );
+                continue;
+            }
             int obtained = 0;
             for( const item &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
                 if( obtained >= count ) {
@@ -517,6 +516,9 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
+        assert( ait.loc );
+        assert( ait.loc.get_item() );
+
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.loc ) ) {
@@ -536,20 +538,11 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity
-    if( items.size() > act.targets.size() ) {
-        for( const drop_location &drop : convert_to_locations( items ) ) {
-            act.targets.push_back( drop.first );
-            act.values.push_back( drop.second );
-        }
-    }
-    // remove items already dropped from the targets list by checking if pointers were invalidated
-    for( int i = act.targets.size() - 1; i >= 0; i-- ) {
-        const auto target_iter = act.targets.cbegin() + i;
-        const auto value_iter = act.values.cbegin() + i;
-        if( !*target_iter ) {
-            act.targets.erase( target_iter );
-            act.values.erase( value_iter );
-        }
+    act.targets.clear();
+    act.values.clear();
+    for( const act_item &ait : items ) {
+        act.targets.push_back( ait.loc );
+        act.values.push_back( ait.count );
     }
     // And cancel if its empty. If its not, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which
@@ -1592,6 +1585,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
         const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
+    std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
+    if( p.backlog.empty() || p.backlog.front().str_values.empty() ) {
+        return requirement_map;
+    }
     const requirement_data things_to_fetch = requirement_id( p.backlog.front().str_values[0] ).obj();
     const activity_id activity_to_restore = p.backlog.front().id();
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
@@ -1608,7 +1605,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                              p.backlog.front().id() == activity_id( "ACT_VEHICLE_REPAIR" ) ||
                              p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" );
     // where it is, what it is, how much of it, and how much in total is required of that item.
-    std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
     std::vector<std::tuple<tripoint, itype_id, int>> final_map;
     std::vector<tripoint> loot_spots;
     std::vector<tripoint> already_there_spots;

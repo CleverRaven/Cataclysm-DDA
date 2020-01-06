@@ -109,14 +109,14 @@
         { "item": "dishes_dining", "chance": 80, "repeat": [ 5, 10 ] }
       ],
       "u": [
-        { "item": "cannedfood", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "cannedfood", "chance": 55, "repeat": [ 2, 3 ] },
         { "item": "pasta", "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] }
       ],
       "x": [
-        { "item": "cannedfood", "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "pasta", "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "cannedfood", "chance": 85, "repeat": [ 5, 7 ] },
+        { "item": "pasta", "chance": 75, "repeat": [ 4, 6 ] },
+        { "item": "snacks", "chance": 60, "repeat": [ 3, 5 ] }
       ],
       "M": { "item": "drugs_heal_simple", "chance": 70, "repeat": [ 1, 4 ] },
       "d": [
