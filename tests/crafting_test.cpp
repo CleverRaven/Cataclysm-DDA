@@ -323,12 +323,22 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     return turns;
 }
 
+static item tool_with_battery( const itype_id &tool, const int battery_charges )
+{
+    item it( tool );
+    item mag( it.magazine_default() );
+    item ammo( mag.ammo_default(), -1, battery_charges );
+    mag.contents.insert_legacy( ammo );
+    it.contents.insert_legacy( mag );
+    return it;
+}
+
 TEST_CASE( "charge_handling", "[crafting]" )
 {
     SECTION( "carver" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
-        tools.emplace_back( "soldering_iron", -1, 20 );
+        tools.push_back( tool_with_battery( "hotplate", 20 ) );
+        tools.push_back( tool_with_battery( "soldering_iron", 20 ) );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
@@ -345,10 +355,8 @@ TEST_CASE( "charge_handling", "[crafting]" )
     }
     SECTION( "carver_split_charges" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 5 );
-        tools.emplace_back( "hotplate", -1, 5 );
-        tools.emplace_back( "soldering_iron", -1, 5 );
-        tools.emplace_back( "soldering_iron", -1, 5 );
+        tools.insert( tools.end(), 2, tool_with_battery( "hotplate", 5 ) );
+        tools.insert( tools.end(), 2, tool_with_battery( "soldering_iron", 5 ) );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
@@ -365,10 +373,10 @@ TEST_CASE( "charge_handling", "[crafting]" )
     }
     SECTION( "UPS_modded_carver" ) {
         std::vector<item> tools;
-        item hotplate( "hotplate", -1, 0 );
+        item hotplate( "hotplate" );
         hotplate.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( hotplate );
-        item soldering_iron( "soldering_iron", -1, 0 );
+        item soldering_iron( "soldering_iron" );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         soldering_iron.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( soldering_iron );
@@ -380,7 +388,7 @@ TEST_CASE( "charge_handling", "[crafting]" )
         tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
-        tools.emplace_back( "UPS_off", -1, 500 );
+        tools.push_back( tool_with_battery( "UPS_off", 500 ) );
 
         actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
         CHECK( get_remaining_charges( "hotplate" ) == 0 );
@@ -389,10 +397,10 @@ TEST_CASE( "charge_handling", "[crafting]" )
     }
     SECTION( "UPS_modded_carver_missing_charges" ) {
         std::vector<item> tools;
-        item hotplate( "hotplate", -1, 0 );
+        item hotplate( "hotplate" );
         hotplate.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( hotplate );
-        item soldering_iron( "soldering_iron", -1, 0 );
+        item soldering_iron( "soldering_iron" );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         soldering_iron.contents.insert_legacy( item( "battery_ups" ) );
         tools.push_back( soldering_iron );
@@ -404,7 +412,7 @@ TEST_CASE( "charge_handling", "[crafting]" )
         tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
-        tools.emplace_back( "UPS_off", -1, 10 );
+        tools.push_back( tool_with_battery( "UPS_off", 10 ) );
 
         prep_craft( recipe_id( "carver_off" ), tools, false );
     }
@@ -414,7 +422,7 @@ TEST_CASE( "tool_use", "[crafting]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.push_back( tool_with_battery( "hotplate", 20 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.contents.insert_legacy( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
@@ -425,7 +433,7 @@ TEST_CASE( "tool_use", "[crafting]" )
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.push_back( tool_with_battery( "hotplate", 20 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.contents.insert_legacy( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
