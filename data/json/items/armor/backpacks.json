@@ -591,6 +591,6 @@
     "bashing": 16,
     "cutting": 4,
     "price": 3500,
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ]
   }
 ]
