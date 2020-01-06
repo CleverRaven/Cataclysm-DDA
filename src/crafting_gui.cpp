@@ -199,11 +199,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
-            can_craft = req.can_make_with_inventory( inv, all_items_filter, batch_size );
-            can_craft_non_rotten = req.can_make_with_inventory( inv, no_rotten_filter, batch_size );
+            can_craft = req.can_make_with_inventory(
+                            inv, all_items_filter, batch_size, craft_flags::start_only );
+            can_craft_non_rotten = req.can_make_with_inventory(
+                                       inv, no_rotten_filter, batch_size, craft_flags::start_only );
             const requirement_data &simple_req = r->simple_requirements();
-            apparently_craftable =
-                simple_req.can_make_with_inventory( inv, all_items_filter, batch_size );
+            apparently_craftable = simple_req.can_make_with_inventory(
+                                       inv, all_items_filter, batch_size, craft_flags::start_only );
         }
         bool can_craft;
         bool can_craft_non_rotten;

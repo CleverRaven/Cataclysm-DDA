@@ -480,7 +480,7 @@ void requirement_data::reset()
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-        std::string hilite ) const
+        std::string hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -489,7 +489,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back( colorize( _( "Components required:" ), col ) );
 
     std::vector<std::string> folded_buffer =
-        get_folded_list( width, crafting_inv, filter, components, batch, hilite );
+        get_folded_list( width, crafting_inv, filter, components, batch, hilite, flags );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -498,10 +498,13 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite ) const
+        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite,
+        requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv, filter );
+
+    bool no_unavailable = static_cast<bool>( flags & requirement_display_flags::no_unavailable );
 
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
@@ -530,7 +533,9 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 color = yellow_background( color );
             }
 
-            list_as_string.push_back( colorize( text, color ) );
+            if( !no_unavailable || component.has( crafting_inv, filter, batch ) ) {
+                list_as_string.push_back( colorize( text, color ) );
+            }
             buffer_has.push_back( text + color_tag );
         }
         std::sort( list_as_string.begin(), list_as_string.end() );
@@ -1284,14 +1289,14 @@ std::vector<const requirement_data *> deduped_requirement_data::feasible_alterna
     return result;
 }
 
-const requirement_data &deduped_requirement_data::select_alternative(
+const requirement_data *deduped_requirement_data::select_alternative(
     player &crafter, const std::function<bool( const item & )> &filter, int batch,
     craft_flags flags ) const
 {
     return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
 }
 
-const requirement_data &deduped_requirement_data::select_alternative(
+const requirement_data *deduped_requirement_data::select_alternative(
     player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {

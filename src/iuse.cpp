@@ -8718,9 +8718,13 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 }
 
                 const auto filter = is_crafting_component;
-                const requirement_data &reqs =
+                const requirement_data *reqs =
                     meal->deduped_requirements().select_alternative( *p, filter );
-                for( auto it : reqs.get_components() ) {
+                if( !reqs ) {
+                    return 0;
+                }
+
+                for( auto it : reqs->get_components() ) {
                     p->consume_items( it, 1, filter );
                 }
 

@@ -1321,13 +1321,38 @@ bool player::can_continue_craft( item &craft )
 
     return true;
 }
-const requirement_data &player::select_requirements(
-    const std::vector<const requirement_data *> &alternatives, int /*batch*/, const inventory &,
-    const std::function<bool( const item & )> &/*filter*/ ) const
+const requirement_data *player::select_requirements(
+    const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
+    const std::function<bool( const item & )> &filter ) const
 {
     assert( !alternatives.empty() );
-    // TODO: when this is the avatar, offer the choice to the player
-    return *alternatives.front();
+    if( alternatives.size() == 1 || !is_avatar() ) {
+        return alternatives.front();
+    }
+
+    std::vector<std::string> descriptions;
+
+    uilist menu;
+
+    for( const requirement_data *req : alternatives ) {
+        // Write with a large width and then just re-join the lines, because
+        // uilist does its own wrapping and we want to rely on that.
+        std::vector<std::string> component_lines =
+            req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
+                                             requirement_display_flags::no_unavailable );
+        menu.addentry_desc( "", join( component_lines, "\n" ) );
+    }
+
+    menu.allow_cancel = true;
+    menu.desc_enabled = true;
+    menu.title = _( "Use which selection of components?" );
+    menu.query();
+
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= alternatives.size() ) {
+        return nullptr;
+    }
+
+    return alternatives[menu.ret];
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */

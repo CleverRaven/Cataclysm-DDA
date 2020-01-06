@@ -131,6 +131,18 @@ struct quality_requirement {
     }
 };
 
+enum class requirement_display_flags {
+    none = 0,
+    no_unavailable = 1,
+};
+
+inline constexpr requirement_display_flags operator&( requirement_display_flags l,
+        requirement_display_flags r )
+{
+    return static_cast<requirement_display_flags>(
+               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+}
+
 /**
  * The *_vector members represent list of alternatives requirements:
  * alter_tool_comp_vector = { * { { a, b }, { c, d } }
@@ -275,8 +287,9 @@ struct requirement_data {
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
-                const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch = 1,
-                std::string hilite = "" ) const;
+                const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+                int batch = 1, std::string hilite = "",
+                requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
@@ -328,8 +341,10 @@ struct requirement_data {
 
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
-                const std::function<bool( const item & )> &filter, const std::vector< std::vector<T> > &objs,
-                int batch = 1, const std::string &hilite = "" ) const;
+                const std::function<bool( const item & )> &filter,
+                const std::vector< std::vector<T> > &objs, int batch = 1,
+                const std::string &hilite = "",
+                requirement_display_flags = requirement_display_flags::none ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );
@@ -378,11 +393,11 @@ class deduped_requirement_data
             const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 
-        const requirement_data &select_alternative(
+        const requirement_data *select_alternative(
             player &, const std::function<bool( const item & )> &filter, int batch = 1,
             craft_flags = craft_flags::none ) const;
 
-        const requirement_data &select_alternative(
+        const requirement_data *select_alternative(
             player &, const inventory &, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 

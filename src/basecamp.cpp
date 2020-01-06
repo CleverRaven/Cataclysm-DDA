@@ -690,12 +690,16 @@ basecamp_action_components::basecamp_action_components(
 bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
-    const requirement_data &req = making_.deduped_requirements().select_alternative( g->u, filter );
+    const requirement_data *req =
+        making_.deduped_requirements().select_alternative( g->u, base_._inv, filter, batch_size_ );
+    if( !req ) {
+        return false;
+    }
     if( !item_selections_.empty() || !tool_selections_.empty() ) {
         debugmsg( "Reused basecamp_action_components" );
         return false;
     }
-    for( const auto &it : req.get_components() ) {
+    for( const auto &it : req->get_components() ) {
         comp_selection<item_comp> is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
@@ -705,7 +709,7 @@ bool basecamp_action_components::choose_components()
         item_selections_.push_back( is );
     }
     // this may consume pseudo-resources from fake items
-    for( const auto &it : req.get_tools() ) {
+    for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
             g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
                                         !base_.by_radio );
