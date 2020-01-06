@@ -847,5 +847,35 @@
     "type": "overmap_terrain",
     "id": "mil_base_minefield_nw",
     "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_tunnels_a",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_tunnels_b",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_tunnels_c",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_tunnels_d",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_tunnels_e",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_tunnels_f",
+    "copy-from": "mil_base_1a"
   }
 ]

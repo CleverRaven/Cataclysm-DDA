@@ -54,7 +54,9 @@
       "}": "t_sewage_pipe",
       "J": "t_generator_broken",
       "p": "t_plut_generator",
-      "Z": "t_radio_tower"
+      "Z": "t_radio_tower",
+      "'": "t_console_broken",
+      "@": "t_rock"
     },
     "furniture": {
       "P": "f_sign",
@@ -72,6 +74,7 @@
       "A": "f_sofa",
       "u": "f_utility_shelf",
       "r": "f_bed",
+      "K": "f_bunkbed",
       "i": "f_air_conditioner",
       "{": "f_dumpster",
       "N": "f_sandbag_half",
@@ -91,7 +94,8 @@
       "q": "f_drill_press",
       "Q": "f_bandsaw",
       "v": "f_heavy_lathe",
-      "V": "f_workbench"
+      "V": "f_workbench",
+      "k": "f_server"
     },
     "liquids": {
       "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },

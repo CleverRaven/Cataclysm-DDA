@@ -6516,7 +6516,15 @@
       { "point": [ -1, 2, 0 ], "overmap": "mil_base_minefield_w_north" },
       { "point": [ -1, 1, 0 ], "overmap": "mil_base_minefield_w_north" },
       { "point": [ -1, 0, 0 ], "overmap": "mil_base_minefield_w_north" },
-      { "point": [ -1, -1, 0 ], "overmap": "mil_base_minefield_nw_north" }
+      { "point": [ -1, -1, 0 ], "overmap": "mil_base_minefield_nw_north" },
+      { "point": [ 5, 4, -1 ], "overmap": "mil_base_tunnels_a_north" },
+      { "point": [ 5, 5, -1 ], "overmap": "mil_base_tunnels_b_north" },
+      { "point": [ 5, 6, -1 ], "overmap": "mil_base_tunnels_c_north" },
+      { "point": [ 5, 7, -1 ], "overmap": "mil_base_tunnels_b_north" },
+      { "point": [ 5, 8, -1 ], "overmap": "mil_base_tunnels_d_north" },
+      { "point": [ 4, 6, -1 ], "overmap": "mil_base_tunnels_e_north" },
+      { "point": [ 3, 6, -1 ], "overmap": "mil_base_tunnels_e_north" },
+      { "point": [ 2, 6, -1 ], "overmap": "mil_base_tunnels_f_north" }
     ],
     "locations": [ "field" ],
     "connections": [ { "point": [ 3, -2, 0 ] } ],
