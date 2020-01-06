@@ -7557,10 +7557,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int iInfoHeight = 15;
     const int width = 45;
     const int offsetX = TERMX - VIEW_OFFSET_X - width; //VIEW_OFFSET_X;
-    catacurses::window w_monsters = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1,
-                                    width - 2, point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
-    catacurses::window w_monsters_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 +
-                                           1, width, point( offsetX, VIEW_OFFSET_Y ) );
+    const int iMaxRows = TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1;
+
+    catacurses::window w_monsters = catacurses::newwin( iMaxRows, width - 2, point( offsetX + 1,
+                                    VIEW_OFFSET_Y + 1 ) );
+    catacurses::window w_monsters_border = catacurses::newwin( iMaxRows + 1, width, point( offsetX,
+                                           VIEW_OFFSET_Y ) );
 
     catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 2, width - 2,
                                         point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y + 1 ) );
@@ -7573,7 +7575,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     u.view_offset = tripoint_zero;
 
     int iActive = 0; // monster index that we're looking at
-    const int iMaxRows = TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
     cata::optional<tripoint> iLastActivePos;
     Creature *cCurMon = nullptr;
