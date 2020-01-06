@@ -208,7 +208,6 @@ struct requirement_data {
             return tools.empty() && components.empty() && qualities.empty();
         }
 
-        /** check if removal of items via @ref blacklist_item left no alternatives in group */
         bool is_blacklisted() const {
             return blacklisted;
         }
@@ -270,6 +269,10 @@ struct requirement_data {
          * will be marked as @ref blacklisted
          */
         void blacklist_item( const itype_id &id );
+        /**
+         * Replace tools or components of the given type.
+         */
+        void replace_item( const itype_id &id, const itype_id &replacement );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
