@@ -598,6 +598,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Examine Actions
 
 - ```aggie_plant``` Harvest plants.
+- ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
 - ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
 - ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
@@ -640,6 +641,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
+- ```AUTODOC``` This furniture can be an autodoc console, it also needs the ```autodoc``` examine action.
+- ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the ```autodoc``` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`)
 
 

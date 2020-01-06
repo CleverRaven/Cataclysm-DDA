@@ -70,6 +70,11 @@ The numeric part of the string must be an integer. Use the largest unit you can 
 
 List of scenttype_id tracked by this monster. scent_types are defined in scent_types.json
 
+## "scent_ignored"
+(array of strings, optional)
+
+List of scenttype_id ignored by this monster. scent_types are defined in scent_types.json
+
 ## "symbol", "color"
 (string)
 

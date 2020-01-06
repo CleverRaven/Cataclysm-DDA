@@ -1146,7 +1146,7 @@ void overmap::init_layers()
 void overmap::ter_set( const tripoint &p, const oter_id &id )
 {
     if( !inbounds( p ) ) {
-        /// @todo Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return;
     }
 
@@ -1156,7 +1156,7 @@ void overmap::ter_set( const tripoint &p, const oter_id &id )
 const oter_id &overmap::ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        /// @todo Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return ot_null;
     }
 
@@ -3218,6 +3218,9 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     if( check_ot( "ants", ot_match_type::type, p ) && root_id != ter( p )->id ) {
         return;
     }
+    if( !is_ot_match( "empty_rock", ter( p )->id, ot_match_type::type ) ) {
+        return;
+    }
 
     ter_set( p, oter_id( root_id ) );
 
@@ -3225,7 +3228,8 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
         const tripoint cand = p + om_direction::displace( r );
-        if( !check_ot( "ants", ot_match_type::type, cand ) ) {
+        if( !check_ot( "ants", ot_match_type::type, cand ) &&
+            !is_ot_match( "empty_rock", ter( cand )->id, ot_match_type::type ) ) {
             valid.push_back( r );
         }
     }
@@ -3564,7 +3568,7 @@ void overmap::chip_rock( const tripoint &p )
 bool overmap::check_ot( const std::string &otype, ot_match_type match_type,
                         const tripoint &p ) const
 {
-    /// @todo this check should be done by the caller. Probably.
+    /// @TODO: this check should be done by the caller. Probably.
     if( !inbounds( p ) ) {
         return false;
     }

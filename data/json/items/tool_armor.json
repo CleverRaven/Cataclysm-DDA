@@ -48,6 +48,7 @@
   {
     "id": "miner_hat_on",
     "copy-from": "miner_hat",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "name": "mining helmet (on)",
     "name_plural": "mining helmets (on)",
@@ -271,6 +272,7 @@
   {
     "id": "thermal_socks_on",
     "copy-from": "thermal_socks",
+    "repairs_like": "thermal_socks",
     "type": "TOOL_ARMOR",
     "name": "pair of thermal electric socks (on)",
     "name_plural": "pairs of thermal electric socks (on)",
@@ -328,6 +330,7 @@
   {
     "id": "thermal_suit_on",
     "copy-from": "thermal_suit",
+    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "name": "thermal electric suit (on)",
     "name_plural": "thermal electric suits (on)",
@@ -386,6 +389,7 @@
   {
     "id": "thermal_gloves_on",
     "copy-from": "thermal_gloves",
+    "repairs_like": "thermal_gloves",
     "type": "TOOL_ARMOR",
     "name": "pair of thermal electric gloves (on)",
     "name_plural": "pairs of thermal electric gloves (on)",
@@ -443,6 +447,7 @@
   {
     "id": "thermal_mask_on",
     "copy-from": "thermal_mask",
+    "repairs_like": "thermal_mask",
     "type": "TOOL_ARMOR",
     "name": "thermal electric balaclava (on)",
     "name_plural": "thermal electric balaclavas (on)",
@@ -522,6 +527,7 @@
   {
     "id": "wearable_light_on",
     "copy-from": "wearable_light",
+    "repairs_like": "wearable_light",
     "type": "TOOL_ARMOR",
     "name": "headlamp (on)",
     "name_plural": "headlamps (on)",
@@ -579,6 +585,7 @@
   {
     "id": "survivor_light_on",
     "copy-from": "survivor_light",
+    "repairs_like": "survivor_light",
     "type": "TOOL_ARMOR",
     "name": "survivor headlamp (on)",
     "name_plural": "survivor headlamps (on)",
@@ -620,6 +627,7 @@
   {
     "id": "wearable_atomic_light_off",
     "copy-from": "wearable_atomic_light",
+    "repairs_like": "wearable_atomic_light",
     "type": "TOOL_ARMOR",
     "looks_like": "survivor_light",
     "name": "atomic headlamp (covered)",
@@ -662,6 +670,7 @@
   {
     "id": "rm13_armor_on",
     "copy-from": "rm13_armor",
+    "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": "RM13 combat armor (on)",
     "name_plural": "RM13 combat armors (on)",
@@ -724,6 +733,7 @@
   {
     "id": "dimensional_anchor_on",
     "copy-from": "dimensional_anchor",
+    "repairs_like": "dimensional_anchor",
     "type": "TOOL_ARMOR",
     "name": "5-point anchor (on)",
     "name_plural": "5-point anchors (on)",
@@ -788,6 +798,7 @@
   {
     "id": "phase_immersion_suit_on",
     "copy-from": "phase_immersion_suit",
+    "repairs_like": "phase_immersion_suit",
     "type": "TOOL_ARMOR",
     "name": "phase immersion suit (on)",
     "name_plural": "phase immersion suits (on)",
@@ -856,6 +867,7 @@
   {
     "id": "rebreather_on",
     "copy-from": "rebreather",
+    "repairs_like": "rebreather",
     "type": "TOOL_ARMOR",
     "name": "rebreather mask (on)",
     "name_plural": "rebreather masks (on)",
@@ -903,6 +915,7 @@
   {
     "id": "rebreather_xl_on",
     "copy-from": "rebreather_xl",
+    "repairs_like": "rebreather_xl",
     "type": "TOOL_ARMOR",
     "name": "XL rebreather mask (on)",
     "name_plural": "XL rebreather masks (on)",
@@ -1284,6 +1297,7 @@
   {
     "id": "goggles_nv_on",
     "copy-from": "goggles_nv",
+    "repairs_like": "goggles_nv",
     "type": "TOOL_ARMOR",
     "name": "pair of light amp goggles (on)",
     "name_plural": "pairs of light amp goggles (on)",
@@ -1347,6 +1361,7 @@
   {
     "id": "goggles_ir_on",
     "copy-from": "goggles_ir",
+    "repairs_like": "goggles_ir",
     "type": "TOOL_ARMOR",
     "name": "pair of infrared goggles (on)",
     "name_plural": "pairs of infrared goggles (on)",
@@ -1435,6 +1450,7 @@
   {
     "id": "mask_h20survivor_on",
     "copy-from": "mask_h20survivor",
+    "repairs_like": "mask_h20survivor",
     "type": "TOOL_ARMOR",
     "name": "survivor divemask (on)",
     "name_plural": "survivor divemasks (on)",
@@ -1481,6 +1497,7 @@
   {
     "id": "mask_h20survivorxl_on",
     "copy-from": "mask_h20survivorxl",
+    "repairs_like": "mask_h20survivorxl",
     "type": "TOOL_ARMOR",
     "name": "XL survivor divemask (on)",
     "name_plural": "XL survivor divemasks (on)",
@@ -1676,6 +1693,7 @@
   {
     "id": "towel_wet",
     "type": "TOOL_ARMOR",
+    "repairs_like": "towel",
     "symbol": ",",
     "color": "blue",
     "name": "towel",
@@ -1695,6 +1713,7 @@
   {
     "id": "towel_soiled",
     "type": "TOOL_ARMOR",
+    "repairs_like": "towel",
     "symbol": ",",
     "color": "magenta",
     "name": "soiled towel",
@@ -1758,6 +1777,7 @@
   {
     "id": "patchwork_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "patchwork_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -1805,6 +1825,7 @@
   {
     "id": "long_patchwork_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "long_patchwork_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -1857,6 +1878,7 @@
   {
     "id": "knit_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "knit_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -1904,6 +1926,7 @@
   {
     "id": "long_knit_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "long_knit_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -1951,6 +1974,7 @@
   {
     "id": "scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -1998,6 +2022,7 @@
   {
     "id": "scarf_long_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf_long",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2045,6 +2070,7 @@
   {
     "id": "scarf_fur_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf_fur",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2092,6 +2118,7 @@
   {
     "id": "scarf_fur_long_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf_fur_long",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2151,6 +2178,7 @@
   {
     "id": "thermal_outfit_on",
     "copy-from": "thermal_outfit",
+    "repairs_like": "thermal_outfit",
     "type": "TOOL_ARMOR",
     "name": "thermal electric outfit (on)",
     "name_plural": "thermal electric outfits (on)",
@@ -2191,6 +2219,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "mask_ski_loose",
+    "repairs_like": "mask_ski",
     "name": "ski mask (open)",
     "name_plural": "ski masks (open)",
     "category": "clothing",
@@ -2517,6 +2546,7 @@
   {
     "id": "powered_earmuffs_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "powered_earmuffs",
     "category": "armor",
     "symbol": "[",
     "color": "blue",
@@ -2596,6 +2626,7 @@
   {
     "id": "solarpack_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "solarpack",
     "name": "solar backpack (unfolded)",
     "name_plural": "solar backpacks (unfolded)",
     "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system.",
@@ -2638,6 +2669,7 @@
   {
     "id": "q_solarpack_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "q_solarpack",
     "name": "quantum solar backpack (unfolded)",
     "name_plural": "quantum solar backpacks (unfolded)",
     "description": "Unfolded array of portable quantum solar panels ready to push some power into an active cable charger system.",
@@ -2683,6 +2715,7 @@
   {
     "id": "helmet_riot_raised",
     "type": "TOOL_ARMOR",
+    "repairs_like": "helmet_riot",
     "category": "armor",
     "name": "riot helmet (raised visor)",
     "name_plural": "riot helmets (raised visor)",
@@ -2735,6 +2768,7 @@
   {
     "id": "scuba_tank_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scuba_tank",
     "category": "other",
     "name": { "str": "scuba tank (on)", "str_pl": "scuba tanks (on)" },
     "description": "This is a high-pressure 232 bar diving tank that can contain up to 12L of compressed mixture of oxygen and nitrogen.  It is equipped with a on-demand regulator and a mouthpiece designed mostly for underwater use.",
@@ -2790,6 +2824,7 @@
   {
     "id": "small_scuba_tank_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "small_scuba_tank",
     "category": "other",
     "name": { "str": "small scuba tank (on)", "str_pl": "small scuba tanks (on)" },
     "description": "This is a small high-pressure 200 bar backup diving tank, that can contain 4L of compressed mixture of oxygen and nitrogen.  It is equipped with a on-demand regulator and a mouthpiece designed mostly for underwater use.",
@@ -2855,6 +2890,7 @@
   {
     "id": "electric_blanket_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "electric_blanket",
     "name": "electric blanket (on)",
     "name_plural": "electric blankets (on)",
     "description": "A heated blanket made of polyster.  It's turned on, making it nice and toasty while it lasts.",
@@ -2905,6 +2941,7 @@
   {
     "id": "foodperson_mask_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "foodperson_mask",
     "name": "Foodperson mask (on)",
     "name_plural": "Foodperson masks (on)",
     "copy-from": "foodperson_mask",
@@ -2931,6 +2968,7 @@
   {
     "id": "attached_ear_plugs_off",
     "type": "ARMOR",
+    "repairs_like": "attached_ear_plugs_on",
     "name": "pair of attached ear plugs (out)",
     "name_plural": "pairs of attached ear plugs (out)",
     "description": "A pair of industrial grade ear plugs, they are attached together by some string.  They hang around your neck, use them to plug them in.",

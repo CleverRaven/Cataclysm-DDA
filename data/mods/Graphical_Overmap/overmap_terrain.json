@@ -209,112 +209,112 @@
     "id": "cabin",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_1",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_1",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_2",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_2",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_3",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_3",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_4",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_4",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_5",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_5",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_6",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_6",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_7",
     "name": "cabin",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_7",
     "name": "cabin roof",
     "sym": "\u00E2",
-    "color": "i_green"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
