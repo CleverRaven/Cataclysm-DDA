@@ -1018,7 +1018,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @todo if only we had a function to enumerate strings and concatenate them...
+    // @TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );

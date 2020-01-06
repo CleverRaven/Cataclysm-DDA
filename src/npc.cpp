@@ -1166,8 +1166,8 @@ bool npc::wield( item &it )
             assert( !maybe_holster.contents.empty() );
             const size_t old_size = maybe_holster.contents.size();
             invoke_item( &maybe_holster );
-            // @TODO change invoke_item to somehow report this change
-            // Hacky: test whether wielding the item from the holster has been done.
+            // @TODO: change invoke_item to somehow report this change
+            // @HACK: test whether wielding the item from the holster has been done.
             // (Wielding may be prevented by various reasons: see player::wield_contained)
             if( old_size != maybe_holster.contents.size() ) {
                 return true;

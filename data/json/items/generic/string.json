@@ -100,6 +100,7 @@
     "category": "spare_parts",
     "name": "fibrous stalk",
     "symbol": "=",
+    "material": "dry_plant",
     "description": "A rather green stick.  Very fibrous.",
     "fun": -100,
     "healthy": -20,

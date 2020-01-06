@@ -471,17 +471,17 @@ bool is_river_or_lake( const oter_id &ter )
 bool is_ot_match( const std::string &name, const oter_id &oter,
                   const ot_match_type match_type )
 {
-    const auto is_ot = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot = []( const std::string & otype, const oter_id & oter ) {
         return otype == oter.id().str();
     };
 
-    const auto is_ot_type = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_type = []( const std::string & otype, const oter_id & oter ) {
         // Is a match if the base type is the same which will allow for handling rotations/linear features
         // but won't incorrectly match other locations that happen to contain the substring.
         return otype == oter->get_type_id().str();
     };
 
-    const auto is_ot_prefix = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_prefix = []( const std::string & otype, const oter_id & oter ) {
         const size_t oter_size = oter.id().str().size();
         const size_t compare_size = otype.size();
         if( compare_size > oter_size ) {
@@ -502,7 +502,7 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
         return oter_str.str()[compare_size] == '_';
     };
 
-    const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
         // Checks for any partial match.
         return strstr( oter.id().c_str(), otype.c_str() );
     };
@@ -1146,7 +1146,7 @@ void overmap::init_layers()
 void overmap::ter_set( const tripoint &p, const oter_id &id )
 {
     if( !inbounds( p ) ) {
-        /// @todo Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return;
     }
 
@@ -1156,7 +1156,7 @@ void overmap::ter_set( const tripoint &p, const oter_id &id )
 const oter_id &overmap::ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        /// @todo Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return ot_null;
     }
 
@@ -3165,6 +3165,8 @@ void overmap::build_anthill( const tripoint &p, int s )
         build_tunnel( p, s - rng( 0, 3 ), dir );
     }
 
+    // @TODO: This should follow the tunnel network,
+    // as of now it can pick a tile from an adjacent ant network.
     std::vector<tripoint> queenpoints;
     for( int i = -s; i <= s; i++ ) {
         for( int j = -s; j <= s; j++ ) {
@@ -3192,7 +3194,7 @@ void overmap::build_anthill( const tripoint &p, int s )
                 const oter_id &oter = ter( root );
                 for( auto dir : om_direction::all ) {
                     const tripoint p = root + om_direction::displace( dir );
-                    if( check_ot( "ants", ot_match_type::type, p ) ) {
+                    if( check_ot( "ants", ot_match_type::prefix, p ) ) {
                         size_t line = oter->get_line();
                         line = om_lines::set_segment( line, dir );
                         if( line != oter->get_line() ) {
@@ -3215,11 +3217,13 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     }
 
     const oter_id root_id( "ants_isolated" );
-    if( check_ot( "ants", ot_match_type::type, p ) && root_id != ter( p )->id ) {
-        return;
-    }
-    if( !is_ot_match( "empty_rock", ter( p )->id, ot_match_type::type ) ) {
-        return;
+    if( root_id != ter( p )->id ) {
+        if( check_ot( "ants", ot_match_type::type, p ) ) {
+            return;
+        }
+        if( !is_ot_match( "empty_rock", ter( p ), ot_match_type::type ) ) {
+            return;
+        }
     }
 
     ter_set( p, oter_id( root_id ) );
@@ -3229,7 +3233,7 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     for( auto r : om_direction::all ) {
         const tripoint cand = p + om_direction::displace( r );
         if( !check_ot( "ants", ot_match_type::type, cand ) &&
-            !is_ot_match( "empty_rock", ter( cand )->id, ot_match_type::type ) ) {
+            is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ) {
             valid.push_back( r );
         }
     }
@@ -3568,7 +3572,7 @@ void overmap::chip_rock( const tripoint &p )
 bool overmap::check_ot( const std::string &otype, ot_match_type match_type,
                         const tripoint &p ) const
 {
-    /// @todo this check should be done by the caller. Probably.
+    /// @TODO: this check should be done by the caller. Probably.
     if( !inbounds( p ) ) {
         return false;
     }

@@ -3124,7 +3124,7 @@ void cata_tiles::draw_explosion_frame()
         draw_from_id_string( exp_name, exp_pos + point( i, i ),
                              subtile, rotation++, LL_LIT, nv_goggles_activated );
         draw_from_id_string( exp_name, exp_pos + point( i, -i ),
-                             subtile, rotation++, LL_LIT, nv_goggles_activated );
+                             subtile, rotation, LL_LIT, nv_goggles_activated );
 
         subtile = edge;
         for( int j = 1 - i; j < 0 + i; j++ ) {
