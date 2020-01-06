@@ -7579,7 +7579,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     cata::optional<tripoint> iLastActivePos;
     Creature *cCurMon = nullptr;
 
-    draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XOXO, LINE_XOXO);
+    draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XOXO, LINE_XOXO );
     draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
                         true );
 
