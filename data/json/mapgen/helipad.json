@@ -131,7 +131,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "helipad2f_nw", "helipad2f_ne" ], [ "helipad_sw2f", "helipad2f_se" ] ],
+    "om_terrain": [ [ "helipad2f_nw", "helipad2f_ne" ], [ "helipad2f_sw", "helipad2f_se" ] ],
     "type": "mapgen",
     "weight": 500,
     "object": {
