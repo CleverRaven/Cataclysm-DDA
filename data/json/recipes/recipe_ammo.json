@@ -41,7 +41,7 @@
     "difficulty": 1,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "earthenware_firing", 10 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
@@ -54,7 +54,7 @@
     "time": "60 m",
     "autolearn": true,
     "book_learn": [ [ "glassblowing_book", 5 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "using": [ [ "glassblowing_standard", 5 ] ],
     "components": [ [ [ "glass_shard", 8 ] ] ]
   },
   {
@@ -68,9 +68,8 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
-    "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ] ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "weights", 10, "LIST" ] ] ]
+    "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ], [ "weights", 10 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -83,12 +82,9 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -111,19 +107,14 @@
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "forging_standard", 1 ], [ "fletching", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -132,19 +123,14 @@
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "forging_standard", 1 ], [ "fletching", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -153,19 +139,14 @@
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "forging_standard", 1 ], [ "fletching", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -178,12 +159,9 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "wire", 5 ], [ "pipe", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "wire", 5 ], [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -195,13 +173,10 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -214,9 +189,9 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
       [
         [ "bone", 5 ],
@@ -227,8 +202,7 @@
         [ "scrap", 2 ],
         [ "nail", 10 ],
         [ "sharp_rock", 1 ]
-      ],
-      [ [ "fletching", 1, "LIST" ] ]
+      ]
     ]
   },
   {
@@ -238,19 +212,14 @@
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "forging_standard", 1 ], [ "fletching", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -259,19 +228,14 @@
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "forging_standard", 1 ], [ "fletching", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -280,19 +244,14 @@
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "forging_standard", 1 ], [ "fletching", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -305,12 +264,9 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "wire", 4 ], [ "pipe", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "wire", 4 ], [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -336,13 +292,10 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -355,12 +308,9 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -373,9 +323,9 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ], [ "fletching", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
       [
         [ "bone", 5 ],
@@ -386,8 +336,7 @@
         [ "scrap", 2 ],
         [ "nail", 10 ],
         [ "sharp_rock", 1 ]
-      ],
-      [ [ "fletching", 1, "LIST" ] ]
+      ]
     ]
   },
   {
@@ -520,8 +469,8 @@
     "difficulty": 4,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 8 ] ] ]
+    "using": [ [ "steel_tiny", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
     "type": "recipe",
@@ -598,8 +547,8 @@
     "time": "50 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
@@ -684,13 +633,10 @@
     "difficulty": 5,
     "time": "56 m",
     "autolearn": true,
+    "using": [ [ "fletching", 1 ], [ "surface_heat", 15 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [
-      [ [ "plastic_chunk", 3 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -739,13 +685,9 @@
     "skill_used": "cooking",
     "difficulty": 7,
     "time": "60 m",
+    "book_learn": [ [ "textbook_gaswarfare", 8 ], [ "textbook_anarch", 7 ], [ "recipe_labchem", 6 ] ],
+    "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 8, "" ],
-      [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
-      [ "recipe_labchem", 6 ]
-    ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
       [ [ "plastic_chunk", 4 ] ],
@@ -763,8 +705,8 @@
     "difficulty": 2,
     "time": "20 m",
     "batch_time_factors": [ 80, 5 ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
     "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -776,12 +718,8 @@
     "difficulty": 2,
     "time": "3 m",
     "batch_time_factors": [ 80, 5 ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2 ], [ "manual_launcher", 2 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 2 ],
-      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
-      [ "manual_launcher", 2 ]
-    ],
     "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ] ] ]
   },
   {
@@ -793,11 +731,8 @@
     "difficulty": 3,
     "time": "8 m",
     "book_learn": [ [ "manual_launcher", 4 ] ],
+    "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ] ]
-    ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "spike", 1 ] ],
@@ -846,8 +781,8 @@
     "difficulty": 4,
     "time": "8 m",
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "using": [ [ "surface_heat", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 150 ] ] ]
   },
   {
@@ -860,8 +795,8 @@
     "difficulty": 4,
     "time": "8 m",
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "using": [ [ "surface_heat", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "insecticide", 50 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
@@ -880,8 +815,8 @@
       [ "recipe_labchem", 3 ],
       [ "textbook_anarch", 3 ]
     ],
+    "using": [ [ "surface_heat", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 100 ] ] ]
   },
   {
