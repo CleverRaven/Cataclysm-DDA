@@ -561,7 +561,7 @@ void zone_manager::cache_vzones()
         const std::string &type_hash = elem->get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        // @todo looks very similar to the above cache_data - maybe merge it?
+        // @TODO: looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
         for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {

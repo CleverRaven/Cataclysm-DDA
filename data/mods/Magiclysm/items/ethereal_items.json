@@ -96,7 +96,7 @@
   {
     "id": "shield_ice",
     "type": "ARMOR",
-    "name": "large shield of magical ice",
+    "name": { "str": "large shield of magical ice", "str_pl": "large shields of magical ice" },
     "category": "armor",
     "description": "A lightweight but tough shield crafted entirely of magical ice.",
     "weight": "1 kg",
@@ -316,7 +316,7 @@
   {
     "type": "TOOL",
     "id": "druid_seed",
-    "name": "seed of purification",
+    "name": { "str": "seed of purification", "str_pl": "seeds of purification" },
     "weight": "1 g",
     "color": "white",
     "use_action": {

@@ -45,7 +45,7 @@
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "broken_tribot",
-    "name": "dead craftbuddy",
+    "name": { "str": "dead craftbuddy", "str_pl": "dead craftbuddies" },
     "category": "other",
     "description": "A broken repair robot, now limp and unmoving.  Could be gutted for parts or re-crafted into a functioning pal.",
     "material": [ "steel", "plastic" ],
@@ -513,7 +513,7 @@
     "id": "broken_advbot_glitter",
     "copy-from": "broken_advbot_disarmed",
     "color": "yellow",
-    "name": "broken glittering lady",
+    "name": { "str": "broken glittering lady", "str_pl": "broken glittering ladies" },
     "description": "A broken salvaged robot.  Could be stripped or recrafted."
   },
   {

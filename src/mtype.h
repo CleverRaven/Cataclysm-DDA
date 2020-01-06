@@ -267,6 +267,7 @@ struct mtype {
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
 
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
+        std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
 
         int sk_dodge = 0;       /** dodge skill */
 

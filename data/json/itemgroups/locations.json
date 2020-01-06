@@ -468,26 +468,14 @@
     "id": "bowling_alcohol",
     "type": "item_group",
     "items": [
-      [ "beer", 60 ],
-      [ "european_pilsner", 50 ],
-      [ "pale_ale", 50 ],
-      [ "wine_barley", 45 ],
-      [ "india_pale_ale", 47 ],
-      [ "stout", 46 ],
-      [ "belgian_ale", 40 ],
-      [ "imperial_stout", 35 ],
-      [ "whiskey", 10 ],
-      [ "vodka", 10 ],
-      [ "gin", 10 ],
-      [ "rum", 10 ],
-      [ "tequila", 10 ],
-      [ "triple_sec", 5 ],
-      [ "fruit_wine", 5 ],
-      [ "brandy", 5 ],
+      { "group": "beer", "prob": 373 },
+      { "group": "liquor_and_spirits", "prob": 80 },
       [ "drink_rumcola", 40 ],
       [ "drink_screwdriver", 35 ],
       [ "drink_wild_apple", 10 ],
-      [ "long_island", 17 ]
+      [ "long_island", 17 ],
+      [ "wine_chardonnay", 20 ],
+      [ "wine_cabernet", 20 ]
     ]
   },
   {
@@ -2246,7 +2234,9 @@
       [ "toolbox", 5 ],
       [ "apron_leather", 10 ],
       [ "bio_meteorologist", 10 ],
-      [ "chem_aluminium_sulphate", 20 ]
+      [ "chem_aluminium_sulphate", 20 ],
+      [ "plunger_toilet", 10 ],
+      [ "plunger_futuristic", 5 ]
     ]
   },
   {
@@ -2704,6 +2694,7 @@
       [ "coat_lab", 40 ],
       [ "boots_steel", 5 ],
       [ "socks", 70 ],
+      [ "socks_ankle", 50 ],
       [ "mocassins", 20 ],
       [ "bandana", 35 ],
       [ "glasses_eye", 90 ],

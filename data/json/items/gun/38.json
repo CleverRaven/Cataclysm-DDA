@@ -41,7 +41,7 @@
     "type": "GUN",
     "name": "COP .357 Derringer",
     "description": "A small, chubby derringer pistol bearing a slight resemblance to the Mossberg Brownie.  It uses a rotating firing pin to fire the individual hammers of the four barrels arranged in a square formation.",
-    "weight": "857 g",
+    "weight": "800 g",
     "volume": "399ml",
     "price": 120000,
     "to_hit": -1,

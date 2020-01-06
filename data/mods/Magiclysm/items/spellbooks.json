@@ -2,7 +2,7 @@
   {
     "id": "DEBUG_spellbook",
     "type": "GENERIC",
-    "name": "A Technomancer's Guide to Debugging C:DDA",
+    "name": { "str": "A Technomancer's Guide to Debugging C:DDA", "str_pl": "copies of A Technomancer's Guide to Debugging C:DDA" },
     "description": "static std::string description( spell sp ) const;",
     "weight": "1 g",
     "volume": "1 ml",
@@ -29,7 +29,7 @@
   {
     "id": "wizard_beginner",
     "type": "GENERIC",
-    "name": "A Beginner's Guide to Magic",
+    "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least one interesting spell you can use.",
     "weight": "585 g",
     "volume": "250 ml",
@@ -41,7 +41,7 @@
   {
     "id": "wizard_utility",
     "type": "GENERIC",
-    "name": "Wizarding Guide to Backpacking",
+    "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
@@ -53,7 +53,7 @@
   {
     "id": "pyro",
     "type": "GENERIC",
-    "name": "Pyromancy for Heretics",
+    "name": { "str": "Pyromancy for Heretics", "str_pl": "copies of Pyromancy for Heretics" },
     "description": "This charred husk of a book still contains many ways to light things aflame.",
     "weight": "450 g",
     "volume": "1 L",
@@ -65,7 +65,7 @@
   {
     "id": "wizard_advanced",
     "type": "GENERIC",
-    "name": "A Treatise on Magical Elements",
+    "name": { "str": "A Treatise on Magical Elements", "str_pl": "copies of A Treatise on Magical Elements" },
     "description": "This details complex diagrams, rituals, and choreography that describes various spells.",
     "weight": "920 g",
     "volume": "750 ml",
@@ -77,7 +77,7 @@
   {
     "id": "priest_beginner",
     "type": "GENERIC",
-    "name": "Introduction to the Divine",
+    "name": { "str": "Introduction to the Divine", "str_pl": "copies of Introduction to the Divine" },
     "description": "This appears to mostly be a religious text, but it does have some notes on healing.",
     "weight": "585 g",
     "volume": "500 ml",
@@ -89,7 +89,10 @@
   {
     "id": "priest_advanced",
     "type": "GENERIC",
-    "name": "The Paladin's Guide to Modern Spellcasting",
+    "name": {
+      "str": "The Paladin's Guide to Modern Spellcasting",
+      "str_pl": "copies of The Paladin's Guide to Modern Spellcasting"
+    },
     "description": "Despite the title, this seems to be written in Middle English.  A little obtuse, but you can make out most of the words well enough.",
     "weight": "830 g",
     "volume": "750 ml",
@@ -101,7 +104,7 @@
   {
     "id": "winter_grasp",
     "type": "GENERIC",
-    "name": "Winter's Eternal Grasp",
+    "name": { "str": "Winter's Eternal Grasp", "str_pl": "copies of Winter's Eternal Grasp" },
     "description": "This slim book almost seems to be made from ice, it's cold to the touch.",
     "weight": "450 g",
     "volume": "1 L",
@@ -113,7 +116,7 @@
   {
     "id": "tome_of_storms",
     "type": "GENERIC",
-    "name": "The Tome of The Oncoming Storm",
+    "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
     "description": "A large book embossed with crossed lightning bolts and storm clouds, it tingles to the touch.",
     "weight": "430 g",
     "volume": "750 ml",
@@ -126,21 +129,9 @@
     }
   },
   {
-    "id": "lightning_storm_scroll",
-    "type": "GENERIC",
-    "name": "Scroll of Lightning Storm",
-    "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
-    "weight": "129 g",
-    "volume": "500 ml",
-    "price": 25000,
-    "symbol": "?",
-    "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
-  },
-  {
     "id": "generic_spellbook",
     "type": "GENERIC",
-    "name": "Nondescript Spellbook",
+    "name": { "str": "Nondescript Spellbook", "str_pl": "copies of Nondescript Spellbook" },
     "description": "A small book, containing spells created by a novice magician.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -151,7 +142,7 @@
   {
     "id": "light_manipulation_spellbook",
     "type": "GENERIC",
-    "name": "Of Light and Falsehoods",
+    "name": { "str": "Of Light and Falsehoods", "str_pl": "copies of Of Light and Falsehoods" },
     "description": "A small white book, it subtly amplifies the ambient light around it.",
     "weight": "430 g",
     "volume": "750 ml",
@@ -160,13 +151,21 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "dark_sight", "blinding_flash", "obfuscated_body", "create_atomic_light", "mirror_image", "invisibility" ]
+      "spells": [
+        "dark_sight",
+        "blinding_flash",
+        "obfuscated_body",
+        "create_atomic_light",
+        "mirror_image",
+        "invisibility",
+        "holographic_transposition"
+      ]
     }
   },
   {
     "id": "biomancer_spellbook",
     "type": "GENERIC",
-    "name": "The Tome of Flesh",
+    "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
     "description": "A small tome, seemingly covered in tanned human skin.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -180,7 +179,7 @@
   {
     "id": "druid_spellbook",
     "type": "GENERIC",
-    "name": "The Book of Trees",
+    "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
     "description": "A bark covered book.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -191,7 +190,7 @@
   {
     "id": "recovery_spellbook",
     "type": "GENERIC",
-    "name": "The Utility of Mana as an Energy Source",
+    "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
     "weight": "728 g",
     "volume": "3 L",
@@ -205,7 +204,7 @@
   {
     "id": "magus_spellbook",
     "type": "GENERIC",
-    "name": "The Tome of The Battle Mage",
+    "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
     "weight": "434 g",
     "volume": "750 ml",
@@ -216,7 +215,7 @@
   {
     "id": "eshaper_spellbook",
     "type": "GENERIC",
-    "name": "The Tome of the Hollow Earth",
+    "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
     "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
     "weight": "483 g",
     "volume": "825 ml",
@@ -230,7 +229,7 @@
   {
     "id": "magus_spellbook_move",
     "type": "GENERIC",
-    "name": "The Tome of Magical Movement",
+    "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
     "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
     "weight": "231 g",
     "volume": "500 ml",
@@ -252,7 +251,7 @@
   {
     "id": "summon_undead_spellbook",
     "type": "GENERIC",
-    "name": "Necromantic Minions for Dummies",
+    "name": { "str": "Necromantic Minions for Dummies", "str_pl": "copies of Necromantic Minions for Dummies" },
     "description": "This book details various ways of summoning an undead minion to fight for you.  They all appear to disappear after a short time, crumbling to dust.",
     "weight": "788 g",
     "volume": "2250 ml",
@@ -263,7 +262,7 @@
   {
     "id": "techno_fundamentals",
     "type": "GENERIC",
-    "name": "Fundamentals of Technomancy",
+    "name": { "str": "Fundamentals of Technomancy", "str_pl": "copies of Fundamentals of Technomancy" },
     "description": "This thick manual instructs the spellcaster on manipulating and empowering various forms of matter and energy.",
     "weight": "258 g",
     "volume": "750 ml",
@@ -274,7 +273,7 @@
   {
     "id": "techno_idiots",
     "type": "GENERIC",
-    "name": "Complete Idiot's Guide to Technomancy",
+    "name": { "str": "Complete Idiot's Guide to Technomancy", "str_pl": "copies of Complete Idiot's Guide to Technomancy" },
     "description": "This colorful guide, full of diagrams and cartoons, teaches a couple of very basic Technomancy spells for the not-so-bright pupils.",
     "weight": "211 g",
     "volume": "500 ml",
@@ -285,7 +284,10 @@
   {
     "id": "techno_em",
     "type": "GENERIC",
-    "name": "Technomancy and the Electromagnetic Spectrum",
+    "name": {
+      "str": "Technomancy and the Electromagnetic Spectrum",
+      "str_pl": "copies of Technomancy and the Electromagnetic Spectrum"
+    },
     "description": "This lab reference material book is thick and overflowing with information on combining magic with EM radiation.",
     "weight": "284 g",
     "volume": "1 L",
@@ -296,7 +298,7 @@
   {
     "id": "translocate_spellbook",
     "type": "GENERIC",
-    "name": "Geospatial Systems: The Lie Of Linearity",
+    "name": { "str": "Geospatial Systems: The Lie Of Linearity", "str_pl": "copies of Geospatial Systems: The Lie Of Linearity" },
     "description": "This book outlines in great detail how time and space are wibbly-wobbly and non-Euclidean.  It also appears to have a dozen different coordinate systems that it uses nearly interchangeably, which makes it hard to follow.  There's lots of jargon, but with intense study you can probably learn a thing or two about portals.",
     "weight": "1200 g",
     "volume": "2500 ml",
@@ -307,7 +309,7 @@
   {
     "id": "stat_up_spellbook",
     "type": "GENERIC",
-    "name": "Transcendence of the Human Condition",
+    "name": { "str": "Transcendence of the Human Condition", "str_pl": "copies of Transcendence of the Human Condition" },
     "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",
     "weight": "1300 g",
     "volume": "2500 ml",

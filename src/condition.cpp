@@ -1030,7 +1030,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) ) {
         set_npc_allies( jo );
-    } else if( jo.has_int( "npc_service" ) ) {
+    } else if( jo.get_bool( "npc_service", false ) ) {
         set_npc_available();
     } else if( jo.has_int( "u_has_cash" ) ) {
         set_u_has_cash( jo );

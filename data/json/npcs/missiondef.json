@@ -8,12 +8,12 @@
     "value": 50000,
     "start": {
       "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": { "om_terrain": "haz_sar", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "haz_sar_b1",
+    "destination": "haz_sar_b_1",
     "dialogue": {
-      "describe": "You wouldn't believe what I found...",
+      "describe": "You wouldn't believe what I found…",
       "offer": "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  Check this out, it was on its approach to pick up a team sent to secure and destroy something called a 'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded message for the team leader, I guess.  If we want to join up with what remains of the government then now may be our only chance.",
       "accepted": "Fuck ya, America!",
       "rejected": "Are you going to forfeit your duty when the country needs you the most?",
@@ -37,9 +37,9 @@
     "deadline_low": 30,
     "deadline_high": 48,
     "dialogue": {
-      "describe": "I'm… short… of breath....",
-      "offer": "I'm asthmatic.  I need you to get an inhaler for me...",
-      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
+      "describe": "I'm… short… of breath…",
+      "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
       "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
       "inquire": "Find any inhaler yet?",
@@ -71,9 +71,9 @@
     "deadline_low": 24,
     "deadline_high": 48,
     "dialogue": {
-      "describe": "This infection is bad, <very> bad...",
-      "offer": "I'm infected.  Badly.  I need you to get some antibiotics for me...",
-      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
+      "describe": "This infection is bad, <very> bad…",
+      "offer": "I'm infected.  Badly.  I need you to get some antibiotics for me…",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
       "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
       "inquire": "Find any antibiotics yet?",
@@ -106,7 +106,7 @@
     "followup": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "dialogue": {
       "describe": "We've got the flag, now we need to locate US forces.",
-      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figure'n one of those choppers that were fly'n round during th outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open'er at.",
+      "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figure'n one of those choppers that were fly'n round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open'er at.",
       "accepted": "Fuck ya, America!",
       "rejected": "Do you have any better ideas?",
       "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
@@ -149,7 +149,7 @@
     "item": "badge_deputy",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "Those twisted snakes...",
+      "describe": "Those twisted snakes…",
       "offer": "I hope you will find use from what you got out of the deposit box but I also have another job for you that might lead you to an opportunity to deal out justice for those who cannot.  First things first, we can't just look like ruffians.  Find us a deputy badge, easy enough?",
       "accepted": "I'd check the police station.",
       "rejected": "We're also official… just hang in there and I'll show you what we can really do.",
@@ -174,7 +174,7 @@
       "describe": "Does our flag still yet wave?",
       "offer": "Does our flag still yet wave?  We're battered but not yet out of the fight, we need the old colors!",
       "accepted": "Hell ya!  Find me one of those big ol' American flags.",
-      "rejected": "Seriously?  God damned commie...",
+      "rejected": "Seriously?  God damned commie…",
       "advice": "Find a large federal building or school, they must have one.",
       "inquire": "Rescued the standard yet?",
       "success": "America, fuck ya!",
@@ -194,7 +194,7 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
-      "describe": "Those twisted snakes...",
+      "describe": "Those twisted snakes…",
       "offer": "Our world fell apart because our leaders were as crooked as the con-men that paid for their elections.  Just find me one of those corporate accounting books and I'll show you and the rest of the world just who is at fault.",
       "accepted": "You'll see, I know I'm right.",
       "rejected": "I know it isn't pressing but the big corporations didn't get a chance to destroy the evidence yet.",
@@ -217,15 +217,15 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
-      "describe": "I hope I don't see many names I know...",
+      "describe": "I hope I don't see many names I know…",
       "offer": "I've lost so many friends… please find me a patient list from the regional hospital or doctor's office.  I just want to know who might still be out there.",
       "accepted": "Thank you, I suppose it won't change what has already happened but it will bring me closure.",
       "rejected": "Please, I just want to know what happened to everyone.",
       "advice": "I bet you'll run into a lot of those things in the hospital, please be careful.",
       "inquire": "Any luck?",
-      "success": "Oh dear, I thought Timmy would have made it...",
+      "success": "Oh dear, I thought Timmy would have made it…",
       "success_lie": "Thanks for trying…  I guess.",
-      "failure": "I bet some of them are still out there..."
+      "failure": "I bet some of them are still out there…"
     }
   },
   {
@@ -239,7 +239,7 @@
     "start": { "reveal_om_ter": "station_radio" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
-      "describe": "I wonder if a retreat might exist...",
+      "describe": "I wonder if a retreat might exist…",
       "offer": "Everyone who dies gets back up, right?  Which means that whatever is causing this it must be airborne to have infected everyone.  I believe that if that is the case then there should be regions that were not downwind from where-ever the disease was released.  We need to find a record of all the weather patterns leading up to the outbreak.",
       "accepted": "Thanks so much, you may save both of us yet.",
       "rejected": "Ya, it was a long shot I admit.",
@@ -262,15 +262,15 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
-      "describe": "St. Michael the archangel defend me in battle...",
+      "describe": "St. Michael the archangel defend me in battle…",
       "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic…  I doubt it will be of much use but I've got to hope in something.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
-      "rejected": "Ya, I guess the stress may just be getting to me...",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "I suppose a large church or cathedral may have something.",
       "inquire": "Any luck?  Please find me a small relic.  Any relic will do.",
-      "success": "Thank you, I need some time alone now...",
+      "success": "Thank you, I need some time alone now…",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -286,7 +286,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GET_DEPUTY_BADGE",
     "dialogue": {
-      "describe": "Those twisted snakes...",
+      "describe": "Those twisted snakes…",
       "offer": "Now I don't mean to upset you but I'm not sure what I can do with the accounting ledger at the moment.  We do have a new lead though, the ledger has a safe deposit box under the regional manager's name.  Guess what, dumb sucker wrote down his combination.  Come with me to retrieve the box and you can keep any of the goodies in it that I can't use to press charges against these bastards.",
       "accepted": "You may make a tidy profit from this.",
       "rejected": "I know it isn't pressing but the world is going to be just as corrupt when we start rebuilding unless we take measure to stop those who seek to rule over us.",
@@ -308,15 +308,15 @@
     "start": "place_npc_software",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
-      "describe": "Oh man, I can't believe I forgot to download it...",
+      "describe": "Oh man, I can't believe I forgot to download it…",
       "offer": "There's some important software on my computer that I need on USB.",
       "accepted": "Thanks!  Just pull the data onto this USB drive and bring it to me.",
-      "rejected": "Seriously?  It's an easy job...",
+      "rejected": "Seriously?  It's an easy job…",
       "advice": "Take this USB drive.  Use the console, and download the software.",
       "inquire": "So, do you have my software yet?",
       "success": "Excellent, thank you!",
       "success_lie": "What?!  You liar!",
-      "failure": "Wow, you failed?  All that work, down the drain..."
+      "failure": "Wow, you failed?  All that work, down the drain…"
     }
   },
   {
@@ -333,15 +333,15 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "It could be very informative to perform an analysis of zombie blood...",
+      "describe": "It could be very informative to perform an analysis of zombie blood…",
       "offer": "I need someone to get a sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
       "accepted": "Excellent.  Take this blood draw kit; once you've produced a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
-      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
+      "rejected": "Are you sure?  The scientific value of that blood data could be priceless…",
       "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
       "inquire": "Well, do you have the data yet?",
       "success": "Excellent!  This may be the key to removing the infection.",
       "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
-      "failure": "What a shame, that data could have proved invaluable..."
+      "failure": "What a shame, that data could have proved invaluable…"
     }
   },
   {
@@ -356,15 +356,15 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
-      "describe": "St. Michael the archangel defend me in battle...",
+      "describe": "St. Michael the archangel defend me in battle…",
       "offer": "You have no idea how interesting this diary is.  I have two very promising leads…  First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path…  You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
-      "rejected": "Ya, I guess the stress may just be getting to me...",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "I doubt the site is still occupied but I'd carry a firearm at least…  I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
       "inquire": "I'm positive there is something there… there has to be, any luck?",
       "success": "Thank you, your account of these… demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult…  I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -378,15 +378,15 @@
     "start": { "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "St. Michael the archangel defend me in battle...",
+      "describe": "St. Michael the archangel defend me in battle…",
       "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet… it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
-      "rejected": "Ya, I guess the stress may just be getting to me...",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
       "inquire": "Any luck?",
       "success": "Thank you, I'm not sure what to make of this but I'll ponder your account.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -401,14 +401,14 @@
     "start": { "effect": "follow" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "Well damn, you must be the guys here to pick me up...",
+      "describe": "Well damn, you must be the guys here to pick me up…",
       "offer": "I got the brief so I know what I'm getting into.  Let me be upfront, treat me like shit and I'm going to cover my own hide.  However, you treat me well and give me something to believe in, even if it's just a shiny bit of metal, and I'll do you right.  Without a strong band a man doesn't stand a chance in this world.  You ready to take charge boss?  This world could use a Sheriff just about now.",
       "accepted": "Before we get into a major fight just make sure we have the gear we need, boss.",
       "rejected": "I don't think you're going to find many other survivors who haven't taken up a faction yet.",
       "advice": "I'm a pretty good shot with a rifle or pistol.",
       "inquire": "Any problems boss?",
       "success": "Wait… are you really making me a deputy?",
-      "success_lie": "I don't think so...",
+      "success_lie": "I don't think so…",
       "failure": "Quitting already?"
     }
   },
@@ -426,7 +426,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_KILL_HORDE_MASTER",
     "dialogue": {
-      "describe": "You seem to know this new world better than most...",
+      "describe": "You seem to know this new world better than most…",
       "offer": "You're kitted out better than most… would you be interested in making this world a little better for the rest of us?  The towns have enough supplies for us survivors to start securing a foothold but we don't have anyone with the skills and equipment to thin the masses of undead.  I'll lend you a hand to the best of my ability but you really showed promise taking out that other beast.  You, I, and a 100 zombies laid to rest, what do you say?",
       "accepted": "Hell ya, we may get ourselves killed but we'll be among the first legends of the apocalypse.",
       "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
@@ -450,7 +450,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
     "dialogue": {
-      "describe": "I've heard some bad rumors so I hope you are up for another challenge...",
+      "describe": "I've heard some bad rumors so I hope you are up for another challenge…",
       "offer": "Apparently one of the other survivors picked up on an unusually dense horde of undead moving into the area.  At the center of this throng there was a 'leader' of some sort.  The short of it is, kill the son of a bitch.  We don't know what it is capable of or why it is surrounded by other zombies but this thing reeks of trouble.  Do whatever it takes but we can't risk it getting away.",
       "accepted": "I'll lend you a hand but I'd try and recruit another gunslinger if you can.",
       "rejected": "What's the use of walking away, they'll track you down eventually.",
@@ -477,7 +477,7 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
-      "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs...",
+      "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
       "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
       "accepted": "Thanks, make sure you're ready for whatever the beast is.",
       "rejected": "Hey, I know I wouldn't volunteer for it either.",
@@ -501,12 +501,12 @@
     "end": { "effect": "npc_thankful" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
-      "describe": "Oh god, I can't believe it happened...",
+      "describe": "Oh god, I can't believe it happened…",
       "offer": "My mom… she's… she was killed, but then she just got back up… she's one of those things now.  Can you put her out of her misery for me?",
       "accepted": "Thank you… she would've wanted it this way.",
-      "rejected": "Please reconsider, I know she's suffering...",
-      "advice": "Find a gun if you can, make it quick...",
-      "inquire": "Well...?  Did you… finish things for my mom?",
+      "rejected": "Please reconsider, I know she's suffering…",
+      "advice": "Find a gun if you can, make it quick…",
+      "inquire": "Well…?  Did you… finish things for my mom?",
       "success": "Thank you.  I couldn't rest until I knew that was finished.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
       "failure": "Really… that's too bad."
@@ -533,7 +533,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "farm_2",
     "dialogue": {
-      "describe": "I just need a place to start over...",
+      "describe": "I just need a place to start over…",
       "offer": "I've accepted that everyone I used to know is dead… one way or another.  I really wish I could have done something to save my brother but he was one of the first to go.  I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
       "accepted": "Thank you, let's find a remote one so we don't have to worry about many zombies.",
       "rejected": "Please, I just don't know what to do otherwise.",
@@ -556,7 +556,7 @@
     "followup": "MISSION_REACH_FARM_HOUSE",
     "destination": "fema",
     "dialogue": {
-      "describe": "Maybe they escaped to one of the camps...",
+      "describe": "Maybe they escaped to one of the camps…",
       "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around… could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
       "accepted": "Thank you, just bring me to the camp…  I just want to see.",
       "rejected": "Please, I don't know what else to do.",
@@ -564,7 +564,7 @@
       "inquire": "Any leads on where a camp might be?",
       "success": "I guess this wasn't as bright an idea as I thought.",
       "success_lie": "Thanks for trying…  I guess.",
-      "failure": "I bet some of them are still out there..."
+      "failure": "I bet some of them are still out there…"
     }
   },
   {
@@ -589,15 +589,15 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
     "dialogue": {
-      "describe": "St. Michael the archangel defend me in battle...",
+      "describe": "St. Michael the archangel defend me in battle…",
       "offer": "From what I understand, the creatures you encountered surrounding this relic were unlike anything I've heard of.  It is laughable that I now consider the living dead to be part of our ordinary reality.  Never-the-less, the church must have some explanation for these events.  I have located the residence of a local clergy man, could you go to this address and recover any items that may reveal what the church's stance is on these events?",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
-      "rejected": "Ya, I guess the stress may just be getting to me...",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "If the information is confidential the priest must have it hidden within his own home.",
       "inquire": "Any luck?",
       "success": "Thank you, a diary is exactly what I was looking for.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -614,14 +614,14 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "You seem to know this new world better than most...",
+      "describe": "You seem to know this new world better than most…",
       "offer": "We've got another problem to deal with but I don't think we can handle it on our own.  So, I sent word out and found us a volunteer… of sorts.  He's vain as hell but has a little skill with firearms.  He was supposed to collect whatever he had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long we were going to be so I told him to just camp there until we picked him up.",
       "accepted": "Rodger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
       "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
       "advice": "I hope the bastard is packing heat… else we'll need to grab him a gun before we hit our next target.",
       "inquire": "Found a gunslinger?",
       "success": "Great, just let me know when you are ready to wade knee-deep in an ocean of blood.",
-      "success_lie": "I don't think so...",
+      "success_lie": "I don't think so…",
       "failure": "Quitting already?"
     }
   },
@@ -636,7 +636,7 @@
     "start": "place_dog",
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
-      "describe": "Oh, my poor puppy...",
+      "describe": "Oh, my poor puppy…",
       "offer": "I left my poor dog in a house, not far from here.  Can you retrieve it?",
       "accepted": "Thank you!  Please hurry back!",
       "rejected": "Please, think of my poor little puppy!",
@@ -644,7 +644,7 @@
       "inquire": "Have you found my dog yet?",
       "success": "Thank you so much for finding him!",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
-      "failure": "Oh no!  My poor puppy..."
+      "failure": "Oh no!  My poor puppy…"
     }
   },
   {
@@ -658,9 +658,9 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need you to get my family photo from the armory safe.",
-      "offer": "I left the only photo I have from my family in the armory. I don't have the code, can you get in?",
+      "offer": "I left the only photo I have from my family in the armory.  I don't have the code, can you get in?",
       "accepted": "Thanks, it's great to see someone willing to help a out.",
-      "rejected": "Well, I'll find someone else to do it for me, real shame with all those guns locked up too...",
+      "rejected": "Well, I'll find someone else to do it for me, real shame with all those guns locked up too…",
       "advice": "You look like a resourceful sort, maybe you can hack it or something.",
       "inquire": "Got the photo?  Should've been in my gun safe.",
       "success": "Thanks!  I'll be sure to put in a good word for you around town.",
@@ -703,7 +703,7 @@
       "inquire": "How is it going?  Do you have them?",
       "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
       "success_lie": "Well…  where are they?",
-      "failure": "I'm so disappointed in you kid..."
+      "failure": "I'm so disappointed in you kid…"
     }
   },
   {
@@ -718,13 +718,13 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "end": { "effect": "follow" },
     "dialogue": {
-      "describe": "It's hard to tell who actually has the skills to survive these days...",
+      "describe": "It's hard to tell who actually has the skills to survive these days…",
       "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
       "accepted": "I'll see you then…or I won't, and then I'll know I made the right decision.",
       "rejected": "Ya, it was a long shot I admit.",
-      "advice": "Don't die. If you're asking me for advice, that doesn't bode well for you.",
+      "advice": "Don't die.  If you're asking me for advice, that doesn't bode well for you.",
       "inquire": "Well, you're not dead…yet.",
-      "success": "I'll be honest, I wasn't really expecting to see you again. A promise is a promise, I'll follow you now!",
+      "success": "I'll be honest, I wasn't really expecting to see you again.  A promise is a promise, I'll follow you now!",
       "success_lie": "I know time is relative and all that.",
       "failure": "I'm not quite sure how you failed to survive AND are talking to me."
     }

@@ -1,6 +1,6 @@
 #include "character.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <climits>
 #include <cstdlib>
 #include <algorithm>
@@ -123,6 +123,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -210,8 +211,6 @@ static const species_id HUMAN( "HUMAN" );
 Character::Character() :
 
     visitable<Character>(),
-    hp_cur( {{ 0 }} ),
-    hp_max( {{ 0 }} ),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
@@ -219,6 +218,8 @@ Character::Character() :
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
 {
+    hp_cur.fill( 0 );
+    hp_max.fill( 1 );
     str_max = 0;
     dex_max = 0;
     per_max = 0;
@@ -237,7 +238,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    radiation = 0;
+    set_rad( 0 );
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
@@ -253,7 +254,7 @@ Character::Character() :
 
     name.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false };
 
     move_mode = CMM_WALK;
 
@@ -1111,6 +1112,8 @@ void Character::recalc_hp()
         if( new_max_hp[i] == hp_max[i] ) {
             continue;
         }
+        // hp_max must be positive to avoiud undefined behavior.
+        hp_max[i] = std::max( hp_max[i], 1 );
         float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
                              static_cast<float>( hp_max[i] );
         hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
@@ -1251,6 +1254,9 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
+    // Clamp range to 1+, so that we can always see where we are
+    range = std::max( 1.0f, range );
+
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
 }
@@ -1264,10 +1270,10 @@ void Character::check_item_encumbrance_flag()
 {
     bool update_required = check_encumbrance;
     for( auto &i : worn ) {
-        if( !update_required && i.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+        if( !update_required && i.encumbrance_update_ ) {
             update_required = true;
         }
-        i.unset_flag( "ENCUMBRANCE_UPDATE" );
+        i.encumbrance_update_ = false;
     }
 
     if( update_required ) {
@@ -1386,13 +1392,17 @@ void Character::set_max_power_level( units::energy npower_max )
 
 void Character::mod_power_level( units::energy npower )
 {
-    int new_power = units::to_millijoule( power_level ) + units::to_millijoule( npower );
-    // An integer overflow has occurred - the sum of two positive things (power_level is always positive)
-    // cannot be negative, so if it is, we know integer overflow has occured
-    if( npower >= 0_mJ && new_power < 0 ) {
-        new_power = units::to_millijoule( max_power_level );
+    // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
+    // If the result is greater than the max power level, set power to max
+    int64_t power = static_cast<int64_t>( units::to_millijoule( power_level ) ) +
+                    static_cast<int64_t>( units::to_millijoule( npower ) );
+    units::energy new_power;
+    if( power > units::to_millijoule( max_power_level ) ) {
+        new_power = max_power_level;
+    } else {
+        new_power = power_level + npower;
     }
-    power_level = clamp( units::from_millijoule( new_power ), 0_kJ, max_power_level );
+    power_level = clamp( new_power, 0_kJ, max_power_level );
 }
 
 void Character::mod_max_power_level( units::energy npower_max )
@@ -1726,15 +1736,39 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-void Character::drop( int pos, const tripoint &where )
+std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
-    const item &it = i_at( pos );
-    const int count = it.count();
+    std::list<item *> dependent;
+    // Adds dependent worn items recursively
+    const std::function<void( const item &it )> add_dependent = [&]( const item & it ) {
+        for( item &wit : worn ) {
+            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
+                continue;
+            }
+            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            [&wit]( const item * dit ) {
+                return &wit == dit;
+            } );
+            if( iter == dependent.end() ) { // Not in the list yet
+                add_dependent( wit );
+                dependent.push_back( &wit );
+            }
+        }
+    };
 
-    drop( { std::make_pair( pos, count ) }, where );
+    if( is_worn( it ) ) {
+        add_dependent( it );
+    }
+
+    return dependent;
 }
 
-void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+void Character::drop( item_location loc, const tripoint &where )
+{
+    drop( { std::make_pair( loc, loc->count() ) }, where );
+}
+
+void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
@@ -1752,9 +1786,9 @@ void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ).success() ) {
-            activity.values.push_back( item_pair.first );
+    for( drop_location item_pair : what ) {
+        if( can_unwield( *item_pair.first ).success() ) {
+            activity.targets.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
     }
@@ -3340,7 +3374,10 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    set_thirst( thirst + nthirst );
+    if( has_trait_flag( "NO_THIRST" ) ) {
+        return;
+    }
+    set_thirst( std::max( -100, thirst + nthirst ) );
 }
 
 void Character::set_thirst( int nthirst )
@@ -3792,7 +3829,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @todo make this simpler and use time_duration/time_point
+                // @TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -4038,6 +4075,7 @@ int Character::blood_loss( body_part bp ) const
     }
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
+    hp_max_sum = std::max( hp_max_sum, 1 );
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
@@ -4085,23 +4123,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
-        if( hp <= 0 )
-        {
-            return "==%==";
-        } else if( precise )
-        {
-            return string_format( "%d", hp );
-        } else
-        {
-            std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
-            nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
-
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
-                    '.' ), c_white );
-        }
-    };
-
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
@@ -4122,7 +4143,8 @@ hp_part Character::body_window( const std::string &menu_header,
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
-        const bool limb_is_broken = current_hp == 0;
+        const bool limb_is_broken = is_limb_broken( hp );
+        const bool limb_is_mending = worn_with_flag( "SPLINT", bp );
 
         if( show_all ) {
             e.allowed = true;
@@ -4157,11 +4179,30 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg += colorize( aligned_name, all_state_col ) + " " + hp_str( current_hp, maximal_hp );
+        std::string hp_str;
+        if( limb_is_mending ) {
+            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+                              c_blue ) + "\n";
+            const auto &eff = get_effect( effect_mending, bp );
+            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-        if( limb_is_broken ) {
+            if( precise ) {
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+            } else {
+                const int num = mend_perc / 20;
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+            }
+        } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
+            hp_str = "==%==";
+        } else if( precise ) {
+            hp_str = string_format( "%d", current_hp );
+        } else {
+            std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
+            hp_str = colorize( h_bar.first, h_bar.second ) +
+                     colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
         }
+        msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
         if( bleeding ) {
@@ -4974,6 +5015,7 @@ mutation_value_map = {
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
@@ -5249,6 +5291,138 @@ std::string Character::activity_level_str() const
     }
 }
 
+int Character::get_armor_bash( body_part bp ) const
+{
+    return get_armor_bash_base( bp ) + armor_bash_bonus;
+}
+
+int Character::get_armor_cut( body_part bp ) const
+{
+    return get_armor_cut_base( bp ) + armor_cut_bonus;
+}
+
+int Character::get_armor_type( damage_type dt, body_part bp ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+        case DT_BIOLOGICAL:
+            return 0;
+        case DT_BASH:
+            return get_armor_bash( bp );
+        case DT_CUT:
+            return get_armor_cut( bp );
+        case DT_STAB:
+            return get_armor_cut( bp ) * 0.8f;
+        case DT_ACID:
+        case DT_HEAT:
+        case DT_COLD:
+        case DT_ELECTRIC: {
+            int ret = 0;
+            for( auto &i : worn ) {
+                if( i.covers( bp ) ) {
+                    ret += i.damage_resist( dt );
+                }
+            }
+
+            ret += mutation_armor( bp, dt );
+            return ret;
+        }
+        case DT_NULL:
+        case NUM_DT:
+            // Let it error below
+            break;
+    }
+
+    debugmsg( "Invalid damage type: %d", dt );
+    return 0;
+}
+
+int Character::get_armor_bash_base( body_part bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.bash_resist();
+        }
+    }
+    if( has_bionic( bio_carbon ) ) {
+        ret += 2;
+    }
+    if( bp == bp_head && has_bionic( bio_armor_head ) ) {
+        ret += 3;
+    }
+    if( ( bp == bp_arm_l || bp == bp_arm_r ) && has_bionic( bio_armor_arms ) ) {
+        ret += 3;
+    }
+    if( bp == bp_torso && has_bionic( bio_armor_torso ) ) {
+        ret += 3;
+    }
+    if( ( bp == bp_leg_l || bp == bp_leg_r ) && has_bionic( bio_armor_legs ) ) {
+        ret += 3;
+    }
+    if( bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
+        ret += 3;
+    }
+
+    ret += mutation_armor( bp, DT_BASH );
+    return ret;
+}
+
+int Character::get_armor_cut_base( body_part bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.cut_resist();
+        }
+    }
+    if( has_bionic( bio_carbon ) ) {
+        ret += 4;
+    }
+    if( bp == bp_head && has_bionic( bio_armor_head ) ) {
+        ret += 3;
+    } else if( ( bp == bp_arm_l || bp == bp_arm_r ) && has_bionic( bio_armor_arms ) ) {
+        ret += 3;
+    } else if( bp == bp_torso && has_bionic( bio_armor_torso ) ) {
+        ret += 3;
+    } else if( ( bp == bp_leg_l || bp == bp_leg_r ) && has_bionic( bio_armor_legs ) ) {
+        ret += 3;
+    } else if( bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
+        ret += 3;
+    }
+
+    ret += mutation_armor( bp, DT_CUT );
+    return ret;
+}
+
+int Character::get_env_resist( body_part bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        // Head protection works on eyes too (e.g. baseball cap)
+        if( i.covers( bp ) || ( bp == bp_eyes && i.covers( bp_head ) ) ) {
+            ret += i.get_env_resist();
+        }
+    }
+
+    for( const bionic &bio : *my_bionics ) {
+        const auto EP = bio.info().env_protec.find( bp );
+        if( EP != bio.info().env_protec.end() ) {
+            ret += EP->second;
+        }
+    }
+
+    if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
+        ret += 8;
+    }
+    return ret;
+}
+
+int Character::get_armor_acid( body_part bp ) const
+{
+    return get_armor_type( DT_ACID, bp );
+}
+
 int Character::get_stim() const
 {
     return stim;
@@ -5262,6 +5436,24 @@ void Character::set_stim( int new_stim )
 void Character::mod_stim( int mod )
 {
     stim += mod;
+}
+
+int Character::get_rad() const
+{
+    return radiation;
+}
+
+void Character::set_rad( int new_rad )
+{
+    radiation = new_rad;
+}
+
+void Character::mod_rad( int mod )
+{
+    if( has_trait_flag( "NO_RADIATION" ) ) {
+        return;
+    }
+    set_rad( std::max( 0, get_rad() + mod ) );
 }
 
 int Character::get_stamina() const
@@ -6275,7 +6467,7 @@ void Character::heal( body_part healed, int dam )
 
 void Character::heal( hp_part healed, int dam )
 {
-    if( hp_cur[healed] > 0 ) {
+    if( !is_limb_broken( healed ) ) {
         int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
         hp_cur[healed] += effective_heal;
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
@@ -6395,6 +6587,18 @@ void Character::set_type_of_scent( scenttype_id id )
 scenttype_id Character::get_type_of_scent() const
 {
     return type_of_scent;
+}
+
+void Character::restore_scent()
+{
+    const std::string prev_scent = get_value( "prev_scent" );
+    if( !prev_scent.empty() ) {
+        remove_effect( efftype_id( "masked_scent" ) );
+        set_type_of_scent( scenttype_id( prev_scent ) );
+        remove_value( "prev_scent" );
+        remove_value( "waterproof_scent" );
+        add_msg_if_player( m_info, _( "You smell like yourself again." ) );
+    }
 }
 
 void Character::spores()

@@ -1,8 +1,8 @@
 #include "debug_menu.h"
 
 // IWYU pragma: no_include <cxxabi.h>
-#include <limits.h>
-#include <stdint.h>
+#include <climits>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -67,7 +67,7 @@
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
-#include "signal.h"
+#include <csignal>
 #include "magic.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -733,7 +733,7 @@ void character_edit_menu()
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
+            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
@@ -748,8 +748,8 @@ void character_edit_menu()
                     }
                     break;
                 case 2:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.radiation ) ) {
-                        p.radiation = value;
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_rad() ) ) {
+                        p.set_rad( value );
                     }
                     break;
                 default:

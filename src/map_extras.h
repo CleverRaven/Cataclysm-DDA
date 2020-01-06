@@ -2,7 +2,7 @@
 #ifndef MAP_EXTRAS_H
 #define MAP_EXTRAS_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 

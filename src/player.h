@@ -48,6 +48,7 @@ class map;
 class npc;
 struct pathfinding_settings;
 class recipe;
+enum class recipe_filter_flags : int;
 struct islot_comestible;
 struct itype;
 class monster;
@@ -122,7 +123,8 @@ enum class rechargeable_cbm {
 };
 
 enum class comfort_level {
-    uncomfortable = -999,
+    impossible = -999,
+    uncomfortable = -7,
     neutral = 0,
     slightly_comfortable = 3,
     comfortable = 5,
@@ -523,7 +525,7 @@ class player : public Character
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
-        void perform_special_attacks( Creature &t );
+        void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
@@ -671,6 +673,14 @@ class player : public Character
         /** Get calorie & vitamin contents for a comestible, taking into
          * account player traits */
         nutrients compute_effective_nutrients( const item & ) const;
+        /** Get range of possible nutrient content, for a particular recipe,
+         * depending on choice of ingredients */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const item &, const recipe_id &,
+            const cata::flat_set<std::string> &extra_flags = {} ) const;
+        /** Same, but across arbitrary recipes */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
@@ -734,7 +744,7 @@ class player : public Character
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /**
          * Check player capable of wielding an item.
@@ -795,10 +805,8 @@ class player : public Character
         cata::optional<std::list<item>::iterator>
         wear_item( const item &to_wear, bool interactive = true );
 
-        /** Returns all items that must be taken off before taking off this item */
-        std::list<const item *> get_dependent_worn_items( const item &it ) const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( const item &it, std::list<item> *res = nullptr );
+        bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
         /** So far only called by unload() from game.cpp */
@@ -813,7 +821,7 @@ class player : public Character
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
-        bool wield_contents( item &container, int pos = 0, bool penalties = true,
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume
@@ -889,20 +897,6 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( body_part bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( body_part bp ) const override;
-        /** Returns bashing resistance from the creature and armor only */
-        int get_armor_bash_base( body_part bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( body_part bp ) const override;
-        /** Returns overall env_resist on a body_part */
-        int get_env_resist( body_part bp ) const override;
-        /** Returns overall acid resistance for the body part */
-        int get_armor_acid( body_part bp ) const;
-        /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -1038,7 +1032,7 @@ class player : public Character
          * The player is not required to have enough tool charges to finish crafting, only to
          * complete the first step (total / 20 + total % 20 charges)
          */
-        bool can_start_craft( const recipe *rec, int batch_size = 1 );
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**
@@ -1162,7 +1156,8 @@ class player : public Character
         int blocks_left;
         int cash;
         int movecounter;
-        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
 
         bool reach_attacking = false;
         bool manual_examine = false;

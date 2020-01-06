@@ -1,0 +1,100 @@
+[
+  {
+    "id": "MISSION_GET_MAGIC_BOOK",
+    "type": "mission_definition",
+    "name": "Retrieve Magic Book",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 4,
+    "value": 250000,
+    "item": "magus_spellbook",
+    "start": {
+      "effect": [ { "npc_remove_item_with": "magus_spellbook" }, "assign_guard", { "clear_npc_rule": "investigate_noises" } ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Where did I put that blasted…",
+      "offer": "I seem to have misplaced my book, The Tome of The Battle Mage.  That worthless apprentice probably stole it.  Bring it to me.",
+      "accepted": "…What?  Oh you're still here.  Go find my book.",
+      "rejected": "Just as useless as that apprentice…",
+      "advice": "You want me to do your job for you?  Bah.  That apprentice said something about wanting to look around town, you might start there.  Oh, and it's called The Tome of The Battle Mage, you can read at least the title, can't you?",
+      "inquire": "Where's my book?",
+      "success": "Finally.  Took you long enough.",
+      "success_lie": "Nonsense!  Useless!  Waste of my time!",
+      "failure": "Ugh, why am I cursed with useless people?"
+    }
+  },
+  {
+    "id": "MISSION_GET_POWER_CBM",
+    "type": "mission_definition",
+    "name": "Find Power Storage CBM",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "item": "bio_power_storage",
+    "start": {
+      "effect": [ { "npc_remove_item_with": "bio_power_storage" }, "assign_guard", { "clear_npc_rule": "investigate_noises" } ]
+    },
+    "end": { "effect": [ { "u_buy_item": "techno_fundamentals", "count": 1 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "More power… moar power… MOAR POWAA!",
+      "offer": "I need more power.  Find me more power storage and I'll give you this book.",
+      "accepted": "I don't care where it comes from so long as it's clean.",
+      "rejected": "You want more power too, don't you?",
+      "advice": "Electronic Stores might have what I need.  Or you could just cut it out of something.",
+      "inquire": "Find anything?",
+      "success": "Perfect.  More power… power…",
+      "success_lie": "I don't understand.",
+      "failure": "I must find more power, this setback is inconvenient."
+    }
+  },
+  {
+    "id": "MISSION_PURGE_50_Z",
+    "type": "mission_definition",
+    "name": "Kill 50 Zombies",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 50,
+    "difficulty": 5,
+    "value": 250000,
+    "start": { "effect": "follow_only" },
+    "end": { "effect": "stop_following" },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_PURGE_150_Z",
+    "dialogue": {
+      "describe": "Will you answer the call?",
+      "offer": "This world has fallen to chaos and death.  Remove 50 of the cursed from this world; assist me in purging this curse and you shall be rewarded.",
+      "accepted": "Blessed be.  I shall observe your efforts and judge you as one of the many or one of the few.",
+      "rejected": "You will not help purge this curse?  Perhaps you are a part of the curse…",
+      "advice": "The awakened congregate in towns and cities, the closer to the center the more you will find.",
+      "inquire": "Blessed be.",
+      "success": "Blessed be.  You are one of the few.  We shall do great works together.",
+      "success_lie": "Deception is the realm of the cursed.  You disappoint me.",
+      "failure": "Was the curse too strong for you?"
+    }
+  },
+  {
+    "id": "MISSION_PURGE_150_Z",
+    "type": "mission_definition",
+    "name": "Kill 150 Zombies",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 150,
+    "difficulty": 7,
+    "value": 250000,
+    "start": { "effect": "follow_only" },
+    "end": { "effect": "stop_following" },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "You have proven you are one of the few, will you stand with the few again?",
+      "offer": "We must continue the purge.  Remove 150 more of the cursed from this land and you shall be blessed with greatness.",
+      "accepted": "Blessed be. You are a true testament to the few.",
+      "rejected": "I see.  Perhaps you will find your way back to us one day.",
+      "advice": "The awakened stir in even the darkest of corners.  Seek them out and destroy them.",
+      "inquire": "Blessed be.",
+      "success": "Blessed be.  You are a valuable asset to our cause.  Perhaps you may even be our salvation.",
+      "success_lie": "You have come so far.  Only to fall.",
+      "failure": "The curse of this land infects that which does not seek to purge."
+    }
+  }
+]

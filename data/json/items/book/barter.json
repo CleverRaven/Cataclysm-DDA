@@ -19,8 +19,7 @@
   {
     "id": "manual_business",
     "type": "BOOK",
-    "name": "How to Succeed in Business",
-    "name_plural": "How to Succeed in Business",
+    "name": { "str": "How to Succeed in Business", "str_pl": "copies of How to Succeed in Business" },
     "description": "Useful if you want to get a good deal when purchasing goods.",
     "weight": "454 g",
     "volume": "750 ml",
@@ -38,8 +37,7 @@
   {
     "id": "textbook_business",
     "type": "BOOK",
-    "name": "Advanced Economics",
-    "name_plural": "Advanced Economics",
+    "name": { "str": "Advanced Economics", "str_pl": "copies of Advanced Economics" },
     "//": "Biz majors can afford it.  Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
     "description": "A college textbook on economics.",
     "weight": "1587 g",

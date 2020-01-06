@@ -1026,6 +1026,11 @@
   },
   {
     "type": "item_action",
+    "id": "place_npc",
+    "name": "Activate"
+  },
+  {
+    "type": "item_action",
     "id": "place_trap",
     "name": "Place"
   },
@@ -1033,6 +1038,11 @@
     "type": "item_action",
     "id": "reveal_map",
     "name": "Read"
+  },
+  {
+    "type": "item_action",
+    "id": "change_scent",
+    "name": "Mask scent"
   },
   {
     "type": "item_action",

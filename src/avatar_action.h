@@ -2,7 +2,7 @@
 #ifndef AVATAR_ACTION_H
 #define AVATAR_ACTION_H
 
-#include <limits.h>
+#include <climits>
 
 #include "optional.h"
 #include "point.h"

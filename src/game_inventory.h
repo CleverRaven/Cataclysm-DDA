@@ -24,6 +24,8 @@ class repair_item_actor;
 
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -65,9 +67,9 @@ void swap_letters( player &p );
 
 /**
  * Select items to drop.
- * @return A list of pairs of position, quantity.
+ * @return A list of pairs of item_location, quantity.
  */
-std::list<std::pair<int, int>> multidrop( player &p );
+drop_locations multidrop( player &p );
 
 /** Consuming an item. */
 item_location consume( player &p );

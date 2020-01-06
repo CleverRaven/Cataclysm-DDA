@@ -6,6 +6,7 @@ Use the `Home` key to return to the top.
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
+    + [`data/json/items/comestibles`](#datajsonitemscomestibles)
   * [`data/json/requirements/`](#datajsonrequirements)
   * [`data/json/vehicles/`](#datajsonvehicles)
 - [Generic properties and formatting](#generic-properties-and-formatting)
@@ -36,6 +37,7 @@ Use the `Home` key to return to the top.
       - [`flags`](#-flags-)
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
+    + [Profession item substitution](#profession_item_substitutions)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
@@ -155,12 +157,12 @@ Use the `Home` key to return to the top.
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
-  
+
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
 # File descriptions
-Here's a quick summary of what each of the JSON files contain, broken down by folder.
+Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
 
 ## `data/json/`
 
@@ -259,6 +261,8 @@ See below for specifics on the various items
 | tools.json         | tools and items that can be (a)ctivated
 | vehicle_parts.json | components of vehicles when they aren't on the vehicle
 
+### `data/json/items/comestibles`
+
 ## `data/json/requirements/`
 
 Standard components and tools for crafting
@@ -300,10 +304,10 @@ A few properties are applicable to most if not all json files and do not need to
 | Identifier               | Description
 |---                       |---
 | type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
-| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from. 
+| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from.
 | [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
 | [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
+| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
 
 
 
@@ -466,16 +470,17 @@ The syntax listed here is still valid.
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Must be one continuous word, use underscores if necessary.
+| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
-| `bash_dmg_verb`  | Verb used when material takes bashing damage.
-| `cut_dmg_verb`   | Verb used when material takes cutting damage.
-| `dmg_adj`        | Description added to damaged item in ascending severity.
 | `acid_resist`    | Ability of a material to resist acid.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
+| `chip_resist`    | Returns resistance to being damaged by attacks against the item itself.
+| `bash_dmg_verb`  | Verb used when material takes bashing damage.
+| `cut_dmg_verb`   | Verb used when material takes cutting damage.
+| `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
@@ -483,6 +488,12 @@ The syntax listed here is still valid.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
 | `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `edible`   | Optional boolean. Default is false.
+| `rotting`   | Optional boolean. Default is false.
+| `soft`   | Optional boolean. Default is false.
+| `reinforces`   | Optional boolean. Default is false.
+
+There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
 
 ```C++
 {
@@ -523,7 +534,7 @@ The syntax listed here is still valid.
 | `default`   | Default monster, automatically fills in any remaining spawn chances.
 | `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
 | `is_safe`   | (bool) Check to not trigger safe-mode warning.
-| `is_animal` | (bool) Check if that group has only normal animals. 
+| `is_animal` | (bool) Check if that group has only normal animals.
 
 #### Monster definition
 
@@ -580,6 +591,41 @@ See MONSTERS.md
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
+
+### Profession item substitution
+
+Defines item replacements that are applied to the starting items based upon the starting traits. This allows for example to replace wool items with non-wool items when the characters starts with the wool allergy trait.
+
+If the JSON objects contains a "item" member, it defines a replacement for the given item, like this:
+
+```C++
+{
+  "type": "profession_item_substitutions",
+  "item": "sunglasses",
+  "sub": [
+    { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
+    { "present": [ "MYOPIC" ], "new": [ { "fitover_sunglasses", "ratio": 2 } ] }
+  ]
+}
+```
+This defines each item of type "sunglasses" shall be replaced with:
+- an item "fitover_sunglasses" if the character has the "HYPEROPIC" trait,
+- two items "fitover_sunglasses" if the character has the "MYOPIC" trait.
+
+If the JSON objects contains a "trait" member, it defines a replacement for multiple items that applies when the character has the given trait:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "trait": "WOOLALLERGY",
+  "sub": [
+    { "item": "blazer", "new": [ "jacket_leather_red" ] },
+    { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
+  ]
+}
+```C++
+This defines characters with the WOOLALLERGY trait get some items replaced:
+- "blazer" is converted into "jacket_leather_red",
+- each "hat_hunting" is converted into *two* "hat_cotton" items.
 
 ### Professions
 
@@ -940,6 +986,10 @@ Note that even though most statistics yield an integer, you should still use
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
+"cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
+"rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
+"rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
 "bodytemp_sleep" : 50, // Additional units of bodytemp which are applied when sleeping
 "initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
@@ -967,6 +1017,7 @@ Note that even though most statistics yield an integer, you should still use
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
+"craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
 "restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
@@ -1073,7 +1124,7 @@ Vehicle components when installed on a vehicle.
 "exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
 "fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
 "comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
-"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep. 
+"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
 "bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
 ```
 
@@ -1158,6 +1209,7 @@ See also VEHICLE_JSON.md
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
 "container" : "null",             // What container (if any) this item should spawn within
+"repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
@@ -1328,6 +1380,19 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
     "required_level" : 2
 }
 ```
+
+Since many book names are proper names, it's often necessary to explicitly specify
+the plural forms. The following is the game's convention on plural names of books:
+
+1. For non-periodical books (textbooks, manuals, spellbooks, etc.),
+    1. If the book's singular name is a proper name, then the plural name is `copies of (singular name)`. For example, the plural name of `Lessons for the Novice Bowhunter` is `copies of Lessons for the Novice Bowhunter`.
+    2. Otherwise, the plural name is the usual plural of the singular name. For example, the plural name of `tactical baton defense manual` is `tactical baton defense manuals`
+2. For periodicals (magazines and journals),
+    1. If the periodical's singular name is a proper name, and doesn't end with "Magazine", "Weekly", "Monthly", etc., the plural name is `issues of (singular name)`. For example, the plural name of `Archery for Kids` is `issues of Archery for Kids`.
+    2. Otherwise, the periodical's plural name is the usual plural of the singular name. For example, the plural name of `Crafty Crafter's Quarterly` is `Crafty Crafter's Quarterlies`.
+3. For board games (represented internally as book items),
+    1. If the board game's singular name is a proper name, the plural is `sets of (singular name)`. For example, the plural name of `Picturesque` is `sets of Picturesque`.
+    2. Otherwise the plural name is the usual plural. For example, the plural of `deck of cards` is `decks of cards`.
 
 #### Conditional Naming
 
@@ -1533,7 +1598,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "gunmod_data" : {
     "location": ...,
     "mod_targets": ...,
-    ... 
+    ...
 }
 ```
 
@@ -1812,6 +1877,16 @@ The contents of use_action fields can either be a string indicating a built-in f
     "scrambler_blast_radius": 4
 },
 "use_action": {
+    "type": "change_scent", // Change the scent type of the user.
+    "scent_typeid": "sc_fetid", // The scenttype_id of the new scent.
+    "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
+    "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
+    "duration": "6 m", // How long does the effect last.
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "waterproof": true, // Is the effect waterproof.  (Default: false)
+    "moves": 500 // Number of moves required in the process.
+},
+"use_action": {
     "type": "unfold_vehicle", // Transforms the item into a vehicle.
     "vehicle_name": "bicycle", // Vehicle name to create.
     "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.", // Message to display when transforming.
@@ -1837,6 +1912,13 @@ The contents of use_action fields can either be a string indicating a built-in f
     "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
     "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
     "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "place_npc", // place npc of specific class on the map
+    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
+    "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 50 // how many move points the action takes.
 },
 "use_action": {
     "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
@@ -2124,7 +2206,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using  
+    `max` upper limit after `bas_num` and `scale_num` are calculated using
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
 
@@ -2188,7 +2270,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 #### `plant_data`
 
-(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag. 
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
 ### Terrain
 
@@ -2311,7 +2393,7 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 
 #### `floor_bedding_warmth`
 
-Bonus warmth offered by this terrain/furniture when used to sleep. 
+Bonus warmth offered by this terrain/furniture when used to sleep.
 
 #### `bonus_fire_warmth_feet`
 

@@ -1,5 +1,15 @@
 # Translating Cataclysm: DDA
 
+* [Translators](#translators)
+  * [Getting Started](#getting-Started)
+  * [Grammatical gender](#grammatical-gender)
+  * [Tips](#tips)
+* [Developers](#developers)
+  * [Translation Functions](#translation-functions)
+  * [`translation`](#translation)
+  * [Recommendations](#recommendations)
+* [Maintainers](#maintainers)
+
 ## Translators
 
 The official location for translating Cataclysm: DDA is the

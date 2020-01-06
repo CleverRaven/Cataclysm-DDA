@@ -15,5 +15,17 @@
       [ [ "candle", 1 ] ],
       [ [ "y_paint", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "decorative_wreath",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "pine_bough", 4 ] ], [ [ "duct_tape", 10 ], [ "cordage_superior", 6, "LIST" ] ] ]
   }
 ]

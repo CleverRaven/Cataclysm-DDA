@@ -440,6 +440,19 @@ void Item_factory::finalize()
         finalize_pre( *e.second );
         finalize_post( *e.second );
     }
+
+    // for each item register all (non-obsolete) potential recipes
+    for( const std::pair<const recipe_id, recipe> &p : recipe_dict ) {
+        const recipe &rec = p.second;
+        if( rec.obsolete || rec.will_be_blacklisted() ) {
+            continue;
+        }
+        const itype_id &result = rec.result();
+        auto it = m_templates.find( result );
+        if( it != m_templates.end() ) {
+            it->second.recipes.push_back( p.first );
+        }
+    }
 }
 
 void Item_factory::finalize_item_blacklist()
@@ -782,6 +795,8 @@ void Item_factory::init()
     add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
+    add_actor( std::make_unique<change_scent_iuse>() );
+    add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
     add_actor( std::make_unique<unfold_vehicle_iuse>() );
@@ -1700,19 +1715,19 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     bool got_calories = false;
 
-    if( jo.has_int( "calories" ) ) {
+    if( jo.has_member( "calories" ) ) {
         slot.default_nutrition.kcal = jo.get_int( "calories" );
         got_calories = true;
 
-    } else if( relative.has_int( "calories" ) ) {
+    } else if( relative.has_member( "calories" ) ) {
         slot.default_nutrition.kcal += relative.get_int( "calories" );
         got_calories = true;
 
-    } else if( proportional.has_float( "calories" ) ) {
+    } else if( proportional.has_member( "calories" ) ) {
         slot.default_nutrition.kcal *= proportional.get_float( "calories" );
         got_calories = true;
 
-    } else if( jo.has_int( "nutrition" ) ) {
+    } else if( jo.has_member( "nutrition" ) ) {
         slot.default_nutrition.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
     }
 
@@ -1812,6 +1827,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
+    assign( jo, "weight_multiplier", slot.weight_multiplier );
     if( jo.has_int( "time" ) ) {
         slot.install_time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
@@ -2042,6 +2058,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
 
+    if( jo.has_member( "repairs_like" ) ) {
+        jo.read( "repairs_like", def.repairs_like );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
@@ -2152,9 +2172,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.drop_action = usage_from_object( tmp ).second;
     }
 
-    if( jo.has_string( "looks_like" ) ) {
-        def.looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", def.looks_like );
 
     if( jo.has_member( "conditional_names" ) ) {
         def.conditional_names.clear();

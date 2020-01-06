@@ -1,0 +1,36 @@
+[
+  {
+    "id": "afs_sentinel_stunner",
+    "type": "GUN",
+    "copy-from": "v29",
+    "name": "wrist-stunner",
+    "description": "A severed robotic hand from a Wraitheon Sentinel.  The powerful electro-laser stun gun embed on its wrist is still functional, and can be used when connected to an UPS.",
+    "price": 720000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "superalloy", "plastic" ],
+    "color": "cyan",
+    "range": 10,
+    "ranged_damage": 5,
+    "pierce": 15,
+    "dispersion": 500,
+    "ups_charges": 25,
+    "ammo_effects": [ "LASER", "BEANBAG" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "afs_sentinel_laser",
+    "type": "GUN",
+    "copy-from": "afs_sentinel_stunner",
+    "name": "wrist-trilaser",
+    "description": "A powerful tri-barreled laser weapon, still mounted to the robotic hand of the wraitheon drone it originally belonged too.  Can still be fired when connected to an UPS.",
+    "color": "red",
+    "range": 10,
+    "ranged_damage": 25,
+    "pierce": 15,
+    "ups_charges": 50,
+    "modes": [ [ "MULTI", "trilaser", 3 ] ],
+    "ammo_effects": [ "LASER" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+  }
+]

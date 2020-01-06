@@ -328,11 +328,14 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
+    optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, 1.0f );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
     optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
@@ -367,6 +370,18 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
 
+    if( jo.has_object( "rand_cut_bonus" ) ) {
+        JsonObject sm = jo.get_object( "rand_cut_bonus" );
+        rand_cut_bonus.first = sm.get_int( "min" );
+        rand_cut_bonus.second = sm.get_int( "max" );
+    }
+
+    if( jo.has_object( "rand_bash_bonus" ) ) {
+        JsonObject sm = jo.get_object( "rand_bash_bonus" );
+        rand_bash_bonus.first = sm.get_int( "min" );
+        rand_bash_bonus.second = sm.get_int( "max" );
+    }
+
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
@@ -394,6 +409,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     for( JsonArray ja : jo.get_array( "spells_learned" ) ) {
         const spell_id sp( ja.next_string() );
         spells_learned.emplace( sp, ja.next_int() );
+    }
+
+    for( JsonArray ja : jo.get_array( "craft_skill_bonus" ) ) {
+        const skill_id skid( ja.next_string() );
+        if( skid.is_valid() ) {
+            craft_skill_bonus.emplace( skid, ja.next_int() );
+        } else {
+            jo.throw_error( "invalid skill_id" );
+        }
     }
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {

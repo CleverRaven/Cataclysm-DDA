@@ -235,7 +235,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @todo: Rate fire higher than smoke
+                // @TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }
@@ -680,9 +680,10 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
+    // NPCs under operation should just stay still
     if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
-        return;// NPCs under operation should just stay still
+        return;
     }
 
     npc_action action = npc_undecided;
@@ -2178,7 +2179,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
-    return( rl_dist( pos(), p ) <= 1 &&
+    return( rl_dist( pos(), p ) <= 1 && g->m.has_floor( p ) && !g->is_dangerous_tile( p ) &&
             ( g->m.passable( p ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
               ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
@@ -2600,7 +2601,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return g->m.passable( elem );
     } );
 
-    algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+    cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
         const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
         [&]( const int sum, const sphere & s ) {
             return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );
@@ -4319,13 +4320,13 @@ bool npc::complain()
     }
 
     // Radiation every 10 minutes
-    if( radiation > 90 ) {
+    if( get_rad() > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
         std::string speech = _( "I'm suffering from radiation sickness…" );
-        if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
+        if( complain_about( radiation_string, 10_minutes, speech, get_rad() > 150 ) ) {
             return true;
         }
-    } else if( !radiation ) {
+    } else if( !get_rad() ) {
         deactivate_bionic_by_id( bio_radscrubber );
     }
 

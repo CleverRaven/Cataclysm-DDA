@@ -742,19 +742,6 @@
   },
   {
     "type": "recipe",
-    "result": "rock_pot",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "cooking", 1 ],
-    "difficulty": 2,
-    "time": "20 m",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 3 ] ], [ [ "cordage", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "primitive_shovel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3261,6 +3248,32 @@
       [ [ "wrench", 1 ] ],
       [ [ "saw", 1 ] ],
       [ [ "hammer", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox_workshop",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 4,
+    "time": "4 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "sheet_metal_small", 5 ] ],
+      [ [ "nail", 11 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
+      [ [ "screwdriver_set", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "hammer", 1 ] ],
+      [ [ "metal_file", 1 ] ],
+      [ [ "pin_reamer", 1 ] ],
+      [ [ "hand_vice", 1 ] ]
     ]
   },
   {

@@ -25,7 +25,7 @@
     "id": "crt_boots",
     "copy-from": "crt_la_boots",
     "type": "ARMOR",
-    "name": "pair of CRIT boots",
+    "name": { "str": "pair of CRIT boots", "str_pl": "pairs of CRIT boots" },
     "description": "C.R.I.T standard-issue boots.  Next-gen gels keep feet comfortable and hygenic during long-term missions while absorbing shock and heat from outside-sources.  Superalloy mesh and rubber offer quite a bit of chemical protection as well.  Decently heavy though",
     "color": "dark_gray",
     "weight": "1500 g",
@@ -33,7 +33,7 @@
     "warmth": 40,
     "encumbrance": 17,
     "material_thickness": 5,
-    "enviromental_protection": 5
+    "environmental_protection": 5
   },
   {
     "id": "crt_la_boots",
@@ -271,7 +271,7 @@
     "id": "crt_earmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "CRIT Enforcer armor assembly",
+    "name": { "str": "CRIT Enforcer armor assembly", "str_pl": "CRIT Enforcer armor assemblies" },
     "description": "A series of plates, guards and buckles which assemble into a suit of sturdy body-armor which usually goes over other armor.  Overlapping steel plates on top of kevlar plates cover vast expanses as the armor juts off in places so it can deflect attacks.  Built with the idea that comfort is less important than safety, this heavy suit is difficult to move about in but highly protective.  Various adjustable conectors such as straps and clips hold it together.",
     "weight": "21460 g",
     "volume": "11250 ml",

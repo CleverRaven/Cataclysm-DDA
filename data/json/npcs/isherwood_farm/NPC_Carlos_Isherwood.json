@@ -195,13 +195,7 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [ { "u_buy_item": "leather_armor_horse", "count": 1 } ],
-      "update_mapgen": [
-        {
-          "om_terrain": "horse_farm_isherwood_4",
-          "om_special": "Isherwood Farms",
-          "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ]
-        }
-      ]
+      "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
   },
   {

@@ -976,6 +976,7 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
+      [ "toothbrush_plain", 10 ],
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },
@@ -1144,7 +1145,10 @@
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
-      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
+      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
+      [ "toilet_paper", 30 ],
+      [ "plunger_toilet", 10 ],
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -1301,7 +1305,12 @@
       [ "sewing_kit", 10 ],
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "group": "harddrugs", "prob": 5 }
+      { "group": "harddrugs", "prob": 5 },
+      [ "hairbrush", 30 ],
+      [ "comb_pocket", 15 ],
+      [ "curler_hair", 10 ],
+      [ "curling_iron", 15 ],
+      [ "brush_toilet", 15 ]
     ]
   },
   {
@@ -1333,7 +1342,9 @@
       [ "nyquil", 5 ],
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
-      [ "joint", 1 ]
+      [ "joint", 1 ],
+      [ "curler_hair", 10 ],
+      [ "hairbrush", 5 ]
     ]
   },
   {

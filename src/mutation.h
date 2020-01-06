@@ -125,6 +125,11 @@ struct mutation_branch {
         float hp_adjustment = 0.0f;
         // Modify strength stat without changing HP
         float str_modifier = 0.0f;
+        //melee bonuses
+        int cut_dmg_bonus = 0;
+        std::pair<int, int> rand_cut_bonus;
+        int bash_dmg_bonus = 0;
+        std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         float dodge_modifier = 0.0f;
         float speed_modifier = 1.0f;
@@ -135,11 +140,15 @@ struct mutation_branch {
         float max_stamina_modifier = 1.0f;
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
+        float movecost_swim_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
         int bleed_resist = 0;
+
+        /**Map of crafting skills modifiers, can be negative*/
+        std::map<skill_id, int> craft_skill_bonus;
 
         /**What do you smell like*/
         cata::optional<scenttype_id> scent_typeid;

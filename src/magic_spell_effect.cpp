@@ -1,6 +1,6 @@
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>
@@ -110,6 +110,15 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
         return;
     }
     teleport::teleport( caster, min_distance, max_distance, safe, false );
+}
+
+static void swap_pos( Creature &caster, const tripoint &target )
+{
+    Creature *const critter = g->critter_at<Creature>( target );
+    critter->setpos( caster.pos() );
+    caster.setpos( target );
+    //update map in case a monster swapped positions with the player
+    g->update_map( g->u );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -447,6 +456,9 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
 {
     damage_targets( sp, caster, spell_effect_area( sp, epicenter, spell_effect_blast, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
+    if( sp.has_flag( spell_flag::SWAP_POS ) ) {
+        swap_pos( caster, epicenter );
+    }
 }
 
 void spell_effect::cone_attack( const spell &sp, Creature &caster,

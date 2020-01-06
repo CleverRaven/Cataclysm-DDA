@@ -21,6 +21,17 @@ class time_duration;
 using itype_id = std::string; // From itype.h
 class Character;
 
+enum class recipe_filter_flags : int {
+    none = 0,
+    no_rotten = 1,
+};
+
+inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
+{
+    return static_cast<recipe_filter_flags>(
+               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+}
+
 class recipe
 {
         friend class recipe_dictionary;
@@ -62,7 +73,12 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
-        std::function<bool( const item & )> get_component_filter() const;
+        // Slower equivalent of is_blacklisted that needs to be used before
+        // recipe finalization happens
+        bool will_be_blacklisted() const;
+
+        std::function<bool( const item & )> get_component_filter(
+            recipe_filter_flags = recipe_filter_flags::none ) const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;

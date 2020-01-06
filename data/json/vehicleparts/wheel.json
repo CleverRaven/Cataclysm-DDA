@@ -319,6 +319,34 @@
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
   {
+    "id": "wheel_10",
+    "type": "vehicle_part",
+    "name": "wheels",
+    "item": "wheel_10",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "durability": 120,
+    "description": "A set of 10\" wheels with tough rubber tires.",
+    "folded_volume": 10,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 5 ] },
+      { "item": "scrap", "count": [ 1, 5 ] },
+      { "item": "plastic_chunk", "count": [ 1, 5 ] }
+    ],
+    "rolling_resistance": 29,
+    "wheel_type": "off-road",
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
+  },
+  {
     "id": "wheel_motorbike",
     "type": "vehicle_part",
     "name": "motorbike wheel",

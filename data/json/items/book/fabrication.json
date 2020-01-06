@@ -2,8 +2,7 @@
   {
     "id": "glassblowing_book",
     "type": "BOOK",
-    "name": "The Art of Glassblowing",
-    "name_plural": "The Art of Glassblowing",
+    "name": { "str": "The Art of Glassblowing", "str_pl": "copies of The Art of Glassblowing" },
     "description": "A textbook that illustrates the science and technique of the ancient art of glassblowing.",
     "weight": "1620 g",
     "volume": "1250 ml",
@@ -22,8 +21,7 @@
   {
     "id": "jewelry_book",
     "type": "BOOK",
-    "name": "Antique Adornments",
-    "name_plural": "Antique Adornments",
+    "name": { "str": "Antique Adornments", "str_pl": "copies of Antique Adornments" },
     "description": "A comprehensive and illustrated history of crown, bracelet, necklace and others.",
     "weight": "600 g",
     "volume": "1250 ml",
@@ -41,8 +39,7 @@
   {
     "id": "mag_fabrication",
     "type": "BOOK",
-    "name": "Crafty Crafter's Quarterly",
-    "name_plural": "Crafty Crafter's Quarterly",
+    "name": { "str": "Crafty Crafter's Quarterly", "str_pl": "Crafty Crafter's Quarterlies" },
     "description": "A fun quarterly magazine all about macaroni art and things you can make by supergluing found objects together.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -60,8 +57,7 @@
   {
     "id": "manual_fabrication",
     "type": "BOOK",
-    "name": "101 Crafts for Beginners",
-    "name_plural": "101 Crafts for Beginners",
+    "name": { "str": "101 Crafts for Beginners", "str_pl": "copies of 101 Crafts for Beginners" },
     "description": "A large, paperback book detailing a hundred and one beginner's projects in fabrication.",
     "weight": "510 g",
     "volume": "750 ml",
@@ -79,8 +75,7 @@
   {
     "id": "recipe_arrows",
     "type": "BOOK",
-    "name": "The Fletcher's Friend",
-    "name_plural": "The Fletcher's Friend",
+    "name": { "str": "The Fletcher's Friend", "str_pl": "copies of The Fletcher's Friend" },
     "description": "This hefty book is devoted to folks looking to handcraft their own arrows.  It starts with a hip and snappy disclaimer about the risks, both physical and legal, of using explosives and flammable materials.  Look for its companion, \"The Bowyer's Buddy\"!",
     "weight": "1454 g",
     "volume": "1250 ml",
@@ -98,8 +93,7 @@
   {
     "id": "recipe_bows",
     "type": "BOOK",
-    "name": "The Bowyer's Buddy",
-    "name_plural": "The Bowyer's Buddy",
+    "name": { "str": "The Bowyer's Buddy", "str_pl": "copies of The Bowyer's Buddy" },
     "description": "This hefty book is dedicated to craftsfolk and outdoors-y types looking to make their own bows.  It recommends its companion volume \"The Fletcher's Friend\" for instructions on producing their ammunition.",
     "weight": "1454 g",
     "volume": "1250 ml",
@@ -117,8 +111,7 @@
   {
     "id": "recipe_bullets",
     "type": "BOOK",
-    "name": "The Handloader's Helper",
-    "name_plural": "The Handloader's Helper",
+    "name": { "str": "The Handloader's Helper", "str_pl": "copies of The Handloader's Helper" },
     "description": "Everything you could ever want to know about handloading ammunition, sealed with a… childproof cover.  Apparently a liability thing, because the chapter on explosive rounds covers them in excellent detail too.",
     "weight": "1454 g",
     "volume": "1500 ml",
@@ -155,8 +148,7 @@
   {
     "id": "recipe_lab_cvd",
     "type": "BOOK",
-    "name": "lab journal-Gustav",
-    "name_plural": "lab journals-Gustav",
+    "name": { "str": "lab journal-Gustav", "str_pl": "lab journals-Gustav" },
     "description": "This paper notebook is mostly full of boring logs, experimental observations and notes.  Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals.  The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
     "weight": "2000 g",
     "volume": "500 ml",
@@ -175,7 +167,7 @@
   {
     "id": "recipe_melee",
     "type": "BOOK",
-    "name": "The Streetfighter's Sidekick",
+    "name": { "str": "The Streetfighter's Sidekick", "str_pl": "copies of The Streetfighter's Sidekick" },
     "description": "A sizable how-to guide for making hand-to-hand combat weapons.  Though the processes are thoroughly detailed and several illustrations are provided, they rely heavily on technical jargon.  More for machinists-turned-weaponsmiths than streetfighters, really.",
     "weight": "954 g",
     "volume": "1500 ml",
@@ -193,8 +185,7 @@
   {
     "id": "recipe_mininuke_launch",
     "type": "BOOK",
-    "name": "238-NK: Practicality Enhancement",
-    "name_plural": "238-NK: Practicality Enhancement",
+    "name": { "str": "238-NK: Practicality Enhancement", "str_pl": "copies of 238-NK: Practicality Enhancement" },
     "description": "The authors of this thoroughly researched and documented proposal make a very persuasive case for the adoption of spring-driven nuclear shells.  It's stamped \"DENIED\".",
     "weight": "854 g",
     "volume": "1500 ml",
@@ -212,8 +203,7 @@
   {
     "id": "textbook_armeast",
     "type": "BOOK",
-    "name": "The Art of Japanese Armormaking",
-    "name_plural": "The Art of Japanese Armormaking",
+    "name": { "str": "The Art of Japanese Armormaking", "str_pl": "copies of The Art of Japanese Armormaking" },
     "description": "This in-depth and technical text details various forms of ancient Japanese armor crafting, and is well illustrated with lots of photos.",
     "weight": "654 g",
     "volume": "1250 ml",
@@ -232,8 +222,7 @@
   {
     "id": "textbook_armschina",
     "type": "BOOK",
-    "name": "Arms and Armor of Imperial China",
-    "name_plural": "Arms and Armor of Imperial China",
+    "name": { "str": "Arms and Armor of Imperial China", "str_pl": "copies of Arms and Armor of Imperial China" },
     "description": "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
     "weight": "654 g",
     "volume": "1250 ml",
@@ -252,8 +241,7 @@
   {
     "id": "textbook_armwest",
     "type": "BOOK",
-    "name": "Studies in Historic Armorsmithing",
-    "name_plural": "Studies in Historic Armorsmithing",
+    "name": { "str": "Studies in Historic Armorsmithing", "str_pl": "copies of Studies in Historic Armorsmithing" },
     "description": "This in-depth and technical text details various forms of ancient European armor crafting, and is well illustrated with lots of photos.",
     "weight": "654 g",
     "volume": "1250 ml",
@@ -272,7 +260,7 @@
   {
     "id": "textbook_fabrication",
     "type": "BOOK",
-    "name": "DIY Compendium",
+    "name": { "str": "DIY Compendium", "str_pl": "copies of DIY Compendium" },
     "description": "A thick, hardbound book detailing countless projects for inventions that claim to improve all aspects of life.",
     "weight": "2100 g",
     "volume": "1750 ml",
@@ -291,8 +279,7 @@
   {
     "id": "textbook_fireman",
     "type": "BOOK",
-    "name": "A History of Firefighting",
-    "name_plural": "A History of Firefighting",
+    "name": { "str": "A History of Firefighting", "str_pl": "copies of A History of Firefighting" },
     "description": "This in-depth and technical text details the history of firefighting from ancient times into the modern era, with a focus on the technology used to save lives.",
     "weight": "528 g",
     "volume": "1 L",
@@ -310,8 +297,7 @@
   {
     "id": "textbook_gaswarfare",
     "type": "BOOK",
-    "name": "Art and Science of Chemical Warfare",
-    "name_plural": "Art and Science of Chemical Warfare",
+    "name": { "str": "Art and Science of Chemical Warfare", "str_pl": "copies of Art and Science of Chemical Warfare" },
     "description": "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries.  The photographs the author chose make it a difficult read at times, though the information is top-notch.",
     "weight": "854 g",
     "volume": "1500 ml",
@@ -330,8 +316,7 @@
   {
     "id": "textbook_weapeast",
     "type": "BOOK",
-    "name": "The Swords of the Samurai",
-    "name_plural": "The Swords of the Samurai",
+    "name": { "str": "The Swords of the Samurai", "str_pl": "copies of The Swords of the Samurai" },
     "description": "This in-depth and technical text details various forms of ancient Japanese sword smithing, and is well illustrated with step by step photo instructions.",
     "weight": "654 g",
     "volume": "1250 ml",
@@ -350,8 +335,7 @@
   {
     "id": "textbook_weapwest",
     "type": "BOOK",
-    "name": "The Historic Weaponsmith",
-    "name_plural": "The Historic Weaponsmith",
+    "name": { "str": "The Historic Weaponsmith", "str_pl": "copies of The Historic Weaponsmith" },
     "description": "This in-depth and technical text details various forms of ancient European weapon smithing, and is well illustrated with step by step photo instructions.",
     "weight": "654 g",
     "volume": "1250 ml",
@@ -370,8 +354,7 @@
   {
     "id": "welding_book",
     "type": "BOOK",
-    "name": "Welding and Metallurgy",
-    "name_plural": "Welding and Metallurgy",
+    "name": { "str": "Welding and Metallurgy", "str_pl": "copies of Welding and Metallurgy" },
     "description": "A rather technical textbook that illustrates the science and technique of becoming a better welder.",
     "weight": "2100 g",
     "volume": "1750 ml",
@@ -390,9 +373,8 @@
   {
     "id": "101_carpentry",
     "type": "BOOK",
-    "name": "101 Home Repairs",
-    "name_plural": "101 Home Repairs",
-    "description": "A paperback book detailing 101 home repair projects the novice carpenter.",
+    "name": { "str": "101 Home Repairs", "str_pl": "copies of 101 Home Repairs" },
+    "description": "A paperback book detailing 101 home repair projects for the novice carpenter.",
     "weight": "454 g",
     "volume": "500 ml",
     "price": 1800,
@@ -408,8 +390,7 @@
   {
     "id": "carpentry_book",
     "type": "BOOK",
-    "name": "The Complete Home Repair Guide",
-    "name_plural": "Complete Home Repair Guides",
+    "name": { "str": "The Complete Home Repair Guide", "str_pl": "copies of The Complete Home Repair Guide" },
     "description": "A massive book that details virtually every aspect of remodeling and repairing a home, with concise terminology aimed at experienced carpenters.",
     "weight": "2490 g",
     "volume": "2 L",
@@ -429,8 +410,7 @@
   {
     "id": "mag_carpentry",
     "type": "BOOK",
-    "name": "Birdhouse Monthly",
-    "name_plural": "Birdhouse Monthlies",
+    "name": { "str": "Birdhouse Monthly", "str_pl": "Birdhouse Monthlies" },
     "description": "A riveting periodical all about birdhouses and their construction.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -448,8 +428,7 @@
   {
     "id": "manual_carpentry",
     "type": "BOOK",
-    "name": "Building for Beginners",
-    "name_plural": "Building for Beginners",
+    "name": { "str": "Building for Beginners", "str_pl": "copies of Building for Beginners" },
     "description": "A large, paperback book detailing several beginner's projects in construction.",
     "weight": "454 g",
     "volume": "500 ml",
@@ -466,8 +445,7 @@
   {
     "id": "textbook_carpentry",
     "type": "BOOK",
-    "name": "Engineering 301",
-    "name_plural": "Engineering 301",
+    "name": { "str": "Engineering 301", "str_pl": "copies of Engineering 301" },
     "description": "A textbook on civil engineering and construction.",
     "weight": "1587 g",
     "volume": "1500 ml",
@@ -487,9 +465,8 @@
   {
     "id": "reference_fabrication1",
     "type": "BOOK",
-    "name": "Machinery's Handbook",
-    "name_plural": "copies of Machinery's Handbook",
-    "description": "This classic reference work contains extensive, dense chapters and tables on materials, metrology, toolmaking, gears, threading and more.  This recent edition includes extensive data on what was the latest techniques in additive manufacturing.  If you need to know how best complete a certain machining operation, the answer lies somewhere in these pages.",
+    "name": { "str": "Machinery's Handbook", "str_pl": "copies of Machinery's Handbook" },
+    "description": "This classic reference work contains extensive, dense chapters and tables on materials, metrology, toolmaking, gears, threading and more.  This recent edition includes extensive data on what were the latest techniques in additive manufacturing.  If you need to know how best complete a certain machining operation, the answer lies somewhere in these pages.",
     "weight": "454 g",
     "volume": "500 ml",
     "price": 8000,

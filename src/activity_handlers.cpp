@@ -115,6 +115,9 @@ static const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
+static const std::string flag_AUTODOC( "AUTODOC" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -3153,10 +3156,10 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
     if( autodoc && g->m.inbounds( p->pos() ) ) {
-        const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                             furn_str_id( "f_autodoc" ) );
+        const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                                             flag_AUTODOC );
 
-        if( g->m.furn( p->pos() ) != furn_str_id( "f_autodoc_couch" ) || autodocs.empty() ) {
+        if( !g->m.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 
@@ -3294,8 +3297,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                                 furn_str_id( "f_autodoc" ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                                                 flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
                            "Autodoc",
@@ -3303,8 +3306,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
         } else {
             add_msg( m_bad,
                      _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-            const std::list<tripoint> autodocs = g->m.find_furnitures_in_radius( p->pos(), 1,
-                                                 furn_str_id( "f_autodoc" ) );
+            const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                                                 flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a sad beeping noise: \"Operation failed\"" ), true,
                            "Autodoc",
@@ -4440,14 +4443,19 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         } while( !target_is_valid );
     } else if( casting.has_flag( RANDOM_TARGET ) ) {
-        target = casting.random_valid_target( *p, p->pos() );
+        const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
+        if( !target_ ) {
+            p->add_msg_if_player( m_bad, _( "Your spell can't find a suitable target." ) );
+            return;
+        }
+        target = *target_;
     }
 
     // no turning back now. it's all said and done.
     bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
     int exp_gained = casting.casting_exp( *p );
     if( !success ) {
-        p->add_msg_if_player( m_bad, "You lose your concentration!" );
+        p->add_msg_if_player( m_bad, _( "You lose your concentration!" ) );
         if( !casting.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
             casting.gain_exp( exp_gained / 5 );

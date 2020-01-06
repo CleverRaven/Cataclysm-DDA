@@ -1,6 +1,6 @@
 #include "magic.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>
@@ -97,6 +97,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
+        case spell_flag::SWAP_POS: return "SWAP_POS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
@@ -247,6 +248,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
+
+    const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
+    optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
+              targeted_monster_ids_reader );
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -895,6 +900,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
+        valid = valid && target_by_monster_id( p );
     } else {
         valid = is_valid_target( target_ground );
     }
@@ -904,6 +910,20 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 bool spell::is_valid_effect_target( valid_target t ) const
 {
     return type->effect_targets[t];
+}
+
+bool spell::target_by_monster_id( const tripoint &p ) const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return true;
+    }
+    bool valid = false;
+    if( monster *const target = g->critter_at<monster>( p ) ) {
+        if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
+            valid = true;
+        }
+    }
+    return valid;
 }
 
 std::string spell::description() const
@@ -1018,7 +1038,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @todo if only we had a function to enumerate strings and concatenate them...
+    // @TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );
@@ -1092,10 +1112,9 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             source.add_msg_if_player( sp.message() );
 
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( _self ) {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
-                } else {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                        _self ? source.pos() : target ) ) {
+                    sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( _self ) {
@@ -1111,10 +1130,9 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( extra_spell.self ) {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
-                } else {
-                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                        extra_spell.self ? source.pos() : target ) ) {
+                    sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( extra_spell.self ) {
@@ -1127,20 +1145,20 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-tripoint spell::random_valid_target( const Creature &caster, const tripoint &caster_pos ) const
+cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
+        const tripoint &caster_pos ) const
 {
-    const std::set<tripoint> area = spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
-                                    range(), false );
     std::set<tripoint> valid_area;
-    for( const tripoint &target : area ) {
+    for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
+            range(), false ) ) {
         if( is_valid_target( caster, target ) ) {
             valid_area.emplace( target );
         }
     }
-    size_t rand_i = rng( 0, valid_area.size() - 1 );
-    auto iter = valid_area.begin();
-    std::advance( iter, rand_i );
-    return *iter;
+    if( valid_area.empty() ) {
+        return cata::nullopt;
+    }
+    return random_entry( valid_area );
 }
 
 // player
