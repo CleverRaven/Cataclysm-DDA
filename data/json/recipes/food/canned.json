@@ -1354,7 +1354,7 @@
     "type": "recipe",
     "result": "apple_cider",
     "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water", 10], [ "juice_pulp", 12 ] ],
+    "byproducts": [ [ "water", 10 ], [ "juice_pulp", 12 ] ],
     "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
