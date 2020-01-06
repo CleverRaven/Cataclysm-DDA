@@ -87,7 +87,6 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_CLAWS( "CLAWS" );
-static const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
 static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
 static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
@@ -100,8 +99,6 @@ static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
-static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
 static const efftype_id effect_amigara( "amigara" );

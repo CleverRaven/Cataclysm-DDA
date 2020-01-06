@@ -279,7 +279,8 @@ class JsonObjectInputArchive : public JsonObject
         bool io( const std::string &name, T *&pointer,
                  const std::function<void( const std::string & )> &load,
                  const std::function<std::string( const T & )> &save, bool required = false ) {
-            ( void ) save; // Only used by the matching function in the output archive classes.
+            // Only used by the matching function in the output archive classes.
+            ( void ) save;
             std::string ident;
             if( !io( name, ident ) ) {
                 if( required ) {

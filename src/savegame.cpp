@@ -1719,7 +1719,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        // @TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );

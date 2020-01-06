@@ -3829,7 +3829,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @todo make this simpler and use time_duration/time_point
+                // @TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -4123,8 +4123,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-
-
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
@@ -4203,7 +4201,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
             hp_str = colorize( h_bar.first, h_bar.second ) +
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
-        };
+        }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block

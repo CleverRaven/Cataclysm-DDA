@@ -181,7 +181,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
-        // @todo handle this gracefully (return the money, proper in-character message from npc)
+        // @TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }
@@ -293,7 +293,7 @@ void talk_function::goto_location( npc &p )
                                  iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;

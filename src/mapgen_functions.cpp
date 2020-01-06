@@ -48,8 +48,6 @@ static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_rat_king( "mon_rat_king" );
 static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 tripoint rotate_point( const tripoint &p, int rotations )

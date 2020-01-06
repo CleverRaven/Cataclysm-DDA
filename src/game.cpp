@@ -210,14 +210,12 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
-static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -3977,7 +3975,7 @@ void game::mon_info_update( )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    // @todo change current_turn to time_point
+    // @TODO: change current_turn to time_point
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -4143,7 +4141,6 @@ void game::mon_info_update( )
     previous_turn = current_turn;
     mostseen = newseen;
 }
-
 
 void game::cleanup_dead()
 {
@@ -4725,7 +4722,7 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> mon, const tripo
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
@@ -4756,7 +4753,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
