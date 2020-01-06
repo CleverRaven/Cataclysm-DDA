@@ -1347,11 +1347,7 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [
-      { "id": "CONTAIN", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
-      { "id": "COOK", "level": 3 }
-    ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ]
   },
@@ -1372,7 +1368,11 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "irradiated_apple", 12 ], [ "apple", 12 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "irradiated_apple", 12 ], [ "apple", 12 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1406,11 +1406,7 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [
-      { "id": "CONTAIN", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
-      { "id": "COOK", "level": 3 }
-    ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "irradiated_orange", 2 ], [ "orange", 2 ] ] ]
   },
@@ -1431,7 +1427,11 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "irradiated_orange", 12 ], [ "orange", 12 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "irradiated_orange", 12 ], [ "orange", 12 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1450,7 +1450,11 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "irradiated_cranberries", 2 ], [ "cranberries", 2 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_glass", 1 ] ],
+      [ [ "irradiated_cranberries", 2 ], [ "cranberries", 2 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1465,11 +1469,7 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [
-      { "id": "CONTAIN", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
-      { "id": "COOK", "level": 3 }
-    ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "irradiated_cranberries", 2 ], [ "cranberries", 2 ] ] ]
   },
@@ -1490,7 +1490,11 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "irradiated_cranberries", 12 ], [ "cranberries", 12 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "irradiated_cranberries", 12 ], [ "cranberries", 12 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1524,11 +1528,7 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [
-      { "id": "CONTAIN", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
-      { "id": "COOK", "level": 3 }
-    ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ] ]
   },
