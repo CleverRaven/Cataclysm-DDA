@@ -7775,7 +7775,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                 true );
 
             if( bVMonsterLookFire ) {
-                mvwprintw( w_monster_info_border, point( 1, 0 ), "< " );
+                mvwprintw( w_monster_info_border, point_east, "< " );
                 wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "look" ) );
                 wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
 
