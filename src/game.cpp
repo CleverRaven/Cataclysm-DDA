@@ -7579,7 +7579,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     cata::optional<tripoint> iLastActivePos;
     Creature *cCurMon = nullptr;
 
-    draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XXXO, LINE_XOXX );
+    draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XOXO, LINE_XOXO);
     draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
                         true );
 
@@ -7655,7 +7655,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         if( monster_list.empty() ) {
-            mvwprintz( w_monsters, point( 2, ( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 ) / 3 ), c_white,
+            mvwprintz( w_monsters, point( 2, iMaxRows / 3 ), c_white,
                        _( "You don't see any monsters around you!" ) );
         } else {
             werase( w_monsters );
