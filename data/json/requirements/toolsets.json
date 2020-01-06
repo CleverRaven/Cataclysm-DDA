@@ -121,5 +121,11 @@
     "type": "requirement",
     "//": "Crafting guns or gun related accessories, possibly jewellery in the future",
     "tools": [ [ [ "small_repairkit", 1 ], [ "large_repairkit", 1 ], [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ]
+  },
+  {
+    "id": "glassblowing_standard",
+    "type": "requirement",
+    "//": "Basic minimum tools required for making objects out of glass",
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ]
   }
 ]
