@@ -157,6 +157,27 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
     return type == S_NONE;
 }
 
+bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    if( modifier ) {
+        if( modifier->replace_item( itemid, replacementid ) ) {
+            return true;
+        }
+    }
+    if( type == S_ITEM ) {
+        if( itemid == id ) {
+            id = replacementid;
+            return true;
+        }
+    } else if( type == S_ITEM_GROUP ) {
+        Item_spawn_data *isd = item_controller->get_group( id );
+        if( isd != nullptr ) {
+            isd->replace_item( itemid, replacementid );
+        }
+    }
+    return type == S_NONE;
+}
+
 bool Single_item_creator::has_item( const Item_tag &itemid ) const
 {
     return type == S_ITEM && itemid == id;
@@ -377,6 +398,19 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     return false;
 }
 
+bool Item_modifier::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    if( ammo != nullptr ) {
+        ammo->replace_item( itemid, replacementid );
+    }
+    if( container != nullptr ) {
+        if( container->replace_item( itemid, replacementid ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
     : Item_spawn_data( probability )
     , type( t )
@@ -496,9 +530,17 @@ bool Item_group::remove_item( const Item_tag &itemid )
     return items.empty();
 }
 
+bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
+        ( elem )->replace_item( itemid, replacementid );
+    }
+    return items.empty();
+}
+
 bool Item_group::has_item( const Item_tag &itemid ) const
 {
-    for( const auto &elem : items ) {
+    for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         if( ( elem )->has_item( itemid ) ) {
             return true;
         }
