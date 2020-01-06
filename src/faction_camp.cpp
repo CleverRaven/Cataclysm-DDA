@@ -1266,8 +1266,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
-        entry = string_format( _( "Notes:\n"
-                                  "Abandon this camp" ) );
+        entry = _( "Notes:\nAbandon this camp" );
         mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
@@ -1585,7 +1584,7 @@ void basecamp::abandon_camp()
     }
     overmap_buffer.remove_camp( *this );
     g->m.remove_submap_camp( random_guy->pos() );
-    add_msg( m_info, _( "You abandon %s" ), name );
+    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::job_assignment_ui()

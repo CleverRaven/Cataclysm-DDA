@@ -348,7 +348,6 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::abandon_camp( npc &p )
 {
-    ( void )p;
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
