@@ -3766,10 +3766,10 @@
     "difficulty": 5,
     "time": "1 h 30 m",
     "book_learn": [ 
-        [ "adv_chemistry", 6 ],
-        [ "textbook_chemistry", 6 ],
-        [ "recipe_labchem", 5 ],
-        [ "cookbook_foodfashions", 5, "Natural Beet Sugar" ]
+      [ "adv_chemistry", 6 ],
+      [ "textbook_chemistry", 6 ],
+      [ "recipe_labchem", 5 ],
+      [ "cookbook_foodfashions", 5, "Natural Beet Sugar" ]
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
