@@ -362,6 +362,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_05_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_05ab_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_06",
     "name": "house",
     "copy-from": "generic_city_building",

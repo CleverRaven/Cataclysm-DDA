@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_04_basement",
-	"//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
+    "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -34,7 +34,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "place_nested": [
-        { "chunks": [ [ "utility_3x3_N", 10 ], [ "utility_3x3_N", 5 ] ], "x": 7, "y": 3 },
+        { "chunks": [ [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 },
         {
           "chunks": [
             [ "bedroom_4x4_adult_1_W", 5 ],
@@ -75,7 +75,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_05_basement",
-	"//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
+    "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -106,7 +106,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "place_nested": [
-        { "chunks": [ [ "utility_3x3_N", 10 ], [ "utility_3x3_N", 5 ] ], "x": 7, "y": 3 },
+        { "chunks": [ [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 },
         {
           "chunks": [
             [ "bedroom_4x4_adult_1_W", 5 ],
@@ -147,7 +147,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_05ab_basement",
-	"//": "mostly empty basement.",
+    "//": "mostly empty basement.",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -177,36 +177,8 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
-      "place_nested": [
-        { "chunks": [ [ "null", 15 ], [ "utility_3x3_N", 10 ], [ "utility_3x3_N", 5 ] ], "x": 7, "y": 3 },
-        {
-          "chunks": [ [ "null", 18 ],
-            [ "home_office_4x4_N", 1 ],
-            [ "home_office_4x4_S", 1 ]
-          ],
-          "x": 3,
-          "y": 7
-        },
-        {
-          "chunks": [ [ "null", 17 ],
-            [ "bedroom_4x4_adult_1_W", 1 ],
-            [ "bedroom_4x4_adult_3_S", 1 ],
-            [ "bedroom_4x4_adult_3_N", 1 ]
-          ],
-          "x": 3,
-          "y": 12
-        },
-        {
-          "chunks": [ [ "null", 7 ],
-            [ "bedroom_4x4_adult_1_W", 1 ],
-            [ "bedroom_4x4_adult_3_S", 1 ],
-            [ "bedroom_4x4_adult_3_N", 1 ]
-          ],
-          "x": 3,
-          "y": 17
-        },
-        { "chunks": [ [ "null": 180 ], [ "recroom_12x12", 5 ], [ "tvroom_12x12", 15 ], [ "workoutroom_12x12", 5 ] ], "x": 9, "y": 9 }
-      ]
+      "items": { " ": { "item": "trash", "chance": 2 } },
+      "place_nested": [ { "chunks": [ [ "null", 15 ], [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 } ]
     }
   }
 ]
