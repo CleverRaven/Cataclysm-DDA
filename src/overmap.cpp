@@ -1534,13 +1534,10 @@ bool overmap::generate_sub( const int z )
             } else if( oter_above == "cave_rat" && z == -2 ) {
                 ter_set( p, oter_id( "cave_rat" ) );
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
-                mongroup_id ant_group( oter_above == "anthill" ? "GROUP_ANT" : "GROUP_ANT_ACID" );
-                int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
+                const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
                 ant_points.push_back( city( p.xy(), size ) );
-                add_mon_group( mongroup( ant_group, tripoint( i * 2, j * 2, z ),
-                                         ( size * 3 ) / 2, rng( 6000, 8000 ) ) );
             } else if( oter_above == "slimepit_down" ) {
-                int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
+                const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
                 goo_points.push_back( city( p.xy(), size ) );
             } else if( oter_above == "forest_water" ) {
                 ter_set( p, oter_id( "cavern" ) );
@@ -1585,10 +1582,6 @@ bool overmap::generate_sub( const int z )
     }
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
-
-    for( auto &i : ant_points ) {
-        build_anthill( tripoint( i.pos, z ), i.size );
-    }
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
     // If the central lab exists, all labs which go down to z=4 will have a subway to central.
@@ -1735,6 +1728,17 @@ bool overmap::generate_sub( const int z )
         ter_set( tripoint( i, z ), oter_id( "mine_shaft" ) );
         requires_sub = true;
     }
+    for( auto &i : ant_points ) {
+        if( ter( { i.pos, z } ) != "empty_rock" ) {
+            continue;
+        }
+        mongroup_id ant_group( ter( i.pos + tripoint_above ) == "anthill" ?
+                               "GROUP_ANT" : "GROUP_ANT_ACID" );
+        add_mon_group( mongroup( ant_group, tripoint( i.pos.x * 2, i.pos.y * 2, z ),
+                                 ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
+        build_anthill( tripoint( i.pos, z ), i.size );
+    }
+
     return requires_sub;
 }
 
@@ -3177,7 +3181,7 @@ void overmap::build_anthill( const tripoint &p, int s )
         }
     }
     if( queenpoints.empty() ) {
-        debugmsg( "No queenpoints when building anthill" );
+        debugmsg( "No queenpoints when building anthill, anthill over %s", ter( p ).id().str() );
     }
     const tripoint target = random_entry( queenpoints );
     ter_set( target, oter_id( "ants_queen" ) );
