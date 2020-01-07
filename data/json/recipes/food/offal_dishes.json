@@ -55,7 +55,7 @@
     "difficulty": 6,
     "charges": 1,
     "time": "30 m",
-    "book_learn": [[ "mag_cooking", 4 ],[ "mag_glam", 5 ],[ "cookbook_liverforkids", 5, "Buttery Duck Bites" ]],
+    "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ], [ "cookbook_liverforkids", 5, "Buttery Duck Bites" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
