@@ -1487,6 +1487,9 @@ void Character::update_fuel_storage( const itype_id &fuel )
     }
 
     std::vector<bionic_id> bids = get_bionic_fueled_with( it );
+    if( bids.empty() ) {
+        return;
+    }
     int amount_fuel_loaded = std::stoi( get_value( fuel ) );
     std::vector<bionic_id> loaded_bio;
 

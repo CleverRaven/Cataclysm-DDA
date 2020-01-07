@@ -811,6 +811,11 @@ class Character : public Creature, public visitable<Character>
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
+        /**Find fuel used by remote powered bionic*/
+        itype_id find_remote_fuel( bool connecting = false );
+        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
+        int consume_remote_fuel( int b, int amount );
+        void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( int b, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/

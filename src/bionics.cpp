@@ -119,6 +119,8 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 
 static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
 
+static const itype_id sun_light( "sunlight" );
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;
@@ -767,6 +769,10 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         return false;
     }
 
+    if( bio.info().is_remote_fueled ) {
+        reset_remote_fuel();
+    }
+
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
         if( !bio.powered ) {
@@ -844,12 +850,31 @@ bool player::deactivate_bionic( int b, bool eff_only )
 bool Character::burn_fuel( int b, bool start )
 {
     bionic &bio = ( *my_bionics )[b];
-    if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ) {
+    if( ( bio.info().fuel_opts.empty() && !bio.info().is_remote_fueled ) ||
+        bio.is_this_fuel_powered( "muscle" ) ) {
         return true;
     }
     const bool is_metabolism_powered = bio.is_this_fuel_powered( "metabolism" );
-    const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
-    const float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
+    const bool is_cable_powered = bio.info().is_remote_fueled;
+    std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
+    float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
+
+    if( is_cable_powered ) {
+        const itype_id remote_fuel = find_remote_fuel();
+        if( !remote_fuel.empty() ) {
+            fuel_available.emplace_back( remote_fuel );
+            if( remote_fuel == sun_light ) {
+                // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
+                if( is_wearing( "solarpack_on" ) ) {
+                    effective_efficiency = 0.05;
+                }
+                // quantum solar backpack = solar panel x6
+                if( is_wearing( "q_solarpack_on" ) ) {
+                    effective_efficiency = 0.3;
+                }
+            }
+        }
+    }
 
     if( start && fuel_available.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
@@ -905,7 +930,7 @@ bool Character::burn_fuel( int b, bool start )
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
-                        if( fuel == itype_id( "sunlight" ) && g->is_in_sunlight( pos() ) ) {
+                        if( fuel == sun_light && g->is_in_sunlight( pos() ) ) {
                             const weather_type &wtype = current_weather( pos() );
                             const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
                             const double intensity = tick_sunlight / default_daylight_level();
@@ -927,6 +952,9 @@ bool Character::burn_fuel( int b, bool start )
                         set_value( fuel, std::to_string( current_fuel_stock ) );
                         update_fuel_storage( fuel );
                         mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
+                        if( is_cable_powered ) {
+                            consume_remote_fuel( b, 1 );
+                        }
                     }
 
                     heat_emission( b, fuel_energy );
@@ -974,7 +1002,7 @@ void Character::passive_power_gen( int b )
             continue;
         }
 
-        if( fuel == itype_id( "sunlight" ) ) {
+        if( fuel == sun_light ) {
             const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * effective_passive_efficiency );
         } else if( fuel == itype_id( "wind" ) ) {
@@ -996,6 +1024,118 @@ void Character::passive_power_gen( int b )
         g->m.emit_field( pos(), bio.info().power_gen_emission );
 
     }
+}
+
+itype_id Character::find_remote_fuel( bool connecting )
+{
+    itype_id remote_fuel;
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.active && it.has_flag( "CABLE_SPOOL" );
+    } );
+
+    for( const item *cable : cables ) {
+
+        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        if( !target ) {
+            if( g->m.is_outside( pos() ) && !is_night( calendar::turn ) &&
+                cable->get_var( "state" ) == "solar_pack_link" ) {
+                set_value( "sunlight", "1" );
+                remote_fuel = sun_light;
+            } else if( get_bionic_fueled_with( item( sun_light ) ).empty() ) {
+                remove_value( "sunlight" );
+            }
+            if( cable->get_var( "state" ) == "UPS_link" ) {
+                static const item_filter used_ups = [&]( const item & itm ) {
+                    return itm.get_var( "cable" ) == "plugged_in";
+                };
+                if( has_charges( "UPS_off", 1, used_ups ) ) {
+                    set_value( "UPS", "1" );
+                    //  use_charges( "UPS_off", 1, used_ups );
+                    //  mod_power_level( 1_kJ );
+                    remote_fuel = itype_id( "UPS" );
+                } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
+                    set_value( "adv_UPS", "1" );
+                    // use_charges( "adv_UPS_off", roll_remainder( 0.6 ), used_ups );
+                    // mod_power_level( 1_kJ );
+                    remote_fuel = itype_id( "adv_UPS" );
+                }
+            } else {
+                remove_value( "UPS" );
+                remove_value( "adv_UPS" );
+            }
+            continue;
+        }
+        const optional_vpart_position vp = g->m.veh_at( *target );
+        if( !vp ) {
+            continue;
+        }
+
+        const int current_fuel_stock = vp->vehicle().fuel_left( itype_id( "battery" ), true );
+        int batt = 0;
+        if( !get_value( "battery" ).empty() ) {
+            batt = std::stoi( get_value( "battery" ) );
+        }
+        if( current_fuel_stock >= 1 ) {
+            if( connecting ) {
+                set_value( "battery", std::to_string( std::max( batt, 1 ) ) );
+            } else {
+                set_value( "battery", std::to_string( batt + 1 ) );
+            }
+        }
+
+        remote_fuel = itype_id( "battery" );
+    }
+
+    return remote_fuel;
+}
+
+int Character::consume_remote_fuel( int b, int amount )
+{
+    int unconsumed_amount = 0;
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.active && it.has_flag( "CABLE_SPOOL" );
+    } );
+
+    for( const item *cable : cables ) {
+        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        if( target ) {
+            const optional_vpart_position vp = g->m.veh_at( *target );
+            if( !vp ) {
+                continue;
+            }
+            unconsumed_amount = vp->vehicle().discharge_battery( amount );
+        }
+    }
+    return unconsumed_amount;
+}
+
+void Character::reset_remote_fuel()
+{
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.active && it.has_flag( "CABLE_SPOOL" );
+    } );
+
+    for( const item *cable : cables ) {
+        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        if( target ) {
+            const optional_vpart_position vp = g->m.veh_at( *target );
+            if( !vp ) {
+                continue;
+            }
+            const int current_fuel_stock = vp->vehicle().fuel_left( itype_id( "battery" ), true );
+            int batt = 0;
+            if( !get_value( "battery" ).empty() ) {
+                batt = std::stoi( get_value( "battery" ) );
+            }
+            set_value( "battery", std::to_string( std::max( 0, batt - 1 ) ) );
+        }
+    }
+    if( get_bionic_fueled_with( item( sun_light ) ).empty() ) {
+        remove_value( "sunlight" );
+    }
+    remove_value( "UPS" );
+    remove_value( "adv_UPS" );
 }
 
 void Character::heat_emission( int b, int fuel_energy )
@@ -1205,7 +1345,7 @@ void Character::process_bionic( int b )
             mod_stim( -1 );
             mod_power_level( -2_kJ );
         }
-    } else if( bio.id == "bio_cable" ) {
+    }/* else if( bio.id == "bio_cable" ) {
         if( is_max_power() ) {
             return;
         }
@@ -1262,7 +1402,7 @@ void Character::process_bionic( int b )
             x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             mod_power_level( 1_kJ );
         }
-    } else if( bio.id == "bio_gills" ) {
+    }*/ else if( bio.id == "bio_gills" ) {
         if( has_effect( effect_asthma ) ) {
             add_msg_if_player( m_good,
                                _( "You feel your throat open up and air filling your lungs!" ) );
@@ -2309,6 +2449,7 @@ void load_bionic( const JsonObject &jsobj )
     assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
     assign( jsobj, "power_gen_emission", new_bionic.power_gen_emission );
     assign( jsobj, "coverage_power_gen_penalty", new_bionic.coverage_power_gen_penalty );
+    assign( jsobj, "is_remote_fueled", new_bionic.is_remote_fueled );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );

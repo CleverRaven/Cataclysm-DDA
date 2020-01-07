@@ -8830,10 +8830,16 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     const std::string dont_have_ups = _( "You don't have any UPS." );
 
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
+        const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
         it->process( p, p->pos(), false );
         p->moves -= 15;
+
+        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
+                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
+            p->find_remote_fuel( true );
+        }
     };
     if( initial_state == "attach_first" ) {
         if( has_bio_cable ) {
@@ -8937,6 +8943,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         if( choice < 0 ) {
             return 0; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
+            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         } else if( choice == 2 ) { // connect self while other end already connected
