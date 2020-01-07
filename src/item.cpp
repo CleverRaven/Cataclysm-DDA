@@ -199,6 +199,7 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
+    contents = item_contents( type->pockets );
     corpse = has_flag( "CORPSE" ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
@@ -260,7 +261,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( type->relic_data ) {
         relic_data = *type->relic_data;
     }
-    contents = item_contents( type->pockets );
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
