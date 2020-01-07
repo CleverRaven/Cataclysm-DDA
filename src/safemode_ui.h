@@ -33,9 +33,9 @@ class safemode
                 std::string rule;
                 bool active;
                 bool whitelist;
-                Categories category;
-                Creature::Attitude attitude;
                 int proximity;
+                Categories category;
+                Creature::Attitude attitude;                
 
                 rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
                     proximity( 0 ), category( Categories::HOSTILE ) {}
