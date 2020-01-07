@@ -596,6 +596,20 @@
     "components": [ [ [ "felt_patch", 30 ] ] ]
   },
   {
+    "result": "pinned_scalpel",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "fabrication", 1 ],
+    "time": "2 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "tools": [ [  "soldering_iron", 10 ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scalpel", 1 ] ], [ [ "hairpin", 1 ] ] ]
+  },
+  {
     "result": "poncho",
     "type": "recipe",
     "category": "CC_ARMOR",
