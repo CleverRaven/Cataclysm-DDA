@@ -580,7 +580,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, WORLDPTR world )
+int worldfactory::show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
     const std::string action = get_options().show( false, true );
@@ -590,6 +590,10 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, 
 
     } else if( action == "NEXT_TAB" ) {
         return 1;
+
+    } else if( action == "HELP_KEYBINDINGS" ) {
+        draw_worldgen_tabs( win, 1 );
+        catacurses::refresh();
 
     } else if( action == "QUIT" ) {
         return -999;
@@ -1194,6 +1198,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
             mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
             world->world_name = worldname = pick_random_name();
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            draw_worldgen_tabs( win, 2 );
         } else if( action == "QUIT" ) {
             // Cache the current name just in case they say No to the exit query.
             world->world_name = worldname;

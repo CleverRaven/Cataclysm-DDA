@@ -2423,6 +2423,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
     std::map<int, bool> mapLines;
+    std::map<int, bool> mapLinesOriginal;
     mapLines[4] = true;
     mapLines[60] = true;
 
@@ -2439,6 +2440,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
     }
 
+    mapLinesOriginal = mapLines;
     draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
                            world_options_only );
     draw_borders_internal( w_options_header, mapLines );
@@ -2689,8 +2691,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 }
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
-            // keybinding screen erased the internal borders of main menu, restore it:
-            draw_borders_internal( w_options_header, mapLines );
+            draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
+                                   world_options_only );
         } else if( action == "QUIT" ) {
             catacurses::clear();
             catacurses::refresh();
