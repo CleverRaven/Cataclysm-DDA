@@ -591,7 +591,7 @@
     "//": "abstracting using chloralkali process (hot solution, unpartitioned cell) to produce sodium chlorate, then perchlorate by anodic oxidation on platinum, then ammonia perchlorate by double decomposition from sodium perchlorate and ammonium chloride; while we can't directly use bleach here but we do end up recovering some brine",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", 50 ] ] ],
+    "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
     "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
   },
   {
