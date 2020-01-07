@@ -8094,11 +8094,7 @@ bool item::can_holster( const item &obj, bool ) const
 
     const holster_actor *ptr = dynamic_cast<const holster_actor *>
                                ( type->get_use( "holster" )->get_actor_ptr() );
-    if( !ptr->can_holster( obj ) ) {
-        return false; // item is not a suitable holster for obj
-    }
-
-    return true;
+    return ptr->can_holster( obj );
 }
 
 std::string item::components_to_string() const
