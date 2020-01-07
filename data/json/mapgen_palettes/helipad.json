@@ -7,9 +7,9 @@
       "W": "t_wall_w",
       "-": "t_floor",
       "w": "t_window",
-      "G": "t_chaingate_l",
+      "G": "t_chaingate_c",
       "|": "t_concrete_wall",
-      "F": "t_fence_barbed",
+      "F": "t_chainfence",
       "!": "t_guardrail",
       "p": "t_pavement",
       "m": "t_door_metal_c",
@@ -26,6 +26,8 @@
       "R": "t_thconc_floor",
       "s": "t_thconc_floor",
       "*": "t_thconc_floor",
+      "7": "t_thconc_floor",
+      "8": "t_thconc_floor",
       "M": "t_door_metal_locked",
       ",": "t_concrete_y",
       "o": "t_sidewalk",
@@ -35,12 +37,13 @@
       "5": "t_machinery_light",
       "6": "t_bulk_tank",
       "I": "t_thconc_y",
-      "U": "t_metal_floor"
+      "U": "t_metal_floor",
+      "<": "t_stairs_up"
     },
     "furniture": {
       "C": "f_crate_c",
       "r": "f_rack",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "z": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "L": "f_locker",
       "4": "f_locker",
       "c": "f_chair",
@@ -56,7 +59,9 @@
       "3": "f_standing_tank",
       "H": "f_cupboard",
       "7": "f_drill_press",
-      "8": "f_router"
+      "8": "f_router",
+      "h": "f_shower",
+      "#": "f_counter"
     }
   },
   {
@@ -69,7 +74,9 @@
       "w": "t_window_domestic",
       "*": "t_open_air",
       "=": "t_flat_roof",
-      "R": "t_flat_roof"
+      "R": "t_flat_roof",
+      "D": "t_flat_roof",
+      ">": "t_stairs_down"
     },
     "furniture": { "L": "f_locker", "b": "f_bed", "h": "f_shower", "S": "f_sink", "t": "f_table", "D": "f_small_satelitte_dish" }
   }
