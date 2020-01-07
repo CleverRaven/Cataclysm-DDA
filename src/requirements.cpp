@@ -504,7 +504,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv, filter );
 
-    bool no_unavailable = static_cast<bool>( flags & requirement_display_flags::no_unavailable );
+    const bool no_unavailable =
+        static_cast<bool>( flags & requirement_display_flags::no_unavailable );
 
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
@@ -1107,7 +1108,7 @@ void requirement_data::consolidate()
 /// would otherwise be duplicated between two requirements.
 ///
 /// It operates recursively (increasing @p index with the depth of recursion),
-/// searching for another item_comp to marge @p leftover with.  For each
+/// searching for another item_comp to merge @p leftover with.  For each
 /// compatible item_comp found it performs that merger and writes out a
 /// suitably updated form of the overall requirements to @p result.
 ///
