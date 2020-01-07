@@ -424,6 +424,7 @@
     "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow",
     "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
     "learn_difficulty": 6,
+    "primary_skill": "bashing",
     "strictly_melee": true,
     "static_buffs": [
       {
@@ -698,6 +699,7 @@
     "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
     "strictly_melee": true,
     "learn_difficulty": 6,
+    "primary_skill": "cutting",
     "static_buffs": [
       {
         "id": "buff_swordsmanship_static",
