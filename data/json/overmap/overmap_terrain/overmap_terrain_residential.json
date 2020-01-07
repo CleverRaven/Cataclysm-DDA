@@ -6,7 +6,7 @@
     "sym": "O",
     "color": "dark_gray",
     "copy-from": "generic_city_building_no_sidewalk",
-    "flags": [ "KNOWN_UP", "NO_ROTATE", "GENERIC_LOOT" ]
+    "flags": [ "KNOWN_UP", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
