@@ -29,11 +29,10 @@
       "d": "t_door_metal_c",
       "z": "t_door_metal_pickable",
       "D": "t_door_metal_locked",
-      "g": "t_reinforced_glass",
+      "g": "t_reinforced_glass_shutter",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "w": "t_window_domestic",
-      "W": "t_window_bars",
       "]": "t_bars",
       "(": "t_door_bar_locked",
       ")": [ "t_door_bar_c", "t_door_bar_o", "t_door_bar_locked" ],
@@ -75,6 +74,7 @@
       "u": "f_utility_shelf",
       "r": "f_bed",
       "K": "f_bunkbed",
+      "W": "f_IV_pole",
       "i": "f_air_conditioner",
       "{": "f_dumpster",
       "N": "f_sandbag_half",
@@ -95,7 +95,9 @@
       "Q": "f_bandsaw",
       "v": "f_heavy_lathe",
       "V": "f_workbench",
-      "k": "f_server"
+      "k": "f_server",
+      "U": "f_safe_l",
+      "E": "f_safe_l"
     },
     "liquids": {
       "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },
