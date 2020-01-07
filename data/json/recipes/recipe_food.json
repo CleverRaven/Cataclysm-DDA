@@ -3765,7 +3765,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "1 h 30 m",
-    "book_learn": [ 
+    "book_learn": [
       [ "adv_chemistry", 6 ],
       [ "textbook_chemistry", 6 ],
       [ "recipe_labchem", 5 ],
