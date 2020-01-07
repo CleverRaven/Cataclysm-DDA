@@ -63,11 +63,7 @@
         "B": {
           "item": {
             "subtype": "distribution",
-            "entries": [
-              { "item": "gasoline", "charges": [ 0, 80 ], "container-item": "30gal_drum", "prob": 25 },
-              { "item": "motor_oil", "charges": [ 0, 30 ], "container-item": "jerrycan", "prob": 5 },
-              { "item": "30gal_drum", "prob": 70 }
-            ]
+            "entries": [ { "group": "fuel_barrel", "prob": 30 }, { "item": "30gal_drum", "prob": 70 } ]
           },
           "chance": 75
         },
@@ -115,10 +111,7 @@
         "O": { "item": "SUS_oven" },
         "H": { "item": "SUS_spice_collection" }
       },
-      "place_monsters": [
-        { "monster": "GROUP_MIL_WEAK", "x": 32, "y": 15, "density": 0.75 },
-        { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 15 }
-      ],
+      "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 32, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
       "monster": { "T": { "monster": "mon_turret_rifle" } },
       "place_vehicles": [
         { "vehicle": "forklift", "x": 29, "y": 6, "rotation": 180, "status": 1 },
@@ -197,7 +190,7 @@
         "=": { "item": "roof_trash", "chance": 2 },
         "&": { "item": "SUS_toilet" }
       },
-      "place_monsters": [ { "monster": "GROUP_MIL_WEAK", "x": 10, "y": 20, "density": 0.5 } ],
+      "place_monsters": [ { "monster": "GROUP_MIL_WEAK", "x": 10, "y": 20, "density": 1.2 } ],
       "place_nested": [
         {
           "chunks": [ [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 30 ], [ "roof_2x2_utilities", 30 ] ],
