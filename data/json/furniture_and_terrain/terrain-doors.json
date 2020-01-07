@@ -2174,6 +2174,20 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_metal_pickable_interior",
+    "name": "closed metal door",
+    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock.",
+    "//": "Actually pickable, but locked. Will stay locked if placed between two rooms",
+    "symbol": "+",
+    "looks_like": "t_door_metal_pickable",
+    "color": "cyan",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
+    "open": "t_door_metal_o",
+    "examine_action": "locked_object_pickable",
+    "copy-from": "t_door_metal_pickable"
+  },
+  {
+    "type": "terrain",
     "id": "t_door_bar_c",
     "name": "closed bar door",
     "description": "A detention door made up of crisscrossed stainless steel bars.  The locking mechanism doesn't appear to be engaged.",
