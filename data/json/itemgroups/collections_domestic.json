@@ -14,7 +14,8 @@
     "items": [
       { "group": "dishes_dining", "prob": 100 },
       { "group": "dishes_utility", "prob": 50 },
-      { "group": "kitchen_appliances", "prob": 25 }
+      { "group": "kitchen_appliances", "prob": 25 },
+      { "group": "SUS_cooking_bookcase", "prob": 15 }
     ]
   },
   {
