@@ -732,16 +732,16 @@ void basecamp_action_components::consume_components()
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                            base_.inv_range );
+                            basecamp::inv_range );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        g->u.consume_tools( *target_map, sel, batch_size_, origin, base_.inv_range, &base_ );
+        g->u.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range, &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {
         if( bcp_r.consumed > 0 ) {
-            target_map->use_charges( origin, base_.inv_range, bcp_r.ammo_id, bcp_r.consumed );
+            target_map->use_charges( origin, basecamp::inv_range, bcp_r.ammo_id, bcp_r.consumed );
             bcp_r.consumed = 0;
         }
     }
