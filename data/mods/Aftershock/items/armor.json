@@ -278,6 +278,19 @@
     "flags": [ "STURDY", "OUTER" ]
   },
   {
+    "id": "afs_holo_cloak_mk2",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_sentinel_cloak",
+    "name": "hologram cloak mk.2",
+    "description": " A, when activated, will create an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
+    "max_charges": 15,
+    "initial_charges": 15,
+    "charges_per_use": 1,
+    "use_action": "DIRECTIONAL_HOLOGRAM",
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "flags": [ "OVERSIZEs", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
     "id": "afs_sentinel_cloak",
     "type": "ARMOR",
     "copy-from": "jedi_cloak",
