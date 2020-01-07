@@ -79,5 +79,31 @@
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"
+  },
+  {
+    "id": "esapi_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "ESAPI ballistic plate" },
+    "description": "An NIJ IV rated ceramic ballistic plate.",
+    "weight": "2500 g",
+    "volume": "1533 ml",
+    "price": 60000,
+    "material": "ceramic",
+    "symbol": ",",
+    "color": "dark_gray"
+  },
+  {
+    "id": "esbi_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "ESBI ballistic plate" },
+    "description": "An NIJ IV rated ceramic ballistic plate designed to fit in the sides of a plate carrier.",
+    "weight": "1 kg",
+    "volume": "600 ml",
+    "price": 60000,
+    "material": "ceramic",
+    "symbol": ",",
+    "color": "dark_gray"
   }
 ]

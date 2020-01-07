@@ -958,5 +958,10 @@
     "id": "40mm_teargas",
     "type": "MIGRATION",
     "replace": "40x46mm_m651"
+  },
+  {
+    "id": "ballistic_vest",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
   }
 ]
