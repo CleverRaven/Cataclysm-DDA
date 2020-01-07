@@ -195,7 +195,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     struct availability {
         availability( const recipe *r, int batch_size = 1 ) {
-            inventory inv = g->u.crafting_inventory();
+            const inventory &inv = g->u.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();

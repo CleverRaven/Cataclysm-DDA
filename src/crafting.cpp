@@ -472,7 +472,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
 bool player::can_make( const recipe *r, int batch_size )
 {
-    inventory crafting_inv = crafting_inventory();
+    const inventory &crafting_inv = crafting_inventory();
 
     if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
         return false;
@@ -488,7 +488,7 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
         return false;
     }
 
-    inventory inv = crafting_inventory();
+    const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
