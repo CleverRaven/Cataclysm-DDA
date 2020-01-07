@@ -165,11 +165,6 @@ enum npc_mission : int {
     NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
 };
 
-enum npc_offscreen_job : int {
-    NPC_OFFSCREEN_JOB_NULL = 0,
-    NPC_OFFSCREEN_JOB_FORAGE = 1,
-};
-
 struct npc_companion_mission {
     std::string mission_id;
     tripoint position;
@@ -760,6 +755,100 @@ struct npc_chatbin {
     void deserialize( JsonIn &jsin );
 };
 
+enum offscreen_job_status {
+    OFFSCREEN_JOB_NULL,
+    OFFSCREEN_JOB_TRAVEL,
+    OFFSCREEN_JOB_WORKING,
+    OFFSCREEN_JOB_RETURNING,
+    NUM_OFFSCREEN_JOB_STATUS
+};
+
+class npc_offscreen_job
+{
+    public:
+        bool at_capacity_or_over_time_limit_for_travel_job( npc &guy ) const;
+        virtual bool is_forage_job() const {
+            return false;
+        }
+        virtual bool is_null() const {
+            return true;
+        }
+        int get_work_completion() const {
+            return offscreen_work_completed;
+        }
+        // generic entry point for job-specific overrides to check if job can continue there at specific point
+        // ( usually loaded as a tinymap )
+        bool offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy );
+        void set_work_completion( int percent ) {
+            offscreen_work_completed = percent;
+        }
+        void set_travelling_start_time( time_point start_time ) {
+            travelling_work_started = start_time;
+        }
+        cata::optional<time_point> get_travelling_start_time() const {
+            return travelling_work_started;
+        }
+        void clear_travelling_start_time() {
+            travelling_work_started = calendar::before_time_starts;
+        }
+        void set_offscreen_work_started( time_point start_time ) {
+            offscreen_work_started = start_time;
+        }
+        time_point get_offscreen_work_time() const {
+            return offscreen_work_started;
+        }
+        void clear_offscreen_work_time() {
+            offscreen_work_started = calendar::before_time_starts;
+        }
+        void set_offscreen_work_duration( time_duration job_duration ) {
+            offscreen_work_duration = job_duration;
+        }
+        cata::optional<time_duration> get_offscreen_work_duration() const {
+            return offscreen_work_duration;
+        }
+        void clear_offscreen_work_duration() {
+            offscreen_work_duration = cata::nullopt;
+        }
+        bool is_working_or_travelling() const {
+            return current_job_status == OFFSCREEN_JOB_WORKING || current_job_status == OFFSCREEN_JOB_TRAVEL;
+        }
+        // return true to stop job
+        bool do_job_at_location( npc &guy );
+        void set_current_offscreen_job_status( offscreen_job_status new_status ){
+            current_job_status = new_status;
+        }
+        offscreen_job_status get_current_offscreen_job_status(){
+            return current_job_status;
+        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+    private:
+        void store( JsonOut &json ) const;
+        void load( const JsonObject &data );
+        offscreen_job_status current_job_status = OFFSCREEN_JOB_NULL;
+        int offscreen_work_completed = 0; // how much of our offscreen work is done ( percent )
+        time_point travelling_work_started =
+            calendar::before_time_starts; // when did we start the travelling work.
+        time_point offscreen_work_started =
+            calendar::before_time_starts; // when did we start the offscreen work.
+        cata::optional<time_duration> offscreen_work_duration; // how long to spend on this area.
+        time_duration max_time_to_work = 6_hours; // how long to spend in total before returning.
+};
+
+class npc_offscreen_foraging : public npc_offscreen_job
+{
+    public:
+        bool do_offscreen_forage( int percent_resolved, npc &guy );
+        bool forage_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy );
+        bool forage_common( map &bay, const tripoint &pos, npc &guy );
+        bool is_null() const override {
+            return false;
+        }
+        bool is_forage_job() const override {
+            return true;
+        }
+};
+
 class npc_template;
 
 class npc : public player
@@ -1172,12 +1261,13 @@ class npc : public player
         void go_to_omt_destination();
         // We made it!
         void reach_omt_destination();
-        bool do_offscreen_forage( int percent_resolved );
-        bool forage_check( const tripoint &pos, map &bay, int percent_resolved );
-        bool forage_common( map &bay, const tripoint &pos );
-        void return_to_base();
         void guard_current_pos();
-
+        void drop_job_products();
+        void stop_offscreen_job();
+        bool has_offscreen_job() const;
+        npc_offscreen_job get_offscreen_job() const;
+        void set_offscreen_job( npc_offscreen_job new_job );
+        void return_to_base();
         // Message related stuff
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
@@ -1226,6 +1316,7 @@ class npc : public player
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
+        bool travel_to_omt( const tripoint &dest );
         std::unordered_set<tripoint> get_looted_spots() {
             return looted_omts;
         }
@@ -1235,46 +1326,6 @@ class npc : public player
         void clear_looted_spots() {
             looted_omts.clear();
         }
-        bool travel_to_omt( const tripoint &dest );
-        bool at_capacity_or_over_time_limit_for_travel_job();
-        int get_work_completion(){
-            return offscreen_work_completed;
-        }
-        void set_work_completion( int percent ){
-            offscreen_work_completed = percent;
-        }
-        void set_travelling_start_time( time_point start_time ){
-            travelling_work_started = start_time;
-        }
-        cata::optional<time_point> get_travelling_start_time(){
-            return travelling_work_started;
-        }
-        void clear_travelling_start_time(){
-            travelling_work_started = cata::nullopt;
-        }
-        void set_offscreen_work_time( time_point start_time ){
-            offscreen_work_started = start_time;
-        }
-        cata::optional<time_point> get_offscreen_work_time(){
-            return offscreen_work_started;
-        }
-        void clear_offscreen_work_time(){
-            offscreen_work_started = cata::nullopt;
-        }
-        void set_offscreen_work_duration( time_duration job_duration ){
-            offscreen_work_duration = job_duration;
-        }
-        cata::optional<time_duration> get_offscreen_work_duration(){
-            return offscreen_work_duration;
-        }
-        void clear_offscreen_work_duration(){
-            offscreen_work_duration = cata::nullopt;
-        }
-        void drop_job_products();
-        void stop_offscreen_job();
-        bool has_offscreen_job() const;
-        npc_offscreen_job get_offscreen_job() const;
-        void set_offscreen_job( npc_offscreen_job new_job );
 
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
@@ -1289,11 +1340,7 @@ class npc : public player
         npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
-        int offscreen_work_completed = 0; // how much of our offscreen work is done.
-        cata::optional<time_point> travelling_work_started; // when did we start the travelling work.
-        cata::optional<time_point> offscreen_work_started; // when did we start the offscreen work.
-        cata::optional<time_duration> offscreen_work_duration; // how long should the offscreen work take.
-        npc_offscreen_job offscreen_job = NPC_OFFSCREEN_JOB_NULL;
+        npc_offscreen_job offscreen_job;
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.

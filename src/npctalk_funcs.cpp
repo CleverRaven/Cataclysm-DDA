@@ -812,20 +812,13 @@ void talk_function::player_leaving( npc &p )
 
 void talk_function::go_forage( npc &p )
 {
-    if( !p.get_travelling_start_time() ){
-        p.set_travelling_start_time( calendar::turn );
-    } else {
-        if( p.at_capacity_or_over_time_limit_for_travel_job() ){
-            p.clear_travelling_start_time();
-            p.return_to_base();
-            return;
-        }
-    }
     const oter_id oter = overmap_buffer.ter( p.global_omt_location() );
     bool already_in_forest = is_ot_match( "forest", oter, ot_match_type::type );
     if( already_in_forest && p.is_active() ) {
         // we dont need to travel
         p.assign_activity( activity_id( "ACT_MULTIPLE_FORAGE" ) );
+        p.set_offscreen_job( npc_offscreen_foraging() );
+        p.get_offscreen_job().set_current_offscreen_job_status( OFFSCREEN_JOB_WORKING );
         p.goal = p.global_omt_location();
         return;
     }
@@ -867,7 +860,10 @@ void talk_function::go_forage( npc &p )
     } else {
         destination = overmap_buffer.find_closest( p.global_omt_location(), find_params );
     }
-    p.set_offscreen_job( NPC_OFFSCREEN_JOB_FORAGE );
+    p.set_offscreen_job( npc_offscreen_foraging() );
+    if( p.get_offscreen_job().is_null() ){
+        std::cout << "after setting offscreen job in go_forage, it immediately comes back as null " << std::endl;
+    }
     p.travel_to_omt( destination );
 }
 

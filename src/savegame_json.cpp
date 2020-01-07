@@ -1454,6 +1454,42 @@ void npc_favor::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void npc_offscreen_job::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    store( json );
+    json.end_object();
+}
+
+
+void npc_offscreen_job::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void npc_offscreen_job::store( JsonOut &json ) const
+{
+    json.member( "current_job_status", static_cast<int>( current_job_status ) );
+    json.member( "offscreen_work_completed", offscreen_work_completed );
+    json.member( "travelling_work_started", travelling_work_started );
+    json.member( "offscreen_work_started", offscreen_work_started );
+    json.member( "offscreen_work_duration", offscreen_work_duration );
+    json.member( "max_time_to_work", max_time_to_work );
+}
+
+void npc_offscreen_job::load( const JsonObject &data )
+{
+    int tmpstatus;
+    data.read( "current_job_status", tmpstatus );
+    current_job_status = static_cast<offscreen_job_status>( tmpstatus );
+    data.read( "offscreen_work_completed", offscreen_work_completed );
+    data.read( "travelling_work_started", travelling_work_started );
+    data.read( "offscreen_work_started", offscreen_work_started );
+    data.read( "offscreen_work_duration", offscreen_work_duration );
+    data.read( "max_time_to_work", max_time_to_work );
+}
+
 /*
  * load npc
  */
@@ -1471,7 +1507,6 @@ void npc::load( const JsonObject &data )
     int classtmp = 0;
     int atttmp = 0;
     int jobtmp = 0;
-    int offjobtmp = 0;
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
@@ -1602,9 +1637,7 @@ void npc::load( const JsonObject &data )
     if( data.read( "job", jobtmp ) ) {
         job = static_cast<npc_job>( jobtmp );
     }
-    if( data.read( "offscreen_job", offjobtmp ) ) {
-        offscreen_job = static_cast<npc_offscreen_job>( offjobtmp );
-    }
+    data.read( "offscreen_job", offscreen_job );
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
@@ -1726,7 +1759,7 @@ void npc::store( JsonOut &json ) const
     // TODO: stringid
     json.member( "mission", mission );
     json.member( "job", static_cast<int>( job ) );
-    json.member( "offscreen_job", static_cast<int>( offscreen_job ) );
+    json.member( "offscreen_job", offscreen_job );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor

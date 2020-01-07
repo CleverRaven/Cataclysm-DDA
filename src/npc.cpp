@@ -105,6 +105,7 @@ npc::npc()
     fac_id = faction_id::NULL_ID();
     patience = 0;
     attitude = NPCATT_NULL;
+    offscreen_job = npc_offscreen_job();
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false, true );
     for( direction threat_dir : npc_threat_dir ) {
@@ -596,26 +597,39 @@ void npc::revert_after_activity()
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
-    if( has_offscreen_job() ){
+    if( has_offscreen_job() ) {
         check_mission_resume();
     }
 }
 
-bool npc::at_capacity_or_over_time_limit_for_travel_job()
+bool npc_offscreen_job::offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved,
+        npc &guy )
 {
-    bool time_passed = travelling_work_started ? calendar::turn - *travelling_work_started > 6_hours : false;
-    if( volume_capacity() - volume_carried() < 750_ml || time_passed ){
-        return true;
+    if( is_null() ) {
+        return false;
+    } else if( is_forage_job() ) {
+        npc_offscreen_foraging *p = dynamic_cast<npc_offscreen_foraging *>( this );
+        return p->forage_check( pos, bay, percent_resolved, guy );
     }
     return false;
 }
 
+bool npc_offscreen_job::at_capacity_or_over_time_limit_for_travel_job( npc &guy ) const
+{
+    if( travelling_work_started == calendar::before_time_starts || !offscreen_work_duration ) {
+        // we shouldnt actually have a job, so return to base.
+        return true;
+    }
+    return calendar::turn - travelling_work_started > max_time_to_work ||
+           guy.volume_capacity() - guy.volume_carried() < 750_ml;
+}
+
 void npc::check_mission_resume()
 {
-    if( offscreen_job == NPC_OFFSCREEN_JOB_FORAGE ){
+    if( offscreen_job.is_working_or_travelling() ) {
         // we are in the middle of a travelling mission
         // this resolved locally, so it may need to start travelling again
-        if( at_capacity_or_over_time_limit_for_travel_job() ){
+        if( offscreen_job.at_capacity_or_over_time_limit_for_travel_job( *this ) ) {
             return_to_base();
         } else {
             talk_function::go_forage( *this );
@@ -2717,11 +2731,21 @@ void npc::on_load()
     }
     // we got loaded whilst offscreen activity was being processed
     // so resolve it.
-    if( offscreen_job == NPC_OFFSCREEN_JOB_FORAGE && goal == global_omt_location() ){
-        do_offscreen_forage( get_work_completion() );
+    if( offscreen_job.is_working_or_travelling() && goal == global_omt_location() ) {
+        offscreen_job.do_job_at_location( *this );
         // then work out how to proceed locally.
         check_mission_resume();
     }
+}
+
+bool npc_offscreen_job::do_job_at_location( npc &guy )
+{
+    if( is_forage_job() ) {
+        npc_offscreen_foraging *p = dynamic_cast<npc_offscreen_foraging *>( this );
+        return p->do_offscreen_forage( offscreen_work_completed, guy );
+    }
+    // return true to stop job
+    return true;
 }
 
 void npc_chatbin::add_new_mission( mission *miss )
@@ -3125,7 +3149,7 @@ void npc::set_mission( npc_mission new_mission )
     if( mission == NPC_MISSION_ACTIVITY ) {
         current_activity_id = activity.id();
     }
-    if( previous_mission == NPC_MISSION_TRAVELLING && new_mission != NPC_MISSION_TRAVELLING ){
+    if( previous_mission == NPC_MISSION_TRAVELLING && new_mission != NPC_MISSION_TRAVELLING ) {
         stop_offscreen_job();
     }
 }
@@ -3157,7 +3181,7 @@ bool npc::has_job() const
 
 bool npc::has_offscreen_job() const
 {
-    return offscreen_job != NPC_OFFSCREEN_JOB_NULL;
+    return !offscreen_job.is_null();
 }
 
 npc_offscreen_job npc::get_offscreen_job() const
@@ -3167,7 +3191,18 @@ npc_offscreen_job npc::get_offscreen_job() const
 
 void npc::set_offscreen_job( npc_offscreen_job new_job )
 {
+    if( new_job.is_null() ){
+        std::cout << "new job is null " << std::endl;
+    }
+    if( new_job.is_forage_job() ){
+        std::cout << "new job is forage job " << std::endl;
+    }
     offscreen_job = new_job;
+    if( offscreen_job.is_null() ){
+        std::cout << "new job is null after setting it to offscreen_job " << std::endl;
+    }
+    offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_TRAVEL );
+    offscreen_job.set_travelling_start_time( calendar::turn );
 }
 
 void npc::remove_job()

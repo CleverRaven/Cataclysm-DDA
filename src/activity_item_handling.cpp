@@ -1494,7 +1494,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         return activity_reason_info::fail( NO_ZONE );
     }
     if( act == activity_id( "ACT_TIDY_UP" ) ) {
-        if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) || mgr.has_near( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ), distance ) ) {
+        if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) ||
+            mgr.has_near( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( CAN_DO_FETCH );
         }
         return activity_reason_info::fail( NO_ZONE );
@@ -1937,7 +1938,8 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         }
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) || mgr.has( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ) ) ) {
+    if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) ||
+        mgr.has( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ) ) ) {
         for( auto inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
@@ -2495,7 +2497,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             // farming activies encompass tilling, planting, harvesting.
         } else if( act_id == ACT_MULTIPLE_FARM ) {
             dark_capable = true;
-        } else if( act_id == activity_id( "ACT_MULTIPLE_FORAGE" ) ){
+        } else if( act_id == activity_id( "ACT_MULTIPLE_FORAGE" ) ) {
             dark_capable = true;
             for( const tripoint &elem : g->m.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
                 if( is_harvestable_there( elem ) ) {
@@ -2741,8 +2743,9 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == NEEDS_FORAGING && is_harvestable_there( src_loc ) ) {
         if( p.is_npc() ) {
             npc *guy = dynamic_cast<npc *>( &p );
-            if( !guy->forage_check( src_loc, g->m, 100 ) ) {
-                // truth means cant carry anymore.
+            if( guy->get_offscreen_job().is_forage_job() &&
+                !guy->get_offscreen_job().offscreen_job_check( src_loc, g->m, 100, *guy ) ) {
+                // false means cant carry anymore.
                 guy->revert_after_activity();
                 return false;
             } else {

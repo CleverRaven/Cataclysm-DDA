@@ -4262,10 +4262,19 @@ void game::overmap_npc_move()
             continue;
         }
         npc *npc_to_add = elem.get();
-        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) ){
-            if( npc_to_add->get_offscreen_job() == NPC_OFFSCREEN_JOB_FORAGE && npc_to_add->goal == npc_to_add->global_omt_location() ){
+        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) ) {
+            if( !npc_to_add->get_offscreen_job().is_null() ){
+                std::cout << "npc has offscreen job for forage in game::ovemrap_npc_move " << std::endl;
+            }
+            if( npc_to_add->get_offscreen_job().get_current_offscreen_job_status() == OFFSCREEN_JOB_WORKING ){
+                std::cout << "npc offscreen job status is workingin game::overmap_npc_move " << std::endl;
+            }
+            if( npc_to_add->goal == npc_to_add->global_omt_location() ){
+                std::cout << "npc has arrived because goal == omt_location in game::overmap_npc_move" << std::endl;
+            }
+            if( !npc_to_add->get_offscreen_job().is_null() && npc_to_add->get_offscreen_job().get_current_offscreen_job_status() == OFFSCREEN_JOB_WORKING && npc_to_add->goal == npc_to_add->global_omt_location() ) {
                 working_npcs.push_back( npc_to_add );
-            } else if( npc_to_add->mission == NPC_MISSION_TRAVELLING ){
+            } else if( npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
                 travelling_npcs.push_back( npc_to_add );
             }
         }
@@ -4287,24 +4296,25 @@ void game::overmap_npc_move()
             reload_npcs();
         }
     }
-    for( npc *elem : working_npcs ){
-        cata::optional<time_duration> job_duration = elem->get_offscreen_work_duration();
-        cata::optional<time_point> job_started = elem->get_offscreen_work_time();
-        if( !job_duration || !job_started ){
+    for( npc *elem : working_npcs ) {
+        cata::optional<time_duration> job_duration = elem->get_offscreen_job().get_offscreen_work_duration();
+        time_point job_started = elem->get_offscreen_job().get_offscreen_work_time();
+        if( !job_duration || job_started == calendar::before_time_starts ) {
             continue;
         }
-        int percent_complete = 0;
-        percent_complete = static_cast<int>( std::min( 100 * ( ( calendar::turn - *job_started ) / *job_duration ), 100.0 ) );
-        if( percent_complete >= 100 ){
+        int percent_complete = static_cast<int>( std::min( 100 * ( ( calendar::turn - job_started ) /
+                                             *job_duration ), 100.0 ) );
+        std::cout << "percent complete = " << std::to_string( percent_complete ) << std::endl;
+        if( percent_complete >= 100 ) {
             // job done
-            if( elem->do_offscreen_forage( percent_complete ) ){
+            if( elem->get_offscreen_job().do_job_at_location( *elem ) ) {
                 elem->return_to_base();
             } else {
                 talk_function::go_forage( *elem );
             }
         } else {
             // set this incase NPC gets loaded into bubble halfway through foraging.
-            elem->set_work_completion( percent_complete );
+            elem->get_offscreen_job().set_work_completion( percent_complete );
         }
     }
     return;
