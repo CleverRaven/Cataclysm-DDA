@@ -497,7 +497,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "time": "5 m",
+    "time": "2 m",
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
