@@ -233,7 +233,7 @@ class overmapbuffer
          * Get all (currently loaded!) npcs that have a companion
          * mission set.
          */
-        std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs();
+        std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs( int range = 100 );
         /**
          * Uses overmap terrain coordinates, this also means radius is
          * in overmap terrain.
