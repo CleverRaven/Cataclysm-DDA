@@ -158,14 +158,14 @@ void defense_game::pre_action( action_id &act )
                 action_error_message = _( "You cannot save in defense mode!" );
             }
             break;
-        case ACTION_MOVE_N:
-        case ACTION_MOVE_NE:
-        case ACTION_MOVE_E:
-        case ACTION_MOVE_SE:
-        case ACTION_MOVE_S:
-        case ACTION_MOVE_SW:
-        case ACTION_MOVE_W:
-        case ACTION_MOVE_NW: {
+        case ACTION_MOVE_FORTH:
+        case ACTION_MOVE_FORTH_RIGHT:
+        case ACTION_MOVE_RIGHT:
+        case ACTION_MOVE_BACK_RIGHT:
+        case ACTION_MOVE_BACK:
+        case ACTION_MOVE_BACK_LEFT:
+        case ACTION_MOVE_LEFT:
+        case ACTION_MOVE_FORTH_LEFT: {
             const point delta = get_delta_from_movement_action( act, iso_rotate::yes );
             if( ( delta.y < 0 && g->u.posy() == HALF_MAPSIZE_Y && g->get_levy() <= 93 )
                 || ( delta.y > 0 && g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 )

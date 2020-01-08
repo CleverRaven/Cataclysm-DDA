@@ -37,22 +37,22 @@ enum action_id : int {
     ACTION_PAUSE,
     /** Input timeout */
     ACTION_TIMEOUT,
-    /** Move character north */
-    ACTION_MOVE_N,
-    /** Move character north-east */
-    ACTION_MOVE_NE,
-    /** Move character east */
-    ACTION_MOVE_E,
-    /** Move character south-east */
-    ACTION_MOVE_SE,
-    /** Move character south */
-    ACTION_MOVE_S,
-    /** Move character south-west */
-    ACTION_MOVE_SW,
-    /** Move character west */
-    ACTION_MOVE_W,
-    /** Move character north-west */
-    ACTION_MOVE_NW,
+    /** Move towards top of screen / accelerate */
+    ACTION_MOVE_FORTH,
+    /** Move towards top-right of screen / accelerate and steer right */
+    ACTION_MOVE_FORTH_RIGHT,
+    /** Move / steer right */
+    ACTION_MOVE_RIGHT,
+    /** Move towards bottom-right of screen / decelerate and steer right */
+    ACTION_MOVE_BACK_RIGHT,
+    /** Move towards bottom of screen / decelerate */
+    ACTION_MOVE_BACK,
+    /** Move towards bottom-left of screen / decelerate and steer left */
+    ACTION_MOVE_BACK_LEFT,
+    /** Move / steer left */
+    ACTION_MOVE_LEFT,
+    /** Move towards top-left of screen / accelerate and steer left */
+    ACTION_MOVE_FORTH_LEFT,
     /** Descend a staircase */
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
@@ -512,8 +512,8 @@ enum class iso_rotate {
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
  * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
  * 2. If d.z is invalid, it is treated as if it were zero.
- * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_NW
- * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_NW
+ * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_FORTH_LEFT
+ * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_FORTH_LEFT
  *
  * @param[in] d coordinate delta, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)

@@ -1683,14 +1683,14 @@ bool game::handle_action()
                 open_movement_mode_menu();
                 break;
 
-            case ACTION_MOVE_N:
-            case ACTION_MOVE_NE:
-            case ACTION_MOVE_E:
-            case ACTION_MOVE_SE:
-            case ACTION_MOVE_S:
-            case ACTION_MOVE_SW:
-            case ACTION_MOVE_W:
-            case ACTION_MOVE_NW:
+            case ACTION_MOVE_FORTH:
+            case ACTION_MOVE_FORTH_RIGHT:
+            case ACTION_MOVE_RIGHT:
+            case ACTION_MOVE_BACK_RIGHT:
+            case ACTION_MOVE_BACK:
+            case ACTION_MOVE_BACK_LEFT:
+            case ACTION_MOVE_LEFT:
+            case ACTION_MOVE_FORTH_LEFT:
                 if( !u.get_value( "remote_controlling" ).empty() &&
                     ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
                     rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
