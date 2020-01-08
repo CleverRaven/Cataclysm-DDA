@@ -311,11 +311,14 @@ void item_pocket::remove_all_ammo( Character &guy )
 
 void item_pocket::remove_all_mods( Character &guy )
 {
-    auto mod = std::find_if( contents.begin(), contents.end(), []( const item & e ) {
-        return e.is_toolmod();
-    } );
-    guy.i_add_or_drop( *mod );
-    contents.erase( mod );
+    for( auto iter = contents.begin(); iter != contents.end(); ) {
+        if( iter->is_toolmod() ) {
+            guy.i_add_or_drop( *iter );
+            iter = contents.erase( iter );
+        } else {
+            iter++;
+        }
+    }
 }
 
 static void insert_separation_line( std::vector<iteminfo> &info )
