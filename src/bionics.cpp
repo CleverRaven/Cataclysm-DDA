@@ -906,7 +906,7 @@ bool Character::burn_fuel( int b, bool start )
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else if( is_cable_powered ) {
-                current_fuel_stock = std::stoi( get_value( "vh_" + fuel ) );
+                current_fuel_stock = std::stoi( get_value( "rem_" + fuel ) );
             } else {
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
@@ -965,7 +965,7 @@ bool Character::burn_fuel( int b, bool start )
                         } else {
                             current_fuel_stock = 0;
                         }
-                        set_value( "vh_" + fuel, std::to_string( current_fuel_stock ) );
+                        set_value( "rem_" + fuel, std::to_string( current_fuel_stock ) );
                     } else {
                         current_fuel_stock -= 1;
                         set_value( fuel, std::to_string( current_fuel_stock ) );
@@ -984,7 +984,6 @@ bool Character::burn_fuel( int b, bool start )
                                                bio.info().name );
                     } else {
                         remove_value( fuel );
-                        remove_value( "vh_" + fuel );
                         add_msg_player_or_npc( m_info,
                                                _( "Your %s runs out of fuel and turn off." ),
                                                _( "<npcname>'s %s runs out of fuel and turn off." ),
@@ -1066,13 +1065,13 @@ itype_id Character::find_remote_fuel()
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( has_charges( "UPS_off", 1, used_ups ) ) {
-                    set_value( "vh_battery", std::to_string( charges_of( "UPS_off",
+                    set_value( "rem_battery", std::to_string( charges_of( "UPS_off",
                                units::to_kilojoule( max_power_level ), used_ups ) ) );
                 } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
-                    set_value( "vh_battery", std::to_string( charges_of( "adv_UPS_off",
+                    set_value( "rem_battery", std::to_string( charges_of( "adv_UPS_off",
                                units::to_kilojoule( max_power_level ), used_ups ) ) );
                 } else {
-                    set_value( "vh_battery", std::to_string( 0 ) );
+                    set_value( "rem_battery", std::to_string( 0 ) );
                 }
                 remote_fuel = itype_id( "battery" );
             }
@@ -1082,13 +1081,9 @@ itype_id Character::find_remote_fuel()
         if( !vp ) {
             continue;
         }
-        set_value( "vh_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
+        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
                    true ) ) );
         remote_fuel = itype_id( "battery" );
-    }
-
-    if( remote_fuel.empty() ) {
-        reset_remote_fuel();
     }
 
     return remote_fuel;
@@ -1133,7 +1128,7 @@ void Character::reset_remote_fuel()
     if( get_bionic_fueled_with( item( sun_light ) ).empty() ) {
         remove_value( "sunlight" );
     }
-    remove_value( "vh_battery" );
+    remove_value( "rem_battery" );
 }
 
 void Character::heat_emission( int b, int fuel_energy )
@@ -1343,64 +1338,7 @@ void Character::process_bionic( int b )
             mod_stim( -1 );
             mod_power_level( -2_kJ );
         }
-    }/* else if( bio.id == "bio_cable" ) {
-        if( is_max_power() ) {
-            return;
-        }
-
-        const std::vector<item *> cables = items_with( []( const item & it ) {
-            return it.active && it.has_flag( "CABLE_SPOOL" );
-        } );
-
-        constexpr int battery_per_power = 10;
-        int wants_power_amt = battery_per_power;
-        for( const item *cable : cables ) {
-            const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
-            if( !target ) {
-                if( g->m.is_outside( pos() ) && !is_night( calendar::turn ) &&
-                    cable->get_var( "state" ) == "solar_pack_link" ) {
-                    double modifier =  g->natural_light_level( pos().z ) / default_daylight_level();
-                    // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
-                    if( is_wearing( "solarpack_on" ) && x_in_y( 180 * modifier, 3600 ) ) {
-                        mod_power_level( 1_kJ );
-                    }
-                    // quantum solar backpack = solar panel x6
-                    if( is_wearing( "q_solarpack_on" ) && x_in_y( 6 * 180 * modifier, 3600 ) ) {
-                        mod_power_level( 1_kJ );
-                    }
-                }
-                if( cable->get_var( "state" ) == "UPS_link" ) {
-                    static const item_filter used_ups = [&]( const item & itm ) {
-                        return itm.get_var( "cable" ) == "plugged_in";
-                    };
-                    if( has_charges( "UPS_off", 1, used_ups ) ) {
-                        use_charges( "UPS_off", 1, used_ups );
-                        mod_power_level( 1_kJ );
-                    } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
-                        use_charges( "adv_UPS_off", roll_remainder( 0.6 ), used_ups );
-                        mod_power_level( 1_kJ );
-                    }
-                }
-                continue;
-            }
-            const optional_vpart_position vp = g->m.veh_at( *target );
-            if( !vp ) {
-                continue;
-            }
-
-            wants_power_amt = vp->vehicle().discharge_battery( wants_power_amt );
-            if( wants_power_amt == 0 ) {
-                mod_power_level( 1_kJ );
-                break;
-            }
-        }
-
-        if( wants_power_amt < battery_per_power &&
-            wants_power_amt > 0 &&
-            x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
-            mod_power_level( 1_kJ );
-        }
-    }*/ else if( bio.id == "bio_gills" ) {
+    } else if( bio.id == "bio_gills" ) {
         if( has_effect( effect_asthma ) ) {
             add_msg_if_player( m_good,
                                _( "You feel your throat open up and air filling your lungs!" ) );
