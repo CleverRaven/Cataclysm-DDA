@@ -1531,6 +1531,12 @@ void options_manager::add_options_interface()
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
     "left"
        );
+	   
+    add( "AIM_WINDOW_POSITION", "interface", translate_marker( "Aim window position" ),
+         translate_marker( "Switch between aim window being left or right." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    "right"
+       );
 
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
          translate_marker( "How should confidence and steadiness be communicated to the player." ),

@@ -1384,7 +1384,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
+
+	int aimX = 0;
+	std::string position = get_option<std::string>( "AIM_WINDOW_POSITION" );
+    if( position == "left" ) {
+        aimX = width;
+    } else if( position == "right" ) {
+        aimX = TERMX;
+    }
+	
+    catacurses::window w_target = catacurses::newwin( height, width, point( aimX - width, top ) );
 
     input_context ctxt( "TARGET" );
     ctxt.set_iso( true );
