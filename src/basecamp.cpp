@@ -9,6 +9,7 @@
 
 #include "avatar.h"
 #include "clzones.h"
+#include "coordinate_conversions.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -579,41 +580,6 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     return ret;
 }
 
-void basecamp::consume_components( map &target_map, const recipe &making, int batch_size )
-{
-    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
-    const auto &req = making.requirements();
-    for( const auto &it : req.get_components() ) {
-        g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, _inv,
-                            true, is_crafting_component, !by_radio ), batch_size,
-                            is_crafting_component, origin, range );
-    }
-    // this may consume pseudo-resources from fake items
-    for( const auto &it : req.get_tools() ) {
-        g->u.consume_tools( target_map, g->u.select_tool_component( it, batch_size, _inv,
-                            DEFAULT_HOTKEYS, true, !by_radio ), batch_size, origin, range, this );
-    }
-    // go back and consume the actual resources
-    for( basecamp_resource &bcp_r : resources ) {
-        if( bcp_r.consumed > 0 ) {
-            target_map.use_charges( origin, range, bcp_r.ammo_id, bcp_r.consumed );
-            bcp_r.consumed = 0;
-        }
-    }
-}
-
-void basecamp::consume_components( const recipe &making, int batch_size )
-{
-    if( by_radio ) {
-        tinymap target_map;
-        target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
-        consume_components( target_map, making, batch_size );
-        target_map.save();
-    } else {
-        consume_components( g->m, making, batch_size );
-    }
-}
-
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
@@ -643,7 +609,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 
     // find available fuel
-    for( const tripoint &pt : target_map.points_in_radius( origin, range ) ) {
+    for( const tripoint &pt : target_map.points_in_radius( origin, inv_range ) ) {
         if( target_map.accessible_items( pt ) ) {
             for( const item &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
@@ -711,4 +677,77 @@ void basecamp::load_data( const std::string &data )
     stream >> name >> bb_pos.x >> bb_pos.y;
     // add space to name
     replace( name.begin(), name.end(), '_', ' ' );
+}
+
+basecamp_action_components::basecamp_action_components(
+    const recipe &making, int batch_size, basecamp &base ) :
+    making_( making ),
+    batch_size_( batch_size ),
+    base_( base )
+{
+}
+
+bool basecamp_action_components::choose_components()
+{
+    const auto filter = is_crafting_component;
+    const requirement_data &req = making_.requirements();
+    if( !item_selections_.empty() || !tool_selections_.empty() ) {
+        debugmsg( "Reused basecamp_action_components" );
+        return false;
+    }
+    for( const auto &it : req.get_components() ) {
+        comp_selection<item_comp> is =
+            g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
+                                        !base_.by_radio );
+        if( is.use_from == cancel ) {
+            return false;
+        }
+        item_selections_.push_back( is );
+    }
+    // this may consume pseudo-resources from fake items
+    for( const auto &it : req.get_tools() ) {
+        comp_selection<tool_comp> ts =
+            g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+                                        !base_.by_radio );
+        if( ts.use_from == cancel ) {
+            return false;
+        }
+        tool_selections_.push_back( ts );
+    }
+    return true;
+}
+
+void basecamp_action_components::consume_components()
+{
+    map *target_map = &g->m;
+    if( base_.by_radio ) {
+        map_ = std::make_unique<tinymap>();
+        map_->load( omt_to_sm_copy( base_.camp_omt_pos() ), false );
+        target_map = map_.get();
+    }
+    const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
+    const auto &req = making_.requirements();
+    if( item_selections_.size() != req.get_components().size() ||
+        tool_selections_.size() != req.get_tools().size() ) {
+        debugmsg( "Not all selections have been made for basecamp_action_components" );
+    }
+    for( const comp_selection<item_comp> &sel : item_selections_ ) {
+        g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
+                            base_.inv_range );
+    }
+    // this may consume pseudo-resources from fake items
+    for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
+        g->u.consume_tools( *target_map, sel, batch_size_, origin, base_.inv_range, &base_ );
+    }
+    // go back and consume the actual resources
+    for( basecamp_resource &bcp_r : base_.resources ) {
+        if( bcp_r.consumed > 0 ) {
+            target_map->use_charges( origin, base_.inv_range, bcp_r.ammo_id, bcp_r.consumed );
+            bcp_r.consumed = 0;
+        }
+    }
+    if( map_ ) {
+        map_->save();
+        map_.reset();
+    }
 }

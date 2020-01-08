@@ -346,6 +346,15 @@ void talk_function::assign_guard( npc &p )
     p.set_omt_destination();
 }
 
+void talk_function::abandon_camp( npc &p )
+{
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->abandon_camp();
+    }
+}
+
 void talk_function::assign_camp( npc &p )
 {
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );

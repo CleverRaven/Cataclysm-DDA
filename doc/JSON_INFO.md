@@ -1209,6 +1209,7 @@ See also VEHICLE_JSON.md
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
 "container" : "null",             // What container (if any) this item should spawn within
+"repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile

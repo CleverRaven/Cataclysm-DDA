@@ -15,6 +15,7 @@ option(TILES        "Build graphical tileset version."   "OFF")
 option(CURSES       "Build curses version."   "ON")
 option(SOUND        "Support for in-game sounds & music."   "OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"   "ON")
+option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."   "ON")
 option(LANGUAGES    "Compile localization files for specified languages."   "")
@@ -323,6 +324,9 @@ ENDIF(SOUND)
 
 IF(BACKTRACE)
     ADD_DEFINITIONS(-DBACKTRACE)
+    IF(LIBBACKTRACE)
+      ADD_DEFINITIONS(-DLIBBACKTRACE)
+    ENDIF(LIBBACKTRACE)
 ENDIF(BACKTRACE)
 
 # Ok. Now create build and install recipes

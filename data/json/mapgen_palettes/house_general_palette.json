@@ -88,8 +88,8 @@
         "t_window_no_curtains_open",
         [ "t_curtains", 5 ]
       ],
-      "<": "t_stairs_up",
-      ">": "t_stairs_down"
+      "<": "t_wood_stairs_up",
+      ">": "t_wood_stairs_down"
     },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
