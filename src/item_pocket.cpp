@@ -316,7 +316,7 @@ void item_pocket::remove_all_mods( Character &guy )
             guy.i_add_or_drop( *iter );
             iter = contents.erase( iter );
         } else {
-            iter++;
+            ++iter;
         }
     }
 }
