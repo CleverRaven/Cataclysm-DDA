@@ -7131,8 +7131,6 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
         xpos += shortcut_print( window, point( xpos, ypos ), c_white, c_light_green,
                                 tokens[i] ) + gap_spaces;
     }
-
-    refresh_all();
 }
 
 void game::list_items_monsters()
@@ -7174,7 +7172,6 @@ void game::list_items_monsters()
         }
     }
 
-    refresh_all();
     if( ret == game::vmenu_ret::FIRE ) {
         avatar_action::fire( u, m, u.weapon );
     }
@@ -7185,7 +7182,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
     std::vector<map_item_stack> ground_items = item_list;
     int iInfoHeight = std::min( 25, TERMY / 2 );
-    int width = 44;
+    int width = 45;
 
     //find max length of item name and resize window width
     for( const map_item_stack &cur_item : ground_items ) {
@@ -7195,7 +7192,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
     }
     width = clamp( width, 44, ( TERMX - VIEW_OFFSET_X ) / 3 );
-
+  
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
     catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,

@@ -359,5 +359,54 @@
     "sym": "c",
     "color": "brown",
     "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_mil_helipad",
+    "name": "military helipad",
+    "sym": "H",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "SOURCE_FUEL", "SOURCE_GUN", "SOURCE_VEHICLES", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad_nw",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad_ne",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad_sw",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad_se",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad2f_nw",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad2f_ne",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad2f_sw",
+    "copy-from": "generic_mil_helipad"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "helipad2f_se",
+    "copy-from": "generic_mil_helipad"
   }
 ]
