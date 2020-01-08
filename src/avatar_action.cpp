@@ -81,9 +81,6 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
     } else {
-        if( tile_iso && use_tiles && !you.is_auto_moving() ) {
-            rotate_direction_cw( dx, dy );
-        }
         dest_loc.x = you.posx() + dx;
         dest_loc.y = you.posy() + dy;
         dest_loc.z = you.posz() + dz;

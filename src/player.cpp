@@ -6376,7 +6376,7 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-    return get_movement_direction_from_delta( dp );
+    return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
 
 bool player::defer_move( const tripoint &next )

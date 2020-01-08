@@ -502,7 +502,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 
-action_id get_movement_direction_from_delta( const tripoint &d )
+action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
 {
     if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
@@ -510,44 +510,46 @@ action_id get_movement_direction_from_delta( const tripoint &d )
         return ACTION_MOVE_UP;
     }
 
+    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
     if( d.xy() == point_north ) {
-        return ACTION_MOVE_N;
+        return iso_mode ? ACTION_MOVE_NW : ACTION_MOVE_N;
     } else if( d.xy() == point_north_east ) {
-        return ACTION_MOVE_NE;
+        return iso_mode ? ACTION_MOVE_N : ACTION_MOVE_NE;
     } else if( d.xy() == point_east ) {
-        return ACTION_MOVE_E;
+        return iso_mode ? ACTION_MOVE_NE : ACTION_MOVE_E;
     } else if( d.xy() == point_south_east ) {
-        return ACTION_MOVE_SE;
+        return iso_mode ? ACTION_MOVE_E : ACTION_MOVE_SE;
     } else if( d.xy() == point_south ) {
-        return ACTION_MOVE_S;
+        return iso_mode ? ACTION_MOVE_SE : ACTION_MOVE_S;
     } else if( d.xy() == point_south_west ) {
-        return ACTION_MOVE_SW;
+        return iso_mode ? ACTION_MOVE_S : ACTION_MOVE_SW;
     } else if( d.xy() == point_west ) {
-        return ACTION_MOVE_W;
+        return iso_mode ? ACTION_MOVE_SW : ACTION_MOVE_W;
     } else {
-        return ACTION_MOVE_NW;
+        return iso_mode ? ACTION_MOVE_W : ACTION_MOVE_NW;
     }
 }
 
-point get_delta_from_movement_direction( action_id act )
+point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
 {
+    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
     switch( act ) {
         case ACTION_MOVE_N:
-            return point_north;
+            return iso_mode ? point_north_east : point_north;
         case ACTION_MOVE_NE:
-            return point_north_east;
+            return iso_mode ? point_east : point_north_east;
         case ACTION_MOVE_E:
-            return point_east;
+            return iso_mode ? point_south_east : point_east;
         case ACTION_MOVE_SE:
-            return point_south_east;
+            return iso_mode ? point_south : point_south_east;
         case ACTION_MOVE_S:
-            return point_south;
+            return iso_mode ? point_south_west : point_south;
         case ACTION_MOVE_SW:
-            return point_south_west;
+            return iso_mode ? point_west : point_south_west;
         case ACTION_MOVE_W:
-            return point_west;
+            return iso_mode ? point_north_west : point_west;
         case ACTION_MOVE_NW:
-            return point_north_west;
+            return iso_mode ? point_north : point_north_west;
         default:
             return point_zero;
     }

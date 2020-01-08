@@ -494,13 +494,18 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 
-// Helper function to convert coordinate delta to a movement direction
+// only has effect in iso mode
+enum class iso_rotate {
+    no, yes
+};
+
+// Helper function to convert coordinate delta to a movement action
 /**
- * Translate coordinate delta into movement direction
+ * Translate coordinate delta into movement action
  *
  * For a given coordinate delta, this function returns the associated user movement action
  * that would generated that delta.  See @ref action_id for the list of available movement
- * commands that may be generated.
+ * commands that may be generated.  This function takes iso mode into account.
  *
  * The only valid values for the coordinates of \p d are -1, 0 and 1
  *
@@ -510,13 +515,13 @@ std::string press_x( action_id act, const std::string &act_desc );
  * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_NW
  * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_NW
  *
- * @param[in] d direction, each coordinate should be -1, 0, or 1
+ * @param[in] d coordinate delta, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_direction_from_delta( const tripoint &d );
+action_id get_movement_action_from_delta( const tripoint &d, iso_rotate rot );
 
-// Helper function to convert movement direction to coordinate delta point
-point get_delta_from_movement_direction( action_id act );
+// Helper function to convert movement action to coordinate delta point
+point get_delta_from_movement_action( action_id act, iso_rotate rot );
 
 /**
  * Show the action menu
