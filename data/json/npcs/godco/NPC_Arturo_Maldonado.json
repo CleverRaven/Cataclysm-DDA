@@ -1,0 +1,78 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_arturo",
+    "name_unique": "Arturo Maldonado",
+    "name_suffix": "member",
+    "gender": "male",
+    "class": "NC_godco_arturo",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_mark_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_arturo",
+    "name": "member",
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 2 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_arturo_worn",
+    "carry_override": "GODCO_arturo_carried",
+    "weapon_override": "GODCO_arturo_wield",
+    "traits": [ { "group": "Appearance_demographics" }, { "trait": "DEFT" }, { "trait": "QUICK" }, { "group": "Appearance_Mixed" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "melee", "bonus": 1 },
+      { "skill": "dodge", "bonus": 2 },
+      { "skill": "throw", "bonus": 2 },
+      { "skill": "bashing", "bonus": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_arturo_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "pants" },
+      { "item": "flip_flops" },
+      { "item": "tank_top" },
+      { "item": "house_coat" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_arturo_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "bag_zipper" }, { "item": "crackpipe" }, { "item": "ref_lighter" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_arturo_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "bat" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_arturo"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_arturo_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_arturo",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]

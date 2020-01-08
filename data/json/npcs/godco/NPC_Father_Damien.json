@@ -1,0 +1,76 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_damien",
+    "name_unique": "Father Damien",
+    "name_suffix": "priest",
+    "gender": "male",
+    "class": "NC_godco_damien",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_damien_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_damien",
+    "name": "member",
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 0 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ -2, 1 ] },
+    "worn_override": "GODCO_damien_worn",
+    "carry_override": "GODCO_damien_carried",
+    "weapon_override": "GODCO_damien_wield",
+    "traits": [ { "trait": "SPIRITUAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "level": 5, "name": "speech" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_damien_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "dress_shoes" },
+      { "item": "briefs" },
+      { "item": "pants" },
+      { "item": "longshirt" },
+      { "item": "cassock" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_damien_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "charged_cell_phone" }, { "item": "candle" }, { "item": "small_relic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_damien_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "holybook_bible1" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_damien"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_damien_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_damien",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]

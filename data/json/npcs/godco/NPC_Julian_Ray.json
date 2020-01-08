@@ -1,0 +1,84 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_julian",
+    "name_unique": "Julian Ray",
+    "gender": "male",
+    "name_suffix": "dorm leader",
+    "class": "NC_godco_julian",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_julian_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_julian",
+    "name": "member",
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -1, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_julian_worn",
+    "carry_override": "GODCO_julian_carried",
+    "weapon_override": "GODCO_julian_wield",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_Mixed" },
+	  { "trait": "SPIRITUAL" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "gun", "bonus": 3 },
+      { "skill": "pistol", "bonus": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_julian_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks_wool" },
+      { "item": "boots_steel" },
+      { "item": "boxer_shorts" },
+      { "item": "pants_cargo" },
+      { "item": "longshirt" },
+      { "item": "scarf_fur" },
+	  { "item": "leather_pouch" },
+      { "item": "holy_symbol_wood" },
+	  { "item": "wristwatch" },
+	  { "item": "hat_hunting" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_julian_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "glock17_17", "charges-min": 15, "charges-max": 17 }, { "item": "glock_17", "charges-min": 25, "charges-max": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_julian_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "null" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_julian"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_julian_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_julian",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]
