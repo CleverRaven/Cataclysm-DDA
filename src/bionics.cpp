@@ -873,6 +873,14 @@ bool Character::burn_fuel( int b, bool start )
                     effective_efficiency = 0.3;
                 }
             }
+        } else if( !start ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "Your %s runs out of fuel and turn off." ),
+                                   _( "<npcname>'s %s runs out of fuel and turn off." ),
+                                   bio.info().name );
+            bio.powered = false;
+            deactivate_bionic( b, true );
+            return false;
         }
     }
 
@@ -897,6 +905,8 @@ bool Character::burn_fuel( int b, bool start )
                                                get_healthy_kcal() );
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
+            } else if( is_cable_powered ) {
+                current_fuel_stock = std::stoi( get_value( "vh_" + fuel ) );
             } else {
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
@@ -947,14 +957,20 @@ bool Character::burn_fuel( int b, bool start )
                                                      g->is_sheltered( pos() ) );
                             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_efficiency );
                         }
+                    } else if( is_cable_powered ) {
+                        const int unconsumed = consume_remote_fuel( 1 );
+                        if( unconsumed == 0 ) {
+                            mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
+                            current_fuel_stock -= 1;
+                        } else {
+                            current_fuel_stock = 0;
+                        }
+                        set_value( "vh_" + fuel, std::to_string( current_fuel_stock ) );
                     } else {
                         current_fuel_stock -= 1;
                         set_value( fuel, std::to_string( current_fuel_stock ) );
                         update_fuel_storage( fuel );
                         mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
-                        if( is_cable_powered ) {
-                            consume_remote_fuel( b, 1 );
-                        }
                     }
 
                     heat_emission( b, fuel_energy );
@@ -968,6 +984,7 @@ bool Character::burn_fuel( int b, bool start )
                                                bio.info().name );
                     } else {
                         remove_value( fuel );
+                        remove_value( "vh_" + fuel );
                         add_msg_player_or_npc( m_info,
                                                _( "Your %s runs out of fuel and turn off." ),
                                                _( "<npcname>'s %s runs out of fuel and turn off." ),
@@ -1026,7 +1043,7 @@ void Character::passive_power_gen( int b )
     }
 }
 
-itype_id Character::find_remote_fuel( bool connecting )
+itype_id Character::find_remote_fuel()
 {
     itype_id remote_fuel;
 
@@ -1042,27 +1059,22 @@ itype_id Character::find_remote_fuel( bool connecting )
                 cable->get_var( "state" ) == "solar_pack_link" ) {
                 set_value( "sunlight", "1" );
                 remote_fuel = sun_light;
-            } else if( get_bionic_fueled_with( item( sun_light ) ).empty() ) {
-                remove_value( "sunlight" );
             }
+
             if( cable->get_var( "state" ) == "UPS_link" ) {
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( has_charges( "UPS_off", 1, used_ups ) ) {
-                    set_value( "UPS", "1" );
-                    //  use_charges( "UPS_off", 1, used_ups );
-                    //  mod_power_level( 1_kJ );
-                    remote_fuel = itype_id( "UPS" );
+                    set_value( "vh_battery", std::to_string( charges_of( "UPS_off",
+                               units::to_kilojoule( max_power_level ), used_ups ) ) );
                 } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
-                    set_value( "adv_UPS", "1" );
-                    // use_charges( "adv_UPS_off", roll_remainder( 0.6 ), used_ups );
-                    // mod_power_level( 1_kJ );
-                    remote_fuel = itype_id( "adv_UPS" );
+                    set_value( "vh_battery", std::to_string( charges_of( "adv_UPS_off",
+                               units::to_kilojoule( max_power_level ), used_ups ) ) );
+                } else {
+                    set_value( "vh_battery", std::to_string( 0 ) );
                 }
-            } else {
-                remove_value( "UPS" );
-                remove_value( "adv_UPS" );
+                remote_fuel = itype_id( "battery" );
             }
             continue;
         }
@@ -1070,29 +1082,21 @@ itype_id Character::find_remote_fuel( bool connecting )
         if( !vp ) {
             continue;
         }
-
-        const int current_fuel_stock = vp->vehicle().fuel_left( itype_id( "battery" ), true );
-        int batt = 0;
-        if( !get_value( "battery" ).empty() ) {
-            batt = std::stoi( get_value( "battery" ) );
-        }
-        if( current_fuel_stock >= 1 ) {
-            if( connecting ) {
-                set_value( "battery", std::to_string( std::max( batt, 1 ) ) );
-            } else {
-                set_value( "battery", std::to_string( batt + 1 ) );
-            }
-        }
-
+        set_value( "vh_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
+                   true ) ) );
         remote_fuel = itype_id( "battery" );
+    }
+
+    if( remote_fuel.empty() ) {
+        reset_remote_fuel();
     }
 
     return remote_fuel;
 }
 
-int Character::consume_remote_fuel( int b, int amount )
+int Character::consume_remote_fuel( int amount )
 {
-    int unconsumed_amount = 0;
+    int unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.active && it.has_flag( "CABLE_SPOOL" );
     } );
@@ -1107,35 +1111,29 @@ int Character::consume_remote_fuel( int b, int amount )
             unconsumed_amount = vp->vehicle().discharge_battery( amount );
         }
     }
+
+    if( unconsumed_amount > 0 ) {
+        static const item_filter used_ups = [&]( const item & itm ) {
+            return itm.get_var( "cable" ) == "plugged_in";
+        };
+        if( has_charges( "UPS_off", unconsumed_amount, used_ups ) ) {
+            use_charges( "UPS_off", unconsumed_amount, used_ups );
+            unconsumed_amount -= 1;
+        } else if( has_charges( "adv_UPS_off", unconsumed_amount, used_ups ) ) {
+            use_charges( "adv_UPS_off", roll_remainder( unconsumed_amount * 0.6 ), used_ups );
+            unconsumed_amount -= 1;
+        }
+    }
+
     return unconsumed_amount;
 }
 
 void Character::reset_remote_fuel()
 {
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( "CABLE_SPOOL" );
-    } );
-
-    for( const item *cable : cables ) {
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = g->m.veh_at( *target );
-            if( !vp ) {
-                continue;
-            }
-            const int current_fuel_stock = vp->vehicle().fuel_left( itype_id( "battery" ), true );
-            int batt = 0;
-            if( !get_value( "battery" ).empty() ) {
-                batt = std::stoi( get_value( "battery" ) );
-            }
-            set_value( "battery", std::to_string( std::max( 0, batt - 1 ) ) );
-        }
-    }
     if( get_bionic_fueled_with( item( sun_light ) ).empty() ) {
         remove_value( "sunlight" );
     }
-    remove_value( "UPS" );
-    remove_value( "adv_UPS" );
+    remove_value( "vh_battery" );
 }
 
 void Character::heat_emission( int b, int fuel_energy )

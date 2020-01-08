@@ -8838,7 +8838,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
                                      ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel( true );
+            p->find_remote_fuel();
         }
     };
     if( initial_state == "attach_first" ) {
