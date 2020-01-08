@@ -446,7 +446,7 @@
     "id": "cookbook_liverforkids",
     "type": "BOOK",
     "name": { "str": "Liver-Licious Recipes Your Kids Will Love", "str_pl": "copies of Liver-Licious Recipes" },
-    "description": "This cook book is written by liver enthusiast Tamsyn Beckerleg.  Inside you'll find a great deal of anecdotes about the near certain ruination of children who refuse to eat their liver.",
+    "description": "This cookbook is written by liver enthusiast Tamsyn Beckerleg.  Inside you'll find a great deal of anecdotes about the near-certain ruination of children who refuse to eat their liver.",
     "weight": "600 g",
     "volume": "800 ml",
     "price": 1999,
