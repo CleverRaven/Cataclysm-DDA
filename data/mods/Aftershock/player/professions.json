@@ -255,6 +255,47 @@
   },
   {
     "type": "profession",
+    "ident": "afs_holo_fighter",
+    "name": "Corporate Infiltrator",
+    "description": "Before all this, you were an 'independent contractor', a spy and mercenary at the service of megacorporations.  Using highly experimental holographic technology, you once took on impossible jobs one after the other.",
+    "points": 8,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "cutting" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "gloves_leather",
+          "pants_cargo",
+          "socks",
+          "boots_combat",
+          "gloves_leather",
+          "webbing_belt",
+          "sweater",
+          "powered_earmuffs",
+          "afs_holo_transposition_caster",
+          "afs_holo_decoy_caster",
+          "afs_holo_field_caster",
+          "afs_holo_flare_caster",
+          "afs_holo_cloak_mk2"
+        ],
+        "entries": [
+          { "item": "kukri", "container-item": "sheath" },
+          { "item": "afs_eidolon_derringer", "ammo-item": "5x50heavy", "charges": 4, "container-item": "holster" },
+          { "item": "5x50heavy" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "ident": "afs_affluent_executive",
     "name": "Affluent Executive",
     "description": "You worked at a high position in a wealthy company, earning numbers most people could only dream of, and you savored it.  You start with a maxed-out cash card.",

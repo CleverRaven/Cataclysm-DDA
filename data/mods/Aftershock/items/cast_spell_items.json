@@ -1,0 +1,66 @@
+[
+  {
+    "abstract": "afs_caster",
+    "type": "TOOL_ARMOR",
+    "name": "caster",
+    "description": "A generic techno doodad used to cast spells.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "material": [ "superalloy" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "TORSO" ],
+    "coverage": 0,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "TORSO" ]
+  },
+  {
+    "id": "afs_holo_transposition_caster",
+    "type": "TOOL_ARMOR",
+    "name": "hologram transposition caster",
+    "copy-from": "afs_caster",
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to swap positions with an existing hologram.",
+    "max_charges": 15,
+    "initial_charges": 15,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_transposition", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "afs_holo_flare_caster",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_caster",
+    "name": "hologram flare caster",
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to select an hologram, which will explode in a blinding flash, stunning anything nearby.",
+    "max_charges": 15,
+    "initial_charges": 15,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_flare", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "afs_holo_decoy_caster",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_caster",
+    "name": "decoy caster",
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will a holographic decoy in a location of your choosing.",
+    "max_charges": 2,
+    "initial_charges": 2,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_decoy", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "afs_holo_field_caster",
+    "type": "TOOL_ARMOR",
+    "copy-from": "afs_caster",
+    "name": "decoy field caster",
+    "description": "A small metallic sphere with a recessed bottom up top.  When activated it will create several holographic decoys around you.",
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_field", "no_fail": true, "level": 1 }
+  }
+]
