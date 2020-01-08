@@ -574,7 +574,7 @@
   {
     "type": "terrain",
     "id": "t_window_bars_curtains",
-    "name": "window with metal bars and curtains.",
+    "name": "window with metal bars and curtains",
     "description": "A barred window with fancy curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened on the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.",
     "symbol": "\"",
     "looks_like": "t_curtains",
@@ -604,7 +604,7 @@
   {
     "type": "terrain",
     "id": "t_window_bars_domestic",
-    "name": "window with metal bars and curtains.",
+    "name": "window with metal bars and curtains",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has been retrofitted with curtains.",
     "symbol": "#",
     "looks_like": "t_window_bars",
