@@ -856,7 +856,7 @@ bool Character::burn_fuel( int b, bool start )
     }
     const bool is_metabolism_powered = bio.is_this_fuel_powered( "metabolism" );
     const bool is_cable_powered = bio.info().is_remote_fueled;
-    std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
+    std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
     float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
 
     if( is_cable_powered ) {
