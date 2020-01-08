@@ -77,7 +77,6 @@
     "batch_time_factors": [ 83, 5 ],
     "book_learn": [
       [ "scots_cookbook", 2 ],
-      [ "family_cookbook", 0 ],
       [ "cookbook", 0 ],
       [ "cookbook_liverforkids", 1, "Candied Onions and Giblets" ]
     ],
