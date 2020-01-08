@@ -23,7 +23,7 @@
   },
   {
     "type": "city_building",
-    "id": "wizard_tower_1",
+    "id": "wizard_tower_2",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "wizardtower2_ground_north" },
