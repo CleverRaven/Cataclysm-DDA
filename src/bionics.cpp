@@ -1673,12 +1673,13 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
             installer.deactivate_bionic( i );
         }
     }
-    time_duration op_duration =  difficulty * 20_minutes;
-    if( has_trait( trait_DEBUG_BIONICS ) ) {
-        op_duration = 2_turns;
-    }
+
     int success = chance_of_success - rng( 1, 100 );
-    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( op_duration ) );
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+        perform_uninstall( b_id, difficulty, success, bionics[b_id].capacity, pl_skill );
+        return true;
+    }
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
@@ -1697,7 +1698,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        add_effect( effect_under_op, op_duration, elem.first, true, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     return true;
 }
@@ -1918,12 +1919,13 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         installer.practice( skill_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
-    time_duration op_duration = difficulty * 20_minutes;
-    if( has_trait( trait_DEBUG_BIONICS ) ) {
-        op_duration = 2_turns;
-    }
     int success = chance_of_success - rng( 0, 99 );
-    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( op_duration ) );
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+        perform_install( bioid, upbioid, difficulty, success, pl_skill, "NOT_MED",
+                         bioid->canceled_mutations, pos() );
+        return true;
+    }
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );
@@ -1950,7 +1952,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
     for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        add_effect( effect_under_op, op_duration, elem.first, true, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {
@@ -2548,6 +2550,11 @@ void bionic::deserialize( JsonIn &jsin )
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia )   //used by the Autodoc
 {
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+        installer.add_msg_if_player( m_info,
+                                     _( "You tell the pain to bug off and proceed with the operation." ) );
+        return;
+    }
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
                                      _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
