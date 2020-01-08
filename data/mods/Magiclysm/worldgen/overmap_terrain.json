@@ -327,5 +327,30 @@
     "type": "overmap_terrain",
     "id": "wizardtower1_roof",
     "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_ground",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_stair1",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_stair2",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_roof",
+    "copy-from": "wizardtower1_ground"
   }
 ]
