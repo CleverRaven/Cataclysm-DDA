@@ -4266,13 +4266,13 @@ void game::overmap_npc_move()
             if( !npc_to_add->get_offscreen_job().is_null() ){
                 std::cout << "npc has offscreen job for forage in game::ovemrap_npc_move " << std::endl;
             }
-            if( npc_to_add->get_offscreen_job().get_current_offscreen_job_status() == OFFSCREEN_JOB_WORKING ){
+            if( npc_to_add->get_offscreen_job().get_current_offscreen_job_status() == OFFSCREEN_JOB_STATUS_WORKING ){
                 std::cout << "npc offscreen job status is workingin game::overmap_npc_move " << std::endl;
             }
             if( npc_to_add->goal == npc_to_add->global_omt_location() ){
                 std::cout << "npc has arrived because goal == omt_location in game::overmap_npc_move" << std::endl;
             }
-            if( !npc_to_add->get_offscreen_job().is_null() && npc_to_add->get_offscreen_job().get_current_offscreen_job_status() == OFFSCREEN_JOB_WORKING && npc_to_add->goal == npc_to_add->global_omt_location() ) {
+            if( !npc_to_add->get_offscreen_job().is_null() && npc_to_add->get_offscreen_job().get_current_offscreen_job_status() == OFFSCREEN_JOB_STATUS_WORKING && npc_to_add->goal == npc_to_add->global_omt_location() ) {
                 working_npcs.push_back( npc_to_add );
             } else if( npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
                 travelling_npcs.push_back( npc_to_add );

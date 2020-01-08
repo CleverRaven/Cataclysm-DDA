@@ -3864,12 +3864,12 @@ void npc::reach_omt_destination()
         if( !offscreen_job.is_null() ){
             std::cout << "offscreen job is not null in reach_omt_dest " << std::endl;
         }
-        if( offscreen_job.get_current_offscreen_job_status() == OFFSCREEN_JOB_TRAVEL ){
+        if( offscreen_job.get_current_offscreen_job_status() == OFFSCREEN_JOB_STATUS_TRAVEL ){
             std::cout << "offscreen job status is travel in reach _omt_dest" << std::endl;
         }
-        if( !offscreen_job.is_null() && offscreen_job.get_current_offscreen_job_status() == OFFSCREEN_JOB_TRAVEL ) {
+        if( !offscreen_job.is_null() && offscreen_job.get_current_offscreen_job_status() == OFFSCREEN_JOB_STATUS_TRAVEL ) {
             // arrived at work spot.
-            offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_WORKING );
+            offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_STATUS_WORKING );
             // time taken is down to survival skill.
             offscreen_job.set_offscreen_work_duration( time_duration::from_minutes( std::max( 10,
                     60 / std::max( 1,
@@ -3938,7 +3938,8 @@ void npc::drop_job_products()
 void npc::stop_offscreen_job()
 {
     offscreen_job = npc_offscreen_job();
-    offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_NULL );
+    offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_STATUS_NULL );
+    offscreen_job.set_current_job_type( OFFSCREEN_JOB_TYPE_NULL );
 }
 
 void npc::return_to_base()
@@ -3959,11 +3960,11 @@ void npc::return_to_base()
         talk_function::assign_guard( *this );
         return;
     }
-    offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_RETURNING );
+    offscreen_job.set_current_offscreen_job_status( OFFSCREEN_JOB_STATUS_RETURNING );
     travel_to_omt( where_is_home );
 }
 
-bool npc_offscreen_foraging::forage_common( map &bay, const tripoint &pos, npc &guy )
+bool npc_offscreen_job::forage_common( map &bay, const tripoint &pos, npc &guy )
 {
     const harvest_id hid = bay.get_harvest( pos );
     if( hid.is_null() || hid->empty() ) {
@@ -3999,7 +4000,7 @@ bool npc_offscreen_foraging::forage_common( map &bay, const tripoint &pos, npc &
     return inventory_space;
 }
 
-bool npc_offscreen_foraging::forage_check( const tripoint &pos, map &bay, int percent_resolved,
+bool npc_offscreen_job::forage_check( const tripoint &pos, map &bay, int percent_resolved,
         npc &guy )
 {
     // return false if reached inventory capacity
@@ -4028,7 +4029,7 @@ bool npc_offscreen_foraging::forage_check( const tripoint &pos, map &bay, int pe
     return inventory_space;
 }
 
-bool npc_offscreen_foraging::do_offscreen_forage( int percent_resolved, npc &guy )
+bool npc_offscreen_job::do_offscreen_forage( int percent_resolved, npc &guy )
 {
     tinymap bay;
     tripoint site = guy.global_omt_location();

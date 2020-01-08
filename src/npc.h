@@ -776,6 +776,13 @@ class npc_offscreen_job
         int get_work_completion() const {
             return offscreen_work_completed;
         }
+        virtual bool do_job_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy ) {
+            (void)pos;
+            (void)bay;
+            (void)percent_resolved;
+            (void)guy;
+            return false;
+        }
         // generic entry point for job-specific overrides to check if job can continue there at specific point
         // ( usually loaded as a tinymap )
         bool offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy );
@@ -838,11 +845,15 @@ class npc_offscreen_job
 class npc_offscreen_foraging : public npc_offscreen_job
 {
     public:
+        npc_offscreen_foraging();
         bool do_offscreen_forage( int percent_resolved, npc &guy );
         bool forage_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy );
         bool forage_common( map &bay, const tripoint &pos, npc &guy );
         bool is_null() const override {
             return false;
+        }
+        bool do_job_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy ) override {
+            return forage_check( pos, bay, percent_resolved, guy );
         }
         bool is_forage_job() const override {
             return true;
@@ -1265,7 +1276,7 @@ class npc : public player
         void drop_job_products();
         void stop_offscreen_job();
         bool has_offscreen_job() const;
-        npc_offscreen_job get_offscreen_job() const;
+        std::unique_ptr<npc_offscreen_job> get_offscreen_job() const;
         void set_offscreen_job( npc_offscreen_job new_job );
         void return_to_base();
         // Message related stuff
@@ -1340,7 +1351,7 @@ class npc : public player
         npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
-        npc_offscreen_job offscreen_job;
+        std::unique_ptr<npc_offscreen_job> offscreen_job;
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
