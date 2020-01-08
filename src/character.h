@@ -64,6 +64,8 @@ struct bionic;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
+#define MAX_CLAIRVOYANCE 40
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
