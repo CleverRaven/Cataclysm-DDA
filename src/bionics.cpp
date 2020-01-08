@@ -108,6 +108,7 @@ static const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
@@ -1462,7 +1463,7 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
     }
 
     if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ||
-        has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
 
@@ -1529,7 +1530,7 @@ int player::bionics_pl_skill( const skill_id &most_important_skill,
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty )
 {
     if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-        g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        g->u.has_trait( trait_DEBUG_BIONICS ) ) {
         return 100;
     }
 
@@ -1672,9 +1673,12 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
             installer.deactivate_bionic( i );
         }
     }
-
+    time_duration op_duration =  difficulty * 20_minutes;
+    if( has_trait( trait_DEBUG_BIONICS ) ) {
+        op_duration = 2_turns;
+    }
     int success = chance_of_success - rng( 1, 100 );
-    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( op_duration ) );
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
@@ -1693,7 +1697,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
     for( const auto &elem : bionics[b_id].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
+        add_effect( effect_under_op, op_duration, elem.first, true, difficulty );
     }
     return true;
 }
@@ -1914,8 +1918,12 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         installer.practice( skill_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
+    time_duration op_duration = difficulty * 20_minutes;
+    if( has_trait( trait_DEBUG_BIONICS ) ) {
+        op_duration = 2_turns;
+    }
     int success = chance_of_success - rng( 0, 99 );
-    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( op_duration ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );
@@ -1942,7 +1950,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
     for( const auto &elem : bionics[bioid].occupied_bodyparts ) {
         activity.values.push_back( elem.first );
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
+        add_effect( effect_under_op, op_duration, elem.first, true, difficulty );
     }
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {
