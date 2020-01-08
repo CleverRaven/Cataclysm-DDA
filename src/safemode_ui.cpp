@@ -130,7 +130,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
     mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
     mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 3 ), c_white, _( "Cat" ) );
+    mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 3 ), c_white, pgettext( "category", "Cat" ) );
 
     wrefresh( w_header );
 
