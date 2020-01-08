@@ -25,7 +25,7 @@
     "worn_override": "GODCO_cook_worn",
     "carry_override": "GODCO_cook_carried",
     "weapon_override": "GODCO_cook_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Caucasian" } ],
     "skills": [
       {
         "skill": "ALL",
@@ -39,9 +39,9 @@
     "id": "GODCO_cook_worn",
     "subtype": "collection",
     "entries": [
+      { "item": "socks" },
       { "item": "boots" },
       { "item": "briefs" },
-      { "item": "socks" },
       { "item": "sweatshirt" },
       { "item": "pants" },
       { "item": "jacket_chef" },
