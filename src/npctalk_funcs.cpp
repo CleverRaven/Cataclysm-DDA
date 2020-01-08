@@ -181,7 +181,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
-        // @todo handle this gracefully (return the money, proper in-character message from npc)
+        // @TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }
@@ -293,7 +293,7 @@ void talk_function::goto_location( npc &p )
                                  iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
@@ -344,6 +344,15 @@ void talk_function::assign_guard( npc &p )
     p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
+}
+
+void talk_function::abandon_camp( npc &p )
+{
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->abandon_camp();
+    }
 }
 
 void talk_function::assign_camp( npc &p )

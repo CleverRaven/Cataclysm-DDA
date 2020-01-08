@@ -1688,6 +1688,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Wielded Item",
+    "category": "DEFAULTMODE",
+    "id": "reload_wielded"
+  },
+  {
+    "type": "keybinding",
     "name": "Unload or Empty Wielded Item",
     "category": "DEFAULTMODE",
     "id": "unload",

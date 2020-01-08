@@ -7093,7 +7093,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     static const auto allow_on_terrain = [&]( const tripoint & p ) {
-        // @todo flying creatures should be allowed to spawn without a floor,
+        // @TODO: flying creatures should be allowed to spawn without a floor,
         // but the new creature is created *after* determining the terrain, so
         // we can't check for it here.
         return passable( p ) && has_floor( p );
@@ -7237,7 +7237,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
 
             const auto valid_location = [&]( const tripoint & p ) {
-                return g->is_empty( p ) && tmp.can_move_to( p );
+                // Checking for creatures via g is only meaningful if this is the main game map.
+                // If it's some local map instance, the coordinates will most likely not even match.
+                return ( !g || &g->m != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
             };
 
             const auto place_it = [&]( const tripoint & p ) {
@@ -8123,7 +8125,7 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
 tripoint_range map::points_on_zlevel( const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        // @todo need a default constructor that creates an empty range.
+        // @TODO: need a default constructor that creates an empty range.
         return tripoint_range( tripoint_zero, tripoint_zero - tripoint_above );
     }
     return tripoint_range( tripoint( 0, 0, z ), tripoint( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1,

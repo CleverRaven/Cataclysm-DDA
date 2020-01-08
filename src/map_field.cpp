@@ -476,6 +476,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }
                 if( curtype == fd_fire ) {
+                    cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
                     // Entire objects for ter/frn for flags
                     const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                     bool sheltered = g->is_sheltered( p );

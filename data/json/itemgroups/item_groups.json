@@ -491,7 +491,7 @@
   {
     "type": "item_group",
     "id": "fridge",
-    "//": "This is a terrible item group and should be phased out.  See SUS_fridge for a more modern take on things.",
+    "//": "This is a terrible item group and should be phased out.  See SUS_fridge in SUS - > domestic.json for a more modern take on things.",
     "items": [
       [ "water_clean", 90 ],
       [ "water_mineral", 10 ],
@@ -3102,7 +3102,7 @@
     "type": "item_group",
     "items": [
       [ "citrine", 50 ],
-      [ "diamond", 50 ],
+      [ "diamond", 100 ],
       [ "emerald", 50 ],
       [ "peridot", 50 ],
       [ "amethyst", 50 ],
@@ -3111,7 +3111,7 @@
       [ "blue_topaz", 50 ],
       [ "tourmaline", 50 ],
       [ "alexandrite", 50 ],
-      [ "pearl", 50 ],
+      [ "pearl", 100 ],
       [ "opal", 50 ],
       [ "ruby", 50 ],
       [ "garnet", 50 ]

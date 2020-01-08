@@ -342,41 +342,5 @@
       "FILTHY"
     ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
-  },
-  {
-    "id": "mon_zombie_child_fungus",
-    "type": "MONSTER",
-    "name": { "str": "fungal child", "str_pl": "fungal children" },
-    "description": "It is hard to recognize a human child in this creature.  Disgusting-looking mold covers most of its skin.  Many cracks perforate its body, with small fungal stalks poking through.",
-    "default_faction": "fungus",
-    "bodytype": "human",
-    "species": [ "FUNGUS" ],
-    "diff": 2,
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "hp": 35,
-    "speed": 50,
-    "material": [ "flesh" ],
-    "symbol": "z",
-    "color": "light_gray",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 2,
-    "dodge": 2,
-    "vision_day": 30,
-    "vision_night": 5,
-    "harvest": "zombie",
-    "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ],
-      "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
-    },
-    "death_function": [ "NORMAL" ],
-    "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
   }
 ]

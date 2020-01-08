@@ -235,7 +235,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @todo: Rate fire higher than smoke
+                // @TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }
@@ -680,9 +680,10 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
+    // NPCs under operation should just stay still
     if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
-        return;// NPCs under operation should just stay still
+        return;
     }
 
     npc_action action = npc_undecided;

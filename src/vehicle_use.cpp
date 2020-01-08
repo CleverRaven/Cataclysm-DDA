@@ -940,7 +940,7 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
-        // @todo start_moves is in moves, but it's an integer, convert it to some time class
+        // @TODO: start_moves is in moves, but it's an integer, convert it to some time class
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );

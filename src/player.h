@@ -897,20 +897,6 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( body_part bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( body_part bp ) const override;
-        /** Returns bashing resistance from the creature and armor only */
-        int get_armor_bash_base( body_part bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( body_part bp ) const override;
-        /** Returns overall env_resist on a body_part */
-        int get_env_resist( body_part bp ) const override;
-        /** Returns overall acid resistance for the body part */
-        int get_armor_acid( body_part bp ) const;
-        /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -1170,7 +1156,8 @@ class player : public Character
         int blocks_left;
         int cash;
         int movecounter;
-        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
 
         bool reach_attacking = false;
         bool manual_examine = false;

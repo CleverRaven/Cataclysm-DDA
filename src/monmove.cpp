@@ -982,7 +982,8 @@ void monster::nursebot_operate( player *dragged_foe )
 
             dragged_foe->setpos( goal );
 
-            add_effect( effect_countdown, 2_turns );// there's still time to get away
+            // There's still time to get away
+            add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
         } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
             sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
@@ -1065,6 +1066,7 @@ tripoint monster::scent_move()
     }
 
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
+    const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
 
     std::vector<tripoint> smoves;
 
@@ -1105,6 +1107,10 @@ tripoint monster::scent_move()
             if( !v_intersection.empty() ) {
                 right_scent = true;
             }
+        }
+        // is the monster actually ignoring this scent
+        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+            right_scent = false;
         }
 
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {

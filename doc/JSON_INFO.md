@@ -1209,6 +1209,7 @@ See also VEHICLE_JSON.md
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
 "container" : "null",             // What container (if any) this item should spawn within
+"repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
@@ -1874,6 +1875,16 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_max_density": 3,
     "emp_blast_radius": 4,
     "scrambler_blast_radius": 4
+},
+"use_action": {
+    "type": "change_scent", // Change the scent type of the user.
+    "scent_typeid": "sc_fetid", // The scenttype_id of the new scent.
+    "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
+    "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
+    "duration": "6 m", // How long does the effect last.
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "waterproof": true, // Is the effect waterproof.  (Default: false)
+    "moves": 500 // Number of moves required in the process.
 },
 "use_action": {
     "type": "unfold_vehicle", // Transforms the item into a vehicle.

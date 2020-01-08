@@ -1,0 +1,18 @@
+[
+  {
+    "id": "zombie",
+    "//": "your bog standard zombie",
+    "type": "harvest",
+    "entries": [ { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 } ]
+  },
+  {
+    "id": "CBM_CIV",
+    "type": "harvest",
+    "entries": [ { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 } ]
+  },
+  {
+    "id": "human",
+    "type": "harvest",
+    "entries": [ { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 } ]
+  }
+]
