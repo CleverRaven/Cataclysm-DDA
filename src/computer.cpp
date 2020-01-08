@@ -57,9 +57,8 @@
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_crows_m240( "mon_crows_m240" );
+
+static const species_id ROBOT( "ROBOT" );
 
 static const skill_id skill_computer( "computer" );
 
@@ -375,15 +374,13 @@ static item *pick_usb()
     return nullptr;
 }
 
-static void remove_submap_turrets()
+static void update_submap_turrets()
 {
     for( monster &critter : g->all_monsters() ) {
-        // Check 1) same overmap coords, 2) turret, 3) hostile
+        // Check 1) same overmap coords, 2+3) robot+immobile=turret, 4) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
-              critter.type->id == mon_crows_m240 ) &&
-            critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
-            g->remove_zombie( critter );
+            critter.type->in_species( ROBOT ) && critter.has_flag( MF_IMMOBILE ) && critter.friendly == 0 ) {
+            critter.friendly = -1;
         }
     }
 }
@@ -402,7 +399,7 @@ void computer::activate_function( computer_action action )
 
         // OPEN_DISARM falls through to just OPEN
         case COMPACT_OPEN_DISARM:
-            remove_submap_turrets();
+            update_submap_turrets();
         /* fallthrough */
         case COMPACT_OPEN:
             g->m.translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
@@ -421,7 +418,7 @@ void computer::activate_function( computer_action action )
 
         // UNLOCK_DISARM falls through to just UNLOCK
         case COMPACT_UNLOCK_DISARM:
-            remove_submap_turrets();
+            update_submap_turrets();
         /* fallthrough */
         case COMPACT_UNLOCK:
             g->m.translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos(), true );
@@ -479,7 +476,7 @@ void computer::activate_function( computer_action action )
 
         // COMPACT_RELEASE_DISARM falls through to just COMPACT_RELEASE_BIONICS
         case COMPACT_RELEASE_DISARM:
-            remove_submap_turrets();
+            update_submap_turrets();
         /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
             sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
