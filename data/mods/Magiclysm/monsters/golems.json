@@ -1,0 +1,31 @@
+[
+  {
+    "id": "mon_plasticgolem",
+    "type": "MONSTER",
+    "name": { "str": "plastic golem" },
+    "description": "Traditionally, making a golem is a months-long process involving hand tools and precision craftsmanship.  A stone golem is as much a work of art as it is a magical device.  The advent of 3D printing made it easy to get into the golem-making hobby, and plastic golems have soared in popularity.",
+    "default_faction": "factionless",
+    "volume": "150 L",
+    "weight": "70 kg",
+    "hp": 120,
+    "speed": 90,
+    "material": [ "plastic" ],
+    "symbol": "G",
+    "color": "light_gray",
+    "aggression": 30,
+    "morale": 100,
+    "armor_bash": 18,
+    "armor_cut": 6,
+    "melee_skill": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_cut": 3,
+    "vision_day": 30,
+    "vision_night": 30,
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "regenerates": 10,
+    "death_drops": { "item": "plastic_chunk", "prob": 100, "count": [ 5, 10 ] },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+  }
+]

@@ -299,5 +299,33 @@
     "sym": ".",
     "color": "blue",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_ground",
+    "copy-from": "generic_city_building",
+    "sym": "W",
+    "color": "light_blue",
+    "name": "wizard tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_living",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_golems",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_roof",
+    "copy-from": "wizardtower1_ground"
   }
 ]
