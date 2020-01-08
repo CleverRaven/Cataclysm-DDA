@@ -2743,8 +2743,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == NEEDS_FORAGING && is_harvestable_there( src_loc ) ) {
         if( p.is_npc() ) {
             npc *guy = dynamic_cast<npc *>( &p );
-            if( guy->get_offscreen_job().is_forage_job() &&
-                !guy->get_offscreen_job().offscreen_job_check( src_loc, g->m, 100, *guy ) ) {
+            if( guy->has_offscreen_job() && guy->get_offscreen_job()->is_forage_job() &&
+                !guy->get_offscreen_job()->do_offscreen_job_check( src_loc, g->m, 100, *guy ) ) {
                 // false means cant carry anymore.
                 guy->revert_after_activity();
                 return false;

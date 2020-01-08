@@ -817,8 +817,8 @@ void talk_function::go_forage( npc &p )
     if( already_in_forest && p.is_active() ) {
         // we dont need to travel
         p.assign_activity( activity_id( "ACT_MULTIPLE_FORAGE" ) );
-        p.set_offscreen_job( OFFSCREEN_JOB_TYPE_FORAGE );
-        p.get_offscreen_job().set_current_offscreen_job_status( OFFSCREEN_JOB_STATUS_WORKING );
+        p.set_offscreen_forage_job();
+        p.get_offscreen_job()->set_current_offscreen_job_status( OFFSCREEN_JOB_WORKING );
         p.goal = p.global_omt_location();
         return;
     }
@@ -860,9 +860,10 @@ void talk_function::go_forage( npc &p )
     } else {
         destination = overmap_buffer.find_closest( p.global_omt_location(), find_params );
     }
-    p.set_offscreen_job( OFFSCREEN_JOB_TYPE_FORAGE );
-    if( p.get_offscreen_job().is_null() ){
-        std::cout << "after setting offscreen job in go_forage, it immediately comes back as null " << std::endl;
+    p.set_offscreen_forage_job();
+    std::cout << "after settin goffscreen forag ejob , tatus is " << std::to_string( p.get_offscreen_job()->get_current_offscreen_job_status() ) << std::endl;
+    if( p.get_offscreen_job()->is_forage_job() ){
+        std::cout << "after setting offscreen job in go_forage, it immediately comes back as forage job " << std::endl;
     }
     p.travel_to_omt( destination );
 }
