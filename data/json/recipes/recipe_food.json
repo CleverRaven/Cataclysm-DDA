@@ -481,7 +481,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
-    "book_learn": [ [ "cookbook_sushi", 2 ], [ "cookbook_daintydishes", 6, "Sticky Rice Hedgerows" ] ],
+    "book_learn": [ [ "cookbook_sushi", 2 ], [ "cookbook_daintydishes", 3, "Sticky Rice Hedgerows" ] ],
     "time": "5 m",
     "charges": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
