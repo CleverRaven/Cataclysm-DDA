@@ -700,7 +700,7 @@ bool player::activate_bionic( int b, bool eff_only )
             tank_plut = 0;
             reactor_plut = 0;
         }
-    } else if( bio.id == "bio_cable" ) {
+    } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
             return it.has_flag( "CABLE_SPOOL" );
         } );

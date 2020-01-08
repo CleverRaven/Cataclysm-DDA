@@ -1315,13 +1315,23 @@ bool Character::has_any_bionic() const
     return !my_bionics->empty();
 }
 
+bionic_id Character::get_remote_fueled_bionic() const
+{
+    for( const bionic bio : *my_bionics ) {
+        if( bio.info().is_remote_fueled ) {
+            return bio.id;
+        }
+    }
+    return bionic_id();
+}
+
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
     if( !it.is_fuel() ) {
         return false;
     }
 
-    for( const auto bio : *my_bionics ) {
+    for( const bionic bio : *my_bionics ) {
         for( const itype_id fuel : bio.info().fuel_opts ) {
             if( fuel == it.typeId() ) {
                 return true;
