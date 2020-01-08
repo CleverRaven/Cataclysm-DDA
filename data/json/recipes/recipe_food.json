@@ -649,7 +649,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "book_learn": [ [ "cookbook_sushi", 4 ], [ "cookbook_foodfashions", 6, "Rice-Free Sashimi Donburi" ] ],
+    "book_learn": [ [ "cookbook_sushi", 4 ], [ "cookbook_foodfashions", 4, "Low-Carb Sashimi Donburi" ] ],
     "time": "9 m",
     "charges": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
