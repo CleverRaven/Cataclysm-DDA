@@ -102,7 +102,7 @@
       { "item": "boots_combat" },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
-      { "item": "ballistic_vest", "prob": 90 },
+      { "item": "ballistic_vest_esapi", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -139,7 +139,7 @@
       { "item": "boots_combat" },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
-      { "item": "ballistic_vest", "prob": 90 },
+      { "item": "ballistic_vest_esapi", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
