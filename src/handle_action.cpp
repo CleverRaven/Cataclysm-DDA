@@ -1700,7 +1700,7 @@ bool game::handle_action()
                     pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
                 } else {
                     point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
-                    if( auto_travel_mode ) {
+                    if( auto_travel_mode && !u.is_auto_moving() ) {
                         for( int i = 0; i < SEEX; i++ ) {
                             tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
                                                               u.posy() + dest_delta.y * ( SEEX - i ),

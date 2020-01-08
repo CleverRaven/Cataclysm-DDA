@@ -1055,6 +1055,9 @@ class game
         tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
         tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+
+        // called on map shifting
+        void shift_destination_preview( const point &delta );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
