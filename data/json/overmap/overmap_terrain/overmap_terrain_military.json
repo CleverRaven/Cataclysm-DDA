@@ -1327,5 +1327,55 @@
     "type": "overmap_terrain",
     "id": "mil_base_8k1",
     "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2f2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3f2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2g2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3g2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2h2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3h2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_2i2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3i2",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3i3",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_3i4",
+    "copy-from": "mil_base_1a"
   }
 ]

@@ -20,6 +20,8 @@
       "y": "t_pavement_y",
       "s": "t_sidewalk",
       "{": "t_sidewalk",
+      ":": "t_concrete",
+      "?": "t_concrete",
       "I": "t_column",
       "b": [ [ "t_brick_wall", 75 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
@@ -55,7 +57,8 @@
       "p": "t_plut_generator",
       "Z": "t_radio_tower",
       "'": "t_console_broken",
-      "@": "t_rock"
+      "@": "t_rock",
+      "~": "t_gutter_downspout"
     },
     "furniture": {
       "P": "f_sign",
@@ -72,6 +75,7 @@
       "O": "f_bookcase",
       "A": "f_sofa",
       "u": "f_utility_shelf",
+      "?": "f_warehouse_shelf",
       "r": "f_bed",
       "K": "f_bunkbed",
       "W": "f_IV_pole",

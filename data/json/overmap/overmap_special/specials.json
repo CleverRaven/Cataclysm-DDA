@@ -6613,7 +6613,17 @@
       { "point": [ 4, 10, 1 ], "overmap": "mil_base_5k1_north" },
       { "point": [ 5, 10, 1 ], "overmap": "mil_base_6k1_north" },
       { "point": [ 6, 10, 1 ], "overmap": "mil_base_7k1_north" },
-      { "point": [ 7, 10, 1 ], "overmap": "mil_base_8k1_north" }
+      { "point": [ 7, 10, 1 ], "overmap": "mil_base_8k1_north" },
+      { "point": [ 1, 5, 2 ], "overmap": "mil_base_2f2_north" },
+      { "point": [ 2, 5, 2 ], "overmap": "mil_base_3f2_north" },
+      { "point": [ 1, 6, 2 ], "overmap": "mil_base_2g2_north" },
+      { "point": [ 2, 6, 2 ], "overmap": "mil_base_3g2_north" },
+      { "point": [ 1, 7, 2 ], "overmap": "mil_base_2h2_north" },
+      { "point": [ 2, 7, 2 ], "overmap": "mil_base_3h2_north" },
+      { "point": [ 1, 8, 2 ], "overmap": "mil_base_2i2_north" },
+      { "point": [ 2, 8, 2 ], "overmap": "mil_base_3i2_north" },
+      { "point": [ 2, 8, 3 ], "overmap": "mil_base_3i3_north" },
+      { "point": [ 2, 8, 4 ], "overmap": "mil_base_3i4_north" }
     ],
     "locations": [ "field" ],
     "connections": [ { "point": [ 3, -2, 0 ] } ],
