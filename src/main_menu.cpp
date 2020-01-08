@@ -41,7 +41,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const holiday current_holiday = holiday::new_year;
+static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -199,7 +199,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
+    center_print( w_open, iLine, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {

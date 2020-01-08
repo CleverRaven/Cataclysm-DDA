@@ -1267,7 +1267,6 @@ class Character : public Creature, public visitable<Character>
         std::list<consumption_event> consumption_history;
 
         int oxygen;
-        int radiation;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1371,9 +1370,29 @@ class Character : public Creature, public visitable<Character>
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
+        /** Returns overall bashing resistance for the body_part */
+        int get_armor_bash( body_part bp ) const override;
+        /** Returns overall cutting resistance for the body_part */
+        int get_armor_cut( body_part bp ) const override;
+        /** Returns bashing resistance from the creature and armor only */
+        int get_armor_bash_base( body_part bp ) const override;
+        /** Returns cutting resistance from the creature and armor only */
+        int get_armor_cut_base( body_part bp ) const override;
+        /** Returns overall env_resist on a body_part */
+        int get_env_resist( body_part bp ) const override;
+        /** Returns overall acid resistance for the body part */
+        int get_armor_acid( body_part bp ) const;
+        /** Returns overall resistance to given type on the bod part */
+        int get_armor_type( damage_type dt, body_part bp ) const override;
+
+
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
+
+        int get_rad() const;
+        void set_rad( int new_rad );
+        void mod_rad( int mod );
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -1417,6 +1436,8 @@ class Character : public Creature, public visitable<Character>
         void update_type_of_scent( trait_id mut, bool gain = true );
         void set_type_of_scent( scenttype_id id );
         scenttype_id get_type_of_scent() const;
+        /**restore scent after masked_scent effect run out or is removed by water*/
+        void restore_scent();
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
@@ -1700,6 +1721,8 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        int radiation;
 
         scenttype_id type_of_scent;
 

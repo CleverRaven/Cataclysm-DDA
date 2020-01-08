@@ -127,7 +127,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
                     }
                 }
             }
-            // @todo maybe do this for all the nearby NPCs as well?
+            // @TODO: maybe do this for all the nearby NPCs as well?
 
             if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
                 if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
@@ -174,7 +174,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
         }
         void removed( vehicle &veh, const int /*part*/ ) override {
-            // @todo check if this is necessary, it probably isn't during mapgen
+            // @TODO: check if this is necessary, it probably isn't during mapgen
             m.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
@@ -182,7 +182,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored. The base item will not be changed and will spawn as is:
             // still containing the animal.
             // This should not happend during mapgen anyway.
-            // @todo *if* this actually happens: create a spawn point for the animal instead.
+            // @TODO: *if* this actually happens: create a spawn point for the animal instead.
         }
 };
 
@@ -2094,7 +2094,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
-        // @todo fix this ^^
+        // @TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         handler.add_item_or_charges( dest, i );
     }
@@ -3805,7 +3805,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     if( !combustion ) {
         return;
     }
-    /// @todo handle other engine types: muscle / animal / wind / coal / ...
+    /// @TODO: handle other engine types: muscle / animal / wind / coal / ...
 
     if( exhaust_part != -1 && engine_on ) {
         spew_field( mufflesmoke, exhaust_part, fd_smoke,

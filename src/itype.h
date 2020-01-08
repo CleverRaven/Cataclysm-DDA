@@ -833,7 +833,7 @@ struct itype {
         bool stackable_ = false;
 
         /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // @todo create and use a MinMax class or similar to put both values into one object.
+        // @TODO: create and use a MinMax class or similar to put both values into one object.
         /// @{
         int damage_min_ = -1000;
         int damage_max_ = +4000;
@@ -860,6 +860,9 @@ struct itype {
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
+
+        // What item this item repairs like if it doesn't have a recipe
+        itype_id repairs_like;
 
         std::string snippet_category;
         translation description; // Flavor text

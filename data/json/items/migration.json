@@ -963,5 +963,10 @@
     "id": "riding_saddle",
     "type": "MIGRATION",
     "replace": "horse_tack"
+  },
+  {
+    "id": "ballistic_vest",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
   }
 ]

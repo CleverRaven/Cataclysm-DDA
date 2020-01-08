@@ -37,6 +37,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_holographic_transposition",
+    "name": { "str": "Scroll of Holographic Transposition", "str_pl": "Scrolls of Holographic Transposition" },
+    "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself can't tell you apart, who could?",
+    "use_action": { "type": "learn_spell", "spells": [ "holographic_transposition" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
     "name": { "str": "Scroll of Smite", "str_pl": "Scrolls of Smite" },
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",

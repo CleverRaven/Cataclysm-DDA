@@ -109,7 +109,7 @@
     "skill_used": "survival",
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ] ] ],
+    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ], [ "medical_tape", 10 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

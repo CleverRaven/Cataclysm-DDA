@@ -559,7 +559,7 @@ nc_color color_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            debugmsg( "Deprecated foreground color suffix was used: (%d) in (%s).  Please update mod that uses that.",
+            debugmsg( "Deprecated foreground color suffix was used: (%s) in (%s).  Please update mod that uses that.",
                       i.second, color );
         }
     }

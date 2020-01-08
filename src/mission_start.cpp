@@ -59,7 +59,7 @@ void mission_start::place_dog( mission *miss )
 
     tinymap doghouse;
     doghouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
-    doghouse.add_spawn( mon_dog, 1, point( SEEX, SEEY ), true, -1, miss->uid );
+    doghouse.add_spawn( mon_dog, 1, { SEEX, SEEY, house.z }, true, -1, miss->uid );
     doghouse.save();
 }
 
@@ -72,7 +72,7 @@ void mission_start::place_zombie_mom( mission *miss )
 
     tinymap zomhouse;
     zomhouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
-    zomhouse.add_spawn( mon_zombie, 1, point( SEEX, SEEY ), false, -1, miss->uid,
+    zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z }, false, -1, miss->uid,
                         Name::get( nameIsFemaleName | nameIsGivenName ) );
     zomhouse.save();
 }
@@ -102,21 +102,21 @@ void mission_start::kill_horde_master( mission *miss )
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
     tile.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    tile.add_spawn( mon_zombie_master, 1, point( SEEX, SEEY ), false, -1, miss->uid,
+    tile.add_spawn( mon_zombie_master, 1, { SEEX, SEEY, site.z }, false, -1, miss->uid,
                     _( "Demonic Soul" ) );
-    tile.add_spawn( mon_zombie_brute, 3, point( SEEX, SEEY ) );
-    tile.add_spawn( mon_zombie_dog, 3, point( SEEX, SEEY ) );
+    tile.add_spawn( mon_zombie_brute, 3, { SEEX, SEEY, site.z } );
+    tile.add_spawn( mon_zombie_dog, 3, { SEEX, SEEY, site.z } );
 
     if( overmap::inbounds( tripoint( SEEX, SEEY, 0 ), 1 ) ) {
         for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
             for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
-                tile.add_spawn( mon_zombie, rng( 3, 10 ), point( x, y ) );
+                tile.add_spawn( mon_zombie, rng( 3, 10 ), { x, y, site.z } );
             }
-            tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), point( SEEX, SEEY ) );
+            tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), { SEEX, SEEY, site.z } );
         }
     }
-    tile.add_spawn( mon_zombie_necro, 2, point( SEEX, SEEY ) );
-    tile.add_spawn( mon_zombie_hulk, 1, point( SEEX, SEEY ) );
+    tile.add_spawn( mon_zombie_necro, 2, { SEEX, SEEY, site.z } );
+    tile.add_spawn( mon_zombie_hulk, 1, { SEEX, SEEY, site.z } );
     tile.save();
 }
 

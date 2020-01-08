@@ -573,6 +573,65 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_bars_curtains",
+    "name": "window with metal bars and curtains",
+    "description": "A barred window with fancy curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened on the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.",
+    "symbol": "\"",
+    "looks_like": "t_curtains",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "examine_action": "curtains",
+    "open": "t_window_bars_domestic",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars",
+      "items": [
+        { "item": "glass_shard", "count": [ 34, 50 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_domestic",
+    "name": "window with metal bars and curtains",
+    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has been retrofitted with curtains.",
+    "symbol": "#",
+    "looks_like": "t_window_bars",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "REDUCE_SCENT", "CONNECT_TO_WALL" ],
+    "examine_action": "curtains",
+    "close": "t_window_bars_curtains",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars",
+      "items": [
+        { "item": "glass_shard", "count": [ 34, 50 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_window_stained_green",
     "name": "high stained glass window",
     "description": "Breathtaking craftsmanship of stained glass featuring an elegant emerald landscape.",

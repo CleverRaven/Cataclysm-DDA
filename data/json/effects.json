@@ -258,7 +258,14 @@
     "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
+    "max_intensity": 1000,
     "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "masked_scent",
+    "name": [ "Masked scent" ],
+    "desc": [ "Your scent is masked by another one." ]
   },
   {
     "type": "effect_type",
@@ -1864,6 +1871,23 @@
       "speed_mod": [ -10 ],
       "vomit_chance": [ 10 ],
       "cough_chance": [ 501 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "fetid_goop",
+    "name": [ "Covered in fetid goop" ],
+    "desc": [ "The feeling of the goop slowly sliding on your skin revulses you and the smell makes you gag." ],
+    "apply_message": "You're disgusted by the goop.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 100 ]
     },
     "show_in_info": true
   },

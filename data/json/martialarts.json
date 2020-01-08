@@ -264,7 +264,7 @@
         "name": "Eskrima Stance",
         "description": "You are skilled at getting the most out of your weapons.  The term 'weapon' might be very subjective,\n\n+2 Accuracy.",
         "melee_allowed": true,
-        "mult_bonuses": [ [ "hit", 2.0 ] ]
+        "flat_bonuses": [ [ "hit", 2.0 ] ]
       }
     ],
     "oncrit_buffs": [
@@ -424,6 +424,7 @@
     "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow",
     "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
     "learn_difficulty": 6,
+    "primary_skill": "bashing",
     "strictly_melee": true,
     "static_buffs": [
       {
@@ -649,6 +650,7 @@
     "name": "Leopard Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception improves your accuracy instead of Dexterity.  Moving increases dodge skill and accuracy further.  Attacking after moving increases damage.",
     "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
+    "learn_difficulty": 10,
     "static_buffs": [
       {
         "id": "buff_leopard_static1",
@@ -684,7 +686,7 @@
         "unarmed_allowed": true,
         "req_buffs": [ "buff_leopard_onmove1" ],
         "buff_duration": 1,
-        "flat_bonuses": [ [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ]
+        "mult_bonuses": [ [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ]
       }
     ],
     "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_counter", "tec_leopard_precise" ]
@@ -696,6 +698,8 @@
     "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
     "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
     "strictly_melee": true,
+    "learn_difficulty": 6,
+    "primary_skill": "cutting",
     "static_buffs": [
       {
         "id": "buff_swordsmanship_static",

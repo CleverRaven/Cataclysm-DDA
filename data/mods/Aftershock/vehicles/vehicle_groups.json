@@ -1,0 +1,61 @@
+[
+  {
+    "id": "city_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "afs_sports_bike", 300 ] ]
+  },
+  {
+    "id": "suburban_home",
+    "type": "vehicle_group",
+    "vehicles": [ [ "afs_sports_bike", 150 ], [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
+  },
+  {
+    "id": "parkinglot",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "afs_sports_bike", 300 ],
+      [ "afs_electric_semi", 300 ],
+      [ "afs_gas_tanker", 300 ],
+      [ "afs_water_tanker", 250 ],
+      [ "car_atomic", 1000 ],
+      [ "car_sports_atomic", 100 ],
+      [ "suv_atomic", 1000 ],
+      [ "compact_atomic", 300 ]
+    ]
+  },
+  {
+    "id": "highway",
+    "type": "vehicle_group",
+    "vehicles": [ [ "afs_electric_semi", 300 ], [ "afs_gas_tanker", 250 ], [ "afs_water_tanker", 200 ] ]
+  },
+  {
+    "id": "afs_lab_cars",
+    "type": "vehicle_group",
+    "vehicles": [ [ "bubble_car", 20 ], [ "car_sports_atomic", 10 ] ]
+  },
+  {
+    "id": "afs_lab_utility",
+    "type": "vehicle_group",
+    "vehicles": [ [ "welding_cart", 5 ], [ "engine_crane", 3 ], [ "portable_generator", 8 ] ]
+  },
+  {
+    "id": "city_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 500 ] ]
+  },
+  {
+    "id": "city_pileup",
+    "type": "vehicle_group",
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
+  },
+  {
+    "id": "highway",
+    "type": "vehicle_group",
+    "vehicles": [ [ "car_atomic", 1500 ], [ "suv_atomic", 1500 ], [ "compact_atomic", 300 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [ [ "afs_sports_bike", 400 ] ]
+  }
+]

@@ -125,6 +125,8 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );
@@ -1238,22 +1240,21 @@ void iexamine::safe( player &p, const tripoint &examp )
  */
 void iexamine::gunsafe_ml( player &p, const tripoint &examp )
 {
-    if( !( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ||
-           p.has_amount( "fc_hairpin", 1 ) ||
-           p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
+    int pick_quality = 0;
+
+    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
+        pick_quality = 5;
+    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ) {
+        pick_quality = 3;
+    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
+        pick_quality = 1;
+    }
+
+    if( pick_quality == 0 ) {
         add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
         return;
     } else if( !query_yn( _( "Pick the gun safe?" ) ) ) {
         return;
-    }
-
-    int pick_quality = 1;
-    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
-        pick_quality = 5;
-    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
-        pick_quality = 1;
-    } else {
-        pick_quality = 3;
     }
 
     p.practice( skill_mechanics, 1 );
@@ -3752,6 +3753,8 @@ void iexamine::curtains( player &p, const tripoint &examp )
             g->m.ter_set( examp, t_window_no_curtains_open );
         } else if( ter == t_window_domestic_taped ) {
             g->m.ter_set( examp, t_window_no_curtains_taped );
+        } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
+            g->m.ter_set( examp, t_window_bars );
         }
 
         g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );
@@ -4285,8 +4288,7 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
                                 bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( couch_loc ) == couch ) {
+        if( g->m.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
@@ -4306,8 +4308,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
                                     Character &null_patient )
 {
     for( const auto &loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( loc ) != couch ) {
+        if( !g->m.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
             if( p.pos() == loc ) {
                 return p;
             }

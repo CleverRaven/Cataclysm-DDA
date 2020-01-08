@@ -94,8 +94,16 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
     } else if( jsin.test_object() ) {
         format_collection( jsin, jsout, depth, write_object, force_wrap );
     } else if( jsin.test_string() ) {
-        std::string str = jsin.get_string();
-        jsout.write( str );
+        // The string may contain escape sequences which we want to keep in the output.
+        const int start_pos = jsin.tell();
+        jsin.get_string();
+        const int end_pos = jsin.tell();
+        std::string str = jsin.substr( start_pos, end_pos - start_pos );
+        str = str.substr( str.find( '"' ) );
+        str = str.substr( 0, str.rfind( '"' ) + 1 );
+        jsout.write_separator();
+        *jsout.get_stream() << str;
+        jsout.set_need_separator();
     } else if( jsin.test_number() ) {
         // Have to introspect into the string to distinguish integers from floats.
         // Otherwise they won't serialize correctly.

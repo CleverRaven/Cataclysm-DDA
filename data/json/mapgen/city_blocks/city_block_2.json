@@ -1,0 +1,391 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "city_block2_1", "city_block2_2", "city_block2_3", "city_block2_4" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..MMMsssMMMss|ooooo|+||~~$M|o+o|...sss...|o+o|M.M.X.s|oo|+|oo|s.X.M$~~$ss|ooooooooo|MMMsssMMMsss",
+        ".|ooo|+|ooo|s|y  JE  F|~~|||   |o|<sss<|o|y y|o|MGGGs|y  <  y|sGGGM|~~~ss+  JA FFFy|ooo|+|ooo|ss",
+        ".|1        |<|  A?   F|~~|y      |||||||      y|ooo|+|||||||||+|ooo|~~<|o|  JJ     |1        |ss",
+        ".|         ||| JJJ   F|~~|2       B | B2       |1        |1        |~~||5          |         |ss",
+        ".|         |6         |~~|        %%|%%        |         |         |~~p|           |         |<s",
+        ".|         |          |~~|        B | B        |         |         |~~p|           |         |||",
+        ".|         |          |~~|        %%|%%        |         |         |~~~|           |         |j|",
+        ".|         |          |~~|        B | B        |         |         |~~~|           |         * |",
+        ".|         |          |~~|        %%|%%        |         |         |~~p|           |         |t|",
+        ".|         |          |~~|y       B | B        |         |         |~~~|           |         |||",
+        ".|         |          |~~|        |||||        |         |         |~~~|           |         |t|",
+        ".|| ||||||||          |~~|4       vU|4         |         |         |~~~|           || |||||| * |",
+        ".|3    |t j|          |~~|         U|          || ||||||||| ||||||||~|||           |3    |U| |j|",
+        ".|     ||*||          |~~|         P|          |3    |t j|3    |t j|~|V|           |     |*|*|||",
+        ".|         |          |~~|         y|          |     ||*||     ||*||~|~|           |     |   |V.",
+        ".|         |||||||||x||~~|||||||||x||||||||||x||         |         |~~~|           |         |s.",
+        ".|         |Vsppssssss#~~#^ppssssssV#Vspppsssss|         |         |~~~|           |     |   |s.",
+        ".||||||||x||psssssssss#~~#ssssssssss#ssssssssss|         |         |~~~|||||||||x||||||||||x||s.",
+        ".#^sssppsss#ssssssssss#~~#ssssssssss#ssssssssss||||||||x|||||||||x||~~~#^sppssssssssssppsssss#s.",
+        ".#sssssssss#ssssssssss#~~#ssssssssss#ssssssssss#^ppssssssVssssppssss~~~#sssssssssssssssssssss#s.",
+        ".###u##########u#######~~##u###############u####ssssssssssssssssssss~~~######u##########u#####s.",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      ],
+      "palettes": [ "city_block_foundation_palette" ],
+      "place_vehicles": [
+        { "vehicle": "bikeshop", "x": 23, "y": [ 5, 18 ], "rotation": 270, "chance": 30 },
+        { "vehicle": "bikeshop", "x": 24, "y": [ 5, 18 ], "rotation": 270, "chance": 30 },
+        { "vehicle": "bikeshop", "x": 68, "y": [ 5, 18 ], "rotation": 270, "chance": 35 },
+        { "vehicle": "back_alley", "x": [ 5, 19 ], "y": 22, "rotation": 180, "chance": 25 }
+      ],
+      "terrain": { "G": "t_grass", "X": "t_grass" },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "city_block_2_candy_shop", 20 ],
+            [ "city_block_2_beauty_shop", 20 ],
+            [ "city_block_2_vitamin_shop", 20 ],
+            [ "city_block_2_cellphone_shop", 20 ],
+            [ "city_block_2_music_shop", 20 ],
+            [ "city_block_2_electronics_shop", 20 ],
+            [ "city_block_2_pizza_shop", 20 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "city_block_2_clothing_shop", 25 ],
+            [ "city_block_2_formal_clothing_shop", 25 ],
+            [ "city_block_2_leather_clothing_shop", 25 ],
+            [ "city_block_2_fur_clothing_shop", 25 ]
+          ]
+        },
+        "3": { "chunks": [ [ "city_block_5x5_backroom_shop", 100 ] ] },
+        "4": { "chunks": [ [ "city_block_4x4_backroom_shop", 100 ] ] },
+        "5": { "chunks": [ [ "city_block_14x14_restaurant", 100 ] ] },
+        "6": { "chunks": [ [ "city_block_11x11_bar", 100 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "city_block2_flr2_1", "city_block2_flr2_2", "city_block2_flr2_3", "city_block2_flr2_4" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "-------------|o|ooo|o||----|ooo|-,,,,,,,-|ooo|-||oo||oo||,||oo||oo||--sss||oo|||oo||------------",
+        "-||oo|||oo||,|4    5  |--|o|y y|o|>sss>|o| yH|o|2      R|>|R  2    |--sssoRHy 2    |ooo|||ooo|--",
+        "-|2     3  |>|        |--|4      ||!|!||  4    |       R|!|R       |-->|o|y        |2     yHR|s-",
+        "-|         |!|        |--|       9  |9         |        ! !        |--s!           |         !ss",
+        "-|         | |        |--|          |          |      %%| |%%      |--s|E          |        R|>s",
+        "-|         ! !      AA|--|          |          |      %t|||t%      |---|K          |        R|||",
+        "-|        y|||%%Q YJJJ|--@ DLD R%%%%|%%%%R  DD |      * j|j *      |---|K JA %%%%%%|          l|",
+        "-| A AA   Y|Ttj%Q    n@--@ DLD R%tjT|Tjt%R  LL |    RR%TT|TT%RR    @---|n J  *7    | DLD    J K@",
+        "-|JJJJJJ  Q|T  *     i|--|      *  T|T  *   DD |    %%%%%|%%%%%    |---|i JA %     | DLD   AJ n@",
+        "-|Q       Q|%%%%*% KKl|--@y   %%%%%%|%%%%%%   y|    *7   |6   *    |---|K    %     | DLD   AJ i@",
+        "-|lKinKK  Q|1    %*%%%|--|Y   *8    |1    *   Y|LD  %    |    %  AL|---|% %% %     |y       J K@",
+        "-|%%%%%%  R|     %7   |--|Q  l%     |     %l  Q|LD  %    |    %  AL@---|Q Q% %%%%%%|%%%%%%    Q|",
+        "-|1    *  R|     %    |--|Q  K%     |     %K  Q|LD  %    |    %y AL|-;;|QQQ% *8    |1    *  QQQ|",
+        "-|     %%*%|     %    @--|Q  K%     |     %K  Q|    %%%%%|%%%%%    |-;S|%%%% %     |     %%*%|||",
+        "-@     %j t|     %    |--|KinK%     |     %KinK|Q   *7   |6   *   Y|-;;|jYt% %     |     %j t|S-",
+        "-|     %   ||@|@|||@|||--|||@||||@|||||@|||||@||Q  K%    |    %Q  K|--;@   * %     |     %  y@;-",
+        "-|     %TTy|S;;;;----------^-----;;SVS;;-------@Y  K%    |    %Q  K@--;|TTy% %     |     %YTT|;-",
+        "-||||@|||@||V;--------------------;;;;;--------|lniK%    |    %linK|--V|||||||||@|||||@|||||||V-",
+        "---^----;;;;;;---------------------------------||@|||||@|||@@||||@||-----^----------------------",
+        "-------------------------------------------------^--;V;;;S;;;-----------------------------------",
+        "------------------------------------------------------------------------------------------------",
+        "------------------------------------------------------------------------------------------------",
+        "------------------------------------------------------------------------------------------------",
+        "------------------------------------------------------------------------------------------------"
+      ],
+      "palettes": [ "city_block_foundation_palette" ],
+      "terrain": { "%": "t_wall_w" },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "bedroom_5x5_adult_N_1", 20 ],
+            [ "bedroom_5x5_adult_S_1", 20 ],
+            [ "bedroom_5x5_adult_W_1", 20 ],
+            [ "bedroom_5x5_adult_N_2", 20 ],
+            [ "bedroom_5x5_adult_E_2", 20 ],
+            [ "bedroom_5x5_adult_N_2", 20 ],
+            [ "bedroom_5x5_adult_N_2", 20 ],
+            [ "bedroom_5x5_adult_S_2", 20 ]
+          ]
+        },
+        "2": { "chunks": [ [ "livingroom_5x5_E_1", 20 ], [ "livingroom_5x5_W_1", 20 ], [ "livingroom_5x5_E_2", 20 ] ] },
+        "3": { "chunks": [ [ "bonus_room_3x3_4", 20 ], [ "bonus_room_3x3_N_6", 20 ], [ "bonus_room_3x3_N_8", 20 ] ] },
+        "4": {
+          "chunks": [
+            [ "livingroom_5x5_E_1", 20 ],
+            [ "livingroom_5x5_E_2", 20 ],
+            [ "bonus_room_3x3_5", 20 ],
+            [ "bonus_room_3x3_E_5", 20 ],
+            [ "bonus_room_2x2_1", 20 ]
+          ]
+        },
+        "5": {
+          "chunks": [
+            [ "bonus_room_3x3_E_5", 20 ],
+            [ "bonus_room_3x3_N_6", 20 ],
+            [ "bonus_room_3x3_S_6", 20 ],
+            [ "bonus_room_3x3_W_6", 20 ],
+            [ "bonus_room_3x3_N_8", 20 ],
+            [ "bonus_room_3x3_E_8", 20 ],
+            [ "bonus_room_3x3_E_6", 20 ]
+          ]
+        },
+        "6": {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_W", 20 ],
+            [ "bedroom_4x4_adult_1_S", 20 ],
+            [ "bedroom_4x4_adult_2_N", 20 ],
+            [ "bedroom_4x4_adult_2_W", 20 ],
+            [ "bedroom_4x4_adult_2_E", 20 ],
+            [ "bedroom_4x4_adult_2_S", 20 ],
+            [ "bedroom_4x4_adult_3_S", 20 ],
+            [ "bedroom_4x4_adult_3_N", 20 ],
+            [ "bedroom_4x4_adult_3_E", 20 ],
+            [ "bedroom_4x4_adult_3_W", 20 ]
+          ]
+        },
+        "7": {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_S", 20 ],
+            [ "bedroom_4x4_adult_3_S", 20 ],
+            [ "bedroom_4x4_adult_3_N", 20 ],
+            [ "bedroom_4x4_adult_3_E", 20 ],
+            [ "bedroom_4x4_adult_3_W", 20 ]
+          ]
+        },
+        "8": {
+          "chunks": [
+            [ "bedroom_5x5_adult_N_1", 20 ],
+            [ "bedroom_5x5_adult_S_1", 20 ],
+            [ "bedroom_5x5_adult_E_1", 20 ],
+            [ "bedroom_5x5_adult_N_2", 20 ],
+            [ "bedroom_5x5_adult_S_2", 20 ],
+            [ "bedroom_5x5_adult_E_2", 20 ],
+            [ "bedroom_5x5_adult_W_2", 20 ]
+          ]
+        },
+        "9": { "chunks": [ [ "bonus_room_3x3_S_6", 20 ], [ "bonus_room_3x3_S_8", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "city_block2_roof_1", "city_block2_roof_2", "city_block2_roof_3", "city_block2_roof_4" ] ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "             |222222223    |2223 ooooooo |2223 |222222223o|222222223     |2222222222            ",
+        " |2222222222o|........3  |2|...322ooooo22|...32|........32|........3     |.........32222222223  ",
+        " |.........---..G.....3  |.........................................3   |2|...................3  ",
+        " |....................3  |..B..............................G.......3   |.....................3  ",
+        " |..E.................3  |.........................................3   |....E.........G......3  ",
+        " |....................3  |.................G.......................3   |.....................223",
+        " |....................3  |.........................................3   |.......................3",
+        " |............D.......3  |.........................................3   |.......................3",
+        " |....................3  |.........................................3   |.......................3",
+        " |....................3  |.........................................3   |.......................3",
+        " |....................3  |.....G....................D..............3   |.....D..............G..3",
+        " |....................3  |.........................................3   |.......................3",
+        " |....G...............3  |.........................................3   |.......................3",
+        " |....................3  |.........................................3   |.....................3-3",
+        " |....................3  |.........................................3   |.....................3# ",
+        " |.........3----------3  |-5-------###---------|...................3  #|.....................3# ",
+        " |.........##                      #>#         |...................3  #|.....................3# ",
+        " |-5-------#>                                  |...................3  >|-5-------------------3> ",
+        "                                               |-5--###------------3                            ",
+        "                                                    #>#                                         ",
+        "                                                                                                ",
+        "                                                                                                ",
+        "                                                                                                ",
+        "                                                                                                "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_stairs_down" },
+      "nested": {
+        "E": {
+          "chunks": [
+            [ "roof_4x4_party", 5 ],
+            [ "null", 50 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_4x4_utility", 20 ],
+            [ "roof_4x4_utility_1", 20 ]
+          ]
+        },
+        "B": { "chunks": [ [ "roof_16x16_help", 5 ] ] },
+        "G": {
+          "chunks": [
+            [ "null", 50 ],
+            [ "roof_2x2_infrastructure", 20 ],
+            [ "roof_2x2_infrastructure_1", 20 ],
+            [ "roof_2x2_utilities_b", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_d", 20 ]
+          ]
+        },
+        "D": {
+          "chunks": [
+            [ "null", 50 ],
+            [ "roof_6x6_garden_1", 10 ],
+            [ "roof_6x6_garden_2", 10 ],
+            [ "roof_6x6_garden_3", 10 ],
+            [ "roof_6x6_garden_4", 10 ],
+            [ "roof_6x6_greenhouse_1", 5 ],
+            [ "roof_6x6_greenhouse_2", 5 ],
+            [ "roof_6x6_greenhouse_3", 5 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines candy shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_candy_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_candy_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_candy" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines beauty shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_beauty_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_beauty_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_beauty" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines beauty shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_vitamin_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_vitamin_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_vitamin" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines cellphone shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_cellphone_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_cellphone_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_cellphone" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines music shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_music_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_music_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_music" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines electronics shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_electronics_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_electronics_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_electronics" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines pizza shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_pizza_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_pizza_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_pizza" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines general shop front & back 8x8 front, 4x4 back room.",
+    "nested_mapgen_id": "city_block_2_clothing_shop",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "place_nested": [
+        { "chunks": [ "city_block_8x8_clothing_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_4x4_backroom_clothing" ], "x": 4, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines formal clothing shop front & back 8x8 front, 4x4 back room.",
+    "nested_mapgen_id": "city_block_2_formal_clothing_shop",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "place_nested": [
+        { "chunks": [ "city_block_8x8_formal_clothing_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_4x4_backroom_clothing_formal" ], "x": 4, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines leather clothing shop front & back 8x8 front, 4x4 back room.",
+    "nested_mapgen_id": "city_block_2_leather_clothing_shop",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "place_nested": [
+        { "chunks": [ "city_block_8x8_leather_clothing_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_4x4_backroom_clothing_leather" ], "x": 4, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines fur clothing shop front & back 8x8 front, 4x4 back room.",
+    "nested_mapgen_id": "city_block_2_fur_clothing_shop",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "place_nested": [
+        { "chunks": [ "city_block_8x8_fur_clothing_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_4x4_backroom_clothing_fur" ], "x": 4, "y": 8 }
+      ]
+    }
+  }
+]

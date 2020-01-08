@@ -1330,9 +1330,8 @@ class map
         character_id place_npc( const point &p, const string_id<npc_template> &type,
                                 bool force = false );
         void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
-        void add_spawn( const mtype_id &type, int count, const point &p,
-                        bool friendly = false,
-                        int faction_id = -1, int mission_id = -1,
+        void add_spawn( const mtype_id &type, int count, const tripoint &p,
+                        bool friendly = false, int faction_id = -1, int mission_id = -1,
                         const std::string &name = "NONE" ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
@@ -1808,9 +1807,9 @@ class map
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
-        /**returns positions of furnitures matching target in the specified radius*/
-        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
-                furn_id target,
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const std::string &flag,
                 size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
@@ -1834,8 +1833,15 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                        int fake_map_z );
 };
 
+class fake_map : public tinymap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                  int fake_map_z );
+        ~fake_map() override;
+};
 #endif
