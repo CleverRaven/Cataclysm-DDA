@@ -1531,7 +1531,7 @@ void options_manager::add_options_interface()
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
     "left"
        );
-	   
+
     add( "AIM_WINDOW_POSITION", "interface", translate_marker( "Aim window position" ),
          translate_marker( "Switch between aim window being left or right." ),
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
