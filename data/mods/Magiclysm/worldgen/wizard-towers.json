@@ -69,7 +69,9 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,................................................................................................"
       ],
       "palettes": [ "wizardtower1_palette" ],
-	  "terrain": { ",": [ [ "t_region_groundcover_urban", 50 ], [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ] }
+      "terrain": {
+        ",": [ [ "t_region_groundcover_urban", 50 ], [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ]
+      }
     }
   },
   {
@@ -86,7 +88,7 @@
       "!": "t_privacy_fence",
       "#": "t_rock_wall",
       "|": "t_wall_w",
-	  ":": "t_railing",
+      ":": "t_railing",
       "M": "t_door_metal_locked",
       "+": "t_door_c",
       "=": "t_door_locked",
@@ -124,7 +126,7 @@
       "u": "f_bathtub",
       "U": "f_utility_shelf",
       "V": "f_utility_shelf",
-	  "w": "f_shower",
+      "w": "f_shower",
       "W": "f_washer",
       "x": "f_water_heater",
       "y": "f_huge_mana_crystal",
@@ -184,26 +186,3 @@
     "monsters": { "0": { "monster": "GROUP_TOWER_GOLEM" } }
   }
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
