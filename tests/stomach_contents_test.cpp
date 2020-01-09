@@ -18,7 +18,7 @@ static void reset_time()
     player &p = g->u;
     p.set_stored_kcal( p.get_healthy_kcal() );
     p.set_hunger( 0 );
-    clear_player();
+    clear_avatar();
 }
 
 static void pass_time( player &p, time_duration amt )

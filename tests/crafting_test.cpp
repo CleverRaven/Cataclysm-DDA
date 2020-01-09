@@ -260,7 +260,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
 
     const tripoint test_origin( 60, 60, 0 );

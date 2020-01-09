@@ -38,10 +38,8 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_player()
+void clear_character( player &dummy )
 {
-    player &dummy = g->u;
-
     // Remove first worn item until there are none left.
     std::list<item> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
@@ -69,6 +67,11 @@ void clear_player()
 
     const tripoint spot( 60, 60, 0 );
     g->place_player( spot );
+}
+
+void clear_avatar()
+{
+    clear_character( g->u );
 }
 
 void process_activity( player &dummy )
