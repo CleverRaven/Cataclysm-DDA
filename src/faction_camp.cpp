@@ -1266,6 +1266,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+        entry = _( "Notes:\nAbandon this camp" );
+        mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
     get_available_missions_by_dir( mission_key, base_camps::base_dir );
@@ -1318,6 +1320,9 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Assign Jobs" ) {
         job_assignment_ui();
+    }
+    if( miss_id == "Abandon Camp" ) {
+        abandon_camp();
     }
 
     if( miss_id == "Expand Base" ) {
@@ -1536,6 +1541,11 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
     if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
         bool must_feed = bldg != "faction_base_camp_1";
 
+        basecamp_action_components components( making, 1, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         time_duration work_days = base_camps::to_workdays( making.batch_duration() );
         npc_ptr comp = nullptr;
         if( making.required_skills.empty() ) {
@@ -1554,11 +1564,32 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
         if( comp == nullptr ) {
             return;
         }
-        consume_components( making, 1 );
+        components.consume_components();
         update_in_progress( bldg, dir );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::abandon_camp()
+{
+    validate_assignees();
+    npc_ptr random_guy;
+    for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( c_mission.role_id != base_camps::id ) {
+            continue;
+        }
+        random_guy = guy;
+        const std::string return_msg = _( "responds to the emergency recall…" );
+        finish_return( *guy, false, return_msg, "menial", 0, true );
+    }
+    for( npc_ptr &guy : get_npcs_assigned() ) {
+        talk_function::stop_guard( *guy );
+    }
+    overmap_buffer.remove_camp( *this );
+    g->m.remove_submap_camp( random_guy->pos() );
+    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::job_assignment_ui()
@@ -1945,11 +1976,17 @@ void basecamp::start_fortifications( std::string &bldg_exp )
             return;
         }
 
+        const int batch_size = fortify_om.size() * 2 - 2;
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         npc_ptr comp = start_mission( "_faction_camp_om_fortifications", total_time, true,
                                       _( "begins constructing fortifications…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, fortify_om.size() * 2 - 2 );
+            components.consume_components();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
@@ -2019,12 +2056,18 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             popup( _( "Your batch is too large!" ) );
             return;
         }
+
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
         npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true,
                                       _( "begins to work…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, batch_size );
+            components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
             }
