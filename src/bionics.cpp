@@ -1042,7 +1042,7 @@ void Character::passive_power_gen( int b )
     }
 }
 
-itype_id Character::find_remote_fuel()
+itype_id Character::find_remote_fuel( bool look_only )
 {
     itype_id remote_fuel;
 
@@ -1056,7 +1056,10 @@ itype_id Character::find_remote_fuel()
         if( !target ) {
             if( g->m.is_outside( pos() ) && !is_night( calendar::turn ) &&
                 cable->get_var( "state" ) == "solar_pack_link" ) {
-                set_value( "sunlight", "1" );
+                if( !look_only ) {
+                    set_value( "sunlight", "1" );
+                }
+
                 remote_fuel = sun_light;
             }
 
@@ -1064,15 +1067,18 @@ itype_id Character::find_remote_fuel()
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
-                if( has_charges( "UPS_off", 1, used_ups ) ) {
-                    set_value( "rem_battery", std::to_string( charges_of( "UPS_off",
-                               units::to_kilojoule( max_power_level ), used_ups ) ) );
-                } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
-                    set_value( "rem_battery", std::to_string( charges_of( "adv_UPS_off",
-                               units::to_kilojoule( max_power_level ), used_ups ) ) );
-                } else {
-                    set_value( "rem_battery", std::to_string( 0 ) );
+                if( !look_only ) {
+                    if( has_charges( "UPS_off", 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( "UPS_off",
+                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
+                    } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( "adv_UPS_off",
+                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
+                    } else {
+                        set_value( "rem_battery", std::to_string( 0 ) );
+                    }
                 }
+
                 remote_fuel = itype_id( "battery" );
             }
             continue;
@@ -1081,8 +1087,11 @@ itype_id Character::find_remote_fuel()
         if( !vp ) {
             continue;
         }
-        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
-                   true ) ) );
+        if( !look_only ) {
+            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
+                       true ) ) );
+        }
+
         remote_fuel = itype_id( "battery" );
     }
 
