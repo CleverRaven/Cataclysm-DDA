@@ -16,12 +16,14 @@
   {
     "type": "overmap_terrain",
     "id": "basement_bionic",
-    "copy-from": "generic_city_house_basement"
+    "copy-from": "generic_city_house_basement",
+    "extend": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "basement_hidden_lab_stairs",
-    "copy-from": "generic_city_house_basement"
+    "copy-from": "generic_city_house_basement",
+    "extend": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
