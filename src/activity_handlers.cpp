@@ -1536,29 +1536,39 @@ bool activity_handlers::forage_results( map &ma, player *p, items_location &loc,
     ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         std::vector<item *> dropped = ma.put_items_from_loc( loc, pos, calendar::turn );
-        for( item *it : dropped ) {
+        auto items_there = ma.i_at( pos );
+        std::cout << "items there size = " << std::to_string( items_there.size() ) << std::endl;
+        for( const auto item_there : items_there ) {
+            std::cout << "item there = " << item_there.tname() << std::endl;
+        }
+        for( auto iter = items_there.begin(); iter != items_there.end(); ) {
+            item it = *iter;
+            std::cout << "dropped item " << std::endl;
             if( messages ) {
-                add_msg( m_good, _( "You found: %s!" ), it->tname() );
+                add_msg( m_good, _( "You found: %s!" ), it.tname() );
             }
+            std::cout << "1529" << it.tname() << std::endl;
             found_something = true;
-            if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
-                it->set_flag( flag_HIDDEN_POISON );
-                it->poison = rng( 2, 7 );
+            if( it.has_flag( "FORAGE_POISON" ) && one_in( 10 ) ) {
+                it.set_flag( "HIDDEN_POISON" );
+                it.poison = rng( 2, 7 );
             }
-            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
-                it->set_flag( flag_HIDDEN_HALLU );
+            if( it.has_flag( "FORAGE_HALLU" ) && !it.has_flag( "HIDDEN_POISON" ) && one_in( 10 ) ) {
+                it.set_flag( "HIDDEN_HALLU" );
             }
             if( pickup ) {
-                if( p->can_pickVolume( *it, true ) &&
-                    p->can_pickWeight( *it, true ) ) {
+                if( p->can_pickVolume( it, true ) &&
+                    p->can_pickWeight( it, true ) ) {
                     // if picking up this is for a multi-activity, so mark as such
-                    it->set_var( "activity_var", p->name );
-                    p->i_add( *it );
-                    ma.i_rem( pos, it );
+                    it.set_var( "activity_var", p->name );
+                    p->i_add( it );
+                    iter = items_there.erase( iter );
+                    break;
                 } else {
                     inventory_space = false;
                 }
             }
+            ++iter;
         }
     }
     // 10% to drop a item/items from this group.

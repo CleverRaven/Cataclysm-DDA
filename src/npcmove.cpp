@@ -751,6 +751,7 @@ void npc::move()
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
+        std::cout << "action == npc_undeceed and attitude == npcattact" << std::endl;
         if( has_stashed_activity() ) {
             if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
                 assign_stashed_activity();
@@ -763,6 +764,7 @@ void npc::move()
         }
         std::vector<tripoint> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
+            std::cout << "!activity route empty and !has_dest" << std::endl;
             tripoint final_destination;
             if( destination_point ) {
                 final_destination = g->m.getlocal( *destination_point );
@@ -776,16 +778,18 @@ void npc::move()
             }
         }
         if( has_destination_activity() ) {
+            std::cout << "start dest activity" << std::endl;
             start_destination_activity();
             action = npc_player_activity;
         } else if( has_player_activity() ) {
+            std::cout << " action = npc_player_activity" << std::endl;
             action = npc_player_activity;
         }
     }
-
     if( action == npc_undecided ) {
         // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
+            std::cout << " attitude = npcatt activity && !activity" << std::endl;
             revert_after_activity();
             if( is_ally( g->u ) ) {
                 attitude = NPCATT_FOLLOW;
@@ -3846,7 +3850,7 @@ bool npc::travel_to_omt( const tripoint &destination )
     }
     set_mission( NPC_MISSION_TRAVELLING );
     if( is_player_ally() ) {
-        chatbin.first_topic = "TALK_FRIEND_GUARD";
+        chatbin.first_topic = "TALK_FRIEND_TRAVELLING";
         set_attitude( NPCATT_NULL );
     }
     guard_pos = npc::no_goal_point;
@@ -3861,9 +3865,9 @@ void npc::reach_omt_destination()
     if( is_travelling() ) {
         guard_pos = g->m.getabs( pos() );
         std::cout << "arrived at omt dest" << std::endl;
-        if( has_offscreen_job() ){
+        if( has_offscreen_job() ) {
             std::cout << "offscreen job is not null in reach_omt_dest " << std::endl;
-            if( offscreen_job->get_current_offscreen_job_status() == OFFSCREEN_JOB_TRAVEL ){
+            if( offscreen_job->get_current_offscreen_job_status() == OFFSCREEN_JOB_TRAVEL ) {
                 std::cout << "offscreen job status is travel in reach _omt_dest" << std::endl;
             }
             if( offscreen_job->get_current_offscreen_job_status() == OFFSCREEN_JOB_TRAVEL ) {
@@ -3902,8 +3906,8 @@ void npc::reach_omt_destination()
                 base_location = global_omt_location();
             }
         }
-        drop_job_products();
         stop_offscreen_job();
+        drop_job_products();
         return;
     }
     // Guarding NPCs want a specific point, not just an overmap tile
@@ -3932,12 +3936,17 @@ void npc::reach_omt_destination()
 
 void npc::drop_job_products()
 {
+    std::cout << "drop job products ran " << std::endl;
     assign_activity( activity_id( "ACT_TIDY_UP" ) );
 }
 
 void npc::stop_offscreen_job()
 {
     offscreen_job.reset();
+    if( !omt_path.empty() ) {
+        omt_path.clear();
+    }
+    goal = no_goal_point;
 }
 
 void npc::return_to_base()
@@ -3958,7 +3967,7 @@ void npc::return_to_base()
         talk_function::assign_guard( *this );
         return;
     }
-    if( has_offscreen_job() ){
+    if( has_offscreen_job() ) {
         offscreen_job->set_current_offscreen_job_status( OFFSCREEN_JOB_RETURNING );
     }
     travel_to_omt( where_is_home );

@@ -1476,6 +1476,7 @@ void npc_offscreen_job::store( JsonOut &json ) const
     json.member( "offscreen_work_started", offscreen_work_started );
     json.member( "offscreen_work_duration", offscreen_work_duration );
     json.member( "max_time_to_work", max_time_to_work );
+    json.member( "is_forage_job", is_forage_job() );
 }
 
 void npc_offscreen_job::load( const JsonObject &data )
@@ -1488,6 +1489,7 @@ void npc_offscreen_job::load( const JsonObject &data )
     data.read( "offscreen_work_started", offscreen_work_started );
     data.read( "offscreen_work_duration", offscreen_work_duration );
     data.read( "max_time_to_work", max_time_to_work );
+    data.read( "is_forage_job", forage_job );
 }
 
 /*
@@ -1637,10 +1639,19 @@ void npc::load( const JsonObject &data )
     if( data.read( "job", jobtmp ) ) {
         job = static_cast<npc_job>( jobtmp );
     }
-    if( data.has_member( "offscreen_job" ) ){
+    std::cout << "before has member offscfreen job check" << std::endl;
+    if( data.has_member( "offscreen_job" ) ) {
+        std::cout << "has member offscreen job " << std::endl;
         std::unique_ptr<npc_offscreen_job> tmpoff = std::make_unique<npc_offscreen_job>();
         data.read( "offscreen_job", *tmpoff );
-        offscreen_job = std::move( tmpoff );
+        if( tmpoff->is_forage_job() ) {
+            std::cout << "tmpoff is forage job " << std::endl;
+            offscreen_job = std::move( std::make_unique<npc_offscreen_foraging>( npc_offscreen_foraging(
+                                           *tmpoff.get() ) ) );
+            if( offscreen_job ) {
+                std::cout << "has offscreen job after loading " << std::endl;
+            }
+        }
     }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
@@ -1763,8 +1774,8 @@ void npc::store( JsonOut &json ) const
     // TODO: stringid
     json.member( "mission", mission );
     json.member( "job", static_cast<int>( job ) );
-    if( offscreen_job ){
-        json.member( "offsreen_job", *offscreen_job );
+    if( offscreen_job ) {
+        json.member( "offscreen_job", *offscreen_job );
     }
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );

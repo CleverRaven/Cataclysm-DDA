@@ -262,6 +262,15 @@
     ]
   },
   {
+    "id": "TALK_FRIEND_TRAVELLING",
+    "type": "talk_topic",
+    "dynamic_line": "I'm travelling.",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND", "effect": "stop_guard" },
+      { "text": "See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_FRIEND_UNCOMFORTABLE",
     "type": "talk_topic",
     "dynamic_line": "I really don't feel comfortable doing so...",

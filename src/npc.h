@@ -772,15 +772,16 @@ class npc_offscreen_job
         }
         // generic entry point for job-specific overrides to check if job can continue there at specific point
         // ( usually loaded as a tinymap )
-        virtual bool do_offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy ) {
-            (void)pos;
-            (void)bay;
-            (void)percent_resolved;
-            (void)guy;
+        virtual bool do_offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved,
+                                             npc &guy ) {
+            ( void )pos;
+            ( void )bay;
+            ( void )percent_resolved;
+            ( void )guy;
             return false;
         }
         virtual bool is_forage_job() const {
-            return false;
+            return forage_job;
         }
         virtual bool is_null() const {
             return true;
@@ -791,7 +792,7 @@ class npc_offscreen_job
         void set_travelling_start_time( time_point start_time ) {
             travelling_work_started = start_time;
         }
-        cata::optional<time_point> get_travelling_start_time() const {
+        time_point get_travelling_start_time() const {
             return travelling_work_started;
         }
         void clear_travelling_start_time() {
@@ -819,21 +820,27 @@ class npc_offscreen_job
             return current_job_status == OFFSCREEN_JOB_WORKING || current_job_status == OFFSCREEN_JOB_TRAVEL;
         }
         // return true to stop job
-        virtual bool do_job_at_location( npc &guy, int percent_resolved ){
-            (void)guy;
-            (void)percent_resolved;
-            (void)offscreen_work_completed;
+        virtual bool do_job_at_location( npc &guy, int percent_resolved ) {
+            ( void )guy;
+            ( void )percent_resolved;
+            ( void )offscreen_work_completed;
             return true;
         }
-        void set_current_offscreen_job_status( offscreen_job_status new_status ){
+        void set_current_offscreen_job_status( offscreen_job_status new_status ) {
             current_job_status = new_status;
         }
-        offscreen_job_status get_current_offscreen_job_status(){
+        offscreen_job_status get_current_offscreen_job_status() {
             return current_job_status;
+        }
+        time_duration get_max_time_to_work() {
+            return max_time_to_work;
+        }
+        void set_max_time_to_work( time_duration new_max ) {
+            max_time_to_work = new_max;
         }
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
-    private:
+    protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         offscreen_job_status current_job_status = OFFSCREEN_JOB_NULL;
@@ -844,15 +851,27 @@ class npc_offscreen_job
             calendar::before_time_starts; // when did we start the offscreen work.
         cata::optional<time_duration> offscreen_work_duration; // how long to spend on this area.
         time_duration max_time_to_work = 6_hours; // how long to spend in total before returning.
+        bool forage_job = false;
 };
 
 class npc_offscreen_foraging : public npc_offscreen_job
 {
     public:
+        npc_offscreen_foraging();
+        npc_offscreen_foraging( npc_offscreen_job new_job ) {
+            current_job_status = new_job.get_current_offscreen_job_status();
+            offscreen_work_completed = new_job.get_work_completion();
+            travelling_work_started = new_job.get_travelling_start_time();
+            offscreen_work_started = new_job.get_offscreen_work_time();
+            offscreen_work_duration = new_job.get_offscreen_work_duration();
+            max_time_to_work = new_job.get_max_time_to_work();
+            forage_job = new_job.is_forage_job();
+        }
         bool do_offscreen_forage( int percent_resolved, npc &guy );
         bool forage_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy );
         bool forage_common( map &bay, const tripoint &pos, npc &guy );
-        bool do_offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved, npc &guy ) override {
+        bool do_offscreen_job_check( const tripoint &pos, map &bay, int percent_resolved,
+                                     npc &guy ) override {
             return forage_check( pos, bay, percent_resolved, guy );
         }
         bool is_null() const override {
@@ -862,8 +881,10 @@ class npc_offscreen_foraging : public npc_offscreen_job
             return do_offscreen_forage( percent_resolved, guy );
         }
         bool is_forage_job() const override {
-            return true;
+            return forage_job;
         }
+    protected:
+        bool forage_job = true;
 };
 
 class npc_template;
@@ -1282,7 +1303,7 @@ class npc : public player
         void drop_job_products();
         void stop_offscreen_job();
         bool has_offscreen_job() const;
-        npc_offscreen_job* get_offscreen_job() const;
+        npc_offscreen_job *get_offscreen_job() const;
         void set_offscreen_forage_job();
         void return_to_base();
         // Message related stuff

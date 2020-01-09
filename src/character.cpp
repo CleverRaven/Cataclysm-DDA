@@ -1724,9 +1724,9 @@ void Character::drop( item_location loc, const tripoint &where )
 void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
-    const activity_id type =  stash ? ACT_STASH : ACT_DROP;
-
+    const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
     if( what.empty() ) {
+        std::cout << "what is empty" << std::endl;
         return;
     }
 

@@ -599,6 +599,12 @@ void npc::revert_after_activity()
     if( has_offscreen_job() ) {
         check_mission_resume();
     }
+    if( base_location ){
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( (*base_location).xy() );
+        if( bcp && global_omt_location() == *base_location ) {
+            talk_function::assign_camp( *this );
+        }
+    }
 }
 
 bool npc_offscreen_job::at_capacity_or_over_time_limit_for_travel_job( npc &guy ) const
@@ -3158,27 +3164,42 @@ bool npc::has_job() const
 
 bool npc::has_offscreen_job() const
 {
-    if( !offscreen_job ){
+    if( !offscreen_job ) {
         return false;
     }
     return true;
 }
 
-npc_offscreen_job* npc::get_offscreen_job() const
+npc_offscreen_foraging::npc_offscreen_foraging()
+{
+    forage_job = true;
+}
+
+npc_offscreen_job *npc::get_offscreen_job() const
 {
     return offscreen_job.get();
 }
 
 void npc::set_offscreen_forage_job()
 {
-    offscreen_job = std::make_unique<npc_offscreen_foraging>(npc_offscreen_foraging());
+    if( has_offscreen_job() && offscreen_job->is_forage_job() ) {
+        offscreen_job->set_current_offscreen_job_status( OFFSCREEN_JOB_TRAVEL );
+        if( offscreen_job->get_travelling_start_time() == calendar::before_time_starts ) {
+            offscreen_job->set_travelling_start_time( calendar::turn );
+        }
+        return;
+    }
+    offscreen_job = std::make_unique<npc_offscreen_foraging>( npc_offscreen_foraging() );
     offscreen_job->set_current_offscreen_job_status( OFFSCREEN_JOB_TRAVEL );
-    if( offscreen_job->is_forage_job() ){
+    offscreen_job->set_travelling_start_time( calendar::turn );
+    std::cout << "set offscren forage job - travelling start time = " << to_string(
+                  offscreen_job->get_travelling_start_time() ) << std::endl;
+    if( offscreen_job->is_forage_job() ) {
         std::cout << "set offscreen job is now forage job in npc::set_offscreen" << std::endl;
     } else {
         std::cout << "set offscreen job is not now forage job in npc::setoffscreen" << std::endl;
     }
-    if( get_offscreen_job()->is_forage_job() ){
+    if( get_offscreen_job()->is_forage_job() ) {
         std::cout << "set offscreen job is now forage job in npc::get_offscreen" << std::endl;
     } else {
         std::cout << "set offscreen job is not now forage job in npc::get_offscreen" << std::endl;
