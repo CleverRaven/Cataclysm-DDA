@@ -1069,7 +1069,7 @@ number_sci_notation JsonIn::get_any_int()
 int JsonIn::get_int()
 {
     number_sci_notation n = get_any_int();
-    if( !n.negative && n.number > std::numeric_limits<int>::max() ) {
+    if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
                " which is unsupported in this context." );
     } else if( n.negative && n.number > neg_INT_MIN() ) {
@@ -1096,7 +1096,7 @@ unsigned int JsonIn::get_uint()
 int64_t JsonIn::get_int64()
 {
     number_sci_notation n = get_any_int();
-    if( !n.negative && n.number > std::numeric_limits<int64_t>::max() ) {
+    if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
         error( "Signed integers greater than " +
                std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
     } else if( n.negative && n.number > neg_INT64_MIN() ) {
