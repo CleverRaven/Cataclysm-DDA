@@ -10,9 +10,13 @@
 #include "itype.h"
 #include "player.h"
 #include "inventory.h"
+#include "map.h"
+#include "npc.h"
 #include "player_activity.h"
 #include "type_id.h"
 #include "point.h"
+
+#include "catch/catch.hpp"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -82,4 +86,16 @@ void process_activity( player &dummy )
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );
+}
+
+npc &spawn_npc( const point &p, const std::string &npc_class )
+{
+    const string_id<npc_template> test_guy( npc_class );
+    const character_id model_id = g->m.place_npc( p, test_guy, true );
+    g->load_npcs();
+
+    npc *guy = g->find_npc( model_id );
+    REQUIRE( guy != nullptr );
+    CHECK( !guy->in_vehicle );
+    return *guy;
 }
