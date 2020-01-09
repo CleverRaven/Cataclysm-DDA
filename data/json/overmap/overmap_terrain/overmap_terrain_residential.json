@@ -11,7 +11,8 @@
   {
     "type": "overmap_terrain",
     "id": "basement",
-    "copy-from": "generic_city_house_basement"
+    "copy-from": "generic_city_house_basement",
+    "extend": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
