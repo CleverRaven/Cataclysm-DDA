@@ -1710,6 +1710,7 @@ bool game::handle_action()
                                                            u.get_pathfinding_settings(),
                                                            u.get_path_avoid() );
                             if( !destination_preview.empty() ) {
+                                destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
                                 u.set_destination( destination_preview );
                                 break;
                             }
