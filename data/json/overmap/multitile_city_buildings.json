@@ -2776,7 +2776,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_patio_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
-  },
+  }, 
   {
     "type": "city_building",
     "id": "house_modern_1",
