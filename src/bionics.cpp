@@ -1059,7 +1059,6 @@ itype_id Character::find_remote_fuel( bool look_only )
                 if( !look_only ) {
                     set_value( "sunlight", "1" );
                 }
-
                 remote_fuel = sun_light;
             }
 
@@ -1078,7 +1077,6 @@ itype_id Character::find_remote_fuel( bool look_only )
                         set_value( "rem_battery", std::to_string( 0 ) );
                     }
                 }
-
                 remote_fuel = itype_id( "battery" );
             }
             continue;
@@ -1091,7 +1089,6 @@ itype_id Character::find_remote_fuel( bool look_only )
             set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_id( "battery" ),
                        true ) ) );
         }
-
         remote_fuel = itype_id( "battery" );
     }
 
@@ -1224,9 +1221,20 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
 void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
-    if( !bio.id->fuel_opts.empty() && bio.is_auto_start_on() ) {
+    if( ( !bio.id->fuel_opts.empty() || bio.id->is_remote_fueled ) && bio.is_auto_start_on() ) {
         const float start_threshold = bio.get_auto_start_thresh();
-        const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
+        std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
+        if( bio.id->is_remote_fueled ) {
+            const itype_id rem_fuel = find_remote_fuel();
+            const std::string rem_amount = get_value( "rem_" + rem_fuel );
+            int rem_fuel_stock = 0;
+            if( !rem_amount.empty() ) {
+                rem_fuel_stock = std::stoi( rem_amount );
+            }
+            if( !rem_fuel.empty() && ( rem_fuel_stock > 0 || item( rem_fuel ).has_flag( "PERPETUAL" ) ) ) {
+                fuel_available.emplace_back( rem_fuel );
+            }
+        }
         if( !fuel_available.empty() && get_power_level() <= start_threshold * get_max_power_level() ) {
             g->u.activate_bionic( b );
         } else if( get_power_level() <= start_threshold * get_max_power_level() &&
@@ -2516,7 +2524,7 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
-    if( info().fuel_opts.empty() ) {
+    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
         return;
     }
     if( !has_flag( "SAFE_FUEL_OFF" ) ) {
@@ -2528,7 +2536,7 @@ void bionic::toggle_safe_fuel_mod()
 
 void bionic::toggle_auto_start_mod()
 {
-    if( info().fuel_opts.empty() ) {
+    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
         return;
     }
     if( !is_auto_start_on() ) {
