@@ -71,7 +71,7 @@
         "repeat": [ 1, 3 ],
         "chance": 70
       },
-      "C": { "item": "MRE", "prob": 90, "repeat": [ 1, 3 ] },
+      "C": { "item": "MRE", "chance": 90, "repeat": [ 1, 3 ] },
       "D": {
         "item": {
           "subtype": "distribution",
@@ -86,7 +86,7 @@
         "repeat": [ 1, 3 ],
         "chance": 70
       },
-      "E": { "item": "SUS_field_manual_bookcase", "prob": 60 },
+      "E": { "item": "SUS_field_manual_bookcase", "chance": 60 },
       "F": {
         "item": {
           "subtype": "distribution",
@@ -107,7 +107,7 @@
         "repeat": [ 1, 3 ],
         "chance": 60
       },
-      "L": { "item": "SUS_janitors_closet", "prob": 60 },
+      "L": { "item": "SUS_janitors_closet", "chance": 60 },
       "U": { "item": "trash" }
     },
     "toilets": { "&": {  } }
