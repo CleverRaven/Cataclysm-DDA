@@ -209,7 +209,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
         assign( jo, "description", description, strict );
-        assign( jo, "reversible", reversible, strict );
+        if( jo.has_bool( "reversible" ) ) {
+            assign( jo, "reversible", reversible, strict );
+        } else if( jo.has_string( "reversible" ) ) {
+            reversible = true;
+            uncraft_time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "reversible" ),
+                                          time_duration::units ) );
+        }
 
         if( jo.has_member( "byproducts" ) ) {
             if( this->reversible ) {

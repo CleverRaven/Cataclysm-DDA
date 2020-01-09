@@ -171,6 +171,9 @@ class recipe
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
 
+        /** Time to reverse for auto-generated uncraft **/
+        int uncraft_time = 0;
+
         /** What does the item spawn contained in? Unset ("null") means default container. */
         itype_id container = "null";
 
