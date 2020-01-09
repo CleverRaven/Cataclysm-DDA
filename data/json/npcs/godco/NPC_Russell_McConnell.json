@@ -1,0 +1,92 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_russell",
+    "name_unique": "Russell McConnell",
+    "name_suffix": "hunter",
+    "gender": "male",
+    "class": "NC_godco_russell",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_russell_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_russell",
+    "name": "member",
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ -2, 1 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ 2, 3 ] },
+    "worn_override": "GODCO_russell_worn",
+    "carry_override": "GODCO_russell_carried",
+    "weapon_override": "GODCO_russell_wield",
+    "traits": [
+      { "trait": "NIGHTVISION" },
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "EAGLEEYED" },
+      { "group": "Appearance_Mixed" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "FACIAL_HAIR_BEARD" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "cutting" },
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "rifle" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "army_top" },
+      { "item": "knit_scarf" },
+      { "item": "boots_steel" },
+      { "item": "pants_cargo" },
+      { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
+      { "item": "jacket_flannel" },
+      { "item": "sheath", "contents-item": "knife_hunting" },
+      { "item": "hat_fur" },
+      { "item": "wristwatch" },
+      { "item": "binoculars" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "ear_plugs" }, { "item": "meat_smoked" }, { "item": "270win_jsp", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_russell_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_russell"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_russell_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_russell",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]
