@@ -465,7 +465,7 @@
     "id": "cookbook_daintydishes",
     "type": "BOOK",
     "name": { "str": "Dainty Dishes Fit for a King", "str_pl": "copies of Dainty Dishes" },
-    "description": "This cookbook contains many fanciful recipes. Some of them are even worth the trouble to actually prepare. Lovely pen and ink illustrations of overweight knights and gluttonous monks line the pages.",
+    "description": "This cookbook contains many fanciful recipes.  Some of them are even worth the trouble to actually prepare.  Lovely pen and ink illustrations of overweight knights and gluttonous monks line the pages.",
     "volume": "900 ml",
     "price": 3000,
     "price_postapoc": 4700,
