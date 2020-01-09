@@ -1317,9 +1317,9 @@ bool Character::has_any_bionic() const
 
 bionic_id Character::get_remote_fueled_bionic() const
 {
-    for( const bionic bio : *my_bionics ) {
-        if( bio.info().is_remote_fueled ) {
-            return bio.id;
+    for( const bionic_id bid : get_bionics() ) {
+        if( bid->is_remote_fueled ) {
+            return bid;
         }
     }
     return bionic_id();
