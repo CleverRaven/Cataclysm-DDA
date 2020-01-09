@@ -1,93 +1,102 @@
 [
-   {
-        "type" : "overmap_terrain",
-        "id" : "factory_tlc",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_te",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_trc",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_le",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_mid",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_re",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_blc",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_be",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-       "type" : "overmap_terrain",
-        "id" : "factory_be_gate",
-        "name" : "factory",
-        "sym" : 70,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "factory_brc",
-        "name" : "factory",
-        "sym" : 102,
-        "color" : "i_black",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_LARGE_STATION", "population": [6, 10], "chance": 35 }
-    }
+  {
+    "type": "overmap_terrain",
+    "id": "factory_tlc",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_te",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_trc",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_le",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_mid",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_re",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_blc",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_be",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_be_gate",
+    "name": "factory",
+    "sym": "F",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "factory_brc",
+    "name": "factory",
+    "sym": "f",
+    "color": "i_black",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LARGE_STATION", "population": [ 6, 10 ], "chance": 35 }
+  }
 ]

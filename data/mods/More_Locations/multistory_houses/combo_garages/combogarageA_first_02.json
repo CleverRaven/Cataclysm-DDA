@@ -1,50 +1,43 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "combogarageA_first",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_concrete_floor",
-             "rows": [
-                "###,,,,,,,,#######W#####",
-                "###,,,,,,,,#######W#####",
-                "###,,,,,,,,#######W#####",
-                "###,,,,,,,,#######W#####",
-                "###,,,,,,,,#######W#####",
-                "===        ====###W#####",
-                "            bb=###W#####",
-                "              =###W#####",
-                "            v =###W#####",
-                "              =###W#####",
-                "      V       =###W#####",
-                "            v =###WW####",
-                "              =fffeeff##",
-                "              =######F##",
-                "---1      1  C=######F##",
-                "  H|         C=#^#^##F##",
-                "   +      CCCC=#^#^##F##",
-                "========++=====#^#^##F##",
-                "#######F#############F##",
-                "#######e##^#^#^#^#^##F##",
-                "#######F##^#^#^#^#^##F##",
-                "#######F#############F##",
-                "#######fffffffffffffff##",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house",
-               "ground_level"
-            ],
-            "terrain":{
-                " ": "t_concrete_floor",
-                "^": "t_dirtmound",
-                ",": "t_pavement"
-            },
-            "vehicles": {
-                "V": { "vehicle": "beetle", "chance": 50, "fuel": 50, "status": 1 },
-                "v": { "vehicle": "bicycle", "chance": 30, "fuel": 50, "status": 1 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "combogarageA_first",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "###,,,,,,,,#######W#####",
+        "###,,,,,,,,#######W#####",
+        "###,,,,,,,,#######W#####",
+        "###,,,,,,,,#######W#####",
+        "###,,,,,,,,#######W#####",
+        "===        ====###W#####",
+        "            bb=###W#####",
+        "              =###W#####",
+        "            v =###W#####",
+        "              =###W#####",
+        "      V       =###W#####",
+        "            v =###WW####",
+        "              =fffeeff##",
+        "              =######F##",
+        "---1      1  C=######F##",
+        "  H|         C=#^#^##F##",
+        "   +      CCCC=#^#^##F##",
+        "========++=====#^#^##F##",
+        "#######F#############F##",
+        "#######e##^#^#^#^#^##F##",
+        "#######F##^#^#^#^#^##F##",
+        "#######F#############F##",
+        "#######fffffffffffffff##",
+        "########################"
+      ],
+      "palettes": [ "multistory_house", "ground_level" ],
+      "terrain": { " ": "t_concrete_floor", "^": "t_dirtmound", ",": "t_pavement" },
+      "vehicles": {
+        "V": { "vehicle": "beetle", "chance": 50, "fuel": 50, "status": 1 },
+        "v": { "vehicle": "bicycle", "chance": 30, "fuel": 50, "status": 1 }
+      }
     }
+  }
 ]

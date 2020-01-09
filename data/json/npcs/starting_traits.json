@@ -33,6 +33,7 @@
       { "group": "trait_group_TOUGH", "prob": 20 },
       { "group": "trait_group_WEAKSCENT", "prob": 10 },
       { "group": "trait_group_PAINRESIST", "prob": 10 },
+      { "group": "trait_group_PROJUNK", "prob": 5 },
       { "trait": "DEFT", "prob": 10 },
       { "trait": "DISRESISTANT", "prob": 10 },
       { "trait": "ADRENALINE", "prob": 10 },
@@ -58,7 +59,6 @@
       { "trait": "MEATARIAN", "prob": 5 },
       { "trait": "HOARDER", "prob": 10 },
       { "trait": "JITTERY", "prob": 10 },
-      { "trait": "ANTIJUNK", "prob": 5 },
       { "trait": "LACTOSE", "prob": 10 },
       { "trait": "VEGETARIAN", "prob": 15 },
       { "trait": "MOODSWINGS", "prob": 10 },
@@ -67,8 +67,7 @@
       { "trait": "SQUEAMISH", "prob": 20 },
       { "trait": "TRIGGERHAPPY", "prob": 10 },
       { "trait": "ANTIWHEAT", "prob": 5 },
-      { "trait": "WOOLALLERGY", "prob": 5 },
-      { "trait": "INCONSPICUOUS", "prob": 10 }
+      { "trait": "WOOLALLERGY", "prob": 5 }
     ]
   },
   {
@@ -250,5 +249,11 @@
     "id": "trait_group_PAINRESIST",
     "subtype": "distribution",
     "traits": [ { "trait": "PAINRESIST" }, { "trait": "MORE_PAIN" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PROJUNK",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PROJUNK" }, { "trait": "ANTIJUNK" } ]
   }
 ]

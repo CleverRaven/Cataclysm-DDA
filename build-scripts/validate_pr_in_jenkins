@@ -5,7 +5,7 @@ if [ -z "$ghprbPullId" ]; then exit 0; fi
 allowed_section_titles='Features|Content|Interface|Mods|Balance|Bugfixes|Performance|Infrastructure|Build|I18N'
 
 echo 'Validating Summary line from pull request.'
-echo "$ghprbPullLongDescription" | grep -Pi '(^|\\r\\n)\s*(`){0,3}SUMMARY: +((None)|(('"${allowed_section_titles}"') +\\?"(.*?)\\?"))(`){0,3}\s*(\\r\\n|$)'
+echo "$ghprbPullLongDescription" | grep -Pi '(^|(\\r)?\\n)\s*`{0,3}SUMMARY: +(None|(('"${allowed_section_titles}"') +\\?".*?\\?"))`{0,3}\s*((\\r)?\\n|$)'
 if [ $? -eq 0 ]; then
     echo 'Summary looks good.'
     exit 0

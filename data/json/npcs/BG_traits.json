@@ -1,13 +1,18 @@
 [
   {
+    "type": "mutation_type",
+    "id": "BACKGROUND_SURVIVAL_STORY"
+  },
+  {
     "type": "mutation",
     "id": "BGSS_Confused_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -15,10 +20,11 @@
     "id": "BGSS_No_Past_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -26,40 +32,47 @@
     "id": "BGSS_No_Past_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_No_Past_3",
-    "name": "Survivor",
+    "name": "Survivor Story",
+    "player_display": false,
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_No_Past_4",
     "name": "Survivor",
+    "player_display": false,
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_No_Past_5",
     "name": "Survivor",
+    "player_display": false,
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -67,10 +80,11 @@
     "id": "BGSS_Religious_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -78,10 +92,11 @@
     "id": "BGSS_Religious_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -89,20 +104,23 @@
     "id": "BGSS_Dreamer",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_Wedding_1",
     "name": "Survivor",
+    "player_display": false,
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -110,10 +128,11 @@
     "id": "BGSS_Evacuee_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -121,10 +140,11 @@
     "id": "BGSS_Evacuee_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -132,9 +152,10 @@
     "id": "BGSS_Evacuee_3",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -142,10 +163,11 @@
     "id": "BGSS_Evacuee_4",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -153,10 +175,11 @@
     "id": "BGSS_Evacuee_5",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -164,10 +187,11 @@
     "id": "BGSS_Evacuee_6",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -175,10 +199,11 @@
     "id": "BGSS_FEMA_Evacuee_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -186,10 +211,11 @@
     "id": "BGSS_Left_for_Dead_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -197,10 +223,11 @@
     "id": "BGSS_Left_for_Dead_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -208,10 +235,11 @@
     "id": "BGSS_Gung_Ho_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -219,10 +247,11 @@
     "id": "BGSS_Gung_Ho_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -230,10 +259,11 @@
     "id": "BGSS_Gung_Ho_3",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -241,10 +271,11 @@
     "id": "BGSS_Prepper_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -252,10 +283,11 @@
     "id": "BGSS_Prepper_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -263,10 +295,11 @@
     "id": "BGSS_Out_of_Town_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -274,10 +307,11 @@
     "id": "BGSS_Out_of_Town_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -285,10 +319,11 @@
     "id": "BGSS_Lost_Partner_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -296,10 +331,11 @@
     "id": "BGSS_Lost_Partner_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -307,10 +343,11 @@
     "id": "BGSS_Rural_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -318,10 +355,11 @@
     "id": "BGSS_Rural_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -329,10 +367,11 @@
     "id": "BGSS_Codger",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -340,10 +379,11 @@
     "id": "BGSS_Hospital_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -351,10 +391,11 @@
     "id": "BGSS_Hospital_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -362,10 +403,11 @@
     "id": "BGSS_Hospital_3",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -373,10 +415,11 @@
     "id": "BGSS_Cop_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -384,10 +427,11 @@
     "id": "BGSS_Cop_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -395,10 +439,11 @@
     "id": "BGSS_Cop_3",
     "name": "Survivor Story",
     "points": 0,
-    "description": "cop3",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -406,10 +451,11 @@
     "id": "BGSS_Hunter_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -417,10 +463,11 @@
     "id": "BGSS_Hunter_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -428,10 +475,11 @@
     "id": "BGSS_Soldier_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -439,10 +487,11 @@
     "id": "BGSS_Soldier_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -450,10 +499,11 @@
     "id": "BGSS_Criminal_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -461,10 +511,11 @@
     "id": "BGSS_Criminal_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -472,10 +523,11 @@
     "id": "BGSS_Prisoner_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -483,10 +535,11 @@
     "id": "BGSS_High_School_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -494,10 +547,11 @@
     "id": "BGSS_Burger_Flipper_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -505,10 +559,11 @@
     "id": "BGSS_Nerd_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -516,10 +571,11 @@
     "id": "BGSS_Scientist_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -527,10 +583,11 @@
     "id": "BGSS_Scientist_2",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -538,10 +595,11 @@
     "id": "BGSS_Professor_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -549,10 +607,11 @@
     "id": "BGSS_Grad_Student_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -560,10 +619,11 @@
     "id": "BGSS_Lab_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -572,10 +632,24 @@
     "id": "BGSS_Scavenger_Merc_1",
     "name": "Survivor Story",
     "points": 0,
-    "description": "This NPC could tell you about how they survived the cataclysm",
+    "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "//": "This background is specific to rescued broken cyborg",
+    "id": "BGSS_Cyborg_1",
+    "name": "Survivor Story",
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   }
 ]

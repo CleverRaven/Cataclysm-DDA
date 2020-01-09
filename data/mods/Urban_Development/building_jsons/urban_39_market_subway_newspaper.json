@@ -76,7 +76,7 @@
       "items": {
         " ": { "item": "subway", "chance": 1 },
         "'": { "item": "home_hw", "chance": 1 },
-        "L": { "item": "plumber_gear", "chance": 50 },
+        "L": { "item": "hardware_plumbing", "chance": 50 },
         "g": { "item": "vending_drink", "chance": 40 },
         "r": { "item": "snacks", "chance": 40 }
       },

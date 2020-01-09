@@ -2,10 +2,38 @@
   {
     "type": "MOD_INFO",
     "ident": "StatsThroughSkills",
-    "name": "StatsThroughSkills",
-    "authors": [ "Ryan \"DeNarr\" Saige" ],
-    "description": "Allows stats to raise naturally via skill progression.",
+    "name": "Stats Through Skills",
+    "authors": [ "Ryan \"DeNarr\" Saige", "Kevin Granade" ],
+    "description": "Allows stats to raise via skill progression.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "skill_boost",
+    "stat": "str",
+    "skills": [ "mechanics", "swimming", "bashing", "cutting", "melee", "throw" ],
+    "skill_offset": -3,
+    "scaling_power": 0.4
+  },
+  {
+    "type": "skill_boost",
+    "stat": "dex",
+    "skills": [ "driving", "survival", "tailor", "traps", "dodge", "stabbing", "unarmed" ],
+    "skill_offset": -3,
+    "scaling_power": 0.4
+  },
+  {
+    "type": "skill_boost",
+    "stat": "int",
+    "skills": [ "barter", "computer", "cooking", "electronics", "fabrication", "firstaid", "speech" ],
+    "skill_offset": -3,
+    "scaling_power": 0.4
+  },
+  {
+    "type": "skill_boost",
+    "stat": "per",
+    "skills": [ "archery", "gun", "launcher", "pistol", "rifle", "shotgun", "smg" ],
+    "skill_offset": -3,
+    "scaling_power": 0.4
   }
 ]

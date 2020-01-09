@@ -2,7 +2,7 @@
   {
     "id": "BGSS_CODGER_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Well now, That's a hell of a story, so settle in.  It all goes back to about five years ago, after I retired from my job at the mill.  Times was tough, but we got by.",
+    "dynamic_line": "Well now, that's a hell of a story, so settle in.  It all goes back to about five years ago, after I retired from my job at the mill.  Times was tough, but we got by.",
     "responses": [
       { "text": "Okay, please continue.", "topic": "BGSS_CODGER_STORY2" },
       { "text": "On second thought, let's talk about something else.", "topic": "BGSS_CODGER_STORY2" }
@@ -74,7 +74,7 @@
     "dynamic_line": "Anyway, long story short, I were headin' back up to Mount Greenwood to check on th'old ranger station again when I heard them bombs fallin and choppers flyin.  Decided to camp out there to see it all through, but it didn't ever end, now, did it?  So here I am.",
     "responses": [
       { "text": "Thanks for the story!", "topic": "TALK_FRIEND" },
-      { "text": "...", "topic": "TALK_FRIEND" },
+      { "text": "…", "topic": "TALK_FRIEND" },
       { "text": "<name_b>.", "topic": "TALK_DONE" }
     ]
   }

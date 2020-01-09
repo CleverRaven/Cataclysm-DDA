@@ -1,0 +1,126 @@
+[
+  {
+    "type": "item_group",
+    "id": "robots",
+    "items": [
+      [ "processor", 15 ],
+      [ "RAM", 22 ],
+      [ "power_supply", 16 ],
+      [ "amplifier", 8 ],
+      [ "solar_cell", 5 ],
+      [ "transponder", 5 ],
+      [ "receiver", 10 ],
+      [ "antenna", 18 ],
+      [ "steel_chunk", 30 ],
+      [ "spring", 50 ],
+      [ "steel_lump", 30 ],
+      [ "kevlar_plate", 10 ],
+      [ "ceramic_armor", 15 ],
+      [ "motor", 2 ],
+      { "group": "ammo_heavy_batteries_full", "prob": 50 },
+      [ "plut_cell", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bots",
+    "items": [
+      [ "bot_manhack", 2 ],
+      [ "bot_grenade_hack", 2 ],
+      [ "bot_flashbang_hack", 2 ],
+      [ "bot_gasbomb_hack", 2 ],
+      [ "bot_rifleturret", 2 ],
+      [ "bot_antimateriel", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "eyebot",
+    "items": [ [ "flashlight", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "manhack",
+    "items": [ [ "spike", 10 ], [ "scrap", 10 ], [ "blade", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "skitterbot",
+    "items": [ [ "tazer", 3 ], [ "scrap", 9 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "copbot",
+    "items": [
+      [ "baton", 8 ],
+      [ "tazer", 3 ],
+      [ "kevlar_plate", 10 ],
+      [ "ceramic_armor", 15 ],
+      [ "tonfa", 10 ],
+      [ "shocktonfa_off", 5 ],
+      [ "alloy_plate", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molebot",
+    "items": [ [ "spiked_plate", 15 ], [ "hard_plate", 30 ], [ "robot_controls", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret",
+    "items": [ [ "9mm", 8 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "laserturret",
+    "items": [ [ "cerberus_laser", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_rifle",
+    "items": [ [ "556", 8 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_bmg",
+    "items": [ [ "50bmg", 8 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_searchlight",
+    "items": [ [ "lens", 15 ] ]
+  },
+  {
+    "id": "cyborg_harvest",
+    "type": "item_group",
+    "items": [
+      [ "bio_dis_shock", 1 ],
+      [ "bio_dis_acid", 1 ],
+      [ "bio_drain", 1 ],
+      [ "bio_noise", 1 ],
+      [ "bio_power_weakness", 1 ],
+      [ "bio_itchy", 1 ],
+      [ "bio_nostril", 1 ],
+      [ "bio_thumbs", 1 ],
+      [ "bio_spasm", 1 ],
+      [ "bio_shakes", 1 ],
+      [ "bio_leaky", 1 ],
+      [ "bio_sleepy", 1 ],
+      [ "bio_deformity", 1 ],
+      [ "bio_voice", 1 ],
+      [ "bio_pokedeye", 1 ],
+      [ "bio_ankles", 1 ],
+      [ "bio_trip", 1 ],
+      [ "bio_stiff", 1 ],
+      [ "bio_armor_head", 2 ],
+      [ "bio_armor_torso", 2 ],
+      [ "bio_armor_arms", 2 ],
+      [ "bio_armor_legs", 2 ],
+      [ "bio_armor_eyes", 2 ],
+      [ "bio_razors", 2 ],
+      [ "bio_power_storage", 1 ],
+      [ "bio_torsionratchet", 1 ]
+    ]
+  }
+]

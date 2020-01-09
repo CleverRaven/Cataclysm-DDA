@@ -1,0 +1,215 @@
+[
+  {
+    "type": "recipe",
+    "result": "atomic_coffeepot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 3000,
+    "reversible": true,
+    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "atomic_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "atomic_lamp",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 30000,
+    "reversible": true,
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "plut_cell", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "meat_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": 7000,
+    "autolearn": true,
+    "batch_time_factors": [ 70, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "meat", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "brain_cooked",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 5000,
+    "autolearn": true,
+    "batch_time_factors": [ 70, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "brain", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "brain_cooked",
+    "result": "lung_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "lung", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "brain_cooked",
+    "result": "kidney_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "kidney", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "brain_cooked",
+    "result": "sweetbread_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "sweetbread", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "brain_cooked",
+    "result": "liver_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "liver", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "foie_gras",
+    "category": "CC_FOOD",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "charges": 1,
+    "time": 20000,
+    "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "liver", 3 ] ], [ [ "salt", 1 ] ], [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "vinegar", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fried_tripe",
+    "category": "CC_FOOD",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "time": 10000,
+    "charges": 2,
+    "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
+    "difficulty": 3,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fried_brain",
+    "category": "CC_FOOD",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 25000,
+    "book_learn": [ [ "cookbook", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "brain", 2 ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "batter", 3, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "seasoning_mild", 4, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "deviled_kidney",
+    "category": "CC_FOOD",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 60000,
+    "charges": 1,
+    "book_learn": [ [ "cookbook", 2 ], [ "family_cookbook", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [
+      [ [ "kidney", 2 ] ],
+      [ [ "flour", 2 ] ],
+      [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
+      [ [ "soysauce", 1 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "mustard", 1 ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "grilled_sweetbread",
+    "category": "CC_FOOD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 10000,
+    "batch_time_factors": [ 70, 1 ],
+    "book_learn": [ [ "scots_cookbook", 2 ], [ "cookbook", 1 ], [ "textbook_survival", 3 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "sweetbread", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 2 ] ] ]
+  },
+  {
+    "result": "recharge_station",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 35 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
+  }
+]

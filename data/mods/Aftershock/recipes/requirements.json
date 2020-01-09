@@ -1,0 +1,33 @@
+[
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "tools": [
+      [
+        [ "hotplate", 1 ],
+        [ "multi_cooker", 1 ],
+        [ "char_smoker", 1 ],
+        [ "toolset", 1 ],
+        [ "afs_atompot", -1 ],
+        [ "fire", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
+    "tools": [
+      [
+        [ "hotplate", 1 ],
+        [ "multi_cooker", 1 ],
+        [ "char_smoker", 1 ],
+        [ "toolset", 1 ],
+        [ "coffeemaker", 1 ],
+        [ "atomic_coffeepot", -1 ],
+        [ "afs_atompot", -1 ],
+        [ "fire", -1 ]
+      ]
+    ]
+  }
+]

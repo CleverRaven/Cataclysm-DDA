@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "DP_Old_Floor",
+    "name": "[DP_MOD] Alternative Floor Tiles",
+    "authors": [ "SomeDeadGuy" ],
+    "description": "Brings previous wooden floor tiles back!",
+    "category": "graphical",
+    "obsolete": true,
+    "dependencies": [ "dda" ]
+  }
+]

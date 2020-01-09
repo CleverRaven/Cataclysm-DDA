@@ -2,22 +2,35 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
+#include <cstddef>
 #include <map>
 #include <set>
 #include <vector>
+#include <functional>
+#include <string>
+#include <utility>
 
 #include "requirements.h"
-#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
-class recipe_dictionary;
-class Skill;
 class item;
-using skill_id = string_id<Skill>;
+class JsonObject;
+class time_duration;
+
 using itype_id = std::string; // From itype.h
-using requirement_id = string_id<requirement_data>;
-class recipe;
-using recipe_id = string_id<recipe>;
 class Character;
+
+enum class recipe_filter_flags : int {
+    none = 0,
+    no_rotten = 1,
+};
+
+inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
+{
+    return static_cast<recipe_filter_flags>(
+               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+}
 
 class recipe
 {
@@ -42,7 +55,7 @@ class recipe
         std::string category;
         std::string subcategory;
 
-        std::string description;
+        translation description;
 
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
@@ -59,6 +72,13 @@ class recipe
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
+
+        // Slower equivalent of is_blacklisted that needs to be used before
+        // recipe finalization happens
+        bool will_be_blacklisted() const;
+
+        std::function<bool( const item & )> get_component_filter(
+            recipe_filter_flags = recipe_filter_flags::none ) const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;
@@ -79,12 +99,14 @@ class recipe
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
         std::string required_skills_string( const Character *, bool print_skill_level ) const;
         std::string required_skills_string( const Character * ) const;
+        std::string required_skills_string() const;
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -101,6 +123,8 @@ class recipe
         bool has_byproducts() const;
 
         int batch_time( int batch, float multiplier, size_t assistants ) const;
+        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
+                                      size_t assistants = 0 ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -108,11 +132,26 @@ class recipe
             return reversible;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
         std::string get_consistency_error() const;
+
+        bool is_blueprint() const;
+        const std::string &get_blueprint() const;
+        const translation &blueprint_name() const;
+        const std::vector<itype_id> &blueprint_resources() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
+        /** Retrieves a map of changed ter_id/furn_id to the number of tiles changed, then
+         *  converts that to requirement_ids and counts.  The requirements later need to be
+         *  consolidated and duplicate tools/qualities eliminated.
+         */
+        void add_bp_autocalc_requirements();
+
+        bool hot_result() const;
 
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
@@ -147,13 +186,20 @@ class recipe
         std::set<std::string> flags;
 
         /** If set (zero or positive) set charges of output result for items counted by charges */
-        int charges = -1;
+        cata::optional<int> charges;
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
         double batch_rscale = 0.0;
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
+        std::string blueprint;
+        translation bp_name;
+        std::vector<itype_id> bp_resources;
+        std::vector<std::pair<std::string, int>> bp_provides;
+        std::vector<std::pair<std::string, int>> bp_requires;
+        std::vector<std::pair<std::string, int>> bp_excludes;
+        bool bp_autocalc = false;
 };
 
 #endif // RECIPE_H

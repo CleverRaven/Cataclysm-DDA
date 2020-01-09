@@ -1,10 +1,12 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <iterator>
+#include <memory>
+#include <utility>
 
+#include "cata_algo.h"
 #include "cata_utility.h"
-#include "crafting.h"
-#include "generic_factory.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
@@ -12,6 +14,13 @@
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
+#include "debug.h"
+#include "json.h"
+#include "optional.h"
+#include "player.h"
+#include "requirements.h"
+#include "units.h"
+#include "string_id.h"
 
 recipe_dictionary recipe_dict;
 
@@ -30,7 +39,7 @@ void delete_if( std::map<recipe_id, recipe> &data,
     }
 }
 
-}
+} // namespace
 
 static recipe null_recipe;
 static std::set<const recipe *> null_match;
@@ -93,10 +102,24 @@ std::vector<const recipe *> recipe_subset::favorite() const
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r ) {
+        if( !*r || r->obsolete ) {
             return false;
         }
         return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::hidden() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r || r->obsolete ) {
+            return false;
+        }
+        return uistate.hidden_recipes.find( r->ident() ) != uistate.hidden_recipes.end();
     } );
 
     return res;
@@ -109,7 +132,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
          ++rec_id ) {
         std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
-            if( !*r || *rec_id != r->ident() ) {
+            if( !*r || *rec_id != r->ident() || r->obsolete ) {
                 return false;
             }
 
@@ -126,7 +149,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r ) {
+        if( !*r || r->obsolete ) {
             return false;
         }
         switch( key ) {
@@ -200,6 +223,9 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( r->obsolete ) {
+            return false;
+        }
         return item == r->result() ||
                ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
     } );
@@ -239,10 +265,16 @@ std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
-            res.insert( res.begin(), iter->second.begin(), iter->second.end() );
+            std::copy_if( iter->second.begin(), iter->second.end(),
+            std::back_inserter( res ), [&]( const recipe * e ) {
+                return !e->obsolete;
+            } );
         } else {
             std::copy_if( iter->second.begin(), iter->second.end(),
             std::back_inserter( res ), [&subcat]( const recipe * e ) {
+                if( e->obsolete ) {
+                    return false;
+                }
                 return e->subcategory == subcat;
             } );
         }
@@ -256,17 +288,17 @@ const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id 
     return iter != component.end() ? iter->second : null_match;
 }
 
-void recipe_dictionary::load_recipe( JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_recipe( const JsonObject &jo, const std::string &src )
 {
     load( jo, src, recipe_dict.recipes );
 }
 
-void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &src )
 {
     load( jo, src, recipe_dict.uncraft );
 }
 
-recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
+recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
                                  std::map<recipe_id, recipe> &out )
 {
     recipe r;
@@ -283,9 +315,7 @@ recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
-    out[ r.ident() ] = std::move( r );
-
-    return out[ r.ident() ];
+    return out[ r.ident() ] = std::move( r );
 }
 
 size_t recipe_dictionary::size() const
@@ -303,6 +333,11 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
     return recipes.end();
 }
 
+bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
+{
+    return items_on_loops.count( i );
+}
+
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
@@ -310,8 +345,12 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() || elem.obsolete ) {
+        if( elem.is_blacklisted() ) {
             return true;
+        }
+
+        if( elem.obsolete ) {
+            return false;
         }
 
         const std::string error = elem.get_consistency_error();
@@ -322,6 +361,49 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 
         return !error.empty();
     } );
+}
+
+void recipe_dictionary::find_items_on_loops()
+{
+    // Check for infinite recipe loops in food (which are problematic for
+    // nutrient calculations).
+    //
+    // Start by building a directed graph of itypes to potential components of
+    // those itypes.
+    items_on_loops.clear();
+    std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
+    for( const itype *i : item_controller->all() ) {
+        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+            continue;
+        }
+        std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
+        for( const recipe_id &rec : i->recipes ) {
+            const requirement_data requirements = rec->requirements();
+            const requirement_data::alter_item_comp_vector &component_requirements =
+                requirements.get_components();
+
+            for( const std::vector<item_comp> &component_options : component_requirements ) {
+                for( const item_comp &component_option : component_options ) {
+                    potential_components.push_back( component_option.type );
+                }
+            }
+        }
+    }
+
+    // Now check that graph for loops
+    std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
+    for( const std::vector<itype_id> &loop : loops ) {
+        std::string error_message =
+            "loop in comestible recipes detected: " + loop.back();
+        for( const itype_id &i : loop ) {
+            error_message += " -> " + i;
+            items_on_loops.insert( i );
+        }
+        error_message += ".  Such loops can be broken by either removing or altering "
+                         "recipes or marking one of the items involved with the NUTRIENT_OVERRIDE "
+                         "flag";
+        debugmsg( error_message );
+    }
 }
 
 void recipe_dictionary::finalize()
@@ -338,6 +420,10 @@ void recipe_dictionary::finalize()
 
     for( auto &e : recipe_dict.recipes ) {
         auto &r = e.second;
+
+        if( r.obsolete ) {
+            continue;
+        }
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
@@ -359,29 +445,37 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
-            int pages = e->volume / units::from_milliliter( 12.5 );
+            int pages = e->volume / 12.5_ml;
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
-            bk.time = pages * 10; // @todo: allow specifying time in requirement_data
+            // TODO: allow specifying time in requirement_data
+            bk.time = pages * 10;
         }
     }
 
-    // Cache auto-learn recipes
+    // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
         }
+        if( e.second.is_blueprint() ) {
+            recipe_dict.blueprints.insert( &e.second );
+        }
     }
+
+    recipe_dict.find_items_on_loops();
 }
 
 void recipe_dictionary::reset()
 {
+    recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
+    recipe_dict.items_on_loops.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )

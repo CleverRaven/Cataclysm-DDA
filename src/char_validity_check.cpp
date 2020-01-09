@@ -10,7 +10,7 @@
  * @param ch The char to check.
  * @return true if the char is allowed in a name, false if not.
  */
-bool is_char_allowed( long ch )
+bool is_char_allowed( int ch )
 {
     if( !std::isprint( ch ) && ch <= 127 ) {
         // above 127 are non-ASCII, therefore Unicode, therefore OK

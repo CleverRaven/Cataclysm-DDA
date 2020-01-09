@@ -6,6 +6,8 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
+#include "string_id.h"
+#include "type_id.h"
 
 namespace
 {
@@ -18,7 +20,7 @@ ammo_map_t &all_ammunition_types()
 }
 } //namespace
 
-void ammunition_type::load_ammunition_type( JsonObject &jsobj )
+void ammunition_type::load_ammunition_type( const JsonObject &jsobj )
 {
     ammunition_type &res = all_ammunition_types()[ ammotype( jsobj.get_string( "id" ) ) ];
     res.name_             = jsobj.get_string( "name" );
@@ -74,5 +76,5 @@ void ammunition_type::check_consistency()
 
 std::string ammunition_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }

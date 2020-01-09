@@ -7,7 +7,7 @@
 
 #include <ctime> // IWYU pragma: keep
 
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+#if defined(_WIN32) && !defined(__CYGWIN__)
 /* Windows platforms.  */
 
 /* Windows lacks the nanosleep() function. The following code was stuffed
@@ -16,14 +16,14 @@
 
 enum { BILLION = 1000 * 1000 * 1000 };
 
-#   ifdef __cplusplus
+#   if defined(__cplusplus)
 extern "C" {
 #   endif
 
 // Apparently this is defined by pthread.h, if that header had been included.
 // _INC_TIME is defined in time.h for MSVC
 // __struct_timespec_defined is defined in time.h for MinGW on Windows
-#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME) && ! __struct_timespec_defined
+#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME) && !__struct_timespec_defined
 #define _TIMESPEC_DEFINED
 struct timespec {
     time_t tv_sec;
@@ -31,7 +31,7 @@ struct timespec {
 };
 #endif
 
-#   ifdef __cplusplus
+#   if defined(__cplusplus)
 }
 #   endif
 

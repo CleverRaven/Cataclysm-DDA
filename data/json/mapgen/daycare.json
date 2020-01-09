@@ -1,59 +1,43 @@
 [
   {
-    "id": "daycare_misc",
-    "type": "item_group",
-    "items": [
-      [ "magnifying_glass", 2 ],
-      [ "sewing_kit", 1 ],
-      [ "scissors", 1 ],
-      [ "phonebook", 2 ],
-      [ "flashlight", 2 ],
-      [ "mag_comic", 5 ]
-    ]
-  },
-  {
-    "id": "daycare_kitchen",
-    "type": "item_group",
-    "items": [ [ "oj", 35 ], [ "cooked_pumpkin", 25 ], [ "bread", 10 ], [ "fruit_waffles", 5 ], [ "grahmcrackers", 5 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_daycare" ],
     "weight": 500,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "............rrrrrrrrrrrr",
-        "............yrrryrrryrrr",
-        "............yrrryrrryrrr",
-        "..8999999998yrrryrrryrrr",
-        "..8MMM.t..t8yrrryrrryrrr",
-        "..8MMM..LL.8yrrryrrryrrr",
-        "..8MMM..LL.8yyyyyyyyyyyy",
-        "..8..t..LL.4222222222222",
-        "..8........8..33222233..",
+        ".88999999998yrrryrrryrrr",
+        ".8.........8yrrryrrryrrr",
+        ".8.........8yrrryrrryrrr",
+        ".8.MMM.t..t8yrrryrrryrrr",
+        ".8.MMM..LL.8yrrryrrryrrr",
+        ".8.MMM..LL.8yyyyyyyyyyyy",
+        ".8...t..LL.4222222222222",
+        ".8.........8..33222233..",
         ".--+---11----1---gg-|...",
-        ".|            K7 oo |3..",
-        ".|---CCC      K7 oo |...",
-        ".1K         |----++-|3..",
-        ".1FFF  C    |I   oo |...",
-        ".|---CCC    |I   oo 13..",
-        ".1C  K C    |H  CCCC1...",
-        ".1F             C  F|3.3",
-        ".|---CCC          -----.",
-        ".1          |--+--|  J13",
-        ".|+--+--    |        C1.",
-        ".| B| A|    |HIIH |C C13",
+        ".|            I7X  X|3..",
+        ".|-66-66-66-  I7X  X|...",
+        ".1X****a****  B|-++-|3..",
+        ".1 *a#a*a#a*   g   I|...",
+        ".|B*a#a*a#a*   g   I13..",
+        ".1B*********  B|CCCC1...",
+        ".1B*a#a*a#a*     F X|3.3",
+        ".|B*a#a*a#a*      -----.",
+        ".1X*********|--+--|X J13",
+        ".|-+--+-   F|        C1.",
+        ".|& D|A|IIIB|HIIH |f C13",
         ".|-------11---111-----|.",
-        ".3.3.3.3.3.3.3.3.3.3.3.3",
+        ".303.3.3.3.3.3.3.3.3.3.3",
         "........................"
       ],
       "terrain": {
         " ": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall_h",
-        ".": "t_grass",
-        "1": "t_window",
+        "-": "t_wall_y",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        "1": "t_window_domestic",
         "2": "t_sidewalk",
         "3": "t_tree_young",
         "4": "t_chaingate_l",
@@ -62,39 +46,42 @@
         "7": "t_wall_glass_v",
         "8": "t_chainfence_v",
         "9": "t_chainfence_h",
-        "A": "t_floor",
-        "B": "t_floor",
-        "C": "t_floor",
-        "D": "t_floor",
         "E": "t_dirtfloor",
-        "F": "t_floor",
         "G": "t_dirtfloor",
-        "H": "t_floor",
-        "I": "t_floor",
-        "J": "t_floor",
-        "K": "t_floor",
         "L": "t_sandbox",
         "M": "t_monkey_bars",
+        "*": "t_carpet_red",
+        "a": "t_carpet_red",
+        "#": "t_carpet_red",
         "g": "t_door_glass_c",
-        "o": "t_floor",
         "r": "t_pavement",
         "t": "t_tree",
         "y": "t_pavement_y",
-        "|": "t_wall_v"
+        "0": "t_gutter_downspout",
+        "|": "t_wall_y"
       },
       "furniture": {
         "A": "f_rack",
         "C": "f_counter",
         "D": "f_sink",
-        "E": "f_sink",
+        "f": "f_fridge",
         "F": "f_chair",
         "G": "f_locker",
         "H": "f_table",
+        "#": "f_table",
+        "a": "f_stool",
         "I": "f_sofa",
         "J": "f_oven",
-        "K": "f_sofa"
+        "K": "f_sofa",
+        "B": "f_bookcase",
+        "X": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
-      "toilets": { "B": {  } },
+      "toilets": { "&": {  } },
+      "items": {
+        "B": { "item": "novels", "chance": 30 },
+        "#": { "item": "child_items", "chance": 30 },
+        "f": { "item": "fridgesnacks", "chance": 20, "repeat": [ 2, 4 ] }
+      },
       "place_items": [
         { "item": "daycare_misc", "x": [ 3, 7 ], "y": [ 12, 16 ], "chance": 35, "repeat": [ 1, 5 ] },
         { "item": "daycare_kitchen", "x": 21, "y": [ 20, 21 ], "chance": 80, "repeat": [ 1, 5 ] }
@@ -103,6 +90,59 @@
         { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 13, 20 ], "y": 19 },
         { "monster": "GROUP_SCHOOL", "x": [ 3, 7 ], "y": [ 12, 16 ] },
         { "monster": "GROUP_SCHOOL", "x": [ 3, 10 ], "y": [ 4, 8 ] }
+      ],
+      "place_vehicles": [
+        { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5, "status": 0 },
+        { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15, "status": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_daycare_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |2222222222222222223   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................222 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-5------------------3 ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_4x4_utility", 20 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 11, 17 ]
+        }
       ]
     }
   }

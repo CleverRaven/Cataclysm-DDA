@@ -1,3 +1,10 @@
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "itype.h"
@@ -9,7 +16,12 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
+#include "calendar.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "type_id.h"
+#include "point.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )
@@ -57,6 +69,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     p.setz( 0 );
     // move player randomly until we find a suitable position
     while( !suitable( p.pos(), 1 ) ) {
+        CHECK( !p.in_vehicle );
         p.setpos( random_entry( closest_tripoints_first( 1, p.pos() ) ) );
     }
 
@@ -409,9 +422,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         const int part = vp->part_index();
         REQUIRE( part >= 0 );
         // Empty the vehicle of any cargo.
-        while( !v->get_items( part ).empty() ) {
-            v->remove_item( part, 0 );
-        }
+        v->get_items( part ).clear();
         for( int i = 0; i != count; ++i ) {
             v->add_item( part, obj );
         }
@@ -475,4 +486,17 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             }
         }
     }
+}
+
+TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]" )
+{
+    inventory inv;
+    std::list<item> items = { item( "bone" ) };
+    inv += items;
+    CHECK( inv.charges_of( "bone" ) == 1 );
+    inv.remove_items_with( return_true<item> );
+    CHECK( inv.size() == 0 );
+    // The following used to be a heap use-after-free due to a caching bug.
+    // Now should be safe.
+    CHECK( inv.charges_of( "bone" ) == 0 );
 }

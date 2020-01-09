@@ -1,34 +1,34 @@
 [
-    {
-        "type": "uncraft",
-        "result": "654",
-        "skill_used": "gun",
-        "difficulty": 5,
-        "time": 500,
-        "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-        "tools": [ [ [ "puller", -1 ] ] ],
-        "components": [
-            [ [ "lead", 5 ] ],
-            [ [ "654_casing", 1 ] ],
-            [ [ "smrifle_primer", 1 ] ],
-            [ [ "gunpowder", 10 ] ],
-            [ [ "copper", 5 ] ]
-        ]
-    },
-    {
-        "type": "uncraft",
-        "result": "654t",
-        "skill_used": "gun",
-        "difficulty": 5,
-        "time": 500,
-        "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-        "tools": [ [ [ "puller", -1 ] ] ],
-        "components": [
-            [ [ "lead", 6 ] ],
-            [ [ "654_casing", 1 ] ],
-            [ [ "smrifle_primer", 1 ] ],
-            [ [ "gunpowder", 10 ] ],
-            [ [ "copper", 6 ] ]
-        ]
-    }
+  {
+    "type": "uncraft",
+    "result": "654",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 5 ] ],
+      [ [ "654_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 5 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "654t",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 6 ] ],
+      [ [ "654_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 6 ] ]
+    ]
+  }
 ]

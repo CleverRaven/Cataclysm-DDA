@@ -2,8 +2,11 @@
   {
     "type": "MOD_INFO",
     "ident": "DP_REMIX_INDICATORS",
-    "name": "(DP_RP) REMIX Indicators",
-    "authors": [ "OurMom" ],
-    "description": "Changes interface indicators to remix of Xotto, Chesthole and DeadPeople."
+    "name": "[DP_MOD] Indicators: REMIX",
+    "authors": [ "SomeDeadGuy" ],
+    "description": "Changes interface indicators to remix of Xotto, Chesthole and DeadPeople.",
+    "category": "graphical",
+    "obsolete": true,
+    "dependencies": [ "dda" ]
   }
 ]

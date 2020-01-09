@@ -1,41 +1,38 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "3storyA_third",
-        "weight": 0,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "##rrrrrrr=============##",
-                "##rrrrrrr=           =##",
-                "##rrrrrrr=         >>=##",
-                "##rrrrrrr=           =##",
-                "##rrrrrrr=           =##",
-                "##rrrrrrr=           =##",
-                "##rrrrrrr=           =##",
-                "##rrrrrrr=           =##",
-                "##rrrrrrr=           =##",
-                "##rrrrr88=============##",
-                "#######88rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house",
-               "upper_level"
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "3storyA_third",
+    "weight": 0,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "##rrrrrrr=============##",
+        "##rrrrrrr=           =##",
+        "##rrrrrrr=         >>=##",
+        "##rrrrrrr=           =##",
+        "##rrrrrrr=           =##",
+        "##rrrrrrr=           =##",
+        "##rrrrrrr=           =##",
+        "##rrrrrrr=           =##",
+        "##rrrrrrr=           =##",
+        "##rrrrr88=============##",
+        "#######88rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "multistory_house", "upper_level" ]
     }
+  }
 ]

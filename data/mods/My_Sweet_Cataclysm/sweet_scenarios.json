@@ -1,0 +1,13 @@
+[
+  {
+    "type": "scenario",
+    "ident": "sweet_cataclysm",
+    "name": "The Sweet Life",
+    "points": 0,
+    "description": "You open your eyes as if for the first time, looking at yourself you can see your skin gleam in the light.  One word come to your mind \"sugar\" you don't remember where you learned it, in fact you don't remember anything.  You don't know why but you feel hopeful, everything feels new and you're going to make the best of it!",
+    "allowed_locs": [ "s_candy" ],
+    "professions": [ "sugar_kin" ],
+    "start_name": "Candy Shop",
+    "flags": [ "CITY_START", "LONE_START" ]
+  }
+]

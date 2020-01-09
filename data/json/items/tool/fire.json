@@ -1,0 +1,21 @@
+[
+  {
+    "id": "flint_steel",
+    "type": "TOOL",
+    "name": "flint and steel",
+    "name_plural": "sets of flint and steel",
+    "description": "This is a magnesium bar and a carbon steel striker.  Use it to spark a flame.",
+    "weight": "400 g",
+    "volume": "250 ml",
+    "price": 300,
+    "to_hit": -1,
+    "material": [ "stone", "steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "initial_charges": 2000,
+    "max_charges": 2000,
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
+  }
+]

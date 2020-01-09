@@ -5,9 +5,20 @@
     "other_handles": [ "t_gates_control_concrete", "t_gates_control_brick" ],
     "door": "t_door_metal_locked",
     "floor": "t_floor",
-    "walls": [ "t_wall", "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p", "t_concrete_wall", "t_brick_wall" ],
+    "walls": [
+      "t_wall",
+      "t_wall_r",
+      "t_wall_w",
+      "t_wall_b",
+      "t_wall_g",
+      "t_wall_y",
+      "t_wall_p",
+      "t_concrete_wall",
+      "t_brick_wall",
+      "t_strconc_wall"
+    ],
     "messages": {
-      "pull": "You turn the handle...",
+      "pull": "You turn the handle…",
       "open": "The gate is opened!",
       "close": "The gate is closed!",
       "fail": "The gate can't be closed!"
@@ -21,9 +32,20 @@
     "other_handles": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
     "door": "t_door_metal_locked",
     "floor": "t_thconc_floor",
-    "walls": [ "t_wall", "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p", "t_concrete_wall", "t_brick_wall" ],
+    "walls": [
+      "t_wall",
+      "t_wall_r",
+      "t_wall_w",
+      "t_wall_b",
+      "t_wall_g",
+      "t_wall_y",
+      "t_wall_p",
+      "t_concrete_wall",
+      "t_brick_wall",
+      "t_strconc_wall"
+    ],
     "messages": {
-      "pull": "You turn the handle...",
+      "pull": "You turn the handle…",
       "open": "The gate is opened!",
       "close": "The gate is closed!",
       "fail": "The gate can't be closed!"
@@ -38,7 +60,7 @@
     "floor": "t_dirtfloor",
     "walls": "t_wall_wood",
     "messages": {
-      "pull": "You pull the rope...",
+      "pull": "You pull the rope…",
       "open": "The barn doors opened!",
       "close": "The barn doors closed!",
       "fail": "The barn doors can't be closed!"
@@ -53,7 +75,7 @@
     "floor": "t_palisade_gate_o",
     "walls": "t_palisade",
     "messages": {
-      "pull": "You pull the rope...",
+      "pull": "You pull the rope…",
       "open": "The palisade gate swings open!",
       "close": "The palisade gate swings closed with a crash!",
       "fail": "The palisade gate can't be closed!"
@@ -68,7 +90,7 @@
     "floor": "t_metal_floor",
     "walls": "t_wall_metal",
     "messages": {
-      "pull": "You throw the lever...",
+      "pull": "You throw the lever…",
       "open": "The door rises!",
       "close": "The door slams shut!",
       "fail": "The door can't be closed!"

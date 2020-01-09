@@ -1,13 +1,17 @@
-#include "catch/catch.hpp"
+#if !defined(_MSC_VER)
+// the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
 
-std::string rewrite_vsnprintf( const char *msg );
+#include <string>
+
+#include "catch/catch.hpp"
+#include "output.h"
 
 TEST_CASE( "Test vsnprintf_rewrite" )
 {
     CHECK( rewrite_vsnprintf( "%%hello%%" ) == "%%hello%%" );
     CHECK( rewrite_vsnprintf( "hello" ) == "hello" );
     CHECK( rewrite_vsnprintf( "%%" ) == "%%" );
-    CHECK( rewrite_vsnprintf( "" ) == "" );
+    CHECK( rewrite_vsnprintf( "" ).empty() );
     CHECK( rewrite_vsnprintf( "%s" ) == "%s" );
     CHECK( rewrite_vsnprintf( "%1s" ) == "%1s" );
     CHECK( rewrite_vsnprintf( "%27s" ) == "%27s" );
@@ -33,3 +37,5 @@ TEST_CASE( "Test vsnprintf_rewrite" )
            "<color_%s>powered welder</color> (and <color_%s>welding goggles</color>) or "
            "<color_%s>duct tape</color>, and level <color_%s>%d</color> skill in mechanics.%s%s" );
 }
+
+#endif

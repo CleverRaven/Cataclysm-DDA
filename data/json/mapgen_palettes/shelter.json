@@ -3,27 +3,31 @@
     "type": "palette",
     "id": "shelter",
     "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "#": "t_rock",
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_floor",
-        "_": "t_rock_floor",
-        "6": "t_console",
-        ":": "t_window_domestic",
-        ">": "t_stairs_down",
-        "<": "t_stairs_up",
-        "b": "t_floor",
-        "c": "t_floor",
-        "l": "t_floor",
-        "x": "t_console_broken",
-        "|": "t_wall",
-        ";": "t_concrete_wall"
+      " ": "t_region_groundcover_urban",
+      "!": "t_pavement",
+      "`": "t_pavement_y",
+      "&": "t_sidewalk",
+      "#": "t_rock",
+      "+": "t_door_c",
+      "-": "t_wall_w",
+      "_": "t_linoleum_white",
+      "6": "t_console",
+      ":": "t_window_domestic",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "x": "t_console_broken",
+      "|": "t_wall_w",
+      ";": "t_concrete_wall",
+      "*": "t_ladder_up",
+      "=": "t_door_locked_interior",
+      "4": "t_gutter_downspout"
     },
-    "furniture": {
-        "b": "f_bench",
-        "c": "f_counter",
-        "l": "f_locker"
+    "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+    "toilets": { "T": {  } },
+    "items": {
+      "l": { "item": "SUS_evac_shelter_locker", "chance": 80 },
+      "c": { "item": "SUS_evac_shelter_cabinet", "chance": 60 },
+      "S": { "item": "SUS_evac_shelter_sink", "chance": 70 }
     }
   }
 ]

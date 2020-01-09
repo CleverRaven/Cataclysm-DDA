@@ -1,0 +1,74 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp1",
+    "name": "mi-go encampment",
+    "sym": "<",
+    "color": "dark_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2",
+    "name": "mi-go encampment",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-1",
+    "name": "mi-go spire",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-2",
+    "name": "mi-go landing platform",
+    "sym": "_",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_1",
+    "name": "mi-go scout tower",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_2",
+    "name": "mi-go scout tower",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_3",
+    "name": "mi-go scout tower",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_4",
+    "name": "mi-go scout tower",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  }
+]

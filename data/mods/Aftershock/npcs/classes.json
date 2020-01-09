@@ -1,0 +1,45 @@
+[
+  {
+    "type": "npc",
+    "id": "prepnet_gardener",
+    "name_suffix": "Gardener",
+    "class": "afs_prepnet_gardener",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_PrepNet_gardener_1",
+    "mission_offered": "MISSION_PrepNet_gardener_FUR_1",
+    "faction": "Prepnet_Phyle"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_prepnet_gardener",
+    "name": "Gardener",
+    "job_description": "When the end came, we were ready.  Now I grow food for my phyle.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "common": false,
+    "worn_override": "afs_gardener_worn",
+    "carry_override": "afs_gardener_carried",
+    "weapon_override": "afs_gardener_wield",
+    "shopkeeper_item_group": "afs_gardener_misc",
+    "bionics": [
+      { "id": "bio_carbon", "chance": 100 },
+      { "id": "bio_claws", "chance": 100 },
+      { "id": "bio_dex_enhancer", "chance": 100 },
+      { "id": "bio_laser", "chance": 100 },
+      { "id": "bio_membrane", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 100 },
+      { "id": "bio_purifier", "chance": 100 },
+      { "id": "bio_radscrubber", "chance": 100 },
+      { "id": "bio_sunglasses", "chance": 100 },
+      { "id": "bio_tools", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  }
+]

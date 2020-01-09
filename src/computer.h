@@ -8,12 +8,11 @@
 #include "calendar.h"
 #include "cursesdef.h"
 
-class game;
 class player;
 class JsonObject;
 
 // Don't change those! They must stay in this specific order!
-// @todo: Remove this enum
+// TODO: Remove this enum
 enum computer_action {
     COMPACT_NULL = 0,
     COMPACT_OPEN,
@@ -30,7 +29,7 @@ enum computer_action {
     COMPACT_MAPS,
     COMPACT_MAP_SEWER,
     COMPACT_MAP_SUBWAY,
-    COMPACT_MISS_LAUNCH,
+    COMPACT_OBSOLETE, // No longer used
     COMPACT_MISS_DISARM,
     COMPACT_LIST_BIONICS,
     COMPACT_ELEVATOR_ON,
@@ -42,7 +41,6 @@ enum computer_action {
     COMPACT_BLOOD_ANAL,
     COMPACT_DATA_ANAL,
     COMPACT_DISCONNECT,
-    COMPACT_BONESETTING,
     COMPACT_EMERG_MESS,
     COMPACT_EMERG_REF_CENTER,   //Points to the refugee center
     COMPACT_TOWER_UNRESPONSIVE,
@@ -59,11 +57,17 @@ enum computer_action {
     COMPACT_OPEN_DISARM,
     COMPACT_UNLOCK_DISARM,
     COMPACT_RELEASE_DISARM,
+    COMPACT_IRRADIATOR,
+    COMPACT_GEIGER,
+    COMPACT_CONVEYOR,
+    COMPACT_SHUTTERS,
+    COMPACT_EXTRACT_RAD_SOURCE,
+    COMPACT_DEACTIVATE_SHOCK_VENT,
+    COMPACT_RADIO_ARCHIVE,
     NUM_COMPUTER_ACTIONS
 };
-
 // Don't change those! They must stay in this specific order!
-// @todo: Remove this enum
+// TODO: Remove this enum
 enum computer_failure_type {
     COMPFAIL_NULL = 0,
     COMPFAIL_SHUTDOWN,
@@ -79,19 +83,15 @@ enum computer_failure_type {
     NUM_COMPUTER_FAILURES
 };
 
-// @todo: Turn the enum into id, get rid of this
-computer_action computer_action_from_string( const std::string &str );
-computer_failure_type computer_failure_type_from_string( const std::string &str );
-
 struct computer_option {
     std::string name;
     computer_action action;
     int security;
 
     computer_option();
-    computer_option( std::string N, computer_action A, int S );
+    computer_option( const std::string &N, computer_action A, int S );
 
-    static computer_option from_json( JsonObject &jo );
+    static computer_option from_json( const JsonObject &jo );
 };
 
 struct computer_failure {
@@ -100,7 +100,7 @@ struct computer_failure {
     computer_failure( computer_failure_type t ) : type( t ) {
     }
 
-    static computer_failure from_json( JsonObject &jo );
+    static computer_failure from_json( const JsonObject &jo );
 };
 
 class computer
@@ -117,6 +117,7 @@ class computer
         void add_option( const std::string &opt_name, computer_action action, int security );
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
+        void set_access_denied_msg( const std::string &new_msg );
         // Basic usage
         /** Shutdown (free w_terminal, etc.) */
         void shutdown_terminal();
@@ -141,6 +142,10 @@ class computer
         std::vector<computer_option> options;
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
+        // Message displayed when the computer is secured and initial login fails.
+        // Can be customized to for example warn the player of potentially lethal
+        // consequences like secubots spawning.
+        std::string access_denied;
         // Output window
         catacurses::window w_terminal;
         // Pretty border
@@ -166,7 +171,7 @@ class computer
         // Prints a line to the terminal (with printf flags)
         template<typename ...Args>
         void print_line( const char *text, Args &&... args );
-        // For now, the same as print_line but in red (TODO: change this?)
+        // For now, the same as print_line but in red ( TODO: change this?)
         template<typename ...Args>
         void print_error( const char *text, Args &&... args );
         // Wraps and prints a block of text with a 1-space indent

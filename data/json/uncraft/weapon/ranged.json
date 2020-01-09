@@ -1,0 +1,14 @@
+[
+  {
+    "type": "uncraft",
+    "result": "compositebow",
+    "time": "30 s",
+    "components": [ [ [ "splinter", 2 ] ], [ [ "string_36", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "compositecrossbow",
+    "time": "30 s",
+    "components": [ [ [ "splinter", 7 ] ], [ [ "string_36", 1 ] ] ]
+  }
+]

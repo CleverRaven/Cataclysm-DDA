@@ -1,0 +1,18 @@
+[
+  {
+    "id": "pressurized_tank_chem",
+    "type": "MAGAZINE",
+    "name": "pressurized chemical tank",
+    "description": "A makeshift pressurized 2L canister designed to feed a makeshift chemical thrower.",
+    "weight": "800 g",
+    "volume": "2 L",
+    "price": 5000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "chemical_spray",
+    "capacity": 800,
+    "reliability": 9,
+    "reload_time": 3
+  }
+]

@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F95AB660-996E-46F9-B704-DAFA4489DEA7}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		AStyleExtension-Cataclysm-DDA.cfg = AStyleExtension-Cataclysm-DDA.cfg
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg", "Cataclysm-vcpkg.vcxproj", "{2586F32C-9F3B-4410-88D1-4543C38511D7}"
@@ -13,17 +14,17 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Release|x64 = Release|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x64.ActiveCfg = Debug|x64
 		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x64.Build.0 = Debug|x64
-		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x64.ActiveCfg = Release|x64
-		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x64.Build.0 = Release|x64
 		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x86.ActiveCfg = Debug|Win32
 		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Debug|x86.Build.0 = Debug|Win32
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x64.ActiveCfg = Release|x64
+		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x64.Build.0 = Release|x64
 		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x86.ActiveCfg = Release|Win32
 		{2586F32C-9F3B-4410-88D1-4543C38511D7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection

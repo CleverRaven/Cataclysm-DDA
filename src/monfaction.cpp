@@ -1,10 +1,16 @@
 #include "monfaction.h"
 
+#include <cstddef>
 #include <queue>
 #include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
 
 #include "debug.h"
 #include "json.h"
+#include "string_id.h"
 
 std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
 std::vector< monfaction > faction_list;
@@ -85,7 +91,7 @@ mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &id )
     return found->second;
 }
 
-void apply_base_faction( mfaction_id base, mfaction_id faction_id )
+static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
 {
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
@@ -191,20 +197,15 @@ void monfactions::finalize()
             the_faction.base_faction = root;
         }
 
-        debugmsg( "Cycle encountered when processing monster factions. Bad factions:\n %s", names.c_str() );
+        debugmsg( "Cycle encountered when processing monster factions.  Bad factions:\n %s",
+                  names.c_str() );
     }
 
     faction_list.shrink_to_fit(); // Save a couple of bytes
 }
 
-// Non-const monfaction reference
-monfaction &get_faction( const mfaction_str_id &id )
-{
-    return faction_list[id.id()];
-}
-
 // Ensures all those factions exist
-void prealloc( const std::set< std::string > &facs )
+static void prealloc( const std::set< std::string > &facs )
 {
     for( const auto &f : facs ) {
         monfactions::get_or_add_faction( mfaction_str_id( f ) );
@@ -221,7 +222,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
     }
 }
 
-void monfactions::load_monster_faction( JsonObject &jo )
+void monfactions::load_monster_faction( const JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
     std::set< std::string > by_mood = jo.get_tags( "by_mood" );

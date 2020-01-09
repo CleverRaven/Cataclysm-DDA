@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "fast_healing",
+    "name": "EZ-Mode Medical",
+    "authors": [ "anothersimulacrum" ],
+    "maintainers": [  ],
+    "description": "Increases broken limb mending speed and the effectiveness of healing items.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]

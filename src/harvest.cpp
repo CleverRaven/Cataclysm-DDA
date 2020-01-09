@@ -2,16 +2,17 @@
 
 #include <algorithm>
 #include <cmath>
-#include <sstream>
 #include <string>
+#include <iterator>
 
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
 #include "item_group.h"
 #include "output.h"
+#include "json.h"
 
-// @todo: Make a generic factory
+// TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
 /** @relates string_id */
@@ -51,7 +52,7 @@ bool harvest_list::is_null() const
     return id_ == harvest_id::NULL_ID();
 }
 
-harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
+harvest_entry harvest_entry::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -62,11 +63,13 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     assign( jo, "max", ret.max, strict, 1 );
     assign( jo, "type", ret.type, strict );
     assign( jo, "mass_ratio", ret.mass_ratio, strict, 0.00f );
+    assign( jo, "flags", ret.flags );
+    assign( jo, "faults", ret.faults );
 
     return ret;
 }
 
-const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
+const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &src,
                                       const std::string &force_id )
 {
     harvest_list ret;
@@ -82,9 +85,7 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
         ret.message_ = jo.get_string( "message" );
     }
 
-    JsonArray jo_entries = jo.get_array( "entries" );
-    while( jo_entries.has_more() ) {
-        JsonObject current_entry = jo_entries.next_object();
+    for( const JsonObject &current_entry : jo.get_array( "entries" ) ) {
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
     }
 
@@ -151,7 +152,7 @@ void harvest_list::check_consistency()
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
                                    error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
 
     }
@@ -193,28 +194,28 @@ std::string harvest_list::describe( int at_skill ) const
         } else {
             max_f = en.max;
         }
-        // @todo: Avoid repetition here by making a common harvest drop function
+        // TODO: Avoid repetition here by making a common harvest drop function
         int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
         int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
         if( max_drops <= 0 ) {
             return std::string();
         }
 
-        std::stringstream ss;
-        ss << "<bold>" << item::nname( en.drop, max_drops ) << "</bold>";
+        std::string ss;
+        ss += "<bold>" + item::nname( en.drop, max_drops ) + "</bold>";
         // If the number is unspecified, just list the type
         if( max_drops >= 1000 && min_drops <= 0 ) {
-            return ss.str();
+            return ss;
         }
-        ss << ": ";
+        ss += ": ";
         if( min_drops == max_drops ) {
-            ss << "<stat>" << min_drops << "</stat>";
+            ss += string_format( "<stat>%d</stat>", min_drops );
         } else if( max_drops < 1000 ) {
-            ss << "<stat>" << min_drops << "-" << max_drops << "</stat>";
+            ss += string_format( "<stat>%d-%d</stat>", min_drops, max_drops );
         } else {
-            ss << "<stat>" << min_drops << "+" << "</stat>";
+            ss += string_format( "<stat>%d+</stat>", min_drops );
         }
 
-        return ss.str();
+        return ss;
     } );
 }

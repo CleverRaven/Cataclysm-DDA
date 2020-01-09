@@ -1,0 +1,32 @@
+[
+  {
+    "type": "palette",
+    "id": "mi-go_palette",
+    "//": "Please don't assign numbers in this palette: due to the weird shape of rooms, numbers are used to identify nested map IDs.",
+    "terrain": {
+      " ": "t_floor_resin",
+      ",": "t_platform_resin",
+      "|": "t_wall_resin",
+      "#": "t_wall_resin_cage",
+      "+": "t_resin_hole_c",
+      "<": "t_slope_up",
+      ">": "t_slope_down",
+      "p": "t_platform_resin",
+      "v": "t_open_air",
+      "_": "t_resin_roof",
+      ".": [ [ "t_grass", 15 ], [ "t_dirt", 3 ], "t_grass_long" ],
+      "@": "t_null"
+    },
+    "furniture": {
+      "i": "f_alien_tendril",
+      "n": "f_alien_table",
+      "V": "f_alien_anemone",
+      "{": "f_alien_gasper",
+      "F": "f_alien_zapper",
+      "T": [ "f_alien_zapper", [ "f_alien_gasper", 2 ], [ "f_alien_tendril", 4 ], [ "f_alien_anemone", 2 ] ],
+      "P": [ [ "f_alien_pod", 2 ], [ "f_alien_pod_organ", 2 ], "f_alien_pod_resin" ],
+      "p": [ [ "f_alien_pod", 2 ], [ "f_alien_pod_organ", 2 ], "f_alien_pod_resin" ],
+      "O": "f_alien_pod_resin"
+    }
+  }
+]

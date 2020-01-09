@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "DP_No_Status_Tiles",
+    "name": "[DP_MOD] Hide STATUS",
+    "authors": [ "SomeDeadGuy" ],
+    "description": "Hides STATUS graphics above character head.",
+    "category": "graphical",
+    "obsolete": true,
+    "dependencies": [ "dda" ]
+  }
+]

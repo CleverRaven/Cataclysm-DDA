@@ -1,20 +1,8 @@
 [
   {
-    "id": "tinder",
-    "name": "tinder",
-    "default": "tinder",
-    "type": "ammunition_type"
-  },
-  {
     "id": "javelin",
     "name": "javelin",
     "default": "javelin",
-    "type": "ammunition_type"
-  },
-  {
-    "id": "esbit",
-    "name": "hexamine",
-    "default": "chem_hexamine",
     "type": "ammunition_type"
   }
 ]

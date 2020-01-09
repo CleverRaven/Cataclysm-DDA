@@ -1,63 +1,25 @@
 [
   {
-    "result": "battery_atomic",
-    "type": "recipe",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
-    "time": 60000,
-    "decomp_learn": 4,
-    "book_learn": [ [ "recipe_atomic_battery", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "scrap", 6 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "plut_cell", 1 ] ]
-    ]
-  },
-  {
-    "result": "battery_compartment",
-    "type": "recipe",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ "electronics", 3 ],
-    "time": 15000,
-    "reversible": true,
-    "decomp_learn": 2,
-    "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "advanced_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 5 ] ]
-    ]
-  },
-  {
     "result": "battery_ups",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": 15000,
+    "time": "15 m",
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 3 ], [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_lab_elec", 3 ], [ "textbook_anarch", 3 ] ],
+    "book_learn": [
+      [ "manual_electronics", 3 ],
+      [ "textbook_electronics", 3 ],
+      [ "advanced_electronics", 3 ],
+      [ "recipe_lab_elec", 3 ],
+      [ "textbook_anarch", 3 ]
+    ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "power_supply", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "result": "double_plutonium_core",
@@ -67,16 +29,12 @@
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "fabrication", 7 ],
-    "time": 60000,
+    "time": "60 m",
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_atomic_battery", 7 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "scrap", 9 ] ],
-      [ [ "cable", 6 ] ],
-      [ [ "alloy_plate", 1 ] ]
-    ]
+    "components": [ [ [ "scrap", 9 ] ], [ [ "cable", 6 ] ], [ [ "alloy_plate", 1 ] ] ]
   },
   {
     "result": "magazine_battery_mod",
@@ -85,20 +43,128 @@
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": 15000,
+    "time": "15 m",
     "reversible": true,
     "decomp_learn": 2,
-    "autolearn": [
-      [ "electronics", 4 ],
-      [ "mechanics", 2 ]
-    ],
+    "autolearn": [ [ "electronics", 4 ], [ "mechanics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 3 ], [ "advanced_electronics", 3 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "power_supply", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "result": "magazine_battery_light_mod",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 3 ],
+    "time": "15 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "advanced_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "result": "magazine_battery_medium_mod",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 3 ],
+    "time": "25 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "advanced_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 8 ] ] ]
+  },
+  {
+    "result": "magazine_battery_heavy_mod",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 3 ],
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "advanced_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "medium_battery_cell",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "light_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_battery_cell",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "medium_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "medium_plus_battery_cell",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "light_plus_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_plus_battery_cell",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "medium_plus_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
   }
 ]

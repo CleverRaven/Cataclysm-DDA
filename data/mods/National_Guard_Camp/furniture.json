@@ -3,6 +3,7 @@
     "id": "f_tank_trap",
     "type": "furniture",
     "name": "tank trap",
+    "description": "",
     "symbol": "#",
     "bgcolor": [ "red" ],
     "move_cost_mod": -1,

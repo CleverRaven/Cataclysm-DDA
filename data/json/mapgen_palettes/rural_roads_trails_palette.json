@@ -1,0 +1,73 @@
+[
+  {
+    "type": "palette",
+    "id": "rural_road",
+    "terrain": {
+      "#": [ [ "t_dirtmound", 98 ], [ "t_dirt", 2 ] ],
+      " ": [ [ "t_dirt", 280 ], [ "t_grass_long", 100 ], [ "t_underbrush", 2 ], [ "t_grass", 280 ], [ "t_dirtmound", 2 ] ],
+      "i": [ [ "t_dirt", 20 ], [ "t_grass_long", 5 ], [ "t_grass", 5 ] ],
+      "/": [ [ "t_dirt", 10 ], [ "t_railroad_rubble", 250 ], [ "t_grass", 10 ] ],
+      "V": "t_splitrail_fence",
+      "3": "t_splitrail_fencegate_c",
+      "9": [
+        "t_tree_blackjack",
+        "t_tree_walnut",
+        "t_tree_chestnut",
+        "t_tree_beech",
+        "t_tree_hazelnut",
+        "t_tree_cottonwood",
+        "t_tree",
+        "t_tree_elm",
+        "t_tree_dead",
+        "t_tree_apple",
+        "t_tree_pear",
+        "t_tree_cherry",
+        "t_tree_peach",
+        "t_tree_apricot",
+        "t_tree_plum",
+        "t_tree_mulberry",
+        "t_tree_elderberry",
+        "t_tree_pine",
+        "t_tree_birch",
+        "t_tree_willow",
+        "t_tree_maple",
+        "t_tree_hickory",
+        "t_tree_almond",
+        "t_tree_pecan"
+      ],
+      "8": [
+        "t_underbrush",
+        "t_shrub",
+        "t_shrub_peanut",
+        "t_shrub_blueberry",
+        "t_shrub_strawberry",
+        "t_shrub_blackberry",
+        "t_shrub_huckleberry",
+        "t_shrub_raspberry",
+        "t_shrub_grape",
+        "t_shrub_rose",
+        "t_shrub_hydrangea",
+        "t_shrub_lilac",
+        "t_trunk",
+        "t_stump"
+      ]
+    },
+    "furniture": {
+      "@": "f_hay",
+      "p": [
+        "f_datura",
+        "f_bluebell",
+        "f_mutpoppy",
+        "f_dahlia",
+        "f_flower_tulip",
+        "f_chamomile",
+        "f_flower_spurge",
+        "f_lily",
+        "f_chicory",
+        "f_dandelion",
+        "f_black_eyed_susan",
+        "f_sunflower"
+      ]
+    }
+  }
+]

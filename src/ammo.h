@@ -3,6 +3,7 @@
 #define AMMO_H
 
 #include <string>
+#include <utility>
 
 class JsonObject;
 
@@ -25,7 +26,7 @@ class ammunition_type
         std::string name_;
         itype_id default_ammotype_;
 
-        static void load_ammunition_type( JsonObject &jsobj );
+        static void load_ammunition_type( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
 };

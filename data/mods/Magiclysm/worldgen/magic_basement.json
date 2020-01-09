@@ -1,0 +1,72 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "magic_basement" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_carpet_green",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         |-------------|",
+        "         |WCC|.bbbbbbbb|",
+        "         |CCC+.........|",
+        "         |---|........@|",
+        "         |XcD|b.......@|",
+        "         |...+b..bb...@|",
+        "         |MMM|------+--|",
+        "         ----|bbb......|",
+        "         |..S|.....@..I|",
+        "         |...+.....@..I|",
+        "         |~~.|........-|",
+        "         |~~&|bbbb....<|",
+        "         ---------------",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_loot": [
+        { "item": "television", "x": 22, "y": 15, "chance": 100 },
+        { "item": "corpse", "x": 10, "y": 11, "chance": 100 },
+        { "item": "translocate_spellbook", "x": 10, "y": 11, "chance": 100 },
+        { "item": "robe", "x": 10, "y": 11, "chance": 100 }
+      ],
+      "terrain": { "C": "t_rock_floor", " ": "t_rock", "+": "t_door_c", "-": "t_wall", "|": "t_wall", "<": "t_stairs_up" },
+      "furniture": {
+        "@": "f_sofa",
+        "I": "f_desk",
+        "D": "f_desk",
+        "S": "f_sink",
+        "~": "f_bathtub",
+        "m": "f_bigmirror",
+        "b": "f_bookcase",
+        "M": "f_bookcase",
+        "X": "f_magiclysm_translocator_gate",
+        "W": "f_water_heater"
+      },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "toilets": { "&": {  } },
+      "items": {
+        "S": { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
+        "b": { "item": "novels", "chance": 20, "repeat": [ 2, 3 ] },
+        "M": [ { "item": "magic_shop_books", "chance": 40 }, { "item": "magic_shop_potions", "chance": 60 } ],
+        "C": [
+          { "item": "basement_utility_closet", "chance": 55, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] }
+        ],
+        "D": [
+          { "item": "magic_shop_potions", "chance": 35, "repeat": [ 3, 4 ] },
+          { "item": "magic_CBM", "chance": 30, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 0 } }
+    }
+  }
+]

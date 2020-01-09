@@ -19,11 +19,7 @@ cache:
   - 'c:\tools\vcpkg\installed'
 install:
     # Install dependency packages
-    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
-    # Add LUA binary folder to PATH
-    - cmd: set PATH=c:\tools\vcpkg\installed\%PLATFORM%-windows-static\tools\lua;%PATH%
-    # Report LUA binary version
-    - cmd: lua.exe -v
+    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext
 build:
   parallel: true
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln

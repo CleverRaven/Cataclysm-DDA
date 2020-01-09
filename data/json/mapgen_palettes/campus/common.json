@@ -1,0 +1,17 @@
+[
+  {
+    "type": "palette",
+    "id": "campus_common",
+    "terrain": {
+      ",": "t_floor",
+      "|": "t_brick_wall",
+      "R": "t_flat_roof",
+      ".": "t_grass",
+      "_": "t_sidewalk",
+      "'": "t_pavement",
+      "b": "t_rock_wall_half",
+      "`": "t_pavement_y"
+    },
+    "furniture": {  }
+  }
+]

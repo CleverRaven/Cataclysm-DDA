@@ -2,11 +2,15 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include <map>
+#include <ostream>
 #include <string>
+#include <vector>
+#include <type_traits>
 
 #include "optional.h"
 
-#ifndef translate_marker
+#if !defined(translate_marker)
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
  * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
@@ -14,7 +18,7 @@
  */
 #define translate_marker(x) x
 #endif
-#ifndef translate_marker_context
+#if !defined(translate_marker_context)
 /**
  * Same as @ref translate_marker, but also provides a context (string literal). This is similar
  * to @ref pgettext, but it does not translate at run time. Like @ref translate_marker it just
@@ -23,14 +27,14 @@
 #define translate_marker_context(c, x) x
 #endif
 
-#ifdef LOCALIZE
+#if defined(LOCALIZE)
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined _WIN32 || defined __CYGWIN__) && !defined _MSC_VER
-#ifndef LIBINTL_STATIC
-#define LIBINTL_STATIC
-#endif
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
+#   if !defined(LIBINTL_STATIC)
+#       define LIBINTL_STATIC
+#   endif
 #endif
 
 // IWYU pragma: begin_exports
@@ -46,19 +50,31 @@
 const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 inline const char *_( const char *msg )
 {
-    return ( msg[0] == '\0' ) ? msg : gettext( msg );
+    return msg[0] == '\0' ? msg : gettext( msg );
 }
-const char *_( const std::string &msg );
-inline const char *_( const std::string &msg )
+inline std::string _( const std::string &msg )
 {
     return _( msg.c_str() );
+}
+
+// ngettext overload taking an unsigned long long so that people don't need
+// to cast at call sites.  This is particularly relevant on 64-bit Windows where
+// size_t is bigger than unsigned long, so MSVC will try to encourage you to
+// add a cast.
+template<typename T, typename = std::enable_if_t<std::is_same<T, unsigned long long>::value>>
+ATTRIBUTE_FORMAT_ARG( 1 )
+inline const char *ngettext( const char *msgid, const char *msgid_plural, T n )
+{
+    // Leaving this long because it matches the underlying API.
+    // NOLINTNEXTLINE(cata-no-long)
+    return ngettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
 }
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 // same as pgettext, but supports plural forms like ngettext
 const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
-                       unsigned long int n ) ATTRIBUTE_FORMAT_ARG( 2 );
+                       unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
 
@@ -73,6 +89,21 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+
+using GenderMap = std::map<std::string, std::vector<std::string>>;
+/**
+ * Translation with a gendered context
+ *
+ * Similar to pgettext, but the context is a collection of genders.
+ * @param genders A map where each key is a subject name (a string which should
+ * make sense to the translator in the context of the line to be translated)
+ * and the corresponding value is a list of potential genders for that subject.
+ * The first gender from the list of genders for the current language will be
+ * chosen for each subject (or the language default if there are no genders in
+ * common).
+ */
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
+
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
@@ -86,35 +117,67 @@ class JsonIn;
 class translation
 {
     public:
+        struct plural_tag {};
+
         translation();
         /**
-         * Create a deferred translation with context
+         * Same as `translation()`, but with plural form enabled.
          **/
-        translation( const std::string &ctxt, const std::string &raw );
+        translation( plural_tag );
 
         /**
-         * Create a deferred translation without context
+         * Store a string, an optional plural form, and an optional context for translation
          **/
-        translation( const std::string &raw );
-
+        static translation to_translation( const std::string &raw );
+        static translation to_translation( const std::string &ctxt, const std::string &raw );
+        static translation pl_translation( const std::string &raw, const std::string &raw_pl );
+        static translation pl_translation( const std::string &ctxt, const std::string &raw,
+                                           const std::string &raw_pl );
         /**
          * Store a string that needs no translation.
          **/
         static translation no_translation( const std::string &str );
 
         /**
+         * Can be used to ensure a translation object has plural form enabled
+         * before loading into it from JSON. If plural form has not been enabled
+         * yet, the plural string will be set to the original singular string.
+         * `ngettext` will ignore the new plural string and correctly retrieve
+         * the original translation.
+         *     Note that a `make_singular()` function is not provided due to the
+         * potential loss of information.
+         **/
+        void make_plural();
+
+        /**
          * Deserialize from json. Json format is:
          *     "text"
          * or
-         *     { "ctxt": "foo", "str": "bar" }
+         *     { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
+         * "ctxt" and "str_pl" are optional. "str_pl" is only valid when an object
+         * of this class is constructed with `plural_tag` or `pl_translation()`,
+         * or converted using `make_plural()`.
          **/
         void deserialize( JsonIn &jsin );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns
-         * the translated string.
+         * the translated string. A number can be used to translate the plural
+         * form if the object has it.
          **/
-        std::string translated() const;
+        std::string translated( int num = 1 ) const;
+
+        /**
+         * Methods exposing the underlying raw strings are not implemented, and
+         * probably should not if there's no good reason to do so. Most importantly,
+         * the underlying strings should not be re-saved to JSON: doing so risk
+         * the original string being changed during development and the saved
+         * string will then not be properly translated when loaded back. If you
+         * really want to save a translation, translate it early on, store it using
+         * `no_translation`, and retrieve it using `translated()` when saving.
+         * This ensures consistent behavior before and after saving and loading.
+         **/
+        std::string untranslated() const = delete;
 
         /**
          * Whether the underlying string is empty, not matter what the context
@@ -123,26 +186,62 @@ class translation
         bool empty() const;
 
         /**
-         * Compare translations by their translated strings.
+         * Compare translations by their translated strings (singular form).
          *
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
          **/
-        bool operator<( const translation &that ) const;
+        bool translated_lt( const translation &that ) const;
+        bool translated_eq( const translation &that ) const;
+        bool translated_ne( const translation &that ) const;
+
+        /**
+         * Compare translations by their context, raw strings (singular / plural), and no-translation flag
+         */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
+
+        /**
+         * Only used for migrating old snippet hashes into snippet ids.
+         */
+        cata::optional<int> legacy_hash() const;
     private:
+        translation( const std::string &ctxt, const std::string &raw );
+        translation( const std::string &raw );
+        translation( const std::string &raw, const std::string &raw_pl, plural_tag );
+        translation( const std::string &ctxt, const std::string &raw, const std::string &raw_pl,
+                     plural_tag );
         struct no_translation_tag {};
-        translation( const std::string &str, const no_translation_tag );
+        translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;
+        cata::optional<std::string> raw_pl;
         bool needs_translation = false;
 };
 
 /**
+ * Shorthands for translation::to_translation
+ **/
+translation to_translation( const std::string &raw );
+translation to_translation( const std::string &ctxt, const std::string &raw );
+/**
+ * Shorthands for translation::pl_translation
+ **/
+translation pl_translation( const std::string &raw, const std::string &raw_pl );
+translation pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl );
+/**
  * Shorthand for translation::no_translation
  **/
 translation no_translation( const std::string &str );
+
+/**
+ * Stream output and concatenation of translations. Singular forms are used.
+ **/
+std::ostream &operator<<( std::ostream &out, const translation &t );
+std::string operator+( const translation &lhs, const std::string &rhs );
+std::string operator+( const std::string &lhs, const translation &rhs );
+std::string operator+( const translation &lhs, const translation &rhs );
 
 #endif // _TRANSLATIONS_H_

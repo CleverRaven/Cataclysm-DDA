@@ -2,11 +2,11 @@
 #ifndef NPC_FAVOR_H
 #define NPC_FAVOR_H
 
-#include "string_id.h"
+#include <string>
+
+#include "type_id.h"
 
 using itype_id = std::string;
-class Skill;
-using skill_id = string_id<Skill>;
 class JsonIn;
 class JsonOut;
 
@@ -32,7 +32,7 @@ struct npc_favor {
         skill = skill_id::NULL_ID();
     }
 
-    void serialize( JsonOut &jsout ) const;
+    void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
 

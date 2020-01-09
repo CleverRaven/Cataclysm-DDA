@@ -33,7 +33,7 @@ RUN apt-fast -qq install --no-install-recommends gettext
 RUN apt-fast -qq install --no-install-recommends libncurses5-dev libncursesw5-dev
 
 # CDDA: libraries for tiles build
-RUN apt-fast -qq install --no-install-recommends  libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev  lua5.2 liblua5.2-dev
+RUN apt-fast -qq install --no-install-recommends  libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev
 
 # general packages for a much nicer time inside the container (we install psmisc for `killall`)
 RUN apt-fast -qq install --no-install-recommends tree watch tmux fish colormake vim emacs git silversearcher-ag lsof psmisc dstat

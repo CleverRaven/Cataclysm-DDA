@@ -92,7 +92,7 @@
         "o": "f_bookcase",
         "r": "f_rack"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "items": { "P": { "item": "mail", "chance": 35, "repeat": [ 2, 8 ] } },
       "place_loot": [
         { "group": "bed", "x": [ 13, 14 ], "y": [ 20, 21 ], "chance": 95, "repeat": [ 1, 3 ] },
@@ -107,9 +107,17 @@
         { "group": "mischw", "x": [ 14, 16 ], "y": [ 11, 11 ], "chance": 65, "repeat": [ 1, 3 ] },
         { "group": "tools_gunsmith", "x": [ 17, 21 ], "y": [ 11, 11 ], "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_parts", "x": [ 21, 21 ], "y": [ 6, 11 ], "chance": 95, "repeat": [ 1, 6 ] },
-        { "group": "ammo_casings", "x": [ 21, 21 ], "y": [ 6, 11 ], "chance": 90, "repeat": [ 1, 3 ] },
+        { "group": "ammo_casings_bulk", "x": [ 21, 21 ], "y": [ 6, 11 ], "chance": 90, "repeat": [ 1, 3 ] },
         { "group": "gunmod_common", "x": [ 21, 21 ], "y": [ 6, 11 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "guns_survival", "x": [ 15, 16 ], "y": [ 8, 9 ], "chance": 70, "repeat": [ 1, 3 ], "ammo": 75, "magazine": 95 },
+        {
+          "group": "guns_survival",
+          "x": [ 15, 16 ],
+          "y": [ 8, 9 ],
+          "chance": 70,
+          "repeat": [ 1, 3 ],
+          "ammo": 75,
+          "magazine": 95
+        },
         { "group": "fridge", "x": [ 4, 4 ], "y": [ 11, 11 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "oven", "x": [ 3, 3 ], "y": [ 11, 11 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "softdrugs", "x": [ 2, 4 ], "y": [ 13, 16 ], "chance": 75, "repeat": [ 1, 4 ] },

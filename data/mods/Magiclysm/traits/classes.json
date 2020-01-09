@@ -1,0 +1,98 @@
+[
+  {
+    "type": "mutation",
+    "id": "MAGUS",
+    "name": "Magus",
+    "points": 0,
+    "description": "A tradition as old as magic, the Magus focuses on binding and shaping the energy of the universe to their will.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "ANIMIST" ],
+    "spells_learned": [ [ "create_rune_magus", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMIST",
+    "name": "Animist",
+    "points": 0,
+    "description": "The animist tradition is a relatively new school of magical thought, formed through combination of many older ways that focus on harmony and connection to the natural world.  This does not mean that animists are passive: the natural world is a savage place.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "MAGUS" ],
+    "spells_learned": [ [ "create_rune_animist", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "KELVINIST",
+    "name": "Kelvinist",
+    "points": 0,
+    "description": "Disciples of the great Archwizard Lord Kelvin.  Kelvinists focus their magic on manipulation and control of the temperature of their environment, leading to spectacularly powerful explosions or bone-chilling cold.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "STORMSHAPER" ],
+    "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "STORMSHAPER",
+    "name": "Stormshaper",
+    "points": 0,
+    "description": "Stormshapers follow ancient arcane disciplines of meditation and harmony with the winds and tides that shape the planet.  Through their deep connection to these forces, they can request powerful changes.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "KELVINIST" ],
+    "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TECHNOMANCER",
+    "name": "Technomancer",
+    "points": 0,
+    "description": "Technomancers are the new breed of modern magician, blending their arcane might with their advanced knowledge of the fundamental nature of the universe.  They use technology to enhance their magic and vice versa.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "EARTHSHAPER" ],
+    "spells_learned": [ [ "create_rune_technomancer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "EARTHSHAPER",
+    "name": "Earthshaper",
+    "points": 0,
+    "description": "Earthshapers have allowed their minds to sink deep within the stones and metals of the planet, and become one with its secrets.  To a master Earthshaper, spells can be as permanent as the stones they are created from, and time is measured in geological eras.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "TECHNOMANCER" ],
+    "spells_learned": [ [ "create_rune_earthshaper", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER",
+    "name": "Biomancer",
+    "points": 0,
+    "description": "The Biomancer focuses on manipulating and even absorbing flesh; their own, and that of other living or dead things.  Most other wizards find their powers gross and disturbing, but no one can question the potency of their abilities, and certainly not their adaptability to any situation.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "DRUID" ],
+    "spells_learned": [ [ "create_rune_biomancer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID",
+    "name": "Druid",
+    "points": 0,
+    "description": "Druids follow a wild tradition of allegiance and rebirth within the world of nature, especially the cycle of death and rebirth that is the plant world.  A powerful Druid is as much a part of that world as the human one.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "BIOMANCER" ],
+    "spells_learned": [ [ "create_rune_druid", 1 ] ]
+  }
+]

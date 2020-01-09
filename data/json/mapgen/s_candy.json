@@ -5,6 +5,7 @@
     "om_terrain": [ "candy_shop" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         ".............dssd.......",
         "....fD..f.D..dssd....fD.",
@@ -25,47 +26,33 @@
         "..|tt__________+__|T_|..",
         "..|ttC_{{{_|o##|__||||..",
         "..|||w||w|||||||__|T_|..",
-        ".........pggppph__+__|..",
-        ".........pppppp|ll|#e|..",
-        ".........pppppp|||||||..",
+        "........4pggppph__+__|..",
+        "........ppppppp|ll|#e|..",
+        "........ppppppp|||||||..",
         "........................",
         "........................"
       ],
       "terrain": {
-        "#": "t_floor",
-        "&": "t_floor",
         "+": "t_door_c",
         "-": "t_wall_glass",
-        ".": "t_grass",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 5 ], "t_dirt" ],
         "7": "t_tree_apple_harvested",
-        "B": "t_floor",
-        "C": "t_floor",
         "D": "t_dirt",
-        "F": "t_floor",
-        "H": "t_floor",
         "R": "t_railing_v",
-        "S": "t_floor",
-        "T": "t_floor",
-        "^": "t_floor",
         "_": "t_floor",
         "a": "t_door_glass_c",
         "b": "t_sidewalk",
-        "c": "t_floor",
         "d": "t_dirt",
-        "e": "t_floor",
         "f": "t_dirt",
         "g": "t_grass",
         "h": "t_door_locked",
-        "l": "t_floor",
-        "o": "t_floor",
         "p": "t_pavement",
         "r": "t_railing_h",
         "s": "t_sidewalk",
-        "t": "t_floor",
         "u": "t_underbrush",
         "w": "t_window",
-        "{": "t_floor",
-        "|": "t_wall"
+        "4": "t_gutter_downspout",
+        "|": "t_wall_y"
       },
       "furniture": {
         "#": "f_counter",
@@ -116,9 +103,70 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "candy_shop" ],
+    "om_terrain": "candy_shop_roof",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "..2222222...............",
+        "..|     3...............",
+        "..|     3.......222222..",
+        "..|:    3.......|    3..",
+        "..|     3.......|    3..",
+        "..|     32222222|    3..",
+        "..|                  3..",
+        "..|     oo   oo      3..",
+        "..|                  3..",
+        "..|     oo   oo      3..",
+        "..|                  3..",
+        "..|                  3..",
+        "..|                  3..",
+        "..| A       &        3..",
+        "..-------5-----|     3..",
+        "...............|   = 3..",
+        "...............|     3..",
+        "...............-------..",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_flat_roof",
+        ".": "t_open_air",
+        "o": "t_glass_roof",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "=": "f_vent_pipe", "A": "f_air_conditioner" },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 11, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": 15
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "candy_shop_1" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "............ss..........",
         "............ss..........",
@@ -139,25 +187,19 @@
         ".......g|__{__{___#wT_|.",
         "...d...f|__{__{___#w#S|.",
         "..dhd..u|__{__{__||||||.",
-        "...d...D|________aspccp.",
+        "...d...D|________aspcc5.",
         ".......d|^______&|spppp.",
         "........||||||||||spppp.",
         "..................spppp.",
         "........................"
       ],
       "terrain": {
-        "#": "t_floor",
-        "&": "t_floor",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_grass",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 5 ], "t_dirt" ],
         "4": "t_tree_pine",
         "7": "t_tree_birch_harvested",
-        "C": "t_floor",
         "D": "t_dirt",
-        "S": "t_floor",
-        "T": "t_floor",
-        "^": "t_floor",
         "_": "t_floor",
         "a": "t_door_c",
         "b": "t_sidewalk",
@@ -171,8 +213,8 @@
         "s": "t_sidewalk",
         "t": "t_tree_maple_tapped",
         "u": "t_underbrush",
-        "w": "t_wall",
-        "{": "t_floor",
+        "w": "t_wall_y",
+        "5": "t_gutter_downspout",
         "|": "t_brick_wall"
       },
       "furniture": {
@@ -209,6 +251,66 @@
         { "item": "toy_store", "x": 14, "y": [ 15, 16 ], "chance": 55 },
         { "item": "toy_store", "x": 14, "y": 12, "chance": 55 },
         { "item": "toy_store", "x": 19, "y": 4, "chance": 55 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "candy_shop_roof_1",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "..............222222222.",
+        "..............|       3.",
+        "..............|       3.",
+        "..............---     3.",
+        "................|     3.",
+        "................|     3.",
+        "........|22222222     3.",
+        "........|             3.",
+        "........|             3.",
+        "........|  oo         3.",
+        "........|  oo         3.",
+        "........|  oo         3.",
+        "........|  oo         3.",
+        "........|  oo         3.",
+        "........|           = 3.",
+        "........|        -----5.",
+        "........|        3......",
+        "........|  &     3......",
+        "........----------......",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_flat_roof",
+        ".": "t_open_air",
+        "o": "t_glass_roof",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
+      "place_items": [ { "item": "roof_trash", "x": [ 10, 21 ], "y": [ 10, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 14, 16 ],
+          "y": [ 12, 14 ]
+        }
       ]
     }
   }

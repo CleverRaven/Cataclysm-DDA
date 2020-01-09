@@ -1,5 +1,12 @@
 [
   {
+    "id": "44_speedloader6",
+    "copy-from": "44_speedloader6",
+    "type": "MAGAZINE",
+    "name": "revolver speedloader",
+    "description": "Speedloader which holds 6 revolver rounds, for reloading a revolver quicker."
+  },
+  {
     "id": "akmmag",
     "copy-from": "akmmag",
     "type": "MAGAZINE",

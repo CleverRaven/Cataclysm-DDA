@@ -1,288 +1,374 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "s_electronicstore",
+    "name": "electronics store",
+    "copy-from": "generic_city_building",
+    "color": "yellow",
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore_2ndfloor",
+    "name": "electronics store",
+    "copy-from": "s_electronicstore",
+    "land_use_code": "residential_multi"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gunstore",
     "name": "gun store",
-    "sym": 103,
+    "copy-from": "generic_city_building",
     "color": "red",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore_2ndfloor",
+    "name": "gun store",
+    "copy-from": "s_gunstore",
+    "land_use_code": "residential_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore_roof",
+    "name": "gun store",
+    "copy-from": "s_gunstore"
   },
   {
     "type": "overmap_terrain",
     "id": "s_diner",
     "name": "diner",
-    "sym": 100,
+    "copy-from": "generic_city_building",
+    "sym": "d",
     "color": "green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner_2ndfloor",
+    "name": "diner",
+    "copy-from": "s_diner"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner_roof",
+    "name": "diner",
+    "copy-from": "s_diner"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt",
     "name": "apartment",
-    "sym": 65,
+    "copy-from": "generic_city_building",
+    "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "residential_multi"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2ndfloor",
+    "name": "apartment",
+    "copy-from": "s_apt"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_roof",
+    "name": "apartment",
+    "copy-from": "s_apt"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_2",
     "name": "apartment",
-    "sym": 65,
+    "copy-from": "generic_city_building",
+    "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "residential_multi"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2_2ndfloor",
+    "name": "apartment",
+    "copy-from": "s_apt_2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2_roof",
+    "name": "apartment",
+    "copy-from": "s_apt_2"
   },
   {
     "type": "overmap_terrain",
     "id": "s_cardealer",
     "name": "dealership",
-    "sym": 48,
+    "copy-from": "generic_city_building",
+    "sym": "0",
     "color": "blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_cardealer_roof",
+    "name": "dealership",
+    "copy-from": "s_cardealer"
   },
   {
     "type": "overmap_terrain",
     "id": "s_camping",
     "name": "outdoorsman's store",
-    "sym": 111,
+    "copy-from": "generic_city_building",
+    "sym": "o",
     "color": "brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping_roof",
+    "name": "outdoorsman's store",
+    "copy-from": "s_camping"
   },
   {
     "type": "overmap_terrain",
     "id": "s_games",
     "name": "gaming store",
-    "sym": 103,
+    "copy-from": "generic_city_building",
+    "sym": "g",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games_roof",
+    "name": "gaming store",
+    "copy-from": "s_games"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_term",
     "name": "airport",
-    "sym": 65,
+    "sym": "A",
     "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_parking",
     "name": "airport",
-    "sym": 65,
+    "sym": "A",
     "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc",
     "name": "airport",
-    "sym": 65,
+    "sym": "A",
     "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc_2",
     "name": "airport",
-    "sym": 65,
+    "sym": "A",
     "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc_3",
     "name": "airport",
-    "sym": 65,
+    "sym": "A",
     "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_hangars",
     "name": "airport",
-    "sym": 65,
+    "sym": "A",
     "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway",
     "name": "runway",
-    "sym": 48,
+    "sym": "0",
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_hangars",
     "name": "runway",
-    "sym": 48,
+    "sym": "0",
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_l",
     "name": "runway",
-    "sym": 48,
+    "sym": "0",
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_r",
     "name": "runway",
-    "sym": 48,
+    "sym": "0",
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_term",
     "name": "runway",
-    "sym": 48,
+    "sym": "0",
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_road_0",
     "name": "light industry",
-    "sym": 4194417,
+    "sym": "─",
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_road_1",
     "name": "light industry",
-    "sym": 4194417,
+    "sym": "─",
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_00",
     "name": "light industry",
-    "sym": 73,
+    "sym": "I",
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_01",
     "name": "light industry",
-    "sym": 73,
+    "sym": "I",
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_10",
     "name": "light industry",
-    "sym": 73,
+    "sym": "I",
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_11",
     "name": "light industry",
-    "sym": 73,
+    "sym": "I",
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_g1",
     "name": "gas station",
-    "sym": 103,
+    "sym": "g",
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_g0",
     "name": "gas station",
-    "sym": 103,
+    "sym": "g",
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b11",
     "name": "reception",
-    "sym": 82,
+    "sym": "R",
     "color": "red",
     "see_cost": 5,
     "extras": "build",
@@ -293,7 +379,7 @@
     "type": "overmap_terrain",
     "id": "s_gas_b20",
     "name": "bunker",
-    "sym": 66,
+    "sym": "B",
     "color": "red",
     "see_cost": 5,
     "extras": "build",
@@ -304,7 +390,7 @@
     "type": "overmap_terrain",
     "id": "s_gas_b21",
     "name": "bunker",
-    "sym": 66,
+    "sym": "B",
     "color": "red",
     "see_cost": 5,
     "extras": "build",
@@ -315,7 +401,7 @@
     "type": "overmap_terrain",
     "id": "s_bunker_shop_g",
     "name": "derelict property",
-    "sym": 94,
+    "sym": "^",
     "color": "white",
     "see_cost": 5,
     "extras": "build",
@@ -325,7 +411,7 @@
     "type": "overmap_terrain",
     "id": "s_bunker_shop_b",
     "name": "scavenger bunker",
-    "sym": 66,
+    "sym": "B",
     "color": "light_green",
     "see_cost": 5,
     "extras": "build",

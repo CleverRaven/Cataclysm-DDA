@@ -1,0 +1,77 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "v_scoop_item",
+    "name": "vehicle scoop",
+    "symbol": "u",
+    "color": "light_gray",
+    "name_plural": "vehicle scoops",
+    "description": "An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
+    "weight": "22666 g",
+    "bashing": 1,
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 3500,
+    "volume": "7 L"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_planter_item",
+    "symbol": "8",
+    "name": "seed drill",
+    "name_plural": "seed drills",
+    "description": "An assembly of tubes, spikes, and wheels, that when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.",
+    "material": [ "steel", "plastic" ],
+    "copy-from": "v_scoop_item"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_reaper_item",
+    "symbol": "/",
+    "name": "reaper",
+    "name_plural": "reapers",
+    "description": "An assembly of a blade, wheels, and a small lever for engaging/disengaging used to cut down crops prior to picking them up.",
+    "material": [ "steel", "plastic" ],
+    "copy-from": "v_scoop_item"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_reaper_item_advanced",
+    "symbol": "/",
+    "name": "advanced reaper",
+    "name_plural": "advanced reapers",
+    "description": "An advanced electronic device used to cut down, collect and store crops.",
+    "weight": "25000 g",
+    "material": [ "steel", "plastic" ],
+    "price": 50000,
+    "volume": "9 L",
+    "copy-from": "v_scoop_item"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_planter_item_advanced",
+    "symbol": "8",
+    "name": "advanced seed drill",
+    "name_plural": "advanced seed drills",
+    "color": "dark_gray",
+    "description": "An assembly of tubes, spikes, and wheels, that when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.  This one is equipped with an electronic control system and will avoid damaging itself when used on untilled land.",
+    "weight": "32666 g",
+    "material": [ "steel", "plastic" ],
+    "price": 50000,
+    "volume": "7250 ml",
+    "copy-from": "v_scoop_item"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_plow_item",
+    "symbol": "&",
+    "name": "plow",
+    "name_plural": "plows",
+    "color": "dark_gray",
+    "description": "A heavy assembly of wheels and steel blades that turn up the ground.",
+    "weight": "32666 g",
+    "material": [ "steel", "plastic" ],
+    "volume": "7250 ml",
+    "copy-from": "v_scoop_item"
+  }
+]

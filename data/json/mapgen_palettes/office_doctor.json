@@ -5,7 +5,7 @@
     "terrain": {
       " ": [ "t_dirt", "t_grass" ],
       "!": "t_door_locked_interior",
-      "#": "t_wall",
+      "#": "t_wall_w",
       "$": "t_floor",
       "%": "t_console_broken",
       "&": "t_floor",
@@ -13,7 +13,6 @@
       ".": "t_floor",
       "0": "t_window_alarm",
       "D": "t_floor",
-      "F": "t_floor",
       "5": "t_console",
       "6": "t_console",
       "9": "t_window_domestic",
@@ -35,12 +34,17 @@
       "h": "t_floor",
       "l": "t_floor",
       "o": "t_floor",
-      "r": "t_sidewalk",
+      "r": "t_floor",
+      "R": "t_sidewalk",
       "s": "t_floor",
       "t": "t_floor",
       "w": "t_window",
       "y": "t_floor",
+      "f": "t_floor",
       "}": "t_floor",
+      "4": "t_gutter_downspout",
+      "<": "t_ladder_up",
+      "u": "t_stairs_up",
       "~": "t_sidewalk"
     },
     "furniture": {
@@ -60,9 +64,11 @@
       "l": "f_locker",
       "o": "f_bookcase",
       "r": "f_trashcan",
+      "R": "f_trashcan",
       "s": "f_sink",
       "t": "f_table",
-      "y": "f_indoor_plant_y"
+      "f": "f_filing_cabinet",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
     "toilets": { "&": {  } }
   }
