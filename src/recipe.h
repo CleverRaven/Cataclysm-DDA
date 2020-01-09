@@ -21,6 +21,17 @@ class time_duration;
 using itype_id = std::string; // From itype.h
 class Character;
 
+enum class recipe_filter_flags : int {
+    none = 0,
+    no_rotten = 1,
+};
+
+inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
+{
+    return static_cast<recipe_filter_flags>(
+               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+}
+
 class recipe
 {
         friend class recipe_dictionary;
@@ -62,7 +73,12 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
-        std::function<bool( const item & )> get_component_filter() const;
+        // Slower equivalent of is_blacklisted that needs to be used before
+        // recipe finalization happens
+        bool will_be_blacklisted() const;
+
+        std::function<bool( const item & )> get_component_filter(
+            recipe_filter_flags = recipe_filter_flags::none ) const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;
@@ -83,6 +99,7 @@ class recipe
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -115,7 +132,7 @@ class recipe
             return reversible;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */

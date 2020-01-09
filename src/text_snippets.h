@@ -18,20 +18,20 @@ class snippet_library
         /**
          * Load snippet from the standalone entry, used by the @ref DynamicDataLoader.
          */
-        void load_snippet( JsonObject &jsobj );
+        void load_snippet( const JsonObject &jsobj );
         /**
          * Load all snippet definitions in the json array into given category.
          * Entries in the array can be simple strings, or json objects (for the
          * later see add_snippet_from_json).
          */
-        void add_snippets_from_json( const std::string &category, JsonArray &jarr );
+        void add_snippets_from_json( const std::string &category, const JsonArray &jarr );
         /**
          * Load a single snippet text from the json object. The object should have
          * a "text" member with the text of the snippet.
          * A "id" member is optional and if present gives the snippet text a id,
          * stored in snippets_by_id.
          */
-        void add_snippet_from_json( const std::string &category, JsonObject &jo );
+        void add_snippet_from_json( const std::string &category, const JsonObject &jo );
         void clear_snippets();
 
         bool has_category( const std::string &category ) const;
@@ -78,7 +78,7 @@ class snippet_library
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          *
-         * @todo: make the result stay the same through different game sessions
+         * @TODO: make the result stay the same through different game sessions
          */
         cata::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
         /**

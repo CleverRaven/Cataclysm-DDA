@@ -243,7 +243,7 @@
     "type": "profession",
     "ident": "batter",
     "name": "Baseball Player",
-    "description": "You were a batter on a local minor league team before the cataclysm.  You escaped with your equipment, but how long can you survive until your innings are up?",
+    "description": "You were a batter on a local minor league team before the Cataclysm.  You escaped with your equipment, but how long can you survive until your innings are up?",
     "points": 0,
     "skills": [ { "level": 1, "name": "bashing" } ],
     "items": {
@@ -311,7 +311,7 @@
     "type": "profession",
     "ident": "waken",
     "name": "Awakened",
-    "description": "You were awoken in the middle of the night by a noise. Armed only with a flashlight you went to investigate, now you face the cataclysm.",
+    "description": "You were awoken in the middle of the night by a noise.  Armed only with a flashlight you went to investigate, now you face the Cataclysm.",
     "points": 0,
     "items": {
       "both": { "items": [ "slippers" ], "entries": [ { "group": "charged_flashlight" } ] },
@@ -323,7 +323,7 @@
     "type": "profession",
     "ident": "bio_cyclist",
     "name": "Bionic Cyclist",
-    "description": "Your training and augmentation for the Cyber-Olympics cycling competition gave you an edge on escaping the start of the cataclysm. Can you keep on running from it forever?",
+    "description": "Your training and augmentation for the Cyber-Olympics cycling competition gave you an edge on escaping the start of the Cataclysm.  Can you keep on running from it forever?",
     "points": 6,
     "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
     "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "dodge" } ],
@@ -347,7 +347,7 @@
     "type": "profession",
     "ident": "welder",
     "name": "Welder",
-    "description": "You worked as a welder for an off shore company before the cataclysm. You were on your way back home when it struck. At least you got the tools of your craft.",
+    "description": "You worked as a welder for an off shore company before the Cataclysm.  You were on your way back home when it struck.  At least you got the tools of your craft.",
     "points": 4,
     "skills": [ { "level": 1, "name": "mechanics" } ],
     "items": {
@@ -366,7 +366,7 @@
     "type": "profession",
     "ident": "pri-sur",
     "name": "Primitive Survivalist",
-    "description": "You knew the day would come, the day it all went to shit. You prepared yourself, not by gear but sheer skill; all those days in the woods paid off. If your ancestors survived with no tech, you'll be damned if you don't",
+    "description": "You knew the day would come, the day it all went to shit.  You prepared yourself, not by gear but sheer skill; all those days in the woods paid off.  If your ancestors survived with no tech, you'll be damned if you don't",
     "points": 6,
     "skills": [
       { "level": 5, "name": "survival" },

@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "type_id.h"
 #include "units.h"
 
 struct needs_rates;
@@ -9,12 +10,48 @@ class JsonIn;
 class JsonOut;
 class item;
 
-// Contains all information that can pass out of (or into) a stomach
+// Separate struct for nutrients so that we can easily perform arithmetic on
+// them
 struct nutrients {
+    /** amount of kcal this food has */
+    int kcal = 0;
+
+    /** vitamins potentially provided by this comestible (if any) */
+    std::map<vitamin_id, int> vitamins;
+
+    /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
+     * values taken from r. */
+    void min_in_place( const nutrients &r );
+    void max_in_place( const nutrients &r );
+
+    int get_vitamin( const vitamin_id & ) const;
+
+    bool operator==( const nutrients &r ) const;
+    bool operator!=( const nutrients &r ) const {
+        return !( *this == r );
+    }
+
+    nutrients &operator+=( const nutrients &r );
+    nutrients &operator-=( const nutrients &r );
+    nutrients &operator*=( int r );
+    nutrients &operator/=( int r );
+
+    friend nutrients operator*( nutrients l, int r ) {
+        l *= r;
+        return l;
+    }
+
+    friend nutrients operator/( nutrients l, int r ) {
+        l /= r;
+        return l;
+    }
+};
+
+// Contains all information that can pass out of (or into) a stomach
+struct food_summary {
     units::volume water;
     units::volume solids;
-    int kcal;
-    std::map<vitamin_id, int> vitamins;
+    nutrients nutr;
 };
 
 // how much a stomach_contents can digest
@@ -43,11 +80,11 @@ class stomach_contents
         stomach_contents( units::volume max_volume, bool is_stomach );
 
         /**
-         * @brief Directly adds nutrients to stomach contents.
+         * @brief Directly adds food to stomach contents.
          * Will still add contents if past maximum volume. Also updates last_ate to current turn.
-         * @param ingested The nutrients to be ingested
+         * @param ingested The food to be ingested
          */
-        void ingest( const nutrients &ingested );
+        void ingest( const food_summary &ingested );
 
         /**
          * @brief Processes food and outputs nutrients that are finished processing
@@ -63,8 +100,8 @@ class stomach_contents
          * @param half_hours Half-hour intervals passed since this method was last called
          * @return nutrients that are done processing in this stomach
          */
-        nutrients digest( const Character &owner, const needs_rates &metabolic_rates,
-                          int five_mins, int half_hours );
+        food_summary digest( const Character &owner, const needs_rates &metabolic_rates,
+                             int five_mins, int half_hours );
 
         // Empties the stomach of all contents.
         void empty();
@@ -113,10 +150,8 @@ class stomach_contents
         // If true, this object represents a stomach; if false, this object represents guts.
         bool stomach;
 
-        // vitamins in stomach_contents
-        std::map<vitamin_id, int> vitamins;
-        // number of calories in stomach_contents
-        int calories = 0;
+        // nutrients (calories and vitamins)
+        nutrients nutr;
         // volume of water in stomach_contents
         units::volume water;
         /**

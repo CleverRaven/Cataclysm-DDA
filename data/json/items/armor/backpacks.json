@@ -59,7 +59,7 @@
     "id": "backpack_giant",
     "type": "ARMOR",
     "name": "giant novelty backpack",
-    "description": "A huge fabric backpack made mostly as a joke before the cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
+    "description": "A huge fabric backpack made mostly as a joke before the Cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
     "weight": "1200 g",
     "volume": "8750 ml",
     "price": 4500,
@@ -570,5 +570,27 @@
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ]
+  },
+  {
+    "id": "boxpack",
+    "type": "ARMOR",
+    "name": "box backpack",
+    "description": "A makeshift backpack comprised of a wooden box and a pair of ropes.",
+    "weight": "8000 g",
+    "to_hit": -5,
+    "color": "brown",
+    "symbol": "]",
+    "looks_like": "jerrypack",
+    "material": [ "wood", "cotton" ],
+    "volume": "15 L",
+    "storage": "15 L",
+    "covers": [ "TORSO" ],
+    "coverage": 40,
+    "encumbrance": 30,
+    "warmth": 5,
+    "bashing": 16,
+    "cutting": 4,
+    "price": 3500,
+    "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ]
   }
 ]

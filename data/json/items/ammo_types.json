@@ -219,7 +219,7 @@
     "type": "ammunition_type",
     "id": "223",
     "name": ".223",
-    "default": "223"
+    "default": "556"
   },
   {
     "type": "ammunition_type",
@@ -237,13 +237,19 @@
     "type": "ammunition_type",
     "id": "308",
     "name": ".308",
-    "default": "308"
+    "default": "762_51"
   },
   {
     "type": "ammunition_type",
-    "id": "40mm",
-    "name": "40mm grenade",
-    "default": "40mm_frag"
+    "id": "40x46mm",
+    "name": "40x46mm grenade",
+    "default": "40x46mm_m433"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "40x53mm",
+    "name": "40x53mm grenade",
+    "default": "40x53mm_m430a1"
   },
   {
     "type": "ammunition_type",
@@ -286,6 +292,12 @@
     "id": "lamp_oil",
     "name": "lamp oil",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "motor_oil",
+    "name": "motor oil",
+    "default": "motor_oil"
   },
   {
     "type": "ammunition_type",

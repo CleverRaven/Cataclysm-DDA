@@ -7,7 +7,6 @@
 #include <iterator>
 #include <map>
 #include <string>
-#include <sstream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -61,44 +60,41 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_glowy_led( "glowy_led" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_winded( "winded" );
-const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disabled( "disabled" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_drain( "bio_drain" );
-static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_itchy( "bio_itchy" );
-static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
@@ -106,7 +102,6 @@ static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_trip( "bio_trip" );
 
@@ -129,14 +124,10 @@ static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINREC1( "PAINREC1" );
-static const trait_id trait_PAINREC2( "PAINREC2" );
-static const trait_id trait_PAINREC3( "PAINREC3" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
@@ -145,7 +136,6 @@ static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
@@ -217,7 +207,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.thirst ) {
             mod_thirst( mdata.cost );
-            if( get_thirst() >= 260 ) { // Well into Dehydrated
+            // Well into Dehydrated
+            if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
                                    mdata.name() );
@@ -226,7 +217,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
-            if( get_fatigue() >= EXHAUSTED ) { // Exhausted
+            // Exhausted
+            if( get_fatigue() >= EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -311,7 +303,7 @@ void Character::suffer_while_awake( const int current_stim )
         if( one_turn_in( 8_hours ) ) {
             add_msg( m_bad,
                      _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
-            add_effect( effect_lying_down, 20_minutes );
+            fall_asleep( 20_minutes );
         }
     }
 
@@ -325,9 +317,11 @@ void Character::suffer_while_awake( const int current_stim )
     }
 
     if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
-        if( rng( 1, 20 ) > 9 ) { // 55% chance
+        if( rng( 1, 20 ) > 9 ) {
+            // 55% chance
             add_morale( MORALE_MOODSWING, -100, -500 );
-        } else {  // 45% chance
+        } else {
+            // 45% chance
             add_morale( MORALE_MOODSWING, 100, 500 );
         }
     }
@@ -420,9 +414,9 @@ void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
     if( !weapon.is_null() ) {
-        std::string i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
-                               //~ %1$s: weapon name
-                               string_format( _( "your %1$s" ), weapon.type_name() );
+        i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
+                   //~ %1$s: weapon name
+                   string_format( _( "your %1$s" ), weapon.type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -485,8 +479,8 @@ void Character::suffer_from_schizophrenia()
         str[0] = toupper( str[0] );
 
         add_msg_if_player( m_bad, "%s", str );
-        drop( get_item_position( &weapon ), pos() );
-        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+        item_location loc( *this, &weapon );
+        drop( loc, pos() );
         return;
     }
     // Talk to self
@@ -507,7 +501,7 @@ void Character::suffer_from_schizophrenia()
     }
     // Follower turns hostile
     if( one_turn_in( 4_hours ) ) {
-        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
         std::string who_gets_angry = name;
         if( !followers.empty() ) {
@@ -567,13 +561,13 @@ void Character::suffer_from_schizophrenia()
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
-        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
 
         std::string i_talk_w;
         bool does_talk = false;
         if( !mons.empty() && one_turn_in( 12_minutes ) ) {
             std::vector<std::string> seen_mons;
-            for( std::weak_ptr<monster> &n : mons ) {
+            for( weak_ptr_fast<monster> &n : mons ) {
                 if( sees( *n.lock() ) ) {
                     seen_mons.emplace_back( n.lock()->get_name() );
                 }
@@ -1038,45 +1032,45 @@ void Character::suffer_from_radiation()
     }
 
     if( calendar::once_every( 15_minutes ) ) {
-        if( radiation < 0 ) {
-            radiation = 0;
-        } else if( radiation > 2000 ) {
-            radiation = 2000;
+        if( get_rad() < 0 ) {
+            set_rad( 0 );
+        } else if( get_rad() > 2000 ) {
+            set_rad( 2000 );
         }
-        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < radiation ) {
+        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < get_rad() ) {
             mutate();
-            radiation -= 50;
-        } else if( radiation > 50 && rng( 1, 3000 ) < radiation && ( stomach.contains() > 0_ml ||
+            mod_rad( -50 );
+        } else if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() && ( stomach.contains() > 0_ml ||
                    radiation_increasing || !in_sleep_state() ) ) {
             vomit();
-            radiation -= 1;
+            mod_rad( -1 );
         }
     }
 
     const bool radiogenic = has_trait( trait_RADIOGENIC );
-    if( radiogenic && calendar::once_every( 30_minutes ) && radiation > 0 ) {
+    if( radiogenic && calendar::once_every( 30_minutes ) && get_rad() > 0 ) {
         // At 200 irradiation, twice as fast as REGEN
-        if( x_in_y( radiation, 200 ) ) {
+        if( x_in_y( get_rad(), 200 ) ) {
             healall( 1 );
             if( rad_mut == 0 ) {
                 // Don't heal radiation if we're generating it naturally
                 // That would counter the main downside of radioactivity
-                radiation -= 5;
-            }
-        }
-
-        if( !radiogenic && radiation > 0 ) {
-            // Even if you heal the radiation itself, the damage is done.
-            const int hmod = get_healthy_mod();
-            if( hmod > 200 - radiation ) {
-                set_healthy_mod( std::max( -200, 200 - radiation ) );
+                mod_rad( -5 );
             }
         }
     }
 
-    if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
+    if( !radiogenic && get_rad() > 0 ) {
+        // Even if you heal the radiation itself, the damage is done.
+        const int hmod = get_healthy_mod();
+        if( hmod > 200 - get_rad() ) {
+            set_healthy_mod( std::max( -200, 200 - get_rad() ) );
+        }
+    }
+
+    if( get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( get_rad(), 1000 ) ) {
         hurtall( 1, nullptr );
-        radiation -= 5;
+        mod_rad( -5 );
     }
 
     if( !reactor_plut && !tank_plut && !slow_rad ) {
@@ -1151,7 +1145,7 @@ void Character::suffer_from_radiation()
         tank_plut *= 0.6;
     }
     while( slow_rad >= 1000 ) {
-        radiation += 1;
+        mod_rad( 1 );
         slow_rad -= 1000;
     }
 }
@@ -1509,7 +1503,7 @@ bool Character::irradiate( float rads, bool bypass )
         }
 
         int rads_max = roll_remainder( rads );
-        radiation += rng( 0, rads_max );
+        mod_rad( rng( 0, rads_max ) );
 
         // Apply rads to any radiation badges.
         for( item *const it : inv_dump() ) {
@@ -1556,7 +1550,7 @@ void Character::mend( int rate_multiplier )
     // Wearing splints can slowly mend a broken limb back to 1 hp.
     bool any_broken = false;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        if( hp_cur[i] <= 0 ) {
+        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
             any_broken = true;
             break;
         }
@@ -1583,8 +1577,8 @@ void Character::mend( int rate_multiplier )
         healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_ALCOHOL ) );
     }
 
-    if( radiation > 0 && !has_trait( trait_RADIOGENIC ) ) {
-        healing_factor *= clamp( ( 1000.0f - radiation ) / 1000.0f, 0.0f, 1.0f );
+    if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
+        healing_factor *= clamp( ( 1000.0f - get_rad() ) / 1000.0f, 0.0f, 1.0f );
     }
 
     // Bed rest speeds up mending
@@ -1630,7 +1624,7 @@ void Character::mend( int rate_multiplier )
     }
 
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const bool broken = ( hp_cur[i] <= 0 );
+        const bool broken = is_limb_broken( static_cast<hp_part>( i ) );
         if( !broken ) {
             continue;
         }
@@ -1740,6 +1734,13 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         if( body_wetness[bp] < wetness_max ) {
             body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
         }
+    }
+
+    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
+        has_effect( efftype_id( "masked_scent" ) ) &&
+        get_value( "waterproof_scent" ).empty() ) {
+        add_msg_if_player( m_info, _( "The water wash away the scent." ) );
+        restore_scent();
     }
 
     if( is_weak_to_water() ) {
@@ -1859,7 +1860,8 @@ void Character::add_addiction( add_type type, int strength )
         if( i.sated < 0_turns ) {
             i.sated = timer;
         } else if( i.sated < 10_minutes ) {
-            i.sated += timer; // TODO: Make this variable?
+            // TODO: Make this variable?
+            i.sated += timer;
         } else {
             i.sated += timer / 2;
         }

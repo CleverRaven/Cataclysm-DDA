@@ -47,7 +47,7 @@ class emit
         }
 
         /** Load emission data from JSON definition */
-        static void load_emit( JsonObject &jo );
+        static void load_emit( const JsonObject &jo );
 
         /** Get all currently loaded emission data */
         static const std::map<emit_id, emit> &all();

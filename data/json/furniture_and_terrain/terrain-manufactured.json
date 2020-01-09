@@ -7,7 +7,7 @@
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
-    "max_volume": 8000,
+    "max_volume": "2000 L",
     "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
     "examine_action": "recycle_compactor",
     "bash": {
@@ -46,13 +46,45 @@
   {
     "type": "terrain",
     "id": "t_gas_tank",
-    "name": "tank with gasoline",
+    "name": "fuel tank",
     "description": "A tank filled with gasoline.",
     "symbol": "Q",
     "color": "brown_red",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_gas_tank_smashed"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_tank_smashed",
+    "name": "broken fuel tank",
+    "description": "A broken tank which was filled with gasoline.",
+    "symbol": "Q",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
   },
   {
     "type": "terrain",

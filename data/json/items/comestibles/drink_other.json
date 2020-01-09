@@ -126,6 +126,7 @@
     "charges": 16,
     "healthy": 1,
     "fun": 3,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "phase": "liquid"
   },
   {
@@ -217,7 +218,6 @@
     "name_plural": "molasses",
     "weight": "89 g",
     "color": "brown",
-    "stim": 3,
     "container": "jar_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
@@ -254,7 +254,6 @@
     "charges": 48,
     "healthy": 1,
     "fun": -20,
-    "stim": 1,
     "phase": "liquid"
   },
   {

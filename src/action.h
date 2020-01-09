@@ -159,6 +159,8 @@ enum action_id : int {
     ACTION_RELOAD_ITEM,
     /** Attempt to reload wielded weapon, then fall back to the load item select menu */
     ACTION_RELOAD_WEAPON,
+    /** Attempt to reload wielded object*/
+    ACTION_RELOAD_WIELDED,
     /** Open the unload item (e.g. firearms) select menu */
     ACTION_UNLOAD,
     /** Open the mending menu (e.g. when using a sewing kit) */
@@ -273,6 +275,8 @@ enum action_id : int {
     ACTION_DEBUG,
     /** Toggle scent map */
     ACTION_DISPLAY_SCENT,
+    /** Toggle scent type map */
+    ACTION_DISPLAY_SCENT_TYPE,
     /** Toggle debug mode */
     ACTION_TOGGLE_DEBUG_MODE,
     /** Zoom view in */
@@ -522,7 +526,7 @@ point get_delta_from_movement_direction( action_id act );
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_action_menu(); // Show the action menu.
+action_id handle_action_menu();
 
 /**
  * Show in-game main menu

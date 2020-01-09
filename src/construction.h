@@ -104,7 +104,7 @@ const std::vector<construction> &get_constructions();
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
-void load_construction( JsonObject &jo );
+void load_construction( const JsonObject &jo );
 void reset_constructions();
 int construction_menu( bool blueprint );
 void complete_construction( player *p );

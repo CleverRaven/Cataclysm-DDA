@@ -43,10 +43,37 @@
     "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
   },
   {
+    "id": "any_butter",
+    "type": "requirement",
+    "//": "Butter of all types and other future butter substitutes",
+    "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
+  },
+  {
     "id": "milk_standard_raw",
     "type": "requirement",
     "//": "Equivalent to milk_standard, with addition of raw milk for recipes using a heat source to kill microbes",
-    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+    "components": [ [ [ "milk_standard", 1, "LIST" ], [ "milk_raw", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard_raw_fresh",
+    "type": "requirement",
+    "//": "Equivalent to milk_standard_raw, but without milk_reconstituted",
+    "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+  },
+  {
+    "id": "sugar_standard",
+    "type": "requirement",
+    "//": "One unit provides ~260kcal; chosen to match one unit of molasses",
+    "components": [
+      [
+        [ "sugar", 14 ],
+        [ "syrup", 5 ],
+        [ "beet_syrup", 6 ],
+        [ "molasses", 1 ],
+        [ "honey_bottled", 4 ],
+        [ "honey_glassed", 1 ]
+      ]
+    ]
   },
   {
     "id": "hard_liquor",
@@ -58,6 +85,9 @@
         [ "vodka", 1 ],
         [ "whiskey", 1 ],
         [ "single_malt_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
         [ "brandy", 1 ],
         [ "rum", 1 ],
         [ "gin", 1 ],
@@ -70,14 +100,23 @@
     "id": "cheap_wine",
     "type": "requirement",
     "//": "Cheap and improvised wines.",
-    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ] ] ]
+    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ], [ "bum_wine", 1 ] ] ]
   },
   {
     "id": "worthy_wine",
     "type": "requirement",
     "//": "More expensive wines.",
     "components": [
-      [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ], [ "wine_vermouth", 1 ] ]
+      [
+        [ "wine_riesling", 1 ],
+        [ "wine_chardonnay", 1 ],
+        [ "wine_cabernet", 1 ],
+        [ "wine_noir", 1 ],
+        [ "wine_vermouth", 1 ],
+        [ "sherry", 1 ],
+        [ "bristol_sherry", 1 ],
+        [ "madeira", 1 ]
+      ]
     ]
   },
   {
@@ -99,25 +138,22 @@
     "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
   },
   {
-    "id": "meat_red",
+    "id": "meat_raw_steak",
     "type": "requirement",
-    "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
-    "components": [
-      [
-        [ "meat", 1 ],
-        [ "mutant_meat", 1 ],
-        [ "meat_scrap", 10 ],
-        [ "mutant_meat_scrap", 10 ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ]
-      ]
-    ]
+    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ] ] ]
   },
   {
     "id": "meat_red_raw",
     "type": "requirement",
     "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_raw_steak", 1, "LIST" ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
+  },
+  {
+    "id": "meat_red",
+    "type": "requirement",
+    "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
   },
   {
     "id": "meat_nofish",
@@ -151,6 +187,8 @@
       [
         [ "meat_cooked", 1 ],
         [ "mutant_meat_cooked", 1 ],
+        [ "human_cooked", 1 ],
+        [ "mutant_human_cooked", 1 ],
         [ "meat_pickled", 1 ],
         [ "meat_smoked", 1 ],
         [ "meat_salted", 1 ],
@@ -221,38 +259,6 @@
         [ "raw_lentils", 1 ]
       ],
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
-    ]
-  },
-  {
-    "id": "human_soup_ingredients",
-    "type": "requirement",
-    "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_human", 2 ] ],
-      [
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_rice", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ]
-      ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
     ]
   },
   {
@@ -362,19 +368,37 @@
     "id": "edible_fat",
     "type": "requirement",
     "//": "Any type of edible raw fat.",
-    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ] ] ]
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "human_fat", 1 ], [ "mutant_human_fat", 1 ] ] ]
   },
   {
-    "id": "edible_tallow_lard",
+    "id": "any_fat",
     "type": "requirement",
-    "//": "Any type of edible rendered fat.",
-    "components": [ [ [ "tallow", 1 ], [ "lard", 1 ], [ "mutant_tallow", 1 ], [ "mutant_lard", 1 ] ] ]
+    "//": "Any type of raw fat.",
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_tallow",
+    "type": "requirement",
+    "//": "Any type of edible tallow.",
+    "components": [ [ [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "human_tallow", 1 ], [ "mutant_human_tallow", 1 ] ] ]
   },
   {
     "id": "any_tallow",
     "type": "requirement",
     "//": "Any type of tallow.",
-    "components": [ [ [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "tallow_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_lard",
+    "type": "requirement",
+    "//": "Lard that is safe for consumption.",
+    "components": [ [ [ "lard", 1 ], [ "mutant_lard", 1 ], [ "human_lard", 1 ], [ "mutant_human_lard", 1 ] ] ]
+  },
+  {
+    "id": "edible_tallow_lard",
+    "type": "requirement",
+    "//": "Any type of edible rendered fat.",
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "edible_lard", 1, "LIST" ] ] ]
   },
   {
     "id": "seasoning_mild",
@@ -509,6 +533,11 @@
   {
     "id": "veggy_any_uncooked",
     "type": "requirement",
+    "components": [ [ [ "rehydrated_veggy", 1 ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "veggy_any_fresh_uncooked",
+    "type": "requirement",
     "components": [
       [
         [ "broccoli", 1 ],
@@ -539,7 +568,6 @@
         [ "sugar_beet", 1 ],
         [ "tomato", 1 ],
         [ "irradiated_tomato", 1 ],
-        [ "rehydrated_veggy", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
@@ -644,6 +672,7 @@
         [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ],
+        [ "imperial_stout", 1 ],
         [ "mixed_alcohol_weak", 1 ]
       ]
     ]

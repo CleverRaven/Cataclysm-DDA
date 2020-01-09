@@ -46,8 +46,8 @@ static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y
 
 const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
 
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_haslight( "haslight" );
 
 std::string four_quadrants::to_string() const
 {
@@ -73,7 +73,7 @@ void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
     }
 }
 
-// TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
+// TODO: Consider making this just clear the cache and dynamically fill it in as is_transparent() is called
 bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -497,7 +497,7 @@ float map::ambient_light_at( const tripoint &p ) const
     return get_cache_ref( p.z ).lm[p.x][p.y].max();
 }
 
-bool map::trans( const tripoint &p ) const
+bool map::is_transparent( const tripoint &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
@@ -933,14 +933,14 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance, const float numerator );
+    const tripoint &origin, int offset_distance, float numerator );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
     const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
     const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
     &input_arrays,
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, const int offset_distance, const fragment_cloud numerator );
+    const tripoint &origin, int offset_distance, fragment_cloud numerator );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
@@ -1088,7 +1088,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 (
     fragment_cloud( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     const fragment_cloud( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-    const point &offset, int offsetDistance, const fragment_cloud numerator );
+    const point &offset, int offsetDistance, fragment_cloud numerator );
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y

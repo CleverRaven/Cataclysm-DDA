@@ -41,7 +41,7 @@
     "id": "TALK_ISHERWOOD_CARLOS",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need ot keep on walking, straight off this property.",
+      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
       "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
     },
     "responses": [
@@ -108,7 +108,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_BARRY",
-    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitely not human. It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
+    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitely not human.  It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
     "responses": [
       { "text": "You all just gonna leave him out there to his fate?", "topic": "TALK_CARLOS_BARRY2" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -145,7 +145,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -190,18 +190,12 @@
       "inquire": "Do you have the anvil?",
       "success": "I appreciate it, this will really make a difference, here's some horse armor I've been working on.  Eventually I'll have the whole herd outfitted.",
       "success_lie": "What good does this do me?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [ { "u_buy_item": "leather_armor_horse", "count": 1 } ],
-      "update_mapgen": [
-        {
-          "om_terrain": "horse_farm_isherwood_4",
-          "om_special": "Isherwood Farms",
-          "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ]
-        }
-      ]
+      "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
   },
   {
@@ -233,7 +227,7 @@
       "inquire": "How is the search going?",
       "success": "Thanks, I was getting ready to go look myself.  Now that I have the anvil, I've been working on new armor for the horses, take this prototype I made.",
       "success_lie": "What good does this do us?",
-      "failure": "I hope he didn't meet Barry's fate..."
+      "failure": "I hope he didn't meet Barry's fate…"
     }
   }
 ]

@@ -57,14 +57,14 @@ class weather_generator
         w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
         weather_type get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
         weather_type get_weather_conditions( const w_point & ) const;
-        int get_wind_direction( season_type, unsigned seed ) const;
+        int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
         int get_water_temperature() const;
         void test_weather( unsigned ) const;
 
         double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 
-        static weather_generator load( JsonObject &jo );
+        static weather_generator load( const JsonObject &jo );
 };
 
 #endif

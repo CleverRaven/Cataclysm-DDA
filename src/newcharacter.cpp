@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <algorithm>
-#include <sstream>
 #include <vector>
 #include <iterator>
 #include <tuple>
@@ -115,7 +114,8 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
+                                  const avatar &u )
 {
     if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
@@ -129,8 +129,10 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style.  (press %s for more info)" ),
-                               ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    menu.text = string_format( _( "Select a style.  (press %s for more info)\n"
+                                  "STR: %d, DEX: %d, PER: %d, INT: %d" ),
+                               ctxt.get_desc( "SHOW_DESCRIPTION" ),
+                               u.get_str(), u.get_dex(), u.get_per(), u.get_int() );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
@@ -362,14 +364,17 @@ bool avatar::create( character_type type, const std::string &tempname )
     switch( type ) {
         case PLTYPE_CUSTOM:
             break;
-        case PLTYPE_RANDOM: //random scenario, default name if exist
+        case PLTYPE_RANDOM:
+            //random scenario, default name if exist
             randomize( true, points );
             tab = NEWCHAR_TAB_MAX;
             break;
-        case PLTYPE_NOW: //default world, fixed scenario, random name
+        case PLTYPE_NOW:
+            //default world, fixed scenario, random name
             randomize( false, points, true );
             break;
-        case PLTYPE_FULL_RANDOM: //default world, random scenario, random name
+        case PLTYPE_FULL_RANDOM:
+            //default world, random scenario, random name
             randomize( true, points, true );
             break;
         case PLTYPE_TEMPLATE:
@@ -563,7 +568,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         if( !styles.empty() ) {
             werase( w );
             wrefresh( w );
-            const matype_id ma_type = choose_ma_style( type, styles );
+            const matype_id ma_type = choose_ma_style( type, styles, *this );
             martial_arts_data.add_martialart( ma_type );
             martial_arts_data.set_style( ma_type );
         }
@@ -1371,73 +1376,72 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                        "                                             " ); // Clear the line
         }
 
-        std::ostringstream buffer;
+        std::string buffer;
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
-            buffer << colorize( _( "Addictions:" ), c_light_blue ) << "\n";
+            buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
             for( const auto &a : prof_addictions ) {
                 const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                buffer << string_format( format, addiction_name( a ), a.intensity ) << "\n";
+                buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
             }
         }
 
         // Profession traits
         const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-        buffer << colorize( _( "Profession traits:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession traits:" ), c_light_blue ) + "\n";
         if( prof_traits.empty() ) {
-            buffer << pgettext( "set_profession_trait", "None" ) << "\n";
+            buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
         } else {
             for( const auto &t : prof_traits ) {
-                buffer << mutation_branch::get_name( t ) << "\n";
+                buffer += mutation_branch::get_name( t ) + "\n";
             }
         }
 
         // Profession skills
         const auto prof_skills = sorted_profs[cur_id]->skills();
-        buffer << colorize( _( "Profession skills:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession skills:" ), c_light_blue ) + "\n";
         if( prof_skills.empty() ) {
-            buffer << pgettext( "set_profession_skill", "None" ) << "\n";
+            buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
         } else {
             for( const auto &sl : prof_skills ) {
                 const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
-                buffer << string_format( format, sl.first.obj().name(), sl.second ) << "\n";
+                buffer += string_format( format, sl.first.obj().name(), sl.second ) + "\n";
             }
         }
 
         // Profession items
         const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
-        buffer << colorize( _( "Profession items:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession items:" ), c_light_blue ) + "\n";
         if( prof_items.empty() ) {
-            buffer << pgettext( "set_profession_item", "None" ) << "\n";
+            buffer += pgettext( "set_profession_item", "None" ) + std::string( "\n" );
         } else {
             // TODO: If the item group is randomized *at all*, these will be different each time
             // and it won't match what you actually start with
             // TODO: Put like items together like the inventory does, so we don't have to scroll
             // through a list of a dozen forks.
-            std::ostringstream buffer_wielded;
-            std::ostringstream buffer_worn;
-            std::ostringstream buffer_inventory;
+            std::string buffer_wielded;
+            std::string buffer_worn;
+            std::string buffer_inventory;
             for( const auto &it : prof_items ) {
                 if( it.has_flag( "no_auto_equip" ) ) {
-                    buffer_inventory << it.display_name() << "\n";
+                    buffer_inventory += it.display_name() + "\n";
                 } else if( it.has_flag( "auto_wield" ) ) {
-                    buffer_wielded << it.display_name() << "\n";
+                    buffer_wielded += it.display_name() + "\n";
                 } else if( it.is_armor() ) {
-                    buffer_worn << it.display_name() << "\n";
+                    buffer_worn += it.display_name() + "\n";
                 } else {
-                    buffer_inventory << it.display_name() << "\n";
+                    buffer_inventory += it.display_name() + "\n";
                 }
             }
-            buffer << colorize( _( "Wielded:" ), c_cyan ) << "\n";
-            buffer << ( !buffer_wielded.str().empty() ? buffer_wielded.str() :
-                        pgettext( "set_profession_item_wielded", "None\n" ) );
-            buffer << colorize( _( "Worn:" ), c_cyan ) << "\n";
-            buffer << ( !buffer_worn.str().empty() ? buffer_worn.str() :
-                        pgettext( "set_profession_item_worn", "None\n" ) );
-            buffer << colorize( _( "Inventory:" ), c_cyan ) << "\n";
-            buffer << ( !buffer_inventory.str().empty() ? buffer_inventory.str() :
-                        pgettext( "set_profession_item_inventory", "None\n" ) );
+            buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n";
+            buffer += !buffer_wielded.empty() ? buffer_wielded : pgettext( "set_profession_item_wielded",
+                      "None\n" );
+            buffer += colorize( _( "Worn:" ), c_cyan ) + "\n";
+            buffer += !buffer_worn.empty() ? buffer_worn : pgettext( "set_profession_item_worn", "None\n" );
+            buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n";
+            buffer += !buffer_inventory.empty() ? buffer_inventory : pgettext( "set_profession_item_inventory",
+                      "None\n" );
         }
 
         // Profession bionics, active bionics shown first
@@ -1445,36 +1449,36 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
             return a->activated && !b->activated;
         } );
-        buffer << colorize( _( "Profession bionics:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession bionics:" ), c_light_blue ) + "\n";
         if( prof_CBMs.empty() ) {
-            buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
+            buffer += pgettext( "set_profession_bionic", "None" ) + std::string( "\n" );
         } else {
             for( const auto &b : prof_CBMs ) {
                 const auto &cbm = b.obj();
 
                 if( cbm.activated && cbm.toggled ) {
-                    buffer << cbm.name << " (" << _( "toggled" ) << ")\n";
+                    buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                 } else if( cbm.activated ) {
-                    buffer << cbm.name << " (" << _( "activated" ) << ")\n";
+                    buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
                 } else {
-                    buffer << cbm.name << "\n";
+                    buffer += cbm.name + "\n";
                 }
             }
         }
         // Profession pet
         cata::optional<mtype_id> montype;
         if( !sorted_profs[cur_id]->pets().empty() ) {
-            buffer << colorize( _( "Pets:" ), c_light_blue ) << "\n";
+            buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
             for( auto elem : sorted_profs[cur_id]->pets() ) {
                 monster mon( elem );
-                buffer << mon.get_name() << "\n";
+                buffer += mon.get_name() + "\n";
             }
         }
         // Profession spells
         if( !sorted_profs[cur_id]->spells().empty() ) {
-            buffer << colorize( _( "Spells:" ), c_light_blue ) << "\n";
+            buffer += colorize( _( "Spells:" ), c_light_blue ) + "\n";
             for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
-                buffer << spell_pair.first->name << _( " level " ) << spell_pair.second << "\n";
+                buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
             }
         }
         werase( w_items );
@@ -1482,7 +1486,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                     ctxt.get_desc( "LEFT" ),
                                     ctxt.get_desc( "RIGHT" ) );
-        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_light_gray,
+        const int iheight = print_scrollable( w_items, desc_offset, buffer, c_light_gray,
                                               scroll_msg );
 
         werase( w_sorting );
@@ -1642,6 +1646,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
+            if( r.has_flag( "SECRET" ) ) {
+                continue;
+            }
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;

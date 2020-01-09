@@ -100,26 +100,6 @@
   },
   {
     "type": "construction",
-    "description": "Dig a Pit",
-    "category": "DIG",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "20 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "pre_terrain": "t_dirt",
-    "post_terrain": "t_pit_shallow"
-  },
-  {
-    "type": "construction",
-    "description": "Dig a Pit",
-    "category": "DIG",
-    "required_skills": [ [ "survival", 1 ] ],
-    "time": "15 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "pre_terrain": "t_pit_shallow",
-    "post_terrain": "t_pit"
-  },
-  {
-    "type": "construction",
     "description": "Makeshift Wall",
     "category": "OTHER",
     "required_skills": [ [ "survival", 2 ] ],

@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <sstream>
 #include <list>
 #include <map>
@@ -244,9 +244,9 @@ static void drop_at_feet( player &p, const int id )
 
     item *found = retrieve_item( p, id );
     REQUIRE( found );
-    int pos = p.get_item_position( found );
+    item_location loc( p, found );
     p.moves = 100;
-    p.drop( pos, p.pos() );
+    p.drop( loc, p.pos() );
     p.activity.do_turn( p );
 
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before + 1 );

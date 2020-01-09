@@ -11,7 +11,7 @@
     "components": [
       [ [ "jar_glass", 1 ], [ "bottle_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
       [ [ "acid", 2 ] ],
-      [ [ "string_6", 1 ] ]
+      [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -48,19 +48,16 @@
     "time": "32 m",
     "reversible": true,
     "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
-    "using": [ [ "soldering_standard", 6 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
-      [
-        [ "scrap", 3 ],
-        [ "can_food_unsealed", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "clay_canister", 1 ],
-        [ "canister_empty", 1 ]
-      ],
-      [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "circuit", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "magnetron", 1 ] ],
+      [ [ "flux_comp_gen", 1 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "cable", 20 ] ]
     ]
   },
   {
@@ -86,7 +83,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -121,7 +118,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "oxy_powder", 75 ] ],
       [ [ "incendiary", 50 ] ]
@@ -201,7 +198,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
       [
@@ -234,7 +231,8 @@
         [ "chem_methanol", 500 ],
         [ "ether", 500 ],
         [ "denat_alcohol", 500 ],
-        [ "lamp_oil", 500 ]
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
       ]
     ]
   },
@@ -253,7 +251,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 40 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
@@ -282,7 +280,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 50 ], [ "scrap", 4 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
@@ -320,21 +318,6 @@
         [ "shot_bird", 72 ]
       ]
     ]
-  },
-  {
-    "result": "scrambler",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "electronics",
-    "skills_required": [ "computer", 4 ],
-    "difficulty": 8,
-    "time": "32 m",
-    "reversible": true,
-    "book_learn": [ [ "textbook_anarch", 8 ], [ "advanced_electronics", 8 ] ],
-    "using": [ [ "soldering_standard", 6 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "EMPbomb", 1 ] ], [ [ "antenna", 1 ] ], [ [ "transponder", 1 ] ], [ [ "e_scrap", 2 ] ] ]
   },
   {
     "result": "smokebomb",

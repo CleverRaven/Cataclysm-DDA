@@ -19,9 +19,11 @@
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // see item.h
 class item_category;
@@ -107,74 +109,83 @@ struct islot_tool {
 };
 
 struct islot_comestible {
-    /** subtype, e.g. FOOD, DRINK, MED */
-    std::string comesttype;
+    public:
+        friend Item_factory;
+        friend item;
+        /** subtype, e.g. FOOD, DRINK, MED */
+        std::string comesttype;
 
-    /** tool needed to consume (e.g. lighter for cigarettes) */
-    std::string tool = "null";
+        /** tool needed to consume (e.g. lighter for cigarettes) */
+        std::string tool = "null";
 
-    /** Defaults # of charges (drugs, loaf of bread? etc) */
-    int def_charges = 1;
+        /** Defaults # of charges (drugs, loaf of bread? etc) */
+        int def_charges = 1;
 
-    /** effect on character thirst (may be negative) */
-    int quench = 0;
+        /** effect on character thirst (may be negative) */
+        int quench = 0;
 
-    /** amount of kcal this food has */
-    unsigned int kcal = 0;
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
 
-    /** Time until becomes rotten at standard temperature, or zero if never spoils */
-    time_duration spoils = 0_turns;
+        /** Time until becomes rotten at standard temperature, or zero if never spoils */
+        time_duration spoils = 0_turns;
 
-    /** addiction potential */
-    int addict = 0;
+        /** addiction potential */
+        int addict = 0;
 
-    /** effects of addiction */
-    add_type add = ADD_NULL;
+        /** effects of addiction */
+        add_type add = ADD_NULL;
 
-    /** effect on morale when consuming */
-    int fun = 0;
+        /** stimulant effect */
+        int stim = 0;
 
-    /** stimulant effect */
-    int stim = 0;
+        /** Reference to other item that replaces this one as a component in recipe results */
+        itype_id cooks_like;
 
-    /** Reference to other item that replaces this one as a component in recipe results */
-    itype_id cooks_like;
+        /** Reference to item that will be received after smoking current item */
+        itype_id smoking_result;
 
-    /** Reference to item that will be received after smoking current item */
-    itype_id smoking_result;
+        /** TODO: add documentation */
+        int healthy = 0;
 
-    /** TODO: add documentation */
-    int healthy = 0;
+        /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
+        int parasites = 0;
 
-    /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
-    int parasites = 0;
+        /** probability [0, 100] to get food poisoning from this comestible */
+        int contamination = 0;
 
-    /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-    int freeze_point = temperatures::freezing;
+        /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
+        int freeze_point = temperatures::freezing;
 
-    //** specific heats in J/(g K) and latent heat in J/g */
-    float specific_heat_liquid = 4.186;
-    float specific_heat_solid = 2.108;
-    float latent_heat = 333;
+        //** specific heats in J/(g K) and latent heat in J/g */
+        float specific_heat_liquid = 4.186;
+        float specific_heat_solid = 2.108;
+        float latent_heat = 333;
 
-    /** vitamins potentially provided by this comestible (if any) */
-    std::map<vitamin_id, int> vitamins;
+        /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
+        int monotony_penalty = 2;
 
-    /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
-    static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+        /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
+        static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
-    int get_calories() const {
-        return kcal;
-    }
+        bool has_calories() const {
+            return default_nutrition.kcal > 0;
+        }
 
-    int get_nutr() const {
-        return kcal / kcal_per_nutr;
-    }
-    /** The monster group that is drawn from when the item rots away */
-    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+        int get_default_nutr() const {
+            return default_nutrition.kcal / kcal_per_nutr;
+        }
 
-    /** Chance the above monster group spawns*/
-    int rot_spawn_chance = 10;
+        /** The monster group that is drawn from when the item rots away */
+        mongroup_id rot_spawn = mongroup_id::NULL_ID();
+
+        /** Chance the above monster group spawns*/
+        int rot_spawn_chance = 10;
+
+    private:
+        /** effect on morale when consuming */
+        int fun = 0;
 };
 
 struct islot_brewable {
@@ -579,6 +590,8 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
+    /** Increases gun weight by this many times */
+    float weight_multiplier = 1.0f;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
@@ -763,6 +776,28 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+enum condition_type {
+    FLAG,
+    COMPONENT_ID,
+    num_condition_types
+};
+
+template<>
+struct enum_traits<condition_type> {
+    static constexpr auto last = condition_type::num_condition_types;
+};
+
+// A name that is applied under certain conditions.
+struct conditional_name {
+    // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+    condition_type type;
+    // Context name  (i.e. "CANNIBALISM"   or "mutant")
+    std::string condition;
+    // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
+    // be replaced by the item's normal name and/or preceding conditional names.
+    translation name;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -771,26 +806,26 @@ struct itype {
          * this before using it.
          */
         /*@{*/
-        cata::optional<islot_container> container;
-        cata::optional<islot_tool> tool;
-        cata::optional<islot_comestible> comestible;
-        cata::optional<islot_brewable> brewable;
-        cata::optional<islot_armor> armor;
-        cata::optional<islot_pet_armor> pet_armor;
-        cata::optional<islot_book> book;
-        cata::optional<islot_mod> mod;
-        cata::optional<islot_engine> engine;
-        cata::optional<islot_wheel> wheel;
-        cata::optional<islot_fuel> fuel;
-        cata::optional<islot_gun> gun;
-        cata::optional<islot_gunmod> gunmod;
-        cata::optional<islot_magazine> magazine;
-        cata::optional<islot_battery> battery;
-        cata::optional<islot_bionic> bionic;
-        cata::optional<islot_ammo> ammo;
-        cata::optional<islot_seed> seed;
-        cata::optional<islot_artifact> artifact;
-        cata::optional<relic> relic_data;
+        cata::value_ptr<islot_container> container;
+        cata::value_ptr<islot_tool> tool;
+        cata::value_ptr<islot_comestible> comestible;
+        cata::value_ptr<islot_brewable> brewable;
+        cata::value_ptr<islot_armor> armor;
+        cata::value_ptr<islot_pet_armor> pet_armor;
+        cata::value_ptr<islot_book> book;
+        cata::value_ptr<islot_mod> mod;
+        cata::value_ptr<islot_engine> engine;
+        cata::value_ptr<islot_wheel> wheel;
+        cata::value_ptr<islot_fuel> fuel;
+        cata::value_ptr<islot_gun> gun;
+        cata::value_ptr<islot_gunmod> gunmod;
+        cata::value_ptr<islot_magazine> magazine;
+        cata::value_ptr<islot_battery> battery;
+        cata::value_ptr<islot_bionic> bionic;
+        cata::value_ptr<islot_ammo> ammo;
+        cata::value_ptr<islot_seed> seed;
+        cata::value_ptr<islot_artifact> artifact;
+        cata::value_ptr<relic> relic_data;
         /*@}*/
 
     private:
@@ -798,7 +833,7 @@ struct itype {
         bool stackable_ = false;
 
         /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // @todo create and use a MinMax class or similar to put both values into one object.
+        // @TODO: create and use a MinMax class or similar to put both values into one object.
         /// @{
         int damage_min_ = -1000;
         int damage_max_ = +4000;
@@ -826,6 +861,9 @@ struct itype {
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
+        // What item this item repairs like if it doesn't have a recipe
+        itype_id repairs_like;
+
         std::string snippet_category;
         translation description; // Flavor text
 
@@ -834,6 +872,9 @@ struct itype {
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
+
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.
@@ -929,6 +970,9 @@ struct itype {
         /** What items can be used to repair this item? @see Item_factory::finalize */
         std::set<itype_id> repair;
 
+        /** What recipes can make this item */
+        std::vector<recipe_id> recipes;
+
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
 
@@ -981,7 +1025,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable_ || ammo.has_value() || comestible.has_value();
+            return stackable_ || ammo || comestible;
         }
 
         int charges_default() const {

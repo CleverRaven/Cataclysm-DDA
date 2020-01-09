@@ -182,14 +182,14 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ]
   },
   {
@@ -200,6 +200,28 @@
     "reload_noise": "chuk chuk.",
     "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "abstract": "shotgun_pump_3gun",
+    "copy-from": "shotgun_pump",
+    "type": "GUN",
+    "//": "Anything that has the right pin arrangement for a speedloader chute",
+    "name": { "str": "base race shotgun, pump", "str_pl": "base race shotguns, pump" },
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "loading port", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "abstract": "smg_base",

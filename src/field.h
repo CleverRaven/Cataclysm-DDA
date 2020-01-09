@@ -177,6 +177,8 @@ class field
          */
         field_type_id displayed_field_type() const;
 
+        description_affix displayed_description_affix() const;
+
         //Returns the vector iterator to begin searching through the list.
         std::map<field_type_id, field_entry>::iterator begin();
         std::map<field_type_id, field_entry>::const_iterator begin() const;

@@ -9,7 +9,6 @@
     "move_cost_mod": 0,
     "comfort": 2,
     "floor_bedding_warmth": -1500,
-    "max_volume": 4000,
     "required_str": 7,
     "bash": {
       "str_min": 8,
@@ -37,7 +36,6 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ] },
-    "max_volume": 4000,
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -77,7 +75,6 @@
         { "item": "pillow", "count": 4 }
       ]
     },
-    "max_volume": 4000,
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -504,7 +501,7 @@
     "description": "Pile of various metals, bricks, and other building materials.  You could clear it with a shovel.",
     "color": "light_gray",
     "move_cost_mod": 6,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -528,7 +525,7 @@
     "symbol": "^",
     "color": "dark_gray",
     "move_cost_mod": 6,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -552,7 +549,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 8,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -576,7 +573,7 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost_mod": 6,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",

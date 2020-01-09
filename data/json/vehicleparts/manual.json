@@ -26,8 +26,13 @@
     "power": 1600,
     "muscle_power_factor": 140,
     "folded_volume": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ] },
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   },
   {
@@ -42,6 +47,11 @@
     "muscle_power_factor": 50,
     "damage_modifier": 50,
     "folded_volume": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }

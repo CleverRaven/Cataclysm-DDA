@@ -61,6 +61,7 @@
 #include "type_id.h"
 
 static const itype_id null_itype( "null" );
+static const species_id ROBOT( "ROBOT" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -72,7 +73,7 @@ constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
 constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
 
-explosion_data load_explosion_data( JsonObject &jo )
+explosion_data load_explosion_data( const JsonObject &jo )
 {
     explosion_data ret;
     // Power is mandatory
@@ -92,7 +93,7 @@ explosion_data load_explosion_data( JsonObject &jo )
     return ret;
 }
 
-shrapnel_data load_shrapnel_data( JsonObject &jo )
+shrapnel_data load_shrapnel_data( const JsonObject &jo )
 {
     shrapnel_data ret;
     // Casing mass is mandatory
@@ -550,6 +551,9 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
+        if( critter.type->in_species( ROBOT ) ) {
+            continue;
+        }
         // TODO: can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
@@ -818,35 +822,6 @@ void resonance_cascade( const tripoint &p )
                     break;
             }
         }
-    }
-}
-
-void nuke( const tripoint &p )
-{
-    // TODO: nukes hit above surface, not critter = 0
-    // TODO: Z
-    tripoint p_surface( p.xy(), 0 );
-    tinymap tmpmap;
-    tmpmap.load( omt_to_sm_copy( p_surface ), false );
-    tripoint dest( 0, 0, p.z );
-    int &i = dest.x;
-    int &j = dest.y;
-    for( i = 0; i < SEEX * 2; i++ ) {
-        for( j = 0; j < SEEY * 2; j++ ) {
-            if( !one_in( 10 ) ) {
-                tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true );
-            }
-            if( one_in( 3 ) ) {
-                tmpmap.add_field( dest, fd_nuke_gas, 3 );
-            }
-            tmpmap.adjust_radiation( dest, rng( 20, 80 ) );
-        }
-    }
-    tmpmap.save();
-    overmap_buffer.ter_set( p_surface, oter_id( "crater" ) );
-    // Kill any npcs on that omap location.
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
-        npc->marked_for_death = true;
     }
 }
 

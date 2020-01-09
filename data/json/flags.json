@@ -7,6 +7,7 @@
   },
   {
     "id": "EFFECT_INVISIBLE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
@@ -70,6 +71,7 @@
   },
   {
     "id": "EFFECT_NIGHT_VISION",
+    "context": [  ],
     "type": "json_flag"
   },
   {
@@ -144,6 +146,7 @@
   {
     "id": "ETHEREAL_ITEM",
     "type": "json_flag",
+    "context": [  ],
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
   },
   {
@@ -389,6 +392,12 @@
     "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
   },
   {
+    "id": "SHEATH_AXE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "//": "This item can be stored in a sheath of the appropriate size."
+  },
+  {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -501,6 +510,13 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
+  },
+  {
+    "id": "POWERARMOR_COMPATIBLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
+    "info": "This item can be worn simultaneously with power armor."
   },
   {
     "id": "furred",
@@ -660,6 +676,12 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "PAIN_NORESIST",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "pain altering spells can't be resisted (like with the deadened trait)"
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "context": [ "mutation" ],
@@ -667,44 +689,48 @@
   },
   {
     "id": "EFFECT_FEATHER_FALL",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_BIO_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_BASH_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_CUT_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_ACID_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_STAB_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_HEAT_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_COLD_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "ELECTRIC_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
-  },
-  {
-    "id": "NO_CRAFT_INHERIT",
-    "type": "json_flag",
-    "//": "Crafted items with this flag won't inherit flags with craft_inherit from their components."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -725,6 +751,7 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "craft_inherit": true,
+    "taste_mod": -5,
     "//": "Has a bad taste or texture that can't be covered up through cooking.",
     "info": "This food is <bad>unappetizing</bad> in a way that <bad>can't be covered up by most cooking</bad>."
   },
@@ -734,5 +761,11 @@
     "context": [ "COMESTIBLE" ],
     "//": "Decreases calories as they appear in JSON def by 25%. This penalty is removed if the item is used in a recipe that requires heating.",
     "info": "This food is <info>raw</info>, and will be <good>more nutritious</good> if cooked."
+  },
+  {
+    "id": "CANNIBALISM",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "mega_3re",
-    "comment": "roof. right edge",
+    "//": "roof. right edge",
     "weight": 10,
     "method": "json",
     "object": {

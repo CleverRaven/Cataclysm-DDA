@@ -48,6 +48,7 @@
   {
     "id": "miner_hat_on",
     "copy-from": "miner_hat",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "name": "mining helmet (on)",
     "name_plural": "mining helmets (on)",
@@ -65,7 +66,7 @@
     "type": "ARMOR",
     "name": "welding mask",
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
-    "weight": 1000,
+    "weight": "1 kg",
     "volume": "4 L",
     "price": 1400,
     "to_hit": -3,
@@ -86,7 +87,7 @@
     "type": "ARMOR",
     "name": "crude welding mask",
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
-    "weight": 4000,
+    "weight": "4 kg",
     "volume": "4 L",
     "price": 1000,
     "to_hit": -3,
@@ -113,7 +114,7 @@
     "name": "crude welding mask (raised)",
     "name_plural": "crude welding masks (raised)",
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to lower it over your face.",
-    "weight": 4000,
+    "weight": "4 kg",
     "volume": "4 L",
     "price": 1000,
     "to_hit": -3,
@@ -138,7 +139,7 @@
     "name": "welding mask (raised)",
     "name_plural": "welding masks (raised)",
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to lower it over your face.",
-    "weight": 1000,
+    "weight": "1 kg",
     "volume": "4 L",
     "price": 1400,
     "to_hit": -3,
@@ -176,7 +177,7 @@
     "symbol": "[",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
     "id": "holo_cloak",
@@ -271,6 +272,7 @@
   {
     "id": "thermal_socks_on",
     "copy-from": "thermal_socks",
+    "repairs_like": "thermal_socks",
     "type": "TOOL_ARMOR",
     "name": "pair of thermal electric socks (on)",
     "name_plural": "pairs of thermal electric socks (on)",
@@ -328,6 +330,7 @@
   {
     "id": "thermal_suit_on",
     "copy-from": "thermal_suit",
+    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "name": "thermal electric suit (on)",
     "name_plural": "thermal electric suits (on)",
@@ -386,6 +389,7 @@
   {
     "id": "thermal_gloves_on",
     "copy-from": "thermal_gloves",
+    "repairs_like": "thermal_gloves",
     "type": "TOOL_ARMOR",
     "name": "pair of thermal electric gloves (on)",
     "name_plural": "pairs of thermal electric gloves (on)",
@@ -443,6 +447,7 @@
   {
     "id": "thermal_mask_on",
     "copy-from": "thermal_mask",
+    "repairs_like": "thermal_mask",
     "type": "TOOL_ARMOR",
     "name": "thermal electric balaclava (on)",
     "name_plural": "thermal electric balaclavas (on)",
@@ -522,6 +527,7 @@
   {
     "id": "wearable_light_on",
     "copy-from": "wearable_light",
+    "repairs_like": "wearable_light",
     "type": "TOOL_ARMOR",
     "name": "headlamp (on)",
     "name_plural": "headlamps (on)",
@@ -579,6 +585,7 @@
   {
     "id": "survivor_light_on",
     "copy-from": "survivor_light",
+    "repairs_like": "survivor_light",
     "type": "TOOL_ARMOR",
     "name": "survivor headlamp (on)",
     "name_plural": "survivor headlamps (on)",
@@ -620,6 +627,7 @@
   {
     "id": "wearable_atomic_light_off",
     "copy-from": "wearable_atomic_light",
+    "repairs_like": "wearable_atomic_light",
     "type": "TOOL_ARMOR",
     "looks_like": "survivor_light",
     "name": "atomic headlamp (covered)",
@@ -693,6 +701,7 @@
     "volume": "9 L",
     "to_hit": -3,
     "max_charges": 5000,
+    "charges_per_use": 5,
     "ammo": "plutonium",
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
@@ -706,6 +715,7 @@
   {
     "id": "rm13_armor_on",
     "copy-from": "rm13_armor",
+    "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": "RM13 combat armor (on)",
     "name_plural": "RM13 combat armors (on)",
@@ -726,6 +736,7 @@
       "CLIMATE_CONTROL"
     ],
     "turns_per_charge": 18,
+    "charges_per_use": 0,
     "revert_to": "rm13_armor",
     "use_action": "RM13ARMOR_ON",
     "environmental_protection": 40,
@@ -767,6 +778,7 @@
   {
     "id": "dimensional_anchor_on",
     "copy-from": "dimensional_anchor",
+    "repairs_like": "dimensional_anchor",
     "type": "TOOL_ARMOR",
     "name": "5-point anchor (on)",
     "name_plural": "5-point anchors (on)",
@@ -831,6 +843,7 @@
   {
     "id": "phase_immersion_suit_on",
     "copy-from": "phase_immersion_suit",
+    "repairs_like": "phase_immersion_suit",
     "type": "TOOL_ARMOR",
     "name": "phase immersion suit (on)",
     "name_plural": "phase immersion suits (on)",
@@ -899,6 +912,7 @@
   {
     "id": "rebreather_on",
     "copy-from": "rebreather",
+    "repairs_like": "rebreather",
     "type": "TOOL_ARMOR",
     "name": "rebreather mask (on)",
     "name_plural": "rebreather masks (on)",
@@ -946,6 +960,7 @@
   {
     "id": "rebreather_xl_on",
     "copy-from": "rebreather_xl",
+    "repairs_like": "rebreather_xl",
     "type": "TOOL_ARMOR",
     "name": "XL rebreather mask (on)",
     "name_plural": "XL rebreather masks (on)",
@@ -1327,6 +1342,7 @@
   {
     "id": "goggles_nv_on",
     "copy-from": "goggles_nv",
+    "repairs_like": "goggles_nv",
     "type": "TOOL_ARMOR",
     "name": "pair of light amp goggles (on)",
     "name_plural": "pairs of light amp goggles (on)",
@@ -1390,6 +1406,7 @@
   {
     "id": "goggles_ir_on",
     "copy-from": "goggles_ir",
+    "repairs_like": "goggles_ir",
     "type": "TOOL_ARMOR",
     "name": "pair of infrared goggles (on)",
     "name_plural": "pairs of infrared goggles (on)",
@@ -1478,6 +1495,7 @@
   {
     "id": "mask_h20survivor_on",
     "copy-from": "mask_h20survivor",
+    "repairs_like": "mask_h20survivor",
     "type": "TOOL_ARMOR",
     "name": "survivor divemask (on)",
     "name_plural": "survivor divemasks (on)",
@@ -1524,6 +1542,7 @@
   {
     "id": "mask_h20survivorxl_on",
     "copy-from": "mask_h20survivorxl",
+    "repairs_like": "mask_h20survivorxl",
     "type": "TOOL_ARMOR",
     "name": "XL survivor divemask (on)",
     "name_plural": "XL survivor divemasks (on)",
@@ -1719,6 +1738,7 @@
   {
     "id": "towel_wet",
     "type": "TOOL_ARMOR",
+    "repairs_like": "towel",
     "symbol": ",",
     "color": "blue",
     "name": "towel",
@@ -1738,6 +1758,7 @@
   {
     "id": "towel_soiled",
     "type": "TOOL_ARMOR",
+    "repairs_like": "towel",
     "symbol": ",",
     "color": "magenta",
     "name": "soiled towel",
@@ -1801,6 +1822,7 @@
   {
     "id": "patchwork_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "patchwork_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -1848,6 +1870,7 @@
   {
     "id": "long_patchwork_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "long_patchwork_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -1900,6 +1923,7 @@
   {
     "id": "knit_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "knit_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -1947,6 +1971,7 @@
   {
     "id": "long_knit_scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "long_knit_scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -1994,6 +2019,7 @@
   {
     "id": "scarf_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2041,6 +2067,7 @@
   {
     "id": "scarf_long_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf_long",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2088,6 +2115,7 @@
   {
     "id": "scarf_fur_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf_fur",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2135,6 +2163,7 @@
   {
     "id": "scarf_fur_long_loose",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scarf_fur_long",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -2194,6 +2223,7 @@
   {
     "id": "thermal_outfit_on",
     "copy-from": "thermal_outfit",
+    "repairs_like": "thermal_outfit",
     "type": "TOOL_ARMOR",
     "name": "thermal electric outfit (on)",
     "name_plural": "thermal electric outfits (on)",
@@ -2234,6 +2264,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "mask_ski_loose",
+    "repairs_like": "mask_ski",
     "name": "ski mask (open)",
     "name_plural": "ski masks (open)",
     "category": "clothing",
@@ -2560,6 +2591,7 @@
   {
     "id": "powered_earmuffs_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "powered_earmuffs",
     "category": "armor",
     "symbol": "[",
     "color": "blue",
@@ -2600,6 +2632,22 @@
     "coverage": 5
   },
   {
+    "id": "makeshift_stethoscope",
+    "type": "TOOL_ARMOR",
+    "symbol": "y",
+    "color": "dark_gray",
+    "name": "makeshift stethoscope",
+    "description": "This is a relatively cumbersome DIY child's medical listening toy.  Use it to listen to things.  Closely.",
+    "price": 500,
+    "material": [ "plastic" ],
+    "weight": "400 g",
+    "volume": "500 ml",
+    "covers": [ "TORSO" ],
+    "encumbrance": 3,
+    "flags": [ "BELTED", "SAFECRACK" ],
+    "coverage": 8
+  },
+  {
     "id": "solarpack",
     "type": "TOOL_ARMOR",
     "name": "solar backpack (folded)",
@@ -2623,6 +2671,7 @@
   {
     "id": "solarpack_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "solarpack",
     "name": "solar backpack (unfolded)",
     "name_plural": "solar backpacks (unfolded)",
     "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system.",
@@ -2665,6 +2714,7 @@
   {
     "id": "q_solarpack_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "q_solarpack",
     "name": "quantum solar backpack (unfolded)",
     "name_plural": "quantum solar backpacks (unfolded)",
     "description": "Unfolded array of portable quantum solar panels ready to push some power into an active cable charger system.",
@@ -2710,6 +2760,7 @@
   {
     "id": "helmet_riot_raised",
     "type": "TOOL_ARMOR",
+    "repairs_like": "helmet_riot",
     "category": "armor",
     "name": "riot helmet (raised visor)",
     "name_plural": "riot helmets (raised visor)",
@@ -2751,7 +2802,7 @@
     "max_charges": 60,
     "ammo": "nitrox",
     "covers": [ "TORSO" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2762,8 +2813,9 @@
   {
     "id": "scuba_tank_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "scuba_tank",
     "category": "other",
-    "name": "scuba tank (on)",
+    "name": { "str": "scuba tank (on)", "str_pl": "scuba tanks (on)" },
     "description": "This is a high-pressure 232 bar diving tank that can contain up to 12L of compressed mixture of oxygen and nitrogen.  It is equipped with a on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "oxygen_tank",
     "weight": "16000 g",
@@ -2779,7 +2831,7 @@
     "turns_per_charge": 60,
     "ammo": "nitrox",
     "covers": [ "TORSO", "MOUTH" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2806,7 +2858,7 @@
     "max_charges": 20,
     "ammo": "nitrox",
     "covers": [ "TORSO" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2817,8 +2869,9 @@
   {
     "id": "small_scuba_tank_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "small_scuba_tank",
     "category": "other",
-    "name": "small scuba tank (on)",
+    "name": { "str": "small scuba tank (on)", "str_pl": "small scuba tanks (on)" },
     "description": "This is a small high-pressure 200 bar backup diving tank, that can contain 4L of compressed mixture of oxygen and nitrogen.  It is equipped with a on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
     "weight": "7000 g",
@@ -2834,7 +2887,7 @@
     "turns_per_charge": 60,
     "ammo": "nitrox",
     "covers": [ "TORSO", "MOUTH" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2882,6 +2935,7 @@
   {
     "id": "electric_blanket_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "electric_blanket",
     "name": "electric blanket (on)",
     "name_plural": "electric blankets (on)",
     "description": "A heated blanket made of polyster.  It's turned on, making it nice and toasty while it lasts.",
@@ -2923,19 +2977,7 @@
     "magazines": [
       [
         "battery",
-        [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_atomic_battery_cell",
-          "medium_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
     "magazine_well": 2,
@@ -2944,10 +2986,11 @@
   {
     "id": "foodperson_mask_on",
     "type": "TOOL_ARMOR",
+    "repairs_like": "foodperson_mask",
     "name": "Foodperson mask (on)",
     "name_plural": "Foodperson masks (on)",
     "copy-from": "foodperson_mask",
-    "turns_per_charge": 15,
+    "turns_per_charge": 60,
     "revert_to": "foodperson_mask",
     "use_action": "FOODPERSON",
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
@@ -2970,6 +3013,7 @@
   {
     "id": "attached_ear_plugs_off",
     "type": "ARMOR",
+    "repairs_like": "attached_ear_plugs_on",
     "name": "pair of attached ear plugs (out)",
     "name_plural": "pairs of attached ear plugs (out)",
     "description": "A pair of industrial grade ear plugs, they are attached together by some string.  They hang around your neck, use them to plug them in.",

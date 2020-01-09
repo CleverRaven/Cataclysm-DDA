@@ -43,7 +43,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "no": "I can't believe my eyes.  Please get my outta here...",
+      "no": "I can't believe my eyes.  Please get me outta here…",
       "yes": "Hey, <name_g>."
     },
     "responses": [
@@ -77,7 +77,7 @@
     "destination": "dairy_farm_isherwood_W",
     "start": {
       "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
-      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "reveal_radius": 3 }
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
@@ -96,8 +96,8 @@
       "advice": "We shouldn't stay here too long, more might show up.",
       "inquire": "How much further?",
       "success": "Thanks, we'll never be able to repay you, Here's a token of my gratitude, I made these suits for my family and always keep a few extra around.",
-      "success_lie": "I don't feel saved...",
-      "failure": "Tell my family that I love them..."
+      "success_lie": "I don't feel saved…",
+      "failure": "Tell my family that I love them…"
     }
   }
 ]

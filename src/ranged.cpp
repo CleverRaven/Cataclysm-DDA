@@ -62,28 +62,29 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "skill.h"
 
-const skill_id skill_throw( "throw" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_driving( "driving" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_launcher( "launcher" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_launcher( "launcher" );
 
-const efftype_id effect_on_roof( "on_roof" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_downed( "downed" );
+static const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
-const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_fire( const Character &p, const itype &firing );
+int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
@@ -153,6 +154,8 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
 
 bool player::handle_gun_damage( item &it )
 {
+    // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
+    const double dirt_max_dbl = 10000;
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
         return false;
@@ -166,12 +169,23 @@ bool player::handle_gun_damage( item &it )
     }
 
     const auto &curammo_effects = it.ammo_effects();
-    const cata::optional<islot_gun> &firing = it.type->gun;
+    const islot_gun &firing = *it.type->gun;
+    // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
     if( !it.has_flag( "NEVER_JAMS" ) &&
-        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 1000000000000.0 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname() );
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
+                1000000000000.0 ) ) {
+        add_msg_player_or_npc(
+            _( "Your %s misfires with a muffled click!" ),
+            _( "<npcname>'s %s misfires with a muffled click!" ),
+            it.tname() );
+        // at high dirt levels the chance to misfire gets to significant levels. 10,000 is max and 7800 is quite high so above that the player gets some relief in the form of exchanging time for some dirt reduction. Basically jiggling the parts loose to remove some dirt and get a few more shots out.
+        if( dirt_dbl >
+            7800 ) {
+            add_msg_player_or_npc(
+                _( "Perhaps taking the ammo out of your %s and reloading will help." ),
+                _( "Perhaps taking the ammo out of <npcname>'s %s and reloading will help." ),
+                it.tname() );
+        }
         return false;
     }
 
@@ -179,7 +193,7 @@ bool player::handle_gun_damage( item &it )
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    int effective_durability = firing->durability;
+    int effective_durability = firing.durability;
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
@@ -228,12 +242,12 @@ bool player::handle_gun_damage( item &it )
                 }
                 if( one_in( modconsume ) ) {
                     if( mod->mod_damage( dmgamt ) ) {
-                        add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                        add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
                                                _( "<npcname>'s attached %s is destroyed by their shot!" ),
                                                mod->tname() );
                         i_rem( mod );
                     } else if( it.damage() > initstate ) {
-                        add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                        add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
                                                _( "<npcname>'s %s is damaged by their shot!" ),
                                                mod->tname() );
                     }
@@ -241,10 +255,20 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) &&
+    if( it.has_fault( fault_gun_unlubricated ) &&
+        x_in_y( dirt_dbl, dirt_max_dbl ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
+                               _( "<npcname>'s %s emits a grimace-inducing screech!" ),
+                               it.tname() );
+        it.inc_damage();
+    }
+    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) ||
+          ( it.has_fault( fault_gun_unlubricated ) ) ) &&
         !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
-        if( curammo_effects.count( "BLACKPOWDER" ) ) {
-            if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+        if( curammo_effects.count( "BLACKPOWDER" ) ||
+            it.has_fault( fault_gun_unlubricated ) ) {
+            if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
+                  ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                        _( "<npcname>'s %s fails to cycle!" ),
@@ -254,27 +278,36 @@ bool player::handle_gun_damage( item &it )
             }
         }
         // These are the dirtying/fouling mechanics
-        if( dirt < 10000 ) {
-            dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
-                        2 ) );
-            if( dirtadder < 0 ) {
-                dirtadder = 0;
+        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
+            if( dirt < static_cast<int>( dirt_max_dbl ) ) {
+                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing.blackpowder_tolerance *
+                            2 ) );
+                // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
+                if( dirtadder < 0 ) {
+                    dirtadder = 0;
+                }
+                // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
+                if( curammo_effects.count( "BLACKPOWDER" ) ||
+                    dirt < 7150 ) {
+                    it.set_var( "dirt", std::min( static_cast<int>( dirt_max_dbl ), dirt + dirtadder + 1 ) );
+                }
             }
-            it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+            dirt = it.get_var( "dirt", 0 );
+            dirt_dbl = static_cast<double>( dirt );
+            if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+                it.faults.insert( fault_gun_dirt );
+            }
+            if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
+                it.faults.erase( fault_gun_dirt );
+                it.faults.insert( fault_gun_blackpowder );
+            }
+            // end fouling mechanics
         }
-        dirt = it.get_var( "dirt", 0 );
-        dirt_dbl = static_cast<double>( dirt );
-        if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
-            it.faults.insert( fault_gun_dirt );
-        }
-        if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
-            it.faults.erase( fault_gun_dirt );
-            it.faults.insert( fault_gun_blackpowder );
-        }
-        // end fouling mechanics
     }
+    // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
     if( dirt_dbl > 5000 &&
-        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) {
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
+                5555555555555 ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
@@ -437,7 +470,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     last_target_pos = cata::nullopt;
 
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire( *this, *gun.type );
+    moves -= time_to_attack( *this, *gun.type );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     practice( skill_gun, ( hits + 1 ) * 5 );
@@ -562,7 +595,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         }
     }
     if( !throw_assist ) {
-        mod_stat( "stamina", stamina_cost );
+        mod_stamina( stamina_cost );
     }
 
     const skill_id &skill_used = skill_throw;
@@ -807,7 +840,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( is_mouse_enabled() ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white,
+        mvwprintz( w_target, point( 1, text_y ), c_white,
                    _( "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire" ) );
     }
     return lines_used;
@@ -965,7 +998,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_fire( p,
+            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
                             *ranged_weapon.type );
         }
 
@@ -1065,14 +1098,14 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
 static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
                            input_context &ctxt,
-                           const item *weapon, const tripoint &target_pos, bool is_blind_throw )
+                           const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
         target = nullptr;
     }
 
-    const dispersion_sources dispersion = p.throwing_dispersion( *weapon, target, is_blind_throw );
+    const dispersion_sources dispersion = p.throwing_dispersion( weapon, target, is_blind_throw );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
@@ -1092,7 +1125,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
 
     const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
                                 confidence_config,
                                 range, target_size );
 }
@@ -1168,7 +1201,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
             if( local_last_tgt_pos ) {
                 dst = *local_last_tgt_pos;
             }
-            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
+            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
                 pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
                 //We lost our target. Stop auto aiming.
                 pc.cancel_activity();
@@ -1217,11 +1250,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<tripoint> ret;
 
     int sight_dispersion = 0;
-    if( !relevant ) {
-        relevant = &pc.weapon;
-    } else {
+    if( relevant ) {
         sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
+
+    const bool allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
 
     const tripoint src = pc.pos();
     tripoint dst = pc.pos();
@@ -1282,7 +1315,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<aim_type>::iterator aim_mode;
 
     if( mode == TARGET_MODE_FIRE ) {
-        aim_types = pc.get_aim_types( *relevant );
+        // get_aim_types works for non-guns (null item)
+        aim_types = pc.get_aim_types( relevant ? *relevant : null_item_reference() );
         for( aim_type &type : aim_types ) {
             if( type.has_threshold ) {
                 ctxt.register_action( type.action );
@@ -1291,8 +1325,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
-                                mode, ctxt, aim_types, tiny );
+    // @TODO: this assumes that relevant == null means firing turrets, but that may not
+    // always be the case. Consider passing a name into this function.
+    int num_instruction_lines = draw_targeting_window( w_target,
+                                relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
@@ -1394,7 +1430,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !compact ) {
                 line_number++;
             }
-            if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+            // Assumes that relevant == null means firing turrets (maybe even multiple at once),
+            // so printing their firing mode / ammo / ... of one of them is misleading.
+            if( relevant && ( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) ) {
                 auto m = relevant->gun_current_mode();
                 std::string str;
                 nc_color col = c_light_gray;
@@ -1437,7 +1475,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                           c_red, '*' );
             }
 
-            if( mode == TARGET_MODE_FIRE ) {
+            // Assumes that relevant == null means firing turrets (maybe even multiple at once),
+            // so printing their firing mode / ammo / ... of one of them is misleading.
+            if( relevant && mode == TARGET_MODE_FIRE ) {
                 double predicted_recoil = pc.recoil;
                 int predicted_delay = 0;
                 if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
@@ -1464,19 +1504,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_turret_aim( pc, w_target, line_number, dst );
-            } else if( mode == TARGET_MODE_THROW ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
-            } else if( mode == TARGET_MODE_THROW_BLIND ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
+                draw_turret_aim( pc, w_target, line_number, dst );
+            } else if( mode == TARGET_MODE_THROW && relevant ) {
+                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
+            } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
+                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
             }
 
             wrefresh( g->w_terrain );
             g->draw_panels();
-            draw_targeting_window( w_target, relevant->tname(),
+            draw_targeting_window( w_target, relevant ? relevant->tname() : _( "turrets" ),
                                    mode, ctxt, aim_types, tiny );
             wrefresh( w_target );
 
@@ -1514,7 +1551,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             action = aim_mode->action;
         }
 
-        if( g->m.has_zlevels() && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
+        if( allow_zlevel_shift && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
             // Just determine our delta-z.
             const int dz = action == "LEVEL_UP" ? 1 : -1;
 
@@ -1591,28 +1628,28 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            if( on_mode_change ) {
+            if( !relevant || !relevant->is_gun() ) {
+                // skip this action
+            } else if( on_mode_change ) {
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
-                ammo = relevant->gun_current_mode().target->ammo_data();
-                range = relevant->gun_current_mode().target->gun_range( &pc );
                 if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
                     relevant->gun_cycle_mode();
                 }
+                ammo = relevant->gun_current_mode().target->ammo_data();
+                range = relevant->gun_current_mode().target->gun_range( &pc );
             }
         } else if( action == "SWITCH_AMMO" ) {
-            if( on_ammo_change ) {
+            if( !relevant ) {
+                // skip this action
+            } else if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
+            } else if( !pc.has_item( *relevant ) ) {
+                add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {
-                const int pos = pc.get_item_position( relevant );
-                item *it = &g->u.i_at( pos );
-                if( it->typeId() == "null" ) {
-                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
-                } else {
-                    item_location loc( pc, it );
-                    g->reload( loc, true );
-                }
+                item_location loc( pc, relevant );
+                g->reload( loc, true );
                 ret.clear();
                 break;
             }
@@ -1643,7 +1680,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int aim_threshold = it->threshold;
             set_last_target( dst );
             do {
-                do_aim( pc, *relevant );
+                do_aim( pc, relevant ? *relevant : null_item_reference() );
             } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > 0 );
 
             if( pc.recoil <= aim_threshold ||
@@ -1711,7 +1748,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         int new_dy = dst.y - src.y;
 
         // Make player's sprite flip to face the current target
-        if( ! tile_iso ) {
+        if( !tile_iso ) {
             if( new_dx > 0 ) {
                 g->u.facing = FD_RIGHT;
             } else if( new_dx < 0 ) {
@@ -2151,32 +2188,12 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firing )
+int time_to_attack( const Character &p, const itype &firing )
 {
-    struct time_info_t {
-        int min_time;  // absolute floor on the time taken to fire.
-        int base;      // the base or max time taken to fire.
-        int reduction; // the reduction in time given per skill level.
-    };
-
-    static const std::map<skill_id, time_info_t> map {
-        {skill_id {"pistol"},   {10, 80,  10}},
-        {skill_id {"shotgun"},  {70, 150, 25}},
-        {skill_id {"smg"},      {20, 80,  10}},
-        {skill_id {"rifle"},    {30, 150, 15}},
-        {skill_id {"archery"},  {20, 220, 25}},
-        {skill_id {"throw"},    {50, 220, 25}},
-        {skill_id {"launcher"}, {30, 200, 20}},
-        {skill_id {"melee"},    {50, 200, 20}}
-    };
-
     const skill_id &skill_used = firing.gun->skill_used;
-    const auto it = map.find( skill_used );
-    // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
-    static const time_info_t default_info{ 50, 220, 25 };
-
-    const time_info_t &info = ( it == map.end() ) ? default_info : it->second;
-    return std::max( info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ) );
+    const time_info_t &info = skill_used->time_to_attack();
+    return std::max( info.min_time,
+                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
 }
 
 static void cycle_action( item &weap, const tripoint &pos )
@@ -2252,7 +2269,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == "40mm" ) {
+    if( ammo_current() == "40x46mm" || ammo_current() == "40x53mm" ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
@@ -2422,7 +2439,7 @@ double player::gun_value( const item &weap, int ammo ) const
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
-    int move_cost = time_to_fire( *this, *weap.type );
+    int move_cost = time_to_attack( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
         int reload_cost = gun.reload_time + encumb( bp_hand_l ) + encumb( bp_hand_r );

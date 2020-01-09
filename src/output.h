@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -146,6 +145,7 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
@@ -250,7 +250,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
@@ -280,7 +280,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
@@ -306,7 +306,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param begin The coordinates of line start (curses coordinates)
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
@@ -476,15 +476,24 @@ struct item_info_data {
         std::string sTypeName;
         std::vector<iteminfo> vItemDisplay;
         std::vector<iteminfo> vItemCompare;
+        int selected = 0;
+
     public:
 
         item_info_data() = default;
+
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                        const int selected = 0 )
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
             : sItemName( sItemName ), sTypeName( sTypeName ),
               vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( selected ) {}
+              selected( 0 ), ptr_selected( &selected ) {}
+
+        item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+                        int &ptr_selected )
+            : sItemName( sItemName ), sTypeName( sTypeName ),
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+              ptr_selected( &ptr_selected ) {}
 
         const std::string &get_item_name() const {
             return sItemName;
@@ -499,7 +508,7 @@ struct item_info_data {
             return vItemCompare;
         }
 
-        int selected = 0;
+        int *ptr_selected = &selected;
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;
@@ -656,18 +665,18 @@ std::string enumerate_as_string( const _Container &values,
         return _( ", " );
     }
     ();
-    std::ostringstream res;
+    std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
             if( std::next( iter ) == values.end() ) {
-                res << final_separator;
+                res += final_separator;
             } else {
-                res << _( ", " );
+                res += _( ", " );
             }
         }
-        res << *iter;
+        res += *iter;
     }
-    return res.str();
+    return res;
 }
 
 /**
@@ -966,12 +975,12 @@ void refresh_display();
 template<typename F>
 std::string colorize_symbols( const std::string &str, F color_of )
 {
-    std::ostringstream res;
+    std::string res;
     nc_color prev_color = c_unset;
 
     const auto closing_tag = [ &res, prev_color ]() {
         if( prev_color != c_unset ) {
-            res << "</color>";
+            res += "</color>";
         }
     };
 
@@ -980,16 +989,16 @@ std::string colorize_symbols( const std::string &str, F color_of )
 
         if( prev_color != new_color ) {
             closing_tag();
-            res << "<color_" << get_all_colors().get_name( new_color ) << ">";
+            res += "<color_" + get_all_colors().get_name( new_color ) + ">";
             prev_color = new_color;
         }
 
-        res << elem;
+        res += elem;
     }
 
     closing_tag();
 
-    return res.str();
+    return res;
 }
 
 #endif

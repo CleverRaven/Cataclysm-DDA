@@ -211,7 +211,6 @@ bool Pickup::query_thief()
     } else {
         // error
         debugmsg( "Not a valid option [ %s ]", answer );
-        return false;
     }
     return false;
 }
@@ -568,6 +567,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int pickupH = maxitems + pickupBorderRows;
         int pickupW = 44;
 
+        //find max length of item name and resize pickup window width
+        for( const std::list<item_stack::iterator> &cur_list : stacked_here ) {
+            const item &this_item = *cur_list.front();
+            int item_len = utf8_width( remove_color_tags( this_item.display_name() ) ) + 10;
+            if( item_len > pickupW && item_len < TERMX ) {
+                pickupW = item_len;
+            }
+        }
+
         int itemsW = pickupW;
 
         int pickupX = 0;
@@ -614,6 +622,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         int selected = 0;
         int iScrollPos = 0;
 
+        std::string clear_buffer( pickupW, ' ' );
         std::string filter;
         std::string new_filter;
         // Indexes of items that match the filter
@@ -628,10 +637,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const std::string pickup_chars =
                 ctxt.get_available_single_char_hotkeys( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" );
             int idx = -1;
-            for( int i = 1; i < pickupH; i++ ) {
-                mvwprintw( w_pickup, point( 0, i ),
-                           "                                                " );
+
+            //clear all items names
+            for( int cur_row = 1; cur_row < pickupH; cur_row++ ) {
+                mvwprintw( w_pickup, point( 0, cur_row ), clear_buffer );
             }
+
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {
                 int raw_input_char_value = static_cast<char>( raw_input_char ) - '0';
@@ -795,9 +806,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 draw_item_info( w_item_info, dummy );
             }
             draw_custom_border( w_item_info, 0 );
+
+            // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), itemsW - 8, c_white, "%s >",
+            trim_and_print( w_item_info, point( 4, 0 ), itemsW - 8, selected_item.color_in_inventory(),
                             selected_item.display_name() );
+            wprintw( w_item_info, " >" );
             wrefresh( w_item_info );
 
             if( action == "SELECT_ALL" ) {
@@ -850,12 +864,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         wprintw( w_pickup, " - " );
                     }
                     std::string item_name;
-                    std::string stolen;
-                    bool stealing = false;
-                    if( !this_item.is_owned_by( g->u, true ) ) {
-                        stolen = "<color_light_red>!</color>";
-                        stealing = true;
-                    }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
@@ -874,38 +882,25 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                  it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
                                 charges += ( *it )->charges;
                             }
-                            if( stealing ) {
-                                item_name = string_format( "%s %s", stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total, charges ) );
-                            } else {
-                                item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
-                                            charges );
-                            }
+                            item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                        charges );
                         }
                     } else {
-                        if( stealing ) {
-                            item_name = string_format( "%s %s", stolen,
-                                                       this_item.display_name( stacked_here[true_it].size() ) );
-                        } else {
-                            item_name = this_item.display_name( stacked_here[true_it].size() );
-                        }
+                        item_name = this_item.display_name( stacked_here[true_it].size() );
                     }
                     if( stacked_here[true_it].size() > 1 ) {
-                        if( stealing ) {
-                            item_name = string_format( "%s %d %s", stolen, stacked_here[true_it].size(), item_name );
-                        } else {
-                            item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
-                        }
+                        item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
                     }
                     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-                        if( stealing ) {
-                            item_name = string_format( "%s %s %s", stolen, this_item.symbol().c_str(),
-                                                       item_name.c_str() );
-                        } else {
-                            item_name = string_format( "%s %s", this_item.symbol().c_str(),
-                                                       item_name );
-                        }
+                        item_name = string_format( "%s %s", this_item.symbol().c_str(),
+                                                   item_name );
                     }
+
+                    // if the item does not belong to your fraction then add the stolen symbol
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        item_name = string_format( "<color_light_red>!</color> %s", item_name );
+                    }
+
                     trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
                                     item_name );
                 }
@@ -959,8 +954,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
 
                 std::string fmted_volume_predict = format_volume( volume_predict );
-                mvwprintz( w_pickup, point( 18, 0 ), volume_predict > g->u.volume_capacity() ? c_red : c_white,
-                           _( "Vol %s" ), fmted_volume_predict );
+                wprintz( w_pickup, volume_predict > g->u.volume_capacity() ? c_red : c_white, _( "  Vol %s" ),
+                         fmted_volume_predict );
 
                 std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
                 wprintz( w_pickup, c_white, "/%s", fmted_volume_capacity );

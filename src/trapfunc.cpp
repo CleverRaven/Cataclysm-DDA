@@ -34,22 +34,21 @@
 #include "point.h"
 #include "teleport.h"
 
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_throw( "throw" );
+static const skill_id skill_throw( "throw" );
 
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_heavysnare( "heavysnare" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_slimed( "slimed" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_ridden( "ridden" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -698,9 +697,9 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     if( z != nullptr ) {
         if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-            sounds::sound( p, 4, sounds::sound_t::speech,
-                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech",
-                           "robot" ); //Dissector error sound.
+            //Dissector error sound.
+            sounds::sound( p, 4, sounds::sound_t::electronic_speech,
+                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech", "robot" );
             c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                       _( "The dissector lights up, and shuts down." ) );
             return false;
@@ -774,7 +773,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n ); // like the message says \-:
+                // like the message says \-:
+                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n );
                 n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
             } else {
@@ -866,7 +866,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             add_msg( _( "The spears break!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 4; i++ ) { // 4 spears to a pit
+        // 4 spears to a pit
+        for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "pointy_stick" );
             }
@@ -952,7 +953,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             add_msg( _( "The shards shatter!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 20; i++ ) { // 20 shards in a pit.
+        // 20 shards in a pit.
+        for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "glass_shard" );
             }
@@ -1114,7 +1116,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *m = dynamic_cast<monster *>( c );
-    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+    if( m != nullptr && m->flies() ) {
         return false;
     }
     if( !g->m.has_zlevels() ) {

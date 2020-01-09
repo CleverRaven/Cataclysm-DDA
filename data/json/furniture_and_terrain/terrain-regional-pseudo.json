@@ -7,7 +7,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -17,7 +17,27 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_groundcover_forest",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_groundcover_swamp",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -77,7 +97,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -87,7 +107,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -97,6 +117,6 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   }
 ]

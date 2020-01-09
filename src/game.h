@@ -30,6 +30,7 @@
 #include "monster.h"
 #include "weather.h"
 #include "point.h"
+#include "memory_fast.h"
 
 class item;
 
@@ -275,7 +276,7 @@ class game
         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
         */
         template<typename T = Creature>
-        std::shared_ptr<T> shared_from( const T &critter );
+        shared_ptr_fast<T> shared_from( const T &critter );
 
         /**
          * Adds critters to the reality bubble, creating them if necessary.
@@ -302,11 +303,13 @@ class game
          */
         /** @{ */
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
-        monster *place_critter_at( std::shared_ptr<monster> mon, const tripoint &p );
+        monster *place_critter_at( shared_ptr_fast<monster> mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
-        monster *place_critter_around( std::shared_ptr<monster> mon, const tripoint &center, int radius );
+        monster *place_critter_around( shared_ptr_fast<monster> mon, const tripoint &center,
+                                       int radius );
         monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
-        monster *place_critter_within( std::shared_ptr<monster> mon, const tripoint_range &range );
+        monster *place_critter_within( shared_ptr_fast<monster> mon,
+                                       const tripoint_range &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -332,19 +335,19 @@ class game
         class non_dead_range
         {
             public:
-                std::vector<std::weak_ptr<T>> items;
+                std::vector<weak_ptr_fast<T>> items;
 
                 class iterator
                 {
                     private:
                         bool valid();
                     public:
-                        std::vector<std::weak_ptr<T>> &items;
-                        typename std::vector<std::weak_ptr<T>>::iterator iter;
-                        std::shared_ptr<T> current;
+                        std::vector<weak_ptr_fast<T>> &items;
+                        typename std::vector<weak_ptr_fast<T>>::iterator iter;
+                        shared_ptr_fast<T> current;
 
-                        iterator( std::vector<std::weak_ptr<T>> &i,
-                                  const typename std::vector<std::weak_ptr<T>>::iterator t ) : items( i ), iter( t ) {
+                        iterator( std::vector<weak_ptr_fast<T>> &i,
+                                  const typename std::vector<weak_ptr_fast<T>>::iterator t ) : items( i ), iter( t ) {
                             while( iter != items.end() && !valid() ) {
                                 ++iter;
                             }
@@ -391,7 +394,7 @@ class game
         class Creature_range : public non_dead_range<Creature>
         {
             private:
-                std::shared_ptr<player> u;
+                shared_ptr_fast<player> u;
 
             public:
                 Creature_range( game &g );
@@ -434,8 +437,8 @@ class game
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
          * new monster there (see @ref critter_at).
-         * @param location The place where to put the revived monster.
-         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @param p The place where to put the revived monster.
+         * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
          * reasons, including no space to put the monster, corpse being to much damaged etc.
          * If the monster was revived, the caller should remove the corpse item.
@@ -559,20 +562,13 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        // TODO: Move these functions to game_menus::inv and isolate them.
-        int inv_for_filter( const std::string &title, item_filter filter,
-                            const std::string &none_message = "" );
-        int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_flag( const std::string &flag, const std::string &title );
-        int inv_for_id( const itype_id &id, const std::string &title );
-
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( int pos, int startx = 0, int width = 50,
+        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
                                  inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
@@ -773,23 +769,16 @@ class game
 
         void butcher(); // Butcher a corpse  'B'
 
-        void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload( item_location &loc, bool prompt = false, bool empty = true );
-        void mend( int pos = INT_MIN );
     public:
-        /** Eat food or fuel  'E' (or 'a') */
-        void eat();
-        void eat( item_location( *menu )( player &p ) );
-        void eat( int pos );
-        void eat( item_location( *menu )( player &p ), int pos );
         void reload_item(); // Reload an item
+        void reload_wielded();
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
-        void unload( int pos = INT_MIN );
 
         unsigned int get_seed() const;
 
@@ -799,6 +788,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
@@ -903,6 +893,7 @@ class game
         // overlays flags (on / off)
         std::map<action_id, bool> displaying_overlays{
             { ACTION_DISPLAY_SCENT, false },
+            { ACTION_DISPLAY_SCENT_TYPE, false },
             { ACTION_DISPLAY_TEMPERATURE, false },
             { ACTION_DISPLAY_VEHICLE_AI, false },
             { ACTION_DISPLAY_VISIBILITY, false },
@@ -1004,7 +995,7 @@ class game
 
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
-        std::shared_ptr<player> u_shared_ptr;
+        shared_ptr_fast<player> u_shared_ptr;
 
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;
@@ -1013,11 +1004,10 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        std::vector<std::shared_ptr<monster>> new_seen_mon;
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;
-        std::list<std::shared_ptr<npc>> active_npc;
+        std::list<shared_ptr_fast<npc>> active_npc;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         int moves_since_last_save;

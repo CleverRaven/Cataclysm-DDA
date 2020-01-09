@@ -70,9 +70,12 @@ void user_interface::show()
     const auto initial_draw = [&]() {
         // Redraw the border
         draw_border( w_border, BORDER_COLOR, title );
-        mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ) ; // |-
-        mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
-        mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX ); // _|_
+        // |-
+        mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO );
+        // -|
+        mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX );
+        // _|_
+        mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         wrefresh( w_border );
@@ -100,7 +103,8 @@ void user_interface::show()
                 mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXXX );
                 mvwputch( w_header, point( i, 3 ), c_light_gray, LINE_XOXO );
             } else {
-                mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
+                // Draw line under header
+                mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX );
             }
         }
         mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
@@ -341,7 +345,8 @@ void user_interface::show()
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         } else if( action == "HELP_KEYBINDINGS" ) {
-            initial_draw(); // de-mangle parts of the screen
+            // de-mangle parts of the screen
+            initial_draw();
         }
     }
 
@@ -571,7 +576,7 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
 
 void player_settings::create_rule( const item *it )
 {
-    // @todo change it to be a reference
+    // @TODO: change it to be a reference
     global_rules.create_rule( map_items, *it );
     character_rules.create_rule( map_items, *it );
 }
@@ -673,8 +678,9 @@ bool player_settings::save( const bool bCharacter )
         savefile = g->get_player_base_save_path() + ".apu.json";
 
         const std::string player_save = g->get_player_base_save_path() + ".sav";
+        //Character not saved yet.
         if( !file_exist( player_save ) ) {
-            return true; //Character not saved yet.
+            return true;
         }
     }
 
@@ -789,7 +795,7 @@ void rule_list::load_legacy_rules( std::istream &fin )
             const int iNum = std::count( sLine.begin(), sLine.end(), ';' );
 
             if( iNum != 2 ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
+                debugmsg( "Bad Rule: %s (will be skipped)", sLine );
             } else {
                 std::string sRule;
                 bool bActive = true;

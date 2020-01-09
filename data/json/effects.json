@@ -18,6 +18,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_suspend",
+    "name": [ "npc_suspend" ],
+    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+  },
+  {
+    "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
     "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
@@ -252,7 +258,14 @@
     "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
+    "max_intensity": 1000,
     "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "masked_scent",
+    "name": [ "Masked scent" ],
+    "desc": [ "Your scent is masked by another one." ]
   },
   {
     "type": "effect_type",
@@ -920,11 +933,9 @@
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
-    "speed_name": "Hot",
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "speed_mod": [ -2 ],
       "thirst_tick": [ 2400 ],
       "thirst_chance": [ 2 ],
       "pain_min": [ 1 ],
@@ -934,14 +945,18 @@
       "hurt_chance": [ -300 ],
       "stamina_chance": [ 2 ]
     },
-    "scaling_mods": {
-      "speed_mod": [ -4 ],
-      "thirst_min": [ 1 ],
-      "thirst_tick": [ -600 ],
-      "pain_max_val": [ 10 ],
-      "hurt_chance": [ 200 ],
-      "stamina_min": [ -1 ]
-    }
+    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hot_speed",
+    "name": [ "Slowdown", "Hampered", "Crushed" ],
+    "desc": [ "The heat slows you down.", "You struggle to move in this heat.", "The heat is crushing you." ],
+    "speed_name": "Heat slowdown",
+    "max_intensity": 3,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ] },
+    "scaling_mods": { "speed_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -1596,6 +1611,19 @@
   },
   {
     "type": "effect_type",
+    "id": "bad_food_ennui",
+    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
+    "desc": [
+      "The food you eat is disgusting.",
+      "Eating nothing but disgusting rations is starting to get you down.",
+      "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
+    ],
+    "max_intensity": 3,
+    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "cough_suppress"
   },
   {
@@ -1843,6 +1871,23 @@
       "speed_mod": [ -10 ],
       "vomit_chance": [ 10 ],
       "cough_chance": [ 501 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "fetid_goop",
+    "name": [ "Covered in fetid goop" ],
+    "desc": [ "The feeling of the goop slowly sliding on your skin revulses you and the smell makes you gag." ],
+    "apply_message": "You're disgusted by the goop.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 100 ]
     },
     "show_in_info": true
   },

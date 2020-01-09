@@ -99,7 +99,7 @@
     "type": "PET_ARMOR",
     "id": "leatherbone_armor_horse",
     "copy-from": "leather_armor_horse",
-    "name": "boiled leather horse barding with bones",
+    "name": { "str": "boiled leather horse barding with bones", "str_pl": "boiled leather horse bardings with bones" },
     "description": "Decorative bones affixed to leather horse barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly horse.",
     "relative": { "price": 1500, "price_postapoc": 150, "weight": 500 },
     "material": [ "bone", "leather" ]
@@ -129,7 +129,7 @@
   {
     "id": "saddlebag",
     "type": "ARMOR",
-    "name": "saddle bags",
+    "name": { "str": "pair of saddle bags", "str_pl": "pairs of saddle bags" },
     "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
     "weight": "1000 g",
     "volume": "7500 ml",

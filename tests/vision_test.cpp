@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
@@ -460,7 +460,7 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
 {
-    const time_point full_moon = calendar::turn_zero + calendar::season_length() / 3 / 2;
+    const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
     // Verify that I've picked the full_moon time correctly.
     CHECK( get_moon_phase( full_moon ) == MOON_FULL );
 

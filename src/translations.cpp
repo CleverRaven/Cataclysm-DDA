@@ -174,7 +174,8 @@ void set_language()
     // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
-    if( !lang_opt.empty() ) { // Not 'System Language'
+    if( !lang_opt.empty() ) {
+        // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if defined(_WIN32)
         std::string lang_env = "LANGUAGE=" + lang_opt;
@@ -336,7 +337,8 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
     std::vector<std::string> chosen_genders;
     for( const auto &subject_genders : genders ) {
-        std::string chosen_gender = language_genders[0]; // default if no match
+        // default if no match
+        std::string chosen_gender = language_genders[0];
         for( const std::string &gender : subject_genders.second ) {
             if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
                 language_genders.end() ) {
@@ -351,12 +353,12 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 }
 
 translation::translation()
-    : ctxt( cata::nullopt ), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( cata::nullopt )
 {
 }
 
 translation::translation( const plural_tag )
-    : ctxt( cata::nullopt ), raw_pl( std::string() ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( std::string() )
 {
 }
 
@@ -383,7 +385,7 @@ translation::translation( const std::string &ctxt, const std::string &raw,
 }
 
 translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt )
 {
 }
 
@@ -473,7 +475,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
-            throw_error = [&jsobj]( const std::string & msg, const int offset ) {
+            // Copying jsobj to avoid use-after-free
+            throw_error = [jsobj]( const std::string & msg, const int offset ) {
                 jsobj.get_raw( "str" )->error( msg, offset );
             };
         }
@@ -493,31 +496,31 @@ void translation::deserialize( JsonIn &jsin )
               const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
               const std::string & fix
         ) {
-            std::ostringstream err;
+            std::string err;
             switch( type ) {
                 case text_style_fix::removal:
-                    err << msg << "\n"
-                        << "    Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: remove \"" + utf32_to_utf8( std::u32string( from, to ) ) + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::insertion:
-                    err << msg << "\n"
-                        << "    Suggested fix: insert \"" << fix << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: insert \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::replacement:
-                    err << msg << "\n"
-                        << "    Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) )
-                        << "\" with \"" << fix << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: replace \"" + utf32_to_utf8( std::u32string( from, to ) )
+                          + "\" with \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
             }
             try {
                 const std::string str_before = utf32_to_utf8( std::u32string( beg, to ) );
                 // +1 for the starting quotation mark
-                //@todo: properly handle escape sequences inside strings, instead
-                //of using `length()` here.
-                throw_error( err.str(), 1 + str_before.length() );
+                // @TODO: properly handle escape sequences inside strings, instead
+                // of using `length()` here.
+                throw_error( err, 1 + str_before.length() );
             } catch( const JsonError &e ) {
                 debugmsg( "\n%s", e.what() );
             }

@@ -111,7 +111,7 @@ status_t character_oracle_t::has_food() const
 {
     // Check if we know about food somewhere
     bool found_food = subject->inv.has_item_with( []( const item & cand ) {
-        return cand.is_food() && cand.get_comestible()->get_calories() > 0;
+        return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? running : failure;
 }

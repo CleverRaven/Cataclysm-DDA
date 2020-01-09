@@ -27,7 +27,7 @@ namespace std
 {
 template <>
 struct hash<special_item_type> {
-    std::size_t operator()( const special_item_type &k ) const {
+    std::size_t operator()( const special_item_type &k ) const noexcept {
         return static_cast<size_t>( k );
     }
 };

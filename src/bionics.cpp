@@ -4,7 +4,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm> //std::min
-#include <sstream>
 #include <array>
 #include <iterator>
 #include <list>
@@ -66,48 +65,48 @@
 #include "point.h"
 #include "teleport.h"
 
-const skill_id skilll_electronics( "electronics" );
-const skill_id skilll_firstaid( "firstaid" );
-const skill_id skilll_mechanics( "mechanics" );
-const skill_id skilll_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_computer( "computer" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_assisted( "assisted" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_high( "high" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_operating( "operating" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pblue( "pblue" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_pkill_l( "pkill_l" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stung( "stung" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_took_flumed( "took_flumed" );
-const efftype_id effect_took_prozac( "took_prozac" );
-const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-const efftype_id effect_took_xanax( "took_xanax" );
-const efftype_id effect_under_op( "under_operation" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_pblue( "pblue" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
@@ -356,7 +355,8 @@ bool player::activate_bionic( int b, bool eff_only )
         const w_point weatherPoint = *g->weather.weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                            g->is_sheltered( g->u.pos() ) );
-        int water_available = lround( humidity * 3.0 / 100.0 ); // thirst units = 5 mL
+        // thirst units = 5 mL
+        int water_available = lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
             bio.powered = false;
             add_msg_if_player( m_bad, _( "Your %s does not have sufficient humidity to function." ),
@@ -382,7 +382,8 @@ bool player::activate_bionic( int b, bool eff_only )
                        "bio_resonator" );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
-            g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
+            // Multibash effect, so that doors &c will fall
+            g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 );
         }
 
@@ -463,7 +464,7 @@ bool player::activate_bionic( int b, bool eff_only )
         std::vector<std::string> good;
         std::vector<std::string> bad;
 
-        if( radiation > 0 ) {
+        if( get_rad() > 0 ) {
             bad.push_back( _( "Irradiated" ) );
         }
 
@@ -536,12 +537,12 @@ bool player::activate_bionic( int b, bool eff_only )
             mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
         }
     } else if( bio.id == "bio_geiger" ) {
-        add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
+        add_msg_if_player( m_info, _( "Your radiation level: %d" ), get_rad() );
     } else if( bio.id == "bio_radscrubber" ) {
-        if( radiation > 4 ) {
-            radiation -= 5;
+        if( get_rad() > 4 ) {
+            mod_rad( -5 );
         } else {
-            radiation = 0;
+            set_rad( 0 );
         }
     } else if( bio.id == "bio_adrenaline" ) {
         if( has_effect( effect_adrenaline ) ) {
@@ -647,7 +648,8 @@ bool player::activate_bionic( int b, bool eff_only )
         // Calculate local wind power
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+            // vehicle velocity in mph
+            vehwindspeed = abs( vp->vehicle().velocity / 100 );
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
@@ -833,7 +835,8 @@ bool player::deactivate_bionic( int b, bool eff_only )
     bool success = Character::deactivate_bionic( b, eff_only );
     // Compatibility with old saves without the toolset hammerspace
     if( success && !eff_only && bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
-        add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+        // E X T E N D    T O O L S
+        add_bionic( bionic_TOOLS_EXTEND );
     }
     return success;
 }
@@ -911,7 +914,8 @@ bool Character::burn_fuel( int b, bool start )
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = g->m.veh_at( pos() );
                             if( vp ) {
-                                vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+                                // vehicle velocity in mph
+                                vehwindspeed = abs( vp->vehicle().velocity / 100 );
                             }
                             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -977,7 +981,8 @@ void Character::passive_power_gen( int b )
             int vehwindspeed = 0;
             const optional_vpart_position vp = g->m.veh_at( pos() );
             if( vp ) {
-                vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+                // vehicle velocity in mph
+                vehwindspeed = abs( vp->vehicle().velocity / 100 );
             }
             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -1270,7 +1275,8 @@ void Character::process_bionic( int b )
             const w_point weatherPoint = *g->weather.weather_precise;
             int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                g->is_sheltered( g->u.pos() ) );
-            int water_available = lround( humidity * 3.0 / 100.0 ); // in thirst units = 5 mL water
+            // in thirst units = 5 mL water
+            int water_available = lround( humidity * 3.0 / 100.0 );
             // At 50% relative humidity or more, the player will draw 10 mL
             // At 16% relative humidity or less, the bionic will give up
             if( water_available == 0 ) {
@@ -1293,7 +1299,8 @@ void Character::process_bionic( int b )
                                bionics[bio.id].name );
             deactivate_bionic( b );
         }
-    } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
+    } else if( bio.id == "afs_bio_dopamine_stimulators" ) {
+        // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
@@ -1317,6 +1324,7 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1329,6 +1337,10 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
         case 3:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
@@ -1340,6 +1352,10 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
         case 5:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
@@ -1392,6 +1408,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 break;
         }
     }
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1404,6 +1421,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
         case 3:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
@@ -1417,6 +1438,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
         case 5:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     patient.apply_damage( this, bp, rng( 30, 80 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
@@ -1446,7 +1471,8 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
                                         cbm->bionic->difficulty * 2 * weight;
 
     std::vector<const item *> b_filter = crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( "ANESTHESIA" ); // legacy
+        // legacy
+        return it.has_flag( "ANESTHESIA" );
     } );
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
@@ -1571,14 +1597,14 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill;
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
@@ -1618,22 +1644,22 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     float adjusted_skill;
     int pl_skill;
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
-                                               skilll_computer,
-                                               skilll_electronics,
+        pl_skill = installer.bionics_pl_skill( skill_firstaid,
+                                               skill_computer,
+                                               skill_electronics,
                                                skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_electronics,
-                                               skilll_firstaid,
-                                               skilll_mechanics,
+        pl_skill = installer.bionics_pl_skill( skill_electronics,
+                                               skill_firstaid,
+                                               skill_mechanics,
                                                skill_level );
     }
 
@@ -1648,14 +1674,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
 
     int success = chance_of_success - rng( 1, 100 );
-
-    if( is_npc() ) {
-        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
-    } else {
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-    }
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
@@ -1735,7 +1754,8 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
-    if( !installer.has_effect( effect_operating ) ) { // don't stack up the effect
+    // don't stack up the effect
+    if( !installer.has_effect( effect_operating ) ) {
         installer.add_effect( effect_operating, duration + 5_turns );
     }
 
@@ -1808,14 +1828,14 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
     float adjusted_skill;
 
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
@@ -1867,42 +1887,35 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     float adjusted_skill;
     int pl_skill;
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
-                                               skilll_computer,
-                                               skilll_electronics,
+        pl_skill = installer.bionics_pl_skill( skill_firstaid,
+                                               skill_computer,
+                                               skill_electronics,
                                                skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_electronics,
-                                               skilll_firstaid,
-                                               skilll_mechanics,
+        pl_skill = installer.bionics_pl_skill( skill_electronics,
+                                               skill_firstaid,
+                                               skill_mechanics,
                                                skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skilll_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skilll_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skilll_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
+        installer.practice( skill_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
+        installer.practice( skill_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
+        installer.practice( skill_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
     int success = chance_of_success - rng( 0, 99 );
-    if( is_npc() ) {
-        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
-    } else {
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-    }
-
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );
@@ -2006,6 +2019,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
+        std::set<body_part> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2020,6 +2034,10 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
             case 3:
                 for( const body_part &bp : all_body_parts ) {
                     if( has_effect( effect_under_op, bp ) ) {
+                        if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                            continue;
+                        }
+                        bp_hurt.emplace( mutate_to_main_part( bp ) );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( bp ) );
@@ -2037,7 +2055,8 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                     return !has_bionic( id );
                 } );
 
-                if( valid.empty() ) { // We've got all the bad bionics!
+                // We've got all the bad bionics!
+                if( valid.empty() ) {
                     if( has_max_power() ) {
                         units::energy old_power = get_max_power_level();
                         add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
@@ -2075,16 +2094,15 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     if( bio_id->occupied_bodyparts.empty() ) {
         return "";
     }
-    std::ostringstream desc;
-    desc << intro;
+    std::string desc = intro;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
-        desc << ( each_bp_on_new_line ? "\n" : " " );
+        desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
-        desc << string_format( _( "%s (%i slots);" ),
+        desc += string_format( _( "%s (%i slots);" ),
                                body_part_name_as_heading( elem.first, 1 ),
                                elem.second );
     }
-    return desc.str();
+    return desc;
 }
 
 int player::get_used_bionics_slots( const body_part bp ) const
@@ -2217,22 +2235,6 @@ bionic &player::bionic_at_index( int i )
     return ( *my_bionics )[i];
 }
 
-// Returns true if a bionic was removed.
-bool player::remove_random_bionic()
-{
-    const int numb = num_bionics();
-    if( numb ) {
-        int rem = rng( 0, num_bionics() - 1 );
-        const auto bionic = ( *my_bionics )[rem];
-        //Todo: Currently, contained/containing bionics don't get explicitly deactivated when the removal of a linked bionic removes them too
-        deactivate_bionic( rem, true );
-        remove_bionic( bionic.id );
-        add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name );
-        recalc_sight_limits();
-    }
-    return numb;
-}
-
 void player::clear_bionics()
 {
     my_bionics->clear();
@@ -2244,7 +2246,7 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
+static bool get_bool_or_flag( const JsonObject &jsobj, const std::string &name,
                               const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
@@ -2260,7 +2262,7 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
     return value;
 }
 
-void load_bionic( JsonObject &jsobj )
+void load_bionic( const JsonObject &jsobj )
 {
 
     bionic_data new_bionic;
@@ -2315,30 +2317,22 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
-    JsonArray jsr = jsobj.get_array( "stat_bonus" );
-    while( jsr.has_more() ) {
-        JsonArray ja = jsr.next_array();
+    for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
         new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 
-    JsonArray jsar = jsobj.get_array( "encumbrance" );
-    while( jsar.has_more() ) {
-        JsonArray ja = jsar.next_array();
+    for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
         new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
     }
 
-    JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
-    while( jsarr.has_more() ) {
-        JsonArray ja = jsarr.next_array();
+    for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
         new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                                ja.get_int( 1 ) );
     }
 
-    JsonArray json_arr = jsobj.get_array( "env_protec" );
-    while( json_arr.has_more() ) {
-        JsonArray ja = json_arr.next_array();
+    for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
         new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
@@ -2536,9 +2530,8 @@ void bionic::deserialize( JsonIn &jsin )
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
-        JsonArray jsar = jo.get_array( "bionic_tags" );
-        while( jsar.has_more() ) {
-            bionic_tags.insert( jsar.next_string() );
+        for( const std::string &line : jo.get_array( "bionic_tags" ) ) {
+            bionic_tags.insert( line );
         }
     }
 
@@ -2569,10 +2562,10 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
-                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
+                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you." ) );
         }
     }
 

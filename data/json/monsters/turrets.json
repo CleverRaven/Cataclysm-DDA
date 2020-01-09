@@ -8,7 +8,7 @@
     "species": [ "ROBOT" ],
     "diff": 20,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
@@ -41,6 +41,7 @@
         "no_ammo_sound": "a chk!"
       }
     ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
@@ -54,7 +55,7 @@
     "species": [ "ROBOT" ],
     "diff": 20,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
@@ -76,6 +77,7 @@
         "require_sunlight": true
       }
     ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
@@ -84,12 +86,12 @@
     "id": "mon_turret_bmg",
     "type": "MONSTER",
     "name": "M2HB autonomous CROWS II",
-    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a M2HB.",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a M2HB.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 40,
     "volume": "62500 ml",
-    "weight": 172000,
+    "weight": "172 kg",
     "hp": 40,
     "speed": 100,
     "material": [ "steel" ],
@@ -123,6 +125,7 @@
         "no_ammo_sound": "a chk!"
       }
     ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
@@ -131,12 +134,12 @@
     "id": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "M249 autonomous CROWS II",
-    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M249.",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M249.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 30,
     "volume": "60000 ml",
-    "weight": 172000,
+    "weight": "172 kg",
     "hp": 40,
     "speed": 100,
     "material": [ "steel" ],
@@ -170,6 +173,7 @@
         "no_ammo_sound": "a chk!"
       }
     ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
@@ -178,12 +182,12 @@
     "id": "mon_crows_m240",
     "type": "MONSTER",
     "name": "M240 autonomous CROWS II",
-    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 35,
     "volume": "60000 ml",
-    "weight": 172000,
+    "weight": "172 kg",
     "hp": 40,
     "speed": 100,
     "material": [ "steel" ],
@@ -213,6 +217,57 @@
         "targeting_cost": 200,
         "targeting_timeout_extend": -10,
         "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+  },
+  {
+    "id": "mon_turret_riot",
+    "type": "MONSTER",
+    "name": "riot control platform",
+    "description": "These TALON-derived riot control platforms were widely publicized a few years before the cataclysm as a new semi-autonomous device that could fire less-lethal rounds with far more accuracy than a human, ensuring safer hits against a target's limbs.  They were quickly adopted by prisons and inner city police forces, where they demonstrated that 'less lethal' is not the same as 'non-lethal'.  In the days before the cataclysm, massive stockrooms of the things were put into circulation.  On the bright side, although it shoots autonomously, it requires a human operator to relocate, so it's not so mobile anymore.",
+    "default_faction": "cop_bot",
+    "looks_like": "mon_turret",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "62500 ml",
+    "weight": 172000,
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "blue",
+    "aggression": 50,
+    "morale": 100,
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "vision_day": 50,
+    "vision_night": 3,
+    "revert_to_itype": "bot_turret_riot",
+    "starting_ammo": { "40x46mm_m1006": 6 },
+    "special_attacks": [
+      {
+        "//": "For later: needs the ability to preferentially target legs and arms",
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "pseudo_m203",
+        "ammo_type": "40x46mm_m1006",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Universal curfew is in effect.  Please return to your home.  This unit is authorized to open fire.\"",
         "targeting_volume": 50,
         "no_ammo_sound": "a chk!"
       }

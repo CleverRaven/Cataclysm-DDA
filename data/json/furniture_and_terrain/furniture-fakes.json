@@ -23,14 +23,14 @@
     "required_str": 0,
     "deconstruct": { "items": [  ] },
     "bash": { "str_min": 0, "str_max": 0, "items": [  ] },
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
   },
   {
     "type": "furniture",
     "id": "f_no_item",
-    "//": "This is used in a hack to clear furniture with the keg iexamine of all items execept the stored liquid before usage.",
+    "//": "This is used in a hack to clear furniture with the keg iexamine of all items except the stored liquid before usage.",
     "name": "seeing this is a bug",
     "description": "Seeing this is a bug.  If seen, please report and destroy.",
     "symbol": "#",

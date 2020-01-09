@@ -74,30 +74,24 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_speech( "speech" );
-const skill_id skill_tailor( "tailor" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_traps( "traps" );
-const skill_id skill_archery( "archery" );
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
-const zone_type_id z_camp_food( "CAMP_FOOD" );
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id z_camp_food( "CAMP_FOOD" );
 
 struct mass_volume {
     units::mass wgt;
@@ -561,7 +555,8 @@ void talk_function::start_camp( npc &p )
     }
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
-        popup( _( "%s failed to start the %s basecamp." ), p.disp_name(), making.get_blueprint() );
+        popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ),
+               p.disp_name(), making.get_blueprint() );
         return;
     }
     get_basecamp( p, camp_type.str() );
@@ -1271,6 +1266,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+        entry = _( "Notes:\nAbandon this camp" );
+        mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
     get_available_missions_by_dir( mission_key, base_camps::base_dir );
@@ -1323,6 +1320,9 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Assign Jobs" ) {
         job_assignment_ui();
+    }
+    if( miss_id == "Abandon Camp" ) {
+        abandon_camp();
     }
 
     if( miss_id == "Expand Base" ) {
@@ -1541,6 +1541,11 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
     if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
         bool must_feed = bldg != "faction_base_camp_1";
 
+        basecamp_action_components components( making, 1, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         time_duration work_days = base_camps::to_workdays( making.batch_duration() );
         npc_ptr comp = nullptr;
         if( making.required_skills.empty() ) {
@@ -1559,11 +1564,32 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
         if( comp == nullptr ) {
             return;
         }
-        consume_components( making, 1 );
+        components.consume_components();
         update_in_progress( bldg, dir );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::abandon_camp()
+{
+    validate_assignees();
+    npc_ptr random_guy;
+    for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( c_mission.role_id != base_camps::id ) {
+            continue;
+        }
+        random_guy = guy;
+        const std::string return_msg = _( "responds to the emergency recall…" );
+        finish_return( *guy, false, return_msg, "menial", 0, true );
+    }
+    for( npc_ptr &guy : get_npcs_assigned() ) {
+        talk_function::stop_guard( *guy );
+    }
+    overmap_buffer.remove_camp( *this );
+    g->m.remove_submap_camp( random_guy->pos() );
+    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::job_assignment_ui()
@@ -1669,15 +1695,13 @@ void basecamp::start_menial_labor()
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return;
     }
-    std::shared_ptr<npc> comp = talk_function::companion_choose();
+    shared_ptr_fast<npc> comp = talk_function::companion_choose();
     if( comp == nullptr ) {
         return;
     }
     validate_sort_points();
 
-    comp->set_attitude( NPCATT_ACTIVITY );
     comp->assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
-    comp->set_mission( NPC_MISSION_ACTIVITY );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -1952,11 +1976,17 @@ void basecamp::start_fortifications( std::string &bldg_exp )
             return;
         }
 
+        const int batch_size = fortify_om.size() * 2 - 2;
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         npc_ptr comp = start_mission( "_faction_camp_om_fortifications", total_time, true,
                                       _( "begins constructing fortifications…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, fortify_om.size() * 2 - 2 );
+            components.consume_components();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
@@ -2026,12 +2056,18 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             popup( _( "Your batch is too large!" ) );
             return;
         }
+
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
         npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true,
                                       _( "begins to work…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, batch_size );
+            components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
             }
@@ -2389,7 +2425,8 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
         return false;
     }
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
-        popup( _( "%s failed to build the %s upgrade." ), comp->disp_name(),
+        popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
+               comp->disp_name(),
                making.get_blueprint() );
         return false;
     }
@@ -2546,7 +2583,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     //Success of finding an NPC to recruit, based on survival/tracking
     int skill = comp->get_skill_level( skill_survival );
     if( rng( 1, 20 ) + skill > 17 ) {
-        recruit = std::make_shared<npc>();
+        recruit = make_shared_fast<npc>();
         recruit->normalize();
         recruit->randomize();
         popup( _( "%s encountered %s…" ), comp->name, recruit->name );
@@ -2726,7 +2763,8 @@ bool basecamp::survey_return()
                                      _( "Select an expansion:" ) );
 
     if( !run_mapgen_update_func( expansion_type.str(), where ) ) {
-        popup( _( "%s failed to add the %s expansion" ), comp->disp_name(),
+        popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
+               comp->disp_name(),
                expansion_type->blueprint_name() );
         return false;
     }
@@ -2830,7 +2868,7 @@ void basecamp::search_results( int skill, const Group_tag &group_id, int attempt
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             auto result = item_group::item_from( group_id, calendar::turn );
-            if( ! result.is_null() ) {
+            if( !result.is_null() ) {
                 place_results( result );
             }
         }
@@ -2882,7 +2920,7 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
         if( skill > rng( 0, difficulty ) ) {
             const mtype_id *target = hunting_targets.pick();
             auto result = item::make_corpse( *target, calendar::turn, "" );
-            if( ! result.is_null() ) {
+            if( !result.is_null() ) {
                 place_results( result );
             }
         }
@@ -3689,7 +3727,7 @@ bool basecamp::distribute_food()
                 g->m.add_item_or_charges( litter_spread, i, false );
                 i = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible()->fun < -6 ) ) {
+            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
                 keep_me.push_back( i );
             } else if( i.is_food() ) {
                 double rot_multip;
@@ -3701,7 +3739,7 @@ bool basecamp::distribute_food()
                 } else {
                     rot_multip = quick_rot;
                 }
-                total += i.get_comestible()->get_calories() * rot_multip * i.count();
+                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
             } else {
                 keep_me.push_back( i );
             }

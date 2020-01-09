@@ -67,7 +67,8 @@
         [ "tallow_tainted", 8 ],
         [ "any_fat", 16, "LIST" ],
         [ "fat_tainted", 16 ],
-        [ "lamp_oil", 1000 ]
+        [ "lamp_oil", 1000 ],
+        [ "motor_oil", 1000 ]
       ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]

@@ -86,11 +86,6 @@
   },
   {
     "type": "item_action",
-    "id": "MISC_REPAIR",
-    "name": "Repair wood/paper/bone/chitin"
-  },
-  {
-    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": "Attach as toolmod"
   },
@@ -297,6 +292,11 @@
   {
     "type": "item_action",
     "id": "BLECH",
+    "name": "Drink"
+  },
+  {
+    "type": "item_action",
+    "id": "BLECH_BECAUSE_UNCLEAN",
     "name": "Drink"
   },
   {
@@ -603,6 +603,11 @@
     "type": "item_action",
     "id": "MAGIC_8_BALL",
     "name": "Ask"
+  },
+  {
+    "type": "item_action",
+    "id": "PLAY_GAME",
+    "name": "Play"
   },
   {
     "type": "item_action",
@@ -1021,6 +1026,11 @@
   },
   {
     "type": "item_action",
+    "id": "place_npc",
+    "name": "Activate"
+  },
+  {
+    "type": "item_action",
     "id": "place_trap",
     "name": "Place"
   },
@@ -1028,6 +1038,11 @@
     "type": "item_action",
     "id": "reveal_map",
     "name": "Read"
+  },
+  {
+    "type": "item_action",
+    "id": "change_scent",
+    "name": "Mask scent"
   },
   {
     "type": "item_action",

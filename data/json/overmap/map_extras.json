@@ -81,7 +81,7 @@
     "type": "map_extra",
     "name": "Roadblock (Bandits)",
     "description": "This road is blocked by bandits.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_roadblock" },
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_bandits_block" },
     "sym": "x",
     "color": "yellow",
     "autonote": true
@@ -257,6 +257,27 @@
     "autonote": true
   },
   {
+    "id": "mx_trees",
+    "type": "map_extra",
+    "name": "Stand of trees",
+    "description": "A copse of trees.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map" }
+  },
+  {
+    "id": "mx_grass",
+    "type": "map_extra",
+    "name": "Tall grass",
+    "description": "A meadow of tall grass.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass_map" }
+  },
+  {
+    "id": "mx_fallen_shed",
+    "type": "map_extra",
+    "name": "Derelict shed",
+    "description": "A collapsed shed.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" }
+  },
+  {
     "id": "mx_clay_deposit",
     "type": "map_extra",
     "name": "Clay Deposit",
@@ -337,7 +358,7 @@
     "id": "mx_corpses",
     "type": "map_extra",
     "name": "Corpses",
-    "description": "Some unfortunates from the billions lost in the cataclysm.",
+    "description": "Some unfortunates from the billions lost in the Cataclysm.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" }
   }
 ]

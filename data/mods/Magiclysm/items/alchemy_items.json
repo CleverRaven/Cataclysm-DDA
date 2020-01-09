@@ -4,8 +4,8 @@
     "type": "TOOL",
     "name": "owlbear gastrolith",
     "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
-    "weight": 2000,
-    "volume": 3,
+    "weight": "2 kg",
+    "volume": "750 ml",
     "price": 0,
     "bashing": 9,
     "to_hit": -1,
@@ -24,13 +24,13 @@
     "name": "stone shell",
     "description": "The broken fragment of an owlbear egg.  With luck it might still contain some of its former power, though if nothing else it's still a bit sharp.",
     "material": "stone",
-    "weight": 250,
+    "weight": "250 g",
     "volume": "150 ml",
     "bashing": 5,
     "cutting": 3,
     "to_hit": -2,
     "qualities": [ [ "BUTCHER", -50 ] ],
-    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell. Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
+    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
   },
   {
     "id": "copper_infuser",
@@ -39,7 +39,7 @@
     "qualities": [ [ "MANA_INFUSE", 1 ] ],
     "name": "copper infusion bracelet",
     "name_plural": "copper infusion bracelets",
-    "description": "This bracelet has runes engraved on it. You sense a faint air of mysticism when you look at it. It would be useful for imbuing mana into material."
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
     "id": "silver_infuser",
@@ -57,7 +57,7 @@
     "name": "copper circlet",
     "name_plural": "copper circlets",
     "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
-    "weight": 700,
+    "weight": "700 g",
     "volume": "600ml",
     "price": 1500,
     "price_postapoc": 100,
@@ -79,8 +79,8 @@
     "name_plural": "stone chisels",
     "looks_like": "chisel",
     "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
-    "weight": 660,
-    "volume": 1,
+    "weight": "660 g",
+    "volume": "250 ml",
     "price": 1600,
     "to_hit": 2,
     "bashing": 2,
@@ -116,7 +116,7 @@
     "name": "glow dust",
     "description": "The powdered remains of a will-o-wisps's phsyical form.  It seems to still possess an otherworldly glow.",
     "material": "powder",
-    "weight": 5,
+    "weight": "5 g",
     "volume": 1
   },
   {
@@ -125,8 +125,8 @@
     "category": "tools",
     "name": "magical reading light",
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
-    "weight": 270,
-    "volume": 1,
+    "weight": "270 g",
+    "volume": "250 ml",
     "price": 125000,
     "material": "glass",
     "symbol": ",",
@@ -146,8 +146,8 @@
     "name": "magical reading light (covered)",
     "name_plural": "magical reading lights (covered)",
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
-    "weight": 270,
-    "volume": 1,
+    "weight": "270 g",
+    "volume": "250 ml",
     "price": 125000,
     "material": "glass",
     "symbol": ",",
@@ -163,7 +163,7 @@
     "name": "bulette plate",
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
     "material": "arcane_skin",
-    "weight": 30000,
+    "weight": "30 kg",
     "volume": 12
   },
   {
@@ -174,7 +174,7 @@
     "name": "bulette pearl",
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
     "material": "stone",
-    "weight": 120,
+    "weight": "120 g",
     "volume": 1
   },
   {
@@ -185,7 +185,7 @@
     "name": "dragon essence",
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
     "volume": "250 ml",
-    "weight": 300,
+    "weight": "300 g",
     "flags": [ "TRADER_AVOID", "INDEIBLE" ],
     "container": "flask_glass",
     "charges": 1,
@@ -207,5 +207,52 @@
     "material": [ "flesh" ],
     "cutting": 7,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "demon_chitin_piece",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "red",
+    "name": "chunk of demon chitin",
+    "name_plural": "chunks of demon chitin",
+    "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
+    "price": 0,
+    "material": "demon_chitin",
+    "weight": "89 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "flags": [ "TRADER_AVOID" ],
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "demon_chitin_plate",
+    "category": "spare_parts",
+    "symbol": "/",
+    "color": "red",
+    "name": "demon chitin plate",
+    "price": 15225,
+    "material": "demon_chitin",
+    "weight": "10 kg",
+    "volume": "4 L",
+    "bashing": 12,
+    "to_hit": -4,
+    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
+  },
+  {
+    "type": "GENERIC",
+    "id": "demon_spider_fang",
+    "name": "demon spider fang",
+    "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
+    "weight": "270 g",
+    "to_hit": -2,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "cutting": 8,
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "price": 1500
   }
 ]
