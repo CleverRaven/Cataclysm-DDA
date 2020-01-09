@@ -112,10 +112,7 @@
       "palettes": [ "mil_base_palette" ],
       "items": {
         "K": [ { "item": "army_bed", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "l": [
-          { "item": "army_personal_locker", "chance": 75, "repeat": [ 5, 10 ] },
-          { "item": "mil_base_coats", "chance": 10 }
-        ],
+        "l": [ { "item": "army_personal_locker", "chance": 75, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ],
         "u": [ { "item": "mil_food_nodrugs", "chance": 50, "repeat": [ 5, 10 ] } ],
         "o": [ { "item": "SUS_oven", "chance": 50 } ],
         "n": [ { "item": "mil_base_casing_hmg", "chance": 50, "repeat": [ 50, 100 ] } ],
@@ -130,6 +127,10 @@
         { "vehicle": "parkinglotbasic", "x": 88, "y": 7, "chance": 100, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 87, "y": 82, "chance": 25, "status": 1, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 80, "y": 67, "chance": 25, "status": 1, "rotation": 90 }
+      ],
+      "place_items": [
+        { "item": "fuel_diesel", "x": 19, "y": 15, "chance": 75 },
+        { "item": "fuel_diesel", "x": 45, "y": 11, "chance": 75 }
       ]
     }
   },
@@ -246,10 +247,7 @@
       "palettes": [ "mil_base_palette" ],
       "items": {
         "K": [ { "item": "army_bed", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "l": [
-          { "item": "army_personal_locker", "chance": 75, "repeat": [ 5, 10 ] },
-          { "item": "mil_base_coats", "chance": 10 }
-        ],
+        "l": [ { "item": "army_personal_locker", "chance": 75, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ],
         "u": [ { "item": "mil_food_nodrugs", "chance": 50, "repeat": [ 5, 10 ] } ],
         "o": [ { "item": "SUS_oven", "chance": 50 } ],
         "n": [ { "item": "mil_base_casing_hmg", "chance": 50, "repeat": [ 50, 100 ] } ],
@@ -359,10 +357,7 @@
       "palettes": [ "mil_base_palette" ],
       "items": {
         "K": [ { "item": "army_bed", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "l": [
-          { "item": "army_personal_locker", "chance": 75, "repeat": [ 5, 10 ] },
-          { "item": "mil_base_coats", "chance": 10 }
-        ],
+        "l": [ { "item": "army_personal_locker", "chance": 75, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ],
         "o": [ { "item": "SUS_oven", "chance": 50 } ],
         "n": [ { "item": "mil_base_casing_hmg", "chance": 50, "repeat": [ 50, 100 ] } ],
         "t": [ { "item": "trash_cart", "chance": 75, "repeat": [ 1, 10 ] } ],
