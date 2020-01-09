@@ -361,6 +361,9 @@ void monster::try_upgrade( bool pin_time )
         if( pin_time || type->age_grow > 0 ) {
             // offset by today, always true for growing creatures
             upgrade_time += current_day;
+        } else {
+            // offset by monster evolution delay
+            upgrade_time += get_option<int>( "MONSTER_EVOLUTION_DELAY" );
         }
     }
 
