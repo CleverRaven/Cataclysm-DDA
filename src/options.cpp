@@ -2020,11 +2020,6 @@ void options_manager::add_options_world_default()
          0, 9999, 0
        );
 
-    add( "MONSTER_EVOLUTION_DELAY", "world_default", translate_marker( "Monster evolution delay" ),
-         translate_marker( "How many days after the cataclysm monster evolution begins.  Day 0 is the day of the cataclysm." ),
-         0, 999, 0
-       );
-
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
          translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
          14, 127, 91
