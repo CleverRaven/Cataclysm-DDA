@@ -361,10 +361,6 @@ void monster::try_upgrade( bool pin_time )
         if( pin_time || type->age_grow > 0 ) {
             // offset by today, always true for growing creatures
             upgrade_time += current_day;
-        } else {
-            // offset by starting season
-            // @TODO: revisit this and make it simpler
-            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
 
