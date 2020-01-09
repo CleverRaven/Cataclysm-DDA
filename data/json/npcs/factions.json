@@ -492,6 +492,15 @@
     "food_supply": 87500,
     "wealth": 82500,
     "relations": {
+      "gods_community": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
       "free_merchants": {
         "kill on sight": false,
         "watch your back": true,
