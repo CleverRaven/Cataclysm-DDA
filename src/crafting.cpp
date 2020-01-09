@@ -487,8 +487,16 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
     if( !rec ) {
         return false;
     }
+    requirement_data start_reqs = adjusted_requirements( *rec, batch_size );
 
-    const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
+    return start_reqs.can_make_with_inventory( crafting_inventory(),
+            rec->get_component_filter( flags ) );
+}
+
+requirement_data player::adjusted_requirements( const recipe &rec, int batch_size )
+{
+
+    const std::vector<std::vector<tool_comp>> &tool_reqs = rec.requirements().get_tools();
 
     // For tools adjust the reqired charges
     std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
@@ -506,7 +514,7 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
         adjusted_tool_reqs.push_back( adjusted_alternatives );
     }
 
-    const std::vector<std::vector<item_comp>> &comp_reqs = rec->requirements().get_components();
+    const std::vector<std::vector<item_comp>> &comp_reqs = rec.requirements().get_components();
 
     // For components we need to multiply by batch size to stay even with tools
     std::vector<std::vector<item_comp>> adjusted_comp_reqs;
@@ -522,11 +530,10 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
 
     // Qualities don't need adjustment
     const requirement_data start_reqs( adjusted_tool_reqs,
-                                       rec->requirements().get_qualities(),
+                                       rec.requirements().get_qualities(),
                                        adjusted_comp_reqs );
 
-    return start_reqs.can_make_with_inventory( crafting_inventory(),
-            rec->get_component_filter( flags ) );
+    return start_reqs;
 }
 
 const inventory &player::crafting_inventory( bool clear_path )

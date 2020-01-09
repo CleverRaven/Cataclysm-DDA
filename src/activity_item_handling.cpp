@@ -1479,7 +1479,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 }
                 // if the requirements are available, then prompt a potential fetch task.
                 if( are_requirements_nearby( combined_spots, continue_reqs.id(), p,
-                                             act, false ) ) {
+                                             act, false, src_loc ) ) {
                     activity_reason_info ret( NEEDS_CRAFT, false, continue_reqs.id().str(), craft_index );
                     return ret;
                 } else {
@@ -1510,24 +1510,24 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 bill_index++;
                 continue;
             }
-            if( p.can_start_craft( &rec, bill_elem.second ) ) {
+            if( p.can_start_craft( &rec, recipe_filter_flags::none, bill_elem.second ) ) {
                 // can make with what we have on us and near the work spot.
                 activity_reason_info ret( CAN_DO_BILL, true, ran_str, bill_index );
                 return ret;
             }
             // if the requirements are available, then prompt a potential fetch task.
             if( are_requirements_nearby( combined_spots, req_id, p,
-                                         act, false ) ) {
+                                         act, false, src_loc ) ) {
                 activity_reason_info ret( NEEDS_CRAFT, false, ran_str, bill_index );
                 return ret;
             } else {
                 // see if we can make batch size = 1 with what we have on us
-                if( p.can_start_craft( &rec, 1 ) ) {
+                if( p.can_start_craft( &rec, recipe_filter_flags::none, 1 ) ) {
                     activity_reason_info ret( CAN_DO_ONE_BILL, true, ran_str_for_one, bill_index );
                     return ret;
                 }
                 // or else see if we can fetch enough for batch size = 1
-                if( are_requirements_nearby( combined_spots, req_id_for_one, p, act, false ) ) {
+                if( are_requirements_nearby( combined_spots, req_id_for_one, p, act, false, src_loc ) ) {
                     activity_reason_info ret( NEEDS_CRAFT, false, ran_str_for_one, bill_index );
                     return ret;
                 } else {
