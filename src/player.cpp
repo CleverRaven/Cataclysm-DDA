@@ -3291,12 +3291,14 @@ void player::process_items()
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
-        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-            cloak = &w;
-        }
-        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-        if( power_armor == nullptr && w.is_power_armor() ) {
-            power_armor = &w;
+        if( w.active ) {
+            if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
+                cloak = &w;
+            }
+            // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
+            if( power_armor == nullptr && w.is_power_armor() ) {
+                power_armor = &w;
+            }
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w.typeId();
