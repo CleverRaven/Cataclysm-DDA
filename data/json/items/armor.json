@@ -84,7 +84,7 @@
     "encumbrance": 30,
     "storage": "4 L",
     "warmth": 35,
-    "material_thickness": 3,
+    "material_thickness": 7,
     "environmental_protection": 9,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
   },
@@ -7739,7 +7739,7 @@
     "encumbrance": 25,
     "storage": "5 L",
     "warmth": 35,
-    "material_thickness": 7,
+    "material_thickness": 11,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 4,
     "flags": [ "POCKETS", "STURDY" ]
@@ -8842,7 +8842,7 @@
     "coverage": 100,
     "encumbrance": 45,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 7,
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
   },

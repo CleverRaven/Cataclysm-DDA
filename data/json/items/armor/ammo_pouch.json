@@ -228,7 +228,7 @@
     "encumbrance": 15,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 9,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -260,10 +260,10 @@
     "color": "light_cyan",
     "covers": [ "TORSO" ],
     "coverage": 85,
-    "encumbrance": 45,
+    "encumbrance": 25,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 5,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -298,7 +298,7 @@
     "encumbrance": 8,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 6,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -330,10 +330,10 @@
     "color": "light_cyan",
     "covers": [ "TORSO" ],
     "coverage": 85,
-    "encumbrance": 30,
+    "encumbrance": 20,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 7,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -368,7 +368,7 @@
     "encumbrance": 15,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 6,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
