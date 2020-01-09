@@ -17,6 +17,26 @@
   },
   {
     "type": "city_building",
+    "id": "house_dogs",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_dogs_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_dogs_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_gardener",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_gardener_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_gardener_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "house_w_5",
     "locations": [ "land" ],
     "overmaps": [
