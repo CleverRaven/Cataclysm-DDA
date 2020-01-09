@@ -1071,7 +1071,7 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration dur, b
 
 void Character::process_turn()
 {
-    for( auto &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
             i.incapacitated_time -= 1_turns;
             if( i.incapacitated_time == 0_turns ) {
@@ -1292,8 +1292,8 @@ std::vector<bionic_id> Character::get_bionics() const
 
 bool Character::has_bionic( const bionic_id &b ) const
 {
-    for( auto &i : *my_bionics ) {
-        if( i.id == b ) {
+    for( const bionic_id bid : get_bionics() ) {
+        if( bid == b ) {
             return true;
         }
     }
@@ -1302,7 +1302,7 @@ bool Character::has_bionic( const bionic_id &b ) const
 
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == b ) {
             return ( i.powered && i.incapacitated_time == 0_turns );
         }
@@ -1312,7 +1312,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    return !my_bionics->empty();
+    return !get_bionics().empty();
 }
 
 bool Character::can_fuel_bionic_with( const item &it ) const
@@ -1321,8 +1321,8 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         return false;
     }
 
-    for( const auto bio : *my_bionics ) {
-        for( const itype_id fuel : bio.info().fuel_opts ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
                 return true;
             }
@@ -1335,10 +1335,10 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 {
     std::vector<bionic_id> bionics;
 
-    for( const bionic bio : *my_bionics ) {
-        for( const itype_id fuel : bio.info().fuel_opts ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
-                bionics.emplace_back( bio.id );
+                bionics.emplace_back( bid );
             }
         }
     }
@@ -1349,9 +1349,9 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 std::vector<bionic_id> Character::get_fueled_bionics() const
 {
     std::vector<bionic_id> bionics;
-    for( const bionic bio : *my_bionics ) {
-        if( !bio.info().fuel_opts.empty() ) {
-            bionics.emplace_back( bio.id );
+    for( const bionic_id bid : get_bionics() ) {
+        if( !bid->fuel_opts.empty() ) {
+            bionics.emplace_back( bid );
         }
     }
     return bionics;
@@ -1449,11 +1449,11 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
         amount_stored = std::stoi( get_value( fuel ) );
     }
     int capacity = 0;
-    for( const bionic &bio : *my_bionics ) {
-        for( const itype_id &fl : bio.info().fuel_opts ) {
-            if( get_value( bio.id.c_str() ).empty() || get_value( bio.id.c_str() ) == fl ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
                 if( fl == fuel ) {
-                    capacity += bio.info().fuel_capacity;
+                    capacity += bid->fuel_capacity;
                 }
             }
         }
@@ -1464,11 +1464,11 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
 int Character::get_total_fuel_capacity( const itype_id fuel ) const
 {
     int capacity = 0;
-    for( const bionic &bio : *my_bionics ) {
-        for( const itype_id &fl : bio.info().fuel_opts ) {
-            if( get_value( bio.id.c_str() ).empty() || get_value( bio.id.c_str() ) == fl ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
                 if( fl == fuel ) {
-                    capacity += bio.info().fuel_capacity;
+                    capacity += bid->fuel_capacity;
                 }
             }
         }
@@ -1523,9 +1523,9 @@ void Character::update_fuel_storage( const itype_id &fuel )
 int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
 {
     int ret = 0;
-    for( const bionic &bio : *my_bionics ) {
-        const auto St_bn = bio.info().stat_bonus.find( Stat );
-        if( St_bn != bio.info().stat_bonus.end() ) {
+    for( const bionic_id bid : get_bionics() ) {
+        const auto St_bn = bid->stat_bonus.find( Stat );
+        if( St_bn != bid->stat_bonus.end() ) {
             ret += St_bn->second;
         }
     }
@@ -2082,9 +2082,9 @@ units::mass Character::weight_capacity() const
     }
 
     units::mass bio_weight_bonus = 0_gram;
-    for( const bionic &bio : *my_bionics ) {
-        ret *= bio.info().weight_capacity_modifier;
-        bio_weight_bonus +=  bio.info().weight_capacity_bonus;
+    for( const bionic_id bid : get_bionics() ) {
+        ret *= bid->weight_capacity_modifier;
+        bio_weight_bonus +=  bid->weight_capacity_bonus;
     }
 
     ret += bio_weight_bonus + worn_weight_bonus ;
@@ -2941,8 +2941,8 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
 
-    for( const bionic &bio : *my_bionics ) {
-        for( const auto &element : bio.info().encumbrance ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const std::pair<body_part, int> &element : bid->encumbrance ) {
             vals[element.first].encumbrance += element.second;
         }
     }
@@ -3441,7 +3441,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_p
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
     if( type == DT_ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
-        for( auto &i : *my_bionics ) {
+        for( bionic &i : *my_bionics ) {
             if( !i.powered ) {
                 // Unpowered bionics are protected from power surges.
                 continue;
@@ -5212,9 +5212,9 @@ units::mass Character::bodyweight() const
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
-    for( const auto bio : *my_bionics ) {
-        if( !bio.info().included ) {
-            bio_weight += item::find_type( bio.id.c_str() )->weight;
+    for( const bionic_id bid : get_bionics() ) {
+        if( !bid->included ) {
+            bio_weight += item::find_type( bid.c_str() )->weight;
         }
     }
     return bio_weight;
@@ -5405,9 +5405,9 @@ int Character::get_env_resist( body_part bp ) const
         }
     }
 
-    for( const bionic &bio : *my_bionics ) {
-        const auto EP = bio.info().env_protec.find( bp );
-        if( EP != bio.info().env_protec.end() ) {
+    for( const bionic_id bid : get_bionics() ) {
+        const auto EP = bid->env_protec.find( bp );
+        if( EP != bid->env_protec.end() ) {
             ret += EP->second;
         }
     }
