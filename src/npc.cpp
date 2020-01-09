@@ -599,8 +599,8 @@ void npc::revert_after_activity()
     if( has_offscreen_job() ) {
         check_mission_resume();
     }
-    if( base_location ){
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( (*base_location).xy() );
+    if( base_location ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *base_location ).xy() );
         if( bcp && global_omt_location() == *base_location ) {
             talk_function::assign_camp( *this );
         }
@@ -3192,18 +3192,6 @@ void npc::set_offscreen_forage_job()
     offscreen_job = std::make_unique<npc_offscreen_foraging>( npc_offscreen_foraging() );
     offscreen_job->set_current_offscreen_job_status( OFFSCREEN_JOB_TRAVEL );
     offscreen_job->set_travelling_start_time( calendar::turn );
-    std::cout << "set offscren forage job - travelling start time = " << to_string(
-                  offscreen_job->get_travelling_start_time() ) << std::endl;
-    if( offscreen_job->is_forage_job() ) {
-        std::cout << "set offscreen job is now forage job in npc::set_offscreen" << std::endl;
-    } else {
-        std::cout << "set offscreen job is not now forage job in npc::setoffscreen" << std::endl;
-    }
-    if( get_offscreen_job()->is_forage_job() ) {
-        std::cout << "set offscreen job is now forage job in npc::get_offscreen" << std::endl;
-    } else {
-        std::cout << "set offscreen job is not now forage job in npc::get_offscreen" << std::endl;
-    }
 
 }
 

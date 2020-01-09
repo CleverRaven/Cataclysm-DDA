@@ -349,7 +349,7 @@ void talk_function::assign_camp( npc &p )
         p.chatbin.first_topic = "TALK_FRIEND_GUARD";
         p.set_omt_destination();
         p.base_location = p.global_omt_location();
-        if( !p.has_job() ){
+        if( !p.has_job() ) {
             temp_camp->job_assignment_ui();
         }
     }
@@ -829,9 +829,6 @@ void talk_function::go_forage( npc &p )
     }
     if( p.has_offscreen_job() ) {
         time_point job_started = p.get_offscreen_job()->get_travelling_start_time();
-        std::cout << "job started = " << to_string( job_started ) << std::endl;
-        std::cout << " hours since job first started " << std::to_string( to_hours<int>
-                  ( calendar::turn - job_started ) ) << std::endl;
         if( calendar::turn - job_started >= p.get_offscreen_job()->get_max_time_to_work() ) {
             p.return_to_base();
             return;
@@ -876,14 +873,6 @@ void talk_function::go_forage( npc &p )
         destination = overmap_buffer.find_closest( p.global_omt_location(), find_params );
     }
     p.set_offscreen_forage_job();
-    std::cout << "after settin goffscreen forag ejob , tatus is " << std::to_string(
-                  p.get_offscreen_job()->get_current_offscreen_job_status() ) << std::endl;
-    if( p.get_offscreen_job()->is_forage_job() ) {
-        std::cout << "after setting offscreen job in go_forage, it immediately comes back as forage job " <<
-                  std::endl;
-        std::cout << "after setting offscreen jo bin go_forage travelling start time = " << to_string(
-                      p.get_offscreen_job()->get_travelling_start_time() ) << std::endl;
-    }
     p.travel_to_omt( destination );
 }
 

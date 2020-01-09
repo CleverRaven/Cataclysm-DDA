@@ -1639,18 +1639,12 @@ void npc::load( const JsonObject &data )
     if( data.read( "job", jobtmp ) ) {
         job = static_cast<npc_job>( jobtmp );
     }
-    std::cout << "before has member offscfreen job check" << std::endl;
     if( data.has_member( "offscreen_job" ) ) {
-        std::cout << "has member offscreen job " << std::endl;
         std::unique_ptr<npc_offscreen_job> tmpoff = std::make_unique<npc_offscreen_job>();
         data.read( "offscreen_job", *tmpoff );
         if( tmpoff->is_forage_job() ) {
-            std::cout << "tmpoff is forage job " << std::endl;
             offscreen_job = std::move( std::make_unique<npc_offscreen_foraging>( npc_offscreen_foraging(
                                            *tmpoff.get() ) ) );
-            if( offscreen_job ) {
-                std::cout << "has offscreen job after loading " << std::endl;
-            }
         }
     }
     if( data.read( "previous_attitude", atttmp ) ) {

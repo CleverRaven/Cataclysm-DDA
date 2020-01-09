@@ -3934,9 +3934,7 @@ map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it 
 void map::i_rem( const tripoint &p, item *it )
 {
     map_stack map_items = i_at( p );
-    std::cout << "map 3912" << std::endl;
     map_stack::const_iterator iter = map_items.get_iterator_from_pointer( it );
-    std::cout << "map 3914" << std::endl;
     if( iter != map_items.end() ) {
         i_rem( p, iter );
     }

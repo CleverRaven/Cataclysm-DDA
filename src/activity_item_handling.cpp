@@ -236,7 +236,6 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
                   const tripoint &where )
 {
     if( items.empty() ) {
-        std::cout << "items empty in drop on map" << std::endl;
         return;
     }
     const std::string ter_name = g->m.name( where );
@@ -315,7 +314,6 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
         }
     }
     for( auto &it : items ) {
-        std::cout << "for items - m.add item or charges" << std::endl;
         g->m.add_item_or_charges( where, it );
         pass_to_ownership_handling( it, c );
     }
@@ -550,7 +548,6 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
             break;
         }
     }
-    std::cout << "drop do turn" << std::endl;
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
                               pos, force_ground );
 }
@@ -1498,7 +1495,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == activity_id( "ACT_TIDY_UP" ) ) {
         if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) ||
             mgr.has_near( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ), distance ) ) {
-            std::cout << "in act tidy up found loot unsorted" << std::endl;
             return activity_reason_info::ok( CAN_DO_FETCH );
         }
         return activity_reason_info::fail( NO_ZONE );
@@ -1918,11 +1914,9 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
             break;
         }
     }
-    std::cout << "1950" << std::endl;
     if( loot_src_lot == tripoint_zero ) {
         return false;
     }
-    std::cout << "1954" << std::endl;
     auto items_there = g->m.i_at( src_loc );
     vehicle *dest_veh;
     int dest_part;
@@ -1942,7 +1936,6 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
             break;
         }
     }
-    std::cout << "1974" << std::endl;
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
     if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) ||
         mgr.has( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ) ) ) {
@@ -2485,10 +2478,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         if( src_set.empty() && unsorted_spot != tripoint_zero ) {
             for( const item *inv_elem : p.inv_dump() ) {
                 if( inv_elem->has_var( "activity_var" ) ) {
-                    std::cout << "inventory item has activity var" << std::endl;
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
                     src_set.insert( g->m.getabs( unsorted_spot ) );
-                    std::cout << "src_set size after insert = " << std::to_string( src_set.size() ) << std::endl;
                     break;
                 }
             }
@@ -2855,7 +2846,6 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
     // or if we need to fetch something first.
-    std::cout << "src set size = " << std::to_string( src_set.size() ) << std::endl;
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
         if( !g->m.inbounds( src_loc ) && !check_only ) {
