@@ -4,6 +4,7 @@
     "id": "mil_base_palette",
     "terrain": {
       " ": [ [ "t_region_groundcover", 750 ], "t_pit_shallow", "t_dirtmound" ],
+      ";": "t_region_groundcover",
       ",": "t_dirt",
       "N": "t_dirt",
       "x": [ [ "t_chainfence", 10 ], "t_chainfence_posts", "t_dirt" ],

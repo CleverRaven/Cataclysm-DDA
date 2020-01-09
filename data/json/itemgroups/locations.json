@@ -468,26 +468,14 @@
     "id": "bowling_alcohol",
     "type": "item_group",
     "items": [
-      [ "beer", 60 ],
-      [ "european_pilsner", 50 ],
-      [ "pale_ale", 50 ],
-      [ "wine_barley", 45 ],
-      [ "india_pale_ale", 47 ],
-      [ "stout", 46 ],
-      [ "belgian_ale", 40 ],
-      [ "imperial_stout", 35 ],
-      [ "whiskey", 10 ],
-      [ "vodka", 10 ],
-      [ "gin", 10 ],
-      [ "rum", 10 ],
-      [ "tequila", 10 ],
-      [ "triple_sec", 5 ],
-      [ "fruit_wine", 5 ],
-      [ "brandy", 5 ],
+      { "group": "beer", "prob": 373 },
+      { "group": "liquor_and_spirits", "prob": 80 },
       [ "drink_rumcola", 40 ],
       [ "drink_screwdriver", 35 ],
       [ "drink_wild_apple", 10 ],
-      [ "long_island", 17 ]
+      [ "long_island", 17 ],
+      [ "wine_chardonnay", 20 ],
+      [ "wine_cabernet", 20 ]
     ]
   },
   {
@@ -3414,6 +3402,119 @@
       [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ]
+    ]
+  },
+  {
+    "id": "mil_base_ash",
+    "type": "item_group",
+    "//": "Remains of bodies burned in the corpse pits.",
+    "entries": [ { "item": "ash", "count": [ 40, 500 ] } ]
+  },
+  {
+    "id": "mil_base_ash",
+    "type": "item_group",
+    "//": "Remains of bodies burned in the corpse pits.",
+    "items": [ [ "ash", 100 ] ]
+  },
+  {
+    "id": "mil_base_bodybag",
+    "type": "item_group",
+    "//": "A corpse of a civilian or a soldier that died on the base, put in a bodybag.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "group": "mil_base_corpse_soldier", "prob": 100 }, { "group": "everyday_corpse", "prob": 120 } ] },
+      { "item": "bag_body_bag" }
+    ]
+  },
+  {
+    "id": "mil_base_corpse_soldier",
+    "type": "item_group",
+    "//": "Soldier corpse with clothes, without gear.",
+    "subtype": "collection",
+    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] }, { "item": "corpse_generic_human" } ]
+  },
+  {
+    "id": "mil_base_clothes_corpse_soldier",
+    "type": "item_group",
+    "//": "Soldier clothes, without gear.",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "item": "jacket_army", "prob": 50 },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "pants_army", "prob": 75 },
+      { "item": "webbing_belt", "prob": 50 },
+      { "item": "knee_pads", "prob": 10 },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ], "prob": 90 },
+      { "item": "boots_combat", "prob": 50 },
+      { "item": "helmet_army", "prob": 10 },
+      { "item": "gloves_tactical", "prob": 10 },
+      { "item": "ballistic_vest", "prob": 10 },
+      { "group": "clothing_tactical_leg", "prob": 5 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "mil_base_casing_hmg",
+    "type": "item_group",
+    "//": "HMG casing and linkage fired in a machine gun nest.",
+    "subtype": "collection",
+    "entries": [ { "item": "ammolink50" }, { "item": "50_casing" } ]
+  },
+  {
+    "id": "mil_base_bed_hospital",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "rag_bloody", "prob": 100 } ]
+  },
+  {
+    "id": "mil_base_table_hospital",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "bandages", "prob": 25 }, { "item": "rag_bloody", "prob": 100 } ]
+  },
+  {
+    "id": "mil_base_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "book_military", "prob": 50 }, { "group": "novels", "prob": 100 } ]
+  },
+  {
+    "id": "mil_base_coats",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "distribution": [ { "item": "trenchcoat", "prob": 80 }, { "item": "trenchcoat_leather", "prob": 60 } ], "prob": 40 },
+      {
+        "distribution": [
+          { "item": "coat_rain", "prob": 80 },
+          { "item": "coat_winter", "prob": 50 },
+          { "item": "peacoat", "prob": 50 },
+          { "item": "greatcoat", "prob": 35 }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "item": "jacket_army", "prob": 80 }, { "item": "winter_jacket_army", "prob": 20 } ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "id": "mil_base_tent_civilian",
+    "type": "item_group",
+    "//": "Personal items left behind by civilians in their tents.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sleeping_bag", "prob": 100 },
+      { "item": "blanket", "prob": 100 },
+      { "group": "default_zombie_items_bags", "prob": 80, "count": [ 1, 3 ] }
     ]
   }
 ]
