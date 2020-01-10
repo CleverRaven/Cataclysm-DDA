@@ -3,7 +3,7 @@
     "type": "region_overlay",
     "regions": [ "all" ],
     "city": {
-      "houses": { "wizard_tower_1": 50, "wizard_tower_2": 50 },
+      "houses": { "wizard_tower_1": 10, "wizard_tower_2": 20 },
       "shops": { "magic_shop": 100, "used_bookstore": 225 },
       "basements": { "magic_basement": 50 }
     },
