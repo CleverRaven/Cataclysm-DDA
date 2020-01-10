@@ -754,9 +754,6 @@ struct npc_chatbin {
 };
 
 class npc_template;
-struct epilogue;
-
-using epilogue_map = std::map<std::string, epilogue>;
 
 class npc : public player
 {
@@ -1194,6 +1191,7 @@ class npc : public player
         bool query_yn( const std::string &mes ) const override;
 
         std::string extended_description() const override;
+        std::string get_epilogue() const;
 
         std::pair<std::string, nc_color> hp_description() const;
 
@@ -1388,20 +1386,6 @@ class npc_template
         static void load( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
-};
-
-struct epilogue {
-    epilogue();
-
-    std::string id; //Unique name for declaring an ending for a given individual
-    std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
-    std::string text;
-
-    static epilogue_map _all_epilogue;
-
-    static void load_epilogue( const JsonObject &jsobj );
-    epilogue *find_epilogue( const std::string &ident );
-    void random_by_group( std::string group );
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

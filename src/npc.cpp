@@ -33,6 +33,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "trait_group.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -2764,54 +2765,6 @@ void npc_chatbin::add_new_mission( mission *miss )
     missions.push_back( miss );
 }
 
-epilogue::epilogue()
-{
-    id = "NONE";
-    group = "NONE";
-    text = "Error: file lost!";
-}
-
-epilogue_map epilogue::_all_epilogue;
-
-void epilogue::load_epilogue( const JsonObject &jsobj )
-{
-    epilogue base;
-    base.id = jsobj.get_string( "id" );
-    base.group = jsobj.get_string( "group" );
-    base.text = jsobj.get_string( "text" );
-
-    _all_epilogue[base.id] = base;
-}
-
-epilogue *epilogue::find_epilogue( const std::string &ident )
-{
-    epilogue_map::iterator found = _all_epilogue.find( ident );
-    if( found != _all_epilogue.end() ) {
-        return &( found->second );
-    } else {
-        debugmsg( "Tried to get invalid epilogue template: %s", ident.c_str() );
-        static epilogue null_epilogue;
-        return &null_epilogue;
-    }
-}
-
-void epilogue::random_by_group( std::string group )
-{
-    std::vector<epilogue> v;
-    for( const auto &epi : _all_epilogue ) {
-        if( epi.second.group == group ) {
-            v.push_back( epi.second );
-        }
-    }
-    if( v.empty() ) {
-        return;
-    }
-    epilogue epi = random_entry( v );
-    id = epi.id;
-    group = epi.group;
-    text = epi.text;
-}
-
 constexpr tripoint npc::no_goal_point;
 
 bool npc::query_yn( const std::string &/*msg*/ ) const
@@ -3083,6 +3036,13 @@ std::string npc::extended_description() const
     }
 
     return replace_colors( ss );
+}
+
+std::string npc::get_epilogue() const
+{
+    return SNIPPET.random_from_category(
+               ( male ? "epilogue_npc_male" :"epilogue_npc_female" )
+           ).value_or( translation() ).translated();
 }
 
 void npc::set_companion_mission( npc &p, const std::string &mission_id )
