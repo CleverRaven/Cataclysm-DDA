@@ -108,6 +108,7 @@ static const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 
@@ -1462,7 +1463,7 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
     }
 
     if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ||
-        has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
 
@@ -1529,7 +1530,7 @@ int player::bionics_pl_skill( const skill_id &most_important_skill,
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty )
 {
     if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-        g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        g->u.has_trait( trait_DEBUG_BIONICS ) ) {
         return 100;
     }
 
@@ -1674,6 +1675,10 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
 
     int success = chance_of_success - rng( 1, 100 );
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+        perform_uninstall( b_id, difficulty, success, bionics[b_id].capacity, pl_skill );
+        return true;
+    }
     assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
 
     activity.values.push_back( difficulty );
@@ -1915,6 +1920,11 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
 
     int success = chance_of_success - rng( 0, 99 );
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+        perform_install( bioid, upbioid, difficulty, success, pl_skill, "NOT_MED",
+                         bioid->canceled_mutations, pos() );
+        return true;
+    }
     assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
@@ -2540,6 +2550,11 @@ void bionic::deserialize( JsonIn &jsin )
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia )   //used by the Autodoc
 {
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+        installer.add_msg_if_player( m_info,
+                                     _( "You tell the pain to bug off and proceed with the operation." ) );
+        return;
+    }
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
                                      _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
