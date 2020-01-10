@@ -2171,7 +2171,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             //nothing to sort?
             const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                     false );
-            if( !vp && g->m.i_at( src_loc ).empty( ) ) {
+            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
+                && g->m.i_at( src_loc ).empty() ) {
                 continue;
             }
 
