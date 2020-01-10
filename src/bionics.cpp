@@ -2182,7 +2182,7 @@ void player::add_bionic( const bionic_id &b )
     recalc_sight_limits();
 }
 
-void player::remove_bionic( const bionic_id &b )
+void Character::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
     for( bionic &i : *my_bionics ) {
@@ -2548,7 +2548,7 @@ void bionic::deserialize( JsonIn &jsin )
 }
 
 void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool needs_anesthesia )   //used by the Autodoc
+        bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
         installer.add_msg_if_player( m_info,

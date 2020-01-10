@@ -275,8 +275,6 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /** Removes a bionic from my_bionics[] */
-        void remove_bionic( const bionic_id &b );
         /** Calculate skill for (un)installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,

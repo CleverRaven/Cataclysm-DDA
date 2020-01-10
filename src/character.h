@@ -811,7 +811,8 @@ class Character : public Creature, public visitable<Character>
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
-
+        /** Removes a bionic from my_bionics[] */
+        void remove_bionic( const bionic_id &b );
         // --------------- Bionic Power Generation ---------------
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
