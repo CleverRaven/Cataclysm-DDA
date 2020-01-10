@@ -3041,7 +3041,7 @@ std::string npc::extended_description() const
 std::string npc::get_epilogue() const
 {
     return SNIPPET.random_from_category(
-               ( male ? "epilogue_npc_male" :"epilogue_npc_female" )
+               male ? "epilogue_npc_male" : "epilogue_npc_female"
            ).value_or( translation() ).translated();
 }
 
