@@ -886,7 +886,7 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void disp_faction_ends();   // Display the faction endings
+        void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */

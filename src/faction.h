@@ -83,6 +83,7 @@ class faction_template
         std::string currency; // itype_id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        std::set<std::tuple<int, int, std::string>> epilogue_data;
 };
 
 class faction : public faction_template
@@ -96,6 +97,7 @@ class faction : public faction_template
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
         std::string describe() const;
+        std::vector<std::string> epilogue() const;
 
         std::string food_supply_text();
         nc_color food_supply_color();
