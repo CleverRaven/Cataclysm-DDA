@@ -14,7 +14,8 @@
     "components": [
       [ [ "cleansuit", 1 ] ],
       [ [ "duct_tape", 600 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
+	  [ [ "plastic_sheet", 1 ] ]
     ]
   },
   {
@@ -32,7 +33,8 @@
     "components": [
       [ [ "hazmat_suit", 1 ] ],
       [ [ "duct_tape", 800 ] ],
-      [ [ "swat_armor", 1 ], [ "kevlar_plate", 48 ] ]
+      [ [ "swat_armor", 1 ], [ "kevlar_plate", 48 ] ],
+	  [ [ "plastic_sheet", 1 ] ]
     ]
   },
   {
