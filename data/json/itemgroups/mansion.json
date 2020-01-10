@@ -814,7 +814,9 @@
       [ "jar_glass", 50 ],
       [ "jar_3l_glass", 40 ],
       [ "tongs", 25 ],
-      [ "coffeemaker", 10 ]
+      [ "coffeemaker", 10 ],
+      [ "cookbook_daintydishes", 40 ],
+      [ "cookbook_foodfashions", 18 ]
     ]
   },
   {

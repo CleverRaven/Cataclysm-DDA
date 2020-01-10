@@ -301,6 +301,10 @@
       [ "mag_fabrication", 30 ],
       [ "mag_tailor", 25 ],
       [ "cookbook_sushi", 15 ],
+      [ "cookbook_daintydishes", 15 ],
+      [ "cookbook_liverforkids", 15 ],
+      [ "cookbook_eatyrway", 15 ],
+      [ "cookbook_foodfashions", 10 ],
       [ "survnote", 1 ],
       [ "scots_cookbook", 8 ],
       [ "dnd_handbook", 2 ]

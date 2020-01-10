@@ -1,0 +1,74 @@
+[
+  {
+    "result": "golf_club",
+    "//": "Google tells me that golf clubs often have titanium heads, so that's a source of it.",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "afs_scrap_titanium", 1 ] ] ]
+  },
+  {
+    "result": "afs_atomic_smartphone",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
+  },
+  {
+    "result": "afs_titanium_frame",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "welder", 100 ], [ "toolset", 150 ] ] ],
+    "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
+  },
+  {
+    "result": "afs_titanium_tooth",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "afs_titanium_small", 1 ] ] ]
+  },
+  {
+    "result": "afs_titanium_watch",
+    "type": "uncraft",
+    "time": "36 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "afs_titanium_small", 20 ] ], [ [ "clockworks", 1 ] ] ]
+  },
+  {
+    "result": "afs_titanium_ring",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "afs_titanium_small", 2 ] ] ]
+  },
+  {
+    "result": "afs_titanium_implant",
+    "type": "uncraft",
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "afs_scrap_titanium", 5 ] ] ]
+  },
+  {
+    "result": "afs_titanium_bat",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": "30 m",
+    "using": [ [ "welding_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
+  }
+]

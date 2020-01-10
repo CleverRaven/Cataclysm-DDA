@@ -235,7 +235,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @todo: Rate fire higher than smoke
+                // @TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }
@@ -680,9 +680,10 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
+    // NPCs under operation should just stay still
     if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
-        return;// NPCs under operation should just stay still
+        return;
     }
 
     npc_action action = npc_undecided;
@@ -1547,7 +1548,7 @@ void npc::deactivate_combat_cbms()
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
                 return activate_bionic( index, eff_only );
@@ -1563,7 +1564,7 @@ bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
                 return activate_bionic( index, eff_only );
@@ -1579,7 +1580,7 @@ bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( i.powered ) {
                 return deactivate_bionic( index, eff_only );

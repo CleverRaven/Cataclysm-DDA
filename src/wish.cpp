@@ -535,6 +535,11 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             if( cb.has_flag ) {
                 granted.item_tags.insert( cb.flag );
             }
+            // If the item has an ammunition, this loads it to capacity, including magazines.
+            if( granted.ammo_default() != "NULL" ) {
+                granted.ammo_set( granted.ammo_default(), -1 );
+            }
+
             granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;

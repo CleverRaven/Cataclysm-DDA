@@ -193,7 +193,8 @@
         "O": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
         "K": { "item": "allclothes", "chance": 20, "repeat": [ 1, 2 ] },
         "B": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] }
-      }
+      },
+      "place_npcs": [ { "class": "healer_priest", "x": 10, "y": 10 } ]
     }
   },
   {

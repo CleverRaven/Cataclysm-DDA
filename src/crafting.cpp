@@ -323,7 +323,7 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     if( !can_make( &making, batch_size ) ) {
         std::string buffer = _( "You can no longer make that craft!" );
         buffer += "\n";
-        buffer += making.requirements().list_missing();
+        buffer += making.simple_requirements().list_missing();
         popup( buffer, PF_NONE );
         return false;
     }
@@ -478,54 +478,19 @@ bool player::can_make( const recipe *r, int batch_size )
         return false;
     }
 
-    return r->requirements().can_make_with_inventory( crafting_inv, r->get_component_filter(),
-            batch_size );
+    return r->deduped_requirements().can_make_with_inventory(
+               crafting_inv, r->get_component_filter(), batch_size );
 }
 
-bool player::can_start_craft( const recipe *rec, int batch_size )
+bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
 {
     if( !rec ) {
         return false;
     }
 
-    const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
-
-    // For tools adjust the reqired charges
-    std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
-    for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
-        std::vector<tool_comp> adjusted_alternatives;
-        for( const tool_comp &alternative : alternatives ) {
-            tool_comp adjusted_alternative = alternative;
-            if( adjusted_alternative.count > 0 ) {
-                adjusted_alternative.count *= batch_size;
-                // Only for the first 5% progress
-                adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
-            }
-            adjusted_alternatives.push_back( adjusted_alternative );
-        }
-        adjusted_tool_reqs.push_back( adjusted_alternatives );
-    }
-
-    const std::vector<std::vector<item_comp>> &comp_reqs = rec->requirements().get_components();
-
-    // For components we need to multiply by batch size to stay even with tools
-    std::vector<std::vector<item_comp>> adjusted_comp_reqs;
-    for( const std::vector<item_comp> &alternatives : comp_reqs ) {
-        std::vector<item_comp> adjusted_alternatives;
-        for( const item_comp &alternative : alternatives ) {
-            item_comp adjusted_alternative = alternative;
-            adjusted_alternative.count *= batch_size;
-            adjusted_alternatives.push_back( adjusted_alternative );
-        }
-        adjusted_comp_reqs.push_back( adjusted_alternatives );
-    }
-
-    // Qualities don't need adjustment
-    const requirement_data start_reqs( adjusted_tool_reqs,
-                                       rec->requirements().get_qualities(),
-                                       adjusted_comp_reqs );
-
-    return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
+    const inventory &inv = crafting_inventory();
+    return rec->deduped_requirements().can_make_with_inventory(
+               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
 const inventory &player::crafting_inventory( bool clear_path )
@@ -548,8 +513,8 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    for( const auto &bio : *my_bionics ) {
-        const auto &bio_data = bio.info();
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
@@ -956,7 +921,7 @@ int item::get_next_failure_point() const
         debugmsg( "get_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
         return INT_MAX;
     }
-    return next_failure_point >= 0 ? next_failure_point : INT_MAX;
+    return craft_data_->next_failure_point >= 0 ? craft_data_->next_failure_point : INT_MAX;
 }
 
 void item::set_next_failure_point( const player &crafter )
@@ -969,7 +934,7 @@ void item::set_next_failure_point( const player &crafter )
     const int percent_left = 10000000 - item_counter;
     const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
 
-    next_failure_point = item_counter + failure_point_delta;
+    craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
 
 static void destroy_random_component( item &craft, const player &crafter )
@@ -1036,7 +1001,7 @@ requirement_data item::get_continue_reqs() const
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return requirement_data::continue_requirements( comps_used, components );
+    return requirement_data::continue_requirements( craft_data_->comps_used, components );
 }
 
 void item::inherit_flags( const item &parent )
@@ -1208,7 +1173,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
         } else {
-            set_item_map_or_vehicle( *this, pos(), newit );
+            set_item_map_or_vehicle( *this, loc, newit );
         }
     }
 
@@ -1254,7 +1219,9 @@ bool player::can_continue_craft( item &craft )
     // Avoid building an inventory from the map if we don't have to, as it is expensive
     if( !continue_reqs.is_empty() ) {
 
-        const std::function<bool( const item & )> filter = rec.get_component_filter();
+        std::function<bool( const item & )> filter = rec.get_component_filter();
+        const std::function<bool( const item & )> no_rotten_filter =
+            rec.get_component_filter( recipe_filter_flags::no_rotten );
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
@@ -1271,6 +1238,16 @@ bool player::can_continue_craft( item &craft )
         buffer += continue_reqs.list_all();
         if( !query_yn( buffer ) ) {
             return false;
+        }
+
+        if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
+                batch_size ) ) {
+            filter = no_rotten_filter;
+        } else {
+            if( !query_yn( _( "Some components required to continue are rotten.\n"
+                              "Continue crafting anyway?" ) ) ) {
+                return false;
+            }
         }
 
         inventory map_inv;
@@ -1293,7 +1270,7 @@ bool player::can_continue_craft( item &craft )
 
     if( !craft.has_tools_to_continue() ) {
 
-        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.requirements().get_tools();
+        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.simple_requirements().get_tools();
         const int batch_size = craft.charges;
 
         std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
@@ -1343,6 +1320,39 @@ bool player::can_continue_craft( item &craft )
     }
 
     return true;
+}
+const requirement_data *player::select_requirements(
+    const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
+    const std::function<bool( const item & )> &filter ) const
+{
+    assert( !alternatives.empty() );
+    if( alternatives.size() == 1 || !is_avatar() ) {
+        return alternatives.front();
+    }
+
+    std::vector<std::string> descriptions;
+
+    uilist menu;
+
+    for( const requirement_data *req : alternatives ) {
+        // Write with a large width and then just re-join the lines, because
+        // uilist does its own wrapping and we want to rely on that.
+        std::vector<std::string> component_lines =
+            req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
+                                             requirement_display_flags::no_unavailable );
+        menu.addentry_desc( "", join( component_lines, "\n" ) );
+    }
+
+    menu.allow_cancel = true;
+    menu.desc_enabled = true;
+    menu.title = _( "Use which selection of components?" );
+    menu.query();
+
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= alternatives.size() ) {
+        return nullptr;
+    }
+
+    return alternatives[menu.ret];
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */

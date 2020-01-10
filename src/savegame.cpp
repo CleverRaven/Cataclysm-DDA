@@ -49,7 +49,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 26;
+const int savegame_version = 27;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -172,6 +172,11 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        // 0.E stable
+        if( savegame_loading_version < 26 ) {
+            tmpturn *= 6;
+            tmpcalstart *= 6;
+        }
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
@@ -1224,8 +1229,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
 
 void overmap::serialize_view( std::ostream &fout ) const
 {
-    static const int first_overmap_view_json_version = 25;
-    fout << "# version " << first_overmap_view_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
@@ -1349,8 +1353,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
 
 void overmap::serialize( std::ostream &fout ) const
 {
-    static const int first_overmap_json_version = 26;
-    fout << "# version " << first_overmap_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
@@ -1721,7 +1724,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        // @TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );

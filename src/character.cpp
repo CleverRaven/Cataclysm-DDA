@@ -254,7 +254,7 @@ Character::Character() :
 
     name.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false };
 
     move_mode = CMM_WALK;
 
@@ -1071,7 +1071,7 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration dur, b
 
 void Character::process_turn()
 {
-    for( auto &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
             i.incapacitated_time -= 1_turns;
             if( i.incapacitated_time == 0_turns ) {
@@ -1254,6 +1254,9 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
+    // Clamp range to 1+, so that we can always see where we are
+    range = std::max( 1.0f, range );
+
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
 }
@@ -1289,8 +1292,8 @@ std::vector<bionic_id> Character::get_bionics() const
 
 bool Character::has_bionic( const bionic_id &b ) const
 {
-    for( auto &i : *my_bionics ) {
-        if( i.id == b ) {
+    for( const bionic_id bid : get_bionics() ) {
+        if( bid == b ) {
             return true;
         }
     }
@@ -1299,7 +1302,7 @@ bool Character::has_bionic( const bionic_id &b ) const
 
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == b ) {
             return ( i.powered && i.incapacitated_time == 0_turns );
         }
@@ -1309,7 +1312,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    return !my_bionics->empty();
+    return !get_bionics().empty();
 }
 
 bool Character::can_fuel_bionic_with( const item &it ) const
@@ -1318,8 +1321,8 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         return false;
     }
 
-    for( const auto bio : *my_bionics ) {
-        for( const itype_id fuel : bio.info().fuel_opts ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
                 return true;
             }
@@ -1332,10 +1335,10 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 {
     std::vector<bionic_id> bionics;
 
-    for( const bionic bio : *my_bionics ) {
-        for( const itype_id fuel : bio.info().fuel_opts ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
-                bionics.emplace_back( bio.id );
+                bionics.emplace_back( bid );
             }
         }
     }
@@ -1346,9 +1349,9 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 std::vector<bionic_id> Character::get_fueled_bionics() const
 {
     std::vector<bionic_id> bionics;
-    for( const bionic bio : *my_bionics ) {
-        if( !bio.info().fuel_opts.empty() ) {
-            bionics.emplace_back( bio.id );
+    for( const bionic_id bid : get_bionics() ) {
+        if( !bid->fuel_opts.empty() ) {
+            bionics.emplace_back( bid );
         }
     }
     return bionics;
@@ -1389,13 +1392,17 @@ void Character::set_max_power_level( units::energy npower_max )
 
 void Character::mod_power_level( units::energy npower )
 {
-    int new_power = units::to_millijoule( power_level ) + units::to_millijoule( npower );
-    // An integer overflow has occurred - the sum of two positive things (power_level is always positive)
-    // cannot be negative, so if it is, we know integer overflow has occured
-    if( npower >= 0_mJ && new_power < 0 ) {
-        new_power = units::to_millijoule( max_power_level );
+    // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
+    // If the result is greater than the max power level, set power to max
+    int64_t power = static_cast<int64_t>( units::to_millijoule( power_level ) ) +
+                    static_cast<int64_t>( units::to_millijoule( npower ) );
+    units::energy new_power;
+    if( power > units::to_millijoule( max_power_level ) ) {
+        new_power = max_power_level;
+    } else {
+        new_power = power_level + npower;
     }
-    power_level = clamp( units::from_millijoule( new_power ), 0_kJ, max_power_level );
+    power_level = clamp( new_power, 0_kJ, max_power_level );
 }
 
 void Character::mod_max_power_level( units::energy npower_max )
@@ -1442,11 +1449,11 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
         amount_stored = std::stoi( get_value( fuel ) );
     }
     int capacity = 0;
-    for( const bionic &bio : *my_bionics ) {
-        for( const itype_id &fl : bio.info().fuel_opts ) {
-            if( get_value( bio.id.c_str() ).empty() || get_value( bio.id.c_str() ) == fl ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
                 if( fl == fuel ) {
-                    capacity += bio.info().fuel_capacity;
+                    capacity += bid->fuel_capacity;
                 }
             }
         }
@@ -1457,11 +1464,11 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
 int Character::get_total_fuel_capacity( const itype_id fuel ) const
 {
     int capacity = 0;
-    for( const bionic &bio : *my_bionics ) {
-        for( const itype_id &fl : bio.info().fuel_opts ) {
-            if( get_value( bio.id.c_str() ).empty() || get_value( bio.id.c_str() ) == fl ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const itype_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
                 if( fl == fuel ) {
-                    capacity += bio.info().fuel_capacity;
+                    capacity += bid->fuel_capacity;
                 }
             }
         }
@@ -1516,9 +1523,9 @@ void Character::update_fuel_storage( const itype_id &fuel )
 int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
 {
     int ret = 0;
-    for( const bionic &bio : *my_bionics ) {
-        const auto St_bn = bio.info().stat_bonus.find( Stat );
-        if( St_bn != bio.info().stat_bonus.end() ) {
+    for( const bionic_id bid : get_bionics() ) {
+        const auto St_bn = bid->stat_bonus.find( Stat );
+        if( St_bn != bid->stat_bonus.end() ) {
             ret += St_bn->second;
         }
     }
@@ -2075,9 +2082,9 @@ units::mass Character::weight_capacity() const
     }
 
     units::mass bio_weight_bonus = 0_gram;
-    for( const bionic &bio : *my_bionics ) {
-        ret *= bio.info().weight_capacity_modifier;
-        bio_weight_bonus +=  bio.info().weight_capacity_bonus;
+    for( const bionic_id bid : get_bionics() ) {
+        ret *= bid->weight_capacity_modifier;
+        bio_weight_bonus +=  bid->weight_capacity_bonus;
     }
 
     ret += bio_weight_bonus + worn_weight_bonus ;
@@ -2934,8 +2941,8 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
 
-    for( const bionic &bio : *my_bionics ) {
-        for( const auto &element : bio.info().encumbrance ) {
+    for( const bionic_id bid : get_bionics() ) {
+        for( const std::pair<body_part, int> &element : bid->encumbrance ) {
             vals[element.first].encumbrance += element.second;
         }
     }
@@ -3434,7 +3441,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_p
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
     if( type == DT_ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
-        for( auto &i : *my_bionics ) {
+        for( bionic &i : *my_bionics ) {
             if( !i.powered ) {
                 // Unpowered bionics are protected from power surges.
                 continue;
@@ -3822,7 +3829,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @todo make this simpler and use time_duration/time_point
+                // @TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -4116,8 +4123,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-
-
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
@@ -4196,7 +4201,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
             hp_str = colorize( h_bar.first, h_bar.second ) +
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
-        };
+        }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
@@ -5010,6 +5015,7 @@ mutation_value_map = {
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
@@ -5206,9 +5212,9 @@ units::mass Character::bodyweight() const
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
-    for( const auto bio : *my_bionics ) {
-        if( !bio.info().included ) {
-            bio_weight += item::find_type( bio.id.c_str() )->weight;
+    for( const bionic_id bid : get_bionics() ) {
+        if( !bid->included ) {
+            bio_weight += item::find_type( bid.c_str() )->weight;
         }
     }
     return bio_weight;
@@ -5283,6 +5289,138 @@ std::string Character::activity_level_str() const
     } else {
         return _( "EXTRA_EXERCISE" );
     }
+}
+
+int Character::get_armor_bash( body_part bp ) const
+{
+    return get_armor_bash_base( bp ) + armor_bash_bonus;
+}
+
+int Character::get_armor_cut( body_part bp ) const
+{
+    return get_armor_cut_base( bp ) + armor_cut_bonus;
+}
+
+int Character::get_armor_type( damage_type dt, body_part bp ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+        case DT_BIOLOGICAL:
+            return 0;
+        case DT_BASH:
+            return get_armor_bash( bp );
+        case DT_CUT:
+            return get_armor_cut( bp );
+        case DT_STAB:
+            return get_armor_cut( bp ) * 0.8f;
+        case DT_ACID:
+        case DT_HEAT:
+        case DT_COLD:
+        case DT_ELECTRIC: {
+            int ret = 0;
+            for( auto &i : worn ) {
+                if( i.covers( bp ) ) {
+                    ret += i.damage_resist( dt );
+                }
+            }
+
+            ret += mutation_armor( bp, dt );
+            return ret;
+        }
+        case DT_NULL:
+        case NUM_DT:
+            // Let it error below
+            break;
+    }
+
+    debugmsg( "Invalid damage type: %d", dt );
+    return 0;
+}
+
+int Character::get_armor_bash_base( body_part bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.bash_resist();
+        }
+    }
+    if( has_bionic( bio_carbon ) ) {
+        ret += 2;
+    }
+    if( bp == bp_head && has_bionic( bio_armor_head ) ) {
+        ret += 3;
+    }
+    if( ( bp == bp_arm_l || bp == bp_arm_r ) && has_bionic( bio_armor_arms ) ) {
+        ret += 3;
+    }
+    if( bp == bp_torso && has_bionic( bio_armor_torso ) ) {
+        ret += 3;
+    }
+    if( ( bp == bp_leg_l || bp == bp_leg_r ) && has_bionic( bio_armor_legs ) ) {
+        ret += 3;
+    }
+    if( bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
+        ret += 3;
+    }
+
+    ret += mutation_armor( bp, DT_BASH );
+    return ret;
+}
+
+int Character::get_armor_cut_base( body_part bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.cut_resist();
+        }
+    }
+    if( has_bionic( bio_carbon ) ) {
+        ret += 4;
+    }
+    if( bp == bp_head && has_bionic( bio_armor_head ) ) {
+        ret += 3;
+    } else if( ( bp == bp_arm_l || bp == bp_arm_r ) && has_bionic( bio_armor_arms ) ) {
+        ret += 3;
+    } else if( bp == bp_torso && has_bionic( bio_armor_torso ) ) {
+        ret += 3;
+    } else if( ( bp == bp_leg_l || bp == bp_leg_r ) && has_bionic( bio_armor_legs ) ) {
+        ret += 3;
+    } else if( bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
+        ret += 3;
+    }
+
+    ret += mutation_armor( bp, DT_CUT );
+    return ret;
+}
+
+int Character::get_env_resist( body_part bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        // Head protection works on eyes too (e.g. baseball cap)
+        if( i.covers( bp ) || ( bp == bp_eyes && i.covers( bp_head ) ) ) {
+            ret += i.get_env_resist();
+        }
+    }
+
+    for( const bionic_id bid : get_bionics() ) {
+        const auto EP = bid->env_protec.find( bp );
+        if( EP != bid->env_protec.end() ) {
+            ret += EP->second;
+        }
+    }
+
+    if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
+        ret += 8;
+    }
+    return ret;
+}
+
+int Character::get_armor_acid( body_part bp ) const
+{
+    return get_armor_type( DT_ACID, bp );
 }
 
 int Character::get_stim() const
@@ -6449,6 +6587,18 @@ void Character::set_type_of_scent( scenttype_id id )
 scenttype_id Character::get_type_of_scent() const
 {
     return type_of_scent;
+}
+
+void Character::restore_scent()
+{
+    const std::string prev_scent = get_value( "prev_scent" );
+    if( !prev_scent.empty() ) {
+        remove_effect( efftype_id( "masked_scent" ) );
+        set_type_of_scent( scenttype_id( prev_scent ) );
+        remove_value( "prev_scent" );
+        remove_value( "waterproof_scent" );
+        add_msg_if_player( m_info, _( "You smell like yourself again." ) );
+    }
 }
 
 void Character::spores()

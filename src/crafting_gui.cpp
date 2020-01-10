@@ -192,7 +192,35 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
-    std::vector<bool> available;
+
+    struct availability {
+        availability( const recipe *r, int batch_size = 1 ) {
+            const inventory &inv = g->u.crafting_inventory();
+            auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
+            auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+            const deduped_requirement_data &req = r->deduped_requirements();
+            can_craft = req.can_make_with_inventory(
+                            inv, all_items_filter, batch_size, craft_flags::start_only );
+            can_craft_non_rotten = req.can_make_with_inventory(
+                                       inv, no_rotten_filter, batch_size, craft_flags::start_only );
+            const requirement_data &simple_req = r->simple_requirements();
+            apparently_craftable = simple_req.can_make_with_inventory(
+                                       inv, all_items_filter, batch_size, craft_flags::start_only );
+        }
+        bool can_craft;
+        bool can_craft_non_rotten;
+        bool apparently_craftable;
+
+        nc_color selected_color() const {
+            return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
+        }
+
+        nc_color color() const {
+            return can_craft ? can_craft_non_rotten ? c_white : c_brown : c_dark_gray;
+        }
+    };
+
+    std::vector<availability> available;
     const int componentPrintHeight = dataHeight - tailHeight - 1;
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
@@ -237,7 +265,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string filterstring;
 
     const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
-    std::map<const recipe *, bool> availability_cache;
+    std::map<const recipe *, availability> availability_cache;
 
     do {
         if( redraw ) {
@@ -264,7 +292,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 20; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( g->u.can_start_craft( chosen, i ) );
+                    available.push_back( availability( chosen, i ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -363,23 +391,26 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, g->u.can_start_craft( e ) );
+                        availability_cache.emplace( e, availability( e ) );
                     }
                 }
 
                 if( subtab.cur() != "CSC_*_RECENT" ) {
-                    std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
+                    std::stable_sort( current.begin(), current.end(),
+                    []( const recipe * a, const recipe * b ) {
                         return b->difficulty < a->difficulty;
                     } );
 
-                    std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
-                        return availability_cache[a] && !availability_cache[b];
+                    std::stable_sort( current.begin(), current.end(),
+                    [&]( const recipe * a, const recipe * b ) {
+                        return availability_cache.at( a ).can_craft &&
+                               !availability_cache.at( b ).can_craft;
                     } );
                 }
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
-                    return availability_cache[e];
+                    return availability_cache.at( e );
                 } );
             }
 
@@ -443,13 +474,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, point( 2, i - recmin ), c_dark_gray, "" ); // Clear the line
-                    if( i == line ) {
-                        mvwprintz( w_data, point( 2, i - recmin ), ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ) );
-                    } else {
-                        mvwprintz( w_data, point( 2, i - recmin ), ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ) );
-                    }
+                    nc_color col = i == line ? available[i].selected_color() : available[i].color();
+                    mvwprintz( w_data, point( 2, i - recmin ), col, utf8_truncate( tmp_name, 28 ) );
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
@@ -458,15 +484,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, point( 2, dataLines + i - recmax ), c_light_gray, "" ); // Clear the line
-                    if( i == line ) {
-                        mvwprintz( w_data, point( 2, dataLines + i - recmax ),
-                                   ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ) );
-                    } else {
-                        mvwprintz( w_data, point( 2, dataLines + i - recmax ),
-                                   ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ) );
-                    }
+                    nc_color col = i == line ? available[i].selected_color() : available[i].color();
+                    mvwprintz( w_data, point( 2, dataLines + i - recmax ), col,
+                               utf8_truncate( tmp_name, 28 ) );
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
@@ -475,39 +495,28 @@ const recipe *select_crafting_recipe( int &batch_size )
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, point( 2, dataHalfLines + i - line ), c_light_gray, "" ); // Clear the line
-                    if( i == line ) {
-                        mvwprintz( w_data, point( 2, dataHalfLines + i - line ),
-                                   ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ) );
-                    } else {
-                        mvwprintz( w_data, point( 2, dataHalfLines + i - line ),
-                                   ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ) );
-                    }
+                    nc_color col = i == line ? available[i].selected_color() : available[i].color();
+                    mvwprintz( w_data, point( 2, dataHalfLines + i - line ), col,
+                               utf8_truncate( tmp_name, 28 ) );
                 }
             }
         } else {
-            for( size_t i = 0; i < current.size() && i < static_cast<size_t>( dataHeight ) + 1; ++i ) {
+            for( int i = 0; i < static_cast<int>( current.size() ) && i < dataHeight + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name );
+                    tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                 }
-                if( static_cast<int>( i ) == line ) {
-                    mvwprintz( w_data, point( 2, i ), ( available[i] ? h_white : h_dark_gray ),
-                               utf8_truncate( tmp_name, 28 ) );
-                } else {
-                    mvwprintz( w_data, point( 2, i ), ( available[i] ? c_white : c_dark_gray ),
-                               utf8_truncate( tmp_name, 28 ) );
-                }
+                nc_color col = i == line ? available[i].selected_color() : available[i].color();
+                mvwprintz( w_data, point( 2, i ), col, utf8_truncate( tmp_name, 28 ) );
             }
         }
 
         if( !current.empty() ) {
             int pane = FULL_SCREEN_WIDTH - 30 - 1;
             int count = batch ? line + 1 : 1; // batch size
-            nc_color col = available[ line ] ? c_white : c_light_gray;
+            nc_color col = available[ line ].color();
 
-            const auto &req = current[ line ]->requirements();
+            const auto &req = current[ line ]->simple_requirements();
 
             draw_can_craft_indicator( w_head, 0, *current[line] );
             wrefresh( w_head );
@@ -599,6 +608,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                                    current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
+                if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "<color_red>Will use rotten ingredients</color>" ) );
+                }
+                if( !available[line].can_craft && available[line].apparently_craftable ) {
+                    ypos += fold_and_print(
+                                w_data, point( xpos, ypos ), pane, col,
+                                _( "<color_red>Cannot be crafted because the same item is needed "
+                                   "for multiple components</color>" ) );
+                }
                 ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
@@ -693,7 +712,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "UP" ) {
             line--;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() || !available[line] ) {
+            if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!" ) );
             } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
@@ -847,7 +866,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 {
     // current recipe components
     std::vector<std::pair<itype_id, std::string>> related_components;
-    const requirement_data &req = current->requirements();
+    const requirement_data &req = current->simple_requirements();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &a : comp_list ) {
             related_components.push_back( { a.type, item::nname( a.type, 1 ) } );

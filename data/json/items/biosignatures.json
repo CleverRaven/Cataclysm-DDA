@@ -51,5 +51,23 @@
     "name": "roach dirt",
     "copy-from": "feces_bird",
     "description": "Large black pellets of rotting material."
+  },
+  {
+    "type": "GENERIC",
+    "id": "fetid_goop",
+    "symbol": "~",
+    "color": "white",
+    "name": "fetid goop",
+    "weight": "750 g",
+    "volume": "1 L",
+    "description": "A foul smelling goop.  It has a disgusting texture and a powerful smell that overrides every other smell around it.",
+    "use_action": {
+      "type": "change_scent",
+      "scent_typeid": "sc_fetid",
+      "moves": 200,
+      "duration": "1 h",
+      "charges_to_use": 1,
+      "effects": [ { "id": "fetid_goop", "duration": 3600 } ]
+    }
   }
 ]

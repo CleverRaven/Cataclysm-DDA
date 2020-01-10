@@ -74,7 +74,6 @@ static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_iodine( "iodine" );
-static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
@@ -1426,7 +1425,7 @@ void Character::suffer()
         }
     }
 
-    for( size_t i = 0; i < my_bionics->size(); i++ ) {
+    for( size_t i = 0; i < get_bionics().size(); i++ ) {
         process_bionic( i );
     }
 
@@ -1735,6 +1734,13 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         if( body_wetness[bp] < wetness_max ) {
             body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
         }
+    }
+
+    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
+        has_effect( efftype_id( "masked_scent" ) ) &&
+        get_value( "waterproof_scent" ).empty() ) {
+        add_msg_if_player( m_info, _( "The water wash away the scent." ) );
+        restore_scent();
     }
 
     if( is_weak_to_water() ) {
