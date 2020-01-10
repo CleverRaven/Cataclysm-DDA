@@ -4167,11 +4167,6 @@ bool player::can_reload( const item &it, const itype_id &ammo ) const
     return true;
 }
 
-bool player::dispose_item( item_location &&obj, const std::string &prompt )
-{
-    return Character::dispose_item( std::move( obj ), prompt );
-}
-
 void player::mend_item( item_location &&obj, bool interactive )
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {

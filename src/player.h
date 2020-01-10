@@ -760,14 +760,6 @@ class player : public Character
         bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
 
         /**
-         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
-         * @param obj item to dispose of
-         * @param prompt optional message to display in any menu
-         * @return whether the item was successfully disposed of
-         */
-        bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
-
-        /**
          * Attempt to mend an item (fix any current faults)
          * @param obj Object to mend
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
