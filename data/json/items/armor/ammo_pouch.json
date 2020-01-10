@@ -295,7 +295,7 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 85,
-    "encumbrance": 8,
+    "encumbrance": 12,
     "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
