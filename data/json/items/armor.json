@@ -654,11 +654,11 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "covers": [ "TORSO", "ARMS" ],
-    "coverage": 70,
+    "covers": [ "TORSO", "LEGS", "ARMS" ],
+    "coverage": 85,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 5,
+    "material_thickness": 6,
     "flags": [ "STURDY", "OUTER" ]
   },
   {
