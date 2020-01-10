@@ -1038,7 +1038,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
     legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
     legend += _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
-    if ( permit_execute_action ) {
+    if( permit_execute_action ) {
         legend += _( "Press . to execute action\n" );
     }
 

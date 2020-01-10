@@ -1546,10 +1546,10 @@ bool game::handle_action()
 #endif
         }
 
-        if ( act == ACTION_KEYBINDINGS ) {
+        if( act == ACTION_KEYBINDINGS ) {
             u.clear_destination();
             destination_preview.clear();
-            act = ctxt.display_menu(true);
+            act = ctxt.display_menu( true );
             if( act == ACTION_NULL ) {
                 return false;
             }
