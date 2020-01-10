@@ -10690,6 +10690,11 @@ void game::update_overmap_seen()
         if( trigdist && h_squared > dist_squared ) {
             continue;
         }
+        if( delta == point_zero ) {
+            // 1. This case is already handled outside of the loop
+            // 2. Calculating multiplier would cause division by zero
+            continue;
+        }
         // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
         const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max( std::abs( delta.x ),
                                  std::abs( delta.y ) ) : 1;
