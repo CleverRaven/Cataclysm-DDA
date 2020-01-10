@@ -3522,7 +3522,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     }
     //More machine than man
     //Bionics count > 10, respect > 75
-    if( g->u.my_bionics->size() > 10 && camp_discipline() > 75 ) {
+    if( g->u.get_bionics().size() > 10 && camp_discipline() > 75 ) {
         sbonus += 10;
     }
     //Survival of the fittest

@@ -6745,7 +6745,7 @@ void player::place_corpse()
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
-    for( auto &bio : *my_bionics ) {
+    for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             item cbm( bio.id.str(), calendar::turn );
             cbm.set_flag( "FILTHY" );
@@ -6794,7 +6794,7 @@ void player::place_corpse( const tripoint &om_target )
     for( auto itm : tmp ) {
         bay.add_item_or_charges( point( finX, finY ), *itm );
     }
-    for( auto &bio : *my_bionics ) {
+    for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ) );
         }

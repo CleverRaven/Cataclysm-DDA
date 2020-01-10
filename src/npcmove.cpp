@@ -1548,7 +1548,7 @@ void npc::deactivate_combat_cbms()
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
                 return activate_bionic( index, eff_only );
@@ -1564,7 +1564,7 @@ bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
                 return activate_bionic( index, eff_only );
@@ -1580,7 +1580,7 @@ bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
-    for( auto &i : *my_bionics ) {
+    for( const bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( i.powered ) {
                 return deactivate_bionic( index, eff_only );
