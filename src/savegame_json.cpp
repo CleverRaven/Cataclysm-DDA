@@ -3806,10 +3806,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int rad_strength = jsin.get_int();
             int rad_num = jsin.get_int();
             for( int i = 0; i < rad_num; ++i ) {
-                // A little array trick here, assign to it as a 1D array.
-                // If it's not in bounds we're kinda hosed anyway.
-                set_radiation( { 0, rad_cell }, rad_strength );
-                rad_cell++;
+                if( rad_cell < SEEX * SEEY ) {
+                    set_radiation( { 0 % SEEX, rad_cell / SEEX }, rad_strength );
+                    rad_cell++;
+                }
             }
         }
     } else if( member_name == "furniture" ) {
