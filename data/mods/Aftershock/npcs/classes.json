@@ -41,5 +41,46 @@
       { "id": "bio_tools", "chance": 100 },
       { "id": "bio_torsionratchet", "chance": 100 }
     ]
+  },
+  {
+    "type": "npc",
+    "id": "prepnet_gardener",
+    "name_suffix": "Gardener",
+    "class": "afs_prepnet_gardener",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_PrepNet_gardener_1",
+    "mission_offered": "MISSION_PrepNet_gardener_FUR_1",
+    "faction": "Prepnet_Phyle"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_xenobiologist_madwoman",
+    "name": "migo enthusiast",
+    "job_description": "I've been studying the mi-go for years…",
+    "common": false,
+    "traits": [  { "group": "Appearance_Caucasian" } ],
+          [ "hair_red_long", 100 ],
+          [ "SKIN_LIGHT", 100 ],
+          [ "WARM_NATURED", 100 ],
+          [ "INT_UP_3", 100 ],
+          [ "DEX_UP_2", 100 ],
+          [ "STR_UP", 100 ],
+          [ "POISONOUS2", 100 ],
+          [ "PAINRESIST", 100 ],
+          [ "ADRENALINE", 100 ],
+          [ "FLEET2", 100 ],
+          [ "ANTENNAE", 100 ]
+        ]
+    "bonus_str": { "rng": [ -1, -3 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+    ],
   }
 ]
