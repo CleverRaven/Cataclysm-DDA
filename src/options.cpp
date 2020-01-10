@@ -928,7 +928,6 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
             result.emplace_back( id );
         }
     }
-   // result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
 
     // Default values
     if( result.empty() ) {
