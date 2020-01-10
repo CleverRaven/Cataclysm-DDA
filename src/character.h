@@ -774,6 +774,8 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
+        bool activate_bionic( int b, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
@@ -863,6 +865,14 @@ class Character : public Creature, public visitable<Character>
         virtual bool invoke_item( item *, const std::string & );
 
         /**
+         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
+         * @param obj item to dispose of
+         * @param prompt optional message to display in any menu
+         * @return whether the item was successfully disposed of
+         */
+        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
+
+        /**
          * Has the item enough charges to invoke its use function?
          * Also checks if UPS from this player is used instead of item charges.
          */
@@ -894,6 +904,18 @@ class Character : public Creature, public visitable<Character>
          */
         int item_store_cost( const item &it, const item &container, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
+        /** Calculate (but do not deduct) the number of moves required to wear an item */
+        int item_wear_cost( const item &it ) const;
+
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
+
+        /** Returns the amount of item `type' that is currently worn */
+        int  amount_worn( const itype_id &id ) const;
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -1059,6 +1081,11 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item &it, const item &context = item() ) const;
+        /**
+         * Check character capable of wearing an item.
+         * @param it Thing to be worn
+         */
+        ret_val<bool> can_wear( const item &it ) const;
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.

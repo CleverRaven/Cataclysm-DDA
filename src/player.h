@@ -325,8 +325,6 @@ class player : public Character
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
-        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false ) override;
@@ -733,13 +731,6 @@ class player : public Character
             }
             return str + npc_str >= obj.lift_strength();
         }
-
-        /**
-         * Check player capable of wearing an item.
-         * @param it Thing to be worn
-         */
-        ret_val<bool> can_wear( const item &it ) const;
-
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
@@ -774,7 +765,7 @@ class player : public Character
          * @param prompt optional message to display in any menu
          * @return whether the item was successfully disposed of
          */
-        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
+        bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -791,19 +782,11 @@ class player : public Character
          */
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
-        /** Calculate (but do not deduct) the number of moves required to wear an item */
-        int item_wear_cost( const item &it ) const;
-
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         cata::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
         cata::optional<std::list<item>::iterator>
         wear( item &to_wear, bool interactive = true );
-        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
-         * If interactive is false, don't alert the player or drain moves on completion.
-         */
-        cata::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
         bool takeoff( item &it, std::list<item> *res = nullptr );
@@ -954,9 +937,6 @@ class player : public Character
         void place_corpse();
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint &om_target );
-
-        /** Returns the amount of item `type' that is currently worn */
-        int  amount_worn( const itype_id &id ) const;
 
         /** Returns the item in the player's inventory with the highest of the specified quality*/
         item &item_with_best_of_quality( const quality_id &qid );

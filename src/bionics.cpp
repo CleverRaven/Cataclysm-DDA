@@ -257,7 +257,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-bool player::activate_bionic( int b, bool eff_only )
+bool Character::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
