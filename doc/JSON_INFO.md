@@ -1207,42 +1207,42 @@ See also VEHICLE_JSON.md
     "condition": "leather",       // The condition to check for.
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
-"container" : "null",             // What container (if any) this item should spawn within
+"container": "null",             // What container (if any) this item should spawn within
 "repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
-"color" : "blue",                 // Color of the item symbol.
-"symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
+"color": "blue",                 // Color of the item symbol.
+"symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
-"description" : "Socks. Put 'em on your feet.", // Description of the item
-"phase" : "solid",                // (Optional, default = "solid") What phase it is
-"weight" : "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
-"volume" : "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
-"integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
-"integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"description": "Socks. Put 'em on your feet.", // Description of the item
+"phase": "solid",                // (Optional, default = "solid") What phase it is
+"weight": "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
+"volume": "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"integral_volume": 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
+"integral_weight": 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post" : "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
-"bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
-"to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
-"flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazine_well" : 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
-"magazines" : [                   // Magazines types for each ammo type (if any) which can be used to reload this item
+"price": 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post": "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"material": ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
+"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
+"bashing": -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
+"to_hit": 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags": ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
+"magazine_well": 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
+"magazines": [                   // Magazines types for each ammo type (if any) which can be used to reload this item
     [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
-"explode_in_fire" : true,         // Should the item explode if set on fire
+"explode_in_fire": true,         // Should the item explode if set on fire
 "explosion": {                    // Physical explosion data
-    "power" : 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
-    "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "fire" : true,                // Should the explosion leave fire
+    "power": 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
+    "distance_factor": 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire": true,                // Should the explosion leave fire
     "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
-    "shrapnel" : {
-        "casing_mass" : 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
-        "fragment_mass" : 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
-        "recovery" : 10,          // Percentage chance to drop an item at landing point.
-        "drop" : "nail"           // Which item to drop at landing point.
+    "shrapnel": {
+        "casing_mass": 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass": 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+        "recovery": 10,          // Percentage chance to drop an item at landing point.
+        "drop": "nail"           // Which item to drop at landing point.
     }
 },
 ```
