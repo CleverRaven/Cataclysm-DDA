@@ -817,6 +817,8 @@ class Character : public Creature, public visitable<Character>
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
+        /** Adds a bionic to my_bionics[] */
+        void add_bionic( const bionic_id &b );
         /** Calculate skill for (un)installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -831,6 +833,15 @@ class Character : public Creature, public visitable<Character>
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+                              int skill_level = -1 );
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
+        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
+                                      float adjusted_skill, tripoint patient_pos );
 
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );

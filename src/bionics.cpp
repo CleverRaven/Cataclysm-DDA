@@ -1876,8 +1876,8 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     return true;
 }
 
-bool player::install_bionics( const itype &type, player &installer, bool autodoc,
-                              int skill_level )
+bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+                                 int skill_level )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -1962,9 +1962,9 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     return true;
 }
 
-void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem, tripoint patient_pos )
+void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                                 int pl_skill, std::string installer_name,
+                                 std::vector<trait_id> trait_to_rem, tripoint patient_pos )
 {
     if( success > 0 ) {
         g->events().send<event_type::installs_cbm>( getID(), bid );
@@ -1999,8 +1999,8 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
     g->refresh_all();
 }
 
-void player::bionics_install_failure( bionic_id bid, std::string installer, int difficulty,
-                                      int success, float adjusted_skill, tripoint patient_pos )
+void Character::bionics_install_failure( bionic_id bid, std::string installer, int difficulty,
+        int success, float adjusted_skill, tripoint patient_pos )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -2153,7 +2153,7 @@ int Character::get_free_bionics_slots( const body_part bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-void player::add_bionic( const bionic_id &b )
+void Character::add_bionic( const bionic_id &b )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
