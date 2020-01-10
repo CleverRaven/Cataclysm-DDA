@@ -807,7 +807,11 @@ class Character : public Creature, public visitable<Character>
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         virtual bool deactivate_bionic( int b, bool eff_only = false );
-        // --------------- Bionic Surgery ---------------
+
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
+
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -823,7 +827,11 @@ class Character : public Creature, public visitable<Character>
                               const skill_id &important_skill,
                               const skill_id &least_important_skill,
                               int skill_level = -1 );
-        // --------------- Bionic Power Generation ---------------
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/

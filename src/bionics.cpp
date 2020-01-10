@@ -1816,8 +1816,8 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     return false;
 }
 
-bool player::can_install_bionics( const itype &type, player &installer, bool autodoc,
-                                  int skill_level )
+bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+                                     int skill_level )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -2115,7 +2115,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     return desc;
 }
 
-int player::get_used_bionics_slots( const body_part bp ) const
+int Character::get_used_bionics_slots( const body_part bp ) const
 {
     int used_slots = 0;
     for( const bionic_id bid : get_bionics() ) {
@@ -2128,7 +2128,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
     return used_slots;
 }
 
-std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bioid )
+std::map<body_part, int> Character::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<body_part, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -2143,12 +2143,12 @@ std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bi
     return issues;
 }
 
-int player::get_total_bionics_slots( const body_part bp ) const
+int Character::get_total_bionics_slots( const body_part bp ) const
 {
     return convert_bp( bp )->bionic_slots();
 }
 
-int player::get_free_bionics_slots( const body_part bp ) const
+int Character::get_free_bionics_slots( const body_part bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }

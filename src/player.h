@@ -275,9 +275,6 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
-                                  int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
@@ -1163,11 +1160,6 @@ class player : public Character
         recipe_id lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
-
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
-        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
