@@ -275,8 +275,6 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
