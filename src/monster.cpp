@@ -206,6 +206,7 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
+    horde_attraction = MHA_NULL;
 }
 
 monster::monster( const mtype_id &id ) : monster()
