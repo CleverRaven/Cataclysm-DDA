@@ -1578,11 +1578,11 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
         }
         if( supertinymouse && !to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted…" ),
+                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
         } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted…" ),
+                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
         }
     } else {
