@@ -1306,7 +1306,7 @@ void Character::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( int difficulty, int success, float adjusted_skill )
+void Character::bionics_uninstall_failure( int difficulty, int success, float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
@@ -1549,8 +1549,8 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     return chance_of_success;
 }
 
-bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
-                                   int skill_level )
+bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+                                      int skill_level )
 {
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
@@ -1627,8 +1627,8 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     return true;
 }
 
-bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
-                               int skill_level )
+bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+                                  int skill_level )
 {
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
@@ -1703,8 +1703,9 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-void player::perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
-                                int pl_skill )
+void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
+                                   units::energy power_lvl,
+                                   int pl_skill )
 {
     if( success > 0 ) {
         g->events().send<event_type::removes_cbm>( getID(), bid );

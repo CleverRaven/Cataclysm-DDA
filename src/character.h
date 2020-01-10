@@ -843,6 +843,19 @@ class Character : public Creature, public visitable<Character>
         void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
                                       float adjusted_skill, tripoint patient_pos );
 
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                               int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
+                                int pl_skill );
+        /**When a player fails the surgery*/
+        void bionics_uninstall_failure( int difficulty, int success,
+                                        float adjusted_skill );
+
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/

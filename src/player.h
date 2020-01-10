@@ -275,21 +275,9 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                                   int skill_level = -1 );
-        /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                               int skill_level = -1 );
-        /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
-                                int pl_skill );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
-        /**When a player fails the surgery*/
-        void bionics_uninstall_failure( int difficulty, int success,
-                                        float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
