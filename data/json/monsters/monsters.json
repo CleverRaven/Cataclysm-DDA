@@ -1552,18 +1552,18 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 1,
-    "speed": 150,
+    "speed": 130,
     "symbol": "@",
     "color": "cyan",
     "aggression": -99,
-    "morale": 2,
+    "morale": 99,
     "luminance": 16,
-    "dodge": 6,
+    "dodge": 10,
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "DISAPPEAR" ],
-    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "path_settings": { "max_dist": 30 },
+    "flags": [ "FLIES", "NO_BREATHE", "HARDTOSHOOT", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_homunculus",
