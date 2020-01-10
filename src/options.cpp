@@ -916,12 +916,18 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<id_and_option> result;
 
     // Load from data directory
-    auto data_tilesets = load_tilesets_from( PATH_INFO::gfxdir() );
+    std::vector<options_manager::id_and_option> data_tilesets = load_tilesets_from(
+                PATH_INFO::gfxdir() );
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    auto user_tilesets = load_tilesets_from( PATH_INFO::user_gfx() );
-    result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
+    std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
+                PATH_INFO::user_gfx() );
+    for( options_manager::id_and_option id : user_tilesets ) {
+        if( std::find( result.begin(), result.end(), id ) == result.end() ) {
+            result.emplace_back( id );
+        }
+    }
 
     // Default values
     if( result.empty() ) {
