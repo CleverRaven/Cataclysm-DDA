@@ -626,7 +626,7 @@
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "components": [ [ [ "rope_6", 2 ] ], [ [ "foot_crank", 1 ] ], [ [ "spring", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "components": [ [ [ "rope_natural_short", 2 ] ], [ [ "foot_crank", 1 ] ], [ [ "spring", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -652,7 +652,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ],
-      [ [ "rope_6", 1 ] ]
+      [ [ "rope_natural_short", 1 ] ]
     ]
   }
 ]
