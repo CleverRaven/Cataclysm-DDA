@@ -807,6 +807,12 @@ class Character : public Creature, public visitable<Character>
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         virtual bool deactivate_bionic( int b, bool eff_only = false );
+        // --------------- Bionic Surgery ---------------
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+                                        bool needs_anesthesia );
+
+        // --------------- Bionic Power Generation ---------------
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/

@@ -2547,7 +2547,7 @@ void bionic::deserialize( JsonIn &jsin )
 
 }
 
-void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
+void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
