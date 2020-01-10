@@ -1091,6 +1091,9 @@ class player : public Character
         const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true );
+        const requirement_data *select_requirements(
+            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::function<bool( const item & )> &filter ) const;
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,

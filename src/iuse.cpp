@@ -8684,8 +8684,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
-                                          r->get_component_filter() );
+                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -8717,9 +8717,15 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                auto reqs = meal->requirements();
-                for( auto it : reqs.get_components() ) {
-                    p->consume_items( it, 1, is_crafting_component );
+                const auto filter = is_crafting_component;
+                const requirement_data *reqs =
+                    meal->deduped_requirements().select_alternative( *p, filter );
+                if( !reqs ) {
+                    return 0;
+                }
+
+                for( auto it : reqs->get_components() ) {
+                    p->consume_items( it, 1, filter );
                 }
 
                 it->set_var( "RECIPE", meal->ident().str() );
