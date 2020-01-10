@@ -11953,3 +11953,10 @@ std::string game::get_world_base_save_path() const
     }
     return world_generator->active_world->folder_path();
 }
+
+void game::shift_destination_preview( const point &delta )
+{
+    for( tripoint &p : destination_preview ) {
+        p += delta;
+    }
+}

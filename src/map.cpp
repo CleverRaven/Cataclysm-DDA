@@ -6343,6 +6343,8 @@ void map::shift( const point &sp )
         g->u.sety( g->u.posy() - sp.y * SEEY );
     }
 
+    g->shift_destination_preview( point( -sp.x * SEEX, -sp.y * SEEY ) );
+
     shift_traps( tripoint( sp, 0 ) );
 
     vehicle *remoteveh = g->remoteveh();

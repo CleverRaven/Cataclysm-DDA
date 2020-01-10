@@ -356,10 +356,6 @@ static void rcdrive( int dx, int dy )
     }
     item *rc_car = rc_pair->second;
 
-    if( tile_iso && use_tiles ) {
-        rotate_direction_cw( dx, dy );
-    }
-
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
@@ -1588,10 +1584,6 @@ bool game::handle_action()
 
     int before_action_moves = u.moves;
 
-    // Use to track if auto-move should be canceled due to a failed
-    // move or obstacle
-    bool continue_auto_move = true;
-
     // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
@@ -1651,7 +1643,6 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !u.is_dead_state() ) {
-        point dest_delta;
         switch( act ) {
             case ACTION_NULL:
             case NUM_ACTIONS:
@@ -1692,15 +1683,50 @@ bool game::handle_action()
                 open_movement_mode_menu();
                 break;
 
-            case ACTION_MOVE_N:
-            case ACTION_MOVE_NE:
-            case ACTION_MOVE_E:
-            case ACTION_MOVE_SE:
-            case ACTION_MOVE_S:
-            case ACTION_MOVE_SW:
-            case ACTION_MOVE_W:
-            case ACTION_MOVE_NW:
-                dest_delta = get_delta_from_movement_direction( act );
+            case ACTION_MOVE_FORTH:
+            case ACTION_MOVE_FORTH_RIGHT:
+            case ACTION_MOVE_RIGHT:
+            case ACTION_MOVE_BACK_RIGHT:
+            case ACTION_MOVE_BACK:
+            case ACTION_MOVE_BACK_LEFT:
+            case ACTION_MOVE_LEFT:
+            case ACTION_MOVE_FORTH_LEFT:
+                if( !u.get_value( "remote_controlling" ).empty() &&
+                    ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
+                    rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
+                } else if( veh_ctrl ) {
+                    // vehicle control uses x for steering and y for ac/deceleration,
+                    // so no rotation needed
+                    pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
+                } else {
+                    point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
+                    if( auto_travel_mode && !u.is_auto_moving() ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
+                                                              u.posy() + dest_delta.y * ( SEEX - i ),
+                                                              u.posz() );
+                            destination_preview = m.route( u.pos(),
+                                                           auto_travel_destination,
+                                                           u.get_pathfinding_settings(),
+                                                           u.get_path_avoid() );
+                            if( !destination_preview.empty() ) {
+                                destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
+                                u.set_destination( destination_preview );
+                                break;
+                            }
+                        }
+                        act = u.get_next_auto_move_direction();
+                        const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
+                        if( dest_next == point_zero ) {
+                            u.clear_destination();
+                        }
+                        dest_delta = dest_next;
+                    }
+                    if( !avatar_action::move( u, m, dest_delta ) ) {
+                        // auto-move should be canceled due to a failed move or obstacle
+                        u.clear_destination();
+                    }
+                }
                 break;
             case ACTION_MOVE_DOWN:
                 if( u.is_mounted() ) {
@@ -2416,40 +2442,6 @@ bool game::handle_action()
             default:
                 break;
         }
-        if( dest_delta != point_zero ) {
-            if( !u.get_value( "remote_controlling" ).empty() &&
-                ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
-                rcdrive( dest_delta );
-            } else if( veh_ctrl ) {
-                pldrive( dest_delta );
-            } else {
-                if( auto_travel_mode ) {
-                    for( int i = 0; i < SEEX; i++ ) {
-                        tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
-                                                          u.posy() + dest_delta.y * ( SEEX - i ),
-                                                          u.posz() );
-                        destination_preview = m.route( u.pos(),
-                                                       auto_travel_destination,
-                                                       u.get_pathfinding_settings(),
-                                                       u.get_path_avoid() );
-                        if( !destination_preview.empty() ) {
-                            u.set_destination( destination_preview );
-                            break;
-                        }
-                    }
-                    act = u.get_next_auto_move_direction();
-                    point dest_next = get_delta_from_movement_direction( act );
-                    if( dest_next == point_zero ) {
-                        u.clear_destination();
-                    }
-                    dest_delta = dest_next;
-                }
-                continue_auto_move = avatar_action::move( u, m, dest_delta );
-            }
-        }
-    }
-    if( !continue_auto_move ) {
-        u.clear_destination();
     }
     if( act != ACTION_TIMEOUT ) {
         u.mod_moves( -current_turn.moves_elapsed() );

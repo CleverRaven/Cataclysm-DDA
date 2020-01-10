@@ -81,9 +81,6 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
     } else {
-        if( tile_iso && use_tiles && !you.has_destination() ) {
-            rotate_direction_cw( dx, dy );
-        }
         dest_loc.x = you.posx() + dx;
         dest_loc.y = you.posy() + dy;
         dest_loc.z = you.posz() + dz;
@@ -245,9 +242,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         monster &critter = *mon_ptr;
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
-            if( you.has_destination() ) {
+            if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
-                add_msg( m_info, _( "Click directly on monster to attack." ) );
+                add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
             } else {
@@ -279,9 +276,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     // If not a monster, maybe there's an NPC there
     if( npc *const np_ = g->critter_at<npc>( dest_loc ) ) {
         npc &np = *np_;
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto-move canceled." ) );
-            add_msg( m_info, _( "Click directly on NPC to attack." ) );
+            add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
             you.clear_destination();
             return false;
         }
@@ -365,7 +362,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;
@@ -390,7 +387,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;
@@ -399,7 +396,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;

@@ -6321,6 +6321,11 @@ bool player::has_distant_destination() const
            get_destination_activity().id() == "ACT_TRAVELLING" && !omt_path.empty();
 }
 
+bool player::is_auto_moving() const
+{
+    return destination_point.has_value();
+}
+
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
@@ -6373,7 +6378,7 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-    return get_movement_direction_from_delta( dp );
+    return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
 
 bool player::defer_move( const tripoint &next )
