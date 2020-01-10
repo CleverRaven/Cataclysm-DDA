@@ -127,8 +127,9 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
-            all_stats mystats = run_stats( recipe_permutations( recipe_obj.requirements().get_components() ),
-                                           byproduct_calories( recipe_obj ) );
+            all_stats mystats = run_stats(
+                                    recipe_permutations( recipe_obj.simple_requirements().get_components() ),
+                                    byproduct_calories( recipe_obj ) );
             if( mystats.calories.n() < 2 ) {
                 continue;
             }

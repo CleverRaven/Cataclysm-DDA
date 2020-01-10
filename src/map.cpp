@@ -4852,6 +4852,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             } else if( type == "hotplate" ) {
                 ftype = "battery";
+            } else if( type == "electrolysis_kit" ) {
+                ftype = "battery";
             }
 
             // TODO: add a sane birthday arg
@@ -6342,6 +6344,8 @@ void map::shift( const point &sp )
         g->u.setx( g->u.posx() - sp.x * SEEX );
         g->u.sety( g->u.posy() - sp.y * SEEY );
     }
+
+    g->shift_destination_preview( point( -sp.x * SEEX, -sp.y * SEEY ) );
 
     shift_traps( tripoint( sp, 0 ) );
 

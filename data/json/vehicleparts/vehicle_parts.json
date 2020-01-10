@@ -2283,7 +2283,7 @@
     "broken_symbol": "x",
     "broken_color": "light_gray",
     "damage_modifier": 10,
-    "description": "A small chemistry station, including a hotplate powered by the vehicle's batteries.  'e'xamine the tile with the chemistry lab to access the water faucet or to heat up food with the hotplate.  If you attempt craft an item that needs one of the chemistry lab's functions, it will automatically be selected as a tool.",
+    "description": "A small chemistry station, including a hotplate and electrolysis setup powered by the vehicle's batteries.  'e'xamine the tile with the chemistry lab to access the water faucet or to heat up food with the hotplate.  If you attempt craft an item that needs one of the chemistry lab's functions, it will automatically be selected as a tool.",
     "durability": 80,
     "size": 200,
     "item": "chemlab",
@@ -2298,6 +2298,7 @@
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] },
+      { "item": "cable", "charges": [ 30, 50 ] },
       { "item": "chemistry_set", "charges": 0, "prob": 50 },
       { "item": "hotplate", "charges": 0, "prob": 50 }
     ],

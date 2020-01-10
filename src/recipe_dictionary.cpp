@@ -164,13 +164,13 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( r->skill_used->name(), txt );
 
             case search_type::component:
-                return search_reqs( r->requirements().get_components(), txt );
+                return search_reqs( r->simple_requirements().get_components(), txt );
 
             case search_type::tool:
-                return search_reqs( r->requirements().get_tools(), txt );
+                return search_reqs( r->simple_requirements().get_tools(), txt );
 
             case search_type::quality:
-                return search_reqs( r->requirements().get_qualities(), txt );
+                return search_reqs( r->simple_requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
                 const auto &quals = item::find_type( r->result() )->qualities;
@@ -378,7 +378,7 @@ void recipe_dictionary::find_items_on_loops()
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
         for( const recipe_id &rec : i->recipes ) {
-            const requirement_data requirements = rec->requirements();
+            const requirement_data requirements = rec->simple_requirements();
             const requirement_data::alter_item_comp_vector &component_requirements =
                 requirements.get_components();
 
@@ -504,7 +504,7 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
         }
     } else {
         // add recipe to category and component caches
-        for( const auto &opts : r->requirements().get_components() ) {
+        for( const auto &opts : r->simple_requirements().get_components() ) {
             for( const item_comp &comp : opts ) {
                 component[comp.type].insert( r );
             }

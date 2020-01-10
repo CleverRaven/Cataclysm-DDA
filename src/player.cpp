@@ -3291,12 +3291,14 @@ void player::process_items()
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
-        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-            cloak = &w;
-        }
-        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-        if( power_armor == nullptr && w.is_power_armor() ) {
-            power_armor = &w;
+        if( w.active ) {
+            if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
+                cloak = &w;
+            }
+            // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
+            if( power_armor == nullptr && w.is_power_armor() ) {
+                power_armor = &w;
+            }
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w.typeId();
@@ -6319,6 +6321,11 @@ bool player::has_distant_destination() const
            get_destination_activity().id() == "ACT_TRAVELLING" && !omt_path.empty();
 }
 
+bool player::is_auto_moving() const
+{
+    return destination_point.has_value();
+}
+
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
@@ -6371,7 +6378,7 @@ action_id player::get_next_auto_move_direction()
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-    return get_movement_direction_from_delta( dp );
+    return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
 
 bool player::defer_move( const tripoint &next )
@@ -6743,7 +6750,7 @@ void player::place_corpse()
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
-    for( auto &bio : *my_bionics ) {
+    for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             item cbm( bio.id.str(), calendar::turn );
             cbm.set_flag( "FILTHY" );
@@ -6792,7 +6799,7 @@ void player::place_corpse( const tripoint &om_target )
     for( auto itm : tmp ) {
         bay.add_item_or_charges( point( finX, finY ), *itm );
     }
-    for( auto &bio : *my_bionics ) {
+    for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ) );
         }

@@ -1,0 +1,184 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_04_basement",
+    "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^######################^",
+        "^#||||||||||||||||||||#^",
+        "^#|9..|.?..CCCNNNUUUU|#^",
+        "^#|???+.....?.......U|#^",
+        "^#|tCS|........?....U|#^",
+        "^#||||||...CCCCCCUUUU|#^",
+        "^#|    ||+|####|||||||#^",
+        "^#|    |    <<  !!   |#^",
+        "^#| !  +             |#^",
+        "^#|    |  !          |#^",
+        "^#||||||             |#^",
+        "^#|    |             |#^",
+        "^#|    +             |#^",
+        "^#|  ! | !           |#^",
+        "^#|    |             |#^",
+        "^#||||||             |#^",
+        "^#|    |   !!        |#^",
+        "^#| !  +          !! |#^",
+        "^#|    |             |#^",
+        "^#|    |     !!      |#^",
+        "^#||||||||||||||||||||#^",
+        "^######################^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 },
+        {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_W", 5 ],
+            [ "bedroom_4x4_adult_3_S", 5 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ],
+          "x": 3,
+          "y": 7
+        },
+        {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_N", 5 ],
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 5 ],
+            [ "bedroom_4x4_adult_3_S", 10 ],
+            [ "bedroom_4x4_adult_3_N", 10 ]
+          ],
+          "x": 3,
+          "y": 12
+        },
+        {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_N", 5 ],
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 5 ],
+            [ "bedroom_4x4_adult_3_S", 10 ],
+            [ "bedroom_4x4_adult_3_N", 10 ]
+          ],
+          "x": 3,
+          "y": 17
+        },
+        { "chunks": [ [ "recroom_12x12", 5 ], [ "tvroom_12x12", 15 ], [ "workoutroom_12x12", 5 ] ], "x": 9, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_05_basement",
+    "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^######################^",
+        "^#||||||||||||||||||||#^",
+        "^#|9..|....CCCNNNUUUU|#^",
+        "^#|???+...?...?.....U|#^",
+        "^#|tCS|....?...?....U|#^",
+        "^#||||||...CCCCCCUUUU|#^",
+        "^#|    ||+|####|||||||#^",
+        "^#|    |             |#^",
+        "^#|    +             |#^",
+        "^#|    |<            |#^",
+        "^#||||||   !!!!!     |#^",
+        "^#|    |   !!!!!     |#^",
+        "^#|    +   !!!!!     |#^",
+        "^#|  ! |   !!!!!     |#^",
+        "^#|    |   !!!!!     |#^",
+        "^#||||||             |#^",
+        "^#|    |             |#^",
+        "^#|    +             |#^",
+        "^#|    |             |#^",
+        "^#|    |             |#^",
+        "^#||||||||||||||||||||#^",
+        "^######################^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 },
+        {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_W", 5 ],
+            [ "bedroom_4x4_adult_3_S", 5 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ],
+          "x": 3,
+          "y": 7
+        },
+        {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_N", 5 ],
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 5 ],
+            [ "bedroom_4x4_adult_3_S", 10 ],
+            [ "bedroom_4x4_adult_3_N", 10 ]
+          ],
+          "x": 3,
+          "y": 12
+        },
+        {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_N", 5 ],
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 5 ],
+            [ "bedroom_4x4_adult_3_S", 10 ],
+            [ "bedroom_4x4_adult_3_N", 10 ]
+          ],
+          "x": 3,
+          "y": 17
+        },
+        { "chunks": [ [ "recroom_12x12", 5 ], [ "tvroom_12x12", 15 ], [ "workoutroom_12x12", 5 ] ], "x": 9, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_05ab_basement",
+    "//": "mostly empty basement.",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^######################^",
+        "^#||||||||||||||||||||#^",
+        "^#|9..|..............|#^",
+        "^#|...+..............|#^",
+        "^#|tCS|..............|#^",
+        "^#||||||.............|#^",
+        "^#|    ||+|####|||||||#^",
+        "^#|    |             |#^",
+        "^#|    +             |#^",
+        "^#|    |<            |#^",
+        "^#||||||  !          |#^",
+        "^#|    |             |#^",
+        "^#|    +             |#^",
+        "^#|    |  !          |#^",
+        "^#|    |             |#^",
+        "^#||||||  !          |#^",
+        "^#|    |             |#^",
+        "^#|    +             |#^",
+        "^#|    |             |#^",
+        "^#|    |   !!!!!!    |#^",
+        "^#||||||||||||||||||||#^",
+        "^######################^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "items": { " ": { "item": "trash", "chance": 2 } },
+      "place_nested": [ { "chunks": [ [ "null", 15 ], [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 } ]
+    }
+  }
+]

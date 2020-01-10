@@ -3753,6 +3753,8 @@ void iexamine::curtains( player &p, const tripoint &examp )
             g->m.ter_set( examp, t_window_no_curtains_open );
         } else if( ter == t_window_domestic_taped ) {
             g->m.ter_set( examp, t_window_no_curtains_taped );
+        } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
+            g->m.ter_set( examp, t_window_bars );
         }
 
         g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );
@@ -4551,14 +4553,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case UNINSTALL_CBM: {
-            bionic_collection installed_bionics = *patient.my_bionics;
+            const bionic_collection &installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
                 popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
                                      _( "<npcname> doesn't have any bionics installed." ) );
                 return;
             }
 
-            for( auto &bio : installed_bionics ) {
+            for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bionic_id( "bio_power_storage" ) ||
                     bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
                     if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory

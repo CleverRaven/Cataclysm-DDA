@@ -3234,7 +3234,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else {
             const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
             [ &inv ]( const recipe * r ) {
-                if( r->requirements().can_make_with_inventory( inv, r->get_component_filter() ) ) {
+                if( r->deduped_requirements().can_make_with_inventory(
+                        inv, r->get_component_filter() ) ) {
                     return r->result_name();
                 } else {
                     return string_format( "<dark>%s</dark>", r->result_name() );
@@ -9388,6 +9389,17 @@ time_duration item::age() const
 void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
+}
+
+void item::legacy_fast_forward_time()
+{
+    const time_duration tmp_bday = ( bday - calendar::turn_zero ) * 6;
+    bday = calendar::turn_zero + tmp_bday;
+
+    rot *= 6;
+
+    const time_duration tmp_rot = ( last_rot_check - calendar::turn_zero ) * 6;
+    last_rot_check = calendar::turn_zero + tmp_rot;
 }
 
 time_point item::birthday() const
