@@ -963,5 +963,10 @@
     "id": "ballistic_vest",
     "type": "MIGRATION",
     "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "hand_vice",
+    "type": "MIGRATION",
+    "replace": "hand_vise"
   }
 ]

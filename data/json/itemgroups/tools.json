@@ -61,7 +61,7 @@
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
-      [ "hand_vice", 10 ]
+      [ "hand_vise", 10 ]
     ]
   },
   {
@@ -164,7 +164,7 @@
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
-      [ "hand_vice", 10 ]
+      [ "hand_vise", 10 ]
     ]
   },
   {
@@ -222,7 +222,7 @@
       [ "polisher", 70 ],
       [ "angular_grinder", 5 ],
       [ "welder", 10 ],
-      [ "hand_vice", 10 ]
+      [ "hand_vise", 10 ]
     ]
   },
   {
@@ -425,7 +425,7 @@
       [ "sm_extinguisher", 10 ],
       [ "toolbox", 5 ],
       [ "tool_belt", 10 ],
-      [ "hand_vice", 10 ],
+      [ "hand_vise", 10 ],
       [ "wrench", 10 ]
     ]
   },
@@ -444,7 +444,7 @@
       [ "screwdriver", 35 ],
       [ "pin_reamer", 10 ],
       [ "metal_file", 10 ],
-      [ "hand_vice", 20 ]
+      [ "hand_vise", 20 ]
     ]
   },
   {

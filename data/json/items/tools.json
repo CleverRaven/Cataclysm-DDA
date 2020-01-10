@@ -7381,7 +7381,7 @@
     "magazine_well": 2
   },
   {
-    "id": "hand_vice",
+    "id": "hand_vise",
     "type": "TOOL",
     "name": "clamp",
     "description": "This clamp is useful for keeping things still, especially if you have several of them.",
