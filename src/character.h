@@ -59,6 +59,8 @@ struct points_left;
 class faction;
 struct construction;
 
+struct bionic;
+
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
