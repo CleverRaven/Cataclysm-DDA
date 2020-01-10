@@ -813,6 +813,16 @@ class Character : public Creature, public visitable<Character>
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
+        /** Calculate skill for (un)installing bionics */
+        float bionics_adjusted_skill( const skill_id &most_important_skill,
+                                      const skill_id &important_skill,
+                                      const skill_id &least_important_skill,
+                                      int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
         // --------------- Bionic Power Generation ---------------
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );

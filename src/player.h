@@ -275,16 +275,6 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /** Calculate skill for (un)installing bionics */
-        float bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level = -1 );
-        /** Calculate non adjusted skill for (un)installing bionics */
-        int bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill,
-                              int skill_level = -1 );
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );

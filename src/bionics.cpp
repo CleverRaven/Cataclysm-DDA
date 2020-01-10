@@ -1481,10 +1481,10 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
 }
 
 // bionic manipulation adjusted skill
-float player::bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level )
+float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
+        const skill_id &important_skill,
+        const skill_id &least_important_skill,
+        int skill_level )
 {
     int pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
                                      skill_level );
@@ -1495,9 +1495,9 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
     return adjusted_skill;
 }
 
-int player::bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill, int skill_level )
+int Character::bionics_pl_skill( const skill_id &most_important_skill,
+                                 const skill_id &important_skill,
+                                 const skill_id &least_important_skill, int skill_level )
 {
     int pl_skill;
     if( skill_level == -1 ) {
