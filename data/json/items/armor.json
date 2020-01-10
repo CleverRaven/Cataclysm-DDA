@@ -1195,7 +1195,7 @@
     "category": "armor",
     "name": "bookplate",
     "description": "A crude form of armor made from stacked paper and rolls of duct tape, this breastplate offers a surprising amount of protection.",
-    "weight": "1790 g",
+    "weight": "5790 g",
     "volume": "9500 ml",
     "price": 4200,
     "to_hit": -1,
@@ -1205,9 +1205,9 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 80,
-    "encumbrance": 5,
+    "encumbrance": 20,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 12,
     "flags": [ "BELTED" ]
   },
   {
