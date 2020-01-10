@@ -1898,7 +1898,7 @@
       [ "canteen_wood", 5 ],
       [ "apron_leather", 1 ],
       [ "pot_copper", 3 ],
-      { "group": "tinware", "pr
+      { "group": "tinware", "prob": 10 }
     ]
   },
   {
