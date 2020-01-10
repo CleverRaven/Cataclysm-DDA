@@ -407,8 +407,8 @@
       [ "LAW_Packed", 200 ],
       [ "m202_flash", 100 ],
       [ "m74_clip", 150 ],
-      [ "m3_carlgustav", 50 ],
-      [ "AT4", 50 ],
+      { "item": "m3_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
+      { "item": "AT4", "prob": 50, "charges-min": 1, "charges-max": 1 },
       [ "84x246mm_he", 100 ],
       [ "84x246mm_hedp", 80 ],
       [ "84x246mm_smoke", 100 ]
