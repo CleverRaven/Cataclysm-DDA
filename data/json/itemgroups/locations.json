@@ -3408,13 +3408,7 @@
     "id": "mil_base_ash",
     "type": "item_group",
     "//": "Remains of bodies burned in the corpse pits.",
-    "entries": [ { "item": "ash", "count": [ 40, 500 ] } ]
-  },
-  {
-    "id": "mil_base_ash",
-    "type": "item_group",
-    "//": "Remains of bodies burned in the corpse pits.",
-    "items": [ [ "ash", 100 ] ]
+    "items": [ [ "ash", 35 ] ]
   },
   {
     "id": "mil_base_bodybag",
@@ -3468,6 +3462,13 @@
     "entries": [ { "item": "ammolink50" }, { "item": "50_casing" } ]
   },
   {
+    "id": "mil_base_hmg",
+    "type": "item_group",
+    "//": "M2 browning in a machine gun nest.",
+    "subtype": "distribution",
+    "entries": [ { "item": "m2browning", "charges-min": 0, "charges-max": 100 } ]
+  },
+  {
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
@@ -3483,7 +3484,7 @@
     "id": "mil_base_books",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "book_military", "prob": 50 }, { "group": "novels", "prob": 100 } ]
+    "entries": [ { "group": "book_military", "prob": 50 }, { "group": "novels", "prob": 150 } ]
   },
   {
     "id": "mil_base_coats",
@@ -3494,7 +3495,6 @@
       {
         "distribution": [
           { "item": "coat_rain", "prob": 80 },
-          { "item": "coat_winter", "prob": 50 },
           { "item": "peacoat", "prob": 50 },
           { "item": "greatcoat", "prob": 35 }
         ],
@@ -3504,6 +3504,24 @@
         "distribution": [ { "item": "jacket_army", "prob": 80 }, { "item": "winter_jacket_army", "prob": 20 } ],
         "prob": 100
       }
+    ]
+  },
+  {
+    "id": "mil_base_iv",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "blood", "prob": 100 },
+      { "item": "saline", "prob": 80, "container-item": "bag_iv" }
+    ]
+  },
+  {
+    "id": "mil_base_mess_hall",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "plastic_fork" },
+      { "item": "mess_tray" }
     ]
   },
   {
