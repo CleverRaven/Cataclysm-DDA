@@ -102,11 +102,9 @@ faction_template::faction_template( const JsonObject &jsobj )
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
     for( const JsonObject &jao : jsobj.get_array( "epilogues" ) ) {
-        epilogue_data.emplace( std::make_tuple<int, int, std::string>(
-                                   jao.get_int( "power_min", std::numeric_limits<int>::min() ),
-                                   jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                                   jao.get_string( "id", "epilogue_faction_default" )
-                               ) );
+        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
+                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
+                               jao.get_string( "id", "epilogue_faction_default" ) );
     }
 }
 
