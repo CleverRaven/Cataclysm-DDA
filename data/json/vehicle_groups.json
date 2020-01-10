@@ -250,10 +250,11 @@
       [ "military_cargo_truck", 1000 ],
       [ "humvee", 500 ],
       [ "humvee_gl", 250 ],
+      [ "humvee_tow", 125 ],
       [ "apc", 500 ],
       [ "apc-gl", 250 ],
       [ "aapc-mg", 250 ],
-      [ "apc-gl", 125 ]
+      [ "aapc-gl", 125 ]
     ]
   },
   {
