@@ -118,6 +118,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 tripoint offset = center - test_player.pos();
                 test_player.setpos( center );
                 test_monster.setpos( test_monster.pos() + offset );
+                g->m.clear_traps();
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
