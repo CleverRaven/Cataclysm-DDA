@@ -9390,6 +9390,17 @@ void item::set_age( const time_duration &age )
     set_birthday( time_point( calendar::turn ) - age );
 }
 
+void item::legacy_fast_forward_time()
+{
+    const time_duration tmp_bday = ( bday - calendar::turn_zero ) * 6;
+    bday = calendar::turn_zero + tmp_bday;
+
+    rot *= 6;
+
+    const time_duration tmp_rot = ( last_rot_check - calendar::turn_zero ) * 6;
+    last_rot_check = calendar::turn_zero + tmp_rot;
+}
+
 time_point item::birthday() const
 {
     return bday;
