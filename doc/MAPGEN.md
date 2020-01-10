@@ -277,8 +277,8 @@ Example: "id": "tr_beartrap"
 > Value: 0-100
 
 #### 2.2.0.3 "chance"
-**optional** one-in-??? chance to apply
-> Value: *number*
+**optional** probabilty out of 100 to apply
+> Value: 1-100
 
 #### 2.2.0.4 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
