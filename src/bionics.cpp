@@ -1368,9 +1368,9 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 
 }
 
-void player::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
-                                        int success,
-                                        float adjusted_skill )
+void Character::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
+        int success,
+        float adjusted_skill )
 {
 
     // "success" should be passed in as a negative integer representing how far off we
@@ -1741,8 +1741,8 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
     g->refresh_all();
 }
 
-bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                               float adjusted_skill, bool autodoc )
+bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                                  float adjusted_skill, bool autodoc )
 {
     const std::string ammo_type( "anesthetic" );
 

@@ -853,7 +853,13 @@ class Character : public Creature, public visitable<Character>
         void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
                                 int pl_skill );
         /**When a player fails the surgery*/
-        void bionics_uninstall_failure( int difficulty, int success,
+        void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
+
+        /**Used by monster to perform surgery*/
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc = false );
+        /**When a monster fails the surgery*/
+        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
 
         /**Convert fuel to bionic power*/
