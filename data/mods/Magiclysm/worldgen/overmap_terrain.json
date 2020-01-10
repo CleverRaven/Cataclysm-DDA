@@ -335,12 +335,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "wizardtower2_stair1",
+    "id": "wizardtower2_stairs1",
     "copy-from": "wizardtower1_ground"
   },
   {
     "type": "overmap_terrain",
-    "id": "wizardtower2_stair2",
+    "id": "wizardtower2_stairs2",
     "copy-from": "wizardtower1_ground"
   },
   {
