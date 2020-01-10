@@ -18,7 +18,7 @@
     "deconstruct": {
       "ter_set": "t_pit_shallow",
       "items": [
-        { "item": "pebble", "count": [ 8, 24 ] },
+        { "item": "pebble", "count": [ 75, 100 ] },
         { "item": "sharp_rock", "count": [ 4, 12 ] },
         { "item": "rock", "count": [ 4, 12 ] }
       ]
