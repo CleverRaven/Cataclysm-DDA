@@ -88,6 +88,11 @@
   },
   {
     "type": "recipe",
+    "result": "royal_jelly",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "scythe_war",
     "obsolete": true
   },
