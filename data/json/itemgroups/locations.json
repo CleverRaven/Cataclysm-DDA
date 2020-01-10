@@ -3512,7 +3512,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "blood", "prob": 100 },
-      { "item": "saline", "prob": 80, "container-item": "bag_iv" }
+      { "item": "saline", "prob": 80, "container-item": "bag_iv" },
+      { "item": "bag_iv", "prob": 50 }
     ]
   },
   {
