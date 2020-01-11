@@ -28,10 +28,10 @@
   {
     "type": "mutation",
     "id": "MIGO_HEAT_RESIST",
-    "name": "migo acclimatization",
+    "name": "Mi-go acclimatization",
     "points": 4,
-    "bodytemp_modifiers": [ -2500, -2500 ],
-    "description": "You're body is capable of living more comfortably in the mi-go atmosphere.  Your scalp develops fronds that act as heat sinks.",
+    "bodytemp_modifiers": [ -5500, -5500 ],
+    "description": "Your body is capable of living more comfortably in the mi-go atmosphere.  Your scalp develops fronds that act as heat sinks.",
     "player_display": true,
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
@@ -120,7 +120,7 @@
     "category": [ "MIGO" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
-    "passive_mods": { "int_mod": 4 }
+    "passive_mods": { "int_mod": 5 }
   },
   {
     "type": "mutation",
@@ -178,7 +178,7 @@
   {
     "type": "mutation",
     "id": "MIGO_EARS",
-    "name": "Migo Ears",
+    "name": "Mi-go Ears",
     "points": 1,
     "visibility": 4,
     "description": "Your ears have split into a series of tuberous projections.  They waggle towards far away sounds.",
@@ -246,10 +246,10 @@
   },
   {
     "type": "mutation",
-    "id": "MIGO-SCENT",
-    "name": "fetid scent",
+    "id": "MIGO_SCENT",
+    "name": "Fetid scent",
     "points": 6,
-    "description": "Your sweat now smells otherworldly.  And not in a good way.  Thankfully now the migo ignore you. ",
+    "description": "Your sweat now smells otherworldly.  And not in a good way.  The mi-go still hate you.  But at least they aren't offended by your smell. ",
     "valid": false,
     "purifiable": false,
     "types": [ "LEGS" ],
@@ -271,7 +271,7 @@
   {
     "type": "mutation",
     "id": "WINGS_migo",
-    "name": "Migo Wings",
+    "name": "Mi-go Wings",
     "points": 1,
     "visibility": 4,
     "ugliness": 8,
@@ -285,5 +285,15 @@
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 26 }
     }
+  },
+  {
+    "type": "mutation",
+    "id": "MIGO_BREATHE",
+    "name": "Mi-go breathe",
+    "points": 4,
+    "description": "You can now breathe the gasses the mi-go thrive in.",
+    "starting_trait": false,
+    "category": [ "MIGO" ],
+    "active": true
   }
 ]

@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_type",
+    "id": "MIGO_BREATHE",
+    "name": [ "Noxious vents" ],
+    "desc": [ "You have adapted to strange atmospheres." ],
+    "blocks_effects": [ "migo_atmosphere" ]
+  }
+]

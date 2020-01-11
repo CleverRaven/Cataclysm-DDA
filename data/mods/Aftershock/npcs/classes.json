@@ -56,7 +56,7 @@
   {
     "type": "npc_class",
     "id": "afs_xenobiologist_madwoman",
-    "name": "migo enthusiast",
+    "name": "mi-go enthusiast",
     "job_description": "I've been studying the mi-go for years…",
     "common": false,
     "traits": [
