@@ -37,7 +37,7 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "modularvestkevlar", "contents-group": "army_mags_m4" },
+      { "item": "ballistic_vest_esapi" },
       { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
