@@ -120,7 +120,10 @@
     "id": "gunsmithing_standard",
     "type": "requirement",
     "//": "The minimum kit and component usage for the construction of guns and their modifications. Larger jobs may also require welding_standard",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ], [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "tools": [
+      [ [ "soldering_iron", 1 ], [ "toolset", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ],
+      [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
@@ -133,7 +136,7 @@
     "id": "plastic_making",
     "type": "requirement",
     "//": "When a crucible is required for metalworking",
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST"] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]
