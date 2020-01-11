@@ -1198,13 +1198,22 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
         for( const oter_t &oter : overmap_terrains::get_all() ) {
-            pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
+            const std::string entry_text = string_format(
+                                               _( "sym: [ %s %s ], color: [ %s %s], name: [ %s ], id: [ %s ]" ),
+                                               colorize( oter.get_symbol(), oter.get_color() ),
+                                               colorize( oter.get_symbol( true ), oter.get_color( true ) ),
+                                               colorize( string_from_color( oter.get_color() ), oter.get_color() ),
+                                               colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
+                                               colorize( oter.get_name(), oter.get_color() ),
+                                               colorize( oter.id.str(), c_white ) );
+            pmenu.addentry( oter.id.id(), true, 0, entry_text );
         }
     } else {
         pmenu.title = _( "Select special to place:" );
         for( const overmap_special &elem : overmap_specials::get_all() ) {
             oslist.push_back( &elem );
-            pmenu.addentry( oslist.size() - 1, true, 0, elem.id.str() );
+            const std::string entry_text = elem.id.str();
+            pmenu.addentry( oslist.size() - 1, true, 0, entry_text );
         }
     }
     pmenu.query();
