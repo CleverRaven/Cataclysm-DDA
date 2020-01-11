@@ -12,6 +12,7 @@
 #include <set>
 #include <utility>
 
+#include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"

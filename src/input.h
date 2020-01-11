@@ -13,8 +13,9 @@
 #include <algorithm>
 #endif
 
-#include "action.h"
 #include "point.h"
+
+enum action_id : int;
 
 namespace cata
 {
