@@ -16,7 +16,6 @@
     "threshold_mut": "THRESH_YUGGOTH",
     "mutagen_message": "Strange memories of another world overwhelm you…",
     "iv_message": "You look into your own cells and change them.",
-    "//": "3-15 pain, morale boost, but no more mutagenic than cat-9s",
     "iv_pain": 10,
     "iv_morale": 25,
     "iv_morale_max": 100,
@@ -246,45 +245,45 @@
     "threshold": true
   },
   {
-     "type": "mutation",
-     "id": "MIGO-SCENT",
-     "name": "fetid scent",
-     "points": 6,
-     "description": "Your sweat now smells otherworldly.  And not in a good way.  Thankfully now the migo ignore you. ",
-     "valid": false,
-     "purifiable": false,
-     "types": [ "LEGS" ],
-     "prereqs": [ "SMELLY", "SMELLY2" ],
-     "threshreq": [ "THRESH_YUGGOTH" ],
-     "category": [ "MIGO" ],
-     "scent_type": "sc_fetid",
-   },
-   {
-     "type": "mutation",
-     "id": "TERRIFYING",
-     "name": "Terrifying",
-     "points": 1,
-     "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
-     "starting_trait": true,
-     "category": [ "BEAST", "INSECT", "CHIMERA" ],
-     "social_modifiers": { "intimidate": 15 }
-   },
-   {
-     "type": "mutation",
-     "id": "WINGS_migo",
-     "name": "Migo Wings",
-     "points": 1,
-     "visibility": 4,
-     "ugliness": 8,
-     "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack.",
-     "types": [ "WINGS" ],
-     "prereqs": [ "WINGS_STUB" ],
-     "category": [ "MIGO" ],
-     "attacks": {
-       "attack_text_u": "You buffet %s with your wings",
-       "attack_text_npc": "%1$s buffets %2$s with their wings",
-       "chance": 20,
-       "base_damage": { "damage_type": "bash", "amount": 26 }
-     }
-   }
+    "type": "mutation",
+    "id": "MIGO-SCENT",
+    "name": "fetid scent",
+    "points": 6,
+    "description": "Your sweat now smells otherworldly.  And not in a good way.  Thankfully now the migo ignore you. ",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "LEGS" ],
+    "prereqs": [ "SMELLY", "SMELLY2" ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
+    "category": [ "MIGO" ],
+    "scent_type": "sc_fetid"
+  },
+  {
+    "type": "mutation",
+    "id": "TERRIFYING",
+    "name": "Terrifying",
+    "points": 1,
+    "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
+    "starting_trait": true,
+    "category": [ "BEAST", "INSECT", "CHIMERA" ],
+    "social_modifiers": { "intimidate": 15 }
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_migo",
+    "name": "Migo Wings",
+    "points": 1,
+    "visibility": 4,
+    "ugliness": 8,
+    "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack.",
+    "types": [ "WINGS" ],
+    "prereqs": [ "WINGS_STUB" ],
+    "category": [ "MIGO" ],
+    "attacks": {
+      "attack_text_u": "You buffet %s with your wings",
+      "attack_text_npc": "%1$s buffets %2$s with their wings",
+      "chance": 20,
+      "base_damage": { "damage_type": "bash", "amount": 26 }
+    }
+  }
 ]
