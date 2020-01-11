@@ -6335,6 +6335,11 @@ void map::shift( const point &sp )
     if( sp == point_zero ) {
         return; // Skip this?
     }
+
+    if( abs( sp.x ) > 1 || abs( sp.y ) > 1 ) {
+        debugmsg( "map::shift called with a shift of more than one submap" );
+    }
+
     const tripoint abs = get_abs_sub();
 
     set_abs_sub( abs + sp );
