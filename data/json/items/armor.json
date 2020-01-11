@@ -82,7 +82,6 @@
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 100,
     "encumbrance": 30,
-    "storage": "4 L",
     "warmth": 35,
     "material_thickness": 7,
     "environmental_protection": 9,
