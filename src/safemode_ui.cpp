@@ -674,7 +674,7 @@ bool safemode::is_sound_safe( const std::string &sound_name_in,
                               const int proximity_in ) const
 {
     bool sound_safe = false;
-    for( int i = 0; i < safemode_rules_sound.size(); i++ ) {
+    for( unsigned int i = 0; i < safemode_rules_sound.size(); i++ ) {
         if( wildcard_match( sound_name_in, safemode_rules_sound[i].rule ) &&
             proximity_in >= safemode_rules_sound[i].proximity ) {
             if( safemode_rules_sound[i].whitelist ) {
