@@ -24,11 +24,7 @@
     "worn_override": "GODCO_julian_worn",
     "carry_override": "GODCO_julian_carried",
     "weapon_override": "GODCO_julian_wield",
-    "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_Mixed" },
-	  { "trait": "SPIRITUAL" }
-    ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" }, { "trait": "SPIRITUAL" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "gun", "bonus": 3 },
@@ -46,17 +42,20 @@
       { "item": "pants_cargo" },
       { "item": "longshirt" },
       { "item": "scarf_fur" },
-	  { "item": "leather_pouch" },
+      { "item": "leather_pouch" },
       { "item": "holy_symbol_wood" },
-	  { "item": "wristwatch" },
-	  { "item": "hat_hunting" }
+      { "item": "wristwatch" },
+      { "item": "hat_hunting" }
     ]
   },
   {
     "type": "item_group",
     "id": "GODCO_julian_carried",
     "subtype": "collection",
-    "entries": [ { "item": "glock17_17", "charges-min": 15, "charges-max": 17 }, { "item": "glock_17", "charges-min": 25, "charges-max": 30 } ]
+    "entries": [
+      { "item": "glock17_17", "charges-min": 15, "charges-max": 17 },
+      { "item": "glock_17", "charges-min": 25, "charges-max": 30 }
+    ]
   },
   {
     "type": "item_group",
