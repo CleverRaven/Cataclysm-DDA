@@ -181,7 +181,7 @@ Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 
 Damage added to die roll on monster melee attack. Can specify type of damage, amount, armour penetration, armor multiplier and damage multiplier.
 ```JSON
-    "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armour_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],
 ```
 
 ## "melee_dice", "melee_dice_sides"
