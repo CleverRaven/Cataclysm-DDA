@@ -19,5 +19,58 @@
     "stim": 1,
     "fun": 4,
     "flags": [ "EDIBLE_FROZEN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "marshmallow",
+    "name": "marshmallows",
+    "name_plural": "marshmallows",
+    "symbol": "%",
+    "copy-from": "marshmallow",
+    "rot_spawn": "GROUP_EGG_MARSHMALLOW",
+    "rot_spawn_chance": 65,
+    "spoils_in": "15 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "smores",
+    "name": "s'mores",
+    "name_plural": "s'mores",
+    "symbol": "%",
+    "copy-from": "smores",
+    "rot_spawn": "GROUP_EGG_SMORES",
+    "rot_spawn_chance": 65,
+    "spoils_in": "15 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "candy3",
+    "name": "chewy candy",
+    "name_plural": "chewy candies",
+    "symbol": "%",
+    "copy-from": "candy3",
+    "rot_spawn": "GROUP_EGG_GUMMY",
+    "rot_spawn_chance": 65,
+    "spoils_in": "15 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "grahmcrackers",
+    "name": "graham cracker",
+    "symbol": "%",
+    "copy-from": "grahmcrackers",
+    "rot_spawn": "GROUP_EGG_CRACKER",
+    "rot_spawn_chance": 65,
+    "spoils_in": "20 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cookies",
+    "name": "cookie",
+    "symbol": "%",
+    "copy-from": "cookies",
+    "rot_spawn": "GROUP_EGG_COOKIE",
+    "rot_spawn_chance": 65,
+    "spoils_in": "10 days"
   }
 ]
