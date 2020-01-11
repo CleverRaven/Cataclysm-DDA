@@ -1,0 +1,85 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_zachary",
+    "name_unique": "Zachary 'Fallen' Montes",
+    "name_suffix": "joinee",
+    "gender": "male",
+    "class": "NC_godco_zachary",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_zachary_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_zachary",
+    "name": "member",
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ 1, 3 ] },
+    "bonus_dex": { "rng": [ 1, 2 ] },
+    "bonus_int": { "rng": [ -1, 0 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_zachary_worn",
+    "carry_override": "GODCO_zachary_carried",
+    "weapon_override": "GODCO_zachary_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" }, { "trait": "FACIAL_HAIR_BEARD" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "survival" },
+      { "level": 4, "name": "fabrication" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "vest" },
+      { "item": "jacket_flannel" },
+      { "item": "gloves_light" },
+      { "item": "knee_pads" },
+      { "item": "elbow_pads" },
+      { "item": "wristwatch" },
+      { "item": "knit_scarf" },
+      { "item": "hat_hard_hooded" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "charged_cell_phone" }, { "item": "nail" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "fire_ax" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_zachary"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_zachary_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_zachary",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]
