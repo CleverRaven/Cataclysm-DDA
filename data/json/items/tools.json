@@ -7354,7 +7354,7 @@
     "qualities": [ [ "FILE", 2 ] ]
   },
   {
-    "id": "angular_grinder",
+    "id": "angle_grinder",
     "type": "TOOL",
     "name": "angle grinder",
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",

@@ -34,7 +34,7 @@
       [ "toolbox", 20 ],
       [ "toolbox_workshop", 5 ],
       [ "recharge_station", 10 ],
-      [ "angular_grinder", 30 ]
+      [ "angle_grinder", 30 ]
     ]
   },
   {
@@ -220,7 +220,7 @@
       { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
       [ "polisher", 70 ],
-      [ "angular_grinder", 5 ],
+      [ "angle_grinder", 5 ],
       [ "welder", 10 ],
       [ "clamp", 10 ]
     ]
@@ -457,7 +457,7 @@
       [ "jackhammer", 50 ],
       [ "elec_jackhammer", 50 ],
       [ "circsaw_off", 10 ],
-      [ "angular_grinder", 20 ]
+      [ "angle_grinder", 20 ]
     ]
   },
   {

@@ -2232,5 +2232,10 @@
     "type": "recipe",
     "result": "bot_tankbot",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_vice",
+    "obsolete": true
   }
 ]
