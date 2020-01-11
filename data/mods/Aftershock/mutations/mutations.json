@@ -31,7 +31,7 @@
     "name": "migo acclimatization",
     "points": 4,
     "bodytemp_modifiers": [ -2500, -2500 ],
-    "description": "You're body is capable of living more comfortably in the mi-go atmosphere. Your scalp develops fronds that act as heat sinks.",
+    "description": "You're body is capable of living more comfortably in the mi-go atmosphere.  Your scalp develops fronds that act as heat sinks.",
     "player_display": true,
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
