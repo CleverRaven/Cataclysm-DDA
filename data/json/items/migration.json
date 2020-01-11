@@ -967,6 +967,6 @@
   {
     "id": "hand_vice",
     "type": "MIGRATION",
-    "replace": "hand_vise"
+    "replace": "clamp"
   }
 ]
