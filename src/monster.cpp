@@ -682,21 +682,9 @@ std::string monster::extended_description() const
     ss += string_format( _( "It is %s in size." ),
                          size_names.at( get_size() ) ) + "\n";
 
-    std::vector<std::string> types;
+    std::vector<std::string> types = type->species_descriptions();
     if( type->has_flag( MF_ANIMAL ) ) {
         types.emplace_back( _( "an animal" ) );
-    }
-    if( type->in_species( ZOMBIE ) ) {
-        types.emplace_back( _( "a zombie" ) );
-    }
-    if( type->in_species( FUNGUS ) ) {
-        types.emplace_back( _( "a fungus" ) );
-    }
-    if( type->in_species( INSECT ) ) {
-        types.emplace_back( _( "an insect" ) );
-    }
-    if( type->in_species( ABERRATION ) ) {
-        types.emplace_back( _( "an aberration" ) );
     }
     if( !types.empty() ) {
         ss += string_format( _( "It is %s." ),
