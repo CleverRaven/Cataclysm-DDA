@@ -2,7 +2,7 @@
   {
     "type": "SPECIES",
     "id": "MAMMAL",
-    "extended_description": "a mammal",
+    "description": "a mammal",
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
   },
   {
