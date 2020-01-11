@@ -13,7 +13,7 @@ class JsonObject;
 
 struct ammo_effect {
     public:
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
@@ -47,7 +47,7 @@ struct ammo_effect {
 namespace ammo_effects
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize_all();
 void check_consistency();
 void reset();

@@ -58,7 +58,7 @@ int_id<ammo_effect>::int_id( const string_id<ammo_effect> &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( JsonObject &jo, const std::string & )
+void ammo_effect::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "aoe" ) ) {
         JsonObject joa = jo.get_object( "aoe" );
@@ -98,7 +98,7 @@ size_t ammo_effect::count()
     return all_ammo_effects.size();
 }
 
-void ammo_effects::load( JsonObject &jo, const std::string &src )
+void ammo_effects::load( const JsonObject &jo, const std::string &src )
 {
     all_ammo_effects.load( jo, src );
 }
