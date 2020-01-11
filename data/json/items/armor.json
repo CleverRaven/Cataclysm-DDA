@@ -3861,7 +3861,7 @@
     "covers": [ "HEAD" ],
     "coverage": 100,
     "encumbrance": 40,
-    "warmth": 15,
+    "warmth": 25,
     "material_thickness": 6,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
