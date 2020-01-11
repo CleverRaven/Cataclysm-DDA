@@ -11,11 +11,9 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 6 ] ],
       [ [ "blade", 2 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -35,12 +33,10 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "antenna", 1 ], [ "screwdriver", 1 ], [ "xacto", 1 ], [ "knife_butter", 1 ] ],
-      [ [ "plastic_chunk", 6 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ],
@@ -79,11 +75,9 @@
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ] ],
-    "using": [ [ "soldering_standard", 12 ], [ "surface_heat", 12 ] ],
+    "using": [ [ "soldering_standard", 12 ], [ "plastic_making", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 6 ] ],
       [ [ "chain", 1 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
@@ -103,11 +97,9 @@
     "time": "20 m",
     "reversible": true,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ], [ "textbook_carpentry", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 6 ] ],
       [ [ "circsaw_blade", 1 ] ],
       [ [ "motor_small", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -124,7 +116,7 @@
     "time": "3 m",
     "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ], [ "knife_butter", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -221,9 +213,9 @@
     "time": "10 m",
     "reversible": true,
     "book_learn": [ [ "manual_electronics", 3 ], [ "mag_electronics", 4 ], [ "textbook_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 7 ] ],
+    "using": [ [ "soldering_standard", 7 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "cable", 8 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "circuit", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "amplifier", 1 ] ] ]
+    "components": [ [ [ "cable", 8 ] ], [ [ "circuit", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "amplifier", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -234,12 +226,11 @@
     "difficulty": 1,
     "time": "15 m",
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 2 ] ],
     "components": [
       [ [ "sheet_metal", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "flashlight", 1 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ]
+      [ [ "cable", 10 ] ]
     ]
   },
   {
@@ -253,10 +244,10 @@
     "reversible": true,
     "decomp_learn": 0,
     "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 4 ] ],
     "components": [
       [ [ "amplifier", 1 ] ],
       [
-        [ "scrap", 4 ],
         [ "can_drink_unsealed", 1 ],
         [ "can_food_unsealed", 1 ],
         [ "canister_empty", 1 ],
@@ -280,9 +271,9 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -299,9 +290,9 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -318,9 +309,9 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 2 ], [ "steel_tiny", 1 ] ],
     "components": [
       [ [ "amplifier", 2 ] ],
-      [ [ "plastic_chunk", 2 ], [ "scrap", 3 ] ],
       [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -335,11 +326,11 @@
     "difficulty": 2,
     "reversible": true,
     "decomp_learn": 1,
-    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "time": "14 m",
+    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 3 ], [ "steel_tiny", 1 ] ],
     "components": [
       [ [ "amplifier", 3 ] ],
-      [ [ "plastic_chunk", 3 ], [ "scrap", 4 ] ],
       [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ],
       [ [ "cable", 12 ] ]
     ]
@@ -431,6 +422,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "manual_electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "element", 8 ] ],
@@ -479,13 +471,11 @@
     "time": "1 h",
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_survival", 3 ], [ "advanced_electronics", 3 ], [ "manual_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "blacksmithing_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "blacksmithing_standard", 10 ], [ "steel_tiny", 3 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "element", 3 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
-      [ [ "plastic_chunk", 2 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -614,7 +604,7 @@
     "reversible": true,
     "//": "as with mp3, no learning how to encode the software from taking it apart",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "superglue", 1 ] ],
@@ -652,7 +642,7 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ], [ "atomic_survival", 5 ] ],
-    "using": [ [ "soldering_standard", 14 ] ],
+    "using": [ [ "soldering_standard", 14 ], [ "plastic_making", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "processor", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -1843,15 +1833,14 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "textbook_chemistry", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_making", 18 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "element", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 10 ] ],
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "plastic_chunk", 18 ] ]
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ]
     ]
   },
   {
@@ -1864,9 +1853,9 @@
     "time": "20 m",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_caseless", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 1 ] ],
       [ [ "superglue", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -1884,9 +1873,9 @@
     "time": "30 m",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ], [ "recipe_caseless", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 2 ] ],
       [ [ "superglue", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 2 ] ],
@@ -1903,9 +1892,9 @@
     "time": "1h 30 m",
     "reversible": true,
     "book_learn": [ [ "recipe_caseless", 8 ] ],
+    "using": [ [ "soldering_standard", 25 ], [ "plastic_making", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 5 ] ],
       [ [ "superglue", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
@@ -1935,7 +1924,7 @@
       [ "textbook_fabrication", 3 ],
       [ "manual_fabrication", 4 ]
     ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
@@ -2152,10 +2141,9 @@
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "plastic_making", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ], [ [ "plastic_chunk", 5 ] ] ]
+    "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -2187,11 +2175,10 @@
     "time": "40 m",
     "reversible": true,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "mag_electronics", 6 ], [ "manual_electronics", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 4 ] ],
-      [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "superglue", 2 ] ],
       [ [ "element", 2 ] ],
@@ -2241,10 +2228,9 @@
       [ "textbook_fabrication", 3 ],
       [ "manual_fabrication", 4 ]
     ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "razor_blade", 1 ] ], [ [ "motor_micro", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "motor_micro", 1 ] ], [ [ "power_supply", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2253,12 +2239,12 @@
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 2 ],
-    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
     "difficulty": 4,
     "time": "15 m",
     "reversible": true,
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 2 ] ],
     "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "antenna", 1 ] ],
@@ -2274,11 +2260,11 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
-    "using": [ [ "soldering_standard", 10 ] ],
     "difficulty": 2,
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 50 ], [ "jumper_cable", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -2288,16 +2274,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "mechanics",
-    "using": [ [ "soldering_standard", 10 ] ],
     "difficulty": 4,
-    "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
+    "book_learn": [ [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
       [ [ "cu_pipe", 3 ] ],
       [ [ "motor_tiny", 1 ] ],
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
+      [ [ "sheet_metal_small", 5 ] ]
     ]
   },
   {
@@ -2306,10 +2291,10 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "mechanics",
-    "using": [ [ "soldering_standard", 50 ] ],
     "difficulty": 4,
-    "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
+    "book_learn": [ [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 2 } ],
     "components": [ [ [ "cu_pipe", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "sheet_metal", 2 ] ] ]
   },
@@ -2323,15 +2308,13 @@
     "difficulty": 6,
     "time": "45 m",
     "book_learn": [ [ "adv_chemistry", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "crucible_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
       [ [ "zinc_metal", 2 ] ],
       [ [ "chem_potassium_hydroxide", 7 ] ],
-      [ [ "water_clean", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
+      [ [ "water_clean", 1 ] ]
     ]
   },
   {
@@ -2344,15 +2327,13 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "crucible_standard", 1 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
       [ [ "zinc_metal", 6 ] ],
       [ [ "chem_potassium_hydroxide", 20 ] ],
-      [ [ "water_clean", 3 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
+      [ [ "water_clean", 3 ] ]
     ]
   },
   {
@@ -2365,15 +2346,13 @@
     "difficulty": 6,
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "crucible_standard", 1 ], [ "steel_tiny", 12 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
       [ [ "zinc_metal", 24 ] ],
       [ [ "chem_potassium_hydroxide", 82 ] ],
-      [ [ "water_clean", 12 ] ],
-      [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
+      [ [ "water_clean", 12 ] ]
     ]
   },
   {
@@ -2386,15 +2365,13 @@
     "difficulty": 6,
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "crucible_standard", 1 ], [ "steel_tiny", 25 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
       [ [ "zinc_metal", 50 ] ],
       [ [ "chem_potassium_hydroxide", 170 ] ],
-      [ [ "water_clean", 25 ] ],
-      [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
+      [ [ "water_clean", 25 ] ]
     ]
   }
 ]

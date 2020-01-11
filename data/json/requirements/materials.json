@@ -184,5 +184,17 @@
     "type": "requirement",
     "//": "Materials used for repairing upgraded solar panels",
     "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
+  },
+  {
+    "id": "water_standard",
+    "type": "requirement",
+    "//": "Clean or grey water for when the presence of water is more important than its cleanliness",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "salt_standard",
+    "type": "requirement",
+    "//": "Salt, either diluted in water to a degree or in small crystal form, for when either source is viable",
+    "components": [ [ [ "salt_water", 1 ], [ "saline", 5 ], [ "salt", 10 ] ] ]
   }
 ]

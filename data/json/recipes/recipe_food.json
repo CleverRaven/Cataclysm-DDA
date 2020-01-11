@@ -18,7 +18,7 @@
       [ [ "chocolate", 3 ] ],
       [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ], [ "any_butter", 2, "LIST" ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [ [ "water", 6 ], [ "water_clean", 6 ] ]
+      [ [ "water_standard", 6, "LIST" ] ]
     ]
   },
   {
@@ -33,7 +33,7 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
-    "components": [ [ [ "flour", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "salt", 1 ] ], [ [ "sugar", 5 ] ] ]
+    "components": [ [ [ "flour", 10 ] ], [ [ "water_standard", 1, "LIST" ] ], [ [ "salt", 1 ] ], [ [ "sugar", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -86,7 +86,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "material_rocksalt", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "material_rocksalt", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -170,7 +170,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "stomach_large", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -183,7 +183,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "hstomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "hstomach_large", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -196,7 +196,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "stomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "stomach", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -209,7 +209,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "hstomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "hstomach", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -236,7 +236,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "fat", 3 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -259,7 +259,7 @@
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "mutant_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "mutant_fat", 3 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -275,7 +275,7 @@
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "mutant_human_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "mutant_human_fat", 3 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -322,7 +322,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -469,7 +469,7 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "dry_rice", 1 ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
@@ -816,7 +816,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "human_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "human_fat", 3 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -860,7 +860,7 @@
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
       [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -874,7 +874,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "meat_red", 2, "LIST" ], [ "fish", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "meat_red", 2, "LIST" ], [ "fish", 2 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -928,7 +928,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "mushroom_morel", 1 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "mushroom_morel", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -995,7 +995,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1024,7 +1024,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "acorns", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "acorns", 1 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1217,7 +1217,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1231,7 +1231,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wild_herbs", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "wild_herbs", 10 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1253,7 +1253,7 @@
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "pine_bough", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "pine_bough", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1274,7 +1274,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1296,7 +1296,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "chicory_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chicory_raw", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1318,7 +1318,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chamomile", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1333,7 +1333,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "sugar", 5 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "sugar", 5 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1390,7 +1390,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1402,7 +1402,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1415,7 +1415,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw_kentucky", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "coffee_raw_kentucky", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1527,7 +1527,7 @@
     "components": [
       [ [ "coffee_raw", 4 ] ],
       [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -1748,7 +1748,7 @@
         [ "can_clams", 2 ],
         [ "fish_canned", 2 ]
       ],
-      [ [ "water_clean", 1 ], [ "water", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -1764,7 +1764,7 @@
     "batch_time_factors": [ 50, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "broth_bone", 1 ] ], [ [ "veggy_any", 4, "LIST" ] ], [ [ "water_clean", 2 ], [ "water", 2 ] ] ]
+    "components": [ [ [ "broth_bone", 1 ] ], [ [ "veggy_any", 4, "LIST" ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1924,7 +1924,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "broth_ingredients", 1 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1939,7 +1939,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "bone", 10 ], [ "bone_human", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "bone", 10 ], [ "bone_human", 10 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2060,7 +2060,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 8 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
@@ -2074,7 +2074,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 8 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
@@ -2089,7 +2089,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 6 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "chocolate", 1 ] ],
@@ -2104,7 +2104,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 6 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "chocolate", 1 ] ],
@@ -2125,7 +2125,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 11 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "flour", 11 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2140,7 +2140,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2236,7 +2236,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "sugar_beet", 5 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+    "components": [ [ [ "sugar_beet", 5 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2251,7 +2251,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "cornmeal", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "cornmeal", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2266,7 +2266,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cornmeal", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "cornmeal", 4 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2284,7 +2284,7 @@
     "components": [
       [ [ "flour", 6 ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+      [ [ "water_standard", 2, "LIST" ] ]
     ]
   },
   {
@@ -2321,7 +2321,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "cornmeal", 15 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -2337,7 +2337,7 @@
     "batch_time_factors": [ 82, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2351,7 +2351,7 @@
     "batch_time_factors": [ 82, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "dry_lentils", 1 ], [ "raw_lentils", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "dry_lentils", 1 ], [ "raw_lentils", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2434,7 +2434,7 @@
     "batch_time_factors": [ 82, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "dry_rice", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "dry_rice", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2514,7 +2514,7 @@
     "components": [
       [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
       [ [ "dry_rice", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -2553,7 +2553,7 @@
         [ "egg_reptile", 2 ]
       ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -2579,7 +2579,7 @@
         [ "mushroom_cooked", 1 ]
       ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -2604,7 +2604,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "oatmeal", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "oatmeal", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2650,7 +2650,7 @@
         [ "dry_fruit", 1 ],
         [ "juice_pulp", 2 ]
       ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -2678,7 +2678,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "buckwheat", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "buckwheat", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2867,7 +2867,7 @@
         [ "syrup", 8 ],
         [ "beet_syrup", 8 ]
       ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+      [ [ "water_standard", 10, "LIST" ] ]
     ]
   },
   {
@@ -2927,7 +2927,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "powder_eggs", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "powder_eggs", 2 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2941,7 +2941,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3024,7 +3024,7 @@
         [ "can_salmon", 1 ],
         [ "can_herring", 1 ]
       ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3044,7 +3044,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3064,7 +3064,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
   },
@@ -3085,7 +3085,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
   },
@@ -3132,7 +3132,7 @@
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3152,7 +3152,7 @@
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
   },
@@ -3173,7 +3173,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
   },
@@ -3227,7 +3227,7 @@
         [ "honeycomb", 1 ],
         [ "honey_glassed", 1 ]
       ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "choco_coffee_beans", 5 ], [ "chocolate", 1 ], [ "jam_fruit", 1 ] ]
     ]
   },
@@ -3326,7 +3326,7 @@
       [ [ "flour", 30 ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
       [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3344,7 +3344,7 @@
     "components": [
       [ [ "flour", 30 ] ],
       [ [ "veggy_any", 8, "LIST" ], [ "dandelion_cooked", 8 ], [ "wild_herbs", 40 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3371,7 +3371,7 @@
         [ "fish_canned", 1 ],
         [ "can_tuna", 1 ]
       ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3390,7 +3390,7 @@
       [ [ "flour", 30 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "syrup", 5 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3527,7 +3527,7 @@
         [ "irradiated_tomato", 1 ],
         [ "can_tomato", 1 ]
       ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3567,7 +3567,7 @@
       ],
       [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3616,7 +3616,7 @@
       [ [ "flour", 30 ] ],
       [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3645,7 +3645,7 @@
         [ "dry_fish", 2 ]
       ],
       [ [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -3780,7 +3780,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "bag_plastic", 1 ] ],
       [ [ "meat_red_raw", 1, "LIST" ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
@@ -3801,7 +3801,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "bag_plastic", 1 ] ],
       [ [ "fish", 1 ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "chem_saltpetre", 1 ] ]
@@ -3822,7 +3822,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "bag_plastic", 1 ] ],
       [ [ "veggy_any_uncooked", 1, "LIST" ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
@@ -3843,7 +3843,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "bag_plastic", 1 ] ],
       [ [ "sweet_fruit", 2, "LIST" ] ],
       [ [ "sugar", 8 ] ]
@@ -3941,7 +3941,7 @@
     "time": "1 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "chem_ethanol", 125 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chem_ethanol", 125 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4164,7 +4164,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "fish", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "lye_powder", 5 ] ] ]
+    "components": [ [ [ "fish", 1 ] ], [ [ "water_standard", 2, "LIST" ] ], [ [ "lye_powder", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -4350,7 +4350,7 @@
         [ "brioche", 1 ]
       ],
       [ [ "ketchup", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -4650,7 +4650,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "//": "Canned tomatoes aren't an option as they've already been preserved.",
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "water_standard", 1, "LIST" ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
       [
         [ "veggy", 2 ],
@@ -4700,7 +4700,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "jar_glass", 1 ] ],
       [ [ "veggy", 1 ], [ "lettuce", 1 ], [ "veggy_wild", 1 ], [ "cabbage", 1 ] ]
@@ -4718,7 +4718,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
       [ [ "jar_glass", 1 ] ],
@@ -4737,7 +4737,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
       [ [ "jar_glass", 1 ] ],
@@ -4778,7 +4778,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "water_standard", 1, "LIST" ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
       [ [ "meat_red_raw", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
@@ -4800,7 +4800,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "water_standard", 1, "LIST" ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
       [ [ "fish", 2 ] ],
       [ [ "vinegar", 1 ] ]
@@ -4880,7 +4880,7 @@
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -4994,7 +4994,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "sugar", 40 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "sugar", 40 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5052,7 +5052,7 @@
         [ "protein_powder", 1 ],
         [ "wild_herbs", 5 ]
       ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+      [ [ "water_standard", 2, "LIST" ] ]
     ]
   },
   {
@@ -5240,7 +5240,7 @@
     "book_learn": [ [ "textbook_survival", 5 ], [ "atomic_survival", 4 ], [ "survival_book", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "tanbark", 2 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "tanbark", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -5281,7 +5281,7 @@
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "tea_raw", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "pepper", 10 ] ],
@@ -5368,7 +5368,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_ant", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 3 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "honey_ant", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -5395,7 +5395,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
-    "components": [ [ [ "flour", 2 ] ], [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 2 ] ], [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5425,7 +5425,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_glassed", 5 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "honey_glassed", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -5442,7 +5442,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "stomach", 1 ], [ "stomach_large", 1 ], [ "hstomach", 1 ], [ "hstomach_large", 1 ] ],
       [ [ "offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ],
       [ [ "oatmeal", 2 ], [ "buckwheat", 1 ] ]
@@ -5465,7 +5465,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "water_standard", 2, "LIST" ] ],
       [ [ "stomach", 2 ], [ "stomach_large", 1 ], [ "hstomach", 2 ], [ "hstomach_large", 1 ] ],
       [ [ "offal", 2 ], [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 4 ] ],
       [ [ "oatmeal", 4 ], [ "buckwheat", 1 ] ]
@@ -5485,7 +5485,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "dry_fish", 1 ], [ "salted_fish", 1 ], [ "fish_smoked", 1 ], [ "fish_pickled", 1 ] ]
     ]
@@ -5543,7 +5543,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "bee_balm", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "bee_balm", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5601,7 +5601,7 @@
     "components": [
       [ [ "chocolate", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "sugar", 5 ] ]
     ]
   },
@@ -5624,7 +5624,7 @@
       [ [ "sugar", 5 ] ],
       [ [ "chilly-p", 1 ] ],
       [ [ "cinnamon", 1 ] ],
-      [ [ "water", 6 ], [ "water_clean", 6 ] ]
+      [ [ "water_standard", 6, "LIST" ] ]
     ]
   },
   {
@@ -6003,7 +6003,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "acorns", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "acorns", 1 ] ], [ [ "water_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -6064,7 +6064,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
-      [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
+      [ [ "water_standard", 6, "LIST" ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "fish", 12 ] ],
       [ [ "vinegar", 6 ] ]
@@ -6086,7 +6086,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
-      [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
+      [ [ "water_standard", 6, "LIST" ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "meat_red_raw", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
@@ -6109,7 +6109,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "//": "Canned tomatoes aren't an option as they've already been preserved.",
     "components": [
-      [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
+      [ [ "water_standard", 6, "LIST" ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
       [
         [ "veggy", 12 ],
@@ -6148,7 +6148,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -6177,7 +6177,7 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6190,7 +6190,7 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ], [ [ "sourdough_starter", 1 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ], [ [ "sourdough_starter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6205,7 +6205,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water_standard", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -6269,7 +6269,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "batch_time_factors": [ 80, 2 ],
-    "components": [ [ [ "fiddlehead_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ], [ "broth", 1 ], [ "broth_bone", 1 ] ] ]
+    "components": [ [ [ "fiddlehead_raw", 1 ] ], [ [ "water_standard", 1, "LIST" ], [ "broth", 1 ], [ "broth_bone", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6295,7 +6295,7 @@
         [ "edible_fat", 1, "LIST" ],
         [ "edible_tallow_lard", 1, "LIST" ]
       ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {

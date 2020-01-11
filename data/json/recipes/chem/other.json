@@ -12,7 +12,7 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ] ]
+    "components": [ [ [ "water_standard", 1, "LIST"  ] ], [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ] ]
   },
   {
     "result": "superglue",
@@ -26,7 +26,7 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_standard", 1, "LIST"  ] ],
       [
         [ "bleach", 1 ],
         [ "lye_powder", 100 ],

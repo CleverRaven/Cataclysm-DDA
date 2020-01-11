@@ -9,8 +9,7 @@
     "skills_required": [ "gun", 2 ],
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "3006_casehead", 1 ] ],
+    "using": [ [ "3006_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
@@ -25,8 +24,7 @@
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "762_casehead", 1 ] ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "762_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
@@ -40,8 +38,7 @@
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "762R_casehead", 1 ] ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "762R_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
@@ -54,9 +51,9 @@
     "skills_required": [ "gun", 2 ],
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "using": [ [ "3006_casehead", 1 ] ],
+    "using": [ [ "3006_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "garand", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "tools": [ [ [ "garand", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
@@ -69,8 +66,8 @@
     "skills_required": [ "gun", 2 ],
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "using": [ [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "pipe", 1 ], [ "scrap", 1 ] ] ]
   },
   {
@@ -116,6 +113,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
+    "using": [ [ "223_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [
       [
         [ "acr", -1 ],
@@ -128,11 +127,8 @@
         [ "scar_l", -1 ],
         [ "sig552", -1 ],
         [ "surv_carbine_223", -1 ]
-      ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
+      ]
     ],
-    "using": [ [ "223_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -145,9 +141,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "ruger_mini", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "223_casehead", 1 ] ],
+    "using": [ [ "223_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "ruger_mini", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -160,9 +156,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "m14ebr", -1 ], [ "m1a", -1 ], [ "M24", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
+    "using": [ [ "308_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "m14ebr", -1 ], [ "m1a", -1 ], [ "M24", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -175,9 +171,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk417_13", -1 ], [ "m110a1", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
+    "using": [ [ "308_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "hk417_13", -1 ], [ "m110a1", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -190,9 +186,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "ar10", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
+    "using": [ [ "308_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "ar10", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -205,9 +201,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk_g3", -1 ], [ "rifle_308", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
+    "using": [ [ "308_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "hk_g3", -1 ], [ "rifle_308", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -220,9 +216,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "fn_fal", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
+    "using": [ [ "308_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "fn_fal", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -235,9 +231,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "scar_h", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
+    "using": [ [ "308_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "scar_h", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -250,7 +246,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "fal_makeshiftmag", 1 ] ] ]
   },
@@ -263,7 +259,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "falmag", 1 ] ] ]
   },
@@ -276,7 +272,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "falbigmag", 1 ] ] ]
   },
@@ -303,9 +299,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "smg_40", -1 ] ] ],
-    "using": [ [ "40_casehead", 1 ] ],
+    "using": [ [ "40_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "smg_40", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -318,9 +314,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "mac_10", -1 ], [ "smg_45", -1 ] ] ],
-    "using": [ [ "45_casehead", 1 ] ],
+    "using": [ [ "45_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "mac_10", -1 ], [ "smg_45", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -333,9 +329,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk_ump45", -1 ] ] ],
-    "using": [ [ "45_casehead", 1 ] ],
+    "using": [ [ "45_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "hk_ump45", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -348,9 +344,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "tommygun", -1 ] ] ],
-    "using": [ [ "45_casehead", 1 ] ],
+    "using": [ [ "45_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "tommygun", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
@@ -363,9 +359,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "smg_9mm", -1 ], [ "sten", -1 ] ] ],
-    "using": [ [ "9mm_casehead", 1 ] ],
+    "using": [ [ "9mm_casehead", 1 ], [ "gunsmithing_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "smg_9mm", -1 ], [ "sten", -1 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
