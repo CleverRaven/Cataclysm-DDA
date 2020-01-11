@@ -1,0 +1,80 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_chloe",
+    "name_unique": "Chloe Taylor King",
+    "gender": "female",
+    "name_suffix": "member",
+    "class": "NC_godco_chloe",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_chloe_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_chloe",
+    "name": "member",
+    "job_description": "I am a member of the group.",
+    "common": false,
+    "bonus_str": { "rng": [ -3, -2 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -1, 0 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "worn_override": "GODCO_chloe_worn",
+    "carry_override": "GODCO_chloe_carried",
+    "weapon_override": "GODCO_chloe_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Skin_Any" }, { "trait": "hair_black_long" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sports_bra" },
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "tshirt_text" },
+      { "item": "jacket_light" },
+      { "item": "skirt" },
+      { "item": "sneakers" },
+      { "item": "gloves_light" },
+      { "item": "knit_scarf" },
+      { "item": "holy_symbol_wood" },
+      { "item": "hat_ball", "prob": 50 },
+      { "item": "coat_rain", "prob": 75 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "portable_game" }, { "item": "lemonlime" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_chloe_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_combat" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_chloe"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_chloe_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_chloe",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]

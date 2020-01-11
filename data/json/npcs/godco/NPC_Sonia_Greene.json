@@ -1,0 +1,85 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_sonia",
+    "name_unique": "Sonia Greene",
+    "name_suffix": "joinee",
+    "gender": "female",
+    "class": "NC_godco_sonia",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_sonia_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_sonia",
+    "name": "member",
+    "job_description": "I play the guitar for the community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -1, 0 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "worn_override": "GODCO_sonia_worn",
+    "carry_override": "GODCO_sonia_carried",
+    "weapon_override": "GODCO_sonia_wield",
+    "traits": [
+      { "trait": "PRETTY" },
+      { "trait": "PACIFIST" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "hair_blond_long" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "briefs" },
+      { "item": "bra" },
+      { "item": "tshirt_tour" },
+      { "item": "pants_cargo" },
+      { "item": "trenchcoat_leather" },
+      { "item": "wristwatch" },
+      { "item": "bead_bracelet" },
+      { "item": "acoustic_guitar" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 }, { "group": "snacks", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "null" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_sonia"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_sonia_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_sonia",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey again." ],
+      "no": "Hey."
+    },
+    "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
+  }
+]
