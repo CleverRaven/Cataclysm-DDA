@@ -11,7 +11,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ], [ "lasagne_raw", 1 ] ],
-      [ [ "water_standard", 1, "LIST"  ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -28,7 +28,7 @@
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
-      [ [ "water_standard", 1, "LIST"  ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -45,7 +45,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
-      [ [ "water_standard", 1, "LIST"  ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [
         [ "seasoning_italian", 4 ],
         [ "sauce_red", 2 ],
@@ -71,7 +71,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "lasagne_raw", 1 ] ],
-      [ [ "water_standard", 1, "LIST"  ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [
         [ "seasoning_italian", 4 ],
         [ "sauce_red", 2 ],
@@ -98,7 +98,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
-      [ [ "water_standard", 1, "LIST"  ] ],
+      [ [ "water_standard", 1, "LIST" ] ],
       [ [ "seasoning_italian", 4 ], [ "sauce_pesto", 1 ], [ "wild_herbs", 10 ] ],
       [
         [ "veggy", 2 ],
@@ -122,7 +122,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 7 ] ], [ [ "water_standard", 1, "LIST"  ] ] ]
+    "components": [ [ [ "flour", 7 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "result": "spaghetti_raw",
@@ -134,7 +134,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water_standard", 1, "LIST"  ] ] ]
+    "components": [ [ [ "flour", 5 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "result": "lasagne_raw",
@@ -146,7 +146,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water_standard", 1, "LIST"  ] ] ]
+    "components": [ [ [ "flour", 5 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "result": "macaroni_raw",
@@ -158,7 +158,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water_standard", 1, "LIST"  ] ] ]
+    "components": [ [ [ "flour", 5 ] ], [ [ "water_standard", 1, "LIST" ] ] ]
   },
   {
     "result": "macaroni_helper",
@@ -190,7 +190,7 @@
         [ "bratwurst_sausage", 1 ]
       ],
       [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
-      [ [ "water_standard", 1, "LIST"  ] ]
+      [ [ "water_standard", 1, "LIST" ] ]
     ]
   }
 ]

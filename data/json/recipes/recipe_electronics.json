@@ -13,13 +13,7 @@
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "plastic_making", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "blade", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "cable", 5 ] ]
-    ]
+    "components": [ [ [ "blade", 2 ] ], [ [ "motor_tiny", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -227,11 +221,7 @@
     "time": "15 m",
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 2 ] ],
-    "components": [
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "lightstrip_inactive", 1 ], [ "flashlight", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "lightstrip_inactive", 1 ], [ "flashlight", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -272,11 +262,7 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "components": [
-      [ [ "amplifier", 4 ] ],
-      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "amplifier", 4 ] ], [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -291,11 +277,7 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "components": [
-      [ [ "amplifier", 4 ] ],
-      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "amplifier", 4 ] ], [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -310,11 +292,7 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 2 ], [ "steel_tiny", 1 ] ],
-    "components": [
-      [ [ "amplifier", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -329,11 +307,7 @@
     "time": "14 m",
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "plastic_making", 3 ], [ "steel_tiny", 1 ] ],
-    "components": [
-      [ [ "amplifier", 3 ] ],
-      [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ],
-      [ [ "cable", 12 ] ]
-    ]
+    "components": [ [ [ "amplifier", 3 ] ], [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ], [ [ "cable", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -473,11 +447,7 @@
     "book_learn": [ [ "textbook_survival", 3 ], [ "advanced_electronics", 3 ], [ "manual_electronics", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "blacksmithing_standard", 10 ], [ "steel_tiny", 3 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "element", 3 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1875,12 +1845,7 @@
     "book_learn": [ [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ], [ "recipe_caseless", 3 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "plastic_making", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "betavoltaic", 4 ] ]
-    ]
+    "components": [ [ [ "superglue", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 2 ] ], [ [ "betavoltaic", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -2279,11 +2244,7 @@
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [
-      [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "sheet_metal_small", 5 ] ]
-    ]
+    "components": [ [ [ "cu_pipe", 3 ] ], [ [ "motor_tiny", 1 ] ], [ [ "sheet_metal_small", 5 ] ] ]
   },
   {
     "type": "recipe",

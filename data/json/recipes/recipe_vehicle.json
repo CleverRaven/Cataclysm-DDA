@@ -66,10 +66,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
     "using": [ [ "welding_standard", 2 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 4 ] ],
-      [ [ "rope_natural_short", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
   },
   {
     "result": "rebar_plate",
@@ -110,12 +107,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "hdframe", 1 ] ],
-      [ [ "rebar", 8 ], [ "pipe", 16 ] ],
-      [ [ "chain", 2 ] ],
-      [ [ "blade", 9 ] ]
-    ]
+    "components": [ [ [ "hdframe", 1 ] ], [ [ "rebar", 8 ], [ "pipe", 16 ] ], [ [ "chain", 2 ] ], [ [ "blade", 9 ] ] ]
   },
   {
     "result": "minifreezer",
@@ -129,7 +121,7 @@
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "welding_standard", 50 ], [ "plastic_making", 10] ],
+    "using": [ [ "welding_standard", 50 ], [ "plastic_making", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -163,7 +155,7 @@
       [ "recipe_lab_elec", 3 ],
       [ "textbook_anarch", 3 ]
     ],
-    "using": [ [ "soldering_standard", 20 ], [ "plastic_making", 10] ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_making", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },

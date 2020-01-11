@@ -3842,12 +3842,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
-    "components": [
-      [ [ "water_standard", 1, "LIST" ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "sweet_fruit", 2, "LIST" ] ],
-      [ [ "sugar", 8 ] ]
-    ]
+    "components": [ [ [ "water_standard", 1, "LIST" ] ], [ [ "bag_plastic", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "sugar", 8 ] ] ]
   },
   {
     "type": "recipe",

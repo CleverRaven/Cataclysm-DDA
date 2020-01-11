@@ -3558,8 +3558,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "salt_standard", 1, "LIST" ] ], [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ] ]
+    "components": [ [ [ "salt_standard", 1, "LIST" ] ], [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3609,8 +3608,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "salt_standard", 1, "LIST" ] ], [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
+    "components": [ [ [ "salt_standard", 1, "LIST" ] ], [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
   },
   {
     "type": "recipe",

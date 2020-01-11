@@ -494,10 +494,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "crucible_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [
-      [ [ "filament", 100, "LIST" ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
-    ]
+    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "result": "makeshift_crowbar",

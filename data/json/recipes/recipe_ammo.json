@@ -687,10 +687,7 @@
     "autolearn": true,
     "using": [ [ "plastic_making", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ], [ [ "fletching", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -738,11 +735,7 @@
     "skill_used": "cooking",
     "difficulty": 7,
     "time": "60 m",
-    "book_learn": [
-      [ "textbook_gaswarfare", 8 ],
-      [ "textbook_anarch", 7 ],
-      [ "recipe_labchem", 6 ]
-    ],
+    "book_learn": [ [ "textbook_gaswarfare", 8 ], [ "textbook_anarch", 7 ], [ "recipe_labchem", 6 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
@@ -776,11 +769,7 @@
     "time": "3 m",
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 2 ],
-      [ "textbook_anarch", 2 ],
-      [ "manual_launcher", 2 ]
-    ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2 ], [ "manual_launcher", 2 ] ],
     "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ] ] ]
   },
   {
