@@ -40,12 +40,18 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
 void item_contents::combine( const item_contents &rhs )
 {
     for( const item_pocket &pocket : rhs.contents ) {
-        if( !pocket.is_valid() || pocket.is_type( item_pocket::pocket_type::LEGACY_CONTAINER ) ) {
+        if( !pocket.is_valid() || pocket.saved_type() == item_pocket::pocket_type::LEGACY_CONTAINER ) {
             for( const item it : pocket.all_items() ) {
                 insert_legacy( it );
             }
         } else {
-            debugmsg( "ERROR: pocket_type loading unhandled" );
+            for( const item it : pocket.all_items() ) {
+                const ret_val<bool> inserted = insert_item( it, pocket.saved_type() );
+                if( !inserted.success() ) {
+                    debugmsg( "error: tried to put an item into a pocket that can't fit it while loading. err: %s",
+                              inserted.str() );
+                }
+            }
         }
     }
 }
@@ -407,10 +413,13 @@ void item_contents::has_rotten_away( const tripoint &pnt )
     }
 }
 
-ret_val<bool> item_contents::insert_item( const item &it )
+ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( item_pocket &pocket : contents ) {
+        if( !pocket.is_type( pk_type ) ) {
+            continue;
+        }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.insert_item( it );
         if( pocket_contain_code.success() ) {
             return ret_val<bool>::make_success();

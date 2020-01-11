@@ -171,6 +171,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "contents", contents );
+    json.member( "pocket_type", data->type );
 
     json.end_object();
 }
@@ -179,6 +180,7 @@ void item_pocket::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "contents", contents );
+    data.read( "pocket_type", _saved_type );
 }
 
 void pocket_data::deserialize( JsonIn &jsin )

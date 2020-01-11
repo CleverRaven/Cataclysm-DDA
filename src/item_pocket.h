@@ -112,6 +112,9 @@ class item_pocket
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
         void has_rotten_away( const tripoint &pnt );
+        pocket_type saved_type() const {
+            return _saved_type;
+        }
 
         // tries to put an item in the pocket. returns false if failure
         ret_val<contain_code> insert_item( const item &it );
@@ -139,6 +142,8 @@ class item_pocket
 
         bool operator==( const item_pocket &rhs ) const;
     private:
+        // the type of pocket, saved to json
+        pocket_type _saved_type = pocket_type::LAST;
         const pocket_data *data = nullptr;
         // the items inside the pocket
         std::list<item> contents;

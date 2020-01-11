@@ -77,7 +77,8 @@ class item_contents
         void combine( const item_contents &rhs );
         // tries to put an item in a pocket. returns false on failure
         // has similar code to can_contain in order to avoid running it twice
-        ret_val<bool> insert_item( const item &it );
+        ret_val<bool> insert_item( const item &it,
+                                   item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
         // finds or makes a fake pocket and puts this item into it
         void insert_legacy( const item &it );
         // equivalent to contents.back() when item::contents was a std::list<item>
