@@ -1286,6 +1286,9 @@ class vehicle
         /** Returns roughly driving skill level at which there is no chance of fumbling. */
         float handling_difficulty() const;
 
+        // Use grid traversal to enumerate all connected vehicles.
+        static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
+                                        std::set<vehicle *> &vehicle_list );
         // idle fuel consumption
         void idle( bool on_map = true );
         // continuous processing for running vehicle alarms
