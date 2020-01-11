@@ -139,18 +139,18 @@
       "rows": [
         "------------------------",
         "------------------------",
-        "----##oo#o###o#oo##-----",
-        "----#{    |R| }   #-----",
-        "----o     |_|     o-----",
-        "----o     |_|     o-----",
-        "----#     +_+     #-----",
-        "----#||||||_||||||#-----",
+        "----##oo##o#o##oo##-----",
+        "----#{   |HRH|}   #-----",
+        "----o    |___|    o-----",
+        "----o    |___|    o-----",
+        "----#    +___+    #-----",
+        "----#|||||__||||||#-----",
         "----#_______+ [   #-----",
         "----#>R|||+||     o-----",
         "----####TT 8|     o-----",
         "------^#   j|     #-----",
-        "-------sw t8#uo#OO#-----",
-        "-------##o###~~####-----",
+        "-------sw t8#u#oo##-----",
+        "-------##o###~~~~~s-----",
         "-----------s~~~~~~s-----",
         "-----------CssssssC-----",
         "------------------------",
@@ -163,7 +163,7 @@
         "------------------------"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "_": "t_carpet_red", "#": "t_brick_wall", "s": "t_screened_porch_wall", "R": "t_carpet_red", "u": "t_door_glass_c" },
+      "terrain": { "_": "t_carpet_red", "#": "t_brick_wall", "H": "t_carpet_red", "s": "t_screened_porch_wall", "R": "t_carpet_red", "u": "t_door_glass_c" },
       "furniture": { "8": "f_counter" },
       "items": {
         "8": [ { "item": "shower", "chance": 10 }, { "item": "cleaning", "chance": 3 }, { "item": "softdrugs", "chance": 5 } ]
@@ -171,28 +171,27 @@
       "nested": {
         "{": {
           "chunks": [
-            [ "bedroom_4x4_adult_1_W", 20 ],
             [ "bedroom_4x4_adult_1_N", 20 ],
-            [ "bedroom_4x4_adult_2_W", 20 ],
-            [ "bedroom_4x4_adult_2_N", 20 ]
+            [ "bedroom_4x4_adult_1_E", 20 ],
+            [ "bedroom_4x4_adult_1_W", 20 ],
+            [ "bedroom_4x4_adult_1_S", 20 ],
+            [ "bedroom_4x4_adult_2_N", 10 ],
+            [ "bedroom_4x4_adult_3_N", 20 ]
           ]
         },
         "}": {
           "chunks": [
-            [ "bedroom_4x4_adult_1_E", 20 ],
-            [ "bedroom_4x4_adult_1_N", 20 ],
-            [ "bedroom_4x4_adult_2_E", 20 ],
-            [ "bedroom_4x4_adult_2_N", 20 ],
-            [ "home_office_4x4_N", 20 ],
-            [ "home_office_4x4_S", 20 ]
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 10 ],
+            [ "bedroom_4x4_adult_2_N", 5 ],
+            [ "bedroom_4x4_adult_3_N", 10 ],
+            [ "home_office_4x4_N", 30 ]
           ]
         },
         "[": {
           "chunks": [
-            [ "bedroom_4x4_adult_1_E", 20 ],
-            [ "bedroom_4x4_adult_1_N", 20 ],
-            [ "bedroom_4x4_adult_2_E", 20 ],
-            [ "bedroom_4x4_adult_2_N", 20 ]
+            [ "bedroom_4x4_adult_2_N", 20 ],
+            [ "bedroom_4x4_adult_2_S", 20 ]
           ]
         }
       }
