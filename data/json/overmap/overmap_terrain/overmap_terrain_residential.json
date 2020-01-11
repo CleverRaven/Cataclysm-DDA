@@ -981,5 +981,90 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage4",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage4_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage5",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage5_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage6",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage6_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage7",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage7_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage8",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage8_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
   }
 ]
