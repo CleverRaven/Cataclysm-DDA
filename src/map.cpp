@@ -3359,7 +3359,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
-    const bool inc = ( ammo_effects.count( "INCENDIARY" ) || ammo_effects.count( "FLAME" ) );
+    const bool inc = ammo_effects.count( "INCENDIARY" );
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }

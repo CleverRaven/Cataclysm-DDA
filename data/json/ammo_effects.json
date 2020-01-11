@@ -24,6 +24,11 @@
     "do_emp_blast": false
   },
   {
+    "id": "FLAME",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 }
+  },
+  {
     "id": "NAPALM",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 },
