@@ -250,7 +250,7 @@
   {
     "type": "tool_quality",
     "id": "VISE",
-    "name": "vicing"
+    "name": "clamping"
   },
   {
     "type": "tool_quality",
