@@ -23,7 +23,7 @@ class safemode
         };
 
         enum Categories : int {
-            HOSTILE,
+            HOSTILE_SPOTTED,
             SOUND
         };
 
@@ -38,7 +38,7 @@ class safemode
                 Categories category;
 
                 rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
-                    proximity( 0 ), category( Categories::HOSTILE ) {}
+                    proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
                              Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
                     active( active_in ), whitelist( whitelist_in ),
@@ -64,7 +64,7 @@ class safemode
          * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
         std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules_hostile;
-        std::unordered_map < std::string, rule_state_class > safemode_rules_sound;
+        std::vector < rules_class > safemode_rules_sound;
 
         /**
          * current rules for global and character tab
@@ -94,7 +94,7 @@ class safemode
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
                                   int proximity_in ) const;
 
-        bool check_sound( const std::string &sound_name_in, const int proximity_in ) const;
+        bool is_sound_safe( const std::string &sound_name_in, const int proximity_in ) const;
 
         std::string npc_type_name();
 
