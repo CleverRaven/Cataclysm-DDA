@@ -2057,11 +2057,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [
-      [ [ "element", 8 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "power_supply", 1 ] ]
-    ]
+    "components": [ [ [ "element", 8 ] ], [ [ "cable", 4 ] ], [ [ "power_supply", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2560,11 +2556,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [
-      [ [ "pilot_light", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "pipe", 3 ] ]
-    ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "pipe", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2856,9 +2848,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "using": [ [ "crucible_standard", 1 ], [ "surface_heat", 15 ], [ "forging_standard", 1 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [
-      [ [ "sheet_metal", -1 ] ]
-    ],
+    "tools": [ [ [ "sheet_metal", -1 ] ] ],
     "components": [
       [ [ "material_sand", 10 ] ],
       [ [ "ammonia", 1 ] ],
@@ -3569,9 +3559,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "salt_standard", 1, "LIST" ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
-    ]
+      [ [ "salt_standard", 1, "LIST" ] ], [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3622,9 +3610,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "salt_standard", 1, "LIST" ] ],
-      [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ]
-    ]
+      [ [ "salt_standard", 1, "LIST" ] ], [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3806,11 +3792,7 @@
     "autolearn": true,
     "batch_time_factors": [ 70, 4 ],
     "using": [ [ "earthenware_firing", 60 ], [ "water_standard", 1 ] ],
-    "components": [
-      [ [ "clay_lump", 1 ] ],
-      [ [ "material_sand", 5 ] ],
-      [ [ "rock", 1 ], [ "pebble", 10 ] ]
-    ]
+    "components": [ [ [ "clay_lump", 1 ] ], [ [ "material_sand", 5 ] ], [ [ "rock", 1 ], [ "pebble", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -4328,12 +4310,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [ [ "steel_grille", 1 ] ],
-      [ [ "platinum_small", 100 ] ],
-      [ [ "water_standard", 3, "LIST" ] ],
-      [ [ "acid", 1 ] ]
-    ]
+    "components": [ [ [ "steel_grille", 1 ] ], [ [ "platinum_small", 100 ] ], [ [ "water_standard", 3, "LIST" ] ], [ [ "acid", 1 ] ] ]
   },
   {
     "type": "recipe",
