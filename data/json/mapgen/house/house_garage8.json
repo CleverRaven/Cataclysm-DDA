@@ -50,6 +50,9 @@
         ")": "t_wall_glass",
         "]": "t_door_glass_c",
         "/": "t_dirtmound",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "~": "t_thconc_floor",
         "&": "t_column",
         ";": "t_shrub_blueberry",
         ",": "t_shrub_strawberry"
