@@ -101,12 +101,6 @@
     "id": "EXPLOSIVE_BIG",
     "type": "ammo_effect",
     "aoe": { "size": 3 },
-    "explosion": { "power": 1200 }
-  },
-  {
-    "id": "EXPLOSIVE_HUGE",
-    "type": "ammo_effect",
-    "aoe": { "size": 3 },
     "explosion": { "power": 600 }
   },
   {
