@@ -116,6 +116,16 @@
     "explosion": { "power": 360, "distance_factor": 0.4 }
   },
   {
+    "id": "EXPLOSIVE_RAUFOSS",
+    "type": "ammo_effect",
+    "explosion": {
+      "power": 2.4,
+      "distance_factor": 0.6,
+      "fire": true,
+      "shrapnel": { "casing_mass": 28, "fragment_mass": 1.4, "recovery": 0, "drop": "null" }
+    }
+  },
+  {
     "id": "FRAG",
     "type": "ammo_effect",
     "aoe": { "size": 15 },
