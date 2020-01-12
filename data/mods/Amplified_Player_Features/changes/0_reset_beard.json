@@ -2,7 +2,7 @@
   {
     "id": "FACIAL_HAIR_NONE",
     "type": "mutation",
-    "name": "3.misc: No Beard",
+    "name": "3-misc: No Beard",
     "description": "You either shaved or can't grown a beard.",
     "points": 0,
     "valid": false,

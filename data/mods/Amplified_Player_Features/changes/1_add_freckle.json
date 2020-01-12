@@ -2,7 +2,7 @@
   {
     "id": "DENSE_FRECKLES",
     "type": "mutation",
-    "name": "1.freckles: Dense",
+    "name": "1-freckles: Dense",
     "description": "Your face has a lot of freckles.",
     "points": 0,
     "starting_trait": true,
@@ -14,7 +14,7 @@
   {
     "id": "LIGHT_FRECKLES",
     "type": "mutation",
-    "name": "1.freckles: Light",
+    "name": "1-freckles: Light",
     "description": "Your face has some light freckles.",
     "points": 0,
     "starting_trait": true,

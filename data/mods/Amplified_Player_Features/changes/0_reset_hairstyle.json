@@ -2,7 +2,7 @@
   {
     "id": "HAIR_BALD",
     "type": "mutation",
-    "name": "3.misc: No Hair",
+    "name": "3-misc: No Hair",
     "description": "You are BALD™.",
     "points": 0,
     "visibility": 1,
@@ -16,7 +16,7 @@
   {
     "id": "hair_black_fro",
     "type": "mutation",
-    "name": "4.hair_fro: Black",
+    "name": "4-hair_fro: Black",
     "description": "Black hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -29,7 +29,7 @@
   {
     "id": "hair_blond_fro",
     "type": "mutation",
-    "name": "4.hair_fro: Blond",
+    "name": "4-hair_fro: Blond",
     "description": "Blond hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -42,7 +42,7 @@
   {
     "id": "hair_brown_fro",
     "type": "mutation",
-    "name": "4.hair_fro: Brown",
+    "name": "4-hair_fro: Brown",
     "description": "Brown hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -55,7 +55,7 @@
   {
     "id": "hair_gray_fro",
     "type": "mutation",
-    "name": "4.hair_fro: Gray",
+    "name": "4-hair_fro: Gray",
     "description": "Gray hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -68,7 +68,7 @@
   {
     "id": "hair_pink_fro",
     "type": "mutation",
-    "name": "4.hair_fro: Pink",
+    "name": "4-hair_fro: Pink",
     "description": "Pink hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -81,7 +81,7 @@
   {
     "id": "hair_red_fro",
     "type": "mutation",
-    "name": "4.hair_fro: Red",
+    "name": "4-hair_fro: Red",
     "description": "Red hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -94,7 +94,7 @@
   {
     "id": "hair_white_fro",
     "type": "mutation",
-    "name": "4.hair_fro: White",
+    "name": "4-hair_fro: White",
     "description": "White hair style: 'fro unisex.",
     "points": 0,
     "starting_trait": true,
@@ -107,7 +107,7 @@
   {
     "id": "hair_black_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: Black",
+    "name": "4-hair_crewcut: Black",
     "description": "Black hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -120,7 +120,7 @@
   {
     "id": "hair_blond_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: Blond",
+    "name": "4-hair_crewcut: Blond",
     "description": "Blond hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -133,7 +133,7 @@
   {
     "id": "hair_brown_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: Brown",
+    "name": "4-hair_crewcut: Brown",
     "description": "Brown hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -146,7 +146,7 @@
   {
     "id": "hair_gray_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: Gray",
+    "name": "4-hair_crewcut: Gray",
     "description": "Gray hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -159,7 +159,7 @@
   {
     "id": "hair_pink_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: Pink",
+    "name": "4-hair_crewcut: Pink",
     "description": "Pink hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -172,7 +172,7 @@
   {
     "id": "hair_red_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: Red",
+    "name": "4-hair_crewcut: Red",
     "description": "Red hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -185,7 +185,7 @@
   {
     "id": "hair_white_crewcut",
     "type": "mutation",
-    "name": "4.hair_crewcut: White",
+    "name": "4-hair_crewcut: White",
     "description": "White hair style: crew-cut unisex.",
     "points": 0,
     "starting_trait": true,
@@ -198,7 +198,7 @@
   {
     "id": "hair_black_long",
     "type": "mutation",
-    "name": "4.hair_long: Black",
+    "name": "4-hair_long: Black",
     "description": "Black hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -211,7 +211,7 @@
   {
     "id": "hair_blond_long",
     "type": "mutation",
-    "name": "4.hair_long: Blond",
+    "name": "4-hair_long: Blond",
     "description": "Blond hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -224,7 +224,7 @@
   {
     "id": "hair_brown_long",
     "type": "mutation",
-    "name": "4.hair_long: Brown",
+    "name": "4-hair_long: Brown",
     "description": "Brown hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -237,7 +237,7 @@
   {
     "id": "hair_gray_long",
     "type": "mutation",
-    "name": "4.hair_long: Gray",
+    "name": "4-hair_long: Gray",
     "description": "Gray hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -250,7 +250,7 @@
   {
     "id": "hair_pink_long",
     "type": "mutation",
-    "name": "4.hair_long: Pink",
+    "name": "4-hair_long: Pink",
     "description": "Pink hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -263,7 +263,7 @@
   {
     "id": "hair_red_long",
     "type": "mutation",
-    "name": "4.hair_long: Red",
+    "name": "4-hair_long: Red",
     "description": "Red hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -276,7 +276,7 @@
   {
     "id": "hair_white_long",
     "type": "mutation",
-    "name": "4.hair_long: White",
+    "name": "4-hair_long: White",
     "description": "White hair style: long unisex.",
     "points": 0,
     "starting_trait": true,
@@ -289,7 +289,7 @@
   {
     "id": "hair_black_medium",
     "type": "mutation",
-    "name": "4.hair_medium: Black",
+    "name": "4-hair_medium: Black",
     "description": "Black hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -302,7 +302,7 @@
   {
     "id": "hair_blond_medium",
     "type": "mutation",
-    "name": "4.hair_medium: Blond",
+    "name": "4-hair_medium: Blond",
     "description": "Blond hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -315,7 +315,7 @@
   {
     "id": "hair_brown_medium",
     "type": "mutation",
-    "name": "4.hair_medium: Brown",
+    "name": "4-hair_medium: Brown",
     "description": "Brown hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -328,7 +328,7 @@
   {
     "id": "hair_gray_medium",
     "type": "mutation",
-    "name": "4.hair_medium: Gray",
+    "name": "4-hair_medium: Gray",
     "description": "Gray hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -341,7 +341,7 @@
   {
     "id": "hair_pink_medium",
     "type": "mutation",
-    "name": "4.hair_medium: Pink",
+    "name": "4-hair_medium: Pink",
     "description": "Pink hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -354,7 +354,7 @@
   {
     "id": "hair_red_medium",
     "type": "mutation",
-    "name": "4.hair_medium: Red",
+    "name": "4-hair_medium: Red",
     "description": "Red hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -367,7 +367,7 @@
   {
     "id": "hair_white_medium",
     "type": "mutation",
-    "name": "4.hair_medium: White",
+    "name": "4-hair_medium: White",
     "description": "White hair style: medium unisex.",
     "points": 0,
     "starting_trait": true,
@@ -380,7 +380,7 @@
   {
     "id": "hair_black_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: Black",
+    "name": "4-hair_mohawk: Black",
     "description": "Black hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -393,7 +393,7 @@
   {
     "id": "hair_blond_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: Blond",
+    "name": "4-hair_mohawk: Blond",
     "description": "Blond hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -406,7 +406,7 @@
   {
     "id": "hair_brown_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: Brown",
+    "name": "4-hair_mohawk: Brown",
     "description": "Brown hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -419,7 +419,7 @@
   {
     "id": "hair_gray_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: Gray",
+    "name": "4-hair_mohawk: Gray",
     "description": "Gray hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -432,7 +432,7 @@
   {
     "id": "hair_pink_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: Pink",
+    "name": "4-hair_mohawk: Pink",
     "description": "Pink hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -445,7 +445,7 @@
   {
     "id": "hair_red_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: Red",
+    "name": "4-hair_mohawk: Red",
     "description": "Red hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -458,7 +458,7 @@
   {
     "id": "hair_white_mohawk",
     "type": "mutation",
-    "name": "4.hair_mohawk: White",
+    "name": "4-hair_mohawk: White",
     "description": "White hair style: mohawk unisex.",
     "points": 0,
     "starting_trait": true,
@@ -471,7 +471,7 @@
   {
     "id": "hair_black_short",
     "type": "mutation",
-    "name": "4.hair_short: Black",
+    "name": "4-hair_short: Black",
     "description": "Black hair style: short unisex.",
     "points": 0,
     "starting_trait": true,
@@ -484,7 +484,7 @@
   {
     "id": "hair_blond_short",
     "type": "mutation",
-    "name": "4.hair_short: Blond",
+    "name": "4-hair_short: Blond",
     "description": "Blond hair style: short unisex.",
     "points": 0,
     "starting_trait": true,
@@ -497,7 +497,7 @@
   {
     "id": "hair_brown_short",
     "type": "mutation",
-    "name": "4.hair_short: Brown",
+    "name": "4-hair_short: Brown",
     "description": "Brown hair style: short unisex.",
     "points": 0,
     "starting_trait": true,
@@ -510,7 +510,7 @@
   {
     "id": "hair_gray_short",
     "type": "mutation",
-    "name": "4.hair_short: Gray",
+    "name": "4-hair_short: Gray",
     "description": "Gray hair style: short unisex.",
     "points": 0,
     "starting_trait": true,
@@ -523,7 +523,7 @@
   {
     "id": "hair_pink_short",
     "type": "mutation",
-    "name": "4.hair_short: Pink",
+    "name": "4-hair_short: Pink",
     "description": "Pink hair style: short unisex.",
     "points": 0,
     "starting_trait": true,
@@ -536,7 +536,7 @@
   {
     "id": "hair_red_short",
     "type": "mutation",
-    "name": "4.hair_short: Red",
+    "name": "4-hair_short: Red",
     "description": "Red hair style: short unisex.",
     "points": 0,
     "starting_trait": true,
@@ -549,7 +549,7 @@
   {
     "id": "hair_white_short",
     "type": "mutation",
-    "name": "4.hair_short: White",
+    "name": "4-hair_short: White",
     "description": "White hair style: short unisex.",
     "points": 0,
     "starting_trait": true,

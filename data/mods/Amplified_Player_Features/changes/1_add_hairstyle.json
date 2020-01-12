@@ -2,7 +2,7 @@
   {
     "id": "hair2black",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: Black",
+    "name": "4-hair_pageboy_fringe: Black",
     "description": "Black hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -15,7 +15,7 @@
   {
     "id": "hair2blond",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: Blond",
+    "name": "4-hair_pageboy_fringe: Blond",
     "description": "Blond hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -28,7 +28,7 @@
   {
     "id": "hair2brown",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: Brown",
+    "name": "4-hair_pageboy_fringe: Brown",
     "description": "Brown hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -41,7 +41,7 @@
   {
     "id": "hair2gray",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: Gray",
+    "name": "4-hair_pageboy_fringe: Gray",
     "description": "Gray hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -54,7 +54,7 @@
   {
     "id": "hair2pink",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: Pink",
+    "name": "4-hair_pageboy_fringe: Pink",
     "description": "Pink hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -67,7 +67,7 @@
   {
     "id": "hair2red",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: Red",
+    "name": "4-hair_pageboy_fringe: Red",
     "description": "Red hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -80,7 +80,7 @@
   {
     "id": "hair2white",
     "type": "mutation",
-    "name": "4.hair_pageboy_fringe: White",
+    "name": "4-hair_pageboy_fringe: White",
     "description": "White hair style: pageboy for women, fringe for men.",
     "points": 0,
     "starting_trait": true,
@@ -93,7 +93,7 @@
   {
     "id": "hair3black",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: Black",
+    "name": "4-hair_lopsided_curtain: Black",
     "description": "Black hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -106,7 +106,7 @@
   {
     "id": "hair3blond",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: Blond",
+    "name": "4-hair_lopsided_curtain: Blond",
     "description": "Blond hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -119,7 +119,7 @@
   {
     "id": "hair3brown",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: Brown",
+    "name": "4-hair_lopsided_curtain: Brown",
     "description": "Brown hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -132,7 +132,7 @@
   {
     "id": "hair3gray",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: Gray",
+    "name": "4-hair_lopsided_curtain: Gray",
     "description": "Gray hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -145,7 +145,7 @@
   {
     "id": "hair3pink",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: Pink",
+    "name": "4-hair_lopsided_curtain: Pink",
     "description": "Pink hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -158,7 +158,7 @@
   {
     "id": "hair3red",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: Red",
+    "name": "4-hair_lopsided_curtain: Red",
     "description": "Red hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -171,7 +171,7 @@
   {
     "id": "hair3white",
     "type": "mutation",
-    "name": "4.hair_lopsided_curtain: White",
+    "name": "4-hair_lopsided_curtain: White",
     "description": "White hair style: lopsided cut for women, curtained for men.",
     "points": 0,
     "starting_trait": true,
@@ -184,7 +184,7 @@
   {
     "id": "hair7black",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: Black",
+    "name": "4-hair_baby_lifted: Black",
     "description": "Black hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -197,7 +197,7 @@
   {
     "id": "hair7blond",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: Blond",
+    "name": "4-hair_baby_lifted: Blond",
     "description": "Blond hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -210,7 +210,7 @@
   {
     "id": "hair7brown",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: Brown",
+    "name": "4-hair_baby_lifted: Brown",
     "description": "Brown hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -223,7 +223,7 @@
   {
     "id": "hair7gray",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: Gray",
+    "name": "4-hair_baby_lifted: Gray",
     "description": "Gray hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -236,7 +236,7 @@
   {
     "id": "hair7pink",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: Pink",
+    "name": "4-hair_baby_lifted: Pink",
     "description": "Pink hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -249,7 +249,7 @@
   {
     "id": "hair7red",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: Red",
+    "name": "4-hair_baby_lifted: Red",
     "description": "Red hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -262,7 +262,7 @@
   {
     "id": "hair7white",
     "type": "mutation",
-    "name": "4.hair_baby_lifted: White",
+    "name": "4-hair_baby_lifted: White",
     "description": "White hair style: baby bangs for women, facelift for men.",
     "points": 0,
     "starting_trait": true,
@@ -275,7 +275,7 @@
   {
     "id": "hair8black",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: Black",
+    "name": "4-hair_bangs_mullet: Black",
     "description": "Black hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,
@@ -288,7 +288,7 @@
   {
     "id": "hair8blond",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: Blond",
+    "name": "4-hair_bangs_mullet: Blond",
     "description": "Blond hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,
@@ -301,7 +301,7 @@
   {
     "id": "hair8brown",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: Brown",
+    "name": "4-hair_bangs_mullet: Brown",
     "description": "Brown hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,
@@ -314,7 +314,7 @@
   {
     "id": "hair8gray",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: Gray",
+    "name": "4-hair_bangs_mullet: Gray",
     "description": "Gray hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,
@@ -327,7 +327,7 @@
   {
     "id": "hair8pink",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: Pink",
+    "name": "4-hair_bangs_mullet: Pink",
     "description": "Pink hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,
@@ -340,7 +340,7 @@
   {
     "id": "hair8red",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: Red",
+    "name": "4-hair_bangs_mullet: Red",
     "description": "Red hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,
@@ -353,7 +353,7 @@
   {
     "id": "hair8white",
     "type": "mutation",
-    "name": "4.hair_bangs_mullet: White",
+    "name": "4-hair_bangs_mullet: White",
     "description": "White hair style: bangs for women, mullet for men.",
     "points": 0,
     "starting_trait": true,

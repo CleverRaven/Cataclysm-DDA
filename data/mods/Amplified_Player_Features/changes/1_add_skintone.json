@@ -2,7 +2,7 @@
   {
     "id": "SKIN_DARK_JP",
     "type": "mutation",
-    "name": "0.skin_cute: Dark Brown",
+    "name": "0-skin_cute: Dark Brown",
     "description": "You have an anime-like dark brown skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -14,7 +14,7 @@
   {
     "id": "SKIN_LIGHT_JP",
     "type": "mutation",
-    "name": "0.skin_cute: Light Peach",
+    "name": "0-skin_cute: Light Peach",
     "description": "You have an anime-like fading peach skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -26,7 +26,7 @@
   {
     "id": "SKIN_MEDIUM_JP",
     "type": "mutation",
-    "name": "0.skin_cute: Light Brown",
+    "name": "0-skin_cute: Light Brown",
     "description": "You have an anime-like fading brown skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -38,7 +38,7 @@
   {
     "id": "SKIN_PINK_JP",
     "type": "mutation",
-    "name": "0.skin_cute: Rose",
+    "name": "0-skin_cute: Rose",
     "description": "You have an anime-like rosy skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -50,7 +50,7 @@
   {
     "id": "SKIN_TAN_JP",
     "type": "mutation",
-    "name": "0.skin_cute: Bronze",
+    "name": "0-skin_cute: Bronze",
     "description": "You have an anime-like bronze or tan skin tone.",
     "points": 0,
     "starting_trait": true,

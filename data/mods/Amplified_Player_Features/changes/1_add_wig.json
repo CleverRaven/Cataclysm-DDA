@@ -2,7 +2,7 @@
   {
     "id": "hair1aquajp",
     "type": "mutation",
-    "name": "4.hair_wig: Aqua",
+    "name": "4-hair_wig: Aqua",
     "description": "You are wearing a cute aqua wig.",
     "points": 0,
     "starting_trait": true,
@@ -15,7 +15,7 @@
   {
     "id": "hair1blackjp",
     "type": "mutation",
-    "name": "4.hair_wig: Black",
+    "name": "4-hair_wig: Black",
     "description": "You are wearing a cute black wig.",
     "points": 0,
     "starting_trait": true,
@@ -28,7 +28,7 @@
   {
     "id": "hair1blondjp",
     "type": "mutation",
-    "name": "4.hair_wig: Blonde",
+    "name": "4-hair_wig: Blonde",
     "description": "You are wearing a cute blond wig.",
     "points": 0,
     "starting_trait": true,
@@ -41,7 +41,7 @@
   {
     "id": "hair1bluejp",
     "type": "mutation",
-    "name": "4.hair_wig: Blue",
+    "name": "4-hair_wig: Blue",
     "description": "You are wearing a cute blue wig.",
     "points": 0,
     "starting_trait": true,
@@ -54,7 +54,7 @@
   {
     "id": "hair1brownjp",
     "type": "mutation",
-    "name": "4.hair_wig: Brown",
+    "name": "4-hair_wig: Brown",
     "description": "You are wearing a cute brown wig.",
     "points": 0,
     "starting_trait": true,
@@ -67,7 +67,7 @@
   {
     "id": "hair1greenjp",
     "type": "mutation",
-    "name": "4.hair_wig: Green",
+    "name": "4-hair_wig: Green",
     "description": "You are wearing a cute green wig.",
     "points": 0,
     "starting_trait": true,
@@ -80,7 +80,7 @@
   {
     "id": "hair1greyjp",
     "type": "mutation",
-    "name": "4.hair_wig: Gray",
+    "name": "4-hair_wig: Gray",
     "description": "You are wearing a cute gray wig.",
     "points": 0,
     "starting_trait": true,
@@ -93,7 +93,7 @@
   {
     "id": "hair1orangejp",
     "type": "mutation",
-    "name": "4.hair_wig: Orange",
+    "name": "4-hair_wig: Orange",
     "description": "You are wearing a cute orange wig.",
     "points": 0,
     "starting_trait": true,
@@ -106,7 +106,7 @@
   {
     "id": "hair1pinkjp",
     "type": "mutation",
-    "name": "4.hair_wig: Pink",
+    "name": "4-hair_wig: Pink",
     "description": "You are wearing a cute pink wig.",
     "points": 0,
     "starting_trait": true,
@@ -119,7 +119,7 @@
   {
     "id": "hair1purplejp",
     "type": "mutation",
-    "name": "4.hair_wig: Purple",
+    "name": "4-hair_wig: Purple",
     "description": "You are wearing a cute purple wig.",
     "points": 0,
     "starting_trait": true,
@@ -132,7 +132,7 @@
   {
     "id": "hair1redjp",
     "type": "mutation",
-    "name": "4.hair_wig: Red",
+    "name": "4-hair_wig: Red",
     "description": "You are wearing a cute red wig.",
     "points": 0,
     "starting_trait": true,
@@ -145,7 +145,7 @@
   {
     "id": "hair1whitejp",
     "type": "mutation",
-    "name": "4.hair_wig: White",
+    "name": "4-hair_wig: White",
     "description": "You are wearing a cute white wig.",
     "points": 0,
     "starting_trait": true,
