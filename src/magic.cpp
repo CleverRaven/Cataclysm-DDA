@@ -1051,6 +1051,34 @@ std::string spell::enumerate_targets() const
     return ret;
 }
 
+std::string spell::list_targeted_monster_ids() const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_target_ids;
+    for( auto iter : type->targeted_monster_ids ) {
+        all_valid_target_ids.emplace_back( iter->nname() );
+    }
+    if( all_valid_target_ids.size() == 1 ) {
+        return all_valid_target_ids[0];
+    }
+
+    std::string ret;
+    // @TODO: if only we had a function to enumerate strings and concatenate them...
+    for( auto iter = all_valid_target_ids.begin(); iter != all_valid_target_ids.end(); iter++ ) {
+        if( std::next( iter, 1 ) == all_valid_target_ids.end() ) {
+            ret = string_format( _( "%s and %s" ), ret, *iter );
+        } else if( iter == all_valid_target_ids.begin() ) {
+            ret = *iter;
+        } else {
+            ret = string_format( _( "%s, %s" ), ret, *iter );
+        }
+    }
+    return ret;
+}
+
+
 damage_type spell::dmg_type() const
 {
     return type->dmg_type;
@@ -1604,6 +1632,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), targets ) );
+
+    std::string target_ids;
+    target_ids = sp.list_targeted_monster_ids();
+    if( !( target_ids == "" ) ) {
+        fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
+                        string_format( "%s: %s", _( "Only affects the monsters" ), target_ids ) );
+    }
 
     if( line <= win_height * 3 / 4 ) {
         line++;
