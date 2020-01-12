@@ -1819,9 +1819,37 @@ void monster::load( const JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
-    data.read( "tied_item", tied_item );
+    if( data.has_object( "tied_item" ) ) {
+        JsonIn *tied_item_json = data.get_raw( "tied_item" );
+        item newitem;
+        newitem.deserialize( *tied_item_json );
+        tied_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "tack_item" ) ) {
+        JsonIn *tack_item_json = data.get_raw( "tack_item" );
+        item newitem;
+        newitem.deserialize( *tack_item_json );
+        tack_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "armor_item" ) ) {
+        JsonIn *armor_item_json = data.get_raw( "armor_item" );
+        item newitem;
+        newitem.deserialize( *armor_item_json );
+        armor_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "storage_item" ) ) {
+        JsonIn *storage_item_json = data.get_raw( "storage_item" );
+        item newitem;
+        newitem.deserialize( *storage_item_json );
+        storage_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "battery_item" ) ) {
+        JsonIn *battery_item_json = data.get_raw( "battery_item" );
+        item newitem;
+        newitem.deserialize( *battery_item_json );
+        battery_item = cata::make_value<item>( newitem );
+    }
     data.read( "hp", hp );
-    data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
@@ -1954,8 +1982,21 @@ void monster::store( JsonOut &json ) const
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
-    json.member( "tied_item", tied_item );
-    json.member( "battery_item", battery_item );
+    if( tied_item ) {
+        json.member( "tied_item", *tied_item );
+    }
+    if( tack_item ) {
+        json.member( "tack_item", *tack_item );
+    }
+    if( armor_item ) {
+        json.member( "armor_item", *armor_item );
+    }
+    if( storage_item ) {
+        json.member( "storage_item", *storage_item );
+    }
+    if( battery_item ) {
+        json.member( "battery_item", *battery_item );
+    }
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );

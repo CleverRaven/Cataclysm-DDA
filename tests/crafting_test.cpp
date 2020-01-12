@@ -218,7 +218,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     REQUIRE( r->skill_used );
 
     GIVEN( "a companion who can help with crafting" ) {
-        standard_npc who( "helper", {}, 0 );
+        standard_npc who( "helper" );
 
         who.set_attitude( NPCATT_FOLLOW );
         who.spawn_at_sm( 0, 0, 0 );
@@ -260,7 +260,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
 
     const tripoint test_origin( 60, 60, 0 );
