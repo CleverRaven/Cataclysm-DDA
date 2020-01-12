@@ -1626,7 +1626,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
         fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
-                        string_format( "%s: %s", _( "Only affects the monsters" ), target_ids ) );
+                        _( "Only affects the monsters: %s" ), target_ids );
     }
 
     if( line <= win_height * 3 / 4 ) {
