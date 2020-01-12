@@ -571,6 +571,8 @@
         "house_garage6": 50,
         "house_garage7": 50,
         "house_garage8": 50,
+        "rural_house1": 50,
+        "rural_house2": 50,
         "house_toolshed": 50,
         "house_suicide": 20,
         "house_quiverfull": 30,
