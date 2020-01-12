@@ -148,5 +148,30 @@
     "type": "snippet",
     "category": "health_horrible",
     "text": "Awareness seems to only come with a battle… and your body seem to be on its side."
+  },
+  {
+    "type": "snippet",
+    "category": "starving",
+    "text": "Food…"
+  },
+  {
+    "type": "snippet",
+    "category": "emaciated",
+    "text": "Due to insufficient nutrition, your body is suffering from starvation."
+  },
+  {
+    "type": "snippet",
+    "category": "emaciated",
+    "text": "You are EMACIATED!"
+  },
+  {
+    "type": "snippet",
+    "category": "malnutrition",
+    "text": "You feel weak due to malnutrition."
+  },
+  {
+    "type": "snippet",
+    "category": "low_cal",
+    "text": "You feel that your body needs more nutritious food."
   }
 ]
