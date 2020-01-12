@@ -34,5 +34,22 @@
     "name": "caff_chewgum",
     "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
     "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "chewgum" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "friendly": [
+      "blob",
+      "cult",
+      "zombie_aquatic",
+      "crackers",
+      "cookies",
+      "gummy_bears",
+      "marshmallow_boys",
+      "caff_chewgum",
+      "chewgum"
+    ],
+    "neutral": [ "small_animal", "insect", "fish" ],
+    "by_mood": "bee"
   }
 ]
