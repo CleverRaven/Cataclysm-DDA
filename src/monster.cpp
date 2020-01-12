@@ -352,7 +352,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
