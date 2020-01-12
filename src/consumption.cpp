@@ -23,7 +23,6 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
-#include "pickup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "stomach.h"

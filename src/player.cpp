@@ -3516,7 +3516,6 @@ bool player::consume_med( item &target )
     return target.charges <= 0;
 }
 
-
 static bool query_consume_ownership( item &target, player &p )
 {
     if( !target.is_owned_by( p, true ) ) {
