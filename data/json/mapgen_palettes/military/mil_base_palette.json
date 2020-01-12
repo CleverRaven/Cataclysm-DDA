@@ -25,6 +25,7 @@
       "{": "t_sidewalk",
       ":": "t_concrete",
       "?": "t_concrete",
+      "`": "t_concrete",
       "I": "t_column",
       "b": [ [ "t_brick_wall", 75 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
@@ -59,6 +60,7 @@
       "p": "t_plut_generator",
       "Z": "t_radio_tower",
       "'": "t_console_broken",
+      "0": "t_console",
       "@": "t_rock",
       "~": "t_gutter_downspout"
     },
@@ -67,6 +69,7 @@
       "P": "f_sign",
       "#": "f_desk",
       "[": "f_table",
+      "`": "f_table",
       "h": "f_chair",
       "$": "f_filing_cabinet",
       "l": "f_locker",
