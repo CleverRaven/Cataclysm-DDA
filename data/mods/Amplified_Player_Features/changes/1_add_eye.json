@@ -9,7 +9,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "eye_color", "eye_default_or_skin_cute", "eye_cute_or_skin_default" ]
+    "types": [ "eye_color", "eye_default_or_skin_cute" ]
   },
   {
     "id": "EYE_BROWN",
@@ -21,7 +21,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "eye_color", "eye_default_or_skin_cute", "eye_cute_or_skin_default" ]
+    "types": [ "eye_color", "eye_default_or_skin_cute" ]
   },
   {
     "id": "EYE_GRAY",
@@ -33,7 +33,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "eye_color", "eye_default_or_skin_cute", "eye_cute_or_skin_default" ]
+    "types": [ "eye_color", "eye_default_or_skin_cute" ]
   },
   {
     "id": "EYE_GREEN",
@@ -45,7 +45,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "eye_color", "eye_default_or_skin_cute", "eye_cute_or_skin_default" ]
+    "types": [ "eye_color", "eye_default_or_skin_cute" ]
   },
   {
     "id": "EYE_RED",
@@ -57,7 +57,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "eye_color", "eye_default_or_skin_cute", "eye_cute_or_skin_default" ]
+    "types": [ "eye_color", "eye_default_or_skin_cute" ]
   },
   {
     "id": "EYE_YELLOW",
@@ -69,7 +69,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "eye_color", "eye_default_or_skin_cute", "eye_cute_or_skin_default" ]
+    "types": [ "eye_color", "eye_default_or_skin_cute" ]
   },
   {
     "id": "EYE_BLUE_JP",
