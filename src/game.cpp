@@ -6765,7 +6765,16 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
             int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
-            w_info = catacurses::newwin( height, panel_width, point( TERMX - panel_width, 0 ) );
+            int la_x = TERMX - panel_width;
+            std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
+            if( position == "left" ) {
+                if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                    la_x = panel_manager::get_manager().get_width_left();
+                } else {
+                    la_x = panel_manager::get_manager().get_width_left() - panel_width;
+                }
+            }
+            w_info = catacurses::newwin( height, panel_width, point( la_x, 0 ) );
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             if( !allow_zlev_move ) {
                 continue;
