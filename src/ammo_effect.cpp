@@ -91,6 +91,27 @@ void ammo_effect::finalize()
 
 void ammo_effect::check() const
 {
+    if( !aoe_field_type.is_valid() ) {
+        debugmsg( "No such field type %s", aoe_field_type_name );
+    }
+    if( aoe_check_sees_radius < 0 ) {
+        debugmsg( "Value of aoe_check_sees_radius cannot be negative" );
+    }
+    if( aoe_size < 0 ) {
+        debugmsg( "Value of aoe_size cannot be negative" );
+    }
+    if( aoe_chance < 0 || aoe_chance > 1 ) {
+        debugmsg( "Field chance must be between 0 and 1" );
+    }
+    if( aoe_radius_z < 0 || aoe_radius < 0 ) {
+        debugmsg( "Radius values cannot be negative" );
+    }
+    if( aoe_intensity_min < 0 ) {
+        debugmsg( "Field intensity cannot be negative" );
+    }
+    if( aoe_intensity_max < aoe_intensity_min ) {
+        debugmsg( "Maximum intensity must be greater than or equal to minimum intensity" );
+    }
 }
 
 size_t ammo_effect::count()
