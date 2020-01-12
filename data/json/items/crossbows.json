@@ -323,12 +323,13 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "valid_mod_locations": [ 
-      [ "dampening", 1 ], 
-      [ "reloading mechanism", 1 ], 
-      [ "rail mount", 1 ], 
-      [ "sights mount", 1 ], 
-      [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [
+      [ "dampening", 1 ],
+      [ "reloading mechanism", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "compositecrossbow",
