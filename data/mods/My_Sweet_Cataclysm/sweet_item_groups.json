@@ -1,0 +1,44 @@
+[
+  {
+    "type": "item_group",
+    "id": "kitchen",
+    "items": [ [ "cookies", 300 ], [ "grahmcrackers", 200 ], [ "marshmallow", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "snacks",
+    "items": [ [ "cookies", 300 ], [ "grahmcrackers", 200 ], [ "marshmallow", 100 ], [ "gum", 150 ], [ "caff_gum", 250 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "MRE",
+    "items": [ [ "cookies", 300 ], [ "grahmcrackers", 200 ], [ "marshmallow", 100 ], [ "gum", 150 ], [ "caff_gum", 250 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_shop",
+    "items": [
+      [ "candy3", 100 ],
+      [ "cookies", 300 ],
+      [ "grahmcrackers", 200 ],
+      [ "marshmallow", 100 ],
+      [ "gum", 150 ],
+      [ "caff_gum", 250 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_display",
+    "items": [ [ "cookies", 300 ], [ "marshmallow", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_table",
+    "items": [ [ "candy3", 100 ], [ "cookies", 300 ], [ "marshmallow", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitamin_shop",
+    "items": [ [ "caff_gum", 100 ] ]
+  }
+]

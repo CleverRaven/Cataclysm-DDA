@@ -345,7 +345,7 @@
   {
     "id": "mon_spider_gum",
     "type": "MONSTER",
-    "name": { "str": "giant gum spider" },
+    "name": { "str": "gum spider" },
     "description": "A giant piece of gum streched in the shape of a spider.  It stands very still in its gum web.",
     "default_faction": "chewgum",
     "bodytype": "spider",
@@ -369,6 +369,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "gum_spider",
+    "emit_fields": [ "emit_gum_web" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 }
@@ -376,7 +377,7 @@
   {
     "id": "mon_gum_spider_wolf",
     "type": "MONSTER",
-    "name": { "str": "giant runnig gum spider" },
+    "name": { "str": "caffeinated gum spider" },
     "description": "A giant piece of gum streched in the shape of a spider.  It moves quickly and aggressively as if under the effect of some stimulant.",
     "default_faction": "chewgum",
     "bodytype": "spider",
