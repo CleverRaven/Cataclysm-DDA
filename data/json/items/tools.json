@@ -26,18 +26,19 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
-    "id": "riding_saddle",
+    "id": "horse_tack",
     "type": "TOOL",
-    "name": "riding saddle",
-    "description": "A saddle that can be placed on a tamed animal that is capable of being ridden.",
-    "weight": "800 g",
-    "volume": "2 L",
+    "name": "horse tack",
+    "description": "A saddle, bridle, and associated tack that can be placed on a tamed animal that is capable of being ridden.",
+    "weight": "2 kg",
+    "volume": "7 L",
     "price": 0,
     "to_hit": -1,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "M",
-    "color": "yellow"
+    "color": "yellow",
+    "flags": [ "TACK" ]
   },
   {
     "id": "EMPbomb_act",

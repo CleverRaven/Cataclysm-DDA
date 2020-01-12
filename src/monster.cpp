@@ -235,7 +235,7 @@ monster::monster( const mtype_id &id ) : monster()
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, 0 );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        battery_item = mech_bat_item;
+        battery_item = cata::make_value<item>( mech_bat_item );
     }
 }
 
@@ -1627,7 +1627,7 @@ bool monster::move_effects( bool )
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
                 g->m.add_item_or_charges( pos(), *tied_item );
-                tied_item = cata::nullopt;
+                tied_item.reset();
             }
         } else {
             if( tied_item ) {
@@ -1636,7 +1636,7 @@ bool monster::move_effects( bool )
                 if( !broken ) {
                     g->m.add_item_or_charges( pos(), *tied_item );
                 }
-                tied_item = cata::nullopt;
+                tied_item.reset();
                 if( u_see_me ) {
                     if( broken ) {
                         add_msg( _( "The %s snaps the bindings holding it down." ), name() );
@@ -1766,14 +1766,11 @@ std::string monster::get_effect_status() const
 
 int monster::get_worn_armor_val( damage_type dt ) const
 {
-    if( !has_effect( effect_monster_armor ) || inv.empty() ) {
+    if( !has_effect( effect_monster_armor ) ) {
         return 0;
     }
-    for( const item &armor : inv ) {
-        if( !armor.is_pet_armor( true ) ) {
-            continue;
-        }
-        return armor.damage_resist( dt );
+    if( armor_item ) {
+        return armor_item->damage_resist( dt );
     }
     return 0;
 }
@@ -2137,14 +2134,8 @@ void monster::die( Creature *nkiller )
         return;
     }
     // We were carrying a creature, deposit the rider
-    if( has_effect( effect_ridden ) ) {
-        if( has_effect( effect_saddled ) ) {
-            item riding_saddle( "riding_saddle", 0 );
-            g->m.add_item_or_charges( pos(), riding_saddle );
-        }
-        if( mounted_player ) {
-            mounted_player->forced_dismount();
-        }
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mounted_player->forced_dismount();
     }
     g->set_critter_died();
     dead = true;
@@ -2173,13 +2164,12 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
-    // We were tied up at the moment of death, add a short rope to inventory
-    if( has_effect( effect_tied ) ) {
-        if( tied_item ) {
-            add_item( *tied_item );
-            tied_item = cata::nullopt;
-        }
-    }
+    // Drop items stored in optionals
+    move_special_item_to_inv( tack_item );
+    move_special_item_to_inv( armor_item );
+    move_special_item_to_inv( storage_item );
+    move_special_item_to_inv( tied_item );
+
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
         add_item( item( "snare_trigger", 0 ) );
@@ -2643,6 +2633,41 @@ void monster::add_msg_player_or_npc( const game_message_type type,
 {
     if( g->u.sees( *this ) ) {
         add_msg( type, replace_with_npc_name( npc_msg ) );
+    }
+}
+
+units::mass monster::get_carried_weight()
+{
+    units::mass total_weight = 0_gram;
+    if( tack_item ) {
+        total_weight += tack_item->weight();
+    }
+    if( storage_item ) {
+        total_weight += storage_item->weight();
+    }
+    if( armor_item ) {
+        total_weight += armor_item->weight();
+    }
+    for( const item &it : inv ) {
+        total_weight += it.weight();
+    }
+    return total_weight;
+}
+
+units::volume monster::get_carried_volume()
+{
+    units::volume total_volume = 0_ml;
+    for( const item &it : inv ) {
+        total_volume += it.volume();
+    }
+    return total_volume;
+}
+
+void monster::move_special_item_to_inv( cata::value_ptr<item> &it )
+{
+    if( it ) {
+        add_item( *it );
+        it.reset();
     }
 }
 
