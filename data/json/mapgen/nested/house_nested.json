@@ -17,7 +17,7 @@
       "items": {
         "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
       }
     }
@@ -40,7 +40,7 @@
       "items": {
         "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "a": { "item": "unisex_coat_rack", "chance": 100, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
       }
@@ -64,7 +64,7 @@
       "items": {
         "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
       }
     }
@@ -87,7 +87,7 @@
       "items": {
         "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
       }
     }
@@ -1837,7 +1837,7 @@
         " RR!"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "furniture": { "P": "f_filing_cabinet", "!": "f_paper_shredder" },
+      "furniture": { "P": "f_filing_cabinet", "!": "f_shredder" },
       "items": {
         "P": [ { "item": "office_paper", "chance": 90, "repeat": [ 1, 5 ] }, { "item": "office", "chance": 95, "repeat": [ 1, 5 ] } ],
         "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
@@ -1882,7 +1882,7 @@
         "Prrr"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "furniture": { "P": "f_filing_cabinet", "!": "f_paper_shredder" },
+      "furniture": { "P": "f_filing_cabinet", "!": "f_shredder" },
       "items": {
         "P": [ { "item": "office_paper", "chance": 90, "repeat": [ 1, 5 ] }, { "item": "office", "chance": 95, "repeat": [ 1, 5 ] } ],
         "R": [ { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] }, { "item": "homebooks", "chance": 75, "repeat": [ 1, 3 ] } ]
