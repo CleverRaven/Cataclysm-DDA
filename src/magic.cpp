@@ -1051,33 +1051,19 @@ std::string spell::enumerate_targets() const
     return ret;
 }
 
-std::string spell::list_targeted_monster_ids() const
+std::string spell::list_targeted_monster_names() const
 {
     if( type->targeted_monster_ids.empty() ) {
         return "";
     }
-    std::vector<std::string> all_valid_target_ids;
-    for(const mtype_id &mon_id : type->targeted_monster_ids ) {
-        all_valid_target_ids.emplace_back( mon_id->nname() );
+    std::vector<std::string> all_valid_monster_names;
+    for( const mtype_id &mon_id : type->targeted_monster_ids ) {
+        all_valid_monster_names.emplace_back( mon_id->nname() );
     }
     //remove repeat names
-    all_valid_target_ids.erase(std::unique(all_valid_target_ids.begin(), all_valid_target_ids.end()), all_valid_target_ids.end());
-
-    if( all_valid_target_ids.size() == 1 ) {
-        return all_valid_target_ids[0];
-    }
-   
-    std::string ret;
-    // @TODO: if only we had a function to enumerate strings and concatenate them...
-    for( auto iter = all_valid_target_ids.begin(); iter != all_valid_target_ids.end(); iter++ ) {
-        if( std::next( iter, 1 ) == all_valid_target_ids.end() ) {
-            ret = string_format( _( "%s and %s" ), ret, *iter );
-        } else if( iter == all_valid_target_ids.begin() ) {
-            ret = *iter;
-        } else {
-            ret = string_format( _( "%s, %s" ), ret, *iter );
-        }
-    }
+    all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
+                                   all_valid_monster_names.end() ), all_valid_monster_names.end() );
+    std::string ret = enumerate_as_string( all_valid_monster_names );
     return ret;
 }
 
@@ -1637,7 +1623,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "Valid Targets" ), targets ) );
 
     std::string target_ids;
-    target_ids = sp.list_targeted_monster_ids();
+    target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
         fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
                         string_format( "%s: %s", _( "Only affects the monsters" ), target_ids ) );
