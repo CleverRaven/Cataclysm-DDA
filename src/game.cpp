@@ -3023,7 +3023,6 @@ void game::disp_NPC_epilogues()
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                            point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
                                    ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
-    epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
@@ -3031,11 +3030,10 @@ void game::disp_NPC_epilogues()
             continue;
         }
         npc *guy = npc_to_get.get();
-        epi.random_by_group( guy->male ? "male" : "female" );
-        std::vector<std::string> txt;
-        txt.emplace_back( epi.text );
+        std::vector<std::string> epilogue;
+        epilogue.emplace_back( guy->get_epilogue() );
         draw_border( w, BORDER_COLOR, guy->name, c_black_white );
-        multipage( w, txt, "", 2 );
+        multipage( w, epilogue, "", 2 );
     }
 
     refresh_all();
