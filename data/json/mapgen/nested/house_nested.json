@@ -1,4 +1,16 @@
-
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "LEEL",
+        " EE ",
+        "y   ",
         "O   "
       ],
       "palettes": [ "house_w_nest_palette" ],
