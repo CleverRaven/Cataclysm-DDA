@@ -399,6 +399,8 @@ class item : public visitable<item>
                           bool debug ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+        void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
         void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,

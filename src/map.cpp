@@ -4362,6 +4362,32 @@ void map::process_active_items()
     process_items( true, process_map_items, std::string {} );
 }
 
+std::vector<tripoint> map::check_submap_active_item_consistency()
+{
+    std::vector<tripoint> result;
+    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < MAPSIZE; ++x ) {
+            for( int y = 0; y < MAPSIZE; ++y ) {
+                tripoint p( x, y, z );
+                submap *s = get_submap_at_grid( p );
+                bool has_active_items = !s->active_items.get().empty();
+                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
+                if( has_active_items != map_has_active_items ) {
+                    result.push_back( p + abs_sub.xy() );
+                }
+            }
+        }
+    }
+    for( const tripoint &p : submaps_with_active_items ) {
+        tripoint rel = p - abs_sub.xy();
+        rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
+        if( !map.contains_half_open( rel.xy() ) ) {
+            result.push_back( p );
+        }
+    }
+    return result;
+}
+
 void map::process_items( const bool active, map::map_process_func processor,
                          const std::string &signal )
 {
@@ -6335,6 +6361,11 @@ void map::shift( const point &sp )
     if( sp == point_zero ) {
         return; // Skip this?
     }
+
+    if( abs( sp.x ) > 1 || abs( sp.y ) > 1 ) {
+        debugmsg( "map::shift called with a shift of more than one submap" );
+    }
+
     const tripoint abs = get_abs_sub();
 
     set_abs_sub( abs + sp );

@@ -603,7 +603,17 @@ int spell::energy_cost( const player &p ) const
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 );
-        cost += 10 * hands_encumb;
+        switch( type->energy_source ) {
+            default:
+                cost += 10 * hands_encumb;
+                break;
+            case hp_energy:
+                cost += hands_encumb;
+                break;
+            case stamina_energy:
+                cost += 100 * hands_encumb;
+                break;
+        }
     }
     return cost;
 }

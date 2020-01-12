@@ -20,7 +20,7 @@
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
 
     const tripoint test_origin( 60, 60, 0 );
