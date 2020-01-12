@@ -1,0 +1,47 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Pelage_Folk_Asian",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Pelage_Banana", "prob": 2 },
+      { "group": "Pelage_Black", "prob": 46 },
+      { "group": "Pelage_Blond", "prob": 4 },
+      { "group": "Pelage_Brown", "prob": 34 },
+      { "group": "Pelage_Gray", "prob": 6 },
+      { "group": "Pelage_Pink", "prob": 2 },
+      { "group": "Pelage_Red", "prob": 2 },
+      { "group": "Pelage_White", "prob": 4 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Folk_Black",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Pelage_Banana", "prob": 2 },
+      { "group": "Pelage_Black", "prob": 54 },
+      { "group": "Pelage_Blond", "prob": 2 },
+      { "group": "Pelage_Brown", "prob": 26 },
+      { "group": "Pelage_Gray", "prob": 8 },
+      { "group": "Pelage_Pink", "prob": 2 },
+      { "group": "Pelage_Red", "prob": 2 },
+      { "group": "Pelage_White", "prob": 4 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Folk_White",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Pelage_Banana", "prob": 2 },
+      { "group": "Pelage_Black", "prob": 22 },
+      { "group": "Pelage_Blond", "prob": 20 },
+      { "group": "Pelage_Brown", "prob": 34 },
+      { "group": "Pelage_Gray", "prob": 8 },
+      { "group": "Pelage_Pink", "prob": 2 },
+      { "group": "Pelage_Red", "prob": 6 },
+      { "group": "Pelage_White", "prob": 6 }
+    ]
+  }
+]

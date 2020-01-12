@@ -1,0 +1,13 @@
+[
+  {
+    "//": "I took liberty to make all distributions sum-up to 100% where possible.  First draft, not culturally accurate.  Will surely tweak later.",
+    "type": "trait_group",
+    "id": "Appearance_demographics",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Appearance_Asian", "prob": 15 },
+      { "group": "Appearance_Black", "prob": 20 },
+      { "group": "Appearance_White", "prob": 60 }
+    ]
+  }
+]

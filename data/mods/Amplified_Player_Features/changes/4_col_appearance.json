@@ -1,0 +1,32 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Appearance_Asian",
+    "subtype": "collection",
+    "traits": [
+      { "group": "Body_Asian", "prob": 100 },
+      { "group": "Freckles", "prob": 10 },
+      { "group": "Pelage_Folk_Asian", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Appearance_Black",
+    "subtype": "collection",
+    "traits": [
+      { "group": "Body_Black", "prob": 100 },
+      { "group": "Freckles", "prob": 15 },
+      { "group": "Pelage_Folk_Black", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Appearance_White",
+    "subtype": "collection",
+    "traits": [
+      { "group": "Body_White", "prob": 100 },
+      { "group": "Freckles", "prob": 20 },
+      { "group": "Pelage_Folk_White", "prob": 100 }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Body_Asian",
+    "subtype": "distribution",
+    "traits": [ { "group": "Cute_Asian", "prob": 5 }, { "group": "Default_Asian", "prob": 95 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Body_Black",
+    "subtype": "distribution",
+    "traits": [ { "group": "Cute_Black", "prob": 5 }, { "group": "Default_Black", "prob": 95 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Body_White",
+    "subtype": "distribution",
+    "traits": [ { "group": "Cute_White", "prob": 5 }, { "group": "Default_White", "prob": 95 } ]
+  }
+]

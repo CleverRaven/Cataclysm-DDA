@@ -1,0 +1,18 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "eye_color"
+  },
+  {
+    "type": "mutation_type",
+    "id": "skin_freckles"
+  },
+  {
+    "type": "mutation_type",
+    "id": "eye_default_or_skin_cute"
+  },
+  {
+    "type": "mutation_type",
+    "id": "eye_cute_or_skin_default"
+  }
+]

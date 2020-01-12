@@ -1,0 +1,74 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Cute_Asian_Skin",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_DARK_JP", "prob": 1 },
+      { "trait": "SKIN_LIGHT_JP", "prob": 20 },
+      { "trait": "SKIN_MEDIUM_JP", "prob": 30 },
+      { "trait": "SKIN_PINK_JP", "prob": 7 },
+      { "trait": "SKIN_TAN_JP", "prob": 42 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_Asian_Skin",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_DARK", "prob": 1 },
+      { "trait": "SKIN_LIGHT", "prob": 20 },
+      { "trait": "SKIN_MEDIUM", "prob": 30 },
+      { "trait": "SKIN_PINK", "prob": 7 },
+      { "trait": "SKIN_TAN", "prob": 42 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Cute_Black_Skin",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_DARK_JP", "prob": 73 },
+      { "trait": "SKIN_LIGHT_JP", "prob": 1 },
+      { "trait": "SKIN_MEDIUM_JP", "prob": 23 },
+      { "trait": "SKIN_PINK_JP", "prob": 1 },
+      { "trait": "SKIN_TAN_JP", "prob": 2 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_Black_Skin",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_DARK", "prob": 73 },
+      { "trait": "SKIN_LIGHT", "prob": 1 },
+      { "trait": "SKIN_MEDIUM", "prob": 23 },
+      { "trait": "SKIN_PINK", "prob": 1 },
+      { "trait": "SKIN_TAN", "prob": 2 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Cute_White_Skin",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_DARK_JP", "prob": 1 },
+      { "trait": "SKIN_LIGHT_JP", "prob": 63 },
+      { "trait": "SKIN_MEDIUM_JP", "prob": 23 },
+      { "trait": "SKIN_PINK_JP", "prob": 5 },
+      { "trait": "SKIN_TAN_JP", "prob": 8 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_White_Skin",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "SKIN_DARK", "prob": 1 },
+      { "trait": "SKIN_LIGHT", "prob": 63 },
+      { "trait": "SKIN_MEDIUM", "prob": 23 },
+      { "trait": "SKIN_PINK", "prob": 5 },
+      { "trait": "SKIN_TAN", "prob": 8 }
+    ]
+  }
+]

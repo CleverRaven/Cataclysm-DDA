@@ -1,0 +1,51 @@
+[
+  {
+    "//": "I'm using this instead of Appearance_Mixed, since I'm giving small chances of weird stuff happening in all groups.  Dunno if this is the best solution.",
+    "type": "trait_group",
+    "id": "Pelage_Banana",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Banana", "prob": 100 }, { "group": "Hair_Banana", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Black",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Black", "prob": 100 }, { "group": "Hair_Black", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Blond",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Blond", "prob": 100 }, { "group": "Hair_Blond", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Brown",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Brown", "prob": 100 }, { "group": "Hair_Brown", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Gray",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Gray", "prob": 100 }, { "group": "Hair_Gray", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Pink",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Pink", "prob": 100 }, { "group": "Hair_Pink", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_Red",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_Red", "prob": 100 }, { "group": "Hair_Red", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Pelage_White",
+    "subtype": "collection",
+    "traits": [ { "group": "Beard_White", "prob": 100 }, { "group": "Hair_White", "prob": 100 } ]
+  }
+]

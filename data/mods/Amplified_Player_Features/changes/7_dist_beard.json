@@ -1,0 +1,142 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Beard_Banana",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "Beard_Black", "prob": 15 },
+      { "group": "Beard_Blond", "prob": 15 },
+      { "group": "Beard_Brown", "prob": 14 },
+      { "group": "Beard_Gray", "prob": 14 },
+      { "group": "Beard_Pink", "prob": 14 },
+      { "group": "Beard_Red", "prob": 14 },
+      { "group": "Beard_White", "prob": 14 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_Black",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1black", "prob": 9 },
+      { "trait": "forehair2black", "prob": 9 },
+      { "trait": "forehair3black", "prob": 9 },
+      { "trait": "forehair4black", "prob": 9 },
+      { "trait": "forehair5black", "prob": 9 },
+      { "trait": "forehair6black", "prob": 9 },
+      { "trait": "forehair7black", "prob": 9 },
+      { "trait": "forehair8black", "prob": 9 },
+      { "trait": "forehair9black", "prob": 9 },
+      { "trait": "forehair10black", "prob": 9 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_Blond",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1blond", "prob": 9 },
+      { "trait": "forehair2blond", "prob": 9 },
+      { "trait": "forehair3blond", "prob": 9 },
+      { "trait": "forehair4blond", "prob": 9 },
+      { "trait": "forehair5blond", "prob": 9 },
+      { "trait": "forehair6blond", "prob": 9 },
+      { "trait": "forehair7blond", "prob": 9 },
+      { "trait": "forehair8blond", "prob": 9 },
+      { "trait": "forehair9blond", "prob": 9 },
+      { "trait": "forehair10blond", "prob": 9 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_Brown",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1brown", "prob": 9 },
+      { "trait": "forehair2brown", "prob": 9 },
+      { "trait": "forehair3brown", "prob": 9 },
+      { "trait": "forehair4brown", "prob": 9 },
+      { "trait": "forehair5brown", "prob": 9 },
+      { "trait": "forehair6brown", "prob": 9 },
+      { "trait": "forehair7brown", "prob": 9 },
+      { "trait": "forehair8brown", "prob": 9 },
+      { "trait": "forehair9brown", "prob": 9 },
+      { "trait": "forehair10brown", "prob": 9 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_Gray",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1gray", "prob": 9 },
+      { "trait": "forehair2gray", "prob": 9 },
+      { "trait": "forehair3gray", "prob": 9 },
+      { "trait": "forehair4gray", "prob": 9 },
+      { "trait": "forehair5gray", "prob": 9 },
+      { "trait": "forehair6gray", "prob": 9 },
+      { "trait": "forehair7gray", "prob": 9 },
+      { "trait": "forehair8gray", "prob": 9 },
+      { "trait": "forehair9gray", "prob": 9 },
+      { "trait": "forehair10gray", "prob": 9 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_Pink",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1pink", "prob": 9 },
+      { "trait": "forehair2pink", "prob": 9 },
+      { "trait": "forehair3pink", "prob": 9 },
+      { "trait": "forehair4pink", "prob": 9 },
+      { "trait": "forehair5pink", "prob": 9 },
+      { "trait": "forehair6pink", "prob": 9 },
+      { "trait": "forehair7pink", "prob": 9 },
+      { "trait": "forehair8pink", "prob": 9 },
+      { "trait": "forehair9pink", "prob": 9 },
+      { "trait": "forehair10pink", "prob": 9 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_Red",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1red", "prob": 9 },
+      { "trait": "forehair2red", "prob": 9 },
+      { "trait": "forehair3red", "prob": 9 },
+      { "trait": "forehair4red", "prob": 9 },
+      { "trait": "forehair5red", "prob": 9 },
+      { "trait": "forehair6red", "prob": 9 },
+      { "trait": "forehair7red", "prob": 9 },
+      { "trait": "forehair8red", "prob": 9 },
+      { "trait": "forehair9red", "prob": 9 },
+      { "trait": "forehair10red", "prob": 9 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Beard_White",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "FACIAL_HAIR_NONE", "prob": 10 },
+      { "trait": "forehair1white", "prob": 9 },
+      { "trait": "forehair2white", "prob": 9 },
+      { "trait": "forehair3white", "prob": 9 },
+      { "trait": "forehair4white", "prob": 9 },
+      { "trait": "forehair5white", "prob": 9 },
+      { "trait": "forehair6white", "prob": 9 },
+      { "trait": "forehair7white", "prob": 9 },
+      { "trait": "forehair8white", "prob": 9 },
+      { "trait": "forehair9white", "prob": 9 },
+      { "trait": "forehair10white", "prob": 9 }
+    ]
+  }
+]
