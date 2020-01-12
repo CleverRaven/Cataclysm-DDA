@@ -59,6 +59,8 @@ struct city {
 struct om_note {
     std::string text;
     point p;
+    bool dangerous = false;
+    int danger_radius = 0;
 };
 
 struct om_map_extra {
@@ -233,9 +235,11 @@ class overmap
         bool is_explored( const tripoint &p ) const;
 
         bool has_note( const tripoint &p ) const;
+        bool is_marked_dangerous( const tripoint &p ) const;
         const std::string &note( const tripoint &p ) const;
         void add_note( const tripoint &p, std::string message );
         void delete_note( const tripoint &p );
+        void mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous );
 
         bool has_extra( const tripoint &p ) const;
         const string_id<map_extra> &extra( const tripoint &p ) const;

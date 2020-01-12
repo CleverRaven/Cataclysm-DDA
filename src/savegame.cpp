@@ -1170,6 +1170,8 @@ void overmap::unserialize_view( std::istream &fin )
                     jsin.read( tmp.p.x );
                     jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
+                    jsin.read( tmp.dangerous );
+                    jsin.read( tmp.danger_radius );
                     jsin.end_array();
 
                     layer[z].notes.push_back( tmp );
@@ -1258,6 +1260,8 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.p.x );
             json.write( i.p.y );
             json.write( i.text );
+            json.write( i.dangerous );
+            json.write( i.danger_radius );
             json.end_array();
             fout << std::endl;
         }
