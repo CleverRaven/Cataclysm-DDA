@@ -94,25 +94,21 @@
   {
     "id": "EXPLOSIVE_HUGE",
     "type": "ammo_effect",
-    "aoe": { "size": 4 },
     "explosion": { "power": 1200 }
   },
   {
     "id": "EXPLOSIVE_BIG",
     "type": "ammo_effect",
-    "aoe": { "size": 3 },
     "explosion": { "power": 600 }
   },
   {
     "id": "EXPLOSIVE",
     "type": "ammo_effect",
-    "aoe": { "size": 2 },
     "explosion": { "power": 360 }
   },
   {
     "id": "EXPLOSIVE_SMALL",
     "type": "ammo_effect",
-    "aoe": { "size": 2 },
     "explosion": { "power": 360, "distance_factor": 0.4 }
   },
   {
@@ -128,7 +124,6 @@
   {
     "id": "FRAG",
     "type": "ammo_effect",
-    "aoe": { "size": 15 },
     "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.05 } }
   },
   {
