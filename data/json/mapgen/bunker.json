@@ -101,7 +101,7 @@
         "|": "t_ballistic_glass"
       },
       "furniture": { "r": "f_rack" },
-      "items": { "r": { "item": "bunker_basement_loot", "chance": 100, "repeat": [ 3, 15 ] } },
+      "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 2, 8 ] } },
       "place_monster": [
         { "monster": "mon_mech_combat", "x": 5, "y": 5, "chance": 2 },
         { "monster": "mon_mech_lifter", "x": 6, "y": 6, "chance": 5 },
