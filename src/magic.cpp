@@ -1057,13 +1057,16 @@ std::string spell::list_targeted_monster_ids() const
         return "";
     }
     std::vector<std::string> all_valid_target_ids;
-    for( auto iter : type->targeted_monster_ids ) {
-        all_valid_target_ids.emplace_back( iter->nname() );
+    for(const mtype_id &mon_id : type->targeted_monster_ids ) {
+        all_valid_target_ids.emplace_back( mon_id->nname() );
     }
+    //remove repeat names
+    all_valid_target_ids.erase(std::unique(all_valid_target_ids.begin(), all_valid_target_ids.end()), all_valid_target_ids.end());
+
     if( all_valid_target_ids.size() == 1 ) {
         return all_valid_target_ids[0];
     }
-
+   
     std::string ret;
     // @TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_target_ids.begin(); iter != all_valid_target_ids.end(); iter++ ) {
@@ -1635,7 +1638,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     std::string target_ids;
     target_ids = sp.list_targeted_monster_ids();
-    if( !( target_ids == "" ) ) {
+    if( !target_ids.empty() ) {
         fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
                         string_format( "%s: %s", _( "Only affects the monsters" ), target_ids ) );
     }
