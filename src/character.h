@@ -1821,6 +1821,10 @@ class Character : public Creature, public visitable<Character>
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
+        int cached_moves;
+        tripoint cached_position;
+        inventory cached_crafting_inventory;
+
     protected:
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;

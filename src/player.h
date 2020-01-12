@@ -1009,11 +1009,6 @@ class player : public Character
         void complete_disassemble();
         void complete_disassemble( item_location &target, const recipe &dis );
 
-        // yet more crafting.cpp
-        // includes nearby items
-        const inventory &crafting_inventory( bool clear_path );
-        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true );
         const requirement_data *select_requirements(
             const std::vector<const requirement_data *> &, int batch, const inventory &,
             const std::function<bool( const item & )> &filter ) const;
@@ -1253,9 +1248,8 @@ class player : public Character
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-        inventory cached_crafting_inventory;
-        int cached_moves;
-        tripoint cached_position;
+
+
 
     private:
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
