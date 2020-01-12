@@ -27,7 +27,7 @@
       "?": "t_concrete",
       "`": "t_concrete",
       "I": "t_column",
-      "b": [ [ "t_brick_wall", 75 ], "t_pit_shallow" ],
+      "b": [ [ "t_brick_wall", 100 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
       "f": "t_fence_wire",
       "+": [ [ "t_door_c", 2 ], "t_door_o" ],
