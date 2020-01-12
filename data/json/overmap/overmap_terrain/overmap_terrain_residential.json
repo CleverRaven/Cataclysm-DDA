@@ -58,12 +58,35 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "rural_house",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "rural house",
-    "sym": "#",
-    "color": "blue",
-    "flags": [ "GENERIC_LOOT", "RISK_LOW", "SOURCE_SAFETY" ]
+    "id": "rural_house1",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_house1_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_house2",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_house2_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
