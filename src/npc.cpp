@@ -146,11 +146,12 @@ npc::npc()
     }
 }
 
-standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
+standard_npc::standard_npc( const std::string &name, const tripoint &pos,
+                            const std::vector<itype_id> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    position = tripoint_zero;
+    position = pos;
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );

@@ -10540,7 +10540,14 @@ point game::update_map( int &x, int &y )
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
-    m.shift( shift );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    rectangle size_1( point( -1, -1 ), point( 1, 1 ) );
+    point remaining_shift = shift;
+    while( remaining_shift != point_zero ) {
+        point this_shift = clamp_inclusive( remaining_shift, size_1 );
+        m.shift( this_shift );
+        remaining_shift -= this_shift;
+    }
 
     // Shift monsters
     shift_monsters( tripoint( shift, 0 ) );
