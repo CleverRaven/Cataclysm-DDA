@@ -1089,5 +1089,32 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garden_house_1_floor_1",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garden_house_1_floor_2",
+    "copy-from": "garden_house_1_floor_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garden_house_1_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garden_house_1_basement",
+    "copy-from": "generic_city_house_basement"
   }
 ]
