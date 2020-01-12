@@ -4,7 +4,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "mi-go serum",
-    "description": "A super-concentrated mutagen strongly a lava lamp.  You need a syringe to inject it… if you really want to?",
+    "description": "A super-concentrated mutagen strongly resembling a lava lamp.  You need a syringe to inject it… if you really want to?",
     "price": 1000000,
     "color": "red",
     "healthy": -4,
