@@ -128,6 +128,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                } );
             test_player.mod_moves( -move_cost );
         }
+        g->m.clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {

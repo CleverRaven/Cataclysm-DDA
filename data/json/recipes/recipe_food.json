@@ -3656,27 +3656,6 @@
   },
   {
     "type": "recipe",
-    "result": "royal_jelly",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "5 m",
-    "flags": [ "SECRET" ],
-    "book_learn": [
-      [ "textbook_chemistry", 6 ],
-      [ "adv_chemistry", 6 ],
-      [ "atomic_survival", 4 ],
-      [ "survival_book", 5 ],
-      [ "recipe_labchem", 5 ],
-      [ "isherwood_herbal_remedies", 4 ]
-    ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [  ],
-    "components": [ [ [ "honeycomb", 1 ] ], [ [ "bleach", 2 ], [ "oxy_powder", 200 ], [ "purifier", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",

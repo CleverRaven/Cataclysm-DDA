@@ -27,6 +27,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "point.h"
+#include "value_ptr.h"
 
 class JsonObject;
 class JsonIn;
@@ -437,8 +438,15 @@ class monster : public Creature
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        cata::optional<item> tied_item; // item used to tie the monster
-        cata::optional<item> battery_item; // item to power mechs
+        cata::value_ptr<item> tied_item; // item used to tie the monster
+        cata::value_ptr<item> tack_item; // item representing saddle and reins and such
+        cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
+        cata::value_ptr<item> storage_item; // storage item for monster carrying items
+        cata::value_ptr<item> battery_item; // item to power mechs
+        units::mass get_carried_weight();
+        units::volume get_carried_volume();
+        void move_special_item_to_inv( cata::value_ptr<item> &it );
+
         // DEFINING VALUES
         int friendly;
         int anger = 0;
