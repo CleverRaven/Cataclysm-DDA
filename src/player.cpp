@@ -5163,9 +5163,9 @@ void player::use( item_location loc )
         invoke_item( &used, loc.position() );
 
     } else if( !used.is_craft() && !used.type->has_use() && ( used.is_food() ||
-                                     used.is_medication() ||
-                                     used.get_contained().is_food() ||
-                                     used.get_contained().is_medication() ) ) {
+               used.is_medication() ||
+               used.get_contained().is_food() ||
+               used.get_contained().is_medication() ) ) {
         consume( loc );
 
     } else if( used.is_book() ) {
