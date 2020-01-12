@@ -650,9 +650,6 @@ class player : public Character
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
         int get_acquirable_energy( const item &it ) const;
 
-        /** Gets player's minimum hunger and thirst */
-        int stomach_capacity() const;
-
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
