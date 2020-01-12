@@ -180,7 +180,7 @@ Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 (array of objects, optional)
 
 List of damage instances added to die roll on monster melee attack.
-    - `type of damage` valid entries are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric".
+    - `damage_type` valid entries are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric".
     - `amount` amount of damage.
     - `armor_penetration` how much of the armor the damage instance ignores.
     - `armor_multiplier` is a multiplier on `armor_penetration`.
