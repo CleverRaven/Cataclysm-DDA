@@ -1,0 +1,38 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Cute_Asian",
+    "subtype": "collection",
+    "traits": [ { "group": "Cute_Asian_Eyes", "prob": 100 }, { "group": "Cute_Asian_Skin", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_Asian",
+    "subtype": "collection",
+    "traits": [ { "group": "Default_Asian_Eyes", "prob": 100 }, { "group": "Default_Asian_Skin", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Cute_Black",
+    "subtype": "collection",
+    "traits": [ { "group": "Cute_Black_Eyes", "prob": 100 }, { "group": "Cute_Black_Skin", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_Black",
+    "subtype": "collection",
+    "traits": [ { "group": "Default_Black_Eyes", "prob": 100 }, { "group": "Default_Black_Skin", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Cute_White",
+    "subtype": "collection",
+    "traits": [ { "group": "Cute_White_Eyes", "prob": 100 }, { "group": "Cute_White_Skin", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_White",
+    "subtype": "collection",
+    "traits": [ { "group": "Default_White_Eyes", "prob": 100 }, { "group": "Default_White_Skin", "prob": 100 } ]
+  }
+]

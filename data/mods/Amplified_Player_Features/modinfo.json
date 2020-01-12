@@ -1,0 +1,18 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "amplified_@'s_features",
+    "name": "Amplified @'s Features",
+    "authors": [
+      "Zetsukaze"
+    ],
+    "maintainers": [
+      "Mycus"
+    ],
+    "description": "Attempt to bring more stuff into appearance traits, including NPC support. PS.: Don't mix cute with default ;D",
+    "category": "graphical",
+    "dependencies": [
+      "dda"
+    ]
+  }
+]

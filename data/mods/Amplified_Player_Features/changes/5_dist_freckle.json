@@ -1,0 +1,8 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Freckles",
+    "subtype": "distribution",
+    "traits": [ { "trait": "DENSE_FRECKLES", "prob": 33 }, { "trait": "LIGHT_FRECKLES", "prob": 67 } ]
+  }
+]

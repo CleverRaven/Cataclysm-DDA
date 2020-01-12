@@ -1,0 +1,104 @@
+[
+  {
+    "type": "trait_group",
+    "id": "Cute_Asian_Eyes",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "EYE_BLUE_JP", "prob": 10 },
+      { "trait": "EYE_BLUE_JP_2", "prob": 10 },
+      { "trait": "EYE_BROWN_JP", "prob": 20 },
+      { "trait": "EYE_BROWN_JP_2", "prob": 20 },
+      { "trait": "EYE_GRAY_JP", "prob": 2 },
+      { "trait": "EYE_GRAY_JP_2", "prob": 2 },
+      { "trait": "EYE_GREEN_JP", "prob": 10 },
+      { "trait": "EYE_GREEN_JP_2", "prob": 10 },
+      { "trait": "EYE_PURPLE_JP", "prob": 1 },
+      { "trait": "EYE_PURPLE_JP_2", "prob": 1 },
+      { "trait": "EYE_RED_JP", "prob": 2 },
+      { "trait": "EYE_RED_JP_2", "prob": 2 },
+      { "trait": "EYE_YELLOW_JP", "prob": 5 },
+      { "trait": "EYE_YELLOW_JP_2", "prob": 5 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_Asian_Eyes",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "EYE_BLUE", "prob": 20 },
+      { "trait": "EYE_BROWN", "prob": 40 },
+      { "trait": "EYE_GRAY", "prob": 6 },
+      { "trait": "EYE_GREEN", "prob": 20 },
+      { "trait": "EYE_RED", "prob": 4 },
+      { "trait": "EYE_YELLOW", "prob": 10 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Cute_Black_Eyes",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "EYE_BLUE_JP", "prob": 3 },
+      { "trait": "EYE_BLUE_JP_2", "prob": 3 },
+      { "trait": "EYE_BROWN_JP", "prob": 33 },
+      { "trait": "EYE_BROWN_JP_2", "prob": 33 },
+      { "trait": "EYE_GRAY_JP", "prob": 7 },
+      { "trait": "EYE_GRAY_JP_2", "prob": 7 },
+      { "trait": "EYE_GREEN_JP", "prob": 2 },
+      { "trait": "EYE_GREEN_JP_2", "prob": 2 },
+      { "trait": "EYE_PURPLE_JP", "prob": 1 },
+      { "trait": "EYE_PURPLE_JP_2", "prob": 1 },
+      { "trait": "EYE_RED_JP", "prob": 1 },
+      { "trait": "EYE_RED_JP_2", "prob": 1 },
+      { "trait": "EYE_YELLOW_JP", "prob": 3 },
+      { "trait": "EYE_YELLOW_JP_2", "prob": 3 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_Black_Eyes",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "EYE_BLUE", "prob": 8 },
+      { "trait": "EYE_BROWN", "prob": 66 },
+      { "trait": "EYE_GRAY", "prob": 14 },
+      { "trait": "EYE_GREEN", "prob": 4 },
+      { "trait": "EYE_RED", "prob": 2 },
+      { "trait": "EYE_YELLOW", "prob": 6 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Cute_White_Eyes",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "EYE_BLUE_JP", "prob": 13 },
+      { "trait": "EYE_BLUE_JP_2", "prob": 13 },
+      { "trait": "EYE_BROWN_JP", "prob": 21 },
+      { "trait": "EYE_BROWN_JP_2", "prob": 21 },
+      { "trait": "EYE_GRAY_JP", "prob": 2 },
+      { "trait": "EYE_GRAY_JP_2", "prob": 2 },
+      { "trait": "EYE_GREEN_JP", "prob": 9 },
+      { "trait": "EYE_GREEN_JP_2", "prob": 9 },
+      { "trait": "EYE_PURPLE_JP", "prob": 1 },
+      { "trait": "EYE_PURPLE_JP_2", "prob": 1 },
+      { "trait": "EYE_RED_JP", "prob": 1 },
+      { "trait": "EYE_RED_JP_2", "prob": 1 },
+      { "trait": "EYE_YELLOW_JP", "prob": 3 },
+      { "trait": "EYE_YELLOW_JP_2", "prob": 3 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Default_White_Eyes",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "EYE_BLUE", "prob": 26 },
+      { "trait": "EYE_BROWN", "prob": 42 },
+      { "trait": "EYE_GRAY", "prob": 4 },
+      { "trait": "EYE_GREEN", "prob": 20 },
+      { "trait": "EYE_RED", "prob": 2 },
+      { "trait": "EYE_YELLOW", "prob": 6 }
+    ]
+  }
+]
