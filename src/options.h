@@ -216,7 +216,6 @@ class options_manager
          * current value, which acts as the default for new worlds.
          */
         options_container get_world_defaults() const;
-        std::vector<std::string> getWorldOptPageItems() const;
 
         void set_world_options( options_container *options );
 

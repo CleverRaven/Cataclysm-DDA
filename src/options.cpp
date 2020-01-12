@@ -2989,13 +2989,6 @@ options_manager::options_container options_manager::get_world_defaults() const
     return result;
 }
 
-std::vector<std::string> options_manager::getWorldOptPageItems() const
-{
-    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
-    auto temp = mPageItems;
-    return temp[iWorldOptPage];
-}
-
 void options_manager::set_world_options( options_container *options )
 {
     if( options == nullptr ) {
