@@ -1990,6 +1990,17 @@
   },
   {
     "type": "construction",
+    "description": "Install Bars Onto Window",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "pre_terrain": "t_window_bars",
+    "post_terrain": "t_window_bars_curtains"
+  },
+  {
+    "type": "construction",
     "description": "Build Large Metal Support",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 9 ] ],
@@ -3154,7 +3165,7 @@
       [ [ "cu_pipe", 4 ] ],
       [ [ "cable", 12 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "hand_vice", 1 ] ],
+      [ [ "clamp", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],

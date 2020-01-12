@@ -1311,7 +1311,10 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
-    g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH, point( OVERMAP_WINDOW_WIDTH, 0 ) );
+    /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
+    /* because overmap legend will be absent */
+    g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
+                                        point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
     g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
 
     // Draw black padding space to avoid gap between map and legend

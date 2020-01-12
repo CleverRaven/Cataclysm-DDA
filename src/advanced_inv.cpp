@@ -142,6 +142,7 @@ void advanced_inventory::save_settings( bool only_panes )
         uistate.adv_inv_area[i] = panes[i].get_area();
         uistate.adv_inv_index[i] = panes[i].index;
         uistate.adv_inv_filter[i] = panes[i].filter;
+        uistate.adv_inv_sort[i] = panes[i].sortby;
     }
 }
 

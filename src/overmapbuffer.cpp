@@ -1089,11 +1089,11 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p, 0 ), radius );
 }
 
-std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs()
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs( int range )
 {
     std::vector<shared_ptr_fast<npc>> available;
     // TODO: this is an arbitrary radius, replace with something sane.
-    for( const auto &guy : get_npcs_near_player( 100 ) ) {
+    for( const auto &guy : get_npcs_near_player( range ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
         }

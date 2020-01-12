@@ -206,7 +206,7 @@
       "success_lie": "Show me the bodies.",
       "failure": "It was a lost cause anyways…"
     },
-    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "horse_tack", "count": 1 } ] }
   },
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",
@@ -232,7 +232,7 @@
       "success_lie": "Show me the bodies.",
       "failure": "It was a lost cause anyways…"
     },
-    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "horse_tack", "count": 1 } ] }
   },
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",

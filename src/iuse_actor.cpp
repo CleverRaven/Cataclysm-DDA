@@ -3790,12 +3790,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         for( int i = 0; i < num_hp_parts; i++ ) {
             int damage = 0;
             const body_part i_bp = player::hp_to_bp( static_cast<hp_part>( i ) );
-            if( !patient.has_effect( effect_bandaged, i_bp ) ) {
+            if( ( !patient.has_effect( effect_bandaged, i_bp ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, i_bp ) && disinfectant_power > 0 ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
+                damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             }
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             if( damage > highest_damage ) {
                 highest_damage = damage;
                 healed = static_cast<hp_part>( i );

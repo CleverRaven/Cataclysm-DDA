@@ -520,7 +520,7 @@ ter_id t_null,
        t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
        t_portcullis,
        t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open,
-       t_curtains,
+       t_curtains, t_window_bars_curtains, t_window_bars_domestic,
        t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
        t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced,
        t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
@@ -712,8 +712,10 @@ void set_ter_ids()
     t_window_taped = ter_id( "t_window_taped" );
     t_window_domestic = ter_id( "t_window_domestic" );
     t_window_domestic_taped = ter_id( "t_window_domestic_taped" );
+    t_window_bars_domestic = ter_id( "t_window_bars_domestic" );
     t_window_open = ter_id( "t_window_open" );
     t_curtains = ter_id( "t_curtains" );
+    t_window_bars_curtains = ter_id( "t_window_bars_curtains" );
     t_window_alarm = ter_id( "t_window_alarm" );
     t_window_alarm_taped = ter_id( "t_window_alarm_taped" );
     t_window_empty = ter_id( "t_window_empty" );
