@@ -1302,8 +1302,7 @@ class item : public visitable<item>
          * it remains through saving & loading, it is copied when the item is moved etc.
          * Each item variable is referred to by its name, so make sure you use a name that is not
          * already used somewhere.
-         * You can directly store integer, floating point and string values. Data of other types
-         * must be converted to one of those to be stored.
+         * You can directly store integer, floating point and string values. Data of other types must be converted to one of those to be stored.
          * The set_var functions override the existing value.
          * The get_var function return the value (if the variable exists), or the default value
          * otherwise.  The type of the default value determines which get_var function is used.
