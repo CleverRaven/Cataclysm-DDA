@@ -357,7 +357,7 @@
     "speed": 110,
     "material": [ "junk" ],
     "symbol": "s",
-    "color": "light_yellow",
+    "color": "light_green",
     "aggression": 20,
     "morale": 100,
     "melee_skill": 4,

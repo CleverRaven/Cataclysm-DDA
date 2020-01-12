@@ -23,12 +23,12 @@
     "id": "COOKIE",
     "fear_triggers": [ "HURT", "SOUND" ],
     "footsteps": "pat."
-  }
+  },
   {
     "type": "SPECIES",
     "id": "CHEWGUM",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
     "footsteps": "shlip."
   }
 ]
