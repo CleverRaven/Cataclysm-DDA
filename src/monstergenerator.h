@@ -27,6 +27,7 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 struct species_type {
     species_id id;
     bool was_loaded = false;
+    translation description;
     std::string footsteps;
     enum_bitset<m_flag> flags;
     enum_bitset<mon_trigger> anger;

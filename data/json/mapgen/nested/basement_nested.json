@@ -1,5 +1,115 @@
 [
   {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of art.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 20,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "art", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of hardware.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": [ "f_crate_c", "f_cardboard_box" ] },
+      "items": { "x": { "item": "mischw", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of bedding.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "bed", "chance": 90, "repeat": [ 0, 8 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of winter clothing.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "clothing_outdoor_set", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of work clothing.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": {
+        "x": [
+          { "item": "hardware_clothing", "chance": 90, "repeat": [ 0, 3 ] },
+          { "item": "plumbing_clothing", "chance": 50, "repeat": [ 0, 3 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of old clothing.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "donated_clothes", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of toys.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "crate_toys", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
     "type": "palette",
     "id": "basement_utility_nest_palette",
     "terrain": { " ": "t_null", ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },

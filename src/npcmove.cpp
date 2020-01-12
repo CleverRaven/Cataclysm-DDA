@@ -73,6 +73,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_infected( "infected" );
@@ -1719,37 +1720,33 @@ healing_options npc::patient_assessment( const Character &c )
 
         if( c.has_effect( effect_bleed, bp_wounded ) ) {
             try_to_fix.bleed = true;
-            return try_to_fix;
         }
 
         if( c.has_effect( effect_bite, bp_wounded ) ) {
             try_to_fix.bite = true;
-            return try_to_fix;
-
-        }
-        // NPCs don't reapply bandages
-        if( !c.has_effect( effect_bandaged, bp_wounded ) ) {
-            int part_threshold = 75;
-            if( part == hp_head ) {
-                part_threshold += 20;
-            } else if( part == hp_torso ) {
-                part_threshold += 10;
-            }
-            part_threshold = std::min( 80, part_threshold );
-            part_threshold = part_threshold * c.hp_max[i] / 100;
-
-            if( c.hp_cur[i] <= part_threshold ) {
-                try_to_fix.bandage = true;
-                return try_to_fix;
-            }
         }
 
         if( c.has_effect( effect_infected, bp_wounded ) ) {
             try_to_fix.infect = true;
-            return try_to_fix;
+        }
+        int part_threshold = 75;
+        if( part == hp_head ) {
+            part_threshold += 20;
+        } else if( part == hp_torso ) {
+            part_threshold += 10;
+        }
+        part_threshold = std::min( 80, part_threshold );
+        part_threshold = part_threshold * c.hp_max[i] / 100;
+
+        if( c.hp_cur[i] <= part_threshold ) {
+            if( !c.has_effect( effect_bandaged, bp_wounded ) ) {
+                try_to_fix.bandage = true;
+            }
+            if( !c.has_effect( effect_disinfected, bp_wounded ) ) {
+                try_to_fix.disinfect = true;
+            }
         }
     }
-
     return try_to_fix;
 }
 
@@ -1763,7 +1760,7 @@ npc_action npc::address_needs( float danger )
         healing_options try_to_fix_me = patient_assessment( *this );
         if( try_to_fix_me.any_true() ) {
             if( !use_bionic_by_id( bio_nanobots ) ) {
-                ai_cache.can_heal = has_healing_options();
+                ai_cache.can_heal = has_healing_options( try_to_fix_me );
                 if( ai_cache.can_heal.any_true() ) {
                     return npc_heal;
                 }
@@ -1775,7 +1772,7 @@ npc_action npc::address_needs( float danger )
             if( is_player_ally() ) {
                 healing_options try_to_fix_other = patient_assessment( g->u );
                 if( try_to_fix_other.any_true() ) {
-                    ai_cache.can_heal = has_healing_options();
+                    ai_cache.can_heal = has_healing_options( try_to_fix_other );
                     if( ai_cache.can_heal.any_true() ) {
                         ai_cache.ally = g->shared_from( g->u );
                         return npc_heal_player;
@@ -1788,7 +1785,7 @@ npc_action npc::address_needs( float danger )
                 }
                 healing_options try_to_fix_other = patient_assessment( guy );
                 if( try_to_fix_other.any_true() ) {
-                    ai_cache.can_heal = has_healing_options();
+                    ai_cache.can_heal = has_healing_options( try_to_fix_other );
                     if( ai_cache.can_heal.any_true() ) {
                         ai_cache.ally = g->shared_from( guy );
                         return npc_heal_player;
@@ -3506,15 +3503,6 @@ void npc::heal_player( player &patient )
         pretend_heal( patient, used );
     }
 
-    if( !patient.is_npc() ) {
-        // Test if we want to heal the player further
-        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
-            op_of_u.fear * 3 < 25 ) {
-            say( _( "That's all the healing I can do." ) );
-        } else {
-            say( _( "Hold still, I can heal you more." ) );
-        }
-    }
 }
 
 void npc:: pretend_heal( player &patient, item used )
