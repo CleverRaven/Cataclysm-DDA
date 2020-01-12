@@ -571,7 +571,7 @@
       { "group": "tinware", "prob": 10 }
     ]
   },
-   {
+  {
     "type": "item_group",
     "id": "mags_pawnshop",
     "subtype": "distribution",
@@ -815,14 +815,12 @@
     "id": "liqstore_brew",
     "items": [ [ "yeast", 5 ], [ "hops", 40 ] ]
   },
-  
   {
     "type": "item_group",
     "id": "paintball_items",
     "//": "For paintball_field.json",
     "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
   },
-  
   {
     "id": "musicstore_showpiece",
     "type": "item_group",
@@ -875,7 +873,6 @@
     "//": "for music store",
     "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
   },
-  
   {
     "id": "bowling_alcohol",
     "type": "item_group",
@@ -986,7 +983,6 @@
     "type": "item_group",
     "items": [ [ "bowling_ball", 100 ] ]
   },
-  
   {
     "type": "item_group",
     "id": "bikeshop_tools",
@@ -1222,7 +1218,6 @@
       [ "wristwatch", 10 ]
     ]
   },
-  
   {
     "type": "item_group",
     "id": "oa_ig_cd_desks",
@@ -1301,7 +1296,6 @@
       [ "solar_panel", 15 ]
     ]
   },
-  
   {
     "type": "item_group",
     "id": "oa_ig_cd_fuel",
