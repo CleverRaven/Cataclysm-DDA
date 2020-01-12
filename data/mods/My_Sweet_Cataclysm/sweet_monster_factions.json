@@ -22,5 +22,17 @@
     "name": "cookies",
     "neutral": [ "bot", "plant", "nether", "human", "gummy_bears", "marshmallow_boys" ],
     "by_mood": [ "insect", "player", "animal", "crackers" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "chewgum",
+    "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
+    "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "caff_chewgum" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "caff_chewgum",
+    "neutral": [ "bot", "plant", "nether", "human", "crackers", "cookies" ],
+    "by_mood": [ "insect", "player", "animal", "gummy_bears", "marshmallow_boys", "chewgum" ]
   }
 ]

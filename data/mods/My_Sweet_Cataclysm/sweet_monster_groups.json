@@ -23,5 +23,15 @@
     "name": "GROUP_EGG_COOKIE",
     "type": "monstergroup",
     "default": "mon_cookie"
+  },
+  {
+    "name": "GROUP_EGG_GUM",
+    "type": "monstergroup",
+    "default": "mon_spider_gum"
+  },
+  {
+    "name": "GROUP_EGG_CAFFGUM",
+    "type": "monstergroup",
+    "default": "mon_gum_spider_wolf"
   }
 ]

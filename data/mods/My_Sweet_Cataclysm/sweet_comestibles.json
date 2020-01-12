@@ -72,5 +72,27 @@
     "rot_spawn": "GROUP_EGG_COOKIE",
     "rot_spawn_chance": 65,
     "spoils_in": "10 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gum",
+    "name": "chewing gum",
+    "description": "Bright pink chewing gum.  Sugary, sweet, and bad for your teeth.  It's oddly warm to the touch…",
+    "symbol": "*",
+    "copy-from": "gum",
+    "rot_spawn": "GROUP_EGG_GUM",
+    "rot_spawn_chance": 65,
+    "spoils_in": "5 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "caff_gum",
+    "name": "caffeinated chewing gum",
+    "description": "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.  It's oddly warm to the touch…",
+    "symbol": "*",
+    "copy-from": "gum",
+    "rot_spawn": "GROUP_EGG_CAFFGUM",
+    "rot_spawn_chance": 65,
+    "spoils_in": "7 days"
   }
 ]
