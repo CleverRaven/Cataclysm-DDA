@@ -652,7 +652,7 @@ class inventory_compare_selector : public inventory_multiselector
         std::pair<const item *, const item *> execute();
 
     protected:
-        std::vector<inventory_entry *> compared;
+        std::vector<const item *> compared;
 
         void toggle_entry( inventory_entry *entry );
 };

@@ -48,6 +48,7 @@ class map;
 class npc;
 struct pathfinding_settings;
 class recipe;
+enum class recipe_filter_flags : int;
 struct islot_comestible;
 struct itype;
 class monster;
@@ -324,8 +325,6 @@ class player : public Character
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
-        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false ) override;
@@ -732,13 +731,6 @@ class player : public Character
             }
             return str + npc_str >= obj.lift_strength();
         }
-
-        /**
-         * Check player capable of wearing an item.
-         * @param it Thing to be worn
-         */
-        ret_val<bool> can_wear( const item &it ) const;
-
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
@@ -768,14 +760,6 @@ class player : public Character
         bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
 
         /**
-         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
-         * @param obj item to dispose of
-         * @param prompt optional message to display in any menu
-         * @return whether the item was successfully disposed of
-         */
-        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
-
-        /**
          * Attempt to mend an item (fix any current faults)
          * @param obj Object to mend
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
@@ -790,19 +774,11 @@ class player : public Character
          */
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
-        /** Calculate (but do not deduct) the number of moves required to wear an item */
-        int item_wear_cost( const item &it ) const;
-
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         cata::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
         cata::optional<std::list<item>::iterator>
         wear( item &to_wear, bool interactive = true );
-        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
-         * If interactive is false, don't alert the player or drain moves on completion.
-         */
-        cata::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
         bool takeoff( item &it, std::list<item> *res = nullptr );
@@ -896,20 +872,6 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( body_part bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( body_part bp ) const override;
-        /** Returns bashing resistance from the creature and armor only */
-        int get_armor_bash_base( body_part bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( body_part bp ) const override;
-        /** Returns overall env_resist on a body_part */
-        int get_env_resist( body_part bp ) const override;
-        /** Returns overall acid resistance for the body part */
-        int get_armor_acid( body_part bp ) const;
-        /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( body_part bp ) const;
         /** Returns the effect of pain on stats */
@@ -967,9 +929,6 @@ class player : public Character
         void place_corpse();
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint &om_target );
-
-        /** Returns the amount of item `type' that is currently worn */
-        int  amount_worn( const itype_id &id ) const;
 
         /** Returns the item in the player's inventory with the highest of the specified quality*/
         item &item_with_best_of_quality( const quality_id &qid );
@@ -1045,7 +1004,7 @@ class player : public Character
          * The player is not required to have enough tool charges to finish crafting, only to
          * complete the first step (total / 20 + total % 20 charges)
          */
-        bool can_start_craft( const recipe *rec, int batch_size = 1 );
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /**
@@ -1104,6 +1063,9 @@ class player : public Character
         const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true );
+        const requirement_data *select_requirements(
+            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::function<bool( const item & )> &filter ) const;
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
@@ -1137,6 +1099,10 @@ class player : public Character
         void clear_destination();
         bool has_distant_destination() const;
 
+        // true if the player is auto moving, or if the player is going to finish
+        // auto moving but the destination is not yet reset, such as in avatar_action::move
+        bool is_auto_moving() const;
+        // true if there are further moves in the auto move route
         bool has_destination() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
@@ -1169,7 +1135,8 @@ class player : public Character
         int blocks_left;
         int cash;
         int movecounter;
-        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
 
         bool reach_attacking = false;
         bool manual_examine = false;

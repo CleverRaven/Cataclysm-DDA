@@ -143,6 +143,28 @@
   },
   {
     "type": "construction",
+    "description": "Fill Shallow Water With Dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "description": "Fill Salt Water With Dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
+    "pre_terrain": "t_swater_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "description": "Build Door",
     "//": "Step 3: peephole",
     "category": "CONSTRUCT",
@@ -1968,6 +1990,17 @@
   },
   {
     "type": "construction",
+    "description": "Install Bars Onto Window",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "pre_terrain": "t_window_bars",
+    "post_terrain": "t_window_bars_curtains"
+  },
+  {
+    "type": "construction",
     "description": "Build Large Metal Support",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 9 ] ],
@@ -3132,7 +3165,7 @@
       [ [ "cu_pipe", 4 ] ],
       [ [ "cable", 12 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "hand_vice", 1 ] ],
+      [ [ "clamp", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],

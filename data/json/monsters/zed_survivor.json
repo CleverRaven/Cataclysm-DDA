@@ -1,0 +1,14 @@
+[
+  {
+    "id": "mon_zombie_survivor_elite",
+    "type": "MONSTER",
+    "name": "veteran survivor zombie",
+    "description": "This zombie once was a survivor like you, and a pretty good one at that.  Unfortunately they didn't make it, despite the custom-made, heavy armor pieces they wear and the gear that they are still lugging around.",
+    "copy-from": "mon_zombie_survivor",
+    "looks_like": "mon_zombie_survivor",
+    "color": "light_red_green",
+    "armor_bash": 15,
+    "armor_cut": 25,
+    "death_drops": "mon_zombie_survivor_elite_death_drops"
+  }
+]

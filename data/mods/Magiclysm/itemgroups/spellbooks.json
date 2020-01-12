@@ -91,6 +91,7 @@
       [ "spell_scroll_storm_hammer", 35 ],
       [ "spell_scroll_animated_blade", 35 ],
       [ "spell_scroll_mirror_image", 15 ],
+      [ "spell_scroll_holographic_transposition", 15 ],
       [ "spell_scroll_dark_sight", 30 ]
     ]
   },

@@ -1252,7 +1252,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         iuse dummy;
         dummy.purifier( &p, &it, false, p.pos() );
         if( effect == 6 ) {
-            p.radiation = 0;
+            p.set_rad( 0 );
         }
     } else if( effect == 7 ) {
 
@@ -1397,7 +1397,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
         this->purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
-        p->radiation = 0;
+        p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
                               _( "As it settles in, you feel ecstasy radiating through every part of your body…" ) );
@@ -3427,14 +3427,14 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
             }
             const tripoint &pnt = *pnt_;
             if( pnt == g->u.pos() ) {
-                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
+                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
                                       p->leak_level( "RADIOACTIVE" ) );
                 break;
             }
             if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
-                                      person.name, person.radiation,
+                                      person.name, person.get_rad(),
                                       person.leak_level( "RADIOACTIVE" ) );
             }
             break;
@@ -4256,11 +4256,12 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
 
 int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 {
-    if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
+    const bionic_id rem_bid = p->get_remote_fueled_bionic();
+    if( rem_bid.is_empty() ) {  // Cable CBM required
         p->add_msg_if_player(
             _( "You have no cable charging system to plug it in, so you leave it alone." ) );
         return 0;
-    } else if( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) {  // when OFF it takes no effect
+    } else if( !p->has_active_bionic( rem_bid ) ) {  // when OFF it takes no effect
         p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
     }
 
@@ -5819,12 +5820,12 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         return 0;
     } else {
         p->add_msg_if_player( _( "You activate your radiation biomonitor." ) );
-        if( p->radiation >= 1 ) {
+        if( p->get_rad() >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
             p->add_msg_player_or_say( m_info,
                                       _( "Your radiation level: %d mSv." ),
                                       _( "It says here that my radiation level is %d mSv." ),
-                                      p->radiation );
+                                      p->get_rad() );
         } else {
             p->add_msg_player_or_say( m_info,
                                       _( "You are not currently irradiated." ),
@@ -6290,7 +6291,9 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-
+            if( r.never_learn ) {
+                continue;
+            }
             if( science ) {
                 if( r.difficulty >= 3 && one_in( r.difficulty + 1 ) ) {
                     candidates.push_back( &r );
@@ -8682,8 +8685,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
-                                          r->get_component_filter() );
+                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -8715,9 +8718,15 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                auto reqs = meal->requirements();
-                for( auto it : reqs.get_components() ) {
-                    p->consume_items( it, 1, is_crafting_component );
+                const auto filter = is_crafting_component;
+                const requirement_data *reqs =
+                    meal->deduped_requirements().select_alternative( *p, filter );
+                if( !reqs ) {
+                    return 0;
+                }
+
+                for( auto it : reqs->get_components() ) {
+                    p->consume_items( it, 1, filter );
                 }
 
                 it->set_var( "RECIPE", meal->ident().str() );
@@ -8811,7 +8820,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
-    const bool has_bio_cable = p->has_bionic( bionic_id( "bio_cable" ) );
+    const bool has_bio_cable = !p->get_remote_fueled_bionic().is_empty();
     const bool has_solar_pack = p->is_wearing( "solarpack" ) || p->is_wearing( "q_solarpack" );
     const bool has_solar_pack_on = p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
@@ -8828,10 +8837,16 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     const std::string dont_have_ups = _( "You don't have any UPS." );
 
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
+        const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
         it->process( p, p->pos(), false );
         p->moves -= 15;
+
+        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
+                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
+            p->find_remote_fuel();
+        }
     };
     if( initial_state == "attach_first" ) {
         if( has_bio_cable ) {
@@ -8935,6 +8950,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         if( choice < 0 ) {
             return 0; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
+            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         } else if( choice == 2 ) { // connect self while other end already connected
@@ -9158,8 +9174,12 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     tripoint target = pos;
-    target.x = p->posx() + 2 * SEEX * ( posp.x - p->posx() );
-    target.y = p->posy() + 2 * SEEY * ( posp.y - p->posy() );
+    target.x = p->posx() + 4 * SEEX * ( posp.x - p->posx() );
+    target.y = p->posy() + 4 * SEEY * ( posp.y - p->posy() );
+    hologram->friendly = -1;
+    hologram->add_effect( effect_docile, 1_hours );
+    hologram->wandf = -30;
+    hologram->set_summon_time( 60_seconds );
     hologram->set_dest( target );
     p->mod_moves( -to_turns<int>( 1_seconds ) );
     return it->type->charges_to_use();

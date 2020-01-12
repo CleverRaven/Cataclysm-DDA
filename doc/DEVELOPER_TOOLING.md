@@ -263,7 +263,7 @@ to avoid compiler errors.
 python3 <llvm-source-root>/clang-tools-extra/clang-tidy/tool/run-clang-tidy.py \
     -clang-tidy-binary=build/tools/clang-tidy-plugin/CataAnalyzerPlugin.exe \
     -p=build "\.cpp$" \
-    -extra-arg=-target -extra-arg=x86_64-pc-windows-gnu -extra-arg=-pthread -extra-arg=-DSDL_DISABLE_ANALYZE_MACROS -extra-arg=-Wno-unknown-warning-option \
+    -extra-arg=-target -extra-arg=x86_64-pc-windows-gnu -extra-arg=-pthread -extra-arg=-DSDL_DISABLE_ANALYZE_MACROS \
     -extra-arg=-isystem -extra-arg=<llvm-source-root>/clang/lib/Headers
 ```
 

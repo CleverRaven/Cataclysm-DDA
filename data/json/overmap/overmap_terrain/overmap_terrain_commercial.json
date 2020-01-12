@@ -3188,5 +3188,89 @@
     "name": "hunting supply store roof",
     "sym": "H",
     "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_1",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_2",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_3",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_4",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_flr2_1",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_flr2_2",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_flr2_3",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_flr2_4",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_roof_1",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_roof_2",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_roof_3",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "city_block2_roof_4",
+    "name": "urban city block",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
   }
 ]

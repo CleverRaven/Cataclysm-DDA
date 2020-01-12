@@ -1,8 +1,0 @@
-[
-  {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "city": { "basements": { "basement": 1000, "basement_hidden_lab_stairs": 100, "basement_bionic": 100 } },
-    "weather": { "base_temperature": 0.0 }
-  }
-]

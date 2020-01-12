@@ -14,6 +14,9 @@
       { "monster": "mon_owlbear", "freq": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "freq": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
+      { "monster": "mon_claygolem", "freq": 8, "cost_multiplier": 3 },
+      { "monster": "mon_stonegolem", "freq": 4, "cost_multiplier": 5 },
+      { "monster": "mon_irongolem", "freq": 2, "cost_multiplier": 8 },
       { "monster": "mon_demon_spiderling", "freq": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] }
     ]
   },
@@ -98,6 +101,18 @@
       { "monster": "mon_crocodile", "freq": 30, "cost_multiplier": 30, "pack_size": [ 1, 4 ] },
       { "monster": "mon_lizardfolk_shaman", "freq": 10, "cost_multiplier": 30 },
       { "monster": "mon_lizardfolk_chieftan", "freq": 10, "cost_multiplier": 50 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOWER_GOLEM",
+    "default": "mon_plasticgolem",
+    "//": "Cheap golems used to defend the average wizard's tower.",
+    "monsters": [
+      { "monster": "mon_plasticgolem", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_claygolem", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_stonegolem", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_irongolem", "freq": 5, "cost_multiplier": 1 }
     ]
   }
 ]

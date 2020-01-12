@@ -1884,38 +1884,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "haz_sar_entrance",
-    "copy-from": "haz_sar_entrance",
-    "name": "hazardous waste sarcophagus",
-    "sym": "H",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar",
-    "copy-from": "haz_sar",
-    "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_entrance_b1",
-    "copy-from": "haz_sar_entrance_b1",
-    "name": "hazardous waste sarcophagus",
-    "sym": "H",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_b1",
-    "copy-from": "haz_sar_b1",
-    "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cave",
     "copy-from": "cave",
     "name": "cave",

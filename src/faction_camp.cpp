@@ -631,8 +631,8 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
         const std::string &title_e = dir_abbr + recipe_data.second;
         const std::string &entry = craft_description( recipe_data.first );
         const recipe &recp = recipe_data.first.obj();
-        bool craftable = recp.requirements().can_make_with_inventory( _inv,
-                         recp.get_component_filter() );
+        bool craftable = recp.deduped_requirements().can_make_with_inventory(
+                             _inv, recp.get_component_filter() );
         mission_key.add_start( id, title_e, dir, entry, craftable );
     }
 }
@@ -1266,6 +1266,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+        entry = _( "Notes:\nAbandon this camp" );
+        mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
     get_available_missions_by_dir( mission_key, base_camps::base_dir );
@@ -1318,6 +1320,9 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Assign Jobs" ) {
         job_assignment_ui();
+    }
+    if( miss_id == "Abandon Camp" ) {
+        abandon_camp();
     }
 
     if( miss_id == "Expand Base" ) {
@@ -1533,8 +1538,14 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
-    if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
+    if( making.deduped_requirements().can_make_with_inventory(
+            _inv, making.get_component_filter() ) ) {
         bool must_feed = bldg != "faction_base_camp_1";
+
+        basecamp_action_components components( making, 1, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
 
         time_duration work_days = base_camps::to_workdays( making.batch_duration() );
         npc_ptr comp = nullptr;
@@ -1554,11 +1565,32 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
         if( comp == nullptr ) {
             return;
         }
-        consume_components( making, 1 );
+        components.consume_components();
         update_in_progress( bldg, dir );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::abandon_camp()
+{
+    validate_assignees();
+    npc_ptr random_guy;
+    for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( c_mission.role_id != base_camps::id ) {
+            continue;
+        }
+        random_guy = guy;
+        const std::string return_msg = _( "responds to the emergency recall…" );
+        finish_return( *guy, false, return_msg, "menial", 0, true );
+    }
+    for( npc_ptr &guy : get_npcs_assigned() ) {
+        talk_function::stop_guard( *guy );
+    }
+    overmap_buffer.remove_camp( *this );
+    g->m.remove_submap_camp( random_guy->pos() );
+    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::job_assignment_ui()
@@ -1939,9 +1971,15 @@ void basecamp::start_fortifications( std::string &bldg_exp )
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
-        } else if( !making.requirements().can_make_with_inventory( _inv,
+        } else if( !making.deduped_requirements().can_make_with_inventory( _inv,
                    making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
             popup( _( "You don't have the material to build the fortification." ) );
+            return;
+        }
+
+        const int batch_size = fortify_om.size() * 2 - 2;
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
             return;
         }
 
@@ -1949,7 +1987,7 @@ void basecamp::start_fortifications( std::string &bldg_exp )
                                       _( "begins constructing fortifications…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, fortify_om.size() * 2 - 2 );
+            components.consume_components();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
@@ -1999,8 +2037,8 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
     if( it != recipes.end() ) {
         const recipe &making = it->first.obj();
 
-        if( !making.requirements().can_make_with_inventory( _inv,
-                making.get_component_filter(), 1 ) ) {
+        if( !making.deduped_requirements().can_make_with_inventory(
+                _inv, making.get_component_filter() ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             return;
         }
@@ -2019,12 +2057,18 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             popup( _( "Your batch is too large!" ) );
             return;
         }
+
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
         npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true,
                                       _( "begins to work…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, batch_size );
+            components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
             }
@@ -2808,8 +2852,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
             time_duration work_days = base_camps::to_workdays( making.batch_duration(
                                           max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
-            bool can_make = making.requirements().can_make_with_inventory( _inv,
-                            making.get_component_filter(), max_batch + batch_size );
+            bool can_make = making.deduped_requirements().can_make_with_inventory(
+                                _inv, making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -3429,8 +3473,9 @@ std::string basecamp::craft_description( const recipe_id &itm )
 
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
-    auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
+    const requirement_data &req = making.simple_requirements();
+    auto tools = req.get_folded_tools_list( pane, c_white, _inv, 1 );
+    auto comps = req.get_folded_components_list( pane, c_white, _inv,
                  making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
@@ -3479,7 +3524,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     }
     //More machine than man
     //Bionics count > 10, respect > 75
-    if( g->u.my_bionics->size() > 10 && camp_discipline() > 75 ) {
+    if( g->u.get_bionics().size() > 10 && camp_discipline() > 75 ) {
         sbonus += 10;
     }
     //Survival of the fittest

@@ -153,6 +153,23 @@
     "width": 1
   },
   {
+    "id": "wheel_10",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str": "set of wheels", "str_pl": "sets of wheels" },
+    "description": "A set of four small wheels with tough rubber tires.",
+    "weight": "4 kg",
+    "volume": "4 L",
+    "price": 14000,
+    "bashing": 6,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 10,
+    "width": 4
+  },
+  {
     "id": "wheel_metal",
     "category": "veh_parts",
     "type": "WHEEL",

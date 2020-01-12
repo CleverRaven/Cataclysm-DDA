@@ -16,12 +16,12 @@
         "#h             #~~~~~~U#",
         "##             #~~~~~~U#",
         ".#             +~~~~~~U#",
-        ".#     y y8]888#8#88#8##",
+        ".#     y y8]#88#888888##",
         ".###iL## #8sssssssssss#.",
         ".p#n      8s#3..3..sFs#.",
         ".M#K  JA  ]s.......sFs#.",
         ".^#QllJA  8s#......sFs#.",
-        "######## #8sSsssssssss#.",
+        "######## #8sssssssssss#.",
         "#y    +  y8]#8]#8]8888#.",
         "o  6  #R    +     1   #.",
         "o     #R #++#HLH      #.",
@@ -32,7 +32,15 @@
         "........................"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "8": "t_wall_glass", "#": "t_rock_wall", "]": "t_door_glass_c", "%": "t_wall_w" },
+      "terrain": {
+        "8": "t_wall_glass",
+        "#": "t_rock_wall",
+        "]": "t_door_glass_c",
+        "%": "t_wall_w",
+        "F": "t_concrete",
+        "U": "t_thconc_floor",
+        "N": "t_thconc_floor"
+      },
       "furniture": { "a": "f_displaycase" },
       "place_vehicles": [
         { "vehicle": "showroom_small_vehicles", "x": 17, "y": 5, "rotation": 270, "chance": 20, "status": 0 },

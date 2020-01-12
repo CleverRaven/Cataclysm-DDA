@@ -774,6 +774,8 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
+        bool activate_bionic( int b, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
@@ -787,6 +789,8 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
+        /**Returns bionic_id of first remote fueled bionic found*/
+        bionic_id get_remote_fueled_bionic() const;
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
@@ -811,6 +815,11 @@ class Character : public Creature, public visitable<Character>
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
+        /**Find fuel used by remote powered bionic*/
+        itype_id find_remote_fuel( bool look_only = false );
+        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
+        int consume_remote_fuel( int amount );
+        void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( int b, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
@@ -863,6 +872,14 @@ class Character : public Creature, public visitable<Character>
         virtual bool invoke_item( item *, const std::string & );
 
         /**
+         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
+         * @param obj item to dispose of
+         * @param prompt optional message to display in any menu
+         * @return whether the item was successfully disposed of
+         */
+        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
+
+        /**
          * Has the item enough charges to invoke its use function?
          * Also checks if UPS from this player is used instead of item charges.
          */
@@ -894,6 +911,18 @@ class Character : public Creature, public visitable<Character>
          */
         int item_store_cost( const item &it, const item &container, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
+        /** Calculate (but do not deduct) the number of moves required to wear an item */
+        int item_wear_cost( const item &it ) const;
+
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
+
+        /** Returns the amount of item `type' that is currently worn */
+        int  amount_worn( const itype_id &id ) const;
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -1059,6 +1088,11 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item &it, const item &context = item() ) const;
+        /**
+         * Check character capable of wearing an item.
+         * @param it Thing to be worn
+         */
+        ret_val<bool> can_wear( const item &it ) const;
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
@@ -1267,7 +1301,6 @@ class Character : public Creature, public visitable<Character>
         std::list<consumption_event> consumption_history;
 
         int oxygen;
-        int radiation;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1371,9 +1404,29 @@ class Character : public Creature, public visitable<Character>
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
+        /** Returns overall bashing resistance for the body_part */
+        int get_armor_bash( body_part bp ) const override;
+        /** Returns overall cutting resistance for the body_part */
+        int get_armor_cut( body_part bp ) const override;
+        /** Returns bashing resistance from the creature and armor only */
+        int get_armor_bash_base( body_part bp ) const override;
+        /** Returns cutting resistance from the creature and armor only */
+        int get_armor_cut_base( body_part bp ) const override;
+        /** Returns overall env_resist on a body_part */
+        int get_env_resist( body_part bp ) const override;
+        /** Returns overall acid resistance for the body part */
+        int get_armor_acid( body_part bp ) const;
+        /** Returns overall resistance to given type on the bod part */
+        int get_armor_type( damage_type dt, body_part bp ) const override;
+
+
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
+
+        int get_rad() const;
+        void set_rad( int new_rad );
+        void mod_rad( int mod );
 
         int get_stamina() const;
         int get_stamina_max() const;
@@ -1417,6 +1470,8 @@ class Character : public Creature, public visitable<Character>
         void update_type_of_scent( trait_id mut, bool gain = true );
         void set_type_of_scent( scenttype_id id );
         scenttype_id get_type_of_scent() const;
+        /**restore scent after masked_scent effect run out or is removed by water*/
+        void restore_scent();
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
@@ -1700,6 +1755,8 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        int radiation;
 
         scenttype_id type_of_scent;
 

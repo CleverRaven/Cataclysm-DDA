@@ -672,6 +672,7 @@
         [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ],
+        [ "imperial_stout", 1 ],
         [ "mixed_alcohol_weak", 1 ]
       ]
     ]
