@@ -346,7 +346,6 @@ class map_notes_callback : public uilist_callback
                 if( action == "MARK_DANGER" ) {
                     if( query_yn( _( "Mark area as dangerous ( to avoid on automove paths? )" ) ) ) {
                         const int max_amount = 20;
-                        //~ Loading fuel or other items into a piece of furniture.
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
                         int amount = string_input_popup()
                                      .title( popupmsg )
