@@ -968,5 +968,15 @@
     "id": "ballistic_vest",
     "type": "MIGRATION",
     "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "hand_vice",
+    "type": "MIGRATION",
+    "replace": "clamp"
+  },
+  {
+    "id": "angular_grinder",
+    "type": "MIGRATION",
+    "replace": "angle_grinder"
   }
 ]

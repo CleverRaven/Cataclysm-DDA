@@ -3165,7 +3165,7 @@
       [ [ "cu_pipe", 4 ] ],
       [ [ "cable", 12 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "hand_vice", 1 ] ],
+      [ [ "clamp", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],
