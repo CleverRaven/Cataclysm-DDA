@@ -51,7 +51,7 @@
     "id": "candy3",
     "name": "chewy candy",
     "name_plural": "chewy candies",
-    "description": "A handful of colorful fruit-flavored chewy candy.  They're warm to the touch and you can feel a slow beat coming from them. How odd…",
+    "description": "A handful of colorful fruit-flavored chewy candy.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
     "copy-from": "candy3",
