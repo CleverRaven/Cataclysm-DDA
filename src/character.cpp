@@ -611,7 +611,7 @@ void Character::mount_creature( monster &z )
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
             i_add( *z.tied_item );
-            z.tied_item = cata::nullopt;
+            z.tied_item.reset();
         }
     }
     z.mounted_player_id = getID();
@@ -1315,6 +1315,16 @@ bool Character::has_any_bionic() const
     return !get_bionics().empty();
 }
 
+bionic_id Character::get_remote_fueled_bionic() const
+{
+    for( const bionic_id bid : get_bionics() ) {
+        if( bid->is_remote_fueled ) {
+            return bid;
+        }
+    }
+    return bionic_id();
+}
+
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
     if( !it.is_fuel() ) {
@@ -1487,6 +1497,9 @@ void Character::update_fuel_storage( const itype_id &fuel )
     }
 
     std::vector<bionic_id> bids = get_bionic_fueled_with( it );
+    if( bids.empty() ) {
+        return;
+    }
     int amount_fuel_loaded = std::stoi( get_value( fuel ) );
     std::vector<bionic_id> loaded_bio;
 

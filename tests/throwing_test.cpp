@@ -25,7 +25,7 @@
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
-    const standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
+    const standard_npc thrower( "Thrower", tripoint( 60, 60, 0 ), {}, 4, 10, 10, 10, 10 );
     item grenade( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );

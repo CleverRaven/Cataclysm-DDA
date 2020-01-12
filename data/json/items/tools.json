@@ -26,18 +26,19 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
-    "id": "riding_saddle",
+    "id": "horse_tack",
     "type": "TOOL",
-    "name": "riding saddle",
-    "description": "A saddle that can be placed on a tamed animal that is capable of being ridden.",
-    "weight": "800 g",
-    "volume": "2 L",
+    "name": "horse tack",
+    "description": "A saddle, bridle, and associated tack that can be placed on a tamed animal that is capable of being ridden.",
+    "weight": "2 kg",
+    "volume": "7 L",
     "price": 0,
     "to_hit": -1,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "M",
-    "color": "yellow"
+    "color": "yellow",
+    "flags": [ "TACK" ]
   },
   {
     "id": "EMPbomb_act",
@@ -6383,7 +6384,7 @@
       [ "BUTCHER", 11 ],
       [ "FILE", 2 ],
       [ "REAM", 1 ],
-      [ "VICE", 1 ]
+      [ "VISE", 1 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR" ]
   },
@@ -7354,9 +7355,9 @@
     "qualities": [ [ "FILE", 2 ] ]
   },
   {
-    "id": "angular_grinder",
+    "id": "angle_grinder",
     "type": "TOOL",
-    "name": "angular grinder",
+    "name": "angle grinder",
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
     "volume": "1750 ml",
@@ -7381,10 +7382,10 @@
     "magazine_well": 2
   },
   {
-    "id": "hand_vice",
+    "id": "clamp",
     "type": "TOOL",
-    "name": "hand vice",
-    "description": "This small handheld metal vice is useful for keeping things still.",
+    "name": "clamp",
+    "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
     "volume": "500 ml",
     "price": 500,
@@ -7394,7 +7395,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "VICE", 1 ] ]
+    "qualities": [ [ "VISE", 1 ] ]
   },
   {
     "type": "TOOL",

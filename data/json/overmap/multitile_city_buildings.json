@@ -2857,5 +2857,74 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_garage3_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_garage4",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_garage4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_garage4_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_garage5",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_garage5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_garage5_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_garage6",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_garage6_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_garage6_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_garage7",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_garage7_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_garage7_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_garage8",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_garage8_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_garage8_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "rural_house1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "rural_house1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "rural_house1_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "rural_house2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "rural_house2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "rural_house2_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
   }
 ]

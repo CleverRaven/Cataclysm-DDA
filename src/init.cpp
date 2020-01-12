@@ -353,7 +353,6 @@ void DynamicDataLoader::initialize()
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
-    add( "epilogue", &epilogue::load_epilogue );
     add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );

@@ -80,14 +80,14 @@ static void do_test( const bool generating_cases )
 
 TEST_CASE( "Wield time test", "[wield]" )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
     do_test( false );
 }
 
 TEST_CASE( "Wield time make cases", "[.]" )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
     do_test( true );
 }

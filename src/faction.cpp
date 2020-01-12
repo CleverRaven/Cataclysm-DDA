@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <bitset>
@@ -25,6 +26,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "text_snippets.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -99,11 +101,28 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
+    for( const JsonObject &jao : jsobj.get_array( "epilogues" ) ) {
+        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
+                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
+                               jao.get_string( "id", "epilogue_faction_default" ) );
+    }
 }
 
 std::string faction::describe() const
 {
     std::string ret = _( desc );
+    return ret;
+}
+
+std::vector<std::string> faction::epilogue() const
+{
+    std::vector<std::string> ret;
+    for( const std::tuple<int, int, std::string> &epilogue_entry : epilogue_data ) {
+        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
+            const std::string id = std::get<2>( epilogue_entry );
+            ret.emplace_back( SNIPPET.get_snippet_by_id( id ).value_or( translation() ).translated() );
+        }
+    }
     return ret;
 }
 
@@ -398,6 +417,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
+                        elem.second.epilogue_data = fac_temp.epilogue_data;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;

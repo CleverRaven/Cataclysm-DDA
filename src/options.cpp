@@ -147,14 +147,32 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
+    thisOpt.verbose = false;
 
     thisOpt.eType = get_value_type( thisOpt.sType );
 
-    thisOpt.iMin = INT_MIN;
-    thisOpt.iMax = INT_MAX;
-
-    thisOpt.fMin = INT_MIN;
-    thisOpt.fMax = INT_MAX;
+    switch( thisOpt.eType ) {
+        case cOpt::CVT_BOOL:
+            thisOpt.bSet = false;
+            thisOpt.bDefault = false;
+            break;
+        case cOpt::CVT_INT:
+            thisOpt.iMin = INT_MIN;
+            thisOpt.iMax = INT_MAX;
+            thisOpt.iDefault = 0;
+            thisOpt.iSet = 0;
+            break;
+        case cOpt::CVT_FLOAT:
+            thisOpt.fMin = INT_MIN;
+            thisOpt.fMax = INT_MAX;
+            thisOpt.fDefault = 0;
+            thisOpt.fSet = 0;
+            thisOpt.fStep = 1;
+            break;
+        default:
+            // all other type-specific values have default constructors
+            break;
+    }
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
     thisOpt.setSortPos( sPageIn );
@@ -2429,6 +2447,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
     std::map<int, bool> mapLines;
+    std::map<int, bool> mapLinesOriginal;
     mapLines[4] = true;
     mapLines[60] = true;
 
@@ -2445,6 +2464,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
     }
 
+    mapLinesOriginal = mapLines;
     draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
                            world_options_only );
     draw_borders_internal( w_options_header, mapLines );
@@ -2695,8 +2715,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 }
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
-            // keybinding screen erased the internal borders of main menu, restore it:
-            draw_borders_internal( w_options_header, mapLines );
+            draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
+                                   world_options_only );
         } else if( action == "QUIT" ) {
             catacurses::clear();
             catacurses::refresh();
