@@ -218,6 +218,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
+    optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
@@ -248,6 +249,11 @@ void field_type::finalize()
 {
     wandering_field = field_type_id( wandering_field_id );
     wandering_field_id.clear();
+    for( const mtype_id m_id : immune_mtypes ) {
+        if( !m_id.is_valid() ) {
+            debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
+        }
+    }
 }
 
 void field_type::check() const

@@ -93,6 +93,9 @@ bool monster::is_immune_field( const field_type_id fid ) const
     if( ft.has_elec ) {
         return has_flag( MF_ELECTRIC );
     }
+    if( ft.immune_mtypes.count( type->id ) > 0 ) {
+        return true;
+    }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
 }
