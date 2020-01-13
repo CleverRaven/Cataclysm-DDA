@@ -486,6 +486,41 @@ void Item_factory::finalize_item_blacklist()
             vec.erase( iter, vec.end() );
         }
     }
+
+    for( const std::pair<itype_id, migration> &migrate : migrations ) {
+        if( m_templates.find( migrate.second.replace ) == m_templates.end() ) {
+            debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+            continue;
+        }
+
+        for( std::pair<const Group_tag, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
+            g.second->replace_item( migrate.first, migrate.second.replace );
+        }
+
+        // replace migrated items in requirements
+        for( const std::pair<const requirement_id, requirement_data> &r : requirement_data::all() ) {
+            const_cast<requirement_data &>( r.second ).replace_item( migrate.first,
+                    migrate.second.replace );
+        }
+
+        // remove any recipes used to craft the migrated item
+        // if there's a valid recipe, it will be for the replacement
+        recipe_dictionary::delete_if( [&migrate]( const recipe & r ) {
+            return r.result() == migrate.first;
+        } );
+    }
+    for( vproto_id &vid : vehicle_prototype::get_all() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+        for( vehicle_item_spawn &vis : prototype.item_spawns ) {
+            for( itype_id &type_to_spawn : vis.item_ids ) {
+                std::map<itype_id, migration>::iterator replacement =
+                    migrations.find( type_to_spawn );
+                if( replacement != migrations.end() ) {
+                    type_to_spawn = replacement->second.replace;
+                }
+            }
+        }
+    }
 }
 
 void Item_factory::load_item_blacklist( const JsonObject &json )
