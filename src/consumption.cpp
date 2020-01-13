@@ -187,7 +187,7 @@ int Character::stomach_capacity() const
 }
 
 // TODO: Move pizza scraping here.
-static int compute_default_effective_kcal( const item &comest, const Character &c,
+static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<std::string> &extra_flags = {} )
 {
     if( !comest.get_comestible() ) {
@@ -203,11 +203,11 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( c.has_trait( trait_GIZZARD ) ) {
+    if( you.has_trait( trait_GIZZARD ) ) {
         kcal *= 0.6f;
     }
 
-    if( c.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
+    if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
@@ -215,7 +215,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
 
     const float relative_rot = comest.get_relative_rot();
     // Saprophages get full nutrition from rotting food
-    if( relative_rot > 1.0f && !c.has_trait( trait_SAPROPHAGE ) ) {
+    if( relative_rot > 1.0f && !you.has_trait( trait_SAPROPHAGE ) ) {
         // everyone else only gets a portion of the nutrition
         // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
@@ -223,7 +223,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     // Bionic digestion gives extra nutrition
-    if( c.has_bionic( bio_digestion ) ) {
+    if( you.has_bionic( bio_digestion ) ) {
         kcal *= 1.5f;
     }
 
@@ -233,7 +233,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
 // Compute default effective vitamins for an item, taking into account player
 // traits, but not components of the item.
 static std::map<vitamin_id, int> compute_default_effective_vitamins(
-    const item &it, const Character &c )
+    const item &it, const Character &you )
 {
     if( !it.get_comestible() ) {
         return {};
@@ -241,7 +241,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
-    for( const trait_id &trait : c.get_mutations() ) {
+    for( const trait_id &trait : you.get_mutations() ) {
         const auto &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
@@ -265,16 +265,16 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 // Calculate the effective nutrients for a given item, taking
 // into account character traits but not item components.
 static nutrients compute_default_effective_nutrients( const item &comest,
-        const Character &c, const cata::flat_set<std::string> &extra_flags = {} )
+        const Character &you, const cata::flat_set<std::string> &extra_flags = {} )
 {
-    return { compute_default_effective_kcal( comest, c, extra_flags ),
-             compute_default_effective_vitamins( comest, c ) };
+    return { compute_default_effective_kcal( comest, you, extra_flags ),
+             compute_default_effective_vitamins( comest, you ) };
 }
 
- // Calculate the nutrients that the given character would receive from consuming
+// Calculate the nutrients that the given character would receive from consuming
 // the given item, taking into account the item components and the character's
 // traits.
- // This is used by item display, making actual nutrition available to character.
+// This is used by item display, making actual nutrition available to character.
 nutrients Character::compute_effective_nutrients( const item &comest ) const
 {
     if( !comest.is_comestible() ) {
@@ -1212,7 +1212,7 @@ void Character::modify_morale( item &food, const int nutr )
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
-         debugmsg( "called Character::consume_effects with non-comestible" );
+        debugmsg( "called Character::consume_effects with non-comestible" );
         return false;
     }
 
