@@ -1953,11 +1953,10 @@
       "bio_targeting",
       "bio_climate",
       "bio_evap",
-      "bio_eye_optic",
+      "bio_lighter",
       "bio_power_storage_mkII",
       "bio_torsionratchet",
-      "bio_lighter",
-      "bio_night_vision"
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 5, "name": "gun" },

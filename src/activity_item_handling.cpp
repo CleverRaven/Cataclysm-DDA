@@ -2350,9 +2350,7 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
         return false;
     }
     int moves = chop_moves( p, best_qual );
-    if( best_qual->type->can_have_charges() ) {
-        p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
-    }
+    p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     const ter_id ter = g->m.ter( src_loc );
     if( g->m.has_flag( "TREE", src_loc ) ) {
         p.assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p.get_item_position( best_qual ) );

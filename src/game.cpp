@@ -7789,7 +7789,14 @@ void game::drop_in_direction()
 // Used to set up the first Hotkey in the display set
 static int get_initial_hotkey( const size_t menu_index )
 {
-    return ( menu_index == 0 ) ? hotkey_for_action( ACTION_BUTCHER ) : -1;
+    int hotkey = -1;
+    if( menu_index == 0 ) {
+        const int butcher_key = inp_mngr.get_previously_pressed_key();
+        if( butcher_key != 0 ) {
+            hotkey = butcher_key;
+        }
+    }
+    return hotkey;
 }
 
 // Returns a vector of pairs.

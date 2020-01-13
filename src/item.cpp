@@ -158,34 +158,24 @@ item &null_item_reference()
 namespace item_internal
 {
 bool goes_bad_temp_cache = false;
-const item *goes_bad_temp_cache_for = nullptr;
+bool goes_bad_temp_cache_set = false;
 inline bool goes_bad_cache_fetch()
 {
     return goes_bad_temp_cache;
 }
-inline void goes_bad_cache_set( const item *i )
+inline void goes_bad_cache_set( bool v )
 {
-    goes_bad_temp_cache = i->goes_bad();
-    goes_bad_temp_cache_for = i;
+    goes_bad_temp_cache = v;
+    goes_bad_temp_cache_set = true;
 }
 inline void goes_bad_cache_unset()
 {
-    goes_bad_temp_cache = false;
-    goes_bad_temp_cache_for = nullptr;
+    goes_bad_temp_cache_set = goes_bad_temp_cache = false;
 }
-inline bool goes_bad_cache_is_for( const item *i )
+inline bool goes_bad_cache_is_set()
 {
-    return goes_bad_temp_cache_for == i;
+    return goes_bad_temp_cache_set;
 }
-
-struct scoped_goes_bad_cache {
-    scoped_goes_bad_cache( item *i ) {
-        goes_bad_cache_set( i );
-    }
-    ~scoped_goes_bad_cache() {
-        goes_bad_cache_unset();
-    }
-};
 } // namespace item_internal
 
 const int item::INFINITE_CHARGES = INT_MAX;
@@ -4716,7 +4706,7 @@ int item::get_comestible_fun() const
 
 bool item::goes_bad() const
 {
-    if( item_internal::goes_bad_cache_is_for( this ) ) {
+    if( item_internal::goes_bad_cache_is_set() ) {
         return item_internal::goes_bad_cache_fetch();
     }
     if( has_flag( "PROCESSING" ) ) {
@@ -8290,7 +8280,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
+    item_internal::goes_bad_cache_set( goes_bad() );
     if( goes_bad() ) {
         time = std::min( last_rot_check, last_temp_check );
     } else {
@@ -8369,6 +8359,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
+                    item_internal::goes_bad_cache_unset();
                     return;
                 }
             }
@@ -8380,6 +8371,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         calc_rot( now, temp );
+        item_internal::goes_bad_cache_unset();
         return;
     }
 
@@ -8387,6 +8379,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
+    item_internal::goes_bad_cache_unset();
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )

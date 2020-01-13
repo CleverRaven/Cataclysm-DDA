@@ -498,8 +498,7 @@ const inventory &Character::crafting_inventory( bool clear_path )
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
-        bool clear_path )
+const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
