@@ -26,7 +26,7 @@
       [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_x-ray", 30 ],
       [ "spell_scroll_necrotic_gaze", 50 ],
-	    [ "spell_scroll_crystallize_mana", 20 ]
+      [ "spell_scroll_crystallize_mana", 20 ]
     ]
   },
   {
@@ -61,7 +61,7 @@
       [ "spell_scroll_quantum_tunnel_lesser", 50 ],
       [ "spell_scroll_synaptic_stimulation", 20 ],
       [ "spell_scroll_purification_seed", 40 ],
-	    [ "spell_scroll_crystallize_mana", 50 ]
+      [ "spell_scroll_crystallize_mana", 50 ]
     ]
   },
   {
