@@ -43,7 +43,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": "survivor's map",
-    "description": "This is a hand-drawn map of the local area.  Whomever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
+    "description": "This is a hand-drawn map of the local area.  Whoever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",
