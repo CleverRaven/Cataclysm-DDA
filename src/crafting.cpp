@@ -1005,15 +1005,18 @@ requirement_data item::get_continue_reqs() const
     return requirement_data::continue_requirements( craft_data_->comps_used, components );
 }
 
-void item::inherit_flags( const item &parent )
+void item::inherit_flags( const item &parent, const recipe &making )
 {
-    //If item is crafted from poor-fit components, the result is poorly fitted too
-    if( parent.has_flag( "VARSIZE" ) ) {
-        unset_flag( "FIT" );
-    }
-    //If item is crafted from perfect-fit components, the result is perfectly fitted too
-    if( parent.has_flag( "FIT" ) ) {
-        item_tags.insert( "FIT" );
+    // default behavior is to resize the clothing, which happens elsewhere
+    if( making.has_flag( "NO_RESIZE" ) ) {
+        //If item is crafted from poor-fit components, the result is poorly fitted too
+        if( parent.has_flag( "VARSIZE" ) ) {
+            unset_flag( "FIT" );
+        }
+        //If item is crafted from perfect-fit components, the result is perfectly fitted too
+        if( parent.has_flag( "FIT" ) ) {
+            item_tags.insert( "FIT" );
+        }
     }
     for( const std::string &f : parent.item_tags ) {
         if( json_flag::get( f ).craft_inherit() ) {
@@ -1030,10 +1033,10 @@ void item::inherit_flags( const item &parent )
     }
 }
 
-void item::inherit_flags( const std::list<item> &parents )
+void item::inherit_flags( const std::list<item> &parents, const recipe &making )
 {
     for( const item &parent : parents ) {
-        inherit_flags( parent );
+        inherit_flags( parent, making );
     }
 }
 
@@ -1096,7 +1099,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         if( newit.has_flag( "VARSIZE" ) ) {
             newit.item_tags.insert( "FIT" );
         }
-        food_contained.inherit_flags( used );
+        food_contained.inherit_flags( used, making );
 
         for( const std::string &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
