@@ -1146,7 +1146,7 @@
   },
   {
     "type": "recipe",
-    "result": "chem_rocket_fuel",
+    "result": "chem_improvised_rocket_fuel",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",

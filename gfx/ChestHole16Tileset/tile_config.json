@@ -16839,7 +16839,7 @@
           "bg": 632
         },
         {
-          "id": "overlay_wielded_chem_rocket_fuel",
+          "id": "overlay_wielded_chem_improvised_rocket_fuel",
           "fg": 3208,
           "bg": 632
         },
@@ -47347,7 +47347,7 @@
           "bg": 632
         },
         {
-          "id": "chem_rocket_fuel",
+          "id": "chem_improvised_rocket_fuel",
           "fg": 3208,
           "bg": 632
         },
