@@ -74,16 +74,16 @@
     "starting_trait": true,
     "valid": false,
     "wet_protection": [
-      { "part": "HEAD", "ignored": 6 },
-      { "part": "LEG_L", "ignored": 8 },
-      { "part": "LEG_R", "ignored": 8 },
-      { "part": "FOOT_L", "ignored": 2 },
-      { "part": "FOOT_R", "ignored": 2 },
-      { "part": "ARM_L", "ignored": 8 },
-      { "part": "ARM_R", "ignored": 8 },
-      { "part": "HAND_L", "ignored": 12 },
-      { "part": "HAND_R", "ignored": 12 },
-      { "part": "TORSO", "ignored": 10 }
+      { "part": "HEAD", "neutral": 6 },
+      { "part": "LEG_L", "neutral": 8 },
+      { "part": "LEG_R", "neutral": 8 },
+      { "part": "FOOT_L", "neutral": 2 },
+      { "part": "FOOT_R", "neutral": 2 },
+      { "part": "ARM_L", "neutral": 8 },
+      { "part": "ARM_R", "neutral": 8 },
+      { "part": "HAND_L", "neutral": 12 },
+      { "part": "HAND_R", "neutral": 12 },
+      { "part": "TORSO", "neutral": 10 }
     ]
   },
   {

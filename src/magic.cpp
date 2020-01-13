@@ -1061,6 +1061,23 @@ std::string spell::enumerate_targets() const
     return ret;
 }
 
+std::string spell::list_targeted_monster_names() const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_monster_names;
+    for( const mtype_id &mon_id : type->targeted_monster_ids ) {
+        all_valid_monster_names.emplace_back( mon_id->nname() );
+    }
+    //remove repeat names
+    all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
+                                   all_valid_monster_names.end() ), all_valid_monster_names.end() );
+    std::string ret = enumerate_as_string( all_valid_monster_names );
+    return ret;
+}
+
+
 damage_type spell::dmg_type() const
 {
     return type->dmg_type;
@@ -1614,6 +1631,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), targets ) );
+
+    std::string target_ids;
+    target_ids = sp.list_targeted_monster_names();
+    if( !target_ids.empty() ) {
+        fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
+                        _( "Only affects the monsters: %s" ), target_ids );
+    }
 
     if( line <= win_height * 3 / 4 ) {
         line++;

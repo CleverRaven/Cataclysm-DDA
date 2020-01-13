@@ -1022,6 +1022,7 @@
     "skills_required": [ "survival", 2 ],
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 30, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
     "components": [ [ [ "acorns", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
@@ -1092,6 +1093,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "seed_weed", 4 ], [ "seed_pumpkin", 4 ], [ "seed_sunflower", 4 ] ] ]
@@ -1191,6 +1193,7 @@
     "skill_used": "cooking",
     "time": "3 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "kernels", 1 ] ] ]
@@ -1204,6 +1207,7 @@
     "skill_used": "cooking",
     "time": "18 s",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "components": [ [ [ "popcorn", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {
@@ -1432,6 +1436,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "autolearn": true,
+    "batch_time_factors": [ 30, 1 ],
     "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
@@ -1447,6 +1452,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
@@ -2569,7 +2575,7 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
+      [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
       [ [ "dry_rice", 1 ] ],
       [
         [ "veggy_any", 1, "LIST" ],
@@ -2692,6 +2698,7 @@
     "charges": 1,
     "time": "1 m 30 s",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "pinecone", 1 ] ] ]
   },
@@ -2706,6 +2713,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "walnut_unshelled", 1 ] ] ]
@@ -2721,6 +2729,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "soybean", 1 ] ] ]
@@ -2736,6 +2745,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "raw_edamame", 1 ] ] ]
@@ -2751,6 +2761,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "pecan_unshelled", 1 ] ] ]
@@ -2766,6 +2777,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "pistachio_unshelled", 1 ] ] ]
@@ -2781,6 +2793,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "almond_unshelled", 1 ] ] ]
@@ -2796,6 +2809,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "chestnut_unshelled", 1 ] ] ]
@@ -2811,6 +2825,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "hazelnut_unshelled", 1 ] ] ]
@@ -2826,6 +2841,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "acorns", 1 ] ] ]
@@ -2841,6 +2857,7 @@
     "charges": 1,
     "time": "24 m",
     "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ]
@@ -2853,6 +2870,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "48 m",
+    "batch_time_factors": [ 80, 1 ],
     "charges": 10,
     "book_learn": [
       [ "family_cookbook", 5 ],
@@ -5986,6 +6004,7 @@
     "skills_required": [ "survival", 2 ],
     "time": "1 h 7 m 30 s",
     "autolearn": true,
+    "batch_time_factors": [ 30, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "acorns", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
