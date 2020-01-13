@@ -996,13 +996,13 @@ void monster::nursebot_operate( player *dragged_foe )
     if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) ) {
 
-            bionic_collection collec = *dragged_foe->my_bionics;
-            int index = rng( 0, collec.size() - 1 );
-            bionic target_cbm = collec[index];
+            const bionic_collection &collec = *dragged_foe->my_bionics;
+            const int index = rng( 0, collec.size() - 1 );
+            const bionic &target_cbm = collec[index];
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-            float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                   static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+            const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                         static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
             g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
 

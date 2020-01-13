@@ -158,24 +158,34 @@ item &null_item_reference()
 namespace item_internal
 {
 bool goes_bad_temp_cache = false;
-bool goes_bad_temp_cache_set = false;
+const item *goes_bad_temp_cache_for = nullptr;
 inline bool goes_bad_cache_fetch()
 {
     return goes_bad_temp_cache;
 }
-inline void goes_bad_cache_set( bool v )
+inline void goes_bad_cache_set( const item *i )
 {
-    goes_bad_temp_cache = v;
-    goes_bad_temp_cache_set = true;
+    goes_bad_temp_cache = i->goes_bad();
+    goes_bad_temp_cache_for = i;
 }
 inline void goes_bad_cache_unset()
 {
-    goes_bad_temp_cache_set = goes_bad_temp_cache = false;
+    goes_bad_temp_cache = false;
+    goes_bad_temp_cache_for = nullptr;
 }
-inline bool goes_bad_cache_is_set()
+inline bool goes_bad_cache_is_for( const item *i )
 {
-    return goes_bad_temp_cache_set;
+    return goes_bad_temp_cache_for == i;
 }
+
+struct scoped_goes_bad_cache {
+    scoped_goes_bad_cache( item *i ) {
+        goes_bad_cache_set( i );
+    }
+    ~scoped_goes_bad_cache() {
+        goes_bad_cache_unset();
+    }
+};
 } // namespace item_internal
 
 const int item::INFINITE_CHARGES = INT_MAX;
@@ -2201,6 +2211,61 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 }
 
+void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                              int /* batch */,
+                              bool /* debug */ ) const
+{
+    if( !is_pet_armor() ) {
+        return;
+    }
+
+    const std::string space = "  ";
+
+    int converted_storage_scale = 0;
+    const double converted_storage = round_up( convert_volume( get_storage().value(),
+                                     &converted_storage_scale ), 2 );
+    if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
+        const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
+                                  string_format( "<num> %s", volume_units_abbr() ),
+                                  f, converted_storage ) );
+    }
+
+    // Whatever the last entry was, we want a newline at this point
+    info.back().bNewLine = true;
+
+    if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
+                                  iteminfo::no_newline, bash_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), cut_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
+                                  iteminfo::no_newline, acid_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                  iteminfo::no_newline, fire_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                  get_base_env_resist( *this ) ) );
+        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
+            info.push_back( iteminfo( "ARMOR",
+                                      _( "<bold>Protection when active</bold>: " ) ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
+                                      iteminfo::no_newline,
+                                      acid_resist( false, get_base_env_resist_w_filter() ) ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                      iteminfo::no_newline,
+                                      fire_resist( false, get_base_env_resist_w_filter() ) ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                      get_env_resist( get_base_env_resist_w_filter() ) ) );
+        }
+
+        if( damage() > 0 ) {
+            info.push_back( iteminfo( "ARMOR",
+                                      _( "Protection values are <bad>reduced by damage</bad> and "
+                                         "you may be able to <info>improve them by repairing this "
+                                         "item</info>." ) ) );
+        }
+    }
+}
+
 void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
@@ -3234,7 +3299,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else {
             const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
             [ &inv ]( const recipe * r ) {
-                if( r->requirements().can_make_with_inventory( inv, r->get_component_filter() ) ) {
+                if( r->deduped_requirements().can_make_with_inventory(
+                        inv, r->get_component_filter() ) ) {
                     return r->result_name();
                 } else {
                     return string_format( "<dark>%s</dark>", r->result_name() );
@@ -3300,6 +3366,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     gunmod_info( info, parts, batch, debug );
     armor_info( info, parts, batch, debug );
+    animal_armor_info( info, parts, batch, debug );
     book_info( info, parts, batch, debug );
     container_info( info, parts, batch, debug );
     battery_info( info, parts, batch, debug );
@@ -4649,7 +4716,7 @@ int item::get_comestible_fun() const
 
 bool item::goes_bad() const
 {
-    if( item_internal::goes_bad_cache_is_set() ) {
+    if( item_internal::goes_bad_cache_is_for( this ) ) {
         return item_internal::goes_bad_cache_fetch();
     }
     if( has_flag( "PROCESSING" ) ) {
@@ -8223,7 +8290,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::goes_bad_cache_set( goes_bad() );
+    item_internal::scoped_goes_bad_cache _( this );
     if( goes_bad() ) {
         time = std::min( last_rot_check, last_temp_check );
     } else {
@@ -8302,7 +8369,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
-                    item_internal::goes_bad_cache_unset();
                     return;
                 }
             }
@@ -8314,7 +8380,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         calc_rot( now, temp );
-        item_internal::goes_bad_cache_unset();
         return;
     }
 
@@ -8322,7 +8387,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
-    item_internal::goes_bad_cache_unset();
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )
@@ -9388,6 +9452,17 @@ time_duration item::age() const
 void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
+}
+
+void item::legacy_fast_forward_time()
+{
+    const time_duration tmp_bday = ( bday - calendar::turn_zero ) * 6;
+    bday = calendar::turn_zero + tmp_bday;
+
+    rot *= 6;
+
+    const time_duration tmp_rot = ( last_rot_check - calendar::turn_zero ) * 6;
+    last_rot_check = calendar::turn_zero + tmp_rot;
 }
 
 time_point item::birthday() const

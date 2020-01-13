@@ -10,9 +10,13 @@
 #include "itype.h"
 #include "player.h"
 #include "inventory.h"
+#include "map.h"
+#include "npc.h"
 #include "player_activity.h"
 #include "type_id.h"
 #include "point.h"
+
+#include "catch/catch.hpp"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -38,10 +42,8 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_player()
+void clear_character( player &dummy )
 {
-    player &dummy = g->u;
-
     // Remove first worn item until there are none left.
     std::list<item> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
@@ -71,6 +73,11 @@ void clear_player()
     g->place_player( spot );
 }
 
+void clear_avatar()
+{
+    clear_character( g->u );
+}
+
 void process_activity( player &dummy )
 {
     do {
@@ -79,4 +86,16 @@ void process_activity( player &dummy )
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );
+}
+
+npc &spawn_npc( const point &p, const std::string &npc_class )
+{
+    const string_id<npc_template> test_guy( npc_class );
+    const character_id model_id = g->m.place_npc( p, test_guy, true );
+    g->load_npcs();
+
+    npc *guy = g->find_npc( model_id );
+    REQUIRE( guy != nullptr );
+    CHECK( !guy->in_vehicle );
+    return *guy;
 }

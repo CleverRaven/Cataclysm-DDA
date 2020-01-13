@@ -1819,9 +1819,37 @@ void monster::load( const JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
-    data.read( "tied_item", tied_item );
+    if( data.has_object( "tied_item" ) ) {
+        JsonIn *tied_item_json = data.get_raw( "tied_item" );
+        item newitem;
+        newitem.deserialize( *tied_item_json );
+        tied_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "tack_item" ) ) {
+        JsonIn *tack_item_json = data.get_raw( "tack_item" );
+        item newitem;
+        newitem.deserialize( *tack_item_json );
+        tack_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "armor_item" ) ) {
+        JsonIn *armor_item_json = data.get_raw( "armor_item" );
+        item newitem;
+        newitem.deserialize( *armor_item_json );
+        armor_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "storage_item" ) ) {
+        JsonIn *storage_item_json = data.get_raw( "storage_item" );
+        item newitem;
+        newitem.deserialize( *storage_item_json );
+        storage_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "battery_item" ) ) {
+        JsonIn *battery_item_json = data.get_raw( "battery_item" );
+        item newitem;
+        newitem.deserialize( *battery_item_json );
+        battery_item = cata::make_value<item>( newitem );
+    }
     data.read( "hp", hp );
-    data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
@@ -1954,8 +1982,21 @@ void monster::store( JsonOut &json ) const
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
-    json.member( "tied_item", tied_item );
-    json.member( "battery_item", battery_item );
+    if( tied_item ) {
+        json.member( "tied_item", *tied_item );
+    }
+    if( tack_item ) {
+        json.member( "tack_item", *tack_item );
+    }
+    if( armor_item ) {
+        json.member( "armor_item", *armor_item );
+    }
+    if( storage_item ) {
+        json.member( "storage_item", *storage_item );
+    }
+    if( battery_item ) {
+        json.member( "battery_item", *battery_item );
+    }
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
@@ -2354,6 +2395,10 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
+    // made for fast forwarding time from 0.D to 0.E
+    if( savegame_loading_version < 27 ) {
+        legacy_fast_forward_time();
+    }
 }
 
 void item::serialize( JsonOut &json ) const
@@ -3724,8 +3769,9 @@ void submap::store( JsonOut &jsout ) const
     }
 }
 
-void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_update )
+void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
+    bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
         last_touched = jsin.get_int();
     } else if( member_name == "temperature" ) {
@@ -3801,10 +3847,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             int rad_strength = jsin.get_int();
             int rad_num = jsin.get_int();
             for( int i = 0; i < rad_num; ++i ) {
-                // A little array trick here, assign to it as a 1D array.
-                // If it's not in bounds we're kinda hosed anyway.
-                set_radiation( { 0, rad_cell }, rad_strength );
-                rad_cell++;
+                if( rad_cell < SEEX * SEEY ) {
+                    set_radiation( { 0 % SEEX, rad_cell / SEEX }, rad_strength );
+                    rad_cell++;
+                }
             }
         }
     } else if( member_name == "furniture" ) {
@@ -3829,6 +3875,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 if( tmp.is_emissive() ) {
                     update_lum_add( p, tmp );
+                }
+
+                if( savegame_loading_version >= 27 && version < 27 ) {
+                    tmp.legacy_fast_forward_time();
                 }
 
                 tmp.visit_items( [ this, &p ]( item * it ) {

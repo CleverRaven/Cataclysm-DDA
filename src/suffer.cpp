@@ -1425,7 +1425,7 @@ void Character::suffer()
         }
     }
 
-    for( size_t i = 0; i < my_bionics->size(); i++ ) {
+    for( size_t i = 0; i < get_bionics().size(); i++ ) {
         process_bionic( i );
     }
 

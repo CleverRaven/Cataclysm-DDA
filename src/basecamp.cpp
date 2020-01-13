@@ -208,8 +208,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
+    const auto tools = making.simple_requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
+    const auto comps = making.simple_requirements().get_folded_components_list( pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -345,7 +345,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             basecamp_upgrade data;
             data.bldg = bldg;
             data.name = recp.blueprint_name();
-            const auto &reqs = recp.requirements();
+            const auto &reqs = recp.deduped_requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
             data.in_progress = in_progress;
             ret_data.emplace_back( data );
@@ -690,12 +690,16 @@ basecamp_action_components::basecamp_action_components(
 bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
-    const requirement_data &req = making_.requirements();
+    const requirement_data *req =
+        making_.deduped_requirements().select_alternative( g->u, base_._inv, filter, batch_size_ );
+    if( !req ) {
+        return false;
+    }
     if( !item_selections_.empty() || !tool_selections_.empty() ) {
         debugmsg( "Reused basecamp_action_components" );
         return false;
     }
-    for( const auto &it : req.get_components() ) {
+    for( const auto &it : req->get_components() ) {
         comp_selection<item_comp> is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
@@ -705,7 +709,7 @@ bool basecamp_action_components::choose_components()
         item_selections_.push_back( is );
     }
     // this may consume pseudo-resources from fake items
-    for( const auto &it : req.get_tools() ) {
+    for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
             g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
                                         !base_.by_radio );
@@ -726,23 +730,18 @@ void basecamp_action_components::consume_components()
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
-    const auto &req = making_.requirements();
-    if( item_selections_.size() != req.get_components().size() ||
-        tool_selections_.size() != req.get_tools().size() ) {
-        debugmsg( "Not all selections have been made for basecamp_action_components" );
-    }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                            base_.inv_range );
+                            basecamp::inv_range );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        g->u.consume_tools( *target_map, sel, batch_size_, origin, base_.inv_range, &base_ );
+        g->u.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range, &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {
         if( bcp_r.consumed > 0 ) {
-            target_map->use_charges( origin, base_.inv_range, bcp_r.ammo_id, bcp_r.consumed );
+            target_map->use_charges( origin, basecamp::inv_range, bcp_r.ammo_id, bcp_r.consumed );
             bcp_r.consumed = 0;
         }
     }

@@ -2874,8 +2874,8 @@ bool mattack::nurse_check_up( monster *z )
         if( !z->has_effect( effect_countdown ) ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
-                               _( "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"" ) ) );
-            z->add_effect( effect_countdown, 1_minutes );
+                               _( "a soft robotic voice say, \"Come here and stand still for a few minutes, I'll give you a check-up.\"" ) ) );
+            z->add_effect( effect_countdown, 30_minutes );
         } else if( rl_dist( target->pos(), z->pos() ) > 1 ) {
             // Giving them some encouragement
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,

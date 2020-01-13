@@ -219,25 +219,17 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    // Add volume of the bag itself since it is going to be subtracted later in the for-each loop.
-    units::volume remaining_volume = pet.inv.empty() ? 0_ml :
-                                     pet.inv.front().get_storage() + pet.inv.front().volume();
-    units::mass remaining_weight = pet.weight_capacity();
+    units::volume remaining_volume = pet.storage_item->get_storage() - pet.get_carried_volume();
+    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
 
-    for( const auto &it : pet.inv ) {
-        remaining_volume -= it.volume();
-        remaining_weight -= it.weight();
-    }
-
-    for( auto &it : items ) {
-        pet.add_effect( effect_controlled, 5_turns );
+    for( const item &it : items ) {
         if( it.volume() > remaining_volume ) {
-            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
-                     it.display_name(), g->m.name( pet.pos() ) );
+            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
+                     g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else if( it.weight() > remaining_weight ) {
-            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
-                     it.display_name(), g->m.name( pet.pos() ) );
+            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
+                     g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else {
             pet.add_item( it );
@@ -2171,7 +2163,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             //nothing to sort?
             const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                     false );
-            if( !vp && g->m.i_at( src_loc ).empty( ) ) {
+            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
+                && g->m.i_at( src_loc ).empty() ) {
                 continue;
             }
 

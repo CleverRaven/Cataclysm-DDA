@@ -172,6 +172,11 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        // 0.E stable
+        if( savegame_loading_version < 26 ) {
+            tmpturn *= 6;
+            tmpcalstart *= 6;
+        }
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );

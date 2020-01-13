@@ -242,7 +242,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range(
         our_extra_flags.insert( "COOKED" );
     }
 
-    const requirement_data requirements = rec.requirements();
+    const requirement_data requirements = rec.simple_requirements();
     const requirement_data::alter_item_comp_vector &component_requirements =
         requirements.get_components();
 
