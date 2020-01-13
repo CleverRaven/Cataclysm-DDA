@@ -733,6 +733,13 @@
   },
   {
     "type": "keybinding",
+    "id": "MARK_DANGER",
+    "category": "OVERMAP_NOTES",
+    "name": "Mark as Dangerous",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete Note",
