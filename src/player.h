@@ -590,7 +590,7 @@ class player : public Character
         bool consume( item_location loc );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );     
+        bool consume_item( item &target );
 
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
@@ -599,7 +599,7 @@ class player : public Character
 
         std::pair<std::string, nc_color> get_hunger_description() const override;
 
-        std::pair<std::string, nc_color> get_pain_description() const override;        
+        std::pair<std::string, nc_color> get_pain_description() const override;
 
         int get_lift_assist() const;
 
@@ -758,7 +758,7 @@ class player : public Character
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
         hint_rating rate_action_use( const item &it ) const;
-        hint_rating rate_action_wear( const item &it ) const;        
+        hint_rating rate_action_wear( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;

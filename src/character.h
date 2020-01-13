@@ -1597,26 +1597,26 @@ class Character : public Creature, public visitable<Character>
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
-                /** Determine player's capability of recharging their CBMs. */
+        /** Determine player's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
         int get_acquirable_energy( const item &it ) const;
 
-                /**
-         * Recharge CBMs whenever possible.
-         * @return true when recharging was successful.
-         */
+        /**
+        * Recharge CBMs whenever possible.
+        * @return true when recharging was successful.
+        */
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply addiction modifications from food and medication **/
-        void modify_addiction( const islot_comestible &comest );    
-                /** Used to apply health modifications from food and medication **/
-        void modify_health( const islot_comestible &comest );        
+        void modify_addiction( const islot_comestible &comest );
+        /** Used to apply health modifications from food and medication **/
+        void modify_health( const islot_comestible &comest );
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
         /** Check player's capability of consumption overall */
@@ -1631,10 +1631,10 @@ class Character : public Creature, public visitable<Character>
          * WARNING: consumable does not necessarily guarantee the comestible type.
          */
         item &get_consumable_from( item &it ) const;
-       
+
         hint_rating rate_action_eat( const item &it ) const;
-                
-        
+
+
 
         /** Get calorie & vitamin contents for a comestible, taking into
          * account player traits */
@@ -1643,11 +1643,11 @@ class Character : public Creature, public visitable<Character>
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const item &, const recipe_id &,
             const cata::flat_set<std::string> &extra_flags = {} ) const;
-        /** Same, but across arbitrary recipes */        
+        /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
-                /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        time_duration vitamin_rate( const vitamin_id &vit ) const;        
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        time_duration vitamin_rate( const vitamin_id &vit ) const;
         void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
         morale_type allergy_type( const item &food ) const;
