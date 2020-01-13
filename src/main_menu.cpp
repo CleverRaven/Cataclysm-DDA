@@ -664,7 +664,6 @@ bool main_menu::opening_screen()
                         get_options().show( true );
                         // The language may have changed- gracefully handle this.
                         init_strings();
-                        print_menu( w_open, sel1, menu_offset );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
                         ctxt_default.display_menu();

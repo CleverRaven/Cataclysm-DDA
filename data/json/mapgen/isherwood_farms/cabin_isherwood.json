@@ -159,7 +159,7 @@
       "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "cattlefodder", "x": [ 17, 18 ], "y": [ 2, 4 ], "chance": 100 },
-        { "item": "riding_saddle", "x": 15, "y": 2, "chance": 100 },
+        { "item": "horse_tack", "x": 15, "y": 2, "chance": 100 },
         { "item": "stepladder", "x": 15, "y": 4, "chance": 100 },
         { "item": "straw_pile", "x": [ 17, 18 ], "y": [ 2, 4 ], "chance": 30, "repeat": [ 2, 4 ] }
       ],

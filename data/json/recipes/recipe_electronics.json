@@ -1035,6 +1035,7 @@
     "components": [
       [ [ "frame", 1 ] ],
       [ [ "chemistry_set", 1 ] ],
+      [ [ "electrolysis_kit", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ]

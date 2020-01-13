@@ -91,6 +91,7 @@
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
     "symbol": "%",
+    "looks_like": "sausage",
     "quench": -1,
     "calories": 297,
     "description": "A type of German sausage made of finely chopped meat and meant to be pan fried or roasted.  Better eat it hot and fresh.",
