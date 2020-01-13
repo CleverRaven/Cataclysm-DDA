@@ -1672,7 +1672,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         if( bid->is_included( b_id ) ) {
             popup( _( "%s must remove the %s bionic to remove the %s." ), installer.disp_name(),
                    bid->name, b_id->name );
@@ -2212,7 +2212,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 int Character::get_used_bionics_slots( const body_part bp ) const
 {
     int used_slots = 0;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         auto search = bid->occupied_bodyparts.find( bp );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -2469,7 +2469,7 @@ void check_bionics()
                           bio.first.c_str(), mid.c_str() );
             }
         }
-        for( const bionic_id bid : bio.second.included_bionics ) {
+        for( const bionic_id &bid : bio.second.included_bionics ) {
             if( !bid.is_valid() ) {
                 debugmsg( "Bionic %s includes undefined bionic %s",
                           bio.first.c_str(), bid.c_str() );

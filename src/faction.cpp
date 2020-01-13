@@ -316,7 +316,7 @@ nc_color faction::food_supply_color()
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
-    for( const auto rel_data : relations ) {
+    for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
             return rel_data.second.test( flag );
         }

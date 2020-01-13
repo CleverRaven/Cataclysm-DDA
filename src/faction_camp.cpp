@@ -1612,7 +1612,7 @@ void basecamp::job_assignment_ui()
         werase( w_jobs );
         // create a list of npcs stationed at this camp
         std::vector<npc *> stationed_npcs;
-        for( const auto elem : get_npcs_assigned() ) {
+        for( const auto &elem : get_npcs_assigned() ) {
             if( elem ) {
                 stationed_npcs.push_back( elem.get() );
             }

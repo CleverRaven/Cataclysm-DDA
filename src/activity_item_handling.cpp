@@ -1847,7 +1847,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             }
         }
     }
-    for( const std::tuple<tripoint, itype_id, int> elem : final_map ) {
+    for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
         add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(), std::get<1>( elem ),
                  std::get<0>( elem ).x, std::get<0>( elem ).y );
     }

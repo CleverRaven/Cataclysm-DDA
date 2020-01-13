@@ -73,7 +73,7 @@ static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg
 
     std::vector<std::string> mod_names = string_split( mod_string, ',' );
     std::vector<mod_id> ret;
-    for( const std::string mod_name : mod_names ) {
+    for( const std::string &mod_name : mod_names ) {
         if( !mod_name.empty() ) {
             ret.emplace_back( mod_name );
         }

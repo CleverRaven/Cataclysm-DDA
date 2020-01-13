@@ -276,7 +276,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Bionics
     file << _( "Bionics:" ) << eol;
-    for( const bionic_id bionic : u.get_bionics() ) {
+    for( const bionic_id &bionic : u.get_bionics() ) {
         file << indent << bionic->name << eol;
     }
     if( u.get_bionics().empty() ) {

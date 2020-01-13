@@ -855,7 +855,7 @@ void player::store( JsonOut &json ) const
     // faction warnings
     json.member( "faction_warnings" );
     json.start_array();
-    for( const auto elem : warning_record ) {
+    for( const auto &elem : warning_record ) {
         json.start_object();
         json.member( "fac_warning_id", elem.first );
         json.member( "fac_warning_num", elem.second.first );
@@ -3383,7 +3383,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "type", expansion.second.type );
             json.member( "provides" );
             json.start_array();
-            for( const auto provide : expansion.second.provides ) {
+            for( const auto &provide : expansion.second.provides ) {
                 json.start_object();
                 json.member( "id", provide.first );
                 json.member( "amount", provide.second );
@@ -3392,7 +3392,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_array();
             json.member( "in_progress" );
             json.start_array();
-            for( const auto working : expansion.second.in_progress ) {
+            for( const auto &working : expansion.second.in_progress ) {
                 json.start_object();
                 json.member( "id", working.first );
                 json.member( "amount", working.second );
