@@ -100,8 +100,8 @@ void ammo_effect::check() const
     if( aoe_size < 0 ) {
         debugmsg( "Value of aoe_size cannot be negative" );
     }
-    if( aoe_chance < 0 || aoe_chance > 1 ) {
-        debugmsg( "Field chance must be between 0 and 1" );
+    if( aoe_chance < 0 ) {
+        debugmsg( "Field chance divisor cannot be negative" );
     }
     if( aoe_radius_z < 0 || aoe_radius < 0 ) {
         debugmsg( "Radius values cannot be negative" );
