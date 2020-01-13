@@ -927,11 +927,11 @@
     "color": "dark_gray",
     "covers": [ "FEET" ],
     "coverage": 95,
-    "encumbrance": 18,
+    "encumbrance": 30,
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "roller_blades",
