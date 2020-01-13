@@ -1207,6 +1207,7 @@
     "color": "white",
     "spoils_in": "12 hours",
     "healthy": 1,
+    "calories": 160,
     "description": "Delicious slivers of thinly sliced raw fish and tasty vegetables.",
     "price": 600,
     "material": [ "veggy", "flesh" ],
