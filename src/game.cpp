@@ -4893,7 +4893,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, true, difficulty );
-    int success = chance_of_success - rng( 1, 100 ) ;
+    int success = chance_of_success - rng( 1, 100 );
 
     if( !g->u.query_yn(
             _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),

@@ -2537,7 +2537,7 @@ void player::check_needs_extremes()
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
-                                           , _( "<npcname> collapses to the ground from exhaustion." ) ) ;
+                                           , _( "<npcname> collapses to the ground from exhaustion." ) );
                     if( get_fatigue() < EXHAUSTED ) {
                         set_fatigue( EXHAUSTED );
                     }
@@ -3909,7 +3909,7 @@ item::reload_option player::select_ammo( const item &base,
     uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
             sel->contents.front().typeId() :
             sel->typeId();
-    return opts[ menu.ret ] ;
+    return opts[ menu.ret ];
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -3999,12 +3999,12 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     } );
 
     if( is_npc() ) {
-        return ammo_list[ 0 ] ;
+        return ammo_list[ 0 ];
     }
 
     if( !prompt && ammo_list.size() == 1 ) {
         // unconditionally suppress the prompt if there's only one option
-        return ammo_list[ 0 ] ;
+        return ammo_list[ 0 ];
     }
 
     return select_ammo( base, std::move( ammo_list ) );

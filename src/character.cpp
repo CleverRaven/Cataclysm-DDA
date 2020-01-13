@@ -2179,7 +2179,7 @@ units::mass Character::weight_capacity() const
         bio_weight_bonus +=  bid->weight_capacity_bonus;
     }
 
-    ret += bio_weight_bonus + worn_weight_bonus ;
+    ret += bio_weight_bonus + worn_weight_bonus;
 
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
@@ -4858,7 +4858,7 @@ float Character::active_light() const
                 }
                 curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
             }
-            mut_lum += curr_lum ;
+            mut_lum += curr_lum;
         }
     }
 

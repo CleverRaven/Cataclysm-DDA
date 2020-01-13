@@ -467,7 +467,7 @@ void vpart_info::finalize()
         } else if( e.second.location == "engine_block" ) {
             // Should be hidden by frames
             e.second.z_order = 4;
-            e.second.list_order = 8 ;
+            e.second.list_order = 8;
         } else if( e.second.location == "on_battery_mount" ) {
             // Should be hidden by frames
             e.second.z_order = 3;

@@ -1867,7 +1867,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
                  installer.name(), patient.disp_name() );
     }
 
-    installer.ammo[ammo_type] -= 1 ;
+    installer.ammo[ammo_type] -= 1;
 
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );

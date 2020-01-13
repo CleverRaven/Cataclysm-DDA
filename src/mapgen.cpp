@@ -1194,7 +1194,7 @@ class jmapgen_monster : public jmapgen_piece
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
             // Instead, apply a multipler to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
-            int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+            int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
             int max_odds = ( 100 + raw_odds ) / 2;
             float density_multiplier = 1;
             if( odds_after_density > max_odds ) {
