@@ -198,7 +198,6 @@ static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
-static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
@@ -245,7 +244,6 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
-static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
@@ -260,7 +258,6 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
-static const trait_id trait_SLOWREADER( "SLOWREADER" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
@@ -1363,17 +1360,7 @@ int player::read_speed( bool return_stat_effect ) const
         ret *= .85;
     }
 
-    if( has_trait( trait_FASTREADER ) ) {
-        ret *= .8;
-    }
-
-    if( has_trait( trait_PROF_DICEMASTER ) ) {
-        ret *= .9;
-    }
-
-    if( has_trait( trait_SLOWREADER ) ) {
-        ret *= 1.3;
-    }
+    ret *= mutation_value( "reading_speed_multiplier" );
 
     if( ret < to_moves<int>( 1_seconds ) ) {
         ret = to_moves<int>( 1_seconds );
