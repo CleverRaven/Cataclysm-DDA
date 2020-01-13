@@ -175,7 +175,7 @@
         "@/$.../................/",
         "@/$.#.=../////../////..=",
         "@/$h#./../$$$....$$$/../",
-        "@/$t#./../........../../",
+        "@/$t#./../...i...i../../",
         "@//////../[........[/../",
         "@/t#.l/../[.hhhhhh.[/../",
         "@/h#../../[.''''''.[/../",
@@ -184,6 +184,7 @@
         "@/$$$O/..+..''''''..+../",
         "///////../..........////"
       ],
+      "palettes": [ "mil_base_palette" ],
       "items": {
         "t": [ { "item": "trash_cart", "chance": 75, "repeat": [ 1, 10 ] } ],
         "#": [ { "item": "SUS_office_desk", "chance": 10, "repeat": [ 1, 2 ] } ],
@@ -191,7 +192,8 @@
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 3 ] } ],
         "Y": [ { "item": "mil_base_coats", "chance": 25, "repeat": [ 1, 2 ] } ]
       },
-      "palettes": [ "mil_base_palette" ]
+      "monster": { "i": { "monster": "mon_zombie_soldier_blackops_1", "chance": 75 } },
+      "place_monsters": [ { "monster": "GROUP_MIL_BASE", "x": [ 7, 22 ], "y": [ 13, 23 ], "repeat": [ 4, 5 ], "density": 0.1 } ]
     }
   },
   {
@@ -205,7 +207,7 @@
         "/OAAAY/../[.hhhhhh.[/@@@",
         "/.....+../[.''''''.[/@@@",
         "/l..../../[........[/@@@",
-        "/l.[[[/../........../@@@",
+        "/l.[[[/../...i..i.../@@@",
         "/...../../.'..[[..'./@@@",
         "/OAAAO/../h'..[[..'h/@@@",
         "///////../$'..[[..'$/@@@",
@@ -227,12 +229,20 @@
         "@@@@@@@@@@@@@@@@@@@@@@@@",
         "@@@@@@@@@@@@@@@@@@@@@@@@"
       ],
+      "palettes": [ "mil_base_palette" ],
       "items": {
         "$": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 5 ] } ],
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 3 ] } ],
         "Y": [ { "item": "mil_base_coats", "chance": 25, "repeat": [ 1, 2 ] } ]
       },
-      "palettes": [ "mil_base_palette" ]
+      "monster": { "i": { "monster": "mon_zombie_soldier_blackops_1", "chance": 75 } },
+      "place_loot": [
+        { "item": "militarymap", "x": 14, "y": 5 },
+        { "group": "SUS_coffee_cupboard", "x": 1, "y": 2, "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "dinnerware", "x": 3, "y": 1, "chance": 2, "repeat": [ 5, 10 ] },
+        { "group": "liquor_and_spirits", "x": 1, "y": 3, "chance": 50, "repeat": [ 3, 4 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_MIL_BASE", "x": [ 11, 19 ], "y": [ 0, 8 ], "repeat": [ 1, 2 ], "density": 0.1 } ]
     }
   },
   {
