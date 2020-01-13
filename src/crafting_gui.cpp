@@ -612,6 +612,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Will use rotten ingredients</color>" ) );
                 }
+                const bool too_complex = current[line]->deduped_requirements().is_too_complex();
+                if( available[line].can_craft && too_complex ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "Due to the complex overlapping requirements, this "
+                                               "recipe <color_yellow>may appear to be craftable "
+                                               "when it is not</color>." ) );
+                }
                 if( !available[line].can_craft && available[line].apparently_craftable ) {
                     ypos += fold_and_print(
                                 w_data, point( xpos, ypos ), pane, col,

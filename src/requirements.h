@@ -404,7 +404,12 @@ class deduped_requirement_data
         bool can_make_with_inventory(
             const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
+
+        bool is_too_complex() const {
+            return is_too_complex_;
+        }
     private:
+        bool is_too_complex_ = false;
         std::vector<requirement_data> alternatives_;
 };
 
