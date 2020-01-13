@@ -271,10 +271,10 @@ static nutrients compute_default_effective_nutrients( const item &comest,
              compute_default_effective_vitamins( comest, c ) };
 }
 
-// Calculate the nutrients that the given player would receive from consuming
+ // Calculate the nutrients that the given character would receive from consuming
 // the given item, taking into account the item components and the character's
 // traits.
-// This is used by item display, making actual nutrition available to player.
+ // This is used by item display, making actual nutrition available to character.
 nutrients Character::compute_effective_nutrients( const item &comest ) const
 {
     if( !comest.is_comestible() ) {
@@ -1212,7 +1212,7 @@ void Character::modify_morale( item &food, const int nutr )
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
-        debugmsg( "called player::consume_effects with non-comestible" );
+         debugmsg( "called Character::consume_effects with non-comestible" );
         return false;
     }
 
