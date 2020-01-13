@@ -38,7 +38,6 @@ static void wield_check_internal( player &dummy, item &the_item, const char *sec
         wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
     }
 
-
 static void do_test( const bool generating_cases )
 {
     player &dummy = g->u;

@@ -54,7 +54,6 @@ static int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
-
 struct track {
     char participant;
     int moves;
