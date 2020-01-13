@@ -6045,7 +6045,7 @@
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "motorbike_pants",
@@ -6066,7 +6066,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "mouthpiece",
