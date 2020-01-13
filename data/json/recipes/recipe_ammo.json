@@ -17,7 +17,7 @@
       [ [ "circuit", 1 ] ],
       [ [ "transponder", 1 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "chem_improvised_rocket_fuel", 33 ] ]
+      [ [ "chem_rocket_fuel", 33 ] ]
     ]
   },
   {
@@ -801,7 +801,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "spike", 1 ] ],
-      [ [ "tool_rocket_candy", 3 ], [ "chem_improvised_rocket_fuel", 15 ] ],
+      [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 15 ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
@@ -819,7 +819,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "chem_black_powder", 150 ] ],
-      [ [ "tool_rocket_candy", 2 ], [ "chem_improvised_rocket_fuel", 10 ] ]
+      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
     ]
   },
   {
@@ -837,7 +837,7 @@
       [ [ "pipe", 2 ] ],
       [ [ "chem_thermite", 50 ] ],
       [ [ "plastic_chunk", 5 ] ],
-      [ [ "tool_rocket_candy", 2 ], [ "chem_improvised_rocket_fuel", 10 ] ]
+      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
     ]
   },
   {
