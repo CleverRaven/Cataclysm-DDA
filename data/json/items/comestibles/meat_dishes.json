@@ -1168,7 +1168,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 2,
-    "calories": 360,
+    "calories": 293,
     "description": "Delicious slivers of thinly sliced raw fish wrapped in tasty sushi rice and rolled up in a healthy green vegetable.",
     "price": 350,
     "material": [ "veggy", "flesh" ],
@@ -1204,7 +1204,6 @@
     "name": "sashimi",
     "name_plural": "sashimi",
     "copy-from": "fish_cooked",
-    "calories": 160
     "color": "white",
     "spoils_in": "12 hours",
     "healthy": 1,
