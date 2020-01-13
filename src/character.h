@@ -1631,13 +1631,7 @@ class Character : public Creature, public visitable<Character>
          * WARNING: consumable does not necessarily guarantee the comestible type.
          */
         item &get_consumable_from( item &it ) const;
-
-        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
-        
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );                          
-        
+       
         hint_rating rate_action_eat( const item &it ) const;
                 
         
