@@ -1363,17 +1363,7 @@ int player::read_speed( bool return_stat_effect ) const
         ret *= .85;
     }
 
-    if( has_trait( trait_FASTREADER ) ) {
-        ret *= .8;
-    }
-
-    if( has_trait( trait_PROF_DICEMASTER ) ) {
-        ret *= .9;
-    }
-
-    if( has_trait( trait_SLOWREADER ) ) {
-        ret *= 1.3;
-    }
+    ret *= mutation_value( "reading_speed_multiplier" );
 
     if( ret < to_moves<int>( 1_seconds ) ) {
         ret = to_moves<int>( 1_seconds );
