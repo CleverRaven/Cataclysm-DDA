@@ -87,7 +87,6 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_CLAWS( "CLAWS" );
-static const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
 static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
 static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
@@ -100,8 +99,6 @@ static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
-static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
 static const efftype_id effect_amigara( "amigara" );
@@ -417,6 +414,12 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         }
     }
     item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
+
+    if( cur_weapon.attack_time() > attack_speed( cur_weapon ) * 20 ) {
+        add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
+        return;
+    }
+
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
@@ -1686,6 +1689,8 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     if( tec != tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+        } else if( weapon.made_of( material_id( "glass" ) ) ) {
+            add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
         }

@@ -982,6 +982,9 @@ class map
 
         // Items
         void process_active_items();
+        // Returns points for all submaps with inconsistent state relative to
+        // the list in map.  Used in tests.
+        std::vector<tripoint> check_submap_active_item_consistency();
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         map_stack i_at( const tripoint &p );
         map_stack i_at( const point &p ) {
@@ -1807,9 +1810,9 @@ class map
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
-        /**returns positions of furnitures matching target in the specified radius*/
-        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
-                furn_id target,
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const std::string &flag,
                 size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,

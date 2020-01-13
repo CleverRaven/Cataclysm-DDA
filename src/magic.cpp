@@ -97,6 +97,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
+        case spell_flag::SWAP_POS: return "SWAP_POS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
@@ -247,6 +248,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
+
+    const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
+    optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
+              targeted_monster_ids_reader );
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -598,7 +603,17 @@ int spell::energy_cost( const player &p ) const
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 );
-        cost += 10 * hands_encumb;
+        switch( type->energy_source ) {
+            default:
+                cost += 10 * hands_encumb;
+                break;
+            case hp_energy:
+                cost += hands_encumb;
+                break;
+            case stamina_energy:
+                cost += 100 * hands_encumb;
+                break;
+        }
     }
     return cost;
 }
@@ -895,6 +910,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
+        valid = valid && target_by_monster_id( p );
     } else {
         valid = is_valid_target( target_ground );
     }
@@ -904,6 +920,20 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 bool spell::is_valid_effect_target( valid_target t ) const
 {
     return type->effect_targets[t];
+}
+
+bool spell::target_by_monster_id( const tripoint &p ) const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return true;
+    }
+    bool valid = false;
+    if( monster *const target = g->critter_at<monster>( p ) ) {
+        if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
+            valid = true;
+        }
+    }
+    return valid;
 }
 
 std::string spell::description() const
@@ -1018,7 +1048,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @todo if only we had a function to enumerate strings and concatenate them...
+    // @TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );
@@ -1030,6 +1060,23 @@ std::string spell::enumerate_targets() const
     }
     return ret;
 }
+
+std::string spell::list_targeted_monster_names() const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_monster_names;
+    for( const mtype_id &mon_id : type->targeted_monster_ids ) {
+        all_valid_monster_names.emplace_back( mon_id->nname() );
+    }
+    //remove repeat names
+    all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
+                                   all_valid_monster_names.end() ), all_valid_monster_names.end() );
+    std::string ret = enumerate_as_string( all_valid_monster_names );
+    return ret;
+}
+
 
 damage_type spell::dmg_type() const
 {
@@ -1584,6 +1631,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), targets ) );
+
+    std::string target_ids;
+    target_ids = sp.list_targeted_monster_names();
+    if( !target_ids.empty() ) {
+        fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
+                        _( "Only affects the monsters: %s" ), target_ids );
+    }
 
     if( line <= win_height * 3 / 4 ) {
         line++;

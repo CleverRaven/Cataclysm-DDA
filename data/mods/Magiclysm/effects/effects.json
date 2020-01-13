@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_type",
+    "id": "mana_fatigue",
+    "name": [ "Mana Fatigue" ],
+    "desc": [ "You are exhausted from channeling a lot of mana." ],
+    "apply_message": "Channeling so much mana is making you tired",
+    "remove_message": "The burden of mana fatigue has faded",
+    "rating": "bad",
+    "base_mods": { "fatigue_amount": [ 1 ], "fatigue_min": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],

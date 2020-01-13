@@ -1521,7 +1521,8 @@ static item_location autodoc_internal( player &u, player &patient,
             }
 
             if( !b_filter.empty() ) {
-                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+                // Legacy
+                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );
             } else {
                 hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
             }
@@ -1681,11 +1682,13 @@ class bionic_install_preset: public inventory_selector_preset
                                                 duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                return it.has_flag( "ANESTHESIA" ); // legacy
+                // Legacy
+                return it.has_flag( "ANESTHESIA" );
             } );
 
             if( !b_filter.empty() ) {
-                return  _( "kit available" );// legacy
+                // Legacy
+                return  _( "kit available" );
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
@@ -1764,10 +1767,11 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             player &installer = p;
             const int assist_bonus = installer.get_effect_int( effect_assisted );
 
+            // Override player's skills with surgeon skill
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
-                                       20 );//override player's skills with surgeon skill
+                                       20 );
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
                 g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {

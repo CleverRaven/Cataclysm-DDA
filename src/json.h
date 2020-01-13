@@ -796,14 +796,17 @@ class JsonObject
 {
     private:
         std::map<std::string, int> positions;
-        mutable std::set<std::string> visited_members;
         int start;
         int end_;
         bool final_separator;
-        mutable bool report_unvisited_members = true;
 #ifndef CATA_IN_TOOL
+        mutable std::set<std::string> visited_members;
+        mutable bool report_unvisited_members = true;
         mutable bool reported_unvisited_members = false;
 #endif
+        void mark_visited( const std::string &name ) const;
+        void report_unvisited() const;
+
         JsonIn *jsin;
         int verify_position( const std::string &name,
                              bool throw_exception = true ) const;
@@ -856,13 +859,13 @@ class JsonObject
             if( !has_member( name ) ) {
                 return fallback;
             }
-            visited_members.insert( name );
+            mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name ) const {
-            visited_members.insert( name );
+            mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
@@ -906,7 +909,7 @@ class JsonObject
             if( !pos ) {
                 return false;
             }
-            visited_members.insert( name );
+            mark_visited( name );
             jsin->seek( pos );
             return jsin->read( t, throw_on_error );
         }
@@ -1242,7 +1245,7 @@ class JsonObject::const_iterator
             return *this;
         }
         JsonMember operator*() const {
-            object_.visited_members.insert( iter_->first );
+            object_.mark_visited( iter_->first );
             return JsonMember( iter_->first, JsonValue( *object_.jsin, iter_->second ) );
         }
 
@@ -1293,7 +1296,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     if( !pos ) {
         return res;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
 
     // allow single string as tag

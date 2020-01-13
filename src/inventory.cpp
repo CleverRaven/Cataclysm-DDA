@@ -596,6 +596,11 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             chemistry_set.charges = veh->fuel_left( "battery", true );
             chemistry_set.item_tags.insert( "PSEUDO" );
             add_item( chemistry_set );
+
+            item electrolysis_kit( "electrolysis_kit", 0 );
+            electrolysis_kit.charges = veh->fuel_left( "battery", true );
+            electrolysis_kit.item_tags.insert( "PSEUDO" );
+            add_item( electrolysis_kit );
         }
     }
     pts.clear();

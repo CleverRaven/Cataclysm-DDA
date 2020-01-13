@@ -99,7 +99,16 @@ JsonObject::JsonObject( JsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-void JsonObject::finish()
+void JsonObject::mark_visited( const std::string &name ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members.emplace( name );
+#else
+    static_cast<void>( name );
+#endif
+}
+
+void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
     if( test_mode && report_unvisited_members && !reported_unvisited_members &&
@@ -118,6 +127,11 @@ void JsonObject::finish()
         }
     }
 #endif
+}
+
+void JsonObject::finish()
+{
+    report_unvisited();
     if( jsin && jsin->good() ) {
         jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
@@ -135,7 +149,9 @@ bool JsonObject::empty() const
 
 void JsonObject::allow_omitted_members() const
 {
+#ifndef CATA_IN_TOOL
     report_unvisited_members = false;
+#endif
 }
 
 int JsonObject::verify_position( const std::string &name,
@@ -234,7 +250,7 @@ void JsonObject::throw_error( std::string err ) const
 JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
     int pos = verify_position( name );
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin;
 }
@@ -252,7 +268,7 @@ bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_bool();
 }
@@ -268,7 +284,7 @@ int JsonObject::get_int( const std::string &name, const int fallback ) const
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_int();
 }
@@ -284,7 +300,7 @@ double JsonObject::get_float( const std::string &name, const double fallback ) c
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_float();
 }
@@ -300,7 +316,7 @@ std::string JsonObject::get_string( const std::string &name, const std::string &
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_string();
 }
@@ -313,7 +329,7 @@ JsonArray JsonObject::get_array( const std::string &name ) const
     if( !pos ) {
         return JsonArray();
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return JsonArray( *jsin );
 }
@@ -342,7 +358,7 @@ JsonObject JsonObject::get_object( const std::string &name ) const
     if( !pos ) {
         return JsonObject();
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_object();
 }
@@ -355,7 +371,7 @@ bool JsonObject::has_null( const std::string &name ) const
     if( !pos ) {
         return false;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->test_null();
 }
@@ -1893,6 +1909,6 @@ JsonValue JsonObject::get_member( const std::string &name ) const
     if( !jsin || iter == positions.end() ) {
         throw_error( "requested non-existing member \"" + name + "\"" );
     }
-    visited_members.insert( name );
+    mark_visited( name );
     return JsonValue( *jsin, iter->second );
 }

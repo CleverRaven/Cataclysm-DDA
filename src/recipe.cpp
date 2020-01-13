@@ -273,6 +273,8 @@ void recipe::finalize()
         requirements_.consolidate();
     }
 
+    deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
+
     if( contained && container == "null" ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
     }
@@ -500,14 +502,19 @@ bool recipe::will_be_blacklisted() const
     return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
 }
 
-std::function<bool( const item & )> recipe::get_component_filter() const
+std::function<bool( const item & )> recipe::get_component_filter(
+    const recipe_filter_flags flags ) const
 {
     const item result = create_result();
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
+    const bool recipe_forbids_rotten =
+        result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
+    const bool flags_forbid_rotten =
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad();
     std::function<bool( const item & )> rotten_filter = return_true<item>;
-    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+    if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
             return !component.rotten();
         };
@@ -608,7 +615,7 @@ bool recipe::hot_result() const
     //
     // TODO: Make this less of a hack
     if( create_result().is_food() ) {
-        const requirement_data::alter_tool_comp_vector &tool_lists = requirements().get_tools();
+        const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
                 if( t.type == "hotplate" ) {

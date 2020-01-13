@@ -218,7 +218,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     REQUIRE( r->skill_used );
 
     GIVEN( "a companion who can help with crafting" ) {
-        standard_npc who( "helper", {}, 0 );
+        standard_npc who( "helper" );
 
         who.set_attitude( NPCATT_FOLLOW );
         who.spawn_at_sm( 0, 0, 0 );
@@ -260,7 +260,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
 
     const tripoint test_origin( 60, 60, 0 );
@@ -273,10 +273,9 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
     const recipe &r = rid.obj();
 
-    const requirement_data &reqs = r.requirements();
-    inventory crafting_inv = g->u.crafting_inventory();
-    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory(),
-                     r.get_component_filter() );
+    const inventory &crafting_inv = g->u.crafting_inventory();
+    bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                         crafting_inv, r.get_component_filter() );
     CHECK( can_craft == expect_craftable );
 }
 

@@ -667,5 +667,105 @@
       { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
       { "item": "toilet_paper", "prob": 80 }
     ]
+  },
+  {
+    "id": "SUS_desks_bedroom_unisex",
+    "type": "item_group",
+    "//": "clothing and wearable items for domestic desks, tables, etc.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
+      { "group": "accesories_personal_womens", "prob": 50 },
+      { "group": "accesories_personal_mens", "prob": 50 },
+      { "group": "masks_unisex", "prob": 20 },
+      { "group": "socks_unisex", "prob": 60 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "gloves_womens", "prob": 10 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_wardrobe_mens",
+    "type": "item_group",
+    "//": "clothing found in a man's wardrobe",
+    "subtype": "collection",
+    "entries": [
+      { "group": "shoes_unisex", "prob": 50 },
+      { "item": "fishing_waders", "prob": 3 },
+      { "item": "kilt", "prob": 10 },
+      { "item": "football_armor", "prob": 10 },
+      { "item": "sleeping_bag", "prob": 10 },
+      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "item": "bscabbard", "prob": 5 },
+      { "item": "kilt_leather", "prob": 5 },
+      { "item": "chaps_leather", "prob": 5 },
+      { "group": "coats_unisex", "prob": 50 },
+      { "group": "suits_unisex", "prob": 30 },
+      { "group": "suits_mens", "prob": 30 },
+      { "group": "bags_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_wardrobe_womens",
+    "type": "item_group",
+    "//": "clothing found in a woman's wardrobe",
+    "subtype": "collection",
+    "entries": [
+      { "group": "shoes_unisex", "prob": 50 },
+      { "group": "shoes_womens", "prob": 60 },
+      { "item": "fishing_waders", "prob": 2 },
+      { "item": "football_armor", "prob": 5 },
+      { "item": "skirt", "prob": 20 },
+      { "item": "skirt_leather", "prob": 10 },
+      { "item": "bscabbard", "prob": 3 },
+      { "item": "sleeping_bag", "prob": 10 },
+      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "item": "chaps_leather", "prob": 5 },
+      { "group": "coats_unisex", "prob": 50 },
+      { "group": "suits_unisex", "prob": 30 },
+      { "group": "suits_womens", "prob": 40 },
+      { "group": "bags_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_mens",
+    "type": "item_group",
+    "//": "clothing found in a man's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 10 },
+      { "group": "accesories_personal_mens", "prob": 10 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_mens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_mens", "prob": 60 },
+      { "group": "gloves_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_womens",
+    "type": "item_group",
+    "//": "clothing found in a woman's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 30 },
+      { "group": "accesories_personal_womens", "prob": 5 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 10 },
+      { "group": "shirts_womens", "prob": 60 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_womens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_womens", "prob": 60 },
+      { "group": "gloves_womens", "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 }
+    ]
   }
 ]

@@ -1874,7 +1874,7 @@
   {
     "type": "speech",
     "speaker": "mon_nursebot_defective",
-    "sound": "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"",
+    "sound": "a soft robotic voice say, \"Come here and stand still for a few minutes, I'll give you a check-up.\"",
     "volume": 8
   },
   {
@@ -2133,6 +2133,30 @@
     "type": "speech",
     "speaker": "mon_eyebot",
     "sound": "\"Police inbound.  Stay where you are!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"visceral chittering.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"a clear high-pitched hum.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"the hum of static electricity.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"a low buzzing sound.\"",
     "volume": 15
   },
   {
