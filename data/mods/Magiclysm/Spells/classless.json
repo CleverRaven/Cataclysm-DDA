@@ -12,7 +12,6 @@
     "min_damage": 1,
     "max_damage": 1,
     "min_duration": 1,
-    "max_duration": 2,
     "duration_increment": 1,
     "effect": "spawn_item",
     "effect_str": "crystallized_mana",
