@@ -493,6 +493,8 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
                      const std::string &key_bound_suf, const std::string &key_unbound );
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
+// Return "Press X" or nullopt if not bound
+cata::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
 enum class iso_rotate {

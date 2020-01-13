@@ -501,6 +501,15 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
+cata::optional<std::string> press_x_if_bound( action_id act )
+{
+    input_context ctxt = get_default_mode_input_context();
+    std::string description = action_ident( act );
+    if( ctxt.keys_bound_to( description ).empty() ) {
+        return cata::nullopt;
+    }
+    return press_x( act );
+}
 
 action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
 {

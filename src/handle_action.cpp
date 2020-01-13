@@ -1568,9 +1568,12 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
-                add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
-                                    "the current context." ),
-                         press_x( ACTION_KEYBINDINGS ) );
+                if( const cata::optional<std::string> hint =
+                        press_x_if_bound( ACTION_KEYBINDINGS ) ) {
+                    add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
+                                        "the current context." ),
+                             *hint );
+                }
             }
         }
         return false;
