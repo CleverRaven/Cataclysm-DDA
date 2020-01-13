@@ -1168,7 +1168,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 2,
-    "calories": 293,
+    "calories": 378,
     "description": "Delicious slivers of thinly sliced raw fish wrapped in tasty sushi rice and rolled up in a healthy green vegetable.",
     "price": 350,
     "material": [ "veggy", "flesh" ],
