@@ -2966,5 +2966,65 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_detatched4_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched5",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched5_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched6",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched6_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched6_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched7",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched7_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched7_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched8",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched8_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched8_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched9",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched9_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched9_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched10",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched10_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched10_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
   }
 ]
