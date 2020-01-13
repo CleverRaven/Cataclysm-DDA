@@ -122,7 +122,7 @@ enum sleep_deprivation_levels {
 };
 
 // This tries to represent both rating and
-// player's decision to respect said rating
+// character's decision to respect said rating
 enum edible_rating {
     // Edible or we pretend it is
     EDIBLE,
@@ -339,7 +339,7 @@ class Character : public Creature, public visitable<Character>
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
-        /** Gets player's minimum hunger and thirst */
+        /** Gets character's minimum hunger and thirst */
         int stomach_capacity() const;
         virtual std::pair<std::string, nc_color> get_thirst_description() const;
         virtual std::pair<std::string, nc_color> get_hunger_description() const;
@@ -1580,7 +1580,7 @@ class Character : public Creature, public visitable<Character>
          */
         bool vitamin_set( const vitamin_id &vit, int qty );
         /**
-         * Add or subtract vitamins from player storage pools
+          * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
          * @param qty amount by which to adjust vitamin (negative values are permitted)
          * @param capped if true prevent vitamins which can accumulate in excess from doing so
@@ -1597,7 +1597,7 @@ class Character : public Creature, public visitable<Character>
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
-        /** Determine player's capability of recharging their CBMs. */
+        /** Determine character's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
@@ -1619,11 +1619,11 @@ class Character : public Creature, public visitable<Character>
         void modify_health( const islot_comestible &comest );
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
-        /** Check player's capability of consumption overall */
+        /** Check character's capability of consumption overall */
         bool can_consume( const item &it ) const;
-        /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
+        /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
-        /** Check whether player can consume this very item */
+        /** Check whether character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
         /**
          * Returns a reference to the item itself (if it's consumable),
@@ -1635,7 +1635,7 @@ class Character : public Creature, public visitable<Character>
         hint_rating rate_action_eat( const item &it ) const;
 
         /** Get calorie & vitamin contents for a comestible, taking into
-         * account player traits */
+         * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,
          * depending on choice of ingredients */
         std::pair<nutrients, nutrients> compute_nutrient_range(
@@ -1647,12 +1647,12 @@ class Character : public Creature, public visitable<Character>
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
         void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
-        /** Returns allergy type or MORALE_NULL if not allergic for this player */
+        /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
-        /** Returns true if the player is wearing something on the entered body_part */
+         /** Returns true if the character is wearing something on the entered body_part */
         bool wearing_something_on( body_part bp ) const;
-        /** Returns true if the player is wearing something occupying the helmet slot */
+         /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items coveringi
          *  the head */
