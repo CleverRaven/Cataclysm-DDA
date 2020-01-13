@@ -19,8 +19,22 @@
 	"energy_source": "MANA",
 	"base_energy_cost": 1000,
 	"final_energy_cost": 1000,
-	"base_casting_time": 360000,
-	"final_casting_time": 360000
+	"base_casting_time": 720000,
+	"final_casting_time": 720000,
+	"extra_effects": [ { "id": "mana_fatigue" } ]
+  },
+  {
+	"id": "mana_fatigue",
+	"type": "SPELL",
+	"name": "Mana Fatigue",
+	"description": "Secondary effect of Crystallize Mana",
+	"valid_targets": [ "self" ],
+	"effect": "target_attack",
+	"effect_str": "mana_fatigue",
+	"max_level": 1,
+	"min_duration": 6000,
+	"max_duration": 6000,
+	"//": "actual fatigue gained is 1/100th duration, at 6000 you get 60 fatigue."
   },
   {
     "id": "dark_sight",
