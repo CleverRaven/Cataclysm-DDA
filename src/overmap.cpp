@@ -1272,6 +1272,30 @@ bool overmap::has_note( const tripoint &p ) const
     return false;
 }
 
+bool overmap::is_marked_dangerous( const tripoint &p ) const
+{
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( !i.dangerous ) {
+            continue;
+        } else if( p.xy() == i.p ) {
+            return true;
+        }
+        const int radius = i.danger_radius;
+        if( i.danger_radius == 0 && i.p != p.xy() ) {
+            continue;
+        }
+        for( int x = -radius; x <= radius; x++ ) {
+            for( int y = -radius; y <= radius; y++ ) {
+                const tripoint rad_point = tripoint( i.p, p.z ) + point( x, y );
+                if( p.xy() == rad_point.xy() ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 const std::string &overmap::note( const tripoint &p ) const
 {
     static const std::string fallback {};
@@ -1306,6 +1330,17 @@ void overmap::add_note( const tripoint &p, std::string message )
         it->text = std::move( message );
     } else {
         notes.erase( it );
+    }
+}
+
+void overmap::mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous )
+{
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( p.xy() == i.p ) {
+            i.dangerous = is_dangerous;
+            i.danger_radius = radius;
+            return;
+        }
     }
 }
 

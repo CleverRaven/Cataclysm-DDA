@@ -21581,8 +21581,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "rural_house",
-    "copy-from": "rural_house",
+    "id": "rural_house1",
+    "copy-from": "rural_house1",
     "sym": "\u00E2"
   },
   {
