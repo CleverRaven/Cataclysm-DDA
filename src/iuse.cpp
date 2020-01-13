@@ -1666,7 +1666,12 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     }
 
     auto loc = g->inv_map_splice( []( const item & e ) {
-        return !e.toolmods().empty();
+        for( const item *it : e.toolmods() ) {
+            if( !it->is_irremovable() ) {
+                return true;
+            }
+        }
+        return false;
     },
     _( "Remove mods from tool?" ), 1,
     _( "You don't have any modified tools." ) );
@@ -1678,8 +1683,9 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
         auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item & e ) {
-            return e.is_toolmod();
+            return e.is_toolmod() && !e.is_irremovable();
         } );
+        add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
         p->i_add_or_drop( *mod );
         loc->contents.erase( mod );
 
