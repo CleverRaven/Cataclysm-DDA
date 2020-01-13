@@ -117,6 +117,31 @@ class monfaction;
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<log_entry_type>( const log_entry_type type )
+{
+    switch( type ) {
+        // *INDENT-OFF*
+        case ENTRY_CHANGED_MISSION: return "ENTRY_CHANGED_MISSION";
+        case ENTRY_CHANGED_ATTITUDE: return "ENTRY_CHANGED_ATTITUDE";
+        case ENTRY_CHANGED_ACTIVITY: return "ENTRY_CHANGED_ACTIVITY";
+        case ENTRY_WORK_RESULT: return "ENTRY_WORK_RESULT";
+        // *INDENT-ON*
+        case NUM_ENTRY_TYPE:
+            break;
+    }
+    debugmsg( "Invalid log_entry_type" );
+    abort();
+}
+
+} //namespace io
+
+void starting_clothes( npc &who, const npc_class_id &type, bool male );
+void starting_inv( npc &who, const npc_class_id &type );
+
 npc::npc()
     : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
@@ -633,10 +658,144 @@ void starting_inv( npc &who, const npc_class_id &type )
     who.inv += res;
 }
 
+void npc_log_manager::display( std::vector<int> filter_ids )
+{
+    std::vector<std::string> res;
+    std::vector<npc_work_log_entry> log_vec;
+    if( filter_ids.empty() ) {
+        log_vec = get_log_as_vector();
+    } else if( static_cast<int>( filter_ids.size() ) == 1 ) {
+        log_vec = get_log_filtered_by_id( filter_ids[0] );
+    } else {
+        log_vec = get_log_filtered_by_ids( filter_ids );
+    }
+    for( const npc_work_log_entry entry : log_vec ) {
+        // work log does double duty as a debug log of sorts.
+        // and also feedback as to why NPCs fail to do activities etc.
+        if( debug_mode ) {
+            res.push_back( entry.entry_to_string() );
+        } else {
+            if( entry.get_entry_type() == ENTRY_WORK_RESULT ||
+                entry.get_entry_type() == ENTRY_CHANGED_ACTIVITY ) {
+                res.push_back( entry.entry_to_string() );
+            }
+        }
+    }
+    display( res );
+}
+
+void npc_log_manager::display( character_id filter_id )
+{
+    std::vector<int> res;
+    res.push_back( filter_id.get_value() );
+    display( res );
+}
+
+void npc_log_manager::display( std::vector<std::string> entries )
+{
+    if( entries.empty() ) {
+        return;
+    }
+    folded.clear();
+    w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
+    w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    w_x = ( TERMX - w_width ) / 2;
+    w_y = ( TERMY - w_height ) / 2;
+
+    w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+
+    ctxt = input_context( "NPC_LOG_MANAGER" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    max_width = w_width - 2;
+    max_height = w_height - 2;
+
+    offset = 0;
+
+    for( size_t i = 0; i < entries.size(); ++i ) {
+        const std::vector<std::string> lines = foldstring( entries[i], max_width - 1 );
+        folded.insert( folded.end(), lines.begin(), lines.end() );
+    }
+    run();
+}
+
+void npc_log_manager::show()
+{
+    werase( w );
+    draw_border( w, c_white, _( "Work Log" ) );
+
+    scrollbar()
+    .offset_x( 0 )
+    .offset_y( 1 )
+    .content_size( folded.size() )
+    .viewport_pos( offset )
+    .viewport_size( max_height )
+    .apply( w );
+
+    nc_color col = c_light_gray;
+
+    for( int i = 0; i < std::min( static_cast<int>( folded.size() ), max_height ); ++i ) {
+        print_colored_text( w, point( 2, 1 + i ), col, col,
+                            folded[offset + i] );
+    }
+
+    wrefresh( w );
+}
+
+void npc_log_manager::run()
+{
+    bool done = false;
+    while( !done ) {
+        show();
+        const std::string &action = ctxt.handle_input();
+        if( action == "UP" ) {
+            offset = std::max( 0, offset - 1 );
+        } else if( action == "DOWN" ) {
+            offset = clamp( offset + 1, 0, static_cast<int>( folded.size() ) - max_height );
+        } else if( action == "QUIT" ) {
+            done = true;
+        } else if( action == "PAGE_DOWN" ) {
+            offset = clamp( offset + 10, 0, static_cast<int>( folded.size() ) - max_height );
+        } else if( action == "PAGE_UP" ) {
+            offset = std::max( 0, offset - 10 );
+        }
+    }
+}
+
+void npc::add_to_work_log( const log_entry_type &event_type, const std::string &description )
+{
+    npc_work_log_entry new_entry = npc_work_log_entry( *this, event_type, description );
+    g->npc_log_manager_ptr->add_entry( new_entry );
+}
+
+void npc::add_to_work_log( const log_entry_type &event_type, const tripoint &work_spot,
+                           const std::string &description )
+{
+    npc_work_log_entry new_entry = npc_work_log_entry( *this, event_type, description );
+    new_entry.set_entry_position( work_spot );
+    g->npc_log_manager_ptr->add_entry( new_entry );
+}
+
+void npc::add_to_work_log( const log_entry_type &event_type, const tripoint &work_spot,
+                           const activity_reason_info &reason, const std::string &description )
+{
+    npc_work_log_entry new_entry = npc_work_log_entry( *this, event_type, description );
+    new_entry.set_entry_position( work_spot );
+    new_entry.set_entry_reason( reason );
+    g->npc_log_manager_ptr->add_entry( new_entry );
+}
+
 void npc::revert_after_activity()
 {
     mission = previous_mission;
     attitude = previous_attitude;
+    add_to_work_log( ENTRY_CHANGED_MISSION, get_mission_conversion_string() );
+    add_to_work_log( ENTRY_CHANGED_ATTITUDE, npc_attitude_name( attitude ) );
     activity = player_activity();
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
@@ -3096,9 +3255,48 @@ void npc::set_mission( npc_mission new_mission )
         previous_mission = mission;
         mission = new_mission;
     }
+    add_to_work_log( ENTRY_CHANGED_MISSION, get_mission_conversion_string() );
     if( mission == NPC_MISSION_ACTIVITY ) {
         current_activity_id = activity.id();
     }
+}
+
+std::string npc::get_mission_conversion_string()
+{
+    std::string ret;
+    switch( mission ) {
+        case NPC_MISSION_SHELTER:
+            ret = _( "Mission - Shelter" );
+            break;
+        case NPC_MISSION_SHOPKEEP:
+            ret = _( "Mission - Shopkeep" );
+            break;
+        case NPC_MISSION_GUARD:
+            ret = _( "Mission - Guard" );
+            break;
+        case NPC_MISSION_GUARD_ALLY:
+            ret = _( "Mission - Guard Ally" );
+            break;
+        case NPC_MISSION_GUARD_PATROL:
+            ret = _( "Mission - Guard Patrol" );
+            break;
+        case NPC_MISSION_ACTIVITY:
+            ret = _( "Mission - Activity" );
+            break;
+        case NPC_MISSION_TRAVELLING:
+            ret = _( "Mission - Travelling" );
+            break;
+        case NPC_MISSION_NULL:
+            ret = _( "Mission - Null" );
+            break;
+        case NPC_MISSION_ASSIGNED_CAMP:
+            ret = _( "Mission - Working at Camp" );
+            break;
+        default:
+            ret = _( "Mission - Legacy or error" );
+            break;
+    }
+    return ret;
 }
 
 bool npc::has_activity() const
@@ -3126,6 +3324,7 @@ void npc::set_attitude( npc_attitude new_attitude )
 
     add_msg( m_debug, "%s changes attitude from %s to %s",
              name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
+    add_to_work_log( ENTRY_CHANGED_ATTITUDE, npc_attitude_name( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() && g->u.sees( *this ) ) {

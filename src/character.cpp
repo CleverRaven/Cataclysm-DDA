@@ -8804,6 +8804,7 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         guy->set_attitude( NPCATT_ACTIVITY );
         guy->set_mission( NPC_MISSION_ACTIVITY );
         guy->current_activity_id = activity.id();
+        guy->add_to_work_log( ENTRY_CHANGED_ACTIVITY, string_format( _( "%s " ), activity.get_verb() ) );
     }
 }
 

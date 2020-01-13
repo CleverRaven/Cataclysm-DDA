@@ -379,6 +379,11 @@ void talk_function::abandon_camp( npc &p )
     }
 }
 
+void talk_function::show_work_log( npc &p )
+{
+    g->npc_log_manager_ptr->display( p.getID() );
+}
+
 void talk_function::assign_camp( npc &p )
 {
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );

@@ -14,8 +14,11 @@
 #include <utility>
 #include <functional>
 
+#include "activity_handlers.h"
 #include "calendar.h"
 #include "faction.h"
+#include "ime.h"
+#include "input.h"
 #include "line.h"
 #include "lru_cache.h"
 #include "optional.h"
@@ -28,6 +31,7 @@
 #include "item_location.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
 #include "material.h"
 #include "type_id.h"
 #include "int_id.h"
@@ -52,7 +56,10 @@ struct pathfinding_settings;
 class monfaction;
 class npc_class;
 struct mission_type;
+struct activity_reason_info;
+class window;
 
+enum log_entry_type : int;
 enum game_message_type : int;
 class gun_mode;
 
@@ -173,6 +180,19 @@ class job_data
         }
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+};
+
+enum log_entry_type : int {
+    ENTRY_CHANGED_MISSION = 0,
+    ENTRY_CHANGED_ATTITUDE,
+    ENTRY_CHANGED_ACTIVITY,
+    ENTRY_WORK_RESULT,
+    NUM_ENTRY_TYPE
+};
+
+template<>
+struct enum_traits<log_entry_type> {
+    static constexpr log_entry_type last = NUM_ENTRY_TYPE;
 };
 
 enum npc_mission : int {
@@ -1239,6 +1259,7 @@ class npc : public player
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
+        std::string get_mission_conversion_string();
         bool has_activity() const;
         bool has_job() const {
             return job.has_job();
@@ -1246,6 +1267,11 @@ class npc : public player
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
+        void add_to_work_log( const log_entry_type &event_type, const std::string &description );
+        void add_to_work_log( const log_entry_type &event_type, const tripoint &work_spot,
+                              const std::string &description );
+        void add_to_work_log( const log_entry_type &event_type, const tripoint &work_spot,
+                              const activity_reason_info &reason, const std::string &description );
 
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
@@ -1420,6 +1446,165 @@ class npc_template
         static void load( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
+};
+
+class npc_work_log_entry
+{
+    private:
+        // required
+        std::string entry_npc_name;
+        time_point entry_timestamp;
+        int entry_npc_id;
+        log_entry_type entry_type;
+        std::string entry_description;
+        // not required
+        cata::optional<tripoint> entry_position;
+        cata::optional<activity_reason_info> entry_reason;
+    public:
+        npc_work_log_entry() {
+            entry_npc_name = "nullname";
+            entry_timestamp = calendar::before_time_starts;
+            entry_npc_id = -1;
+            entry_type = NUM_ENTRY_TYPE;
+            entry_description = "nulldesc";
+        }
+        npc_work_log_entry( npc &p, log_entry_type new_entry_type, std::string new_entry_description ) {
+            entry_timestamp = calendar::turn;
+            entry_npc_name = p.name;
+            entry_npc_id = p.getID().get_value();
+            entry_type = new_entry_type;
+            entry_description = new_entry_description;
+        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+        std::string get_entry_npc_name() const {
+            return entry_npc_name;
+        }
+        time_point get_entry_timestamp() const {
+            return entry_timestamp;
+        }
+        int get_entry_npc_id() const {
+            return entry_npc_id;
+        }
+        log_entry_type get_entry_type() const {
+            return entry_type;
+        }
+        std::string get_entry_description() const {
+            return entry_description;
+        }
+        cata::optional<tripoint> get_entry_position() const {
+            return entry_position;
+        }
+        cata::optional<activity_reason_info> get_entry_reason() const {
+            return entry_reason;
+        }
+        void set_entry_position( const tripoint &work_spot ) {
+            entry_position = work_spot;
+        }
+        void set_entry_reason( const activity_reason_info &reason ) {
+            entry_reason = reason;
+        }
+        std::string get_type_description() const {
+            std::string ret;
+            switch( entry_type ) {
+                case ENTRY_CHANGED_MISSION:
+                    ret = _( "mission is now:" );
+                    break;
+                case ENTRY_CHANGED_ATTITUDE:
+                    ret = _( "attitude is now:" );
+                    break;
+                case ENTRY_CHANGED_ACTIVITY:
+                    ret = _( "activity is now:" );
+                    break;
+                case ENTRY_WORK_RESULT:
+                    ret = _( "work result:" );
+                    break;
+                default:
+                    ret = "";
+                    break;
+            }
+            return ret;
+        }
+        std::string entry_to_string( bool timestamp = true ) const {
+            std::string ret;
+            if( timestamp ) {
+                ret = string_format( _( "%s: %s %s %s" ), to_string( entry_timestamp ), entry_npc_name,
+                                     get_type_description(), entry_description );
+            } else {
+                ret = string_format( _( "%s %s %s" ), entry_npc_name, get_type_description(), entry_description );
+            }
+            return ret;
+        }
+};
+
+class npc_log_manager
+{
+    public:
+        void clear() {
+            log.clear();
+        }
+        void display( std::vector<std::string> text_entries );
+        void display( character_id filter_id );
+        void display( std::vector<int> filter_ids = std::vector<int>() );
+        void run();
+        void show();
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+        void add_entry( npc_work_log_entry new_entry ) {
+            log.push_back( new_entry );
+            if( log.size() > 5000 ) {
+                log.pop_front();
+            }
+        }
+        std::deque<npc_work_log_entry> get_log() const {
+            return log;
+        }
+        std::vector<npc_work_log_entry> get_log_as_vector() const {
+            return std::vector<npc_work_log_entry>( log.begin(), log.end() );
+        }
+        cata::optional<npc_work_log_entry> get_most_recent_for_id( const character_id id ) {
+            for( auto i = log.rbegin(); i != log.rend(); ++i ) {
+                if( i->get_entry_timestamp() != calendar::turn ) {
+                    return cata::nullopt;
+                }
+                if( i->get_entry_npc_id() != id.get_value() ) {
+                    continue;
+                }
+                return *i;
+            }
+            return cata::nullopt;
+        }
+        std::vector<npc_work_log_entry> get_log_filtered_by_id( int id ) const {
+            std::vector<npc_work_log_entry> ret;
+            for( const npc_work_log_entry entry : log ) {
+                if( entry.get_entry_npc_id() == id ) {
+                    ret.push_back( entry );
+                }
+            }
+            return ret;
+        }
+        std::vector<npc_work_log_entry> get_log_filtered_by_ids( const std::vector<int> ids ) const {
+            std::vector<npc_work_log_entry> ret;
+            if( ids.empty() ) {
+                return ret;
+            }
+            for( const npc_work_log_entry entry : log ) {
+                if( std::find( ids.begin(), ids.end(), entry.get_entry_npc_id() ) != ids.end() ) {
+                    ret.push_back( entry );
+                }
+            }
+            return ret;
+        }
+    private:
+        std::deque<npc_work_log_entry> log;
+        int w_x, w_y, w_width, w_height;
+        int max_width, max_height;
+        int offset;
+
+        input_context ctxt;
+        catacurses::window w;
+
+        std::vector<std::string> folded;
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

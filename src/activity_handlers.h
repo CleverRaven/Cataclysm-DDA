@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 
+#include "activity_type.h"
 #include "player_activity.h"
 
 class player;
@@ -58,8 +59,14 @@ enum do_activity_reason : int {
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
+    NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
-    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
+    NUM_DO_ACTIVITY_REASON
+};
+
+template<>
+struct enum_traits<do_activity_reason> {
+    static constexpr do_activity_reason last = NUM_DO_ACTIVITY_REASON;
 };
 
 struct activity_reason_info {
@@ -69,12 +76,18 @@ struct activity_reason_info {
     bool can_do;
     //construction index
     cata::optional<construction_id> con_idx;
-
+    //string usage to store specific reaosn strings.
+    std::string added_reason;
+    activity_reason_info() : reason( NUM_DO_ACTIVITY_REASON ), can_do( false ),
+        con_idx( cata::nullopt ), added_reason( std::string() ) {
+    }
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const cata::optional<construction_id> &con_idx_ = cata::nullopt,
+                          std::string added_reason_ = std::string() ) :
         reason( reason_ ),
         can_do( can_do_ ),
-        con_idx( con_idx_ )
+        con_idx( con_idx_ ),
+        added_reason( added_reason_ )
     { }
 
     static activity_reason_info ok( const do_activity_reason &reason_ ) {
@@ -89,6 +102,8 @@ struct activity_reason_info {
     static activity_reason_info fail( const do_activity_reason &reason_ ) {
         return activity_reason_info( reason_, false );
     }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );

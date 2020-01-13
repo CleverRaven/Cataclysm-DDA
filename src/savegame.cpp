@@ -1636,6 +1636,8 @@ void game::unserialize_master( std::istream &fin )
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {
                 jsin.read( *faction_manager_ptr );
+            } else if( name == "work_log" ) {
+                jsin.read( *npc_log_manager_ptr );
             } else if( name == "seed" ) {
                 jsin.read( seed );
             } else if( name == "weather" ) {
@@ -1674,6 +1676,7 @@ void game::serialize_master( std::ostream &fout )
         mission::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
+        json.member( "work_log", *npc_log_manager_ptr );
         json.member( "seed", seed );
 
         json.member( "weather" );
@@ -1685,6 +1688,16 @@ void game::serialize_master( std::ostream &fout )
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
     }
+}
+
+void npc_log_manager::serialize( JsonOut &jsout ) const
+{
+    jsout.write( log );
+}
+
+void npc_log_manager::deserialize( JsonIn &jsin )
+{
+    jsin.read( log );
 }
 
 void faction_manager::serialize( JsonOut &jsout ) const

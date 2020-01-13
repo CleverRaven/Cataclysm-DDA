@@ -101,6 +101,7 @@ class map;
 class tripoint_range;
 class memorial_logger;
 class faction_manager;
+class npc_log_manager;
 class npc;
 class player;
 class stats_tracker;
@@ -944,6 +945,7 @@ class game
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
+        pimpl<npc_log_manager> npc_log_manager_ptr;
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;

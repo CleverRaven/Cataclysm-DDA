@@ -868,6 +868,11 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_farming"
+      },
+      {
+        "text": "Please show me your work log, so I can see what you've been doing.",
+        "topic": "TALK_DONE",
+        "effect": "show_work_log"
       }
     ]
   },

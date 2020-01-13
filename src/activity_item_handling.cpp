@@ -1497,6 +1497,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     } else if( act == ACT_MULTIPLE_FARM ) {
         zones = mgr.get_zones( zone_type_FARM_PLOT,
                                g->m.getabs( src_loc ) );
+        std::string seed;
         for( const zone_data &zone : zones ) {
             if( g->m.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
@@ -1516,7 +1517,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 } else {
                     // do we have the required seed on our person?
                     const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
-                    const std::string seed = options.get_seed();
+                    seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
                     if( seed.empty() ) {
@@ -1527,7 +1528,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     } );
                     for( const auto elem : seed_inv ) {
                         if( elem->typeId() == itype_id( seed ) ) {
-                            return activity_reason_info::ok( NEEDS_PLANTING );
+                            activity_reason_info reason = activity_reason_info::ok( NEEDS_PLANTING );
+                            reason.added_reason = seed;
+                            return reason;
                         }
                     }
                     // didn't find the seed, but maybe there are overlapping farm zones
@@ -1542,7 +1545,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 
         }
         // looped through all zones, and only got here if its plantable, but have no seeds.
-        return activity_reason_info::fail( NEEDS_PLANTING );
+        activity_reason_info reason = activity_reason_info::fail( NEEDS_PLANTING );
+        reason.added_reason = seed;
+        return reason;
     } else if( act == ACT_FETCH_REQUIRED ) {
         // we check if its possible to get all the requirements for fetching at two other places.
         // 1. before we even assign the fetch activity and;
@@ -2311,8 +2316,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, _( "%s sorted out every item possible." ), p.disp_name( false, true ) );
-    if( p.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &p );
+    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
         guy->revert_after_activity();
     }
     p.activity.set_to_null();
@@ -2403,11 +2407,8 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
 
 static void check_npc_revert( player &p )
 {
-    if( p.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &p );
-        if( guy ) {
-            guy->revert_after_activity();
-        }
+    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
+        guy->revert_after_activity();
     }
 }
 
@@ -2565,6 +2566,11 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
     const bool post_dark_check = src_set.empty();
     if( !pre_dark_check && post_dark_check ) {
         p.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
+        if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
+            const std::string text = string_format( _( "finished %s due to being too dark" ),
+                                                    act_id.obj().verb() );
+            guy->add_to_work_log( ENTRY_WORK_RESULT, text );
+        }
     }
     return src_set;
 }
@@ -2705,6 +2711,10 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
             }
+            if( npc *guy = dynamic_cast<npc *>( &p ) ) {
+                std::string desc = _( "The required items are not available to complete this task." );
+                guy->add_to_work_log( ENTRY_WORK_RESULT, src_loc, act_info, desc );
+            }
             return SKIP_LOCATION;
         } else {
             if( !check_only ) {
@@ -2732,6 +2742,12 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                         p.activity = player_activity();
                         p.backlog.clear();
                         check_npc_revert( p );
+                        if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
+                            const std::string text = string_format(
+                                                         _( "cannot complete %s due as I cannot see where to move components" ),
+                                                         act_id.obj().verb() );
+                            guy->add_to_work_log( ENTRY_WORK_RESULT, text );
+                        }
                         return SKIP_LOCATION;
                     }
                     act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
@@ -2853,6 +2869,174 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     return true;
 }
 
+static void report_work_log_result( player &p, activity_id &act_id, activity_reason_info &info,
+                                    const tripoint &src_loc )
+{
+    if( !p.is_npc() ) {
+        return;
+    }
+    ( void )act_id;
+    npc *guy = dynamic_cast<npc *>( &p );
+    std::string construction_desc = "";
+    std::string tripoint_string = string_format( _( "x:%d,y:%d" ), src_loc.x, src_loc.y );
+    bool ignore = false;
+    if( info.con_idx ) {
+        construction_desc = info.con_idx->obj().description;
+    }
+    std::string desc;
+    switch( info.reason ) {
+        case CAN_DO_CONSTRUCTION: {
+            desc = string_format( _( "can do construction %s, at %s, with current inventory." ),
+                                  construction_desc, tripoint_string );
+            break;
+        }
+        case CAN_DO_FETCH: {
+            desc = _( "fetching components and tools." );
+            break;
+        }
+        case CAN_DO_PREREQ_2:
+        case CAN_DO_PREREQ: {
+            desc = string_format( _( "can do prerequisite construction %s, at %s with current inventory." ),
+                                  construction_desc, tripoint_string );
+            break;
+        }
+        case NO_COMPONENTS: {
+            desc = string_format(
+                       _( "can't do construction %s at %s, need to see if I can fetch required components and tools." ),
+                       construction_desc, tripoint_string );
+            break;
+        }
+        case NO_COMPONENTS_PREREQ:
+        case NO_COMPONENTS_PREREQ_2: {
+            desc = string_format(
+                       _( "can't do prerequisite construction %s at %s, will try and fetch required components and tools." ),
+                       construction_desc, tripoint_string );
+            break;
+        }
+        case DONT_HAVE_SKILL: {
+            desc = string_format( _( "not skilled enough for task %s at %s." ), construction_desc,
+                                  tripoint_string );
+            break;
+        }
+        case NO_ZONE: {
+            if( act_id == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                for( const auto &i : g->m.i_at( src_loc ) ) {
+                    // make sure nobody else is working on that corpse right now
+                    if( i.is_corpse() ) {
+                        desc = string_format(
+                                   _( "the corpse is too big at %s, I need a flat surface and rack or rope and tree." ),
+                                   tripoint_string );
+                        break;
+                    }
+                }
+                ignore = true;
+            } else if( act_id == activity_id( "ACT_TIDY_UP" ) ) {
+                desc = _( "trying to tidy up, but there is no unsorted zones nearby." );
+            }
+            break;
+        }
+        case ALREADY_DONE: {
+            desc = string_format( _( "the work is already done at %s." ), tripoint_string );
+            break;
+        }
+        case NEEDS_HARVESTING: {
+            desc = string_format( _( "can harvest plant at %s." ), tripoint_string );
+            break;
+        }
+        case NEEDS_PLANTING: {
+            if( info.can_do ) {
+                desc = string_format( _( "can plant %s at %s." ), info.added_reason, tripoint_string );
+            } else {
+                desc = string_format(
+                           _( "can plant %s at %s, but dont have the right seeds with me, will search for them." ),
+                           info.added_reason, tripoint_string );
+            }
+            break;
+        }
+        case NEEDS_TILLING: {
+            if( info.can_do ) {
+                desc = string_format( _( "can till soil at %s." ), tripoint_string );
+            } else if( info.can_do ) {
+                desc = string_format( _( "I want to till soil at %s, but need to fetch tools first, if possible." ),
+                                      tripoint_string );
+            }
+            break;
+        }
+        case BLOCKING_TILE: {
+            desc = string_format( _( "there is something blocking the work at %s." ), tripoint_string );
+            break;
+        }
+        case NEEDS_CHOPPING: {
+            if( info.can_do ) {
+                desc = string_format( _( "can chop wood at %s." ), tripoint_string );
+            } else {
+                desc = string_format( _( "want to chop wood at %s, but need to fetch tools first, if possible." ),
+                                      tripoint_string );
+            }
+            break;
+        }
+        case NEEDS_TREE_CHOPPING: {
+            if( info.can_do ) {
+                desc = string_format( _( "I can chop down a tree at %s." ), tripoint_string );
+            } else {
+                desc = string_format(
+                           _( "I can chop down a tree at %s, but need to fetch tools first, if possible." ), tripoint_string );
+            }
+            break;
+        }
+        case NEEDS_BUTCHERING:
+        case NEEDS_BIG_BUTCHERING: {
+            if( info.can_do ) {
+                desc = string_format( _( "I can butcher this corpse at %s." ), tripoint_string );
+            } else {
+                desc = string_format(
+                           _( "I can butcher this corpse at %s, but need to fetch some tools first, if possible." ),
+                           tripoint_string );
+            }
+            break;
+        }
+        case ALREADY_WORKING: {
+            desc = string_format( _( "somebody else is already working at %s." ), tripoint_string );
+            break;
+        }
+        case NEEDS_VEH_DECONST: {
+            if( info.can_do ) {
+                desc = string_format( _( "I can deconstruct a vehicle part at %s." ), tripoint_string );
+            } else {
+                desc = string_format(
+                           _( "I can deconstruct a vehicle part at %s, but I need to fetch some tools first, if possible." ),
+                           tripoint_string );
+            }
+            break;
+        }
+        case NEEDS_VEH_REPAIR: {
+            if( info.can_do ) {
+                desc = string_format( _( "I can repair a vehicle part at %s." ), tripoint_string );
+            } else {
+                desc = string_format(
+                           _( "I can repair a vehicle part at %s, but I need to fetch some tools first, if possible." ),
+                           tripoint_string );
+            }
+            break;
+        }
+        case NEEDS_FISHING: {
+            if( info.can_do ) {
+                desc = string_format(
+                           _( "I can do some fishing at %s, but I need to fetch some tools first, if possible." ),
+                           tripoint_string );
+            }
+            break;
+        }
+        case UNKNOWN_ACTIVITY:
+        default:
+            ignore = true;
+            break;
+    }
+    if( !ignore ) {
+        guy->add_to_work_log( ENTRY_WORK_RESULT, src_loc, info, desc );
+    }
+}
+
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
@@ -2869,6 +3053,21 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
     // or if we need to fetch something first.
+    if( src_set.empty() && p.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &p );
+        if( guy && activity_to_restore != activity_id( "ACT_TIDY_UP" ) ) {
+            std::string text;
+            if( activity_to_restore == activity_id( "ACT_FETCH_REQUIRED" ) ) {
+                text = string_format( _( "started %s but cannot find the required tools and components for %s." ),
+                                      activity_to_restore.obj().verb(),
+                                      p.backlog.empty() ? to_translation( "the previous activity" ) : p.backlog.front().get_verb() );
+            } else {
+                text = string_format( _( "started %s but there are no valid locations" ),
+                                      activity_to_restore.obj().verb() );
+            }
+            guy->add_to_work_log( ENTRY_WORK_RESULT, text );
+        }
+    }
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
         if( !g->m.inbounds( src_loc ) && !check_only ) {
@@ -2891,6 +3090,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         }
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, p,
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
+        report_work_log_result( p, activity_to_restore, act_info, src_loc );
         // see activity_handlers.h enum for requirement_check_result
         const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
                 activity_to_restore, act_info, src, src_loc, src_set, check_only );

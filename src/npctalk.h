@@ -51,6 +51,7 @@ void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );
+void show_work_log( npc & );
 void assign_camp( npc & );
 void abandon_camp( npc & );
 void stop_guard( npc & );

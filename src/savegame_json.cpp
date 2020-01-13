@@ -26,6 +26,7 @@
 #include <bitset>
 
 #include "activity_actor.h"
+#include "activity_handlers.h"
 #include "auto_pickup.h"
 #include "assign.h"
 #include "avatar.h"
@@ -3021,6 +3022,52 @@ void mission::serialize( JsonOut &json ) const
     json.member( "legacy_no_player_id", legacy_no_player_id );
 
     json.end_object();
+}
+
+void activity_reason_info::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "reason" );
+    json.write_as_string( reason );
+    json.member( "can_do", can_do );
+    json.member( "con_idx", con_idx );
+    json.member( "added_reason", added_reason );
+    json.end_object();
+}
+
+void activity_reason_info::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    reason = jo.get_enum_value<do_activity_reason>( "reason" );
+    jo.read( "can_do", can_do );
+    jo.read( "con_idx", con_idx );
+    jo.read( "added_reason", added_reason );
+}
+
+void npc_work_log_entry::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "entry_npc_name", entry_npc_name );
+    json.member( "entry_timestamp", entry_timestamp );
+    json.member( "entry_npc_id", entry_npc_id );
+    json.member( "entry_type" );
+    json.write_as_string( entry_type );
+    json.member( "entry_description", entry_description );
+    json.member( "entry_position", entry_position );
+    json.member( "entry_reason", entry_reason );
+    json.end_object();
+}
+
+void npc_work_log_entry::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "entry_npc_name", entry_npc_name );
+    jo.read( "entry_timestamp", entry_timestamp );
+    jo.read( "entry_npc_id", entry_npc_id );
+    entry_type = jo.get_enum_value<log_entry_type>( "entry_type" );
+    jo.read( "entry_description", entry_description );
+    jo.read( "entry_position", entry_position );
+    jo.read( "entry_reason", entry_reason );
 }
 
 ////////////////// faction.h

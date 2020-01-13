@@ -274,6 +274,47 @@ static const std::string flag_TREE( "TREE" );
 
 using namespace activity_handlers;
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<do_activity_reason>( const do_activity_reason act )
+{
+    switch( act ) {
+        // *INDENT-OFF*
+        case CAN_DO_CONSTRUCTION: return "CAN_DO_CONSTRUCTION";
+        case CAN_DO_FETCH: return "CAN_DO_FETCH";
+        case CAN_DO_PREREQ: return "CAN_DO_PREREQ";
+        case CAN_DO_PREREQ_2: return "CAN_DO_PREREQ_2";
+        case NO_COMPONENTS: return "NO_COMPONENTS";
+        case NO_COMPONENTS_PREREQ: return "NO_COMPONENTS_PREREQ";
+        case NO_COMPONENTS_PREREQ_2: return "NO_COMPONENTS_PREREQ_2";
+        case DONT_HAVE_SKILL: return "DONT_HAVE_SKILL";
+        case NO_ZONE: return "NO_ZONE";
+        case ALREADY_DONE: return "ALREADY_DONE";
+        case UNKNOWN_ACTIVITY: return "UNKNOWN_ACTIVITY";
+        case NEEDS_HARVESTING: return "NEEDS_HARVESTING";
+        case NEEDS_PLANTING: return "NEEDS_PLANTING";
+        case NEEDS_TILLING: return "NEEDS_TILLING";
+        case BLOCKING_TILE: return "BLOCKING_TILE";
+        case NEEDS_CHOPPING: return "NEEDS_CHOPPING";
+        case NEEDS_TREE_CHOPPING: return "NEEDS_TREE_CHOPPING";
+        case NEEDS_BIG_BUTCHERING: return "NEEDS_BIG_BUTCHERING";
+        case NEEDS_BUTCHERING: return "NEEDS_BUTCHERING";
+        case ALREADY_WORKING: return "ALREADY_WORKING";
+        case NEEDS_VEH_DECONST: return "NEEDS_VEH_DECONST";
+        case NEEDS_VEH_REPAIR: return "NEEDS_VEH_REPAIR";
+        case NEEDS_FISHING: return "NEEDS_FISHING";
+        // *INDENT-ON*
+        case NUM_DO_ACTIVITY_REASON:
+            break;
+    }
+    debugmsg( "Invalid do_activity_reason" );
+    abort();
+}
+
+} // namespace io
+
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
 activity_handlers::do_turn_functions = {
     { ACT_BURROW, burrow_do_turn },

@@ -1274,7 +1274,12 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                     base_camps::base_dir, entry, avail );
         }
     }
-
+    validate_assignees();
+    std::vector<npc_ptr> assigned_npcs = get_npcs_assigned();
+    if( !assigned_npcs.empty() ) {
+        entry = _( "Notes:\nShow workers log" );
+        mission_key.add( "Show Work Log", _( "Show Work Log" ), entry );
+    }
     if( !by_radio ) {
         entry = string_format( _( "Notes:\n"
                                   "Distribute food to your follower and fill you larders.  "
@@ -1293,7 +1298,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "Total faction food stock: %d kcal\nor %d day's rations" ),
                                camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
-        validate_assignees();
         entry = string_format( _( "Notes:\n"
                                   "Assign repeating job duties to NPCs stationed here.\n"
                                   "Difficulty: N/A\n"
@@ -1365,6 +1369,9 @@ bool basecamp::handle_mission( const std::string &miss_id,
     }
     if( miss_id == "Abandon Camp" ) {
         abandon_camp();
+    }
+    if( miss_id == "Show Work Log" ) {
+        show_work_log();
     }
 
     if( miss_id == "Expand Base" ) {
@@ -1710,6 +1717,19 @@ void basecamp::worker_assignment_ui()
         }
     }
 
+    g->refresh_all();
+}
+
+void basecamp::show_work_log()
+{
+    std::vector<int> char_ids;
+    for( const npc_ptr guy_ptr : get_npcs_assigned() ) {
+        char_ids.push_back( guy_ptr.get()->getID().get_value() );
+    }
+    if( char_ids.empty() ) {
+        return;
+    }
+    g->npc_log_manager_ptr->display( char_ids );
     g->refresh_all();
 }
 

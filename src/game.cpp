@@ -653,6 +653,7 @@ void game::setup()
     coming_to_stairs.clear();
     active_npc.clear();
     faction_manager_ptr->clear();
+    npc_log_manager_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     timed_events = timed_event_manager();

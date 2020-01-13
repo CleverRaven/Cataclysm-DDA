@@ -2580,6 +2580,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_farming ),
             WRAP( assign_guard ),
             WRAP( assign_camp ),
+            WRAP( show_work_log ),
             WRAP( abandon_camp ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
