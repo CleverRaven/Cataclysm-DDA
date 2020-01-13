@@ -328,7 +328,7 @@ TEST_CASE( "charge_handling", "[crafting]" )
 {
     SECTION( "carver" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.emplace_back( "hotplate", -1, 40 );
         tools.emplace_back( "soldering_iron", -1, 20 );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.emplace_back( "screwdriver" );
@@ -346,8 +346,8 @@ TEST_CASE( "charge_handling", "[crafting]" )
     }
     SECTION( "carver_split_charges" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 5 );
-        tools.emplace_back( "hotplate", -1, 5 );
+        tools.emplace_back( "hotplate", -1, 15 );
+        tools.emplace_back( "hotplate", -1, 15 );
         tools.emplace_back( "soldering_iron", -1, 5 );
         tools.emplace_back( "soldering_iron", -1, 5 );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
@@ -386,7 +386,7 @@ TEST_CASE( "charge_handling", "[crafting]" )
         actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
         CHECK( get_remaining_charges( "hotplate" ) == 0 );
         CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-        CHECK( get_remaining_charges( "UPS_off" ) == 480 );
+        CHECK( get_remaining_charges( "UPS_off" ) == 460 );
     }
     SECTION( "UPS_modded_carver_missing_charges" ) {
         std::vector<item> tools;
