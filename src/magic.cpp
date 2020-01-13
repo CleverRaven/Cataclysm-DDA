@@ -1691,7 +1691,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     if( found != invlets.end() ) {
         return found->second;
     }
-    for( const std::pair<spell_id, int> &invlet_pair : invlets ) {
+    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
         used_invlets.emplace( invlet_pair.second );
     }
     for( int i = 'a'; i <= 'z'; i++ ) {
@@ -1748,7 +1748,7 @@ int known_magic::select_spell( const player &p )
 
 void known_magic::on_mutation_gain( const trait_id &mid, player &p )
 {
-    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+    for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
         for( int level = 0; level < sp.second; level++ ) {

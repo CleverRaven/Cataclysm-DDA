@@ -800,7 +800,7 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 
 void forest_biome_component::finalize()
 {
-    for( const std::pair<std::string, int> &pr : unfinalized_types ) {
+    for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
         tf_id.ter = t_null;
         tf_id.furn = f_null;
@@ -819,7 +819,7 @@ void forest_biome_component::finalize()
 
 void forest_biome_terrain_dependent_furniture::finalize()
 {
-    for( const std::pair<std::string, int> &pr : unfinalized_furniture ) {
+    for( const std::pair<const std::string, int> &pr : unfinalized_furniture ) {
         const furn_str_id fid( pr.first );
         if( !fid.is_valid() ) {
             continue;
@@ -861,7 +861,7 @@ void forest_biome::finalize()
         return a.sequence < b.sequence;
     } );
 
-    for( const std::pair<std::string, int> &pr : unfinalized_groundcover ) {
+    for( const std::pair<const std::string, int> &pr : unfinalized_groundcover ) {
         const ter_str_id tid( pr.first );
         if( !tid.is_valid() ) {
             continue;
@@ -1046,7 +1046,7 @@ void building_bin::finalize()
         return;
     }
 
-    for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
+    for( const std::pair<const overmap_special_id, int> &pr : unfinalized_buildings ) {
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special

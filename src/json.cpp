@@ -114,7 +114,7 @@ void JsonObject::report_unvisited() const
     if( test_mode && report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
-        for( const std::pair<std::string, int> &p : positions ) {
+        for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {

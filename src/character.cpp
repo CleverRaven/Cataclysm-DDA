@@ -3153,7 +3153,7 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 {
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const std::pair<body_part, int> &element : bid->encumbrance ) {
+        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
             vals[element.first].encumbrance += element.second;
         }
     }
@@ -6354,13 +6354,13 @@ void Character::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
 
         // Then use the map to set the category levels
-        for( const std::pair<trait_id, int> &i : dependency_map ) {
+        for( const std::pair<const trait_id, int> &i : dependency_map ) {
             const mutation_branch &mdata = i.first.obj();
             if( !mdata.flags.count( "NON_THRESH" ) ) {
                 for( const std::string &cat : mdata.category ) {
@@ -6401,7 +6401,7 @@ std::string Character::get_highest_category() const
     int iLevel = 0;
     std::string sMaxCat;
 
-    for( const std::pair<std::string, int> &elem : mutation_category_level ) {
+    for( const std::pair<const std::string, int> &elem : mutation_category_level ) {
         if( elem.second > iLevel ) {
             sMaxCat = elem.first;
             iLevel = elem.second;
@@ -6885,7 +6885,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool Character::crossed_threshold() const
 {
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
         if( mut.first->threshold ) {
             return true;
         }

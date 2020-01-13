@@ -948,7 +948,7 @@ bool player::has_opposite_trait( const trait_id &flag ) const
             return true;
         }
     }
-    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         for( const trait_id &canceled_trait : mut.first->cancels ) {
             if( canceled_trait == flag ) {
                 return true;

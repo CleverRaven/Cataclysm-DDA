@@ -2052,7 +2052,7 @@ void overmap::populate_connections_out_from_neighbors( const overmap *north, con
             return;
         }
 
-        for( const std::pair<string_id<overmap_connection>, std::vector<tripoint>> &kv :
+        for( const std::pair<const string_id<overmap_connection>, std::vector<tripoint>> &kv :
              adjacent->connections_out ) {
             std::vector<tripoint> &out = connections_out[kv.first];
             const auto adjacent_out = adjacent->connections_out.find( kv.first );

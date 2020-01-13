@@ -268,7 +268,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range(
         tally_max += this_max;
     }
 
-    for( const std::pair<itype_id, int> &byproduct : rec.byproducts ) {
+    for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
         item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
         nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;

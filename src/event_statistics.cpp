@@ -191,7 +191,7 @@ struct event_transformation_match : public event_transformation::impl {
         const event_multiset::counts_type &input = stats.get_events( type_ ).counts();
         event_multiset result( type_ );
 
-        for( const std::pair<cata::event::data_type, int> &p : input ) {
+        for( const std::pair<const cata::event::data_type, int> &p : input ) {
             if( matches( p.first, stats ) ) {
                 result.add( p );
             }

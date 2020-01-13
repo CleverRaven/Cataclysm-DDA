@@ -464,7 +464,7 @@ void Character::load( const JsonObject &data )
     }
 
     JsonObject vits = data.get_object( "vitamin_levels" );
-    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         int lvl = vits.get_int( v.first.str(), 0 );
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
@@ -772,7 +772,7 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }

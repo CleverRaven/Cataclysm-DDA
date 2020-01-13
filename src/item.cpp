@@ -1209,7 +1209,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<skill_id, int> &sk : type->min_skills ) {
+        for( const std::pair<const skill_id, int> &sk : type->min_skills ) {
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
@@ -1831,7 +1831,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
         std::vector<std::string> fm;
-        for( const std::pair<gun_mode_id, gun_mode> &e : fire_modes ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", e.second.tname(), e.second.qty ) );
             }
@@ -2565,7 +2565,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     };
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
-        for( const std::pair<quality_id, int> &q : type->qualities ) {
+        for( const std::pair<const quality_id, int> &q : type->qualities ) {
             name_quality( q );
         }
     }
@@ -2578,7 +2578,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
         std::map<quality_id, int> most_quality;
         for( const item &e : contents ) {
-            for( const std::pair<quality_id, int> &q : e.type->qualities ) {
+            for( const std::pair<const quality_id, int> &q : e.type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
                 if( !emplace_result.second &&
                     most_quality.at( emplace_result.first->first ) < q.second ) {
@@ -2586,7 +2586,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                 }
             }
         }
-        for( const std::pair<quality_id, int> &q : most_quality ) {
+        for( const std::pair<const quality_id, int> &q : most_quality ) {
             name_quality( q );
         }
     }
@@ -2718,7 +2718,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-        for( const std::pair<std::string, use_function> &method : type->use_methods ) {
+        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
             insert_separation_line( info );
             method.second.dump_info( *this, info );
         }
@@ -3392,7 +3392,7 @@ std::map<gunmod_location, int> item::get_mod_locations() const
         if( !mod->type->gunmod->add_mod.empty() ) {
             std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
 
-            for( const std::pair<gunmod_location, int> &add_location : add_locations ) {
+            for( const std::pair<const gunmod_location, int> &add_location : add_locations ) {
                 mod_locations[add_location.first] += add_location.second;
             }
         }
@@ -4460,7 +4460,7 @@ int item::damage_melee( damage_type dt ) const
     // consider any melee gunmods
     if( is_gun() ) {
         std::vector<int> opts = { res };
-        for( const std::pair<gun_mode_id, gun_mode> &e : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
             if( e.second.target != this && e.second.melee() ) {
                 opts.push_back( e.second.target->damage_melee( dt ) );
             }
@@ -4503,7 +4503,7 @@ int item::reach_range( const player &p ) const
 
     // for guns consider any attached gunmods
     if( is_gun() && !is_gunmod() ) {
-        for( const std::pair<gun_mode_id, gun_mode> &m : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &m : gun_all_modes() ) {
             if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
                 continue;
             }
@@ -4637,7 +4637,7 @@ int item::get_quality( const quality_id &id ) const
         return INT_MIN;
     }
 
-    for( const std::pair<quality_id, int> &quality : type->qualities ) {
+    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
         if( quality.first == id ) {
             return_quality = quality.second;
         }
@@ -7095,7 +7095,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
 gun_mode item::gun_get_mode( const gun_mode_id &mode ) const
 {
     if( is_gun() ) {
-        for( const std::pair<gun_mode_id, gun_mode> &e : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
             if( e.first == mode ) {
                 return e.second;
             }

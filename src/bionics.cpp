@@ -1164,7 +1164,7 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
     if( coverage_penalty ) {
         int coverage = 0;
         const std::map< body_part, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
-        for( const std::pair< body_part, size_t > &elem : occupied_bodyparts ) {
+        for( const std::pair< const body_part, size_t > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
                 if( i.covers( elem.first ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
                     !i.has_flag( "SEMITANGIBLE" ) &&
@@ -1789,7 +1789,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<body_part, size_t> &elem : b_id->occupied_bodyparts ) {
+    for( const std::pair<const body_part, size_t> &elem : b_id->occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
@@ -2044,7 +2044,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<body_part, size_t> &elem : bioid->occupied_bodyparts ) {
+    for( const std::pair<const body_part, size_t> &elem : bioid->occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
@@ -2457,7 +2457,7 @@ void load_bionic( const JsonObject &jsobj )
 
 void check_bionics()
 {
-    for( const std::pair<bionic_id, bionic_data> &bio : bionics ) {
+    for( const std::pair<const bionic_id, bionic_data> &bio : bionics ) {
         if( !bio.second.fake_item.empty() &&
             !item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
@@ -2495,7 +2495,7 @@ void check_bionics()
 
 void finalize_bionics()
 {
-    for( const std::pair<bionic_id, bionic_data> &bio : bionics ) {
+    for( const std::pair<const bionic_id, bionic_data> &bio : bionics ) {
         if( bio.second.upgraded_bionic ) {
             bionics[ bio.second.upgraded_bionic ].available_upgrades.insert( bio.first );
         }

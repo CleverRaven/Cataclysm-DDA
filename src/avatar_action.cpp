@@ -627,7 +627,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
     std::vector<std::string> messages;
 
-    for( const std::pair<gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
+    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
         bool fireable = true;
         // check that a valid mode was returned and we are able to use it
         if( !( mode_map.second && you.can_use( *mode_map.second ) ) ) {
