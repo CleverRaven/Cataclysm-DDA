@@ -2232,5 +2232,10 @@
     "type": "recipe",
     "result": "bot_tankbot",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crucible",
+    "obsolete": true
   }
 ]
