@@ -1077,7 +1077,6 @@ std::string spell::list_targeted_monster_names() const
     return ret;
 }
 
-
 damage_type spell::dmg_type() const
 {
     return type->dmg_type;
