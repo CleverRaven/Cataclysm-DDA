@@ -1634,8 +1634,6 @@ class Character : public Creature, public visitable<Character>
 
         hint_rating rate_action_eat( const item &it ) const;
 
-
-
         /** Get calorie & vitamin contents for a comestible, taking into
          * account player traits */
         /** Get range of possible nutrient content, for a particular recipe,
