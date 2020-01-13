@@ -2400,17 +2400,29 @@ void player::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
-                std::string category = "good";
-                if( get_kcal_percent() < 0.1f ) {
-                    category = "starving";
-                } else if( get_kcal_percent() < 0.25f ) {
-                    category = "emaciated";
-                } else if( get_kcal_percent() < 0.5f ) {
-                    category = "malnutrition";
-                } else if( get_kcal_percent() < 0.8f ) {
-                    category = "low_cal";
+                std::string category;
+                if( stomach.contains() <= stomach.capacity( *this ) / 4 ) {
+                    if( get_kcal_percent() < 0.1f ) {
+                        category = "starving";
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        category = "emaciated";
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        category = "malnutrition";
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        category = "low_cal";
+                    }
+                } else {
+                    if( get_kcal_percent() < 0.1f ) {
+                        category = "empty_starving";
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        category = "empty_emaciated";
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        category = "empty_malnutrition";
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        category = "empty_low_cal";
+                    }
                 }
-                if( category != "good" ) {
+                if( !category.empty() ) {
                     const translation message = SNIPPET.random_from_category( category ).value_or( translation() );
                     add_msg_if_player( m_warning, message );
                 }

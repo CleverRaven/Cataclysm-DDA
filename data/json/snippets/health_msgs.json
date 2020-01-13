@@ -151,13 +151,18 @@
   },
   {
     "type": "snippet",
-    "category": "starving",
-    "text": "Food…"
+    "category": "empty_starving",
+    "text": "You're too weak to be hungry anymore.  Is that what starving to death feels like?"
   },
   {
     "type": "snippet",
-    "category": "emaciated",
-    "text": "Due to insufficient nutrition, your body is suffering from starvation."
+    "category": "starving",
+    "text": "Even though you've eaten not too long ago you still feel drained of energy.  It will take more than that to get you back up."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_emaciated",
+    "text": "Your empty stomach gnaws at you.  You really need something to eat."
   },
   {
     "type": "snippet",
@@ -166,8 +171,18 @@
   },
   {
     "type": "snippet",
-    "category": "malnutrition",
+    "category": "empty_malnutrition",
     "text": "You feel weak due to malnutrition."
+  },
+  {
+    "type": "snippet",
+    "category": "malnutrition",
+    "text": "Despite having something in your stomach, you still feel like you haven't eaten in days…"
+  },
+  {
+    "type": "snippet",
+    "category": "empty_low_cal",
+    "text": "You've lost quite a bit of weight recently.  You might want to eat richer food."
   },
   {
     "type": "snippet",
