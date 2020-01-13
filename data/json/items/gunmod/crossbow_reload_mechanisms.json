@@ -32,23 +32,5 @@
     "reload_modifier": 3,
     "min_str_required_mod": 0.00625,
     "min_skills": [ [ "gun", 2 ] ]
-  },
-  {
-    "id": "electric_crossbow_mech",
-    "type": "GUNMOD",
-    "name": "electric crossbow reload mechanism",
-    "description": "A electric motor mechanism for a crossbow, which draws the string back very quickly.",
-    "weight": "600 g",
-    "volume": "500 ml",
-    "price": 5000,
-    "material": [ "steel", "plastic" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "reloading mechanism",
-    "mod_targets": [ "rifle" ],
-    "ups_charges": 3,
-    "reload_modifier": 0.5,
-    "min_str_required_mod": 0.0,
-    "min_skills": [ [ "gun", 2 ] ]
   }
 ]
