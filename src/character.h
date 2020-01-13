@@ -59,6 +59,8 @@ struct points_left;
 class faction;
 struct construction;
 
+struct bionic;
+
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -811,6 +813,63 @@ class Character : public Creature, public visitable<Character>
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         virtual bool deactivate_bionic( int b, bool eff_only = false );
+
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
+
+        /**Has enough anesthetic for surgery*/
+        bool has_enough_anesth( const itype *cbm, player &patient );
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+                                        bool needs_anesthesia );
+        /** Removes a bionic from my_bionics[] */
+        void remove_bionic( const bionic_id &b );
+        /** Adds a bionic to my_bionics[] */
+        void add_bionic( const bionic_id &b );
+        /** Calculate skill for (un)installing bionics */
+        float bionics_adjusted_skill( const skill_id &most_important_skill,
+                                      const skill_id &important_skill,
+                                      const skill_id &least_important_skill,
+                                      int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+                              int skill_level = -1 );
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
+        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
+                                      float adjusted_skill, tripoint patient_pos );
+
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                               int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
+                                int pl_skill );
+        /**When a player fails the surgery*/
+        void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
+
+        /**Used by monster to perform surgery*/
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc = false );
+        /**When a monster fails the surgery*/
+        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+                                        float adjusted_skill );
+
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
@@ -1761,6 +1820,10 @@ class Character : public Creature, public visitable<Character>
         scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
+
+        int cached_moves;
+        tripoint cached_position;
+        inventory cached_crafting_inventory;
 
     protected:
         /** Amount of time the player has spent in each overmap tile. */

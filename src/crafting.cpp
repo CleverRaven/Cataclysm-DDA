@@ -493,12 +493,12 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &player::crafting_inventory( bool clear_path )
+const inventory &Character::crafting_inventory( bool clear_path )
 {
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &player::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
+const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -1622,6 +1622,12 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 
     comp_selection<tool_comp> selected;
 
+    auto calc_charges = [&]( const tool_comp & t ) {
+        const int full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
+        const int modified_charges = charges_required_modifier( full_craft_charges );
+        return std::max( modified_charges, 1 );
+    };
+
     bool found_nocharge = false;
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
@@ -1629,8 +1635,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const int count = charges_required_modifier( item::find_type( type )->charge_factor() * it->count *
-                              batch );
+            const int count = calc_charges( *it );
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1672,9 +1677,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            const itype *tmp = item::find_type( map_ha.type );
-            if( tmp->maximum_charges() > 1 ) {
-                const int charge_count = map_ha.count * batch * tmp->charge_factor();
+            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+                const int charge_count = calc_charges( map_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ), charge_count,
                                                     map_inv.charges_of( map_ha.type ) );
@@ -1685,9 +1689,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             }
         }
         for( auto &player_ha : player_has ) {
-            const itype *tmp = item::find_type( player_ha.type );
-            if( tmp->maximum_charges() > 1 ) {
-                const int charge_count = player_ha.count * batch * tmp->charge_factor();
+            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+                const int charge_count = calc_charges( player_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ), charge_count,
                                                     charges_of( player_ha.type ) );

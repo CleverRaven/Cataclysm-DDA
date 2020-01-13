@@ -275,61 +275,12 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool needs_anesthesia );
-        /** Removes a bionic from my_bionics[] */
-        void remove_bionic( const bionic_id &b );
-        /** Calculate skill for (un)installing bionics */
-        float bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level = -1 );
-        /** Calculate non adjusted skill for (un)installing bionics */
-        int bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill,
-                              int skill_level = -1 );
-        /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
-                                  int skill_level = -1 );
-        /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
-                              int skill_level = -1 );
-        /**Success or failure of installation happens here*/
-        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
-        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
-                                      float adjusted_skill, tripoint patient_pos );
-        /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                                   int skill_level = -1 );
-        /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                               int skill_level = -1 );
-        /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
-                                int pl_skill );
-        /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                               float adjusted_skill, bool autodoc = false );
-        /**When a player fails the surgery*/
-        void bionics_uninstall_failure( int difficulty, int success,
-                                        float adjusted_skill );
-        /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
-                                        float adjusted_skill );
-        /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false ) override;
-        /** Adds a bionic to my_bionics[] */
-        void add_bionic( const bionic_id &b );
         /** Remove all bionics */
         void clear_bionics();
         /** Returns the size of my_bionics[] */
@@ -1058,11 +1009,6 @@ class player : public Character
         void complete_disassemble();
         void complete_disassemble( item_location &target, const recipe &dis );
 
-        // yet more crafting.cpp
-        // includes nearby items
-        const inventory &crafting_inventory( bool clear_path );
-        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true );
         const requirement_data *select_requirements(
             const std::vector<const requirement_data *> &, int batch, const inventory &,
             const std::function<bool( const item & )> &filter ) const;
@@ -1150,11 +1096,6 @@ class player : public Character
         recipe_id lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
-
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
-        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -1307,9 +1248,8 @@ class player : public Character
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-        inventory cached_crafting_inventory;
-        int cached_moves;
-        tripoint cached_position;
+
+
 
     private:
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */

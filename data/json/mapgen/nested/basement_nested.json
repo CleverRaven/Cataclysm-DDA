@@ -4,7 +4,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of art.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 20,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
@@ -19,7 +18,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of hardware.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 100,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
@@ -34,7 +32,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of bedding.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 100,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
@@ -49,7 +46,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of winter clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 100,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
@@ -64,7 +60,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of work clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 50,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
@@ -84,7 +79,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of old clothing.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 100,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
@@ -99,7 +93,6 @@
     "method": "json",
     "//": "for dispersed scattering around a basement. This is a box of toys.",
     "nested_mapgen_id": "basement_storage_1x1",
-    "weight": 100,
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
