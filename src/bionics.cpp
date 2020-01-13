@@ -2635,7 +2635,7 @@ void bionic::deserialize( JsonIn &jsin )
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
-        for( const std::string &line : jo.get_array( "bionic_tags" ) ) {
+        for( const std::string line : jo.get_array( "bionic_tags" ) ) {
             bionic_tags.insert( line );
         }
     }

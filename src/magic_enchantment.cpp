@@ -200,11 +200,11 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
-        for( const JsonObject &effect_obj : jo.get_array( "effects" ) ) {
+        for( const JsonObject effect_obj : jo.get_array( "effects" ) ) {
             time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
-                for( const JsonObject &fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
+                for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
                     fake_spell fake;
                     fake.load( fake_spell_obj );
                     add_activation( dur, fake );
@@ -223,7 +223,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
                                "ALWAYS" ) );
 
     if( jo.has_array( "values" ) ) {
-        for( const JsonObject &value_obj : jo.get_array( "values" ) ) {
+        for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );

@@ -55,7 +55,7 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
         list.add( T( jsi.get_string( json_key ) ), 1 );
         return;
     }
-    for( const JsonValue &entry : jsi.get_array( json_key ) ) {
+    for( const JsonValue entry : jsi.get_array( json_key ) ) {
         if( entry.test_array() ) {
             JsonArray inner = entry.get_array();
             list.add( T( inner.get_string( 0 ) ), inner.get_int( 1 ) );
@@ -85,11 +85,11 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
             ter_furn_data<ter_str_id> cur_results = ter_furn_data<ter_str_id>();
             cur_results.load( ter_obj );
 
-            for( const std::string &valid_terrain : ter_obj.get_array( "valid_terrain" ) ) {
+            for( const std::string valid_terrain : ter_obj.get_array( "valid_terrain" ) ) {
                 ter_transform.emplace( ter_str_id( valid_terrain ), cur_results );
             }
 
-            for( const std::string &valid_terrain : ter_obj.get_array( "valid_flags" ) ) {
+            for( const std::string valid_terrain : ter_obj.get_array( "valid_flags" ) ) {
                 ter_flag_transform.emplace( valid_terrain, cur_results );
             }
         }
@@ -100,11 +100,11 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
             ter_furn_data<furn_str_id> cur_results = ter_furn_data<furn_str_id>();
             cur_results.load( furn_obj );
 
-            for( const std::string &valid_furn : furn_obj.get_array( "valid_furniture" ) ) {
+            for( const std::string valid_furn : furn_obj.get_array( "valid_furniture" ) ) {
                 furn_transform.emplace( furn_str_id( valid_furn ), cur_results );
             }
 
-            for( const std::string &valid_terrain : furn_obj.get_array( "valid_flags" ) ) {
+            for( const std::string valid_terrain : furn_obj.get_array( "valid_flags" ) ) {
                 furn_flag_transform.emplace( valid_terrain, cur_results );
             }
         }

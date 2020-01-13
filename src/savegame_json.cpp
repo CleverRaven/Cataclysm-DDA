@@ -614,7 +614,7 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    for( const JsonMember &member : data.get_object( "skills" ) ) {
+    for( const JsonMember member : data.get_object( "skills" ) ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
@@ -1642,7 +1642,7 @@ void npc::load( const JsonObject &data )
         last_updated = calendar::turn;
     }
     complaints.clear();
-    for( const JsonMember &member : data.get_object( "complaints" ) ) {
+    for( const JsonMember member : data.get_object( "complaints" ) ) {
         // @TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
         member.read( p );
@@ -1750,7 +1750,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
-            for( const JsonMember &member : jo ) {
+            for( const JsonMember member : jo ) {
                 std::string invlets;
                 for( const int i : member.get_array() ) {
                     invlets.push_back( i );
@@ -1873,7 +1873,7 @@ void monster::load( const JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+        for( const JsonMember member : data.get_object( "special_attacks" ) ) {
             JsonObject saobject = member.get_object();
             auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
@@ -3490,11 +3490,11 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    for( const JsonMember &member : data.get_object( "kills" ) ) {
+    for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
     }
 
-    for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+    for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
         npc_kills.push_back( npc_name );
     }
 }

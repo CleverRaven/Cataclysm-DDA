@@ -400,7 +400,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, string_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
 
-    for( const std::string &s : jo.get_array( "no_cbm_on_bp" ) ) {
+    for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
 
@@ -446,7 +446,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         encumbrance_covered[get_body_part_token( part_id )] = enc;
     }
 
-    for( const std::string &line : jo.get_array( "restricts_gear" ) ) {
+    for( const std::string line : jo.get_array( "restricts_gear" ) ) {
         restricts_gear.insert( get_body_part_token( line ) );
     }
 
@@ -589,7 +589,7 @@ void dream::load( const JsonObject &jsobj )
     newdream.strength = jsobj.get_int( "strength" );
     newdream.category = jsobj.get_string( "category" );
 
-    for( const std::string &line : jsobj.get_array( "messages" ) ) {
+    for( const std::string line : jsobj.get_array( "messages" ) ) {
         newdream.raw_messages.push_back( line );
     }
 
@@ -603,7 +603,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 {
-    for( const std::string &line : jsobj.get_array( "traits" ) ) {
+    for( const std::string line : jsobj.get_array( "traits" ) ) {
         trait_blacklist.insert( trait_id( line ) );
     }
 }
@@ -666,7 +666,7 @@ void mutation_branch::load_trait_group( const JsonArray &entries,
 {
     Trait_group &tg = make_group_or_throw( gid, is_collection );
 
-    for( const JsonValue &entry : entries ) {
+    for( const JsonValue entry : entries ) {
         // Backwards-compatibility with old format ["TRAIT", 100]
         if( entry.test_array() ) {
             JsonArray subarr = entry.get_array();
@@ -706,7 +706,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
         }
     }
     if( jsobj.has_member( "traits" ) ) {
-        for( const JsonValue &entry : jsobj.get_array( "traits" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "traits" ) ) {
             if( entry.test_string() ) {
                 tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
@@ -719,7 +719,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
         }
     }
     if( jsobj.has_member( "groups" ) ) {
-        for( const JsonValue &entry : jsobj.get_array( "groups" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "groups" ) ) {
             if( entry.test_string() ) {
                 tg.add_group_entry( trait_group::Trait_group_tag( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
@@ -750,7 +750,7 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 
     if( ptr ) {
         Trait_group &tg2 = dynamic_cast<Trait_group &>( *ptr );
-        for( const JsonObject &job2 : jarr ) {
+        for( const JsonObject job2 : jarr ) {
             add_entry( tg2, job2 );
         }
         tg.add_entry( std::move( ptr ) );
