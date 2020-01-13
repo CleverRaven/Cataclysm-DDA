@@ -3493,11 +3493,7 @@
     "items": [
       { "distribution": [ { "item": "trenchcoat", "prob": 80 }, { "item": "trenchcoat_leather", "prob": 60 } ], "prob": 40 },
       {
-        "distribution": [
-          { "item": "coat_rain", "prob": 80 },
-          { "item": "peacoat", "prob": 50 },
-          { "item": "greatcoat", "prob": 35 }
-        ],
+        "distribution": [ { "item": "coat_rain", "prob": 80 }, { "item": "peacoat", "prob": 50 }, { "item": "greatcoat", "prob": 35 } ],
         "prob": 80
       },
       {
@@ -3520,10 +3516,7 @@
     "id": "mil_base_mess_hall",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "plastic_fork" },
-      { "item": "mess_tray" }
-    ]
+    "entries": [ { "item": "plastic_fork" }, { "item": "mess_tray" } ]
   },
   {
     "id": "mil_base_tent_civilian",

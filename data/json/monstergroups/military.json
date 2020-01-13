@@ -36,7 +36,8 @@
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 15, "cost_multiplier": 10 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_hazmat", "freq": 25, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_hazmat", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie", "freq": 50, "cost_multiplier": 1 }
     ]
   },
   {

@@ -501,6 +501,6 @@
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "mil_base_2g" ],
     "professions": [ "soldier" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]
