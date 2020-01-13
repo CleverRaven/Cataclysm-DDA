@@ -17,7 +17,6 @@
     "name": "mi-go mutagen",
     "description": "An extremely rare mutagen cocktail, it smells of sulphur and glows orange.",
     "price": 500000,
-    "//": "*May* have gotten a dose smuggled out.",
     "use_action": { "type": "mutagen", "mutation_category": "MIGO" }
   }
 ]

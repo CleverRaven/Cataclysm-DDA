@@ -186,26 +186,17 @@
   },
   {
     "type": "mutation",
-    "id": "PRED1",
-    "name": "Culler",
+    "id": "DETACHMENT",
+    "name": "Detachment",
+    "//": "Needs flags from the old PRED1 once Candlebury creates them.  Then fix PRED2.",
     "points": 2,
-    "description": "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by the deaths of others: their own weakness invited these fates upon them.",
+    "description": "When were you ever like these creatures, helpless before the changes ravaging this world. ",
     "purifiable": false,
     "changes_to": [ "PRED2" ],
-    "prereqs": [ "CARNIVORE", "THRESH_URSINE", "THRESH_YUGGOTH" ],
-    "threshreq": [
-      "THRESH_BEAST",
-      "THRESH_RAPTOR",
-      "THRESH_CHIMERA",
-      "THRESH_LUPINE",
-      "THRESH_FELINE",
-      "THRESH_URSINE",
-      "THRESH_LIZARD",
-      "THRESH_SPIDER",
-      "THRESH_YUGGOTH"
-    ],
+    "prereqs": [ "THRESH_YUGGOTH" ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER", "MIGO" ]
+    "category": [ "MIGO" ]
   },
   {
     "type": "mutation",
@@ -258,12 +249,11 @@
   },
   {
     "type": "mutation",
-    "id": "TERRIFYING",
-    "name": "Terrifying",
+    "id": "EERIE",
+    "name": "Eerie",
     "points": 1,
-    "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
-    "starting_trait": true,
-    "category": [ "BEAST", "INSECT", "CHIMERA" ],
+    "description": "You are offputting to others.  You're mannerisms have changed as if human interaction is becoming foreign.",
+    "category": [ "MIGO" ],
     "social_modifiers": { "intimidate": 15 }
   },
   {
@@ -291,8 +281,6 @@
     "points": 4,
     "description": "You can now breathe the gasses the mi-go thrive in.",
     "starting_trait": false,
-    "category": [ "MIGO" ],
-    "active": true,
-    "blocks_effects": [ "migo_atmosphere" ]
+    "category": [ "MIGO" ]
   }
 ]
