@@ -369,6 +369,7 @@
   {
     "result": "pipebomb",
     "type": "recipe",
+    "id_suffix": "stable",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
