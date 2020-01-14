@@ -939,6 +939,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mil_base_tunnels_i",
+    "copy-from": "mil_base_1a"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mil_base_1a1",
     "copy-from": "mil_base_1a"
   },
