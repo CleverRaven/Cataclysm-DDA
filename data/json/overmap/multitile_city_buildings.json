@@ -3068,5 +3068,59 @@
       { "point": [ 0, 0, 0 ], "overmap": "house_duplex5_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_duplex5_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_duplex6",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_duplex6_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_duplex6_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_duplex7",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_duplex7_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_duplex7_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_duplex8",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_duplex8_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_duplex8_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_duplex9",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_duplex9_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_duplex9_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_duplex10",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_duplex10_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_duplex10_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_duplex11",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_duplex11_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_duplex11_roof_north" }
+    ]
   }
 ]
