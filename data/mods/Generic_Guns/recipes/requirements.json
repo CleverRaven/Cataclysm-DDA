@@ -33,7 +33,7 @@
     "id": "req_grenade",
     "type": "requirement",
     "//": "Components required for grenade cartridges",
-    "components": [ [ [ "grenade_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+    "components": [ [ [ "grenade_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "req_shot",
@@ -44,7 +44,7 @@
   {
     "id": "req_penetrator",
     "type": "requirement",
-    "//": "Components required for shotgun ammo",
+    "//": "Components required for barrier/armor penetrators",
     "components": [
       [
         [ "sheet_metal_small", 1 ],

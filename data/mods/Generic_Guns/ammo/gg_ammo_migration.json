@@ -298,7 +298,7 @@
     "replace": "grenade_ammo_teargas"
   },
   {
-    "id": [ "shot_00", "shot_paper_00" ],
+    "id": [ "shot_00", "shot_paper_00", "410shot_000" ],
     "type": "MIGRATION",
     "replace": "shot_buck"
   },
@@ -323,7 +323,7 @@
     "replace": "shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_00" ],
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
