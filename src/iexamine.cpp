@@ -3723,7 +3723,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp );
     if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );
@@ -4921,7 +4921,8 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
 
-                result.inherit_flags( it );
+                recipe rec;
+                result.inherit_flags( it, rec );
                 if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
                     // If the item has "cooks_like" it will be replaced by that item as a component.
                     if( !it.get_comestible()->cooks_like.empty() ) {

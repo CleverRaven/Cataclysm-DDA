@@ -219,11 +219,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            for( const JsonMember &member : data.get_object( "kills" ) ) {
+            for( const JsonMember member : data.get_object( "kills" ) ) {
                 kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -312,7 +312,7 @@ std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    for( const std::string &line : jo.get_array( "terrains" ) ) {
+    for( const std::string line : jo.get_array( "terrains" ) ) {
         obsolete_terrains.emplace( line );
     }
 }

@@ -1080,6 +1080,14 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
+            for( const std::pair<species_id, int> &elem : mut.obj().anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
+                }
+            }
+        }
+
+        for( const trait_id &mut : u->get_mutations() ) {
             for( const species_id &spe : mut.obj().ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;

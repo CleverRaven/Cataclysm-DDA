@@ -65,7 +65,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
-            const item temp_fuel( fuel ) ;
+            const item temp_fuel( fuel );
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;

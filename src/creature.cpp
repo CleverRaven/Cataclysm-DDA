@@ -572,7 +572,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const int diff_roll = dice( 10, proj.speed );
     // Partial dodge, capped at [0.0, 1.0], added to missed_by
     const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
-    const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
+    const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -1116,7 +1116,7 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
 {
     for( auto &elem : *effects ) {
-        for( const std::pair<body_part, effect> &_it : elem.second ) {
+        for( const std::pair<const body_part, effect> &_it : elem.second ) {
             if( bp == _it.first && _it.second.has_flag( flag ) ) {
                 return true;
             }

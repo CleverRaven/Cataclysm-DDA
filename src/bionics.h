@@ -162,7 +162,7 @@ struct bionic {
 
         void set_flag( std::string flag );
         void remove_flag( std::string flag );
-        bool has_flag( std::string flag ) const ;
+        bool has_flag( std::string flag ) const;
 
         int get_quality( const quality_id &quality ) const;
 

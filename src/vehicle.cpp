@@ -3584,7 +3584,7 @@ static double simple_cubic_solution( double a, double b, double c, double d )
         std::complex<double> term_sum( term1 + term2 );
 
         if( imag( term_sum ) < 2 ) {
-            return p + real( term_sum ) ;
+            return p + real( term_sum );
         } else {
             debugmsg( "cubic solution returned imaginary values" );
             return 0;

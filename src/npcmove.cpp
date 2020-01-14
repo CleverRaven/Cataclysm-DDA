@@ -512,7 +512,7 @@ void npc::assess_danger()
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
-        for( const weak_ptr_fast<Creature> guy : ai_cache.friends ) {
+        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
             is_too_close |= too_close( foe.pos(), guy.lock()->pos(), def_radius );
             if( is_too_close ) {
                 break;
@@ -1655,7 +1655,7 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const itype_id fid : bid->fuel_opts ) {
+                for( const itype_id &fid : bid->fuel_opts ) {
                     return it.typeId() == fid;
                 }
                 return false;

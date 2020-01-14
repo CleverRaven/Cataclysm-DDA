@@ -71,7 +71,7 @@ void faction_template::reset()
 
 void faction_template::load_relations( const JsonObject &jsobj )
 {
-    for( const JsonMember &fac : jsobj.get_object( "relations" ) ) {
+    for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
         JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
@@ -101,7 +101,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
-    for( const JsonObject &jao : jsobj.get_array( "epilogues" ) ) {
+    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
                                jao.get_string( "id", "epilogue_faction_default" ) );
@@ -316,7 +316,7 @@ nc_color faction::food_supply_color()
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
-    for( const auto rel_data : relations ) {
+    for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
             return rel_data.second.test( flag );
         }

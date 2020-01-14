@@ -1209,7 +1209,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<skill_id, int> &sk : type->min_skills ) {
+        for( const std::pair<const skill_id, int> &sk : type->min_skills ) {
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
@@ -1831,7 +1831,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
         std::vector<std::string> fm;
-        for( const std::pair<gun_mode_id, gun_mode> &e : fire_modes ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", e.second.tname(), e.second.qty ) );
             }
@@ -2565,7 +2565,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     };
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
-        for( const std::pair<quality_id, int> &q : type->qualities ) {
+        for( const std::pair<const quality_id, int> &q : type->qualities ) {
             name_quality( q );
         }
     }
@@ -2578,7 +2578,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
         std::map<quality_id, int> most_quality;
         for( const item &e : contents ) {
-            for( const std::pair<quality_id, int> &q : e.type->qualities ) {
+            for( const std::pair<const quality_id, int> &q : e.type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
                 if( !emplace_result.second &&
                     most_quality.at( emplace_result.first->first ) < q.second ) {
@@ -2586,7 +2586,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                 }
             }
         }
-        for( const std::pair<quality_id, int> &q : most_quality ) {
+        for( const std::pair<const quality_id, int> &q : most_quality ) {
             name_quality( q );
         }
     }
@@ -2718,7 +2718,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-        for( const std::pair<std::string, use_function> &method : type->use_methods ) {
+        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
             insert_separation_line( info );
             method.second.dump_info( *this, info );
         }
@@ -3392,7 +3392,7 @@ std::map<gunmod_location, int> item::get_mod_locations() const
         if( !mod->type->gunmod->add_mod.empty() ) {
             std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
 
-            for( const std::pair<gunmod_location, int> &add_location : add_locations ) {
+            for( const std::pair<const gunmod_location, int> &add_location : add_locations ) {
                 mod_locations[add_location.first] += add_location.second;
             }
         }
@@ -3444,7 +3444,7 @@ nc_color item::color_in_inventory() const
         const use_function *iuse = get_use( "learn_spell" );
         const learn_spell_actor *actor_ptr =
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
-        for( const std::string spell_id_str : actor_ptr->spells ) {
+        for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
             if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
@@ -4460,7 +4460,7 @@ int item::damage_melee( damage_type dt ) const
     // consider any melee gunmods
     if( is_gun() ) {
         std::vector<int> opts = { res };
-        for( const std::pair<gun_mode_id, gun_mode> &e : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
             if( e.second.target != this && e.second.melee() ) {
                 opts.push_back( e.second.target->damage_melee( dt ) );
             }
@@ -4503,7 +4503,7 @@ int item::reach_range( const player &p ) const
 
     // for guns consider any attached gunmods
     if( is_gun() && !is_gunmod() ) {
-        for( const std::pair<gun_mode_id, gun_mode> &m : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &m : gun_all_modes() ) {
             if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
                 continue;
             }
@@ -4637,7 +4637,7 @@ int item::get_quality( const quality_id &id ) const
         return INT_MIN;
     }
 
-    for( const std::pair<quality_id, int> &quality : type->qualities ) {
+    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
         if( quality.first == id ) {
             return_quality = quality.second;
         }
@@ -7095,7 +7095,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
 gun_mode item::gun_get_mode( const gun_mode_id &mode ) const
 {
     if( is_gun() ) {
-        for( const std::pair<gun_mode_id, gun_mode> &e : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
             if( e.first == mode ) {
                 return e.second;
             }
@@ -7818,7 +7818,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     float new_specific_energy;
 
     if( new_temperature <= freezing_temperature ) {
-        new_specific_energy = specific_heat_solid * new_temperature ;
+        new_specific_energy = specific_heat_solid * new_temperature;
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
                               ( new_temperature - freezing_temperature );
@@ -7904,7 +7904,7 @@ void item::fill_with( item &liquid, int amount )
             debugmsg( "Poured item has no defined temperature" );
         }
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                cts.weight() ) + to_gram( liquid.weight() ) ) ;
+                cts.weight() ) + to_gram( liquid.weight() ) );
         cts.set_item_specific_energy( combined_specific_energy );
         //use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),

@@ -1595,7 +1595,7 @@ class map
          */
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
-            return get_submap_at( tripoint( p, abs_sub.z ) ) ;
+            return get_submap_at( tripoint( p, abs_sub.z ) );
         }
         /**
          * Get the submap pointer containing the specified position within the reality bubble.

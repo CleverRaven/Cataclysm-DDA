@@ -232,6 +232,7 @@
     "name": "Fast Reader",
     "points": 1,
     "description": "You're a quick reader, and can get through books a lot faster than most.",
+    "reading_speed_multiplier": 0.8,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "SLOWREADER" ]
@@ -1132,6 +1133,7 @@
     "name": "Slow Reader",
     "points": -1,
     "description": "You're a slow reader, and it takes you longer to get through books than most.",
+    "reading_speed_multiplier": 1.3,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "FASTREADER" ]
@@ -6233,6 +6235,7 @@
     "name": "Dungeon Master",
     "points": 0,
     "description": "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly.  You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+    "reading_speed_multiplier": 0.9,
     "valid": false,
     "purifiable": false,
     "profession": true,

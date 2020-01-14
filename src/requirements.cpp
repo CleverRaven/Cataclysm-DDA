@@ -73,7 +73,7 @@ void quality::load( const JsonObject &jo, const std::string & )
 
     for( JsonArray levels : jo.get_array( "usages" ) ) {
         const int level = levels.get_int( 0 );
-        for( const std::string &line : levels.get_array( 1 ) ) {
+        for( const std::string line : levels.get_array( 1 ) ) {
             usages.emplace_back( level, line );
         }
     }
@@ -208,10 +208,10 @@ void item_comp::load( const JsonValue &value )
 template<typename T>
 void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs )
 {
-    for( const JsonValue &entry : jsarr ) {
+    for( const JsonValue entry : jsarr ) {
         if( entry.test_array() ) {
             std::vector<T> choices;
-            for( const JsonValue &subentry : entry.get_array() ) {
+            for( const JsonValue subentry : entry.get_array() ) {
                 choices.push_back( T() );
                 choices.back().load( subentry );
             }
@@ -1255,16 +1255,13 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         static constexpr size_t max_alternatives = 100;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
-                      "The recipe %s should be simplified.", context.str() );
-            abort();
+                      "The recipe %s should be simplified.  See the Recipe section in "
+                      "doc/JSON_INFO.md for more details.", context.str() );
+            is_too_complex_ = true;
+            alternatives_ = { in };
+            return;
         }
     }
-
-    // Use this to find demanding recipes without aborting entirely
-    //if( alternatives_.size() > 50 ) {
-    //    debugmsg( "Recipe %s has %zu alternatives, which is quite high.",
-    //              context.str(), alternatives_.size() );
-    //}
 }
 
 bool deduped_requirement_data::can_make_with_inventory(
