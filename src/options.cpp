@@ -54,7 +54,6 @@ bool tile_iso;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
-std::map<std::string, int> mOptionsSort;
 
 options_manager &get_options()
 {
@@ -62,8 +61,29 @@ options_manager &get_options()
     return single_instance;
 }
 
-options_manager::options_manager()
+options_manager::options_manager() :
+    general_page_( "general", translate_marker( "General" ) ),
+    interface_page_( "interface", translate_marker( "Interface" ) ),
+    graphics_page_( "graphics", translate_marker( "Graphics" ) ),
+    debug_page_( "debug", translate_marker( "Debug" ) ),
+    world_default_page_( "world_default", translate_marker( "World Defaults" ) ),
+    android_page_( "android", translate_marker( "Android" ) )
 {
+    pages_.emplace_back( general_page_ );
+    pages_.emplace_back( interface_page_ );
+    pages_.emplace_back( graphics_page_ );
+    // when sharing maps only admin is allowed to change these.
+    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
+        pages_.emplace_back( debug_page_ );
+    }
+    // when sharing maps only admin is allowed to change these.
+    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
+        pages_.emplace_back( world_default_page_ );
+    }
+#if defined(__ANDROID__)
+    pages_.emplace_back( android_page_ );
+#endif
+
     mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
 
     enable_json( "DEFAULT_REGION" );
@@ -109,6 +129,16 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
         }
 
     }
+}
+
+void options_manager::addOptionToPage( const std::string &name, const std::string &page )
+{
+    for( Page &p : pages_ ) {
+        if( p.id_ == page ) {
+            p.items_.emplace_back( name );
+        }
+    }
+    // @TODO handle the case when an option has no valid page id (note: consider hidden external options as well)
 }
 
 options_manager::cOpt::cOpt()
@@ -175,7 +205,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
     }
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -205,7 +235,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sDefault = sDefaultIn;
     thisOpt.sSet = sDefaultIn;
 
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -231,7 +261,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sDefault = thisOpt.iMaxLength > 0 ? sDefaultIn.substr( 0, thisOpt.iMaxLength ) : sDefaultIn;
     thisOpt.sSet = thisOpt.sDefault;
 
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -255,7 +285,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.bDefault = bDefaultIn;
     thisOpt.bSet = bDefaultIn;
 
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -293,7 +323,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.iDefault = iDefaultIn;
     thisOpt.iSet = iDefaultIn;
 
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -333,7 +363,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.iDefault = iDefaultIn;
     thisOpt.iSet = iInitialIn;
 
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -372,7 +402,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.fDefault = fDefaultIn;
     thisOpt.fSet = fDefaultIn;
 
-    thisOpt.setSortPos( sPageIn );
+    addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
 }
@@ -472,22 +502,6 @@ bool options_manager::cOpt::is_hidden() const
     }
     // Make compiler happy, this is unreachable.
     return false;
-}
-
-void options_manager::cOpt::setSortPos( const std::string &sPageIn )
-{
-    if( !is_hidden() ) {
-        mOptionsSort[sPageIn]++;
-        iSortPos = mOptionsSort[sPageIn] - 1;
-
-    } else {
-        iSortPos = -1;
-    }
-}
-
-int options_manager::cOpt::getSortPos() const
-{
-    return iSortPos;
 }
 
 std::string options_manager::cOpt::getName() const
@@ -1006,29 +1020,33 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
 }
 #endif
 
+void options_manager::Page::removeRepeatedEmptyLines()
+{
+    const auto empty = [&]( const cata::optional<std::string> &v ) -> bool {
+        return !v || get_options().get_option( *v ).is_hidden();
+    };
+
+    while( !items_.empty() && empty( items_.front() ) ) {
+        items_.erase( items_.begin() );
+    }
+    while( !items_.empty() && empty( items_.back() ) ) {
+        items_.erase( items_.end() - 1 );
+    }
+    for( auto iter = std::next( items_.begin() ); iter != items_.end(); ) {
+        if( empty( *std::prev( iter ) ) && empty( *iter ) ) {
+            iter = items_.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+}
+
 void options_manager::init()
 {
     options.clear();
-    vPages.clear();
-    mPageItems.clear();
-    mOptionsSort.clear();
-
-    vPages.emplace_back( "general", translate_marker( "General" ) );
-    vPages.emplace_back( "interface", translate_marker( "Interface" ) );
-    vPages.emplace_back( "graphics", translate_marker( "Graphics" ) );
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        vPages.emplace_back( "debug", translate_marker( "Debug" ) );
+    for( Page &p : pages_ ) {
+        p.items_.clear();
     }
-    iWorldOptPage = vPages.size();
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        vPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
-    }
-
-#if defined(__ANDROID__)
-    vPages.emplace_back( "android", translate_marker( "Android" ) );
-#endif
 
     add_options_general();
     add_options_interface();
@@ -1037,49 +1055,15 @@ void options_manager::init()
     add_options_world_default();
     add_options_android();
 
-    for( size_t i = 0; i < vPages.size(); ++i ) {
-        mPageItems[i].resize( mOptionsSort[vPages[i].first] );
-    }
-
-    for( auto &elem : options ) {
-        for( size_t i = 0; i < vPages.size(); ++i ) {
-            if( vPages[i].first == elem.second.getPage() && elem.second.getSortPos() > -1 ) {
-                mPageItems[i][elem.second.getSortPos()] = elem.first;
-                break;
-            }
-        }
-    }
-
-    //Sort out possible double empty lines after options are hidden
-    for( size_t i = 0; i < vPages.size(); ++i ) {
-        bool bLastLineEmpty = false;
-        while( mPageItems[i][0].empty() ) {
-            //delete empty lines at the beginning
-            mPageItems[i].erase( mPageItems[i].begin() );
-        }
-
-        while( mPageItems[i][mPageItems[i].size() - 1].empty() ) {
-            //delete empty lines at the end
-            mPageItems[i].erase( mPageItems[i].end() - 1 );
-        }
-
-        for( unsigned j = mPageItems[i].size() - 1; j > 0; --j ) {
-            bool bThisLineEmpty = mPageItems[i][j].empty();
-
-            if( bLastLineEmpty && bThisLineEmpty ) {
-                //delete empty lines in between
-                mPageItems[i].erase( mPageItems[i].begin() + j );
-            }
-
-            bLastLineEmpty = bThisLineEmpty;
-        }
+    for( Page &p : pages_ ) {
+        p.removeRepeatedEmptyLines();
     }
 }
 
 void options_manager::add_options_general()
 {
     const auto add_empty_line = [&]() {
-        mOptionsSort["general"]++;
+        general_page_.items_.emplace_back();
     };
 
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
@@ -1313,7 +1297,7 @@ void options_manager::add_options_general()
 void options_manager::add_options_interface()
 {
     const auto add_empty_line = [&]() {
-        mOptionsSort["interface"]++;
+        interface_page_.items_.emplace_back();
     };
 
     // TODO: scan for languages like we do for tilesets.
@@ -1613,7 +1597,7 @@ void options_manager::add_options_interface()
 void options_manager::add_options_graphics()
 {
     const auto add_empty_line = [&]() {
-        mOptionsSort["graphics"]++;
+        graphics_page_.items_.emplace_back();
     };
 
     add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
@@ -1892,7 +1876,7 @@ void options_manager::add_options_graphics()
 void options_manager::add_options_debug()
 {
     const auto add_empty_line = [&]() {
-        mOptionsSort["debug"]++;
+        debug_page_.items_.emplace_back();
     };
 
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
@@ -1968,7 +1952,7 @@ void options_manager::add_options_debug()
 void options_manager::add_options_world_default()
 {
     const auto add_empty_line = [&]() {
-        mOptionsSort["world_default"]++;
+        world_default_page_.items_.emplace_back();
     };
 
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
@@ -2140,7 +2124,7 @@ void options_manager::add_options_android()
 {
 #if defined(__ANDROID__)
     const auto add_empty_line = [&]() {
-        mOptionsSort["android"]++;
+        android_page_.items_.emplace_back();
     };
 
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
@@ -2447,6 +2431,10 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
 
 std::string options_manager::show( bool ingame, const bool world_options_only )
 {
+    const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
+        return &p == &world_default_page_;
+    } ) - pages_.begin();
+
     // temporary alias so the code below does not need to be changed
     options_container &OPTIONS = options;
     options_container &ACTIVE_WORLD_OPTIONS = world_options.has_value() ?
@@ -2502,6 +2490,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     while( true ) {
+        Page &page = pages_[iCurrentPage];
+        auto &page_items = page.items_;
+
         auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
                          ACTIVE_WORLD_OPTIONS : OPTIONS;
 
@@ -2520,7 +2511,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
         }
 
-        calcStartPos( iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size() );
+        calcStartPos( iStartPos, iCurrentLine, iContentHeight, page_items.size() );
 
         // where the column with the names starts
         const size_t name_col = 5;
@@ -2532,9 +2523,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for( int i = iStartPos;
-             i < iStartPos + ( iContentHeight > static_cast<int>( mPageItems[iCurrentPage].size() ) ?
-                               static_cast<int>( mPageItems[iCurrentPage].size() ) : iContentHeight ); i++ ) {
-
+             i < iStartPos + ( iContentHeight > static_cast<int>( page_items.size() ) ?
+                               static_cast<int>( page_items.size() ) : iContentHeight ); i++ ) {
 
             int line_pos = i - iStartPos; // Current line position in window.
 
@@ -2544,6 +2534,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">> " );
             } else {
                 mvwprintz( w_options, point( name_col, line_pos ), c_yellow, "   " );
+            }
+
+            const auto &opt_name = page_items[i];
+            if( !opt_name ) {
+                continue;
             }
 
             nc_color cLineColor = c_light_green;
@@ -2569,23 +2564,20 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         }
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        mPageItems[iCurrentPage].size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
         wrefresh( w_options_border );
 
         //Draw Tabs
         if( !world_options_only ) {
             mvwprintz( w_options_header, point( 7, 0 ), c_white, "" );
-            for( int i = 0; i < static_cast<int>( vPages.size() ); i++ ) {
-                if( mPageItems[i].empty() ) {
-                    continue;
-                }
+            for( int i = 0; i < static_cast<int>( pages_.size() ); i++ ) {
                 wprintz( w_options_header, c_white, "[" );
                 if( ingame && i == iWorldOptPage ) {
                     wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
                              _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
-                             "%s", _( vPages[i].second ) );
+                             "%s", _( pages_[i].get().name_ ) );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
@@ -2594,12 +2586,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         wrefresh( w_options_header );
 
+        const std::string &opt_name = *page_items[iCurrentLine];
+        cOpt &current_opt = cOPTIONS[opt_name];
+
 #if defined(TILES) || defined(_WIN32)
-        if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X" ) {
+        if( opt_name == "TERMINAL_X" ) {
             int new_terminal_x = 0;
             int new_window_width = 0;
-            std::stringstream value_conversion(
-                OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName() );
+            std::stringstream value_conversion( current_opt.getValueName() );
 
             value_conversion >> new_terminal_x;
             new_window_width = projected_window_width();
@@ -2608,14 +2602,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText(),
+                            current_opt.getTooltip(),
+                            current_opt.getDefaultText(),
                             new_window_width );
-        } else if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y" ) {
+        } else if( opt_name == "TERMINAL_Y" ) {
             int new_terminal_y = 0;
             int new_window_height = 0;
-            std::stringstream value_conversion(
-                OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName() );
+            std::stringstream value_conversion( current_opt.getValueName() );
 
             value_conversion >> new_terminal_y;
             new_window_height = projected_window_height();
@@ -2624,15 +2617,15 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText(),
+                            current_opt.getTooltip(),
+                            current_opt.getDefaultText(),
                             new_window_height );
         } else
 #endif
         {
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, "%s #%s",
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText() );
+                            current_opt.getTooltip(),
+                            current_opt.getDefaultText() );
         }
 
         if( iCurrentPage != iLastPage ) {
@@ -2654,7 +2647,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             return action;
         }
 
-        cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
         bool hasPrerequisite = current_opt.hasPrerequisite();
         bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
@@ -2668,26 +2660,26 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         if( action == "DOWN" ) {
             do {
                 iCurrentLine++;
-                if( iCurrentLine >= static_cast<int>( mPageItems[iCurrentPage].size() ) ) {
+                if( iCurrentLine >= static_cast<int>( page_items.size() ) ) {
                     iCurrentLine = 0;
                 }
-            } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
+            } while( !page_items[iCurrentLine] );
         } else if( action == "UP" ) {
             do {
                 iCurrentLine--;
                 if( iCurrentLine < 0 ) {
-                    iCurrentLine = mPageItems[iCurrentPage].size() - 1;
+                    iCurrentLine = page_items.size() - 1;
                 }
-            } while( cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText().empty() );
-        } else if( !mPageItems[iCurrentPage].empty() && action == "RIGHT" ) {
+            } while( !page_items[iCurrentLine] );
+        } else if( action == "RIGHT" ) {
             current_opt.setNext();
-        } else if( !mPageItems[iCurrentPage].empty() && action == "LEFT" ) {
+        } else if( action == "LEFT" ) {
             current_opt.setPrev();
         } else if( action == "NEXT_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
             iCurrentPage++;
-            if( iCurrentPage >= static_cast<int>( vPages.size() ) ) {
+            if( iCurrentPage >= static_cast<int>( pages_.size() ) ) {
                 iCurrentPage = 0;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -2696,10 +2688,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             iStartPos = 0;
             iCurrentPage--;
             if( iCurrentPage < 0 ) {
-                iCurrentPage = vPages.size() - 1;
+                iCurrentPage = pages_.size() - 1;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
-        } else if( !mPageItems[iCurrentPage].empty() && action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" ) {
             if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
                 current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
                 current_opt.setNext();
@@ -2834,16 +2826,12 @@ void options_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
-    auto mPageItems = this->mPageItems;
-    for( size_t j = 0; j < vPages.size(); ++j ) {
-        for( auto &elem : mPageItems[j] ) {
-            // Skip blanks between option groups
-            // to avoid empty json entries being stored
-            if( elem.empty() ) {
+    for( const Page &p : pages_ ) {
+        for( const cata::optional<std::string> &opt_name : p.items_ ) {
+            if( !opt_name ) {
                 continue;
             }
-            const auto iter = options.find( elem );
+            const auto iter = options.find( *opt_name );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
 
@@ -2851,7 +2839,7 @@ void options_manager::serialize( JsonOut &json ) const
 
                 json.member( "info", opt.getTooltip() );
                 json.member( "default", opt.getDefaultText( false ) );
-                json.member( "name", elem );
+                json.member( "name", opt.getName() );
                 json.member( "value", opt.getValue( true ) );
 
                 json.end_object();
