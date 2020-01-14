@@ -2535,10 +2535,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
              i < iStartPos + ( iContentHeight > static_cast<int>( mPageItems[iCurrentPage].size() ) ?
                                static_cast<int>( mPageItems[iCurrentPage].size() ) : iContentHeight ); i++ ) {
 
-            nc_color cLineColor = c_light_green;
-            const cOpt &current_opt = cOPTIONS[mPageItems[iCurrentPage][i]];
-            const bool hasPrerequisite = current_opt.hasPrerequisite();
-            const bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
             int line_pos = i - iStartPos; // Current line position in window.
 
@@ -2549,6 +2545,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             } else {
                 mvwprintz( w_options, point( name_col, line_pos ), c_yellow, "   " );
             }
+
+            nc_color cLineColor = c_light_green;
+            const cOpt &current_opt = cOPTIONS[*opt_name];
+            const bool hasPrerequisite = current_opt.hasPrerequisite();
+            const bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
             const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
             mvwprintz( w_options, point( name_col + 3, line_pos ), !hasPrerequisite ||
