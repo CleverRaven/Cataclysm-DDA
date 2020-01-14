@@ -429,7 +429,7 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, translation alt_msg ) :
+spell::spell( spell_id sp, const translation &alt_msg ) :
     type( sp ),
     alt_message( alt_msg )
 {}

@@ -69,7 +69,7 @@ bool monster::wander()
     return ( goal == pos() );
 }
 
-bool monster::is_immune_field( const field_type_id fid ) const
+bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );

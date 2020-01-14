@@ -1003,7 +1003,7 @@ void editmap::edit_feature()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id idx )
+void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx )
 {
     int field_intensity = 1;
     const field_type &ftype = idx.obj();

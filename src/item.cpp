@@ -4521,7 +4521,7 @@ void item::unset_flags()
     item_tags.clear();
 }
 
-bool item::has_fault( const fault_id fault ) const
+bool item::has_fault( const fault_id &fault ) const
 {
     return faults.count( fault );
 }

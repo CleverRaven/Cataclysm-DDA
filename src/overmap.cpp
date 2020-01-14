@@ -1230,7 +1230,7 @@ void overmap::insert_npc( shared_ptr_fast<npc> who )
     g->set_npcs_dirty();
 }
 
-shared_ptr_fast<npc> overmap::erase_npc( const character_id id )
+shared_ptr_fast<npc> overmap::erase_npc( const character_id &id )
 {
     const auto iter = std::find_if( npcs.begin(),
     npcs.end(), [id]( const shared_ptr_fast<npc> &n ) {
@@ -4451,7 +4451,7 @@ void overmap::for_each_npc( const std::function<void( const npc & )> &callback )
     }
 }
 
-shared_ptr_fast<npc> overmap::find_npc( const character_id id ) const
+shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {

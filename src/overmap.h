@@ -321,12 +321,12 @@ class overmap
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        shared_ptr_fast<npc> erase_npc( character_id id );
+        shared_ptr_fast<npc> erase_npc( const character_id &id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        shared_ptr_fast<npc> find_npc( character_id id ) const;
+        shared_ptr_fast<npc> find_npc( const character_id &id ) const;
 
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;

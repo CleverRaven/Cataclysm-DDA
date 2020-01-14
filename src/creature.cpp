@@ -918,7 +918,7 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
-void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity

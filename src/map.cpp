@@ -4642,7 +4642,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 }
 
 template <typename Stack>
-std::list<item> use_charges_from_stack( Stack stack, const itype_id type, int &quantity,
+std::list<item> use_charges_from_stack( Stack stack, const itype_id &type, int &quantity,
                                         const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -4712,7 +4712,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 }
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id type, int &quantity,
+                                  const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter, basecamp *bcp )
 {
     std::list<item> ret;
@@ -5123,18 +5123,18 @@ field &map::field_at( const tripoint &p )
     return current_submap->fld[l.x][l.y];
 }
 
-time_duration map::mod_field_age( const tripoint &p, const field_type_id type,
+time_duration map::mod_field_age( const tripoint &p, const field_type_id &type,
                                   const time_duration &offset )
 {
     return set_field_age( p, type, offset, true );
 }
 
-int map::mod_field_intensity( const tripoint &p, const field_type_id type, const int offset )
+int map::mod_field_intensity( const tripoint &p, const field_type_id &type, const int offset )
 {
     return set_field_intensity( p, type, offset, true );
 }
 
-time_duration map::set_field_age( const tripoint &p, const field_type_id type,
+time_duration map::set_field_age( const tripoint &p, const field_type_id &type,
                                   const time_duration &age, const bool isoffset )
 {
     if( field_entry *const field_ptr = get_field( p, type ) ) {
@@ -5147,7 +5147,7 @@ time_duration map::set_field_age( const tripoint &p, const field_type_id type,
  * set intensity of field type at point, creating if not present, removing if intensity is 0
  * returns resulting intensity, or 0 for not present
  */
-int map::set_field_intensity( const tripoint &p, const field_type_id type, const int new_intensity,
+int map::set_field_intensity( const tripoint &p, const field_type_id &type, const int new_intensity,
                               bool isoffset )
 {
     field_entry *field_ptr = get_field( p, type );
@@ -5167,19 +5167,19 @@ int map::set_field_intensity( const tripoint &p, const field_type_id type, const
     return 0;
 }
 
-time_duration map::get_field_age( const tripoint &p, const field_type_id type ) const
+time_duration map::get_field_age( const tripoint &p, const field_type_id &type ) const
 {
     auto field_ptr = field_at( p ).find_field( type );
     return field_ptr == nullptr ? -1_turns : field_ptr->get_field_age();
 }
 
-int map::get_field_intensity( const tripoint &p, const field_type_id type ) const
+int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
     auto field_ptr = field_at( p ).find_field( type );
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
-field_entry *map::get_field( const tripoint &p, const field_type_id type )
+field_entry *map::get_field( const tripoint &p, const field_type_id &type )
 {
     if( !inbounds( p ) ) {
         return nullptr;
@@ -5202,7 +5202,7 @@ bool map::dangerous_field_at( const tripoint &p )
     return false;
 }
 
-bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
+bool map::add_field( const tripoint &p, const field_type_id &type, int intensity,
                      const time_duration &age )
 {
     if( !inbounds( p ) ) {
@@ -5253,7 +5253,7 @@ bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
     return true;
 }
 
-void map::remove_field( const tripoint &p, const field_type_id field_to_remove )
+void map::remove_field( const tripoint &p, const field_type_id &field_to_remove )
 {
     if( !inbounds( p ) ) {
         return;
@@ -5278,7 +5278,7 @@ void map::remove_field( const tripoint &p, const field_type_id field_to_remove )
     }
 }
 
-void map::add_splatter( const field_type_id type, const tripoint &where, int intensity )
+void map::add_splatter( const field_type_id &type, const tripoint &where, int intensity )
 {
     if( intensity <= 0 ) {
         return;
@@ -5297,7 +5297,7 @@ void map::add_splatter( const field_type_id type, const tripoint &where, int int
     mod_field_intensity( where, type, intensity );
 }
 
-void map::add_splatter_trail( const field_type_id type, const tripoint &from, const tripoint &to )
+void map::add_splatter_trail( const field_type_id &type, const tripoint &from, const tripoint &to )
 {
     if( !type.id() ) {
         return;
@@ -5314,7 +5314,7 @@ void map::add_splatter_trail( const field_type_id type, const tripoint &from, co
     }
 }
 
-void map::add_splash( const field_type_id type, const tripoint &center, int radius, int intensity )
+void map::add_splash( const field_type_id &type, const tripoint &center, int radius, int intensity )
 {
     if( !type.id() ) {
         return;
@@ -7872,21 +7872,21 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-void map::draw_line_ter( const ter_id type, const point &p1, const point &p2 )
+void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )
 {
     draw_line( [this, type]( const point & p ) {
         this->ter_set( p, type );
     }, p1, p2 );
 }
 
-void map::draw_line_furn( const furn_id type, const point &p1, const point &p2 )
+void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2 )
 {
     draw_line( [this, type]( const point & p ) {
         this->furn_set( p, type );
     }, p1, p2 );
 }
 
-void map::draw_fill_background( const ter_id type )
+void map::draw_fill_background( const ter_id &type )
 {
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z );
@@ -7913,14 +7913,14 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id type, const point &p1, const point &p2 )
+void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2 )
 {
     draw_square( [this, type]( const point & p ) {
         this->ter_set( p, type );
     }, p1, p2 );
 }
 
-void map::draw_square_furn( const furn_id type, const point &p1, const point &p2 )
+void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2 )
 {
     draw_square( [this, type]( const point & p ) {
         this->furn_set( p, type );
@@ -7942,35 +7942,35 @@ void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1, 
     }, p1, p2 );
 }
 
-void map::draw_rough_circle_ter( const ter_id type, const point &p, int rad )
+void map::draw_rough_circle_ter( const ter_id &type, const point &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_rough_circle_furn( const furn_id type, const point &p, int rad )
+void map::draw_rough_circle_furn( const furn_id &type, const point &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
         this->furn_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_ter( const ter_id type, const rl_vec2d &p, double rad )
+void map::draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_ter( const ter_id type, const point &p, int rad )
+void map::draw_circle_ter( const ter_id &type, const point &p, int rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_furn( const furn_id type, const point &p, int rad )
+void map::draw_circle_furn( const furn_id &type, const point &p, int rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->furn_set( q, type );

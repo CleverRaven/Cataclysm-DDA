@@ -126,7 +126,7 @@ std::vector<std::string> faction::epilogue() const
     return ret;
 }
 
-void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+void faction::add_to_membership( const character_id &guy_id, const std::string &guy_name,
                                  const bool known )
 {
     members[guy_id] = std::make_pair( guy_name, known );

@@ -753,7 +753,7 @@ void vehicle::stop_autodriving()
     collision_check_points.clear();
 }
 
-void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol )
+void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
 {
     if( follow_protocol && g->u.in_vehicle ) {
         stop_autodriving();

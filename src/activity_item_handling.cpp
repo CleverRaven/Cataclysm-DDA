@@ -905,7 +905,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, char type )
+static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, char type )
 {
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
     if( !veh ) {
@@ -1034,7 +1034,7 @@ static activity_reason_info find_base_construction(
     player &p,
     const inventory &inv,
     const tripoint &loc,
-    const cata::optional<size_t> part_con_idx,
+    const cata::optional<size_t> &part_con_idx,
     const size_t idx,
     std::set<size_t> &used )
 {
@@ -1854,7 +1854,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
+static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
                                    const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
                                    activity_id activity_to_restore )
 {
