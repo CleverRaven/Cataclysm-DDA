@@ -3034,7 +3034,8 @@ void game::display_faction_epilogues()
 
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
-            display_table( w, elem.second.name, 1, elem.second.epilogue() );
+            draw_border( w, BORDER_COLOR, elem.second.name, c_black_white );
+            multipage( w, elem.second.epilogue(), "", 2 );
         }
     }
 
