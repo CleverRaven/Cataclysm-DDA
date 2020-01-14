@@ -4205,7 +4205,7 @@
         { "id": "RPG", "fg": 1371, "rotates": false },
         { "id": "m79", "fg": 1372, "rotates": false },
         {
-          "id": [ "shortbow", "recurbow", "reflexbow", "longbow", "hybridbow", "reflexrecurvebow", "selfbow" ],
+          "id": [ "shortbow", "recurbow", "reflexbow", "longbow", "reflexrecurvebow", "selfbow" ],
           "fg": 1373,
           "rotates": false
         },
