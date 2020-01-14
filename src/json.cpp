@@ -114,7 +114,7 @@ void JsonObject::report_unvisited() const
     if( test_mode && report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
-        for( const std::pair<std::string, int> &p : positions ) {
+        for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
@@ -346,7 +346,7 @@ std::vector<int> JsonObject::get_int_array( const std::string &name ) const
 std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
 {
     std::vector<std::string> ret;
-    for( const std::string &entry : get_array( name ) ) {
+    for( const std::string entry : get_array( name ) ) {
         ret.push_back( entry );
     }
     return ret;
@@ -714,7 +714,7 @@ bool JsonArray::has_object( const size_t i ) const
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const std::string &name )
 {
-    for( const std::string &line : json.get_array( name ) ) {
+    for( const std::string line : json.get_array( name ) ) {
         s.insert( line );
     }
 }

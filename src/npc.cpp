@@ -220,7 +220,7 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
     } else if( jsobj.has_array( "mission_offered" ) ) {
-        for( const std::string &line : jsobj.get_array( "mission_offered" ) ) {
+        for( const std::string line : jsobj.get_array( "mission_offered" ) ) {
             guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
@@ -1009,7 +1009,7 @@ void npc::do_npc_read()
             }
             start_read( chosen, pl );
         } else {
-            for( const auto elem : fail_reasons ) {
+            for( const auto &elem : fail_reasons ) {
                 say( elem );
             }
         }

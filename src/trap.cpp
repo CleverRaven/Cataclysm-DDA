@@ -120,7 +120,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     assign( jo, "trigger_weight", trigger_weight );
-    for( const JsonValue &entry : jo.get_array( "drops" ) ) {
+    for( const JsonValue entry : jo.get_array( "drops" ) ) {
         std::string item_type;
         int quantity = 0;
         int charges = 0;
@@ -152,7 +152,7 @@ void trap::load( const JsonObject &jo, const std::string & )
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
         vehicle_data.spawn_items.clear();
         if( jv.has_array( "spawn_items" ) ) {
-            for( const JsonValue &entry : jv.get_array( "spawn_items" ) ) {
+            for( const JsonValue entry : jv.get_array( "spawn_items" ) ) {
                 if( entry.test_object() ) {
                     JsonObject joitm = entry.get_object();
                     vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );

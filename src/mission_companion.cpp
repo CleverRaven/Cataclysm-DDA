@@ -1792,7 +1792,7 @@ comp_list talk_function::companion_sort( comp_list available,
     }
     skill_id hardest_skill;
     int hardest_diff = -1;
-    for( const std::pair<skill_id, int> &req_skill : required_skills ) {
+    for( const std::pair<const skill_id, int> &req_skill : required_skills ) {
         if( req_skill.second > hardest_diff ) {
             hardest_diff = req_skill.second;
             hardest_skill = req_skill.first;
@@ -1924,7 +1924,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         } else {
             npc_desc = left_justify( npc_desc, 51 );
             bool first = true;
-            for( const std::pair<skill_id, int> &skill_tested : required_skills ) {
+            for( const std::pair<const skill_id, int> &skill_tested : required_skills ) {
                 if( first ) {
                     first = false;
                 } else {

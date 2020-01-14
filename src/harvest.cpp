@@ -85,7 +85,7 @@ const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &s
         ret.message_ = jo.get_string( "message" );
     }
 
-    for( const JsonObject &current_entry : jo.get_array( "entries" ) ) {
+    for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
     }
 

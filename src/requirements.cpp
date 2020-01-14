@@ -73,7 +73,7 @@ void quality::load( const JsonObject &jo, const std::string & )
 
     for( JsonArray levels : jo.get_array( "usages" ) ) {
         const int level = levels.get_int( 0 );
-        for( const std::string &line : levels.get_array( 1 ) ) {
+        for( const std::string line : levels.get_array( 1 ) ) {
             usages.emplace_back( level, line );
         }
     }
@@ -208,10 +208,10 @@ void item_comp::load( const JsonValue &value )
 template<typename T>
 void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs )
 {
-    for( const JsonValue &entry : jsarr ) {
+    for( const JsonValue entry : jsarr ) {
         if( entry.test_array() ) {
             std::vector<T> choices;
-            for( const JsonValue &subentry : entry.get_array() ) {
+            for( const JsonValue subentry : entry.get_array() ) {
                 choices.push_back( T() );
                 choices.back().load( subentry );
             }

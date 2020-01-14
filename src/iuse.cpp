@@ -1210,7 +1210,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
                              _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings…" ),
                              it.tname() );
         p.add_morale( MORALE_MARLOSS, 100, 1000 );
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             if( pr.first != current_color ) {
                 p.add_addiction( pr.second, 50 );
             }
@@ -1285,7 +1285,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
         p.fall_asleep( 10_hours - p.int_cur *
                        1_minutes ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1296,7 +1296,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
                              _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
         /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
         p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1313,7 +1313,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body…" ) );
         p.set_mutation( current_color );
         // Give us addictions to the other two colors, but cure one for current color
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             if( pr.first == current_color ) {
                 p.rem_addiction( pr.second );
             } else {

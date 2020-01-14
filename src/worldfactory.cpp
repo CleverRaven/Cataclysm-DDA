@@ -1413,7 +1413,7 @@ void load_world_option( const JsonObject &jo )
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }
-    for( const std::string &line : arr ) {
+    for( const std::string line : arr ) {
         get_options().get_option( line ).setValue( "true" );
     }
 }

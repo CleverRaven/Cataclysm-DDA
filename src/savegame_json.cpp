@@ -464,7 +464,7 @@ void Character::load( const JsonObject &data )
     }
 
     JsonObject vits = data.get_object( "vitamin_levels" );
-    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         int lvl = vits.get_int( v.first.str(), 0 );
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
@@ -614,7 +614,7 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    for( const JsonMember &member : data.get_object( "skills" ) ) {
+    for( const JsonMember member : data.get_object( "skills" ) ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
@@ -772,7 +772,7 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }
@@ -855,7 +855,7 @@ void player::store( JsonOut &json ) const
     // faction warnings
     json.member( "faction_warnings" );
     json.start_array();
-    for( const auto elem : warning_record ) {
+    for( const auto &elem : warning_record ) {
         json.start_object();
         json.member( "fac_warning_id", elem.first );
         json.member( "fac_warning_num", elem.second.first );
@@ -1642,7 +1642,7 @@ void npc::load( const JsonObject &data )
         last_updated = calendar::turn;
     }
     complaints.clear();
-    for( const JsonMember &member : data.get_object( "complaints" ) ) {
+    for( const JsonMember member : data.get_object( "complaints" ) ) {
         // @TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
         member.read( p );
@@ -1750,7 +1750,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
-            for( const JsonMember &member : jo ) {
+            for( const JsonMember member : jo ) {
                 std::string invlets;
                 for( const int i : member.get_array() ) {
                     invlets.push_back( i );
@@ -1873,7 +1873,7 @@ void monster::load( const JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+        for( const JsonMember member : data.get_object( "special_attacks" ) ) {
             JsonObject saobject = member.get_object();
             auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
@@ -3383,7 +3383,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "type", expansion.second.type );
             json.member( "provides" );
             json.start_array();
-            for( const auto provide : expansion.second.provides ) {
+            for( const auto &provide : expansion.second.provides ) {
                 json.start_object();
                 json.member( "id", provide.first );
                 json.member( "amount", provide.second );
@@ -3392,7 +3392,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_array();
             json.member( "in_progress" );
             json.start_array();
-            for( const auto working : expansion.second.in_progress ) {
+            for( const auto &working : expansion.second.in_progress ) {
                 json.start_object();
                 json.member( "id", working.first );
                 json.member( "amount", working.second );
@@ -3490,11 +3490,11 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    for( const JsonMember &member : data.get_object( "kills" ) ) {
+    for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
     }
 
-    for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+    for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
         npc_kills.push_back( npc_name );
     }
 }

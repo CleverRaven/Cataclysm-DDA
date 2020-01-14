@@ -30,7 +30,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
         debugmsg( "snippet_library::add_snippets_from_json called after snippet_library::migrate_hash_to_id." );
     }
     hash_to_id_migration = cata::nullopt;
-    for( const JsonValue &entry : jarr ) {
+    for( const JsonValue entry : jarr ) {
         if( entry.test_string() ) {
             translation text;
             if( !entry.read( text ) ) {

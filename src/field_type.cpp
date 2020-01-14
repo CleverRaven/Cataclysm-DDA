@@ -121,7 +121,7 @@ const field_intensity_level &field_type::get_intensity_level( int level ) const
 void field_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
-    for( const JsonObject &jao : jo.get_array( "intensity_levels" ) ) {
+    for( const JsonObject jao : jo.get_array( "intensity_levels" ) ) {
         field_intensity_level intensity_level;
         field_intensity_level fallback_intensity_level = !intensity_levels.empty() ? intensity_levels.back()
                 : intensity_level;
@@ -165,7 +165,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
         if( jao.has_array( "effects" ) ) {
-            for( const JsonObject &joe : jao.get_array( "effects" ) ) {
+            for( const JsonObject joe : jao.get_array( "effects" ) ) {
                 field_effect fe;
                 mandatory( joe, was_loaded, "effect_id", fe.id );
                 optional( joe, was_loaded, "min_duration", fe.min_duration );
@@ -211,7 +211,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    for( const std::string &id : jid.get_array( "traits" ) ) {
+    for( const std::string id : jid.get_array( "traits" ) ) {
         immunity_data_traits.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
