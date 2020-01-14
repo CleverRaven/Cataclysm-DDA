@@ -899,9 +899,10 @@ void Item_factory::check_definitions() const
                 msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
         }
-        if( type->default_container && ( !has_template( *type->default_container ) ||
-                                         *type->default_container == "null" ) ) {
-            msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
+        if( type->default_container && !has_template( *type->default_container ) ) {
+            if( *type->default_container != "null" ) {
+                msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
+            }
         }
 
         for( const auto &e : type->emits ) {

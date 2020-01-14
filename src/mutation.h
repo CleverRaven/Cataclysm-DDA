@@ -204,6 +204,9 @@ struct mutation_branch {
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
 
+        /**Map of angered species and there intensity*/
+        std::map<species_id, int> anger_relations;
+
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 

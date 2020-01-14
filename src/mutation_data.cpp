@@ -426,6 +426,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         lumination.emplace( bp, ja.next_float() );
     }
 
+    for( JsonArray ja : jo.get_array( "anger_relations" ) ) {
+        const species_id spe = species_id( ja.next_string() );
+        anger_relations.emplace( spe, ja.next_int() );
+
+    }
+
     for( JsonObject wp : jo.get_array( "wet_protection" ) ) {
         std::string part_id = wp.get_string( "part" );
         int ignored = wp.get_int( "ignored", 0 );
@@ -515,6 +521,7 @@ void mutation_branch::check_consistency()
     for( const auto &mdata : get_all() ) {
         const auto &mid = mdata.id;
         const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
+        const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
@@ -523,6 +530,11 @@ void mutation_branch::check_consistency()
         for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
+            }
+        }
+        for( const std::pair<species_id, int> elem : an_id ) {
+            if( !elem.first.is_valid() ) {
+                debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
             }
         }
         if( s_id && !s_id.value().is_valid() ) {
