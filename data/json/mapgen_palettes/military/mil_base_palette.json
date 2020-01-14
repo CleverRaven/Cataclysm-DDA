@@ -69,6 +69,7 @@
       ":": "f_table",
       "h": "f_chair",
       "$": "f_filing_cabinet",
+      "`": "f_shredder",
       "l": "f_locker",
       "c": "f_counter",
       "S": "f_sink",
