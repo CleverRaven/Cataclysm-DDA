@@ -7,5 +7,17 @@
     "points": 2,
     "traits": [ "AFS_PROF_STRONGMAN" ],
     "items": { "both": [ "b_shorts", "undershirt" ], "male": [ "briefs" ], "female": [ "boy_shorts" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PROF_STRONGMAN",
+    "name": "Brutal Strength",
+    "description": "Genetic defects have made your body incredibly strong.  Strength + 7.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "cancels": [ "STR_UP" ],
+    "profession": true,
+    "passive_mods": { "str_mod": 7 }
   }
 ]
