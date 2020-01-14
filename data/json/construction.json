@@ -1705,6 +1705,17 @@
   },
   {
     "type": "construction",
+    "description": "Build Bunk Bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "130 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 30 ] ], [ [ "nail", 30 ] ], [ [ "mattress", 2 ], [ "down_mattress", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bunkbed"
+  },
+  {
+    "type": "construction",
     "description": "Build Bed Frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
