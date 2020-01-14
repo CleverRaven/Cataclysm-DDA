@@ -2025,14 +2025,14 @@ class item : public visitable<item>
          *
          * @param parent Item to inherit from
          */
-        void inherit_flags( const item &parent );
+        void inherit_flags( const item &parent, const recipe &making );
 
         /**
          * @brief Inherit applicable flags from the given list of parent items.
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents );
+        void inherit_flags( const std::list<item> &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;

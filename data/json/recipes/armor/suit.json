@@ -142,6 +142,7 @@
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
   },
   {
@@ -296,6 +297,7 @@
     "time": "18 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
   },
   {
@@ -308,6 +310,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_vest", 1 ] ],
@@ -327,6 +330,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
   },
   {
@@ -633,6 +637,7 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "shark_suit", 1 ] ], [ [ "cable", 50 ] ] ]
   },
   {
@@ -737,6 +742,7 @@
     "decomp_learn": 0,
     "book_learn": [ [ "mag_tailor", 0 ], [ "manual_tailor", 0 ], [ "textbook_tailor", 0 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ], [ [ "long_underpants", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
