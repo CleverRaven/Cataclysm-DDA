@@ -1,11 +1,11 @@
 [
   {
     "id": "rifle_assault",
-    "copy-from": "ar10",
+    "copy-from": "hk417_13",
     "type": "GUN",
-    "name": "service rifle",
+    "name": "assault rifle",
     "ammo": "ammo_rifle",
-    "description": "Borne from years of refinement .  The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
+    "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
     "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
   },
   {
@@ -50,7 +50,7 @@
     "type": "GUN",
     "name": "sporter carbine",
     "ammo": "ammo_rifle",
-    "description": "Though often mislabeled an asssault rifle, this common, cheap box-fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
+    "description": "Though often mislabeled an asssault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
     "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
   }
 ]

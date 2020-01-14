@@ -29,17 +29,18 @@
     "replace": "pistol_casing"
   },
   {
-    "id": [ "410shot_hull" ],
+    "id": [ "410shot_hull", "shot_hull" ],
     "type": "MIGRATION",
-    "replace": "shot_hull"
+    "replace": "shot_casing"
   },
   {
-    "id": [ "22_casing", "223_casing", "32_casing" ],
+    "id": [ "22_casing", "32_casing" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_casing"
   },
   {
     "id": [
+      "223_casing",
       "270win_casing",
       "300blk_casing",
       "4570_casing",

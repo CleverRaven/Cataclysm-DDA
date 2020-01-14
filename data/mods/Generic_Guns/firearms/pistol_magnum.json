@@ -14,7 +14,7 @@
     "copy-from": "henry_big_boy",
     "type": "GUN",
     "name": "magnum levergun",
-    "ammo": [ "ammo_pistol_magnum" "ammo_pistol" ],
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammuntion.",
     "clip_size": 10
   },

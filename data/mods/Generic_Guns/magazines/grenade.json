@@ -5,6 +5,7 @@
     "type": "MAGAZINE",
     "name": "grenade machine gun belt",
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  This one holds grenade cartridges and is too bulky to be worn like other ammo belts.",
+    "delete": { "ammo_type": "40x46mm_grenade" },
     "ammo_type": "ammo_grenade",
     "linkage": "ammolink40mm"
   }
