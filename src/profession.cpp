@@ -128,11 +128,11 @@ class item_reader : public generic_typed_reader<item_reader>
             // either a plain item type id string, or an array with item type id
             // and as second entry the item description.
             if( jin.test_string() ) {
-                return profession::itypedec( jin.get_string(), "" );
+                return profession::itypedec( jin.get_string() );
             }
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
-            const auto snippet = jarr.get_string( 1 );
+            const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -253,15 +253,14 @@ void profession::check_item_definitions( const itypedecvec &items ) const
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id );
-        } else if( !itd.snippet_id.empty() ) {
+        } else if( !itd.snip_id.is_null() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
                           id.str(), itd.type_id );
             } else {
-                if( !SNIPPET.get_snippet_by_id( itd.snippet_id ).has_value() ) {
-                    debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
-                              id.str(), itd.snippet_id, itd.type_id, type->snippet_category );
+                if( !itd.snip_id.is_valid() ) {
+                    debugmsg( "profession %s: there's no snippet with id %s", id.str(), itd.snip_id.str() );
                 }
             }
         }
@@ -349,8 +348,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
             item it( elem.type_id, 0, item::default_charges_tag {} );
-            if( !elem.snippet_id.empty() ) {
-                it.set_snippet( elem.snippet_id );
+            if( !elem.snip_id.is_null() ) {
+                it.set_snippet( elem.snip_id );
             }
             it = it.in_its_container();
             result.push_back( it );
