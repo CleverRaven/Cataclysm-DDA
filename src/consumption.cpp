@@ -1210,7 +1210,7 @@ bool player::consume_effects( item &food )
             mod_fatigue( nutr );
         }
     }
-    // @TODO: remove this
+    // TODO: remove this
     int capacity = stomach_capacity();
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
@@ -1253,7 +1253,7 @@ bool player::consume_effects( item &food )
 
     // Set up food for ingestion
     const item &contained_food = food.is_container() ? food.get_contained() : food;
-    // @TODO: Move quench values to mL and remove the magic number here
+    // TODO: Move quench values to mL and remove the magic number here
     units::volume water = contained_food.type->comestible->quench * 5_ml;
     food_summary ingested{
         water,

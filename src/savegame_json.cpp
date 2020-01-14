@@ -1643,7 +1643,7 @@ void npc::load( const JsonObject &data )
     }
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
-        // @TODO: time_point does not have a default constructor, need to read in the map manually
+        // TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
         member.read( p );
         complaints.emplace( member.name(), p );

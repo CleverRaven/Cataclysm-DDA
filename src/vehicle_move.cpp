@@ -395,7 +395,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     }
 
     if( empty ) {
-        // Hack for dirty vehicles that didn't yet get properly removed
+        // HACK: Hack for dirty vehicles that didn't yet get properly removed
         veh_collision fake_coll;
         fake_coll.type = veh_coll_other;
         colls.push_back( fake_coll );

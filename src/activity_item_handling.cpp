@@ -1962,7 +1962,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
     std::string picked_up;
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    // TODO : vehicle_stack and map_stack into one loop.
+    // TODO: vehicle_stack and map_stack into one loop.
     if( src_veh ) {
         for( auto &veh_elem : src_veh->get_items( src_part ) ) {
             for( auto elem : mental_map_2 ) {

@@ -671,7 +671,7 @@ void mdeath::broken( monster &z )
         }
     }
 
-    //TODO: make mdeath::splatter work for robots
+    // TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
     } else if( g->u.sees( z.pos() ) ) {

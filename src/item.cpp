@@ -4119,7 +4119,7 @@ std::string item::display_name( unsigned int quantity ) const
         amt = " (" + ammotext + ")";
     }
 
-    // This is a hack to prevent possible crashing when displaying maps as items during character creation
+    // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
@@ -5044,7 +5044,7 @@ int item::get_encumber_when_containing(
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    //TODO: Should probably have sizing affect coverage
+    // TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p, encumber != 0 );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:

@@ -1494,7 +1494,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     const ter_t &old_t = old_id.obj();
     const ter_t &new_t = new_terrain.obj();
 
-    // Hack around ledges in traplocs or else it gets NASTY in z-level mode
+    // HACK: Hack around ledges in traplocs or else it gets NASTY in z-level mode
     if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
         auto &traps = traplocs[old_t.trap];
         const auto iter = std::find( traps.begin(), traps.end(), p );
@@ -2865,7 +2865,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
     }
 
     if( p.z == -1 && new_ter == t_rock_floor ) {
-        // A hack to work around not having a "solid earth" tile
+        // HACK: A hack to work around not having a "solid earth" tile
         new_ter = t_dirt;
     }
 
@@ -2921,7 +2921,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             smash_ter = false;
             bash = nullptr;
         } else if( !bash->ter_set && zlevels ) {
-            // A hack for destroy && !bash_floor
+            // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.xy(), p.z - 1 );
             const auto roof = get_roof( below, false );
@@ -3104,7 +3104,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         for( item &it : i_at( p ) )  {
             it.on_drop( p, *this );
         }
-        // Hack alert.
+        // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
         // mysteriously appearing for a sign later built here, remove the
@@ -7128,7 +7128,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     static const auto allow_on_terrain = [&]( const tripoint & p ) {
-        // @TODO: flying creatures should be allowed to spawn without a floor,
+        // TODO: flying creatures should be allowed to spawn without a floor,
         // but the new creature is created *after* determining the terrain, so
         // we can't check for it here.
         return passable( p ) && has_floor( p );
@@ -8160,7 +8160,7 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
 tripoint_range map::points_on_zlevel( const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        // @TODO: need a default constructor that creates an empty range.
+        // TODO: need a default constructor that creates an empty range.
         return tripoint_range( tripoint_zero, tripoint_zero - tripoint_above );
     }
     return tripoint_range( tripoint( 0, 0, z ), tripoint( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1,

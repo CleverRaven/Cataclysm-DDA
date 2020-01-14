@@ -1146,7 +1146,7 @@ void overmap::init_layers()
 void overmap::ter_set( const tripoint &p, const oter_id &id )
 {
     if( !inbounds( p ) ) {
-        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return;
     }
 
@@ -1156,7 +1156,7 @@ void overmap::ter_set( const tripoint &p, const oter_id &id )
 const oter_id &overmap::ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return ot_null;
     }
 
@@ -3204,7 +3204,7 @@ void overmap::build_anthill( const tripoint &p, int s )
         build_tunnel( p, s - rng( 0, 3 ), dir );
     }
 
-    // @TODO: This should follow the tunnel network,
+    // TODO: This should follow the tunnel network,
     // as of now it can pick a tile from an adjacent ant network.
     std::vector<tripoint> queenpoints;
     for( int i = -s; i <= s; i++ ) {
@@ -3611,7 +3611,7 @@ void overmap::chip_rock( const tripoint &p )
 bool overmap::check_ot( const std::string &otype, ot_match_type match_type,
                         const tripoint &p ) const
 {
-    /// @TODO: this check should be done by the caller. Probably.
+    /// TODO: this check should be done by the caller. Probably.
     if( !inbounds( p ) ) {
         return false;
     }

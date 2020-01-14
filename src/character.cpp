@@ -4040,7 +4040,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @TODO: make this simpler and use time_duration/time_point
+                // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -6449,8 +6449,7 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
-        // Horrible hack warning!
-        // Get rid of this as soon as CUT and STAB are split
+        // HACK: Get rid of this as soon as CUT and STAB are split
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
@@ -7834,7 +7833,7 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( is_npc() ) {
-        // A hack to make NPCs use their Molotovs
+        // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
     return false;

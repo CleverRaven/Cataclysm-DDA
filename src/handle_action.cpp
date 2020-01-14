@@ -1162,7 +1162,7 @@ static void read()
 
     if( loc ) {
         // calling obtain() invalidates the item pointer
-        // @TODO: find a way to do this without an int index
+        // TODO: find a way to do this without an int index
         u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );

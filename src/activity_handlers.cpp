@@ -2316,7 +2316,7 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     return REPEAT_CANCEL;
 }
 
-// This is a part of a hack to provide pseudo items for long repair activity
+// HACK: This is a part of a hack to provide pseudo items for long repair activity
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
 struct weldrig_hack {

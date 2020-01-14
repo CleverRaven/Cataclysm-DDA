@@ -1296,9 +1296,7 @@ void editmap::edit_itm()
     } while( ilmenu.ret != UILIST_CANCEL );
 }
 
-/*
- *  Todo
- */
+// TODO:
 void editmap::edit_critter( Creature &critter )
 {
     if( monster *const mon_ptr = dynamic_cast<monster *>( &critter ) ) {
