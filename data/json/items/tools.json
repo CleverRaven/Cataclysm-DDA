@@ -3716,7 +3716,6 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER",
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
@@ -4788,7 +4787,6 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": "HAMMER",
     "flags": [ "BELT_CLIP" ]
   },
   {
