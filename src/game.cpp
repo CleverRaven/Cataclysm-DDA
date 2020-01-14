@@ -3019,6 +3019,7 @@ void game::disp_NPC_epilogues()
         npc *guy = npc_to_get.get();
         std::vector<std::string> epilogue;
         epilogue.emplace_back( guy->get_epilogue() );
+        werase( w );
         draw_border( w, BORDER_COLOR, guy->name, c_black_white );
         multipage( w, epilogue, "", 2 );
     }
@@ -3034,6 +3035,7 @@ void game::display_faction_epilogues()
 
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
+            werase( w );
             draw_border( w, BORDER_COLOR, elem.second.name, c_black_white );
             multipage( w, elem.second.epilogue(), "", 2 );
         }
