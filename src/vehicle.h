@@ -1289,7 +1289,7 @@ class vehicle
         /**
          * Use grid traversal to enumerate all connected vehicles.
          * @param connected_vehicles is an output map from vehicle pointers to
-         * a bool that is true if the vehicle is in the reality bubble. 
+         * a bool that is true if the vehicle is in the reality bubble.
          * @param vehicle_list is a set of pointers to vehicles present in the reality bubble.
          */
         static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
