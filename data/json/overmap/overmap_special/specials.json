@@ -6702,7 +6702,7 @@
     "connections": [ { "point": [ 3, -2, 0 ] } ],
     "city_distance": [ 4, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 2, 2 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ]
   }
 ]
