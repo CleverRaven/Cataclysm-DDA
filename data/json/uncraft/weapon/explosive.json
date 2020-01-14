@@ -6,7 +6,6 @@
     "difficulty": 3,
     "time": "50 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "//": "No trinitrotoluene in the game at present, but Composition B includes RDX as well.",
     "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_compositionb", 200 ] ] ]
   },
   {
