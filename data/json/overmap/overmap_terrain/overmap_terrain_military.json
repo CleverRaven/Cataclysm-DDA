@@ -414,7 +414,7 @@
     "id": "mil_base_1a",
     "name": "military base",
     "sym": "M",
-    "color": "dark_gray",
+    "color": "red",
     "see_cost": 5
   },
   {
