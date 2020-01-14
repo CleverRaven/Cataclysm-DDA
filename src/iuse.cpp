@@ -1665,7 +1665,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    auto loc = g->inv_map_splice( []( const item & e ) {
+    item_location loc = g->inv_map_splice( []( const item & e ) {
         for( const item *it : e.toolmods() ) {
             if( !it->is_irremovable() ) {
                 return true;
