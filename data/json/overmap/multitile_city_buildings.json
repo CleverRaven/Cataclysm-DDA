@@ -3122,5 +3122,35 @@
       { "point": [ 0, 0, 0 ], "overmap": "house_duplex11_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_duplex11_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_prepper",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_prepper_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_04_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_prepper2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_prepper2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_prepper2_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_fortified",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_fortified_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_fortified_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
   }
 ]
