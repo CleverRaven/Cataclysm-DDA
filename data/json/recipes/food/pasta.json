@@ -93,7 +93,7 @@
     "difficulty": 4,
     "charges": 1,
     "time": "20 m",
-    "book_learn": [ [ "cookbook_italian", 3 ] ],
+    "book_learn": [ [ "cookbook_italian", 3 ], [ "cookbook_foodfashions", 4, "Spaghetti Luchetto" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [

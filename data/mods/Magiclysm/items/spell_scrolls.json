@@ -13,6 +13,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_crystallize_mana",
+    "name": { "str": "Scroll of Crystallize Mana", "str_pl": "Scrolls of Crystallize Mana" },
+    "description": "A proper wizard is always prepared, crystallize your mana for the future!",
+    "use_action": { "type": "learn_spell", "spells": [ "crystallize_mana" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_dark_sight",
     "name": { "str": "Scroll of Dark Sight", "str_pl": "Scrolls of Dark Sight" },
     "description": "The darkness holds no secrets for the arcane.  Adjust your sight to see in perfect darkness!",
@@ -33,6 +41,14 @@
     "name": { "str": "Scroll of Obfuscated Body", "str_pl": "Scrolls of Obfuscated Body" },
     "description": "A magical aura distorts light around your body, making it easier to dodge enemy attacks.",
     "use_action": { "type": "learn_spell", "spells": [ "obfuscated_body" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_holographic_transposition",
+    "name": { "str": "Scroll of Holographic Transposition", "str_pl": "Scrolls of Holographic Transposition" },
+    "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself can't tell you apart, who could?",
+    "use_action": { "type": "learn_spell", "spells": [ "holographic_transposition" ] }
   },
   {
     "type": "GENERIC",

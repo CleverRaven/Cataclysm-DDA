@@ -218,7 +218,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         }
 
         t_input_event_list events;
-        for( const JsonObject &keybinding : action.get_array( "bindings" ) ) {
+        for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
             std::string input_method = keybinding.get_string( "input_method" );
             input_event new_event;
             if( input_method == "keyboard" ) {
@@ -230,7 +230,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             if( keybinding.has_array( "key" ) ) {
-                for( const std::string &line : keybinding.get_array( "key" ) ) {
+                for( const std::string line : keybinding.get_array( "key" ) ) {
                     new_event.sequence.push_back( get_keycode( line ) );
                 }
             } else { // assume string if not array, and throw if not string
@@ -747,7 +747,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
             category, &is_local );
 
     if( events.empty() ) {
-        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" ) ;
+        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" );
     }
 
     std::vector<input_event> inputs_to_show;

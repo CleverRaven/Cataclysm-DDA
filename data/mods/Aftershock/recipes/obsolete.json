@@ -21,5 +21,61 @@
     "id_suffix": "afs_from_dough",
     "result": "hardtack",
     "obsolete": true
+  },
+  {
+    "result": "armguard_bone",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "boots_bone",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "gauntlets_bone",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "helmet_bone",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "armor_bone",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "id_suffix": "afs_convert",
+    "obsolete": true
+  },
+  {
+    "result": "afs_quilt_patchwork",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_boot_quiver",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_brigandine_crafted",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_brigandine",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_mbr_titanium",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

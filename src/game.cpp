@@ -210,14 +210,12 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
-static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -518,7 +516,7 @@ void game::init_ui( const bool resized )
     /**
      * Doing the same thing as above for the overmap
      */
-    static const int OVERMAP_LEGEND_WIDTH = 28;
+    OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
     OVERMAP_WINDOW_HEIGHT = TERMY;
     OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
     to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
@@ -1669,7 +1667,9 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
                            catch_duration ) ) );
-    u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname() );
+    if( u.sees( pos ) ) {
+        u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname() );
+    }
     //quietly kill the caught
     fish->no_corpse_quiet = true;
     fish->die( p );
@@ -2332,6 +2332,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pick_style" );
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
+    ctxt.register_action( "reload_wielded" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -2583,7 +2584,7 @@ void game::death_screen()
     show_scores_ui( stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
-    disp_faction_ends();
+    display_faction_epilogues();
 }
 
 void game::move_save_to_graveyard()
@@ -3024,7 +3025,6 @@ void game::disp_NPC_epilogues()
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                            point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
                                    ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
-    epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
@@ -3032,110 +3032,25 @@ void game::disp_NPC_epilogues()
             continue;
         }
         npc *guy = npc_to_get.get();
-        epi.random_by_group( guy->male ? "male" : "female" );
-        std::vector<std::string> txt;
-        txt.emplace_back( epi.text );
+        std::vector<std::string> epilogue;
+        epilogue.emplace_back( guy->get_epilogue() );
         draw_border( w, BORDER_COLOR, guy->name, c_black_white );
-        multipage( w, txt, "", 2 );
+        multipage( w, epilogue, "", 2 );
     }
 
     refresh_all();
 }
 
-void game::disp_faction_ends()
+void game::display_faction_epilogues()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                            point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
                                   std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
-    std::vector<std::string> data;
 
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
-            if( elem.second.name == "Your Followers" ) {
-                data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm…" ) );
-                display_table( w, "", 1, data );
-            } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
-                if( elem.second.power < 150 ) {
-                    data.emplace_back(
-                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
-                           "resources in a handful of fortified bases along the coast.  Without the men "
-                           "or material to rebuild, the soldiers that remained lost all hope…" ) );
-                } else {
-                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed "
-                                          "the tattered remains of the once glorious union.  Spurred on by small "
-                                          "successes, a number of operations to re-secure facilities met with limited "
-                                          "success.  Forced to eventually consolidate to large bases, the Old Guard left "
-                                          "these facilities in the hands of the few survivors that remained.  As the "
-                                          "years past, little materialized from the hopes of rebuilding civilization…" ) );
-                }
-                display_table( w, _( "The Old Guard" ), 1, data );
-            } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
-                if( elem.second.power < 150 ) {
-                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
-                                          "destroyed any hope of maintaining a civilized enclave.  The merchants and "
-                                          "craftsmen dispersed to found new colonies but most became victims of "
-                                          "marauding bandits.  Those who survived never found a place to call home…" ) );
-                } else {
-                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their "
-                                          "once profitable trade routes were plundered by bandits and thugs.  In squalor "
-                                          "and filth the first generations born after the cataclysm are told stories of "
-                                          "the old days when food was abundant and the children were allowed to play in "
-                                          "the sun…" ) );
-                }
-                display_table( w, _( "The Free Merchants" ), 1, data );
-            } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
-                if( elem.second.power < 150 ) {
-                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external "
-                                          "threats combined with low crop yields caused the Free Merchants to withdraw "
-                                          "their support.  When the exhausted migrants returned to the refugee center "
-                                          "they were turned away to face the world on their own." ) );
-                } else {
-                    data.emplace_back(
-                        _( "    The commune continued to grow rapidly through the years despite constant "
-                           "external threat.  While maintaining a reputation as a haven for all law-"
-                           "abiding citizens, the commune's leadership remained loyal to the interests of "
-                           "the Free Merchants.  Hard labor for little reward remained the price to be "
-                           "paid for those who sought the safety of the community." ) );
-                }
-                display_table( w, _( "The Tacoma Commune" ), 1, data );
-            } else if( elem.second.name == "The Wasteland Scavengers" && elem.second.power != 100 ) {
-                if( elem.second.power < 150 ) {
-                    data.emplace_back(
-                        _( "    The lone bands of survivors who wandered the now alien world dwindled in "
-                           "number through the years.  Unable to compete with the growing number of "
-                           "monstrosities that had adapted to live in their world, those who did survive "
-                           "lived in dejected poverty and hopelessness…" ) );
-                } else {
-                    data.emplace_back(
-                        _( "    The scavengers who flourished in the opening days of the cataclysm found "
-                           "an ever increasing challenge in finding and maintaining equipment from the "
-                           "old world.  Enormous hordes made cities impossible to enter while new "
-                           "eldritch horrors appeared mysteriously near old research labs.  But on the "
-                           "fringes of where civilization once ended, bands of hunter-gatherers began to "
-                           "adopt agrarian lifestyles in fortified enclaves…" ) );
-                }
-                display_table( w, _( "The Wasteland Scavengers" ), 1, data );
-            } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
-                if( elem.second.power < 150 ) {
-                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition "
-                                          "destroyed the Old Guard.  The ruthless men and women who banded together to "
-                                          "rob refugees and pillage settlements soon found themselves without enough "
-                                          "victims to survive.  The Hell's Raiders were eventually destroyed when "
-                                          "infighting erupted into civil war but there were few survivors left to "
-                                          "celebrate their destruction." ) );
-                } else {
-                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to "
-                                          "overthrow the last strongholds of the Old Guard.  The costly victories "
-                                          "brought the warlords abundant territory and slaves but little in the way of "
-                                          "stability.  Within weeks, infighting led to civil war as tribes vied for "
-                                          "leadership of the faction.  When only one warlord finally secured control, "
-                                          "there was nothing left to fight for… just endless cities full of the dead." ) );
-                }
-                display_table( w, _( "Hell's Raiders" ), 1, data );
-            }
-
+            display_table( w, elem.second.name, 1, elem.second.epilogue() );
         }
-        data.clear();
     }
 
     refresh_all();
@@ -3976,7 +3891,7 @@ void game::mon_info_update( )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    // @todo change current_turn to time_point
+    // @TODO: change current_turn to time_point
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -4142,7 +4057,6 @@ void game::mon_info_update( )
     previous_turn = current_turn;
     mostseen = newseen;
 }
-
 
 void game::cleanup_dead()
 {
@@ -4724,7 +4638,7 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> mon, const tripo
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
@@ -4755,7 +4669,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
@@ -4979,7 +4893,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, true, difficulty );
-    int success = chance_of_success - rng( 1, 100 ) ;
+    int success = chance_of_success - rng( 1, 100 );
 
     if( !g->u.query_yn(
             _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
@@ -5050,18 +4964,19 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const std::string &door_name = door_type.obj().name();
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
-    for( int i = 0; i < 20; i++ ) {
-        const int x_ = x + rng( -1, +1 );
-        const int y_ = y + rng( -1, +1 );
-        if( is_empty( {x_, y_, get_levz()} ) ) {
-            // invert direction, as game::knockback needs
-            // the source of the force that knocks back
-            kbx = -x_ + x + x;
-            kby = -y_ + y + y;
-            break;
-        }
+    const auto valid_location = [&]( const tripoint & p ) {
+        return g->is_empty( p );
+    };
+    if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
+            valid_location ) ) {
+        kbx = -pos->x + x + x;
+        kby = -pos->y + y + y;
     }
     const tripoint kbp( kbx, kby, p.z );
+    if( kbp == p ) {
+        // cant pushback any creatures anywhere, that means the door cant close.
+        return false;
+    }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
@@ -7132,8 +7047,6 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
         xpos += shortcut_print( window, point( xpos, ypos ), c_white, c_light_green,
                                 tokens[i] ) + gap_spaces;
     }
-
-    refresh_all();
 }
 
 void game::list_items_monsters()
@@ -7175,7 +7088,6 @@ void game::list_items_monsters()
         }
     }
 
-    refresh_all();
     if( ret == game::vmenu_ret::FIRE ) {
         avatar_action::fire( u, m, u.weapon );
     }
@@ -7185,7 +7097,7 @@ void game::list_items_monsters()
 game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
     int iInfoHeight = std::min( 25, TERMY / 2 );
-    const int width = 44;
+    const int width = 45;
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
     catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,
@@ -7540,8 +7452,16 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
+        draw_custom_border( w_item_info, bDrawLeft, true, true, true, LINE_XXXO, LINE_XOXX, true, true );
 
-        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
+        if( iItemNum > 0 ) {
+            // print info window title: < item name >
+            mvwprintw( w_item_info, point( 2, 0 ), "< " );
+            trim_and_print( w_item_info, point( 4, 0 ), width - 8, activeItem->example->color_in_inventory(),
+                            activeItem->example->display_name() );
+            wprintw( w_item_info, " >" );
+        }
+
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -7869,14 +7789,7 @@ void game::drop_in_direction()
 // Used to set up the first Hotkey in the display set
 static int get_initial_hotkey( const size_t menu_index )
 {
-    int hotkey = -1;
-    if( menu_index == 0 ) {
-        const int butcher_key = inp_mngr.get_previously_pressed_key();
-        if( butcher_key != 0 ) {
-            hotkey = butcher_key;
-        }
-    }
-    return hotkey;
+    return ( menu_index == 0 ) ? hotkey_for_action( ACTION_BUTCHER ) : -1;
 }
 
 // Returns a vector of pairs.
@@ -8474,6 +8387,16 @@ void game::reload_item()
         return;
     }
 
+    reload( item_loc );
+}
+
+void game::reload_wielded()
+{
+    if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
+        add_msg( _( "You aren't holding something you can reload." ) );
+        return;
+    }
+    item_location item_loc = item_location( u, &u.weapon );
     reload( item_loc );
 }
 
@@ -10610,7 +10533,14 @@ point game::update_map( int &x, int &y )
     }
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
-    m.shift( shift );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    rectangle size_1( point( -1, -1 ), point( 1, 1 ) );
+    point remaining_shift = shift;
+    while( remaining_shift != point_zero ) {
+        point this_shift = clamp_inclusive( remaining_shift, size_1 );
+        m.shift( this_shift );
+        remaining_shift -= this_shift;
+    }
 
     // Shift monsters
     shift_monsters( tripoint( shift, 0 ) );
@@ -10674,6 +10604,11 @@ void game::update_overmap_seen()
         const point delta = p.xy() - ompos.xy();
         const int h_squared = delta.x * delta.x + delta.y * delta.y;
         if( trigdist && h_squared > dist_squared ) {
+            continue;
+        }
+        if( delta == point_zero ) {
+            // 1. This case is already handled outside of the loop
+            // 2. Calculating multiplier would cause division by zero
             continue;
         }
         // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
@@ -11938,4 +11873,11 @@ std::string game::get_world_base_save_path() const
         return PATH_INFO::savedir();
     }
     return world_generator->active_world->folder_path();
+}
+
+void game::shift_destination_preview( const point &delta )
+{
+    for( tripoint &p : destination_preview ) {
+        p += delta;
+    }
 }

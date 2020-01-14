@@ -499,10 +499,10 @@ json_item_substitution::substitution::info::info( const JsonValue &value )
 
 json_item_substitution::trait_requirements::trait_requirements( const JsonObject &obj )
 {
-    for( const std::string &line : obj.get_array( "present" ) ) {
+    for( const std::string line : obj.get_array( "present" ) ) {
         present.emplace_back( line );
     }
-    for( const std::string &line : obj.get_array( "absent" ) ) {
+    for( const std::string line : obj.get_array( "absent" ) ) {
         absent.emplace_back( line );
     }
 }
@@ -528,24 +528,24 @@ void json_item_substitution::load( const JsonObject &jo )
             bonuses.emplace_back( title, trait_requirements( jo.get_object( "bonus" ) ) );
         }
 
-        for( const JsonValue &sub : jo.get_array( "sub" ) ) {
+        for( const JsonValue sub : jo.get_array( "sub" ) ) {
             substitution s;
             JsonObject obj = sub.get_object();
             s.trait_reqs = trait_requirements( obj );
-            for( const JsonValue &info : obj.get_array( "new" ) ) {
+            for( const JsonValue info : obj.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
             substitutions[title].push_back( s );
         }
     } else {
-        for( const JsonObject &sub : jo.get_array( "sub" ) ) {
+        for( const JsonObject sub : jo.get_array( "sub" ) ) {
             substitution s;
             const itype_id old_it = sub.get_string( "item" );
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
             s.trait_reqs.present.push_back( trait_id( title ) );
-            for( const JsonValue &info : sub.get_array( "new" ) ) {
+            for( const JsonValue info : sub.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
             substitutions[old_it].push_back( s );

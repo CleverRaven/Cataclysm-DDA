@@ -215,14 +215,14 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     auto excludes = jo.get_array( "exclusions" );
     if( !excludes.empty() ) {
         e_info.exclusions.clear();
-        for( const std::string &line : excludes ) {
+        for( const std::string line : excludes ) {
             e_info.exclusions.push_back( line );
         }
     }
     auto fuel_opts = jo.get_array( "fuel_options" );
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
-        for( const std::string &line : fuel_opts ) {
+        for( const std::string line : fuel_opts ) {
             e_info.fuel_opts.push_back( itype_id( line ) );
         }
     } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
@@ -341,7 +341,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "transform_terrain" ) ) {
         JsonObject jttd = jo.get_object( "transform_terrain" );
-        for( const std::string &pre_flag : jttd.get_array( "pre_flags" ) ) {
+        for( const std::string pre_flag : jttd.get_array( "pre_flags" ) ) {
             def.transform_terrain.pre_flags.emplace( pre_flag );
         }
         def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
@@ -467,7 +467,7 @@ void vpart_info::finalize()
         } else if( e.second.location == "engine_block" ) {
             // Should be hidden by frames
             e.second.z_order = 4;
-            e.second.list_order = 8 ;
+            e.second.list_order = 8;
         } else if( e.second.location == "on_battery_mount" ) {
             // Should be hidden by frames
             e.second.z_order = 3;
@@ -943,7 +943,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
         } else if( part.has_array( "parts" ) ) {
-            for( const JsonValue &entry : part.get_array( "parts" ) ) {
+            for( const JsonValue entry : part.get_array( "parts" ) ) {
                 if( entry.test_string() ) {
                     std::string part_name = entry.get_string();
                     add_part_string( part_name, pos );
@@ -974,7 +974,7 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
-            for( const std::string &line : spawn_info.get_array( "items" ) ) {
+            for( const std::string line : spawn_info.get_array( "items" ) ) {
                 next_spawn.item_ids.push_back( line );
             }
         } else if( spawn_info.has_string( "items" ) ) {
@@ -983,7 +983,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
-            for( const std::string &line : spawn_info.get_array( "item_groups" ) ) {
+            for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
                 next_spawn.item_groups.push_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {

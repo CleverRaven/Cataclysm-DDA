@@ -151,7 +151,15 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "dark_sight", "blinding_flash", "obfuscated_body", "create_atomic_light", "mirror_image", "invisibility" ]
+      "spells": [
+        "dark_sight",
+        "blinding_flash",
+        "obfuscated_body",
+        "create_atomic_light",
+        "mirror_image",
+        "invisibility",
+        "holographic_transposition"
+      ]
     }
   },
   {

@@ -343,13 +343,13 @@
     "dialogue": {
       "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
       "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
-      "accepted": "Yes! The home stretch!",
+      "accepted": "Yes!  The home stretch!",
       "rejected": "Oh man, but we're so close!",
       "advice": "Try looking in cargo storage areas.",
       "inquire": "Did you bring me those last few boxes?",
       "success": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
       "success_lie": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
-      "failure": "No!  Oh god, no, this can't be happening..."
+      "failure": "No!  Oh god, no, this can't be happening…"
     }
   }
 ]

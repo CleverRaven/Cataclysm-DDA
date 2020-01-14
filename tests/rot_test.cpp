@@ -10,7 +10,6 @@
 #include "flat_set.h"
 #include "point.h"
 
-
 static bool is_nearly( float value, float expected )
 {
     // Rounding errors make the values change around a bit
@@ -25,7 +24,6 @@ static void set_map_temperature( int new_temperature )
     g->weather.temperature = new_temperature;
     g->weather.clear_temp_cache();
 }
-
 
 TEST_CASE( "Rate of rotting" )
 {
@@ -42,7 +40,6 @@ TEST_CASE( "Rate of rotting" )
 
         // Item should exist with no rot when it is brand new
         CHECK( to_turns<int>( test_item.get_rot() ) == 0 );
-
 
         calendar::turn = to_turn<int>( calendar::turn + 20_minutes );
         test_item.process_temperature_rot( 1, tripoint_zero, nullptr );

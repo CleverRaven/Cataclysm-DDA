@@ -83,6 +83,8 @@ struct bionic_data {
     units::mass weight_capacity_bonus;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<Character::stat, int> stat_bonus;
+    /**This bionic draws power through a cable*/
+    bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/
@@ -160,7 +162,7 @@ struct bionic {
 
         void set_flag( std::string flag );
         void remove_flag( std::string flag );
-        bool has_flag( std::string flag ) const ;
+        bool has_flag( std::string flag ) const;
 
         int get_quality( const quality_id &quality ) const;
 

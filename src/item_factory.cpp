@@ -106,7 +106,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     };
 
     if( jo.has_array( key ) ) {
-        for( const std::string &line : jo.get_array( key ) ) {
+        for( const std::string line : jo.get_array( key ) ) {
             parse( line );
         }
         return true;
@@ -796,6 +796,7 @@ void Item_factory::init()
     add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
+    add_actor( std::make_unique<change_scent_iuse>() );
     add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
@@ -899,9 +900,10 @@ void Item_factory::check_definitions() const
                 msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
         }
-        if( type->default_container && ( !has_template( *type->default_container ) ||
-                                         *type->default_container == "null" ) ) {
-            msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
+        if( type->default_container && !has_template( *type->default_container ) ) {
+            if( *type->default_container != "null" ) {
+                msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
+            }
         }
 
         for( const auto &e : type->emits ) {
@@ -1419,7 +1421,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "skill", slot.skill_used, strict );
     if( jo.has_array( "ammo" ) ) {
         slot.ammo.clear();
-        for( const std::string &id : jo.get_array( "ammo" ) ) {
+        for( const std::string id : jo.get_array( "ammo" ) ) {
             slot.ammo.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
@@ -1529,7 +1531,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     bool strict = src == "dda";
 
     if( jo.has_array( "ammo" ) ) {
-        for( const std::string &id : jo.get_array( "ammo" ) ) {
+        for( const std::string id : jo.get_array( "ammo" ) ) {
             slot.ammo_id.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
@@ -1580,7 +1582,7 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
     bool strict = src == "dda";
 
     if( jo.has_array( "ammo_modifier" ) ) {
-        for( const std::string &id : jo.get_array( "ammo_modifier" ) ) {
+        for( const std::string id : jo.get_array( "ammo_modifier" ) ) {
             slot.ammo_modifier.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_modifier" ) ) {
@@ -1602,7 +1604,7 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
     for( JsonArray arr : mags ) {
         ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
         // compatible magazines for this ammo type
-        for( const std::string &line : arr.get_array( 1 ) ) {
+        for( const std::string line : arr.get_array( 1 ) ) {
             slot.magazine_adaptor[ ammo ].insert( line );
         }
     }
@@ -1868,7 +1870,7 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
 {
     bool strict = src == "dda";
     if( jo.has_array( "ammo_type" ) ) {
-        for( const std::string &id : jo.get_array( "ammo_type" ) ) {
+        for( const std::string id : jo.get_array( "ammo_type" ) ) {
             slot.type.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_type" ) ) {
@@ -2058,6 +2060,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
 
+    if( jo.has_member( "repairs_like" ) ) {
+        jo.read( "repairs_like", def.repairs_like );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
@@ -2172,7 +2178,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "conditional_names" ) ) {
         def.conditional_names.clear();
-        for( const JsonObject &curr : jo.get_array( "conditional_names" ) ) {
+        for( const JsonObject curr : jo.get_array( "conditional_names" ) ) {
             conditional_name cname;
             cname.type = curr.get_enum_value<condition_type>( "type" );
             cname.condition = curr.get_string( "condition" );
@@ -2241,7 +2247,7 @@ void Item_factory::load_migration( const JsonObject &jo )
         m.id = jo.get_string( "id" );
         migrations[ m.id ] = m;
     } else if( jo.has_array( "id" ) ) {
-        for( const std::string &line : jo.get_array( "id" ) ) {
+        for( const std::string line : jo.get_array( "id" ) ) {
             m.id = line;
             migrations[ m.id ] = m;
         }
@@ -2402,7 +2408,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         } else if( name != "contents" ) {
             obj.throw_error( string_format( "You can't use an array for '%s'", arr_name ) );
         }
-        for( const std::string &line : obj.get_array( arr_name ) ) {
+        for( const std::string line : obj.get_array( arr_name ) ) {
             entries.emplace_back( line, isgroup );
         }
     };
@@ -2455,7 +2461,7 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     std::string temp;
 
     if( obj.has_array( name ) ) {
-        for( const std::string &line : obj.get_array( name ) ) {
+        for( const std::string line : obj.get_array( name ) ) {
             result |= true;
             vec.push_back( line );
         }
@@ -2482,7 +2488,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
-        for( const JsonObject &job2 : jarr ) {
+        for( const JsonObject job2 : jarr ) {
             add_entry( *gptr, job2 );
         }
         ig.add_entry( std::move( gptr ) );
@@ -2534,7 +2540,7 @@ void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &g
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
-    for( const JsonObject &subobj : entries ) {
+    for( const JsonObject subobj : entries ) {
         add_entry( *ig, subobj );
     }
 }
@@ -2554,7 +2560,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
                                           jsobj.get_int( "magazine", 0 ) );
 
     if( subtype == "old" ) {
-        for( const JsonValue &entry : jsobj.get_array( "items" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
                 JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
@@ -2567,12 +2573,12 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
     }
 
     if( jsobj.has_member( "entries" ) ) {
-        for( const JsonObject &subobj : jsobj.get_array( "entries" ) ) {
+        for( const JsonObject subobj : jsobj.get_array( "entries" ) ) {
             add_entry( *ig, subobj );
         }
     }
     if( jsobj.has_member( "items" ) ) {
-        for( const JsonValue &entry : jsobj.get_array( "items" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_string() ) {
                 ig->add_item_entry( entry.get_string(), 100 );
             } else if( entry.test_array() ) {
@@ -2585,7 +2591,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
         }
     }
     if( jsobj.has_member( "groups" ) ) {
-        for( const JsonValue &entry : jsobj.get_array( "groups" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "groups" ) ) {
             if( entry.test_string() ) {
                 ig->add_group_entry( entry.get_string(), 100 );
             } else if( entry.test_array() ) {
@@ -2608,7 +2614,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
 
     use_methods.clear();
     if( jo.has_array( member ) ) {
-        for( const JsonValue &entry : jo.get_array( member ) ) {
+        for( const JsonValue entry : jo.get_array( member ) ) {
             if( entry.test_string() ) {
                 std::string type = entry.get_string();
                 use_methods.emplace( type, usage_from_string( type ) );

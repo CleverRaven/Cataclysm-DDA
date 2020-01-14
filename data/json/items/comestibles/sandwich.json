@@ -328,7 +328,7 @@
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 561,
+    "calories": 700,
     "description": "A delicious fish bagel with spinach and eggs.",
     "price": 800,
     "material": [ "flesh", "wheat" ],

@@ -1877,15 +1877,19 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         const inventory_input input = get_input();
 
+        inventory_entry *just_selected = nullptr;
+
         if( input.entry != nullptr ) {
             select( input.entry->any_item() );
             toggle_entry( input.entry );
+            just_selected = input.entry;
         } else if( input.action == "RIGHT" ) {
             const auto selection( get_active_column().get_all_selected() );
 
             for( auto &elem : selection ) {
                 if( elem->chosen_count == 0 || selection.size() == 1 ) {
                     toggle_entry( elem );
+                    just_selected = elem;
                     if( compared.size() == 2 ) {
                         break;
                     }
@@ -1905,9 +1909,12 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         }
 
         if( compared.size() == 2 ) {
-            const auto res = std::make_pair( &*compared.back()->any_item(),
-                                             &*compared.front()->any_item() );
-            toggle_entry( compared.back() );
+            const auto res = std::make_pair( compared[0], compared[1] );
+            // Clear second selected entry to prevent comparison reopening too
+            // soon
+            if( just_selected ) {
+                toggle_entry( just_selected );
+            }
             return res;
         }
     }
@@ -1915,12 +1922,13 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
 void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 {
-    const auto iter = std::find( compared.begin(), compared.end(), entry );
+    const item *it = &*entry->any_item();
+    const auto iter = std::find( compared.begin(), compared.end(), it );
 
-    entry->chosen_count = ( iter == compared.end() ) ? 1 : 0;
+    entry->chosen_count = iter == compared.end() ? 1 : 0;
 
     if( entry->chosen_count != 0 ) {
-        compared.push_back( entry );
+        compared.push_back( it );
     } else {
         compared.erase( iter );
     }
@@ -1994,7 +2002,7 @@ drop_locations inventory_iuse_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *, int> &use_pair : to_use ) {
+    for( const std::pair<const item *const, int> &use_pair : to_use ) {
         item_location loc( u, const_cast<item *>( use_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
     }
@@ -2144,7 +2152,7 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *, int> &drop_pair : dropping ) {
+    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
         item_location loc( u, const_cast<item *>( drop_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
     }

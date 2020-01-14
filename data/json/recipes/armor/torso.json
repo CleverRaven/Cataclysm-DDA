@@ -19,7 +19,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "4 h",
-    "autolearn": true,
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
     "components": [
@@ -87,7 +86,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 300 ] ], [ [ "duct_tape", 150 ] ] ]
+    "components": [ [ [ "paper", 1200 ] ], [ [ "duct_tape", 150 ] ] ]
   },
   {
     "result": "bra",
@@ -447,6 +446,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]
   },
   {
@@ -490,6 +490,19 @@
       [ [ "duct_tape", 150 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ]
+  },
+  {
+    "result": "ballistic_vest_esapi",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "modularvest",
@@ -645,6 +658,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster", 1 ] ] ]
   },
   {
@@ -686,6 +700,7 @@
     "autolearn": true,
     "byproducts": [ [ "fur", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
   },
   {
@@ -700,6 +715,7 @@
     "autolearn": true,
     "byproducts": [ [ "faux_fur", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
   },
   {
@@ -728,6 +744,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_leather", 1 ] ] ]
   },
   {
@@ -742,6 +759,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_survivor", 1 ] ] ]
   },
   {
@@ -787,6 +805,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat", 1 ] ] ]
   },
   {
@@ -814,6 +833,7 @@
     "autolearn": true,
     "byproducts": [ [ "fur", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
   },
   {
@@ -828,6 +848,7 @@
     "autolearn": true,
     "byproducts": [ [ "faux_fur", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
   },
   {
@@ -869,6 +890,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_leather", 1 ] ] ]
   },
   {
@@ -928,6 +950,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
   },
   {
@@ -941,6 +964,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "tunic", 1 ] ] ]
   },
   {
@@ -1119,6 +1143,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "longshirt", 1 ] ] ]
   },
   {
@@ -1207,6 +1232,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jacket_leather", 1 ] ] ]
   },
   {

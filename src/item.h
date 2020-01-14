@@ -15,6 +15,7 @@
 #include <utility>
 
 #include "calendar.h"
+#include "value_ptr.h"
 #include "cata_utility.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -42,12 +43,11 @@ namespace cata
 {
 template<typename T>
 class optional;
-template<typename T>
-class value_ptr;
 } // namespace cata
 class nc_color;
 class JsonIn;
 class JsonOut;
+class JsonObject;
 class iteminfo_query;
 template<typename T>
 class ret_val;
@@ -399,6 +399,8 @@ class item : public visitable<item>
                           bool debug ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+        void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
         void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -1953,6 +1955,7 @@ class item : public visitable<item>
 
         time_duration age() const;
         void set_age( const time_duration &age );
+        void legacy_fast_forward_time();
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
@@ -2022,14 +2025,14 @@ class item : public visitable<item>
          *
          * @param parent Item to inherit from
          */
-        void inherit_flags( const item &parent );
+        void inherit_flags( const item &parent, const recipe &making );
 
         /**
          * @brief Inherit applicable flags from the given list of parent items.
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents );
+        void inherit_flags( const std::list<item> &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2113,13 +2116,26 @@ class item : public visitable<item>
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
 
-        // Only for in-progress crafts
-        const recipe *making = nullptr;
-        int next_failure_point = -1;
-        std::vector<item_comp> comps_used;
-        // If the crafter has insufficient tools to continue to the next 5% progress step
-        bool tools_to_continue = false;
-        std::vector<comp_selection<tool_comp>> cached_tool_selections;
+        /**
+         * Data for items that represent in-progress crafts.
+         */
+        class craft_data
+        {
+            public:
+                const recipe *making = nullptr;
+                int next_failure_point = -1;
+                std::vector<item_comp> comps_used;
+                // If the crafter has insufficient tools to continue to the next 5% progress step
+                bool tools_to_continue = false;
+                std::vector<comp_selection<tool_comp>> cached_tool_selections;
+
+                void serialize( JsonOut &jsout ) const;
+                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &obj );
+        };
+
+        cata::value_ptr<craft_data> craft_data_;
+
         // any relic data specific to this item
         cata::optional<relic> relic_data;
     public:

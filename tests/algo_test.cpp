@@ -19,7 +19,6 @@ static void check_cycle_finding( std::unordered_map<int, std::vector<int>> &g,
     CHECK( loops == expected );
 }
 
-
 TEST_CASE( "find_cycles_small" )
 {
     std::unordered_map<int, std::vector<int>> g = {
