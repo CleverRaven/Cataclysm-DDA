@@ -2151,7 +2151,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "snippet_id", snippet_id, io::default_tag() );
+    archive.io( "snip_id", snip_id, snippet_id::NULL_ID() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2230,7 +2230,12 @@ void item::io( Archive &archive )
     item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
-        snippet_id = SNIPPET.migrate_hash_to_id( note );
+        snip_id = SNIPPET.migrate_hash_to_id( note );
+    } else {
+        cata::optional<std::string> snip;
+        if( archive.read( "snippet_id", snip ) && snip ) {
+            snip_id = snippet_id( snip.value() );
+        }
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item

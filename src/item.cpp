@@ -246,7 +246,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( !type->snippet_category.empty() ) {
-        snippet_id = SNIPPET.random_id_from_category( type->snippet_category );
+        snip_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
     if( current_phase == PNULL ) {
@@ -2607,9 +2607,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
-        const cata::optional<translation> snippet = snippet_id.has_value()
-                ? SNIPPET.get_snippet_by_id( snippet_id.value() )
-                : cata::nullopt;
+        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
             // Just use the dynamic description
             info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
@@ -8000,21 +7998,16 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     return destroy;
 }
 
-void item::set_snippet( const std::string &id )
+void item::set_snippet( const snippet_id &id )
 {
     if( is_null() ) {
         return;
     }
-    if( type->snippet_category.empty() ) {
-        debugmsg( "can not set description for item %s without snippet category", typeId().c_str() );
+    if( !id.is_valid() ) {
+        debugmsg( "there's no snippet with id %s", id.str() );
         return;
     }
-    if( !SNIPPET.get_snippet_by_id( id ).has_value() ) {
-        debugmsg( "snippet id %s is not contained in snippet category %s", id,
-                  type->snippet_category );
-        return;
-    }
-    snippet_id = id;
+    snip_id = id;
 }
 
 const item_category &item::get_category() const
