@@ -114,9 +114,21 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         power_string = to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
     }
 
-    const int pwr_str_pos = right_print( window, 0, 1, c_white,
+    const int pwr_str_pos = right_print( window, 1, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
                                                  power_string, units::to_kilojoule( p->get_max_power_level() ) ) );
+
+    mvwputch( window, point( pwr_str_pos - 1, 1 ), BORDER_COLOR, LINE_XOXO ); // |
+    mvwputch( window, point( pwr_str_pos - 1, 2 ), BORDER_COLOR, LINE_XXOO ); // |_
+    for( int i = pwr_str_pos; i < getmaxx( window ); i++ ) {
+        mvwputch( window, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
+    }
+    for( int i = 0; i < getmaxx( window ); i++ ) {
+        mvwputch( window, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // -
+    }
+    mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
+    center_print( window, 0, c_light_red, _( " BIONICS " ) );
+
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -126,9 +138,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     } else if( mode == EXAMINING ) {
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
     }
-    int n_pt_y = 0;
-    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
-    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_string );
+
+    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
+    fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );
 }
 
@@ -390,7 +402,7 @@ void player::power_bionics()
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
     //added title_tab_height for the tabbed bionic display
-    int TITLE_HEIGHT = 2;
+    int TITLE_HEIGHT = 4;
     int TITLE_TAB_HEIGHT = 3;
 
     // Main window
@@ -425,9 +437,9 @@ void player::power_bionics()
     const int TITLE_START_Y = START_Y + 1;
     const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
     catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
-                                 TITLE_START_Y ) );
+                                 START_Y ) );
 
-    const int TAB_START_Y = TITLE_START_Y + 2;
+    const int TAB_START_Y = TITLE_START_Y + 3;
     //w_tabs is the tab bar for passive and active bionic groups
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH,
                                 point( START_X, TAB_START_Y ) );
@@ -490,6 +502,7 @@ void player::power_bionics()
 
             werase( wBio );
             draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
+            mvwputch( wBio, point( getmaxx( wBio ) - 1, 2 ), BORDER_COLOR, LINE_XOXX ); // -|
 
             int max_width = 0;
             std::vector<std::string>bps;
