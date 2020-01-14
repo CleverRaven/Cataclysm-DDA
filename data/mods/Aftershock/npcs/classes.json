@@ -65,7 +65,8 @@
       [ "WARM_NATURED", 100 ],
       [ "INT_UP_3", 100 ],
       [ "DEX_UP_2", 100 ],
-      [ "STR_UP", 100 ]
+      [ "STR_UP", 100 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "bonus_dex": { "rng": [ -1, 0 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
