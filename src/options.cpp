@@ -1078,13 +1078,16 @@ void options_manager::init()
 
 void options_manager::add_options_general()
 {
-    ////////////////////////////GENERAL//////////////////////////
+    const auto add_empty_line = [&]() {
+        mOptionsSort["general"]++;
+    };
+
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
          translate_marker( "Set a default character name that will be used instead of a random name on character creation." ),
          "", 30
        );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "AUTO_PICKUP", "general", translate_marker( "Auto pickup enabled" ),
          translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
@@ -1127,7 +1130,7 @@ void options_manager::add_options_general()
 
     get_option( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ).setPrerequisite( "AUTO_PICKUP" );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "AUTO_FEATURES", "general", translate_marker( "Additional auto features" ),
          translate_marker( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
@@ -1157,7 +1160,7 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_FORAGING" ).setPrerequisite( "AUTO_FEATURES" );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "DANGEROUS_PICKUPS", "general", translate_marker( "Dangerous pickups" ),
          translate_marker( "If false, will cause player to drop new items that cause them to exceed the weight limit." ),
@@ -1171,7 +1174,7 @@ void options_manager::add_options_general()
     "ALWAYS"
        );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
          translate_marker( "If true, will hold the game and display a warning if a hostile monster/npc is approaching." ),
@@ -1203,14 +1206,14 @@ void options_manager::add_options_general()
          0, 3600, 200
        );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "TURN_DURATION", "general", translate_marker( "Realtime turn progression" ),
          translate_marker( "If enabled, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05
        );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
          translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
@@ -1231,7 +1234,7 @@ void options_manager::add_options_general()
 
     get_option( "AUTOSAVE_MINUTES" ).setPrerequisite( "AUTOSAVE" );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
          translate_marker( "If true, automatically sets notes" ),
@@ -1252,7 +1255,7 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
          translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
@@ -1271,7 +1274,7 @@ void options_manager::add_options_general()
     "ask"
        );
 
-    mOptionsSort["general"]++;
+    add_empty_line();
 
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
          translate_marker( "If true, music and sound are enabled." ),
@@ -1309,7 +1312,10 @@ void options_manager::add_options_general()
 
 void options_manager::add_options_interface()
 {
-    ////////////////////////////INTERFACE////////////////////////
+    const auto add_empty_line = [&]() {
+        mOptionsSort["interface"]++;
+    };
+
     // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
     translate_marker( "Switch Language." ), {
@@ -1331,7 +1337,7 @@ void options_manager::add_options_interface()
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     }, "" );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
          translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
@@ -1367,7 +1373,7 @@ void options_manager::add_options_interface()
     },
     "12h" );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "FORCE_CAPITAL_YN", "interface", translate_marker( "Force Y/N in prompts" ),
          translate_marker( "If true, Y/N prompts are case-sensitive and y and n are not accepted." ),
@@ -1405,7 +1411,7 @@ void options_manager::add_options_interface()
          true
        );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
@@ -1447,7 +1453,7 @@ void options_manager::add_options_interface()
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "VEHICLE_ARMOR_COLOR", "interface", translate_marker( "Vehicle plating changes part color" ),
          translate_marker( "If true, vehicle parts will change color if they are armor plated" ),
@@ -1469,7 +1475,7 @@ void options_manager::add_options_interface()
          false
        );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "SIDEBAR_POSITION", "interface", translate_marker( "Sidebar position" ),
          translate_marker( "Switch between sidebar on the left or on the right side.  Requires restart." ),
@@ -1528,7 +1534,7 @@ void options_manager::add_options_interface()
          false
        );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "MOVE_VIEW_OFFSET", "interface", translate_marker( "Move view offset" ),
          translate_marker( "Move view by how many squares per keypress." ),
@@ -1575,7 +1581,7 @@ void options_manager::add_options_interface()
          true
        );
 
-    mOptionsSort["interface"]++;
+    add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", translate_marker( "Enable joystick" ),
          translate_marker( "Enable input from joystick." ),
@@ -1606,7 +1612,10 @@ void options_manager::add_options_interface()
 
 void options_manager::add_options_graphics()
 {
-    ////////////////////////////GRAPHICS/////////////////////////
+    const auto add_empty_line = [&]() {
+        mOptionsSort["graphics"]++;
+    };
+
     add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
          translate_marker( "If true, will display enabled animations." ),
          true
@@ -1652,7 +1661,7 @@ void options_manager::add_options_graphics()
          true
        );
 
-    mOptionsSort["graphics"]++;
+    add_empty_line();
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
          translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
@@ -1664,7 +1673,7 @@ void options_manager::add_options_graphics()
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
-    mOptionsSort["graphics"]++;
+    add_empty_line();
 
     add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
          translate_marker( "If true, fonts will look better." ),
@@ -1721,7 +1730,7 @@ void options_manager::add_options_graphics()
          true, COPT_CURSES_HIDE
        );
 
-    mOptionsSort["graphics"]++;
+    add_empty_line();
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
@@ -1735,7 +1744,7 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
-    mOptionsSort["graphics"]++;
+    add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
     translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
@@ -1744,7 +1753,7 @@ void options_manager::add_options_graphics()
     }, "color_pixel_sepia", COPT_CURSES_HIDE
        );
 
-    mOptionsSort["graphics"]++;
+    add_empty_line();
 
     add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel minimap" ),
          translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
@@ -1804,7 +1813,7 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
 
-    mOptionsSort["graphics"]++;
+    add_empty_line();
 
     add( "DISPLAY", "graphics", translate_marker( "Display" ),
          translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
@@ -1882,13 +1891,16 @@ void options_manager::add_options_graphics()
 
 void options_manager::add_options_debug()
 {
-    ////////////////////////////DEBUG////////////////////////////
+    const auto add_empty_line = [&]() {
+        mOptionsSort["debug"]++;
+    };
+
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
          translate_marker( "Determines the scope, which is known in the beginning of the game." ),
          3, 20, 15
        );
 
-    mOptionsSort["debug"]++;
+    add_empty_line();
 
     add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
          translate_marker( "Initial points available to spend on stats on character generation." ),
@@ -1910,14 +1922,14 @@ void options_manager::add_options_debug()
          0, 1000, 12
        );
 
-    mOptionsSort["debug"]++;
+    add_empty_line();
 
     add( "SKILL_TRAINING_SPEED", "debug", translate_marker( "Skill training speed" ),
          translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
        );
 
-    mOptionsSort["debug"]++;
+    add_empty_line();
 
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
@@ -1933,7 +1945,7 @@ void options_manager::add_options_debug()
     },
     "off" );
 
-    mOptionsSort["debug"]++;
+    add_empty_line();
 
     add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
          translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
@@ -1955,13 +1967,16 @@ void options_manager::add_options_debug()
 
 void options_manager::add_options_world_default()
 {
-    ////////////////////////////WORLD DEFAULT////////////////////
+    const auto add_empty_line = [&]() {
+        mOptionsSort["world_default"]++;
+    };
+
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
          translate_marker( "Controls what migrations are applied for legacy worlds" ),
          1, core_version, core_version, COPT_ALWAYS_HIDE
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
     translate_marker( "Handling of game world when last character dies." ), {
@@ -1970,7 +1985,7 @@ void options_manager::add_options_world_default()
     }, "reset"
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
          translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
@@ -2008,7 +2023,7 @@ void options_manager::add_options_world_default()
          0.0, 100, 4.0, 0.01
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
          translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
@@ -2020,14 +2035,14 @@ void options_manager::add_options_world_default()
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
          translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
     { { "default", "default" } }, "default"
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "INITIAL_TIME", "world_default", translate_marker( "Initial time" ),
          translate_marker( "Initial starting time of day on character generation." ),
@@ -2059,7 +2074,7 @@ void options_manager::add_options_world_default()
          false
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
          translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
@@ -2071,7 +2086,7 @@ void options_manager::add_options_world_default()
          false
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
          translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
@@ -2091,28 +2106,28 @@ void options_manager::add_options_world_default()
          false
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
          translate_marker( "If true, radiation causes the player to mutate." ),
          true
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
          translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
          true
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "ALIGN_STAIRS", "world_default", translate_marker( "Align up and down stairs" ),
          translate_marker( "If true, downstairs will be placed directly above upstairs, even if this results in uglier maps." ),
          false
        );
 
-    mOptionsSort["world_default"]++;
+    add_empty_line();
 
     add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
          translate_marker( "Allowed point pools for character generation." ),
@@ -2124,12 +2139,16 @@ void options_manager::add_options_world_default()
 void options_manager::add_options_android()
 {
 #if defined(__ANDROID__)
+    const auto add_empty_line = [&]() {
+        mOptionsSort["android"]++;
+    };
+
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
          false
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_AUTO_KEYBOARD", "android", translate_marker( "Auto-manage virtual keyboard" ),
          translate_marker( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),
@@ -2142,14 +2161,14 @@ void options_manager::add_options_android()
          true
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_VIBRATION", "android", translate_marker( "Vibration duration" ),
          translate_marker( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_SHOW_VIRTUAL_JOYSTICK", "android", translate_marker( "Show virtual joystick" ),
          translate_marker( "If true, show the virtual joystick when touching and holding the screen. Gives a visual indicator of deadzone and stick deflection." ),
@@ -2205,7 +2224,7 @@ void options_manager::add_options_android()
          true
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_SHORTCUT_DEFAULTS", "android", translate_marker( "Default gameplay shortcuts" ),
          translate_marker( "The default set of gameplay shortcuts to show. Used on starting a new game and whenever all gameplay shortcuts are removed." ),
@@ -2224,7 +2243,7 @@ void options_manager::add_options_android()
          true
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_TAP_KEY", "android", translate_marker( "Tap key (in-game)" ),
          translate_marker( "The key to press when tapping during gameplay." ),
@@ -2269,7 +2288,7 @@ void options_manager::add_options_android()
          "z", 1
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_SHORTCUT_AUTOADD", "android",
          translate_marker( "Auto-manage contextual gameplay shortcuts" ),
@@ -2305,7 +2324,7 @@ void options_manager::add_options_android()
          true
        );
 
-    mOptionsSort["android"]++;
+    add_empty_line();
 
     add( "ANDROID_SHORTCUT_POSITION", "android", translate_marker( "Shortcuts position" ),
          translate_marker( "Switch between shortcuts on the left or on the right side of the screen." ),
