@@ -4874,7 +4874,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         const auto furn = g->m.furn( pnt );
 
         const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
-                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
+                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() );
         return is_allowed;
     };
 
@@ -4964,7 +4964,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         const auto furn = g->m.furn( pnt );
 
         const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
-                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
+                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() );
         return is_allowed;
     };
 
@@ -6809,7 +6809,7 @@ static std::string colorized_item_description( const item &item )
         iteminfo_parts::DESCRIPTION,
         iteminfo_parts::DESCRIPTION_NOTES,
         iteminfo_parts::DESCRIPTION_CONTENTS
-    } ) ;
+    } );
     return item.info( dummy, &query, 1 );
 }
 
@@ -7257,7 +7257,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     bool found_item_aim_point;
     std::string furn_desc = colorized_feature_description_at( aim_point, found_item_aim_point,
-                            0_ml ) ;
+                            0_ml );
     const item item = get_top_item_at_point( aim_point, 0_ml );
     const std::string trap_name = colorized_trap_name_at( aim_point );
     std::string ter_name = colorized_ter_name_flags_at( aim_point, {}, {} );
@@ -8704,7 +8704,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
                     mealtime = meal->time;
                 } else {
-                    mealtime = meal->time * 2 ;
+                    mealtime = meal->time * 2;
                 }
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );

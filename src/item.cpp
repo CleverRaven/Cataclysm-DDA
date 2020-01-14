@@ -7818,7 +7818,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     float new_specific_energy;
 
     if( new_temperature <= freezing_temperature ) {
-        new_specific_energy = specific_heat_solid * new_temperature ;
+        new_specific_energy = specific_heat_solid * new_temperature;
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
                               ( new_temperature - freezing_temperature );
@@ -7904,7 +7904,7 @@ void item::fill_with( item &liquid, int amount )
             debugmsg( "Poured item has no defined temperature" );
         }
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                cts.weight() ) + to_gram( liquid.weight() ) ) ;
+                cts.weight() ) + to_gram( liquid.weight() ) );
         cts.set_item_specific_energy( combined_specific_energy );
         //use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),

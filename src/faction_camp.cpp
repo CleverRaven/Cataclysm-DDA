@@ -3574,7 +3574,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     if( item_group::group_is_defined( "gathering_" + bldg ) ) {
         itemlist = "gathering_" + bldg;
     } else {
-        itemlist = "forest" ;
+        itemlist = "forest";
     }
     std::string output;
 

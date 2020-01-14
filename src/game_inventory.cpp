@@ -1579,11 +1579,11 @@ class bionic_install_preset: public inventory_selector_preset
         bionic_install_preset( player &pl, player &patient ) :
             p( pl ), pa( patient ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_failure_chance( loc ) ;
+                return get_failure_chance( loc );
             }, _( "FAILURE CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_operation_duration( loc ) ;
+                return get_operation_duration( loc );
             }, _( "OPERATION DURATION" ) );
 
             append_cell( [this]( const item_location & loc ) {
@@ -1605,7 +1605,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
             } else if( it->has_flag( "NO_STERILE" ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) ;
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {

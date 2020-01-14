@@ -151,11 +151,11 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
-        return dynamic_cast<const plot_options *>( &options ) != nullptr ;
+        return dynamic_cast<const plot_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
-        return dynamic_cast<const blueprint_options *>( &options ) != nullptr ;
+        return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
-        return dynamic_cast<const loot_options *>( &options ) != nullptr ;
+        return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types

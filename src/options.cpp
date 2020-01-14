@@ -287,7 +287,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.iMax = iMaxIn;
 
     if( iDefaultIn < iMinIn || iDefaultIn > iMaxIn ) {
-        iDefaultIn = iMinIn ;
+        iDefaultIn = iMinIn;
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -366,7 +366,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.fStep = fStepIn;
 
     if( fDefaultIn < fMinIn || fDefaultIn > fMaxIn ) {
-        fDefaultIn = fMinIn ;
+        fDefaultIn = fMinIn;
     }
 
     thisOpt.fDefault = fDefaultIn;

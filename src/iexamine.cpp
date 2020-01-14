@@ -3723,7 +3723,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp );
     if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );

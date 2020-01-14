@@ -1775,7 +1775,7 @@ static int companion_industry_rank( const npc &p )
     for( const Skill &sk : Skill::skills ) {
         industry += p.get_skill_level( sk.ident() ) * sk.companion_industry_rank_factor();
     }
-    return industry * std::min( p.get_int(), 32 ) / 8 ;
+    return industry * std::min( p.get_int(), 32 ) / 8;
 }
 
 static bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )

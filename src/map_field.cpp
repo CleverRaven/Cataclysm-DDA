@@ -223,7 +223,7 @@ void map::gas_spread_to( field_entry &cur, maptile &dst )
     const int current_intensity = cur.get_field_intensity();
     field_entry *candidate_field = dst.find_field( current_type );
     // Nearby gas grows thicker, and ages are shared.
-    const time_duration age_fraction = current_age / current_intensity ;
+    const time_duration age_fraction = current_age / current_intensity;
     if( candidate_field != nullptr ) {
         candidate_field->set_field_intensity( candidate_field->get_field_intensity() + 1 );
         cur.set_field_intensity( current_intensity - 1 );
@@ -289,7 +289,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
     // Start at end_it + 1, then wrap around until all elements have been processed.
-    for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
+    for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const auto &neigh = neighs[i];
@@ -309,7 +309,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         } else {
             end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
             // Start at end_it + 1, then wrap around until all elements have been processed.
-            for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
+            for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
                  count != neighs.size();
                  i = ( i + 1 ) % neighs.size(), count++ ) {
                 const auto &neigh = neighs[i];
