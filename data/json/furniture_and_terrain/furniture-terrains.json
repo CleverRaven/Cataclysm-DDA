@@ -501,7 +501,7 @@
     "description": "Pile of various metals, bricks, and other building materials.  You could clear it with a shovel.",
     "color": "light_gray",
     "move_cost_mod": 6,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -525,7 +525,7 @@
     "symbol": "^",
     "color": "dark_gray",
     "move_cost_mod": 6,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -549,7 +549,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 8,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",
@@ -573,7 +573,7 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost_mod": 6,
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "required_str": -1,
     "flags": [
       "TRANSPARENT",

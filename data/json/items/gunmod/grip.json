@@ -15,7 +15,8 @@
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "handling_modifier": -2,
     "min_skills": [ [ "weapon", 3 ] ],
-    "flags": [ "REDUCED_WEIGHT", "REDUCED_BASHING" ]
+    "weight_multiplier": 0.75,
+    "flags": [ "REDUCED_BASHING" ]
   },
   {
     "id": "pistol_grip",

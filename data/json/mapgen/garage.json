@@ -64,7 +64,7 @@
         "p": "f_hydraulic_press",
         "l": "f_heavy_lathe",
         "t": "f_toilet",
-        "x": "f_crate_c",
+        "x": "f_utility_shelf",
         "h": "f_chair",
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
@@ -72,7 +72,7 @@
         "L": { "item": "clothing_work_set", "chance": 55 },
         "c": { "item": "mechanics", "chance": 60 },
         "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
-        "x": { "item": "mechanics", "chance": 80, "repeat": [ 1, 3 ] }
+        "x": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
@@ -263,8 +263,8 @@
         " |c........c|-------+-|X",
         " |c.xx..xx.p|xx.+T|<..OX",
         " |l.xx..xx.c|x..-|----|X",
-        " |S.........O..xx|4UUXXX",
-        " |ScccccccSS|----|UXXXXX",
+        " |w.........O..xx|4UUXXX",
+        " |ScccccccwS|----|UXXXXX",
         " |----------|WWWWWWWWWWW",
         "                        "
       ],
@@ -305,6 +305,7 @@
         "S": "f_utility_shelf",
         "s": "f_sink",
         "t": "f_toilet",
+        "w": "f_utility_shelf",
         "x": "f_crate_c",
         "f": "f_filing_cabinet",
         "h": "f_chair",
@@ -316,6 +317,7 @@
         "c": { "item": "mechanics", "chance": 60 },
         "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
         "x": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+        "w": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] },
         "f": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
         "d": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
         "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] }

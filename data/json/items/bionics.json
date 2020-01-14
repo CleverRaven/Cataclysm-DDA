@@ -19,7 +19,7 @@
     "abstract": "bionic_general_npc_usable",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "abstract bionic module (npc usable)",
+    "name": { "str": "abstract bionic module (npc usable)", "str_pl": "abstract bionic modules (npc usable)" },
     "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
   },
   {
@@ -748,7 +748,7 @@
     "looks_like": "bio_int_enhancer",
     "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 ml of gasoline.",
     "price": 450000,
-    "weight": 600,
+    "weight": "600 g",
     "difficulty": 7
   },
   {

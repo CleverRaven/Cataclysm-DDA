@@ -428,7 +428,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str": "carp" },
-    "description": "A golden-yellow Common Carp.  Some people think they don't taste great, but you can't afford to be choosy in the cataclysm."
+    "description": "A golden-yellow Common Carp.  Some people think they don't taste great, but you can't afford to be choosy in the Cataclysm."
   },
   {
     "id": "mon_fish_grass_carp",

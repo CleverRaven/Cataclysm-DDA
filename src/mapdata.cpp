@@ -184,7 +184,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
 
 static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
 {
-    for( const std::string &line : ja ) {
+    for( const std::string line : ja ) {
         centers.emplace_back( line );
     }
 }
@@ -239,8 +239,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bo
     }
 
     if( j.has_member( "items" ) ) {
-        JsonIn &stream = *j.get_raw( "items" );
-        drop_group = item_group::load_item_group( stream, "collection" );
+        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     } else {
         drop_group = "EMPTY_GROUP";
     }
@@ -270,8 +269,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );
 
-    JsonIn &stream = *j.get_raw( "items" );
-    drop_group = item_group::load_item_group( stream, "collection" );
+    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     return true;
 }
 
@@ -378,9 +376,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
-    if( jo.has_member( "looks_like" ) ) {
-        looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", looks_like );
 
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string & str ) {
         if( str == "LINE_XOXO" ) {
@@ -524,7 +520,7 @@ ter_id t_null,
        t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
        t_portcullis,
        t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open,
-       t_curtains,
+       t_curtains, t_window_bars_curtains, t_window_bars_domestic,
        t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
        t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced,
        t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
@@ -716,8 +712,10 @@ void set_ter_ids()
     t_window_taped = ter_id( "t_window_taped" );
     t_window_domestic = ter_id( "t_window_domestic" );
     t_window_domestic_taped = ter_id( "t_window_domestic_taped" );
+    t_window_bars_domestic = ter_id( "t_window_bars_domestic" );
     t_window_open = ter_id( "t_window_open" );
     t_curtains = ter_id( "t_curtains" );
+    t_window_bars_curtains = ter_id( "t_window_bars_curtains" );
     t_window_alarm = ter_id( "t_window_alarm" );
     t_window_alarm_taped = ter_id( "t_window_alarm_taped" );
     t_window_empty = ter_id( "t_window_empty" );
@@ -956,8 +954,7 @@ furn_id f_null,
         f_brazier,
         f_firering,
         f_tourist_table,
-        f_camp_chair,
-        f_autodoc_couch;
+        f_camp_chair;
 
 void set_furn_ids()
 {
@@ -1069,7 +1066,6 @@ void set_furn_ids()
     f_wind_mill_active = furn_id( "f_wind_mill_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
-    f_autodoc_couch = furn_id( "f_autodoc_couch" );
     f_firering = furn_id( "f_firering" );
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );
@@ -1240,6 +1236,11 @@ size_t furn_t::count()
     return furniture_data.size();
 }
 
+bool furn_t::is_movable() const
+{
+    return move_str_req >= 0;
+}
+
 void furn_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
@@ -1252,7 +1253,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
-    assign( jo, "max_volume", max_volume, src == "dda" );
+    optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );

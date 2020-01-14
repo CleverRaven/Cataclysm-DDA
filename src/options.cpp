@@ -147,14 +147,32 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
+    thisOpt.verbose = false;
 
     thisOpt.eType = get_value_type( thisOpt.sType );
 
-    thisOpt.iMin = INT_MIN;
-    thisOpt.iMax = INT_MAX;
-
-    thisOpt.fMin = INT_MIN;
-    thisOpt.fMax = INT_MAX;
+    switch( thisOpt.eType ) {
+        case cOpt::CVT_BOOL:
+            thisOpt.bSet = false;
+            thisOpt.bDefault = false;
+            break;
+        case cOpt::CVT_INT:
+            thisOpt.iMin = INT_MIN;
+            thisOpt.iMax = INT_MAX;
+            thisOpt.iDefault = 0;
+            thisOpt.iSet = 0;
+            break;
+        case cOpt::CVT_FLOAT:
+            thisOpt.fMin = INT_MIN;
+            thisOpt.fMax = INT_MAX;
+            thisOpt.fDefault = 0;
+            thisOpt.fSet = 0;
+            thisOpt.fStep = 1;
+            break;
+        default:
+            // all other type-specific values have default constructors
+            break;
+    }
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
     thisOpt.setSortPos( sPageIn );
@@ -269,7 +287,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.iMax = iMaxIn;
 
     if( iDefaultIn < iMinIn || iDefaultIn > iMaxIn ) {
-        iDefaultIn = iMinIn ;
+        iDefaultIn = iMinIn;
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -348,7 +366,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.fStep = fStepIn;
 
     if( fDefaultIn < fMinIn || fDefaultIn > fMaxIn ) {
-        fDefaultIn = fMinIn ;
+        fDefaultIn = fMinIn;
     }
 
     thisOpt.fDefault = fDefaultIn;
@@ -884,8 +902,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
             resource_names.emplace_back( resource_name,
                                          view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
             if( resource_option.count( resource_name ) != 0 ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " <<
-                                            resource_name;
+                debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
+                          operation_name, resource_name );
             } else {
                 resource_option.insert( std::pair<std::string, std::string>( resource_name, resource_dir ) );
             }
@@ -916,12 +934,18 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<id_and_option> result;
 
     // Load from data directory
-    auto data_tilesets = load_tilesets_from( PATH_INFO::gfxdir() );
+    std::vector<options_manager::id_and_option> data_tilesets = load_tilesets_from(
+                PATH_INFO::gfxdir() );
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    auto user_tilesets = load_tilesets_from( PATH_INFO::user_gfx() );
-    result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
+    std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
+                PATH_INFO::user_gfx() );
+    for( options_manager::id_and_option id : user_tilesets ) {
+        if( std::find( result.begin(), result.end(), id ) == result.end() ) {
+            result.emplace_back( id );
+        }
+    }
 
     // Default values
     if( result.empty() ) {
@@ -1140,9 +1164,11 @@ void options_manager::add_options_general()
          false
        );
 
-    add( "DANGEROUS_RUNNING", "general", translate_marker( "Dangerous running" ),
-         translate_marker( "If true, the player will not be prevented from moving into known hazardous tiles while running." ),
-         false
+    add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
+         translate_marker( "Dangerous terrain warning prompt" ),
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
+    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+    "ALWAYS"
        );
 
     mOptionsSort["general"]++;
@@ -1243,11 +1269,6 @@ void options_manager::add_options_general()
          translate_marker( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
     { { "always", translate_marker( "Always" ) }, { "ask", translate_marker( "Ask" ) }, { "never", translate_marker( "Never" ) } },
     "ask"
-       );
-
-    add( "MAP_UI_SEARCH_RADIUS", "general", translate_marker( "Map search radius" ),
-         translate_marker( "Radius around the cursor to search in the map UI.  Setting very high may be slow." ),
-         10, 4000, 100
        );
 
     mOptionsSort["general"]++;
@@ -1549,6 +1570,10 @@ void options_manager::add_options_interface()
          translate_marker( "If true, show item symbols in inventory and pick up menu." ),
          false
        );
+    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
+         translate_marker( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
+       );
 
     mOptionsSort["interface"]++;
 
@@ -1789,7 +1814,7 @@ void options_manager::add_options_graphics()
 #if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
-    { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
+    { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
 #endif
@@ -1940,9 +1965,9 @@ void options_manager::add_options_world_default()
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
     translate_marker( "Handling of game world when last character dies." ), {
-        { "keep", translate_marker( "Keep" ) }, { "reset", translate_marker( "Reset" ) },
-        { "delete", translate_marker( "Delete" ) },  { "query", translate_marker( "Query" ) }
-    }, "keep"
+        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
+        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    }, "reset"
        );
 
     mOptionsSort["world_default"]++;
@@ -2422,6 +2447,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
     std::map<int, bool> mapLines;
+    std::map<int, bool> mapLinesOriginal;
     mapLines[4] = true;
     mapLines[60] = true;
 
@@ -2438,6 +2464,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
     }
 
+    mapLinesOriginal = mapLines;
     draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
                            world_options_only );
     draw_borders_internal( w_options_header, mapLines );
@@ -2688,9 +2715,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 }
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
-            // keybinding screen erased the internal borders of main menu, restore it:
-            draw_borders_internal( w_options_header, mapLines );
+            draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
+                                   world_options_only );
         } else if( action == "QUIT" ) {
+            catacurses::clear();
             catacurses::refresh();
             break;
         }
@@ -2819,15 +2847,11 @@ void options_manager::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject joOptions = jsin.get_object();
+        joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
-
-        // Verify format of options file
-        if( !joOptions.has_string( "info" ) || !joOptions.has_string( "default" ) ) {
-            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
-        }
 
         add_retry( name, value );
         options[ name ].setValue( value );

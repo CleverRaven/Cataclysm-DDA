@@ -26,8 +26,6 @@
 #include "colony.h"
 #include "point.h"
 
-const efftype_id effect_riding( "riding" );
-
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -583,6 +581,10 @@ std::list<item> visitable<inventory>::remove_items_with( const
             ++stack;
         }
     }
+
+    // Invalidate binning cache
+    inv->binned = false;
+
     return res;
 }
 

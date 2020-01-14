@@ -40,6 +40,8 @@
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+#  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
@@ -63,6 +65,8 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
+# Turn off all optimizations, even debug-friendly optimizations
+#  make NOOPT=1
 # Astyle all source files.
 #  make astyle
 # Check if source files are styled properly.
@@ -88,6 +92,8 @@ WARNINGS = \
   -Wmissing-declarations \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wsuggest-override \
+  -Wno-unknown-warning-option \
   -Wpedantic
 # Uncomment below to disable warnings
 #WARNINGS = -w
@@ -95,6 +101,9 @@ DEBUGSYMS = -g
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
+
+# Tells ccache to keep comments, as they can be meaningful to the compiler (as to suppress warnings).
+export CCACHE_COMMENTS=1
 
 # Disable debug. Comment this out to get logging.
 #DEFINES = -DENABLE_LOGGING
@@ -163,6 +172,14 @@ ifndef BACKTRACE
     BACKTRACE = 1
   endif
 endif
+ifdef BACKTRACE
+  # Also enable libbacktrace on cross-compilation to Windows
+  ifndef LIBBACKTRACE
+    ifneq (,$(findstring mingw32,$(CROSS)))
+      LIBBACKTRACE = 1
+    endif
+  endif
+endif
 
 ifeq ($(RUNTESTS), 1)
   TESTS = tests
@@ -177,7 +194,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -303,10 +320,18 @@ ifdef RELEASE
 endif
 
 ifndef RELEASE
-  ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
-    OPTLEVEL = -Og
-  else
+  ifdef NOOPT
+    # While gcc claims to include all information required for
+    # debugging at -Og, at least with gcc 8.3, control flow
+    # doesn't move line-by-line at -Og.  Provide a command-line
+    # way to turn off optimization (make NOOPT=1) entirely.
     OPTLEVEL = -O0
+  else
+    ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+      OPTLEVEL = -Og
+    else
+      OPTLEVEL = -O0
+    endif
   endif
   CXXFLAGS += $(OPTLEVEL)
 endif
@@ -324,7 +349,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc
+BINDIST_EXTRAS += README.md data doc LICENSE.txt
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -650,11 +675,17 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
+    ifeq ($(LIBBACKTRACE),1)
+      LDFLAGS += -lbacktrace
+    endif
   endif
 endif
 
 ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
+  ifeq ($(LIBBACKTRACE),1)
+      DEFINES += -DLIBBACKTRACE
+  endif
 endif
 
 ifeq ($(LOCALIZE),1)

@@ -206,7 +206,7 @@
     "copy-from": "shotgun_pump",
     "type": "GUN",
     "//": "Anything that has the right pin arrangement for a speedloader chute",
-    "name": "base race shotgun, pump",
+    "name": { "str": "base race shotgun, pump", "str_pl": "base race shotguns, pump" },
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

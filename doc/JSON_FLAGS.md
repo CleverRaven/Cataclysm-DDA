@@ -1,72 +1,76 @@
 # JSON Flags
 
-* [Notes](#notes)
-* [Inheritance](#inheritance)
-* [TODO](#todo)
-* [Ammo](#ammo)
-  + [Ammo type](#ammo-type)
-  + [Effects](#effects)
-* [Armor](#armor)
-  + [Covers](#covers)
-  + [Flags](#flags)
-* [Bionics](#bionics)
-* [Books](#books)
-  + [Use actions](#use-actions)
-* [Comestibles](#comestibles)
-  + [Comestible type](#comestible-type)
-  + [Addiction type](#addiction-type)
-  + [Use action](#use-action)
-  + [Flags](#flags-1)
-* [Furniture and Terrain](#furniture-and-terrain)
-  + [Flags](#flags-2)
-  + [Examine Actions](#examine-actions)
-  + [Fungal Conversions Only](#fungal-conversions-only)
-  + [Furniture Only](#furniture-only)
-* [Generic](#generic)
-  + [Flags](#flags-3)
-* [Guns](#guns)
-  + [Firing modes](#firing-modes)
-* [Magazines](#magazines)
-* [MAP SPECIALS](#map-specials)
-* [Material Phases](#material-phases)
-* [Melee](#melee)
-  + [Flags](#flags-4)
-* [Monster Groups](#monster-groups)
-  + [Conditions](#conditions)
-    - [Seasons](#seasons)
-    - [Time of day](#time-of-day)
-* [Monsters](#monsters)
-  + [Anger, Fear and Placation Triggers](#anger--fear-and-placation-triggers)
-  + [Categories](#categories)
-  + [Death Functions](#death-functions)
-  + [Flags](#flags-5)
-  + [Monster Defense and Attacks](#monster-defense-and-attacks)
-  + [Sizes](#sizes)
-  + [Special attacks](#special-attacks)
-* [Mutations](#mutations)
-  + [Categories](#categories-1)
-* [Overmap](#overmap)
-  + [Overmap connections](#overmap-connections)
+- [JSON Flags](#json-flags)
+  - [Notes](#notes)
+  - [Inheritance](#inheritance)
+  - [TODO](#todo)
+  - [Ammo](#ammo)
+    - [Ammo type](#ammo-type)
+    - [Effects](#effects)
+  - [Armor](#armor)
+    - [Covers](#covers)
+    - [Flags](#flags)
+  - [Bionics](#bionics)
+  - [Books](#books)
+    - [Use actions](#use-actions)
+  - [Comestibles](#comestibles)
+    - [Comestible type](#comestible-type)
+    - [Addiction type](#addiction-type)
+    - [Use action](#use-action)
+    - [Flags](#flags-1)
+  - [Furniture and Terrain](#furniture-and-terrain)
+    - [Flags](#flags-2)
+    - [Examine Actions](#examine-actions)
+    - [Fungal Conversions Only](#fungal-conversions-only)
+    - [Furniture Only](#furniture-only)
+  - [Generic](#generic)
+    - [Flags](#flags-3)
+  - [Guns](#guns)
+    - [Firing modes](#firing-modes)
+    - [Faults](#faults)
+      - [Flags](#flags-4)
+      - [Parameters](#parameters)
+  - [Magazines](#magazines)
+  - [MAP SPECIALS](#map-specials)
+  - [Material Phases](#material-phases)
+  - [Melee](#melee)
+    - [Flags](#flags-5)
+  - [Monster Groups](#monster-groups)
+    - [Conditions](#conditions)
+      - [Seasons](#seasons)
+      - [Time of day](#time-of-day)
+  - [Monsters](#monsters)
+    - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
+    - [Categories](#categories)
+    - [Death Functions](#death-functions)
     - [Flags](#flags-6)
-  + [Overmap specials](#overmap-specials)
-    - [Flags](#flags-7)
-  + [Overmap terrains](#overmap-terrains)
-    - [Flags](#flags-8)
-* [Recipes](#recipes)
-  + [Categories](#categories-2)
-  + [Flags](#flags-9)
-* [Scenarios](#scenarios)
-  + [Flags](#flags-10)
-    - [Season Flags](#season-flags)
-* [Skills](#skills)
-  + [Tags](#tags)
-* [Techniques](#techniques)
-* [Tools](#tools)
-  + [Flags](#flags-11)
-  + [Flags that apply to items](#flags-that-apply-to-items)
-* [Vehicle Parts](#vehicle-parts)
-  + [Flags](#flags-12)
-  + [Fuel types](#fuel-types)
+    - [Monster Defense and Attacks](#monster-defense-and-attacks)
+    - [Sizes](#sizes)
+    - [Special attacks](#special-attacks)
+  - [Mutations](#mutations)
+      - [Flags](#flags-7)
+    - [Categories](#categories-1)
+  - [Overmap](#overmap)
+    - [Overmap connections](#overmap-connections)
+    - [Overmap specials](#overmap-specials)
+      - [Flags](#flags-8)
+    - [Overmap terrains](#overmap-terrains)
+      - [Flags](#flags-9)
+  - [Recipes](#recipes)
+    - [Categories](#categories-2)
+    - [Flags](#flags-10)
+  - [Scenarios](#scenarios)
+    - [Flags](#flags-11)
+      - [Season Flags](#season-flags)
+  - [Skills](#skills)
+    - [Tags](#tags)
+  - [Techniques](#techniques)
+  - [Tools](#tools)
+    - [Flags](#flags-12)
+    - [Flags that apply to items](#flags-that-apply-to-items)
+  - [Vehicle Parts](#vehicle-parts)
+    - [Flags](#flags-13)
+    - [Fuel types](#fuel-types)
 
 
 ## Notes
@@ -255,6 +259,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
@@ -424,6 +429,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
+- ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
@@ -475,6 +481,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
+- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_INGEST``` Administered by some means other than oral intake.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -593,6 +600,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Examine Actions
 
 - ```aggie_plant``` Harvest plants.
+- ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
 - ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
 - ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
@@ -635,6 +643,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
+- ```AUTODOC``` This furniture can be an autodoc console, it also needs the ```autodoc``` examine action.
+- ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the ```autodoc``` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`)
 
 
@@ -674,6 +684,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
 - ```SLEEP_AID``` ... This item helps in sleeping.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
+- ```TACK``` ... Item can be used as tack for a mount.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
@@ -715,6 +726,17 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
 - ```NPC_AVOID``` NPC's will not attempt to use this mode
 - ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
+
+### Faults
+
+#### Flags
+
+- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+
+#### Parameters
+
+- ```turns_into``` Causes this fault to apply to the item just mended.
+- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
 
 ## Magazines
@@ -991,7 +1013,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```BRANDISH``` Brandish a knife at the player.
 - ```BREATHE``` Spawns a `breather`
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
-- ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.
+- ```CHICKENBOT``` LEGACY - Robot can attack with tazer, M4, or MGL depending on distance.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
@@ -1065,6 +1087,15 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 
 ## Mutations
+
+#### Flags
+
+- ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
+- ```NEED_ACTIVE_TO_MELEE``` This mutation gives bonus to unarmed melee only if it's active.
+- ```NO_DISEASE``` This mutation grants immunity to diseases.
+- ```NO_THIRST``` Your thirst is not modified by food or drinks.
+- ```NO_RADIATION``` This mutation grants immunity to radiations.
+
 
 ### Categories
 

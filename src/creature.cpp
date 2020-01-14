@@ -41,21 +41,21 @@
 #include "string_id.h"
 #include "point.h"
 
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bounced( "bounced" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_npc_suspend( "npc_suspend" );
-const efftype_id effect_sap( "sap" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_zapped( "zapped" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bounced( "bounced" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_zapped( "zapped" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -572,7 +572,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const int diff_roll = dice( 10, proj.speed );
     // Partial dodge, capped at [0.0, 1.0], added to missed_by
     const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
-    const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
+    const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -685,7 +685,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( z ) {
             if( !proj.get_drop().is_null() ) {
                 z->add_effect( effect_tied, 1_turns, num_bp, true );
-                z->tied_item = proj.get_drop();
+                item drop_item = proj.get_drop();
+                z->tied_item = cata::make_value<item>( proj.get_drop() );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
             }
@@ -1115,7 +1116,7 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
 {
     for( auto &elem : *effects ) {
-        for( const std::pair<body_part, effect> &_it : elem.second ) {
+        for( const std::pair<const body_part, effect> &_it : elem.second ) {
             if( bp == _it.first && _it.second.has_flag( flag ) ) {
                 return true;
             }
@@ -1338,6 +1339,10 @@ int Creature::get_num_dodges_bonus() const
 {
     return num_dodges_bonus;
 }
+int Creature::get_num_dodges_base() const
+{
+    return num_dodges;
+}
 
 // currently this is expected to be overridden to actually have use
 int Creature::get_env_resist( body_part ) const
@@ -1461,9 +1466,9 @@ void Creature::set_num_blocks_bonus( int nblocks )
 {
     num_blocks_bonus = nblocks;
 }
-void Creature::set_num_dodges_bonus( int ndodges )
+void Creature::mod_num_dodges_bonus( int ndodges )
 {
-    num_dodges_bonus = ndodges;
+    num_dodges_bonus += ndodges;
 }
 
 void Creature::set_armor_bash_bonus( int nbasharm )

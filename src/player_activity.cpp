@@ -4,6 +4,9 @@
 
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "construction.h"
+#include "map.h"
+#include "game.h"
 #include "player.h"
 #include "sounds.h"
 #include "avatar.h"
@@ -90,8 +93,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
-
         if( type == activity_id( "ACT_BURROW" ) ||
             type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
@@ -104,7 +105,19 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
           ) {
+            const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
+
             extra_info = string_format( "%d%%", percentage );
+        }
+
+        if( type == activity_id( "ACT_BUILD" ) ) {
+            partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
+            if( pc ) {
+                int counter = std::min( pc->counter, 10000000 );
+                const int percentage = counter / 100000;
+
+                extra_info = string_format( "%d%%", percentage );
+            }
         }
     }
 

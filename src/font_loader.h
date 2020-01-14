@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "debug.h"
 #include "filesystem.h"
@@ -16,7 +17,7 @@ class font_loader
 {
     public:
         bool fontblending = false;
-        std::string typeface;
+        std::vector<std::string> typeface;
         std::string map_typeface;
         std::string overmap_typeface;
         int fontwidth = 8;
@@ -35,7 +36,11 @@ class font_loader
                 std::ifstream stream( path.c_str(), std::ifstream::binary );
                 JsonIn json( stream );
                 JsonObject config = json.get_object();
-                config.read( "typeface", typeface );
+                if( config.has_string( "typeface" ) ) {
+                    typeface.emplace_back( config.get_string( "typeface" ) );
+                } else {
+                    config.read( "typeface", typeface );
+                }
                 config.read( "map_typeface", map_typeface );
                 config.read( "overmap_typeface", overmap_typeface );
             } catch( const std::exception &err ) {

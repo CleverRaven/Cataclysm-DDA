@@ -57,6 +57,7 @@ TEST_CASE( "gun_lists_default_ammo", "[item][iteminfo]" )
         "--\n"
         "Gun is not loaded, so stats below assume the default ammo: <color_c_light_blue>wooden broadhead arrow</color>\n" );
 }
+
 TEST_CASE( "gun_damage_multiplier_not_integer", "[item][iteminfo]" )
 {
     iteminfo_query q( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
@@ -66,4 +67,35 @@ TEST_CASE( "gun_damage_multiplier_not_integer", "[item][iteminfo]" )
         item( "compbow" ), q,
         "--\n"
         "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
+}
+
+TEST_CASE( "nutrients_in_regular_item", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
+                        iteminfo_parts::FOOD_QUENCH
+                      } );
+    item i( "icecream" );
+    iteminfo_test(
+        i, q,
+        "--\n"
+        "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>  "
+        "Quench: <color_c_yellow>0</color>\n"
+        "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
+}
+
+TEST_CASE( "nutrient_ranges_for_recipe_exemplars", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
+                        iteminfo_parts::FOOD_QUENCH
+                      } );
+    item i( "icecream" );
+    i.set_var( "recipe_exemplar", "icecream" );
+    iteminfo_test(
+        i, q,
+        "--\n"
+        "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
+        "<color_c_white>Calories (kcal)</color>: <color_c_yellow>317</color>-"
+        "<color_c_yellow>469</color>  Quench: <color_c_yellow>0</color>\n"
+        "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
+        "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
 }

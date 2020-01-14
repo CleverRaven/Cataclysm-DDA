@@ -391,6 +391,7 @@
     "color": "brown",
     "description": "Feathers from a bird.  Useful for fletching arrows.",
     "material": "cotton",
+    "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -407,6 +408,7 @@
     "color": "brown",
     "description": "Fluffy down feathers from a bird.  Useful for making cozy bedclothes.",
     "material": "cotton",
+    "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -481,7 +483,7 @@
     "id": "22_casing_new",
     "category": "spare_parts",
     "price": 100,
-    "name": "unused .22 casing",
+    "name": { "str": "unused .22 casing" },
     "symbol": "=",
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
@@ -585,7 +587,7 @@
     "color": "white",
     "description": "Powdered caustic soda.",
     "container": "bottle_plastic_small",
-    "material": "powder",
+    "material": "powder_nonflam",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -790,7 +792,7 @@
     "range": 45,
     "dispersion": 50,
     "recoil": 350,
-    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES", "FRAG" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "FRAG" ]
   },
   {
     "type": "AMMO",

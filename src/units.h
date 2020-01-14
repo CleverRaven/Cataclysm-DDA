@@ -656,6 +656,11 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
         { "kUSD", 1_kUSD },
     }
 };
+static const std::vector<std::pair<std::string, volume>> volume_units = { {
+        { "ml", 1_ml },
+        { "L", 1_liter }
+    }
+};
 } // namespace units
 
 template<typename T>

@@ -126,6 +126,7 @@
     "charges": 16,
     "healthy": 1,
     "fun": 3,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "phase": "liquid"
   },
   {
@@ -208,7 +209,8 @@
     "copy-from": "cooking_oil",
     "name_plural": "animal cooking oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ]
+    "material": [ "flesh", "oil" ],
+    "flags": [  ]
   },
   {
     "type": "COMESTIBLE",

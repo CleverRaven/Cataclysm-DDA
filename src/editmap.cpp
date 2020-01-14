@@ -1949,8 +1949,9 @@ void editmap::edit_mapgen()
  */
 void editmap::cleartmpmap( tinymap &tmpmap )
 {
-    for( auto &smap : tmpmap.grid ) {
+    for( submap *&smap : tmpmap.grid ) {
         delete smap;
+        smap = nullptr;
     }
 
     auto &ch = tmpmap.get_cache( target.z );

@@ -25,6 +25,7 @@ class Item_spawn_data;
 namespace cata
 {
 template <typename T> class optional;
+template <typename T> class value_ptr;
 }  // namespace cata
 
 bool item_is_blacklisted( const std::string &id );
@@ -85,7 +86,7 @@ class Item_factory
         /**
          * Callback for the init system (@ref DynamicDataLoader), loads an item group definitions.
          * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         void load_item_group( const JsonObject &jsobj );
         /**
@@ -98,7 +99,7 @@ class Item_factory
          * @param group_id The ident of the item that is to be loaded.
          * @param subtype The type of the item group, either "collection", "distribution" or "old"
          * ("old" is a distribution, too).
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                               const std::string &subtype );
@@ -120,7 +121,7 @@ class Item_factory
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( JsonArray &entries, const Group_tag &group_id, bool is_collection,
+        void load_item_group( const JsonArray &entries, const Group_tag &group_id, bool is_collection,
                               int ammo_chance, int magazine_chance );
         /**
          * Get the item group object. Returns null if the item group does not exists.
@@ -147,7 +148,7 @@ class Item_factory
          * These function load different instances of itype objects from json.
          * The loaded item types are stored and can be accessed through @ref find_template.
          * @param jo The json object to load data from.
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         /*@{*/
         void load_ammo( const JsonObject &jo, const std::string &src );
@@ -253,7 +254,7 @@ class Item_factory
          * @param msg Stream in which all error messages are printed.
          * @param ammo Ammo type to check.
          */
-        bool check_ammo_type( std::ostream &msg, const ammotype &ammo ) const;
+        bool check_ammo_type( std::string &msg, const ammotype &ammo ) const;
 
         /**
          * Called before creating a new template and handles inheritance via copy-from
@@ -266,7 +267,7 @@ class Item_factory
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( cata::optional<SlotType> &slotptr, const JsonObject &jo, const std::string &src );
+        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo, const std::string &src );
 
         /**
          * Load item the item slot if present in json.
@@ -274,7 +275,7 @@ class Item_factory
          * slot from that object. If the member does not exists, nothing is done.
          */
         template<typename SlotType>
-        void load_slot_optional( cata::optional<SlotType> &slotptr, const JsonObject &jo,
+        void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                                  const std::string &member, const std::string &src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
@@ -361,9 +362,6 @@ class Item_factory
 
         // tools that can be used to repair complex firearms
         std::set<itype_id> gun_tools;
-
-        // tools that can be used to repair wood/paper/bone/chitin items
-        std::set<itype_id> misc_tools;
 
         std::set<std::string> repair_actions;
 };

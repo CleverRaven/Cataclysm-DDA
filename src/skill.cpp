@@ -92,18 +92,25 @@ void Skill::load_skill( const JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    std::unordered_map<std::string, int> companion_skill_practice;
-    translation name, desc;
+    translation name;
     jsobj.read( "name", name );
+    translation desc;
     jsobj.read( "description", desc );
-    JsonArray ja = jsobj.get_array( "companion_skill_practice" );
-    while( ja.has_more() ) {
-        JsonObject jo = ja.next_object();
-        companion_skill_practice.emplace( jo.get_string( "skill" ), jo.get_int( "weight" ) );
+    std::unordered_map<std::string, int> companion_skill_practice;
+    for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
+        companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
+    }
+    time_info_t time_to_attack;
+    if( jsobj.has_object( "time_to_attack" ) ) {
+        JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
+        jso_tta.read( "min_time", time_to_attack.min_time );
+        jso_tta.read( "base_time", time_to_attack.base_time );
+        jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );
     }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
 
+    sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );

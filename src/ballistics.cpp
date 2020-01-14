@@ -34,7 +34,7 @@
 #include "type_id.h"
 #include "point.h"
 
-const efftype_id effect_bounced( "bounced" );
+static const efftype_id effect_bounced( "bounced" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {

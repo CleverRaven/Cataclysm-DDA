@@ -12,8 +12,8 @@
 #include "calendar.h"
 #include "enums.h"
 
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_shakes( "shakes" );
 
 namespace io
 {

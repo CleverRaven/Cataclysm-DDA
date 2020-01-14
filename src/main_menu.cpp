@@ -7,7 +7,6 @@
 #include <functional>
 #include <map>
 #include <memory>
-#include <sstream>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -42,7 +41,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const holiday current_holiday = holiday::christmas;
+static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -200,7 +199,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
+    center_print( w_open, iLine, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
@@ -291,27 +290,22 @@ void main_menu::init_strings()
     // MOTD
     auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 
-    std::ostringstream buffer;
     mmenu_motd.clear();
-    for( auto &line : motd ) {
-        buffer << ( line.empty() ? " " : line ) << std::endl;
+    for( const std::string &line : motd ) {
+        mmenu_motd += ( line.empty() ? " " : line ) + "\n";
     }
-    mmenu_motd = "<color_light_red>" + buffer.str() + "</color>";
-
-    buffer.str( "" );
+    mmenu_motd = colorize( mmenu_motd, c_light_red );
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::credits(), [&buffer]( std::istream & stream ) {
+    read_from_file_optional( PATH_INFO::credits(), [&]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
-                buffer << ( line.empty() ? " " : line ) << std::endl;
+                mmenu_credits += ( line.empty() ? " " : line ) + "\n";
             }
         }
     } );
-
-    mmenu_credits = buffer.str();
 
     if( mmenu_credits.empty() ) {
         mmenu_credits = _( "No credits information found." );
@@ -670,7 +664,6 @@ bool main_menu::opening_screen()
                         get_options().show( true );
                         // The language may have changed- gracefully handle this.
                         init_strings();
-                        print_menu( w_open, sel1, menu_offset );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
                         ctxt_default.display_menu();

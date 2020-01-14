@@ -58,22 +58,22 @@
 #include "point.h"
 #include "weather.h"
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_survival( "survival" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;
@@ -1700,7 +1700,10 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
         comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
     } else {
         for( int i = 0; i < checks; i++ ) {
-            comp.practice( *skill_practice.pick(), difficulty );
+            skill_id *ident = skill_practice.pick();
+            if( ident ) {
+                comp.practice( *ident, difficulty );
+            }
         }
     }
 }
@@ -1772,7 +1775,7 @@ static int companion_industry_rank( const npc &p )
     for( const Skill &sk : Skill::skills ) {
         industry += p.get_skill_level( sk.ident() ) * sk.companion_industry_rank_factor();
     }
-    return industry * std::min( p.get_int(), 32 ) / 8 ;
+    return industry * std::min( p.get_int(), 32 ) / 8;
 }
 
 static bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
@@ -1789,7 +1792,7 @@ comp_list talk_function::companion_sort( comp_list available,
     }
     skill_id hardest_skill;
     int hardest_diff = -1;
-    for( const std::pair<skill_id, int> &req_skill : required_skills ) {
+    for( const std::pair<const skill_id, int> &req_skill : required_skills ) {
         if( req_skill.second > hardest_diff ) {
             hardest_diff = req_skill.second;
             hardest_skill = req_skill.first;
@@ -1921,7 +1924,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         } else {
             npc_desc = left_justify( npc_desc, 51 );
             bool first = true;
-            for( const std::pair<skill_id, int> &skill_tested : required_skills ) {
+            for( const std::pair<const skill_id, int> &skill_tested : required_skills ) {
                 if( first ) {
                     first = false;
                 } else {

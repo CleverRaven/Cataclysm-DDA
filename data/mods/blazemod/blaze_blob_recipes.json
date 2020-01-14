@@ -225,7 +225,12 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "biter", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "raw_fur", 150 ], [ "fur", 24 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [
+      [ [ "biter", 1 ] ],
+      [ [ "bfeed", 250 ] ],
+      [ [ "raw_fur", 150 ], [ "raw_hfur", 150 ], [ "fur", 24 ] ],
+      [ [ "mutagen", 1 ] ]
+    ]
   },
   {
     "result": "gloople",

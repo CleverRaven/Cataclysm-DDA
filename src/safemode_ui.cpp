@@ -82,54 +82,62 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
                             point( 1 + offset_x, header_height + 1 + offset_y ) );
 
-    draw_border( w_border, BORDER_COLOR, custom_name_in );
+    /**
+     * All of the stuff in this lambda needs to be drawn (1) initially, and
+     * (2) after closing the HELP_KEYBINDINGS window (since it mangles the screen)
+    */
+    const auto initial_draw = [&]() {
+        draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-    mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
-    mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
+        mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
+        mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
 
-    for( auto &column : column_pos ) {
-        // _|_
-        mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-    }
-
-    wrefresh( w_border );
-
-    static const std::vector<std::string> hotkeys = {{
-            translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
-            translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
-            translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
-            translate_marker( "<T>est" )
+        for( auto &column : column_pos ) {
+            // _|_
+            mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         }
+
+        wrefresh( w_border );
+
+        static const std::vector<std::string> hotkeys = {{
+                translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
+                translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
+                translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
+                translate_marker( "<T>est" )
+            }
+        };
+
+        int tmpx = 0;
+        for( auto &hotkey : hotkeys ) {
+            tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
+        }
+
+        tmpx = 0;
+        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                                _( "<+-> Move up/down" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                                _( "<Enter>-Edit" ) ) + 2;
+        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+
+        for( int i = 0; i < 78; i++ ) {
+            mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
+        }
+
+        for( auto &pos : column_pos ) {
+            mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
+            mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
+        }
+
+        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
+        mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
+
+        wrefresh( w_header );
     };
 
-    int tmpx = 0;
-    for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
-    }
-
-    tmpx = 0;
-    tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                            _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
-
-    for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
-    }
-
-    for( auto &pos : column_pos ) {
-        mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
-        mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
-    }
-
-    mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
-    mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
-
-    wrefresh( w_header );
+    initial_draw();
 
     int tab = GLOBAL_TAB;
     int line = 0;
@@ -245,6 +253,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 tab = MAX_TAB - 1;
                 line = 0;
             }
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // de-mangle parts of the screen
+            initial_draw();
         } else if( action == "QUIT" ) {
             break;
         } else if( tab == CHARACTER_TAB && g->u.name.empty() ) {
@@ -682,7 +693,7 @@ void safemode::load( const bool is_character_in )
             JsonIn jsin( fin );
             deserialize( jsin );
         } catch( const JsonError &e ) {
-            DebugLog( D_ERROR, DC_ALL ) << "safemode::load: " << e;
+            debugmsg( "Error while loading safemode settings: %s", e.what() );
         }
     }
 

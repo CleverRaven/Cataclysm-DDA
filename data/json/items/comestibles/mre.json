@@ -19,7 +19,7 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "brown",
-    "name": "MRE small box",
+    "name": { "str": "MRE small box", "str_pl": "MRE small boxes" },
     "category": "food",
     "description": "A generic small MRE box, you shouldn't see this",
     "price": 500,

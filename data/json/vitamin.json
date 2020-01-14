@@ -73,6 +73,7 @@
     "min": 0,
     "max": 40,
     "rate": "4 h",
+    "flags": [ "NO_DISPLAY" ],
     "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
   }
 ]

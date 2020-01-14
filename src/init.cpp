@@ -71,7 +71,7 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "trap.h"
-#include "tutorial.h"
+#include "gamemode_tutorial.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -126,12 +126,12 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
-            std::ostringstream discarded;
+            std::string discarded;
             for( const auto &elem : data ) {
-                discarded << elem.first;
+                discarded += elem.first;
             }
             debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
-                      data.size(), discarded.str() );
+                      data.size(), discarded );
             data.clear();
             return; // made no progress on this cycle so abort
         }
@@ -353,7 +353,6 @@ void DynamicDataLoader::initialize()
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
-    add( "epilogue", &epilogue::load_epilogue );
     add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );

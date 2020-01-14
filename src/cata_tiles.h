@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "weighted_list.h"
 #include "point.h"
+#include "pimpl.h"
 
 class Creature;
 class player;
@@ -573,7 +574,7 @@ class cata_tiles
          */
         bool nv_goggles_activated;
 
-        std::unique_ptr<pixel_minimap> minimap;
+        pimpl<pixel_minimap> minimap;
 
     public:
         std::string memory_map_mode = "color_pixel_sepia";

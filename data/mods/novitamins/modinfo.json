@@ -11,7 +11,6 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "NO_VITAMINS",
-    "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
     "stype": "bool",
     "value": true
   },

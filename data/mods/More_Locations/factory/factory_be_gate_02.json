@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "factory_be_gate" ],
-    "comment": "bottom edge gate",
+    "//": "bottom edge gate",
     "method": "json",
     "weight": 250,
     "object": {

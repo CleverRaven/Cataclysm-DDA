@@ -454,7 +454,7 @@
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "elevator",
     "bash": {
-      "str_min": 8,
+      "str_min": 40,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
@@ -485,7 +485,7 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
     "bash": {
-      "str_min": 8,
+      "str_min": 40,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",

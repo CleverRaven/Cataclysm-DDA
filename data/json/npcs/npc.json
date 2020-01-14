@@ -58,7 +58,7 @@
   {
     "type": "npc",
     "id": "survivor_chef",
-    "//": "A chef hiding at their job since the cataclysm. They spawn in a slightly fortified back room of a restaurant with a stockpile of food.",
+    "//": "A chef hiding at their job since the Cataclysm. They spawn in a slightly fortified back room of a restaurant with a stockpile of food.",
     "name_suffix": "chef",
     "class": "NC_SURVIVOR_CHEF",
     "attitude": 0,
@@ -92,7 +92,7 @@
   {
     "type": "npc",
     "id": "survivor_cop",
-    "//": "A police officer who has taken over the station since the cataclysm.  They sell items out of the evidence locker.",
+    "//": "A police officer who has taken over the station since the Cataclysm.  They sell items out of the evidence locker.",
     "name_suffix": "officer",
     "class": "NC_CITY_COP",
     "attitude": 0,

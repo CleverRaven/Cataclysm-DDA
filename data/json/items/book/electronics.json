@@ -2,8 +2,7 @@
   {
     "id": "advanced_electronics",
     "type": "BOOK",
-    "name": "Advanced Electronics",
-    "name_plural": "Advanced Electronics",
+    "name": { "str": "Advanced Electronics", "str_pl": "copies of Advanced Electronics" },
     "description": "A college textbook on circuit design.",
     "weight": "1587 g",
     "volume": "1750 ml",
@@ -23,8 +22,7 @@
   {
     "id": "mag_electronics",
     "type": "BOOK",
-    "name": "Ham Radio Illustrated",
-    "name_plural": "Ham Radio Illustrated",
+    "name": { "str": "Ham Radio Illustrated", "str_pl": "issues of Ham Radio Illustrated" },
     "description": "An amusing magazine about ham radio, with lots of diagrams and illustrations for making your own electronic devices.",
     "weight": "45 g",
     "volume": "250 ml",
@@ -42,8 +40,7 @@
   {
     "id": "manual_electronics",
     "type": "BOOK",
-    "name": "What's a Transistor?",
-    "name_plural": "What's a Transistor?",
+    "name": { "str": "What's a Transistor?", "str_pl": "copies of What's a Transistor?" },
     "description": "A basic manual of electronics and circuit design.",
     "weight": "454 g",
     "volume": "750 ml",
@@ -60,8 +57,7 @@
   {
     "id": "radio_book",
     "type": "BOOK",
-    "name": "Amateur Home Radio for Enthusiasts",
-    "name_plural": "Amateur Home Radio for Enthusiasts",
+    "name": { "str": "Amateur Home Radio for Enthusiasts", "str_pl": "copies of Amateur Home Radio for Enthusiasts" },
     "description": "A book about ham radio and citizen's band radio.  It contains numerous diagrams and illustrations explaining the science behind the electronics.",
     "weight": "1587 g",
     "volume": "1750 ml",
@@ -100,8 +96,7 @@
   {
     "id": "recipe_augs",
     "type": "BOOK",
-    "name": "Augmentative Tech Review",
-    "name_plural": "Augmentative Tech Review",
+    "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
     "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
     "weight": "1909 g",
     "volume": "500 ml",
@@ -120,8 +115,7 @@
   {
     "id": "recipe_lab_elec",
     "type": "BOOK",
-    "name": "lab journal-Herrera",
-    "name_plural": "lab journals-Herrera",
+    "name": { "str": "lab journal-Herrera", "str_pl": "lab journals-Herrera" },
     "description": "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some of the diagrams use symbols you've not seen before…",
     "weight": "2000 g",
     "volume": "500 ml",
@@ -140,8 +134,7 @@
   {
     "id": "recipe_mil_augs",
     "type": "BOOK",
-    "name": "2XI design binder-CLASSIFIED",
-    "name_plural": "2XI design binders-CLASSIFIED",
+    "name": { "str": "2XI design binder-CLASSIFIED", "str_pl": "2XI design binders-CLASSIFIED" },
     "description": "This Doubletech Industries binder has several intimidating security warnings on the cover.  Probably because it contains complete design specs, technical drawings, and test results for their military-grade bionic implants.",
     "weight": "1409 g",
     "volume": "500 ml",
@@ -160,8 +153,7 @@
   {
     "id": "repeater_mod_guide",
     "type": "BOOK",
-    "name": "plans for a radio repeater mod",
-    "name_plural": "plans for a radio repeater mod",
+    "name": { "str": "plans for a radio repeater mod", "str_pl": "plans for a radio repeater mod" },
     "description": "Instructions on how to create a mod for a radio station terminal which converts the entire system into a repeater.",
     "weight": "5 g",
     "volume": "250 ml",
@@ -180,8 +172,7 @@
   {
     "id": "textbook_electronics",
     "type": "BOOK",
-    "name": "Electronic Circuit Theory",
-    "name_plural": "Electronic Circuit Theory",
+    "name": { "str": "Electronic Circuit Theory", "str_pl": "copies of Electronic Circuit Theory" },
     "description": "An advanced college textbook on circuit theory, design, and organization.",
     "weight": "1587 g",
     "volume": "1750 ml",
@@ -201,8 +192,7 @@
   {
     "id": "textbook_robots",
     "type": "BOOK",
-    "name": "Robots for Fun & Profit",
-    "name_plural": "Robots for Fun & Profit",
+    "name": { "str": "Robots for Fun & Profit", "str_pl": "copies of Robots for Fun & Profit" },
     "description": "A rare book on the design of robots, with lots of helpful step-by-step guides.",
     "weight": "2063 g",
     "volume": "2 L",
@@ -222,7 +212,7 @@
   {
     "abstract": "schematics_generic",
     "type": "BOOK",
-    "name": "schematics generic",
+    "name": { "str": "schematics", "str_pl": "schematics" },
     "description": "seeing this is a bug",
     "weight": "30 g",
     "volume": "250 ml",
@@ -241,136 +231,98 @@
   {
     "id": "schematics_nursebot",
     "type": "BOOK",
-    "name": "nurse bot schematics",
-    "name_plural": "nurse bot schematics",
-    "description": "Bearing the logo of Uncanny, those are assembly plans, design specs, and technical drawings for the nurse bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "name": { "str": "nurse bot schematics", "str_pl": "nurse bot schematics" },
+    "description": "Bearing the logo of Uncanny, these are assembly plans, design specs, and technical drawings for the nurse bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_grocerybot",
     "type": "BOOK",
-    "name": "grocery bot schematics",
-    "name_plural": "grocery bot schematics",
-    "description": "Bearing the logo of Uncanny, those are assembly plans, design specs, and technical drawings for the grocery bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "name": { "str": "grocery bot schematics", "str_pl": "grocery bot schematics" },
+    "description": "Bearing the logo of Uncanny, these are assembly plans, design specs, and technical drawings for the grocery bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_copbot",
     "type": "BOOK",
-    "name": "police bot schematics",
-    "name_plural": "police bot schematics",
+    "name": { "str": "police bot schematics", "str_pl": "police bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_eyebot",
     "type": "BOOK",
-    "name": "eyebot schematics",
-    "name_plural": "eyebot schematics",
+    "name": { "str": "eyebot schematics", "str_pl": "eyebot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_secubot",
     "type": "BOOK",
-    "name": "security bot schematics",
-    "name_plural": "security bot schematics",
+    "name": { "str": "security bot schematics", "str_pl": "security bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the security bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_skitterbot",
     "type": "BOOK",
-    "name": "skitterbot schematics",
-    "name_plural": "skitterbot schematics",
+    "name": { "str": "skitterbot schematics", "str_pl": "skitterbot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the skitterbot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_chickenbot",
-    "type": "BOOK",
-    "name": "chicken walker schematics",
-    "name_plural": "chicken walker schematics",
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_hazmatbot",
     "type": "BOOK",
-    "name": "cleaner bot schematics",
-    "name_plural": "cleaner bot schematics",
+    "name": { "str": "cleaner bot schematics", "str_pl": "cleaner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the cleaner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_molebot",
     "type": "BOOK",
-    "name": "miner bot schematics",
-    "name_plural": "miner bot schematics",
+    "name": { "str": "miner bot schematics", "str_pl": "miner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the miner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_riotbot",
     "type": "BOOK",
-    "name": "riot control bot schematics",
-    "name_plural": "riot control bot schematics",
+    "name": { "str": "riot control bot schematics", "str_pl": "riot control bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_sciencebot",
     "type": "BOOK",
-    "name": "lab defense bot schematics",
-    "name_plural": "lab defense bot schematics",
+    "name": { "str": "lab defense bot schematics", "str_pl": "lab defense bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the lab defense bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_tankbot",
-    "type": "BOOK",
-    "name": "tank drone schematics",
-    "name_plural": "tank drone schematics",
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the tank drone.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_tripod",
-    "type": "BOOK",
-    "name": "tripod schematics",
-    "name_plural": "tripod schematics",
-    "description": "Bearing the logo of Honda, those are assembly plans, design specs, and technical drawings for the tripod.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_dispatch",
     "type": "BOOK",
-    "name": "dispatch schematics",
-    "name_plural": "dispatch schematics",
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "name": { "str": "dispatch schematics", "str_pl": "dispatch schematics" },
+    "description": "Bearing the logo of Northrop, these are assembly plans, design specs, and technical drawings for the dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_dispatch_military",
     "type": "BOOK",
-    "name": "military dispatch schematics",
-    "name_plural": "military dispatch schematics",
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the military dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "name": { "str": "military dispatch schematics", "str_pl": "military dispatch schematics" },
+    "description": "Bearing the logo of Northrop, these are assembly plans, design specs, and technical drawings for the military dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_antimateriel",
     "type": "BOOK",
-    "name": "anti-materiel turret schematics",
-    "name_plural": "anti-materiel turret schematics",
+    "name": { "str": "anti-materiel turret schematics", "str_pl": "anti-materiel turret schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the anti-materiel turret.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_searchlight",
     "type": "BOOK",
-    "name": "milspec searchlight schematics",
-    "name_plural": "milspec searchlight schematics",
+    "name": { "str": "milspec searchlight schematics", "str_pl": "milspec searchlight schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the milspec searchlight.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   }

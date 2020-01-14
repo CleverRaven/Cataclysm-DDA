@@ -29,7 +29,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
     "examine_action": "fireplace",
     "bash": {

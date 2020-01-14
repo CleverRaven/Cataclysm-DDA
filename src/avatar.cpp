@@ -1,7 +1,7 @@
 #include "avatar.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <map>
@@ -67,19 +67,17 @@
 class JsonIn;
 class JsonOut;
 
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_depressants( "depressants" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stim( "stim" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -325,6 +323,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
+        } else if( elem->is_blind() ) {
+            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
@@ -374,9 +374,8 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( int inventory_position, const bool continuous )
+bool avatar::read( item &it, const bool continuous )
 {
-    item &it = i_at( inventory_position );
     if( it.is_null() ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
@@ -898,7 +897,7 @@ void avatar::do_read( item &book )
 
     if( continuous ) {
         activity.set_to_null();
-        read( get_item_position( &book ), true );
+        read( book, true );
         if( activity ) {
             return;
         }
@@ -1167,7 +1166,7 @@ void avatar::reset_stats()
     }
 
     // Radiation
-    set_fake_effect_dur( effect_irradiated, 1_turns * radiation );
+    set_fake_effect_dur( effect_irradiated, 1_turns * get_rad() );
     // Morale
     const int morale = get_morale_level();
     set_fake_effect_dur( effect_happy, 1_turns * morale );

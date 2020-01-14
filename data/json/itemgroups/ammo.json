@@ -276,12 +276,11 @@
     "id": "ammo_launcher_grenade",
     "//": "Factory specification grenade launcher ammo intended for military use",
     "items": [
-      [ "40mm_flare", 40 ],
-      [ "40mm_flechette", 10 ],
-      [ "40mm_frag", 120 ],
-      [ "40mm_incendiary", 25 ],
-      [ "40mm_shot", 15 ],
-      [ "40mm_smoke", 60 ]
+      [ "40x53mm_m1001", 10 ],
+      [ "40x46mm_m433", 120 ],
+      [ "40x53mm_m430a1", 75 ],
+      [ "40x46mm_m576", 15 ],
+      [ "40x46mm_m651", 20 ]
     ]
   },
   {
@@ -382,10 +381,8 @@
     "items": [
       { "group": "ammo_cop", "prob": 100 },
       [ "300_winmag", 5 ],
-      [ "40mm_concussive", 5 ],
-      [ "40mm_flashbang", 20 ],
-      [ "40mm_smoke", 5 ],
-      [ "40mm_teargas", 20 ],
+      [ "40x46mm_m433", 5 ],
+      [ "40x46mm_m651", 20 ],
       [ "556", 10 ],
       [ "shot_slug", 20 ]
     ]

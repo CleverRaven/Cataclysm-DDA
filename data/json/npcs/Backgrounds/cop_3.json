@@ -5,14 +5,14 @@
     "dynamic_line": "Before <the_cataclysm>, I was a cop.  I got shot just a couple days before everything went down… I made a bad call in a drug bust and a scumbag got me right in the gut, it was barely stopped by my vest.  I took some pretty bad internal bruising.  I never thought getting shot would save my life, but I was off duty recuperating when the worst of it hit.",
     "responses": [
       {
-        "text": "What did you do when you found out about the cataclysm?",
+        "text": "What did you do when you found out about the Cataclysm?",
         "condition": { "not": { "days_since_cataclysm": 90 } },
         "effect": { "npc_add_effect": "BGSS_Cop_3_earlymeeting", "duration": "PERMANENT" },
         "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options",
         "topic": "BGSS_COP_3_STORY2"
       },
       {
-        "text": "What did you do when you found out about the cataclysm?",
+        "text": "What did you do when you found out about the Cataclysm?",
         "condition": { "days_since_cataclysm": 90 },
         "topic": "BGSS_COP_3_STORY2"
       },

@@ -69,17 +69,16 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_relax_gas( "relax_gas" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-const skill_id skill_melee( "melee" );
+static const skill_id skill_melee( "melee" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -357,10 +356,6 @@ static void rcdrive( int dx, int dy )
     }
     item *rc_car = rc_pair->second;
 
-    if( tile_iso && use_tiles ) {
-        rotate_direction_cw( dx, dy );
-    }
-
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
@@ -575,7 +570,7 @@ static void grab()
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-        if( m.furn( grabp ).obj().move_str_req < 0 ) {
+        if( !m.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
@@ -676,7 +671,7 @@ static void smash()
             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-            u.activity.placement = smashp;
+            u.activity.placement = g->m.getabs( smashp );
             return; // don't smash terrain if we've smashed a corpse
         }
     }
@@ -693,7 +688,7 @@ static void smash()
             u.handle_melee_wear( u.weapon );
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
-            u.mod_stat( "stamina", mod_sta );
+            u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
@@ -967,14 +962,20 @@ static void sleep()
     }
 
     time_duration try_sleep_dur = 24_hours;
+    std::string deaf_text;
+    if( g->u.is_deaf() ) {
+        deaf_text = _( "<color_c_red> (DEAF!)</color>" );
+    }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate
-                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
-                    : _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text = can_hibernate ?
+                    _( "You're engorged to hibernate.  The alarm would only attract attention.  "
+                       "Set an alarm anyway?" ) :
+                    _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text += deaf_text;
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -982,7 +983,7 @@ static void sleep()
 
         for( int i = 3; i <= 9; ++i ) {
             as_m.entries.emplace_back( i, true, '0' + i,
-                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) );
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) + deaf_text );
         }
 
         as_m.query();
@@ -1160,7 +1161,9 @@ static void read()
     auto loc = game_menus::inv::read( u );
 
     if( loc ) {
-        u.read( loc.obtain( u ) );
+        // calling obtain() invalidates the item pointer
+        // @TODO: find a way to do this without an int index
+        u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1431,13 +1434,13 @@ void game::open_consume_item_menu()
 
     switch( as_m.ret ) {
         case 0:
-            eat( game_menus::inv::consume_food );
+            avatar_action::eat( u, game_menus::inv::consume_food( u ) );
             break;
         case 1:
-            eat( game_menus::inv::consume_drink );
+            avatar_action::eat( u, game_menus::inv::consume_drink( u ) );
             break;
         case 2:
-            eat( game_menus::inv::consume_meds );
+            avatar_action::eat( u, game_menus::inv::consume_meds( u ) );
             break;
         default:
             break;
@@ -1565,9 +1568,12 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
-                add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
-                                    "the current context." ),
-                         press_x( ACTION_KEYBINDINGS ) );
+                if( const cata::optional<std::string> hint =
+                        press_x_if_bound( ACTION_KEYBINDINGS ) ) {
+                    add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
+                                        "the current context." ),
+                             *hint );
+                }
             }
         }
         return false;
@@ -1580,10 +1586,6 @@ bool game::handle_action()
     int soffsetr = 0 - soffset;
 
     int before_action_moves = u.moves;
-
-    // Use to track if auto-move should be canceled due to a failed
-    // move or obstacle
-    bool continue_auto_move = true;
 
     // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
@@ -1644,7 +1646,6 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !u.is_dead_state() ) {
-        point dest_delta;
         switch( act ) {
             case ACTION_NULL:
             case NUM_ACTIONS:
@@ -1685,15 +1686,50 @@ bool game::handle_action()
                 open_movement_mode_menu();
                 break;
 
-            case ACTION_MOVE_N:
-            case ACTION_MOVE_NE:
-            case ACTION_MOVE_E:
-            case ACTION_MOVE_SE:
-            case ACTION_MOVE_S:
-            case ACTION_MOVE_SW:
-            case ACTION_MOVE_W:
-            case ACTION_MOVE_NW:
-                dest_delta = get_delta_from_movement_direction( act );
+            case ACTION_MOVE_FORTH:
+            case ACTION_MOVE_FORTH_RIGHT:
+            case ACTION_MOVE_RIGHT:
+            case ACTION_MOVE_BACK_RIGHT:
+            case ACTION_MOVE_BACK:
+            case ACTION_MOVE_BACK_LEFT:
+            case ACTION_MOVE_LEFT:
+            case ACTION_MOVE_FORTH_LEFT:
+                if( !u.get_value( "remote_controlling" ).empty() &&
+                    ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
+                    rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
+                } else if( veh_ctrl ) {
+                    // vehicle control uses x for steering and y for ac/deceleration,
+                    // so no rotation needed
+                    pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
+                } else {
+                    point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
+                    if( auto_travel_mode && !u.is_auto_moving() ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
+                                                              u.posy() + dest_delta.y * ( SEEX - i ),
+                                                              u.posz() );
+                            destination_preview = m.route( u.pos(),
+                                                           auto_travel_destination,
+                                                           u.get_pathfinding_settings(),
+                                                           u.get_path_avoid() );
+                            if( !destination_preview.empty() ) {
+                                destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
+                                u.set_destination( destination_preview );
+                                break;
+                            }
+                        }
+                        act = u.get_next_auto_move_direction();
+                        const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
+                        if( dest_next == point_zero ) {
+                            u.clear_destination();
+                        }
+                        dest_delta = dest_next;
+                    }
+                    if( !avatar_action::move( u, m, dest_delta ) ) {
+                        // auto-move should be canceled due to a failed move or obstacle
+                        u.clear_destination();
+                    }
+                }
                 break;
             case ACTION_MOVE_DOWN:
                 if( u.is_mounted() ) {
@@ -1883,11 +1919,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                eat();
+                if( !avatar_action::eat_here( u ) ) {
+                    avatar_action::eat( u );
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
-                open_consume_item_menu();
+                if( !avatar_action::eat_here( u ) ) {
+                    open_consume_item_menu();
+                }
                 break;
 
             case ACTION_READ:
@@ -1911,17 +1951,23 @@ bool game::handle_action()
                 reload_weapon();
                 break;
 
+            case ACTION_RELOAD_WIELDED:
+                reload_wielded();
+                break;
+
             case ACTION_UNLOAD:
-                unload();
+                avatar_action::unload( u );
                 break;
 
             case ACTION_MEND:
-                mend();
+                avatar_action::mend( g->u, item_location() );
                 break;
 
-            case ACTION_THROW:
-                avatar_action::plthrow( g->u );
+            case ACTION_THROW: {
+                item_location loc;
+                avatar_action::plthrow( g->u, loc );
                 break;
+            }
 
             case ACTION_FIRE:
                 fire();
@@ -2095,7 +2141,7 @@ bool game::handle_action()
             case ACTION_IGNORE_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP ) {
                     add_msg( m_info, _( "Ignoring enemy!" ) );
-                    for( auto &elem : new_seen_mon ) {
+                    for( auto &elem : u.get_mon_visible().new_seen_mon ) {
                         monster &critter = *elem;
                         critter.ignoring = rl_dist( u.pos(), critter.pos() );
                     }
@@ -2399,40 +2445,6 @@ bool game::handle_action()
             default:
                 break;
         }
-        if( dest_delta != point_zero ) {
-            if( !u.get_value( "remote_controlling" ).empty() &&
-                ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
-                rcdrive( dest_delta );
-            } else if( veh_ctrl ) {
-                pldrive( dest_delta );
-            } else {
-                if( auto_travel_mode ) {
-                    for( int i = 0; i < SEEX; i++ ) {
-                        tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
-                                                          u.posy() + dest_delta.y * ( SEEX - i ),
-                                                          u.posz() );
-                        destination_preview = m.route( u.pos(),
-                                                       auto_travel_destination,
-                                                       u.get_pathfinding_settings(),
-                                                       u.get_path_avoid() );
-                        if( !destination_preview.empty() ) {
-                            u.set_destination( destination_preview );
-                            break;
-                        }
-                    }
-                    act = u.get_next_auto_move_direction();
-                    point dest_next = get_delta_from_movement_direction( act );
-                    if( dest_next == point_zero ) {
-                        u.clear_destination();
-                    }
-                    dest_delta = dest_next;
-                }
-                continue_auto_move = avatar_action::move( u, m, dest_delta );
-            }
-        }
-    }
-    if( !continue_auto_move ) {
-        u.clear_destination();
     }
     if( act != ACTION_TIMEOUT ) {
         u.mod_moves( -current_turn.moves_elapsed() );

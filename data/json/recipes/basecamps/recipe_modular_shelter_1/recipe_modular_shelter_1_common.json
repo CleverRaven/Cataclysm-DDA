@@ -337,7 +337,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_1_beds_standard_S1",
-    "description": "Let's furnish the southern bedroom with a regular beds.",
+    "description": "Let's furnish the southern bedroom with regular beds.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -352,7 +352,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_1_beds_straw_S1",
-    "description": "Let's furnish the southern bedroom with a straw beds.",
+    "description": "Let's furnish the southern bedroom with straw beds.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -367,7 +367,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_1_beds_makeshift_S1",
-    "description": "Let's furnish the southern bedroom with a makeshift beds.",
+    "description": "Let's furnish the southern bedroom with makeshift beds.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

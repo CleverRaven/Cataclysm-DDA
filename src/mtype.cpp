@@ -12,7 +12,7 @@
 #include "translations.h"
 #include "mapdata.h"
 
-const species_id MOLLUSK( "MOLLUSK" );
+static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
@@ -118,6 +118,16 @@ bool mtype::in_species( const species_id &spec ) const
 bool mtype::in_species( const species_type &spec ) const
 {
     return species_ptrs.count( &spec ) > 0;
+}
+std::vector<std::string> mtype::species_descriptions() const
+{
+    std::vector<std::string> ret;
+    for( const species_id &s : species ) {
+        if( !s->description.empty() ) {
+            ret.emplace_back( s->description.translated() );
+        }
+    }
+    return ret;
 }
 
 bool mtype::same_species( const mtype &other ) const

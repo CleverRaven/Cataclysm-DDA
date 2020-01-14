@@ -19,6 +19,18 @@ struct nutrients {
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 
+    /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
+     * values taken from r. */
+    void min_in_place( const nutrients &r );
+    void max_in_place( const nutrients &r );
+
+    int get_vitamin( const vitamin_id & ) const;
+
+    bool operator==( const nutrients &r ) const;
+    bool operator!=( const nutrients &r ) const {
+        return !( *this == r );
+    }
+
     nutrients &operator+=( const nutrients &r );
     nutrients &operator-=( const nutrients &r );
     nutrients &operator*=( int r );

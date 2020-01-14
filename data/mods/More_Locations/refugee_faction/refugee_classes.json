@@ -3,7 +3,7 @@
     "type": "npc_class",
     "id": "NC_REFUGEE",
     "name": "Refugee",
-    "comment": "Bad skills and traits. Normal people make poor followers.",
+    "//": "Bad skills and traits.  Normal people make poor followers.",
     "job_description": "I'm just trying to stay alive.",
     "bonus_str": { "rng": [ -2, 2 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
@@ -27,7 +27,8 @@
       [ "BADKNEES", 10 ],
       [ "SLOWRUNNER", 10 ],
       [ "TRIGGERHAPPY", 10 ],
-      [ "FLIMSY", 10 ]
+      [ "FLIMSY", 10 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "worn_override": "refugee_clothing",
     "carry_override": "refugee_gear"
@@ -36,8 +37,8 @@
     "type": "npc_class",
     "id": "NC_TALENTED_REFUGEE",
     "name": "Refugee",
-    "job_description": "I'm just trying to stay alive.... and it ain't as easy as it looks.",
-    "comment": "OK skills and good traits. Good potential for followers. Not sure which muts really work for NPCs though.",
+    "job_description": "I'm just trying to stay alive....  and it ain't as easy as it looks.",
+    "//": "OK skills and good traits.  Good potential for followers.  Not sure which muts really work for NPCs though.",
     "bonus_str": { "rng": [ 0, 2 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ 0, 2 ] },
@@ -62,7 +63,8 @@
       [ "FASTHEALER", 10 ],
       [ "QUICK", 10 ],
       [ "FLEET", 10 ],
-      [ "LIGHTSTEP", 10 ]
+      [ "LIGHTSTEP", 10 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "worn_override": "refugee_clothing",
     "carry_override": "refugee_gear"
@@ -71,7 +73,7 @@
     "type": "npc_class",
     "id": "NC_MUTANT_REFUGEE",
     "name": "Refugee",
-    "comment": "Random mutations. Mostly cosmetic.",
+    "//": "Random mutations.  Mostly cosmetic.",
     "job_description": "I'm just trying to stay alive.",
     "bonus_str": { "rng": [ -2, 3 ] },
     "bonus_dex": { "rng": [ -2, 3 ] },
@@ -97,7 +99,8 @@
       [ "ALBINO", 20 ],
       [ "SLIMY", 20 ],
       [ "FANGS", 20 ],
-      [ "CLAWS", 20 ]
+      [ "CLAWS", 20 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "worn_override": "refugee_clothing",
     "carry_override": "refugee_gear"

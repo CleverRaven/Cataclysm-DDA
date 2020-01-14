@@ -17,7 +17,7 @@
     "name": "Refugee",
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "Stan is a broken man since he and Boris lost their son in the cataclysm.  It might be possible to help put him back together slowly.",
+    "//": "Stan is a broken man since he and Boris lost their son in the Cataclysm.  It might be possible to help put him back together slowly.",
     "bonus_str": { "rng": [ -2, 2 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ -2, 2 ] },

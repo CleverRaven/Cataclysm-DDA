@@ -25,7 +25,8 @@ enum advanced_inv_sortby {
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
     SORTBY_AMMO,
-    SORTBY_SPOILAGE
+    SORTBY_SPOILAGE,
+    SORTBY_PRICE
 };
 /**
  * Displayed pane, what is shown on the screen.

@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "recipe.h"
@@ -39,6 +40,8 @@ class recipe_dictionary
         std::map<recipe_id, recipe>::const_iterator begin() const;
         std::map<recipe_id, recipe>::const_iterator end() const;
 
+        bool is_item_on_loop( const itype_id & ) const;
+
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
 
@@ -63,8 +66,10 @@ class recipe_dictionary
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
         std::set<const recipe *> blueprints;
+        std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
+        void find_items_on_loops();
 };
 
 extern recipe_dictionary recipe_dict;

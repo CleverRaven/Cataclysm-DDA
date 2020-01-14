@@ -46,8 +46,8 @@ static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y
 
 const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
 
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_haslight( "haslight" );
 
 std::string four_quadrants::to_string() const
 {

@@ -1,7 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
-#include <sstream>
 #include <cstddef>
 
 #include "bionics.h"
@@ -66,7 +65,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
-            const item temp_fuel( fuel ) ;
+            const item temp_fuel( fuel );
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
@@ -76,6 +75,19 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
             }
             fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
                            c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
+        }
+        if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
+            const itype_id rem_fuel = p->find_remote_fuel( true );
+            if( !rem_fuel.empty() ) {
+                const item tmp_rem_fuel( rem_fuel );
+                if( tmp_rem_fuel.has_flag( "PERPETUAL" ) ) {
+                    fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
+                } else {
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                                   c_green ) + " ";
+                }
+                found_fuel = true;
+            }
         }
     }
     if( !found_fuel ) {
@@ -146,10 +158,11 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.push_back( _( "(incapacitated)" ) );
     }
-    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
+    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && ( !bio.info().fuel_opts.empty() ||
+            bio.info().is_remote_fueled ) ) {
         properties.push_back( _( "(fuel saving ON)" ) );
     }
-    if( bio.is_auto_start_on() && !bio.info().fuel_opts.empty() ) {
+    if( bio.is_auto_start_on() && ( !bio.info().fuel_opts.empty() || bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(auto start < %d %%)" ),
                                   static_cast<int>( bio.get_auto_start_thresh() * 100 ) );
         properties.push_back( label );
@@ -161,13 +174,13 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
 //generates the string that show how much power a bionic uses
 static std::string build_bionic_powerdesc_string( const bionic &bio )
 {
-    std::ostringstream power_desc;
+    std::string power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
-    power_desc << bio.id->name;
+    power_desc += bio.id->name.translated();
     if( !power_string.empty() ) {
-        power_desc << ", " << power_string;
+        power_desc += ", " + power_string;
     }
-    return power_desc.str();
+    return power_desc;
 }
 
 static void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
@@ -667,7 +680,7 @@ void player::power_bionics()
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
-                if( !tmp->info().fuel_opts.empty() ) {
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
                     tmp->toggle_safe_fuel_mod();
                     g->refresh_all();
                     redraw = true;
@@ -682,7 +695,7 @@ void player::power_bionics()
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
-                if( !tmp->info().fuel_opts.empty() ) {
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
                     tmp->toggle_auto_start_mod();
                     g->refresh_all();
                     redraw = true;

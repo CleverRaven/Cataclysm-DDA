@@ -2,8 +2,7 @@
   {
     "id": "adv_chemistry",
     "type": "BOOK",
-    "name": "Advanced Physical Chemistry",
-    "name_plural": "Advanced Physical Chemistry",
+    "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
     "description": "A university-level textbook on advanced principles of chemistry, both organic and inorganic.",
     "weight": "1712 g",
     "volume": "2 L",
@@ -23,7 +22,7 @@
   {
     "id": "brewing_cookbook",
     "type": "BOOK",
-    "name": "The Homebrewer's Bible",
+    "name": { "str": "The Homebrewer's Bible", "str_pl": "copies of The Homebrewer's Bible" },
     "description": "A book full of easy-to-follow recipes and useful advice on homebrewing, malting, and fermenting.  It even smells faintly of booze.",
     "weight": "1587 g",
     "volume": "1500 ml",
@@ -43,7 +42,7 @@
   {
     "id": "cookbook",
     "type": "BOOK",
-    "name": "Cooking on a Budget",
+    "name": { "str": "Cooking on a Budget", "str_pl": "copies of Cooking on a Budget" },
     "description": "A nice cook book that goes beyond recipes and into the chemistry of food.",
     "weight": "454 g",
     "volume": "1 L",
@@ -60,8 +59,7 @@
   {
     "id": "cookbook_human",
     "type": "BOOK",
-    "name": "To Serve Man",
-    "name_plural": "To Serve Man",
+    "name": { "str": "To Serve Man", "str_pl": "copies of To Serve Man" },
     "//": "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
     "description": "It's… it's a cookbook!",
     "weight": "454 g",
@@ -81,8 +79,7 @@
   {
     "id": "cookbook_italian",
     "type": "BOOK",
-    "name": "Cucina Italiana",
-    "name_plural": "Cucina Italiana",
+    "name": { "str": "Cucina Italiana", "str_pl": "copies of Cucina Italiana" },
     "description": "This cookbook is written in Italian, but handily illustrated with step by step photo instructions.",
     "weight": "454 g",
     "volume": "1 L",
@@ -100,8 +97,7 @@
   {
     "id": "cookbook_sushi",
     "type": "BOOK",
-    "name": "Sushi Made Easy",
-    "name_plural": "copies of Sushi Made Easy",
+    "name": { "str": "Sushi Made Easy", "str_pl": "copies of Sushi Made Easy" },
     "description": "A simple text for the aspiring sushi lover, this easy to read guide is filled with lots of helpful illustrations for everything from basic rice preparation to setting a proper Japanese table.",
     "weight": "921 g",
     "volume": "750 ml",
@@ -140,8 +136,7 @@
   {
     "id": "mag_cooking",
     "type": "BOOK",
-    "name": "Bon Appetit",
-    "name_plural": "Bon Appetit",
+    "name": { "str": "Bon Appetit", "str_pl": "issues of Bon Appetit" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -159,7 +154,7 @@
   {
     "id": "mag_glam",
     "type": "BOOK",
-    "name": "Glamopolitan",
+    "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
     "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
     "weight": "160 g",
     "volume": "500 ml",
@@ -177,9 +172,8 @@
   {
     "id": "modern_tanner",
     "type": "BOOK",
-    "name": "The Modern Tanner",
-    "name_plural": "copies of The Modern Tanner",
-    "description": "A in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
+    "name": { "str": "The Modern Tanner", "str_pl": "copies of The Modern Tanner" },
+    "description": "An in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
     "weight": "568 g",
     "volume": "750 ml",
     "price": 2000,
@@ -196,9 +190,8 @@
   {
     "id": "recipe_alpha",
     "type": "BOOK",
-    "name": "PE050 \"Alpha\": Preliminary Report",
-    "name_plural": "PE050 \"Alpha\": Preliminary Report",
-    "description": "This sheaf of papers-dated two weeks before all this started-describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
+    "name": { "str": "PE050 \"Alpha\": Preliminary Report", "str_pl": "copies of PE050 \"Alpha\": Preliminary Report" },
+    "description": "This sheaf of papers--dated two weeks before all this started--describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
     "weight": "50 g",
     "volume": "500 ml",
     "price": 125000,
@@ -216,8 +209,7 @@
   {
     "id": "recipe_animal",
     "type": "BOOK",
-    "name": "lab journal-Dionne",
-    "name_plural": "lab journals-Dionne",
+    "name": { "str": "lab journal-Dionne", "str_pl": "lab journals-Dionne" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna.  The team seems quite enthusiastic--if not eager--about their results.",
     "weight": "1700 g",
     "volume": "500 ml",
@@ -236,8 +228,7 @@
   {
     "id": "recipe_chimera",
     "type": "BOOK",
-    "name": "PE065 \"Chimera\": Best Practices",
-    "name_plural": "PE065 \"Chimera\": Best Practices",
+    "name": { "str": "PE065 \"Chimera\": Best Practices", "str_pl": "copies of PE065 \"Chimera\": Best Practices" },
     "description": "This sheaf of papers describes a new chemical formula in detail and supplies instructions for its use as some sort of… crowd-control catalyst?  That can't be right…",
     "weight": "50 g",
     "volume": "500 ml",
@@ -256,8 +247,7 @@
   {
     "id": "recipe_creepy",
     "type": "BOOK",
-    "name": "lab journal-Smythe",
-    "name_plural": "lab journals-Smythe",
+    "name": { "str": "lab journal-Smythe", "str_pl": "lab journals-Smythe" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037.  The results look promising but the procurement methods seem awfully vague…",
     "weight": "1700 g",
     "volume": "500 ml",
@@ -295,8 +285,7 @@
   {
     "id": "recipe_labchem",
     "type": "BOOK",
-    "name": "chemical reference-CLASSIFIED",
-    "name_plural": "chemical references-CLASSIFIED",
+    "name": { "str": "chemical reference-CLASSIFIED", "str_pl": "chemical references-CLASSIFIED" },
     "description": "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
     "weight": "2000 g",
     "volume": "500 ml",
@@ -315,8 +304,7 @@
   {
     "id": "recipe_maiar",
     "type": "BOOK",
-    "name": "lab journal-x-|xp",
-    "name_plural": "lab journals-x-|xp",
+    "name": { "str": "lab journal-x-|xp", "str_pl": "lab journals-x-|xp" },
     "description": "This damaged team logbook lacks (deliberately?) any identifying information, but still contains useful information on several types of mutagen and their development.",
     "weight": "1700 g",
     "volume": "500 ml",
@@ -335,8 +323,10 @@
   {
     "id": "recipe_medicalmut",
     "type": "BOOK",
-    "name": "PE023 \"Medical\": Application and Findings",
-    "name_plural": "PE023 \"Medical\": Application and Findings",
+    "name": {
+      "str": "PE023 \"Medical\": Application and Findings",
+      "str_pl": "copies of PE023 \"Medical\": Application and Findings"
+    },
     "description": "This binder of highly technical papers describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
     "weight": "1934 g",
     "volume": "1750 ml",
@@ -356,8 +346,7 @@
   {
     "id": "recipe_raptor",
     "type": "BOOK",
-    "name": "PE070 \"Raptor\": Proposal",
-    "name_plural": "PE070 \"Raptor\": Proposal",
+    "name": { "str": "PE070 \"Raptor\": Proposal", "str_pl": "copies of PE070 \"Raptor\": Proposal" },
     "description": "This sheaf of papers is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
     "weight": "50 g",
     "volume": "500 ml",
@@ -376,8 +365,7 @@
   {
     "id": "recipe_serum",
     "type": "BOOK",
-    "name": "Best Practices for Compound Delivery",
-    "name_plural": "Best Practices for Compound Delivery",
+    "name": { "str": "Best Practices for Compound Delivery", "str_pl": "copies of Best Practices for Compound Delivery" },
     "description": "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good health, as the concentrated serums draw heavily on subjects' bodies.",
     "weight": "1700 g",
     "volume": "500 ml",
@@ -396,10 +384,9 @@
   {
     "id": "reference_cooking",
     "type": "BOOK",
-    "name": "CRC-Merck handbook, 4th edition",
-    "name_plural": "copies of the CRC-Merck handbook, 4th edition",
+    "name": { "str": "CRC-Merck Handbook, 4th edition", "str_pl": "copies of CRC-Merck Handbook, 4th edition" },
     "description": "This huge hardbound book is a collection of reference data and formulae pertinent to many technical disciplines.  If poring over tables of chemical and physical data is your thing, this is the book for you.",
-    "weight": 5790,
+    "weight": "5790 g",
     "volume": "1750 ml",
     "price": 9000,
     "price_postapoc": 30000,
@@ -414,9 +401,11 @@
   {
     "id": "scots_cookbook",
     "type": "BOOK",
-    "name": "Ye Scots Beuk o Cuikery",
-    "name_plural": "copies of Ye Scots Beuk o Cuikery",
-    "//": "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
+    "name": {
+      "//~": "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
+      "str": "Ye Scots Beuk o Cuikery",
+      "str_pl": "copies of Ye Scots Beuk o Cuikery"
+    },
     "description": "A semi-translated cookbook from thirteenth century Scotland.  While a bit difficult to read, as there are a disquieting number of illustrations of people stabbing each other mixed amongst the recipes, it provides insights into medieval Scottish culture and fashion as well as new uses for oatmeal, fish, and sheep liver.",
     "weight": "1887 g",
     "volume": "1250 ml",
@@ -452,5 +441,62 @@
     "intelligence": 12,
     "time": "35 m",
     "fun": -1
+  },
+  {
+    "id": "cookbook_liverforkids",
+    "type": "BOOK",
+    "name": { "str": "Liver-Licious Recipes Your Kids Will Love", "str_pl": "copies of Liver-Licious Recipes" },
+    "description": "This cookbook is written by liver enthusiast Tamsyn Beckerleg.  Inside you'll find a great deal of anecdotes about the near-certain ruination of children who refuse to eat their liver.",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1999,
+    "price_postapoc": 3000,
+    "bashing": 2,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "cooking",
+    "required_level": 1,
+    "max_level": 2,
+    "intelligence": 5,
+    "time": "45 m"
+  },
+  {
+    "id": "cookbook_daintydishes",
+    "type": "BOOK",
+    "name": { "str": "Dainty Dishes Fit for a King", "str_pl": "copies of Dainty Dishes" },
+    "description": "This cookbook contains many fanciful recipes.  Some of them are even worth the trouble to actually prepare.  Lovely pen and ink illustrations of overweight knights and gluttonous monks line the pages.",
+    "volume": "900 ml",
+    "price": 3000,
+    "price_postapoc": 4700,
+    "max_level": 3,
+    "time": "60 m",
+    "fun": 1,
+    "copy-from": "cookbook_liverforkids"
+  },
+  {
+    "id": "cookbook_eatyrway",
+    "type": "BOOK",
+    "name": { "str": "Eat Your Way to a Fit Physique", "str_pl": "copies of Eat Your Way" },
+    "description": "This self-help book is as dubious as its title.  Worse, it is boring.  It does, however, contain a few basic cooking instructions.",
+    "weight": "800 g",
+    "volume": "1100 ml",
+    "required_level": 0,
+    "max_level": 1,
+    "time": "70 m",
+    "fun": -1,
+    "copy-from": "cookbook_liverforkids"
+  },
+  {
+    "id": "cookbook_foodfashions",
+    "type": "BOOK",
+    "name": { "str": "Food Fashions for Young Moderns", "str_pl": "copies of Food Fashions" },
+    "description": "A cookbook professing itself to be for those seeking \"daring and sophisticated flavors.\"  The book exhorts the reader to defy convention and break the rules, and then presents a number of useful rules and conventions for preparing food.",
+    "price": 3999,
+    "price_postapoc": 5000,
+    "required_level": 2,
+    "max_level": 4,
+    "intelligence": 7,
+    "copy-from": "cookbook_liverforkids"
   }
 ]

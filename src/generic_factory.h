@@ -833,6 +833,38 @@ class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType
 
 using string_reader = auto_flags_reader<>;
 
+class volume_reader : public generic_typed_reader<units::volume>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::volume &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::volume>( *jo.get_raw( member_name ), units::volume_units );
+            return true;
+        }
+        units::volume get_next( JsonIn &jin ) const {
+            return read_from_json_string<units::volume>( jin, units::volume_units );
+        }
+};
+
+class mass_reader : public generic_typed_reader<units::mass>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::mass &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::mass>( *jo.get_raw( member_name ), units::mass_units );
+            return true;
+        }
+        units::mass get_next( JsonIn &jin ) const {
+            return read_from_json_string<units::mass>( jin, units::mass_units );
+        }
+};
+
 /**
  * Uses a map (unordered or standard) to convert strings from JSON to some other type
  * (the mapped type of the map: `C::mapped_type`). It works for all mapped types, not just enums.

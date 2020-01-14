@@ -23,13 +23,13 @@
 
 #include <algorithm>
 #include <array>
-#include <assert.h>
+#include <cassert>
 #include <bitset>
 #include <cmath>
 #include <iterator>
 #include <memory>
 #include <set>
-#include <stdlib.h>
+#include <cstdlib>
 #include <utility>
 #include <vector>
 
@@ -199,7 +199,6 @@ struct pixel_minimap::submap_cache {
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
     type( pixel_minimap_type::ortho ),
-    cached_center_sm( tripoint_min ),
     screen_rect{ 0, 0, 0, 0 }
 {
 }

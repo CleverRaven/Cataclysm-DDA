@@ -29,7 +29,7 @@ enum computer_action {
     COMPACT_MAPS,
     COMPACT_MAP_SEWER,
     COMPACT_MAP_SUBWAY,
-    COMPACT_MISS_LAUNCH,
+    COMPACT_OBSOLETE, // No longer used
     COMPACT_MISS_DISARM,
     COMPACT_LIST_BIONICS,
     COMPACT_ELEVATOR_ON,
@@ -66,7 +66,6 @@ enum computer_action {
     COMPACT_RADIO_ARCHIVE,
     NUM_COMPUTER_ACTIONS
 };
-
 // Don't change those! They must stay in this specific order!
 // TODO: Remove this enum
 enum computer_failure_type {
@@ -83,10 +82,6 @@ enum computer_failure_type {
     COMPFAIL_DESTROY_DATA,
     NUM_COMPUTER_FAILURES
 };
-
-// TODO: Turn the enum into id, get rid of this
-computer_action computer_action_from_string( const std::string &str );
-computer_failure_type computer_failure_type_from_string( const std::string &str );
 
 struct computer_option {
     std::string name;

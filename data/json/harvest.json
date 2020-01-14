@@ -139,7 +139,7 @@
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
@@ -152,7 +152,7 @@
       { "drop": "hstomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
@@ -401,10 +401,10 @@
     "type": "harvest",
     "message": "You laboriously dissect the colossal insect.",
     "entries": [
-      { "drop": "meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
+      { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
       { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
       { "drop": "sweetbread", "base_num": [ 3, 4 ], "scale_num": [ 0.4, 0.6 ], "max": 8, "type": "offal" },
-      { "drop": "fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
+      { "drop": "mutant_fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
     ]
   },
   {
@@ -421,8 +421,8 @@
     "id": "arachnid_acid",
     "type": "harvest",
     "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -535,7 +535,7 @@
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -547,7 +547,7 @@
       { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -702,6 +702,23 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "flesh_plant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
+    ]
+  },
+  {
+    "id": "flesh_plant_bloom",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "leech_flower", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
     ]
   },
   {

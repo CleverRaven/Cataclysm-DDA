@@ -527,14 +527,7 @@
         "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 1, "mx_anomaly": 3 }
       }
     },
-    "num_forests": 250,
-    "forest_size_min": 15,
-    "forest_size_max": 40,
-    "swamp_maxsize": 4,
-    "swamp_river_influence": 5,
-    "swamp_spread_chance": 8500,
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
@@ -685,7 +678,9 @@
         "s_thrift": 100,
         "s_petstore": 100,
         "megastore": 150,
-        "hotel": 75,
+        "hotel_1": 75,
+        "hotel_2": 75,
+        "hotel_3": 75,
         "hospital": 175,
         "public_works": 200,
         "office_tower_2": 150,

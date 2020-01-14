@@ -1,4 +1,6 @@
-## vitamin
+# vitamin
+
+## definition
 
 ```JSON
 {
@@ -11,6 +13,7 @@
   "min": -12000,
   "max": 3600,
   "rate": "15 m",
+  "flags": [ "FOO" ],
   "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ],
   "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
 },
@@ -55,6 +58,9 @@ The highest amount of this vitamin that the avatar can have.
 ### `rate`
 How long it takes to lose one unit of this vitamin.
 
+### `flags`
+An array of string flags, see the flags section below for valid ones
+
 ### `disease`
 What the thresholds of deficiency of this vitamin are.
 Each pair in the list determines the start and end points of that tier of deficiency.
@@ -64,3 +70,7 @@ Each tier of deficiency corresponds to the intensity level of the effect defined
 What the thresholds of excess of this vitamin are.
 Each pair in the list determines the start and end points of that tier of excess.
 Each tier of excess corresponds to the intensity level of the effect defined in `excess`.
+
+## flags
+
+- ```NO_DISPLAY``` - This vitamin will not be shown when examining a food

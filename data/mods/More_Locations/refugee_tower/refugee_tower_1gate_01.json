@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "refugee_tower_1gate",
-    "comment": "gate at the top left corner of the whole compound",
+    "//": "gate at the top left corner of the whole compound",
     "weight": 200,
     "method": "json",
     "object": {

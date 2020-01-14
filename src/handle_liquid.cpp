@@ -1,7 +1,7 @@
 #include "handle_liquid.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <iterator>

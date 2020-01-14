@@ -47,7 +47,7 @@ void recipe_group_data::load( const JsonObject &jo, const std::string & )
         ordering.read( "description", desc );
         recipes.emplace( name_id, desc );
         om_terrains[name_id] = std::set<std::string>();
-        for( const std::string &ter_type : ordering.get_array( "om_terrains" ) ) {
+        for( const std::string ter_type : ordering.get_array( "om_terrains" ) ) {
             om_terrains[name_id].insert( ter_type );
         }
     }
@@ -57,7 +57,7 @@ void recipe_group_data::check() const
 {
     for( const auto &a : recipes ) {
         if( !a.first.is_valid() ) {
-            debugmsg( "%s is not a valid recipe", a.second );
+            debugmsg( "%s is not a valid recipe", a.first.c_str() );
         }
     }
 }

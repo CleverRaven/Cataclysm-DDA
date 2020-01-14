@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -146,6 +145,7 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
@@ -665,18 +665,18 @@ std::string enumerate_as_string( const _Container &values,
         return _( ", " );
     }
     ();
-    std::ostringstream res;
+    std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
             if( std::next( iter ) == values.end() ) {
-                res << final_separator;
+                res += final_separator;
             } else {
-                res << _( ", " );
+                res += _( ", " );
             }
         }
-        res << *iter;
+        res += *iter;
     }
-    return res.str();
+    return res;
 }
 
 /**
@@ -975,12 +975,12 @@ void refresh_display();
 template<typename F>
 std::string colorize_symbols( const std::string &str, F color_of )
 {
-    std::ostringstream res;
+    std::string res;
     nc_color prev_color = c_unset;
 
     const auto closing_tag = [ &res, prev_color ]() {
         if( prev_color != c_unset ) {
-            res << "</color>";
+            res += "</color>";
         }
     };
 
@@ -989,16 +989,16 @@ std::string colorize_symbols( const std::string &str, F color_of )
 
         if( prev_color != new_color ) {
             closing_tag();
-            res << "<color_" << get_all_colors().get_name( new_color ) << ">";
+            res += "<color_" + get_all_colors().get_name( new_color ) + ">";
             prev_color = new_color;
         }
 
-        res << elem;
+        res += elem;
     }
 
     closing_tag();
 
-    return res.str();
+    return res;
 }
 
 #endif

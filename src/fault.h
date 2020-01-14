@@ -23,6 +23,7 @@ struct mending_method {
     std::map<skill_id, int> skills;
     requirement_id requirements;
     cata::optional<fault_id> turns_into;
+    cata::optional<fault_id> also_mends;
 };
 
 class fault

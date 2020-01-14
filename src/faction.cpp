@@ -1,6 +1,7 @@
 #include "faction.h"
 
-#include <assert.h>
+#include <algorithm>
+#include <cassert>
 #include <cstdlib>
 #include <bitset>
 #include <map>
@@ -25,6 +26,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "text_snippets.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -69,14 +71,13 @@ void faction_template::reset()
 
 void faction_template::load_relations( const JsonObject &jsobj )
 {
-    JsonObject jo = jsobj.get_object( "relations" );
-    for( const std::string &fac_id : jo.get_member_names() ) {
-        JsonObject rel_jo = jo.get_object( fac_id );
+    for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
+        JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
             fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
         }
-        relations[fac_id] = fac_relation;
+        relations[fac.name()] = fac_relation;
     }
 }
 
@@ -100,11 +101,28 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
+    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
+        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
+                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
+                               jao.get_string( "id", "epilogue_faction_default" ) );
+    }
 }
 
 std::string faction::describe() const
 {
     std::string ret = _( desc );
+    return ret;
+}
+
+std::vector<std::string> faction::epilogue() const
+{
+    std::vector<std::string> ret;
+    for( const std::tuple<int, int, std::string> &epilogue_entry : epilogue_data ) {
+        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
+            const std::string id = std::get<2>( epilogue_entry );
+            ret.emplace_back( SNIPPET.get_snippet_by_id( id ).value_or( translation() ).translated() );
+        }
+    }
     return ret;
 }
 
@@ -298,7 +316,7 @@ nc_color faction::food_supply_color()
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
-    for( const auto rel_data : relations ) {
+    for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
             return rel_data.second.test( flag );
         }
@@ -399,6 +417,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
+                        elem.second.epilogue_data = fac_temp.epilogue_data;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;
