@@ -243,6 +243,6 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE" ]
+    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   }
 ]
