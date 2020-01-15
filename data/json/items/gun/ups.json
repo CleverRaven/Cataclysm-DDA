@@ -193,7 +193,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "V29 laser pistol",
-    "description": "The V29 laser pistol was designed in the mid-21st century and was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",
+    "description": "This V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",
     "weight": "680 g",
     "volume": "1 L",
     "price": 720000,
