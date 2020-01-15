@@ -1538,6 +1538,17 @@
   },
   {
     "type": "construction",
+    "description": "Build Warehouse Shelf",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_warehouse_shelf"
+  },
+  {
+    "type": "construction",
     "description": "Build Coat Rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
