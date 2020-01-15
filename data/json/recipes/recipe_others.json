@@ -2089,19 +2089,6 @@
   },
   {
     "type": "recipe",
-    "result": "crucible",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "4 h",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "sheet_metal", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "crucible_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
