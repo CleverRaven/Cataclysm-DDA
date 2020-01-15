@@ -3,14 +3,14 @@
     "type": "palette",
     "id": "cground",
     "terrain": {
-      " ": "t_region_groundcover_forest",
+      " ": "t_region_groundcover",
       ",": "t_region_groundcover_forest",
-      "_": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 8 ], [ "t_region_groundcover", 2 ] ],
-      ";": [ [ "t_dirt", 10 ], [ "t_grass", 2 ], [ "t_grass_long", 1 ] ],
+      "_": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 8 ], "t_grass_long", "t_grass_dead" ],
+      ";": [ [ "t_dirt", 20 ], "t_grass", [ "t_grass_dead", 2 ], [ "t_grass_long", 3 ] ],
       "B": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 8 ], [ "t_region_groundcover", 2 ] ],
       "N": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 8 ], [ "t_region_groundcover", 2 ] ],
-      "D": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 8 ], "t_region_groundcover" ],
-      "R": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 8 ], "t_region_groundcover" ],
+      "D": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 3 ] ],
+      "R": [ [ "t_dirt", 12 ], [ "t_railroad_rubble", 3 ] ],
       "|": "t_wall_log",
       ".": "t_floor",
       "i": "t_pit_shallow",
@@ -19,8 +19,8 @@
       "X": "t_console_broken",
       "H": "t_privacy_fence",
       "m": "t_privacy_fencegate_c",
-      "F": "t_region_tree_evergreen",
-      "7": [ "t_region_groundcover_forest", [ "t_region_tree", 3 ] ],
+      "F": "t_tree_juniper",
+      "7": [ "t_region_groundcover_forest", [ "t_region_tree", 15 ] ],
       "*": "t_region_shrub",
       "o": "t_dirtmound",
       "G": "t_grave",
@@ -43,6 +43,7 @@
       "'": "t_concrete"
     },
     "furniture": {
+      "C": "f_oil_lamp_post",
       "g": "f_bulletin",
       "i": "f_firering",
       "b": "f_bench",
@@ -78,8 +79,8 @@
       "L": "f_locker",
       " ": [ [ "f_null", 200 ], "f_region_flower" ],
       ",": [
-        [ "f_null", 1500 ],
-        [ "f_region_flower", 10 ],
+        [ "f_null", 1250 ],
+        [ "f_region_flower", 25 ],
         [ "f_boulder_small", 4 ],
         [ "f_rubble_rock", 5 ],
         [ "f_boulder_medium", 2 ],
@@ -89,7 +90,8 @@
     "toilets": { "T": {  } },
     "items": {
       "@": { "item": "bed", "chance": 80, "repeat": [ 1, 2 ] },
-      "L": { "item": "cleaning", "chance": 75, "repeat": [ 1, 3 ] },
+      "L": { "item": "SUS_janitors_closet", "chance": 90 },
+      "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
       "?": { "item": "bed", "chance": 10, "repeat": [ 1, 2 ] },
       "D": { "item": "trash", "chance": 75, "repeat": [ 1, 10 ] },
       "R": { "item": "trash", "chance": 75, "repeat": [ 1, 10 ] },
@@ -97,9 +99,9 @@
       "O": { "item": "oven", "chance": 100, "repeat": [ 1, 2 ] },
       ",": { "item": "forest", "chance": 1 },
       " ": { "item": "field", "chance": 1 },
-      "l": [ { "item": "allclothes", "chance": 90, "repeat": [ 1, 3 ] }, { "item": "shelter", "chance": 45, "repeat": [ 1, 2 ] } ],
+      "l": [ { "item": "allclothes", "chance": 90, "repeat": [ 3, 5 ] }, { "item": "shelter", "chance": 45, "repeat": [ 1, 2 ] } ],
       "e": [ { "item": "fridge", "chance": 70, "repeat": [ 1, 8 ] }, { "item": "fridgesnacks", "chance": 20, "repeat": [ 1, 2 ] } ],
-      "c": [ { "item": "kitchen_appliances", "chance": 15 }, { "item": "dishes_utility", "chance": 15 } ],
+      "c": [ { "item": "kitchen_appliances", "chance": 15 }, { "item": "dishes_utility", "chance": 25 } ],
       "s": [
         { "item": "dishes_utility", "chance": 80, "repeat": [ 1, 3 ] },
         { "item": "dishes_dining", "chance": 80, "repeat": [ 5, 25 ] }
@@ -109,19 +111,19 @@
         { "item": "dishes_dining", "chance": 80, "repeat": [ 5, 10 ] }
       ],
       "u": [
-        { "item": "cannedfood", "chance": 55, "repeat": [ 2, 3 ] },
+        { "item": "cannedfood", "chance": 55, "repeat": [ 3, 5 ] },
         { "item": "pasta", "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] }
       ],
       "x": [
-        { "item": "cannedfood", "chance": 85, "repeat": [ 5, 7 ] },
-        { "item": "pasta", "chance": 75, "repeat": [ 4, 6 ] },
+        { "item": "cannedfood", "chance": 85, "repeat": [ 10, 15 ] },
+        { "item": "pasta", "chance": 75, "repeat": [ 3, 5 ] },
         { "item": "snacks", "chance": 60, "repeat": [ 3, 5 ] }
       ],
-      "M": { "item": "drugs_heal_simple", "chance": 70, "repeat": [ 1, 4 ] },
+      "M": { "item": "drugs_pharmacy", "chance": 100, "repeat": [ 8, 12 ] },
       "d": [
-        { "item": "office", "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "cubical_office", "chance": 25, "repeat": [ 1, 2 ] }
+        { "item": "office", "chance": 33, "repeat": [ 1, 2 ] },
+        { "item": "cubical_office", "chance": 33, "repeat": [ 1, 2 ] }
       ]
     }
   }
