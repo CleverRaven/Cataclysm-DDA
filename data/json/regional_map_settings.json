@@ -539,6 +539,8 @@
         "house_two_story_basement": 1,
         "house": 100,
         "house_prepper": 20,
+        "house_prepper2": 10,
+        "house_fortified": 20,
         "house_base": 333,
         "duplex": 50,
         "house_duplex2": 50,
