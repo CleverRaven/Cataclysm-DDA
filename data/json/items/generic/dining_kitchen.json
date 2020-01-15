@@ -844,7 +844,7 @@
   },
   {
     "id": "mess_tray",
-    "name": "mess tray",
+    "name": "meal tray",
     "description": "A stainless steel tray used for serving food in mess halls or similar places.",
     "looks_like": "tin_plate",
     "type": "GENERIC",
