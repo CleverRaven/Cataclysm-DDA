@@ -2874,8 +2874,8 @@ bool mattack::nurse_check_up( monster *z )
         if( !z->has_effect( effect_countdown ) ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
-                               _( "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"" ) ) );
-            z->add_effect( effect_countdown, 1_minutes );
+                               _( "a soft robotic voice say, \"Come here and stand still for a few minutes, I'll give you a check-up.\"" ) ) );
+            z->add_effect( effect_countdown, 30_minutes );
         } else if( rl_dist( target->pos(), z->pos() ) > 1 ) {
             // Giving them some encouragement
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
@@ -2992,7 +2992,7 @@ bool mattack::nurse_operate( monster *z )
         z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
-                                        flag_AUTODOC_COUCH ) ;
+                                        flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
@@ -3183,7 +3183,7 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name() );
     // TODO: Make the player known to the faction
-    std::string cname = _( "…database connection lost!" ) ;
+    std::string cname = _( "…database connection lost!" );
     if( one_in( 6 ) ) {
         cname = Name::generate( g->u.male );
     } else if( one_in( 3 ) ) {

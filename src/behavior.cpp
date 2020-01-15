@@ -160,7 +160,7 @@ void behavior::reset()
 void behavior::finalize()
 {
     for( const node_data &new_node : temp_node_data ) {
-        for( const std::string child : new_node.children ) {
+        for( const std::string &child : new_node.children ) {
             const_cast<node_t &>( new_node.id.obj() ).
             add_child( &string_id<node_t>( child ).obj() );
         }

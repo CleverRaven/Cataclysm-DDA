@@ -383,6 +383,15 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
+    // The bool tracks whether the vehicles is on the map or not.
+    std::map<vehicle *, bool> connected_vehicles;
+    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+        level_cache &cache = get_cache( zlev );
+        vehicle::enumerate_vehicles( connected_vehicles, cache.vehicle_list );
+    }
+    for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
+        veh_pair.first->idle( veh_pair.second );
+    }
 }
 
 bool map::vehproceed( VehicleList &vehicle_list )
@@ -4362,6 +4371,32 @@ void map::process_active_items()
     process_items( true, process_map_items, std::string {} );
 }
 
+std::vector<tripoint> map::check_submap_active_item_consistency()
+{
+    std::vector<tripoint> result;
+    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < MAPSIZE; ++x ) {
+            for( int y = 0; y < MAPSIZE; ++y ) {
+                tripoint p( x, y, z );
+                submap *s = get_submap_at_grid( p );
+                bool has_active_items = !s->active_items.get().empty();
+                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
+                if( has_active_items != map_has_active_items ) {
+                    result.push_back( p + abs_sub.xy() );
+                }
+            }
+        }
+    }
+    for( const tripoint &p : submaps_with_active_items ) {
+        tripoint rel = p - abs_sub.xy();
+        rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
+        if( !map.contains_half_open( rel.xy() ) ) {
+            result.push_back( p );
+        }
+    }
+    return result;
+}
+
 void map::process_items( const bool active, map::map_process_func processor,
                          const std::string &signal )
 {
@@ -4851,6 +4886,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             if( type == "chemistry_set" ) {
                 ftype = "battery";
             } else if( type == "hotplate" ) {
+                ftype = "battery";
+            } else if( type == "electrolysis_kit" ) {
                 ftype = "battery";
             }
 
@@ -6333,6 +6370,11 @@ void map::shift( const point &sp )
     if( sp == point_zero ) {
         return; // Skip this?
     }
+
+    if( abs( sp.x ) > 1 || abs( sp.y ) > 1 ) {
+        debugmsg( "map::shift called with a shift of more than one submap" );
+    }
+
     const tripoint abs = get_abs_sub();
 
     set_abs_sub( abs + sp );
@@ -6342,6 +6384,8 @@ void map::shift( const point &sp )
         g->u.setx( g->u.posx() - sp.x * SEEX );
         g->u.sety( g->u.posy() - sp.y * SEEY );
     }
+
+    g->shift_destination_preview( point( -sp.x * SEEX, -sp.y * SEEY ) );
 
     shift_traps( tripoint( sp, 0 ) );
 

@@ -5,7 +5,6 @@
 #include "point.h"
 #include "type_id.h"
 
-
 TEST_CASE( "submap rotation", "[submap]" )
 {
     // Corners are labelled starting from the upper-left one, clockwise.

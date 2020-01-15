@@ -209,7 +209,8 @@
     "copy-from": "cooking_oil",
     "name_plural": "animal cooking oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ]
+    "material": [ "flesh", "oil" ],
+    "flags": [  ]
   },
   {
     "type": "COMESTIBLE",

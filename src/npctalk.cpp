@@ -2194,7 +2194,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( jo.get_string( member ) );
     } else if( jo.has_array( member ) ) {
-        for( const std::string &line : jo.get_array( member ) ) {
+        for( const std::string line : jo.get_array( member ) ) {
             update_ids.emplace_back( line );
         }
     }
@@ -2203,7 +2203,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         mission_target_params update_params = target_params;
         update_params.guy = d.beta;
         const tripoint omt_pos = mission_util::get_om_terrain_pos( update_params );
-        for( const std::string mapgen_update_id : update_ids ) {
+        for( const std::string &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.beta->chatbin.mission_selected );
         }
     };
@@ -2677,7 +2677,7 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         JsonObject sub_effect = jo.get_object( member_name );
         parse_sub_effect( sub_effect );
     } else if( jo.has_array( member_name ) ) {
-        for( const JsonValue &entry : jo.get_array( member_name ) ) {
+        for( const JsonValue entry : jo.get_array( member_name ) ) {
             if( entry.test_string() ) {
                 const std::string type = entry.get_string();
                 parse_string_effect( type, jo );
@@ -2755,13 +2755,13 @@ json_talk_repeat_response::json_talk_repeat_response( const JsonObject &jo )
     if( jo.has_string( "for_item" ) ) {
         for_item.emplace_back( jo.get_string( "for_item" ) );
     } else if( jo.has_array( "for_item" ) ) {
-        for( const std::string &line : jo.get_array( "for_item" ) ) {
+        for( const std::string line : jo.get_array( "for_item" ) ) {
             for_item.emplace_back( line );
         }
     } else if( jo.has_string( "for_category" ) ) {
         for_category.emplace_back( jo.get_string( "for_category" ) );
     } else if( jo.has_array( "for_category" ) ) {
-        for( const std::string &line : jo.get_array( "for_category" ) ) {
+        for( const std::string line : jo.get_array( "for_category" ) ) {
             for_category.emplace_back( line );
         }
     } else {
@@ -2869,7 +2869,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
     if( jo.has_member( "and" ) ) {
         std::vector<dynamic_line_t> lines;
-        for( const JsonValue &entry : jo.get_array( "and" ) ) {
+        for( const JsonValue entry : jo.get_array( "and" ) ) {
             if( entry.test_string() ) {
                 lines.emplace_back( entry.get_string() );
             } else if( entry.test_array() ) {
@@ -2904,7 +2904,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
         }
         std::vector<std::string> relevant_genders;
-        for( const std::string &gender : jo.get_array( "relevant_genders" ) ) {
+        for( const std::string gender : jo.get_array( "relevant_genders" ) ) {
             relevant_genders.push_back( gender );
             if( gender != "npc" && gender != "u" ) {
                 jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
@@ -2953,7 +2953,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 dynamic_line_t::dynamic_line_t( JsonArray ja )
 {
     std::vector<dynamic_line_t> lines;
-    for( const JsonValue &entry : ja ) {
+    for( const JsonValue entry : ja ) {
         if( entry.test_string() ) {
             lines.emplace_back( entry.get_string() );
         } else if( entry.test_array() ) {

@@ -982,6 +982,9 @@ class map
 
         // Items
         void process_active_items();
+        // Returns points for all submaps with inconsistent state relative to
+        // the list in map.  Used in tests.
+        std::vector<tripoint> check_submap_active_item_consistency();
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         map_stack i_at( const tripoint &p );
         map_stack i_at( const point &p ) {
@@ -1592,7 +1595,7 @@ class map
          */
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
-            return get_submap_at( tripoint( p, abs_sub.z ) ) ;
+            return get_submap_at( tripoint( p, abs_sub.z ) );
         }
         /**
          * Get the submap pointer containing the specified position within the reality bubble.

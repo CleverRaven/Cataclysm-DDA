@@ -21,7 +21,9 @@
 #include "item_location.h"
 #include "json.h"
 #include "player.h"
+#include "player_helpers.h"
 #include "material.h"
+#include "skill.h"
 #include "type_id.h"
 #include "point.h"
 
@@ -43,7 +45,6 @@ class Threshold
         double _accuracy;
         double _chance;
 };
-
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
@@ -101,18 +102,15 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
-    const tripoint shooter_pos( 60, 60, 0 );
     CHECK( !shooter.in_vehicle );
-    shooter.setpos( shooter_pos );
     shooter.worn.clear();
     shooter.inv.clear();
-    for( const std::string article : apparel ) {
+    for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
 }
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
-
 
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
@@ -246,10 +244,12 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
     }
 }
 
+static constexpr tripoint shooter_pos( 60, 60, 0 );
+
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 7 );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
 
@@ -278,7 +278,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
@@ -307,7 +307,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 10, 20, 20, 20, 20 );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
 

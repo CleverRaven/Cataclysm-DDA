@@ -149,4 +149,7 @@ using vproto_id = string_id<vehicle_prototype>;
 class zone_type;
 using zone_type_id = string_id<zone_type>;
 
+class translation;
+using snippet_id = string_id<translation>;
+
 #endif // TYPE_ID_H

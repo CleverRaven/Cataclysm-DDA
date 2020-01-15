@@ -370,6 +370,7 @@ struct mtype {
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
+        std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;
         field_type_id gibType() const;

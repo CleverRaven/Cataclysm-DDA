@@ -765,7 +765,7 @@
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
     "max_intensity": 3,
-    "int_dur_factor": "320 m",
+    "int_dur_factor": "32 h",
     "base_mods": {
       "pain_chance": [ 100 ],
       "pain_min": [ 1 ],
@@ -774,7 +774,10 @@
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000 ],
       "fatigue_min": [ 360 ],
-      "fatigue_chance": [ -102 ]
+      "fatigue_chance": [ -102 ],
+      "fatigue_tick": [ 6 ],
+      "pain_tick": [ 6 ],
+      "vomit_tick": [ 6 ]
     },
     "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
   },

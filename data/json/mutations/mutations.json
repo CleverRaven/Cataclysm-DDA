@@ -74,16 +74,16 @@
     "starting_trait": true,
     "valid": false,
     "wet_protection": [
-      { "part": "HEAD", "ignored": 6 },
-      { "part": "LEG_L", "ignored": 8 },
-      { "part": "LEG_R", "ignored": 8 },
-      { "part": "FOOT_L", "ignored": 2 },
-      { "part": "FOOT_R", "ignored": 2 },
-      { "part": "ARM_L", "ignored": 8 },
-      { "part": "ARM_R", "ignored": 8 },
-      { "part": "HAND_L", "ignored": 12 },
-      { "part": "HAND_R", "ignored": 12 },
-      { "part": "TORSO", "ignored": 10 }
+      { "part": "HEAD", "neutral": 6 },
+      { "part": "LEG_L", "neutral": 8 },
+      { "part": "LEG_R", "neutral": 8 },
+      { "part": "FOOT_L", "neutral": 2 },
+      { "part": "FOOT_R", "neutral": 2 },
+      { "part": "ARM_L", "neutral": 8 },
+      { "part": "ARM_R", "neutral": 8 },
+      { "part": "HAND_L", "neutral": 12 },
+      { "part": "HAND_R", "neutral": 12 },
+      { "part": "TORSO", "neutral": 10 }
     ]
   },
   {
@@ -232,6 +232,7 @@
     "name": "Fast Reader",
     "points": 1,
     "description": "You're a quick reader, and can get through books a lot faster than most.",
+    "reading_speed_multiplier": 0.8,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "SLOWREADER" ]
@@ -1132,6 +1133,7 @@
     "name": "Slow Reader",
     "points": -1,
     "description": "You're a slow reader, and it takes you longer to get through books than most.",
+    "reading_speed_multiplier": 1.3,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "FASTREADER" ]
@@ -6233,6 +6235,7 @@
     "name": "Dungeon Master",
     "points": 0,
     "description": "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly.  You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+    "reading_speed_multiplier": 0.9,
     "valid": false,
     "purifiable": false,
     "profession": true,

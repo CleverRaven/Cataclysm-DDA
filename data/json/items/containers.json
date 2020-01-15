@@ -166,6 +166,26 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "bag_iv",
+    "type": "CONTAINER",
+    "category": "container",
+    "name": "IV bag",
+    "description": "A small, slealed plastic bag for liquids used in intravenous therapy.",
+    "looks_like": "bag_plastic",
+    "weight": "10 g",
+    "volume": 0,
+    "price": 0,
+    "to_hit": -1,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "light_gray",
+    "contains": "500 ml",
+    "seals": true,
+    "watertight": true,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bottle_glass",
     "type": "CONTAINER",
     "category": "container",

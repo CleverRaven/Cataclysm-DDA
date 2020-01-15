@@ -353,7 +353,6 @@ void DynamicDataLoader::initialize()
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
-    add( "epilogue", &epilogue::load_epilogue );
     add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
@@ -686,7 +685,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
-            { _( "Scores" ), &score::check_consistency }
+            { _( "Scores" ), &score::check_consistency },
+            { _( "Factions" ), &faction_template::check_consistency },
         }
     };
 
