@@ -133,7 +133,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "cu_pipe", 1 ] ], [ [ "cable", 200 ] ], [ [ "composite_b", 200 ] ], [ [ "concrete", 1 ] ] ]
+    "components": [ [ [ "cu_pipe", 1 ] ], [ [ "cable", 200 ] ], [ [ "composite_b", 450 ] ], [ [ "concrete", 1 ] ] ]
   },
   {
     "result": "solder_wire",
