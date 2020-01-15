@@ -25,7 +25,7 @@
     "name": "blanket",
     "description": "Hiding under here will not protect you from the monsters.",
     "weight": "1123 g",
-    "volume": "15 l",
+    "volume": "15 L",
     "price": 5500,
     "to_hit": -1,
     "material": [ "cotton" ],
