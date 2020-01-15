@@ -624,7 +624,7 @@ int spell::energy_cost( const player &p ) const
     }
     return cost;
 }
-itype_id spell::energy_item() const {
+const itype_id &spell::energy_item() const {
     return type->energy_req_item;
 }
 bool spell::has_flag( const spell_flag &flag ) const
@@ -658,7 +658,7 @@ bool spell::can_cast( const player &p ) const
             return p.get_fatigue() < EXHAUSTED;
         case item_energy: {
             const itype_id id = energy_item();
-            if( item( id ).count_by_charges() ) {
+            if( item::count_by_charges( id ) ) {
                 return p.inv.has_charges( id, energy_cost( p ) );
             } else {
                 return p.inv.has_components( id, energy_cost( p ) );
@@ -803,7 +803,11 @@ std::string spell::energy_string() const
         case fatigue_energy:
             return _( "fatigue" );
         case item_energy: {
-            return item::nname( energy_item(), 1 );
+            if( type->base_energy_cost > 1 ) {
+                return item::nname( energy_item(), 2 );
+            } else {
+                return item::nname( energy_item(), 1 );
+            }
         }
         default:
             return "";
@@ -860,20 +864,14 @@ std::string spell::energy_cur_string( const player &p ) const
     }
     if( energy_source() == item_energy ) {
         if( energy_cost( p ) == 0 ) {
-            return colorize( _( "Infinite" ), c_white );
+            return colorize( _( "infinite" ), c_white );
         }
         const itype_id id = energy_item();
-        const inventory &player_inv = p.inv;
-        std::vector<const item *> a_filter = player_inv.items_with( [id]( const item & it ) {
-            return it.typeId() == id;
-        } );
         int count = 0;
-        for( const item *it : a_filter ) {
-            if( it->count_by_charges() ) {
-                count += p.inv.charges_of( energy_item() );
-            } else {
-                count++;
-            }
+        if( item::count_by_charges( id ) ) {
+            count = p.inv.charges_of( id );
+        } else {
+            count = p.inv.amount_of( id );
         }
         count /= energy_cost( p );
         if ( count > 0 ) {

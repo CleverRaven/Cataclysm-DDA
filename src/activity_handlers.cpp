@@ -4498,34 +4498,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                     break;
                 }
                 const itype_id id = casting.energy_item();
-                const inventory &player_inv = p->inv;
-                std::vector<const item *> a_filter = player_inv.items_with( [id]( const item & it ) {
-                    return it.typeId() == id;
-                } );
-                int countRemoved = 0;
-                if( !item( id ).count_by_charges() ) {
-                    for( const item *it : a_filter ) {
-                        if( countRemoved < cost ) {
-                            p->inv.remove_item( it );
-                            countRemoved++;
-                        } else {
-                            break;
-                        }
-                    }
-                    break;
+                if( item::count_by_charges( id ) ) {
+                    p->use_charges( id, cost );
                 } else {
-                    int countRemoved = 0;
-                    for( const item *it : a_filter ) {
-                        if( countRemoved < cost ) {
-                            if( it->charges > cost - countRemoved ) {
-                                p->inv.find_item( p->get_item_position( it ) ).mod_charges( -cost );
-                                break;
-                            } else if( it->charges <= cost - countRemoved ) {
-                                countRemoved += it->charges;
-                                p->inv.remove_item( it );
-                            }
-                        }
-                    }
+                    p->use_amount( id, cost );
                 }
                 break;
             }

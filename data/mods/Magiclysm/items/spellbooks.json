@@ -23,7 +23,9 @@
         "test_area_push",
         "test_area_pull_field",
         "test_area_pull_all",
-        "magic_gun"
+        "magic_gun",
+        "magic_gun_1",
+        "hammer_toss"
       ]
     }
   },

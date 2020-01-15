@@ -328,7 +328,7 @@ class spell
         // how much energy does the spell cost
         int energy_cost( const player &p ) const;
         // item used as energy
-        itype_id energy_item() const;
+        const itype_id &energy_item() const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;
