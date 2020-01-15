@@ -120,6 +120,22 @@
     "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 20 ] ] ]
   },
   {
+    "result": "flux_comp_gen",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 4 ],
+    "time": "60 m",
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "components": [ [ [ "cu_pipe", 1 ] ], [ [ "cable", 200 ] ], [ [ "composite_b", 200 ] ], [ [ "concrete", 1 ] ] ]
+  },
+  {
     "result": "solder_wire",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
