@@ -1487,6 +1487,12 @@ bool game::handle_action()
     if( act == ACTION_NULL ) {
         act = look_up_action( action );
 
+        if( act == ACTION_KEYBINDINGS ) {
+            // already handled by input context
+            refresh_all();
+            return false;
+        }
+
         if( act == ACTION_MAIN_MENU ) {
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
