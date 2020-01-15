@@ -547,7 +547,7 @@
     "name_plural": "blood",
     "weight": "265 g",
     "color": "red",
-    "container": "flask_glass",
+    "container": "bag_iv",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 5,

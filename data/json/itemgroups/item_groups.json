@@ -1740,6 +1740,7 @@
     "id": "surgery",
     "items": [
       [ "blood", 20 ],
+      { "item": "saline", "prob": 20, "container-item": "bag_iv" },
       [ "iodine", 5 ],
       [ "prussian_blue", 5 ],
       [ "autoclave", 5 ],

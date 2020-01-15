@@ -1090,7 +1090,7 @@
     "category": "armor",
     "name": "heavy survivor mask",
     "description": "A custom-built, steel reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
-    "weight": "858 g",
+    "weight": "1612 g",
     "volume": "1250 ml",
     "price": 24000,
     "to_hit": -3,
