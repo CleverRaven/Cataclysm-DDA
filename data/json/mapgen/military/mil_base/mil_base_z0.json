@@ -1170,10 +1170,11 @@
         { "group": "surgery", "x": [ 11, 12 ], "y": 35, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "surgery", "x": [ 15, 16 ], "y": 35, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "jerrycan", "x": [ 64, 71 ], "y": [ 21, 23 ], "chance": 25, "repeat": 3 },
-        { "item": "30gal_drum", "x": [ 64, 71 ], "y": [ 21, 23 ], "chance": 25, "repeat": 2 },
+        { "item": "55gal_drum", "x": [ 64, 71 ], "y": [ 21, 23 ], "chance": 25, "repeat": 2 },
         { "group": "mil_base_tent_medical_thrash", "x": [ 37, 47 ], "y": [ 3, 5 ], "chance": 50, "repeat": 20 },
         { "group": "mil_base_tent_medical_thrash", "x": [ 72, 80 ], "y": [ 0, 3 ], "chance": 50, "repeat": 20 },
-        { "group": "mil_base_tent_medical_thrash", "x": [ 51, 67 ], "y": [ 0, 23 ], "chance": 25, "repeat": 15 }
+        { "group": "mil_base_tent_medical_thrash", "x": [ 51, 67 ], "y": [ 0, 23 ], "chance": 25, "repeat": 15 },
+        { "item": "55gal_drum", "x": 72, "y": [ 41, 47 ], "chance": 50, "repeat": [ 5, 15 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
