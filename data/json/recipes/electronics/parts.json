@@ -128,12 +128,11 @@
     "difficulty": 5,
     "skills_required": [ "fabrication", 4 ],
     "time": "60 m",
-    "decomp_learn": 4,
     "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "cu_pipe", 2 ] ], [ [ "cable", 241 ] ], [ [ "composite_b", 450 ] ], [ [ "concrete", 1 ] ] ]
+    "using": [ [ "forging_standard", 3 ], [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SMOOTH", "level": 1 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "cu_pipe", 2 ] ], [ [ "cable", 241 ] ], [ [ "composite_b", 450 ] ], [ [ "concrete", 1 ] ], [ [ "water", 6 ] ] ]
   },
   {
     "result": "solder_wire",
