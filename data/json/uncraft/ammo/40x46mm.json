@@ -5,8 +5,8 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_shotgun", 35 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_shotgun", 35 ] ], [ [ "38_casing", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -15,7 +15,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "combatnail", 70 ] ], [ [ "gunpowder_shotgun", 35 ] ], [ [ "impact_fuze", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -25,9 +25,9 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "smpistol_primer", 1 ] ],
+      [ [ "lg_pistol_primer", 1 ] ],
       [ [ "chem_compositionb", 32 ] ],
       [ [ "gunpowder_shotgun", 35 ] ],
       [ [ "impact_fuze", 1 ] ]
@@ -40,7 +40,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_shotgun", 35 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
