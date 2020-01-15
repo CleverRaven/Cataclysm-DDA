@@ -1,5 +1,28 @@
 [
   {
+    "id": "magic_gun",
+    "type": "SPELL",
+    "name": "Magic Gun",
+    "description": "Fire a bullet by converting a second bullet into pure magic.",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "spell_class": "NONE",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "difficulty": 3,
+    "min_damage": 26,
+    "max_damage": 26,
+    "min_range": 14,
+    "max_range": 14,
+    "duration_increment": 1,
+    "effect": "target_attack",
+    "energy_source": "ITEM",
+    "energy_item": "9mm",
+    "base_energy_cost": 2,
+    "final_energy_cost": 2,
+    "base_casting_time": 100,
+    "final_casting_time": 100,
+    "damage_type": "cut"
+  },
+  {
     "id": "crystallize_mana",
     "type": "SPELL",
     "name": "Crystallize Mana",

@@ -19,7 +19,8 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"spell_class": "NONE"                                     //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
-	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
+	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, ITEM, NONE (none will not use mana)
+	"energy_item": "crystallized_mana",                       // the type of item used to cast a spell with energy_source "ITEM"
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)
