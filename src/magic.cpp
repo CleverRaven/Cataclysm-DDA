@@ -624,8 +624,7 @@ int spell::energy_cost( const player &p ) const
     }
     return cost;
 }
-itype_id spell::energy_item() const
-{
+itype_id spell::energy_item() const {
     return type->energy_req_item;
 }
 bool spell::has_flag( const spell_flag &flag ) const
@@ -877,9 +876,10 @@ std::string spell::energy_cur_string( const player &p ) const
             }
         }
         count /= energy_cost( p );
-        if( count > 0 ) {
+        if ( count > 0 ) {
             return colorize( std::to_string( count ), c_white );
-        } else {
+        }
+        else {
             return colorize( "0", c_dark_gray );
         }
     }
