@@ -1,7 +1,7 @@
 [
   {
     "id": "beekeeping_gloves",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": "pair of beekeeping gloves",
     "name_plural": "pairs of beekeeping gloves",
@@ -24,7 +24,7 @@
   },
   {
     "id": "boxing_gloves",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": "pair of boxing gloves",
     "name_plural": "pairs of boxing gloves",
@@ -67,7 +67,7 @@
   },
   {
     "id": "fire_gauntlets",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of fire gauntlets",
@@ -127,7 +127,7 @@
   },
   {
     "id": "gauntlet_fencing",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": "fencing gauntlet",
     "description": "A single suede glove with sturdy cotton wrists, padded backs and well-fitting fingers.",
@@ -148,7 +148,7 @@
   },
   {
     "id": "gauntlet_fencing_l",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "fencing gauntlet (left)", "str_pl": "fencing gauntlets (left)" },
     "description": "A single suede glove with sturdy cotton wrists, padded backs and well-fitting fingers.  This one is left-handed.",
@@ -321,7 +321,7 @@
   },
   {
     "id": "glove_jackson",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": "white glove",
     "name_plural": "white gloves",
@@ -452,7 +452,7 @@
   },
   {
     "id": "gloves_medical",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": "pair of medical gloves",
     "name_plural": "pairs of medical gloves",
@@ -498,7 +498,7 @@
   },
   {
     "id": "gloves_rubber",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": "pair of rubber gloves",
     "name_plural": "pairs of rubber gloves",
@@ -544,7 +544,7 @@
   },
   {
     "id": "gloves_tactical",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of tactical gloves",
@@ -567,7 +567,7 @@
   },
   {
     "id": "gloves_winter",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": "pair of winter gloves",
     "name_plural": "pairs of winter gloves",
@@ -630,7 +630,7 @@
   },
   {
     "id": "gloves_cut_resistant",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_plate",
     "type": "ARMOR",
     "name": "pair of cut resistant gloves",
     "name_plural": "pairs of cut resistant gloves",
@@ -782,7 +782,7 @@
   },
   {
     "id": "long_glove_white",
-    "repairs_like": "miner_hat",
+    "repairs_like": "arm_warmers",
     "type": "ARMOR",
     "name": "pair of extra long white gloves",
     "name_plural": "pairs of extra long white gloves",
@@ -885,7 +885,7 @@
   },
   {
     "id": "winter_gloves_army",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": "pair of army winter gloves",
     "name_plural": "pairs of army winter gloves",
@@ -906,7 +906,7 @@
   },
   {
     "id": "gloves_golf",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": "pair of golfing gloves",
     "name_plural": "pairs of golfing gloves",

@@ -194,7 +194,6 @@
   },
   {
     "id": "goggles_swim",
-    "repairs_like": "miner_hat",
     "type": "ARMOR",
     "name": "pair of swim goggles",
     "name_plural": "pairs of swim goggles",

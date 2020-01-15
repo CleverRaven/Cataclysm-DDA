@@ -776,7 +776,7 @@
   },
   {
     "id": "b_shorts",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "basketball shorts",
     "name_plural": "basketball shorts",
@@ -898,7 +898,7 @@
   },
   {
     "id": "beekeeping_hood",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "beekeeping hood",
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.  Rather cumbersome to wear, as it is rather bulky and hinders vision.",
@@ -919,7 +919,7 @@
   },
   {
     "id": "beekeeping_suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "beekeeping suit",
     "description": "A white suit commonly worn by professional beekeepers with straps on your ankles and wrists to prevent bees from flying in.  It's not a very tough fabric, but it's lightweight and has plenty of storage thanks to a chest pocket.",
@@ -942,7 +942,7 @@
   },
   {
     "id": "beret",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "beret",
     "description": "A soft cotton hat.  Commonly worn by armed forces and existentialists.",
@@ -1134,7 +1134,7 @@
   },
   {
     "id": "bondage_mask",
-    "repairs_like": "miner_hat",
+    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "name": "bondage mask",
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
@@ -1178,7 +1178,7 @@
   },
   {
     "id": "bondage_suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": "bondage suit",
     "description": "A suit of snug, black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
@@ -1276,7 +1276,7 @@
   },
   {
     "id": "bowhat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "bowler hat",
     "description": "The only hat for a made man.  Look like a real good fella while laughing in the face of your foes!",
@@ -1393,7 +1393,7 @@
   },
   {
     "id": "briefcase",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": "briefcase",
     "description": "Useful for carrying money, documents, or smuggled goods.",
@@ -1415,7 +1415,7 @@
   },
   {
     "id": "hk_briefcase",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "copy-from": "briefcase",
     "looks_like": "briefcase",
@@ -1473,7 +1473,7 @@
   },
   {
     "id": "bunker_coat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "aep_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": "turnout coat",
@@ -1498,7 +1498,7 @@
   },
   {
     "id": "bunker_pants",
-    "repairs_like": "miner_hat",
+    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "category": "armor",
     "name": "turnout trousers",
@@ -1543,7 +1543,7 @@
   },
   {
     "id": "cape_fp",
-    "repairs_like": "miner_hat",
+    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": "Foodperson's cape",
     "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
@@ -1564,7 +1564,7 @@
   },
   {
     "id": "cassock",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "cassock",
     "name_plural": "cassocks",
@@ -1750,7 +1750,7 @@
   },
   {
     "id": "chestguard_hard",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "hard chest guard",
@@ -1952,7 +1952,7 @@
   },
   {
     "id": "clown_suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "clown suit",
     "description": "A colorful and ridiculous costume fit for a clown.  Provides decent storage.",
@@ -1974,7 +1974,7 @@
   },
   {
     "id": "clown_wig",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "clown wig",
     "description": "A colorful and ridiculous wig fit for a clown.",
@@ -2044,7 +2044,7 @@
   },
   {
     "id": "coat_fur_sf",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jacket_leather",
     "type": "ARMOR",
     "name": "sable coat",
     "description": "A very well-made fur coat, featuring thick panels of sable fur.  Very warm and very good-looking.",
@@ -2068,7 +2068,7 @@
   },
   {
     "id": "coat_lab",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "lab coat",
     "description": "A long white coat with several large pockets.  Comes with a very nice pocket protector.",
@@ -2131,7 +2131,7 @@
   },
   {
     "id": "coat_winter",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "winter coat",
     "description": "A padded coat with deep pockets and a hood.  Very warm.",
@@ -2298,7 +2298,7 @@
   },
   {
     "id": "daypack",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack",
     "type": "ARMOR",
     "name": "daypack",
     "description": "An ultralight nylon backpack intended for one-day hiking trips.  Waterproof, slim, and spacious.",
@@ -2323,7 +2323,7 @@
   },
   {
     "id": "dinosuit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "dinosaur suit",
     "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
@@ -2390,7 +2390,7 @@
   },
   {
     "id": "dragonskinempty",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": "lamellar kevlar vest",
@@ -2413,7 +2413,7 @@
   },
   {
     "id": "dress",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "dress",
     "name_plural": "dresses",
@@ -2435,7 +2435,7 @@
   },
   {
     "id": "dress_shirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "dress shirt",
     "description": "A white button-down shirt with long sleeves.  Looks professional!",
@@ -2638,7 +2638,7 @@
   },
   {
     "id": "eboshi",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "eboshi",
     "description": "A high, black cap with a very narrow top.  Traditionally worn by Shinto priests.",
@@ -2699,7 +2699,7 @@
   },
   {
     "id": "fanny",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack",
     "type": "ARMOR",
     "name": "fanny pack",
     "description": "Provides a bit of extra storage, with minimal encumbrance.",
@@ -2721,7 +2721,7 @@
   },
   {
     "id": "plastron_cotton",
-    "repairs_like": "miner_hat",
+    "repairs_like": "vambrace_larmor",
     "type": "ARMOR",
     "name": "underarm protector",
     "description": "A sturdy cotton plastron that protects much of the torso, the dominant shoulder, and underarm while fencing.",
@@ -2757,7 +2757,7 @@
   },
   {
     "id": "fencing_jacket",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": "fencing jacket",
     "name_plural": "fencing jackets",
@@ -2779,7 +2779,7 @@
   },
   {
     "id": "lame_foil",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "lamé (foil)", "str_pl": "lamés (foil)" },
     "description": "A thin, lightweight conductive vest with the zipper on the back used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
@@ -2798,7 +2798,7 @@
   },
   {
     "id": "lame_saber",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "lamé (saber)", "str_pl": "lamés (saber)" },
     "description": "A thin, lightweight conductive jacket used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
@@ -2817,7 +2817,7 @@
   },
   {
     "id": "fencing_mask",
-    "repairs_like": "miner_hat",
+    "repairs_like": "helmet_survivor",
     "type": "ARMOR",
     "name": "fencing mask",
     "description": "A tough hood made of steel mesh used by fencers.",
@@ -2885,7 +2885,7 @@
   },
   {
     "id": "fishing_waders",
-    "repairs_like": "miner_hat",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of fishing waders",
     "name_plural": "pairs of fishing waders",
@@ -2930,7 +2930,7 @@
   },
   {
     "id": "flag_shirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "flag shirt",
     "description": "A t-shirt embroidered with the pattern of an American flag.",
@@ -2991,7 +2991,7 @@
   },
   {
     "id": "football_armor",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "football armor",
@@ -3207,7 +3207,7 @@
   },
   {
     "id": "glasses_safety",
-    "repairs_like": "miner_hat",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": "pair of safety glasses",
     "name_plural": "pairs of safety glasses",
@@ -3251,7 +3251,7 @@
   },
   {
     "id": "personal_gobag",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": "personal go bag",
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
@@ -3261,7 +3261,7 @@
   },
   {
     "id": "goggles_ski",
-    "repairs_like": "miner_hat",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": "pair of ski goggles",
     "name_plural": "pairs of ski goggles",
@@ -3308,7 +3308,7 @@
   },
   {
     "id": "gown",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "evening gown",
     "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
@@ -3351,7 +3351,7 @@
   },
   {
     "id": "hakama_gi",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "hakama",
     "description": "Plain black hakama for use in kendo and other martial arts.",
@@ -3390,7 +3390,7 @@
   },
   {
     "id": "halter_top",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "halter top",
     "description": "A short top made from cotton.  It is light and easy to wear.",
@@ -3410,7 +3410,7 @@
   },
   {
     "id": "hat_ball",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "baseball cap",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -3452,7 +3452,7 @@
   },
   {
     "id": "hat_chef",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "toque",
     "description": "A traditional chef's hat, standing tall and proud against the vulgarities of the world.",
@@ -3601,7 +3601,7 @@
   },
   {
     "id": "hat_newsboy",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "newsboy cap",
     "description": "A slouching wool cap with a short front brim, traditionally associated with newspaper delivery boys.  Quite warm.",
@@ -3639,7 +3639,7 @@
   },
   {
     "id": "hat_sombrero",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": "sombrero",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -3981,7 +3981,7 @@
   },
   {
     "id": "jacket_army",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "army jacket",
     "name_plural": "army jacket",
@@ -4004,7 +4004,7 @@
   },
   {
     "id": "jacket_chef",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "chef's jacket",
     "description": "This double-breasted uniform is unusually thick to protect against the heat of the kitchen.",
@@ -4025,7 +4025,7 @@
   },
   {
     "id": "jacket_evac",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "emergency jacket",
     "description": "A bright & cheaply made FEMA-issue windbreaker jacket with a hood.  One size, fits none.  Helps keep you unfrozen & visible for rescuers.",
@@ -4046,7 +4046,7 @@
   },
   {
     "id": "jacket_flannel",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "flannel jacket",
     "description": "A jacket made from flannel-style denim, favored by outdoorsy types.  Provides decent protection from cuts.",
@@ -4067,7 +4067,7 @@
   },
   {
     "id": "jacket_jean",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "jean jacket",
     "description": "A jacket made from denim.  Provides decent protection from cuts.",
@@ -4162,7 +4162,7 @@
   },
   {
     "id": "jacket_light",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "light jacket",
     "description": "A thin cotton jacket with a hood.  Good for brisk weather.",
@@ -4183,7 +4183,7 @@
   },
   {
     "id": "jacket_windbreaker",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "windbreaker",
     "description": "A light synthetic jacket with a hood.  Not very warm, but will keep out the rain.",
@@ -4227,7 +4227,7 @@
   },
   {
     "id": "jeans_red",
-    "repairs_like": "miner_hat",
+    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "name": "red jeans",
     "name_plural": "red jeans",
@@ -4250,7 +4250,7 @@
   },
   {
     "id": "jedi_cloak",
-    "repairs_like": "miner_hat",
+    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": "Jedi cloak",
     "description": "Long, flowing robes.  Simple and comfortable to wear.  Be sure to tear it off dramatically before fighting any foes!",
@@ -4272,7 +4272,7 @@
   },
   {
     "id": "jersey",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "sports jersey",
     "//": "Genuine team merch, and priced like it!",
@@ -4404,7 +4404,7 @@
   },
   {
     "id": "judo_gi",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "judo gi",
     "description": "Plain white judo gi.  Thick and a little stiff, it gives minor protection from cuts and punches.",
@@ -4445,7 +4445,7 @@
   },
   {
     "id": "robofac_jumpsuit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
@@ -4476,7 +4476,7 @@
   },
   {
     "id": "karate_gi",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "karate gi",
     "description": "Plain white karate gi.  Loose and flowing, it offers little protection, and little encumbrance.",
@@ -4495,7 +4495,7 @@
   },
   {
     "id": "kariginu",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "kariginu",
     "description": "A traditional, ankle-length Shinto robe with several layers and very wide sleeves.",
@@ -4548,7 +4548,7 @@
   },
   {
     "id": "keikogi",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "keikogi",
     "description": "Plain white keikogi for use in martial arts.",
@@ -4567,7 +4567,7 @@
   },
   {
     "id": "kevlar",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": "Kevlar vest",
@@ -4690,7 +4690,7 @@
   },
   {
     "id": "kippah",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "kippah",
     "name_plural": "kippahs",
@@ -4710,7 +4710,7 @@
   },
   {
     "id": "kittel",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "kittel",
     "name_plural": "kittels",
@@ -4753,7 +4753,7 @@
   },
   {
     "id": "kufi",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "kufi cap",
     "name_plural": "kufi caps",
@@ -5134,7 +5134,7 @@
   },
   {
     "id": "linuxtshirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "Linux t-shirt",
     "description": "A t-shirt with a picture of the Tux mascot on it.  Underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
@@ -5401,7 +5401,7 @@
   },
   {
     "id": "maid_dress",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "French maid clothes",
     "name_plural": "French maid clothes",
@@ -5423,7 +5423,7 @@
   },
   {
     "id": "maid_hat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "French maid hat",
     "description": "A frilly white headpiece.",
@@ -5443,7 +5443,7 @@
   },
   {
     "id": "mask_bal",
-    "repairs_like": "miner_hat",
+    "repairs_like": "helmet_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "ballistic mask",
@@ -5466,7 +5466,7 @@
   },
   {
     "id": "mask_dust",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "dust mask",
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
@@ -5509,7 +5509,7 @@
   },
   {
     "id": "mask_hockey",
-    "repairs_like": "miner_hat",
+    "repairs_like": "gas_mask",
     "type": "ARMOR",
     "category": "armor",
     "name": "hockey mask",
@@ -5554,7 +5554,7 @@
   },
   {
     "id": "motorbike_armor",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": "motorcycle armor",
     "description": "A suit of armor used by dirt bikers and motorcyclists.",
@@ -5577,7 +5577,7 @@
   },
   {
     "id": "motorbike_pants",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": "motorcycle pants",
     "name_plural": "pairs of motorcycle pants",
@@ -5599,7 +5599,7 @@
   },
   {
     "id": "mouthpiece",
-    "repairs_like": "miner_hat",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "category": "armor",
     "name": "protective mouthpiece",
@@ -5618,7 +5618,7 @@
   },
   {
     "id": "nanoskirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "nanoskirt",
     "description": "Apparently the microskirt wasn't short enough.",
@@ -5736,7 +5736,7 @@
   },
   {
     "id": "pants",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "pants",
     "name_plural": "pants",
@@ -5801,7 +5801,7 @@
   },
   {
     "id": "pants_checkered",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "checkered pants",
     "name_plural": "checkered pants",
@@ -5901,7 +5901,7 @@
   },
   {
     "id": "pants_ski",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "ski pants",
     "name_plural": "ski pants",
@@ -6070,7 +6070,7 @@
   },
   {
     "id": "porkpie",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "porkpie hat",
     "description": "A flat-topped hat with circular indent and a narrow brim.  Most popular in the 40s and 50s, still common among those in the mod scene, hipsters, and people named Heisenberg.",
@@ -6091,7 +6091,7 @@
   },
   {
     "id": "postman_hat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "mail carrier hat",
     "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic cap.  A symbol of a bygone world.",
@@ -6112,7 +6112,7 @@
   },
   {
     "id": "postman_shirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "mail carrier shirt",
     "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
@@ -6132,7 +6132,7 @@
   },
   {
     "id": "postman_shorts",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "mail carrier shorts",
     "name_plural": "mail carrier shorts",
@@ -6255,7 +6255,7 @@
   },
   {
     "id": "robe",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "robe",
     "name_plural": "robes",
@@ -6350,7 +6350,7 @@
   },
   {
     "id": "sheriffshirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "sheriff's shirt",
     "description": "A tan button-down shirt with long sleeves.",
@@ -6467,7 +6467,7 @@
   },
   {
     "id": "ski_jacket",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "ski jacket",
     "description": "An insulated, breathable hoodie made for alpine skiing.  Very warm, and with sizable pockets.",
@@ -6490,7 +6490,7 @@
   },
   {
     "id": "skirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "skirt",
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
@@ -6510,7 +6510,7 @@
   },
   {
     "id": "skirt_leather",
-    "repairs_like": "miner_hat",
+    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "name": "leather skirt",
     "description": "A very short leather skirt, clearly designed to look good, not be practical.",
@@ -6960,7 +6960,7 @@
   },
   {
     "id": "striped_pants",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "striped pants",
     "name_plural": "striped pants",
@@ -6983,7 +6983,7 @@
   },
   {
     "id": "striped_shirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "striped shirt",
     "description": "A long-sleeved shirt with horizontal black and white stripes.",
@@ -7003,7 +7003,7 @@
   },
   {
     "id": "subsuit_xl",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "name": "subject suit",
     "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",
@@ -7025,7 +7025,7 @@
   },
   {
     "id": "suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "suit",
     "description": "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly experience.",
@@ -7047,7 +7047,7 @@
   },
   {
     "id": "suitcase_l",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": "suitcase",
     "//": "You drag it along with you, so it taking a hit is Rare.",
@@ -7068,7 +7068,7 @@
   },
   {
     "id": "suitcase_m",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": "suitcase",
     "description": "A mid-sized suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
@@ -7223,7 +7223,7 @@
   },
   {
     "id": "swat_armor",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": "SWAT armor",
@@ -7270,7 +7270,7 @@
   },
   {
     "id": "sweatshirt",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "sweatshirt",
     "description": "A thick cotton shirt.  Provides warmth and a bit of padding.",
@@ -7308,7 +7308,7 @@
   },
   {
     "id": "technician_pants_gray",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "work pants",
     "name_plural": "pairs of work pants",
@@ -7336,7 +7336,7 @@
   },
   {
     "id": "technician_shirt_gray",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "work t-shirt",
     "description": "A gray work t-shirt with a small front pocket.",
@@ -7362,7 +7362,7 @@
   },
   {
     "id": "thawb",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "thawb",
     "name_plural": "thawb",
@@ -7424,7 +7424,7 @@
   },
   {
     "id": "tights",
-    "repairs_like": "miner_hat",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "tights",
     "name_plural": "tights",
@@ -7491,7 +7491,7 @@
   },
   {
     "id": "tophat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "top hat",
     "//": "No, you're not wearing anything over your top hat.",
@@ -7513,7 +7513,7 @@
   },
   {
     "id": "touring_suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": "leather touring suit",
     "description": "A thick leather body suit made for protection while riding motorcycles.  Light and very comfortable.",
@@ -7661,7 +7661,6 @@
   },
   {
     "id": "tshirt",
-    "repairs_like": "miner_hat",
     "type": "ARMOR",
     "name": "t-shirt",
     "description": "A short-sleeved cotton shirt.",

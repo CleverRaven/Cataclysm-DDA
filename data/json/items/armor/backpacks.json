@@ -57,7 +57,7 @@
   },
   {
     "id": "backpack_giant",
-    "repairs_like": "miner_hat",
+    "repairs_like": "bigback",
     "type": "ARMOR",
     "name": "giant novelty backpack",
     "description": "A huge fabric backpack made mostly as a joke before the Cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
@@ -150,7 +150,7 @@
   },
   {
     "id": "dive_bag",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack",
     "type": "ARMOR",
     "name": "dive bag",
     "description": "A lightweight mesh backpack, commonly worn by swimmers and divers.",
@@ -288,7 +288,7 @@
   },
   {
     "id": "mbag",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack",
     "type": "ARMOR",
     "name": "messenger bag",
     "//": "KA101's ran about $90 but is ballistic nylon.  Bit tougher than the DDA model.",
@@ -314,7 +314,7 @@
   },
   {
     "id": "molle_pack",
-    "repairs_like": "miner_hat",
+    "repairs_like": "bigback",
     "type": "ARMOR",
     "name": "MOLLE pack",
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.",
@@ -338,7 +338,7 @@
   },
   {
     "id": "purse",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack",
     "type": "ARMOR",
     "name": "purse",
     "description": "A bit cumbersome to wear, but provides some storage.",
@@ -363,7 +363,7 @@
   },
   {
     "id": "rucksack",
-    "repairs_like": "miner_hat",
+    "repairs_like": "bigback",
     "type": "ARMOR",
     "name": "military rucksack",
     "description": "A huge military rucksack, provides a lot of storage.",
@@ -412,7 +412,7 @@
   },
   {
     "id": "slingpack",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack",
     "type": "ARMOR",
     "name": "sling pack",
     "//": "Depends on if you're getting a cheap school version or something more like a range bag.",
@@ -526,7 +526,7 @@
   },
   {
     "id": "golf_bag",
-    "repairs_like": "miner_hat",
+    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": "golf bag",
     "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back.",
