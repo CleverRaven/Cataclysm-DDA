@@ -352,6 +352,7 @@
       ],
       "palettes": [ "mil_base_palette" ],
       "furniture": { "B": "f_bench" },
+      "terrain": { "B": "t_thconc_floor" },
       "place_loot": [
         { "item": "detergent", "x": [ 12, 13 ], "y": 7, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "bleach", "x": [ 14, 15 ], "y": 7, "chance": 75, "repeat": [ 25, 50 ] },
