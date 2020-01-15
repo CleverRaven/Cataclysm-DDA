@@ -280,13 +280,13 @@ class options_manager
         {
             public:
                 std::string id_;
-                std::string name_;
+                translation name_;
 
                 std::vector<cata::optional<std::string>> items_;
 
                 void removeRepeatedEmptyLines();
 
-                Page( const std::string &id, const std::string &name ) : id_( id ), name_( name ) { }
+                Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
         };
 
         Page general_page_;

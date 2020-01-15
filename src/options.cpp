@@ -62,12 +62,12 @@ options_manager &get_options()
 }
 
 options_manager::options_manager() :
-    general_page_( "general", translate_marker( "General" ) ),
-    interface_page_( "interface", translate_marker( "Interface" ) ),
-    graphics_page_( "graphics", translate_marker( "Graphics" ) ),
-    debug_page_( "debug", translate_marker( "Debug" ) ),
-    world_default_page_( "world_default", translate_marker( "World Defaults" ) ),
-    android_page_( "android", translate_marker( "Android" ) )
+    general_page_( "general", to_translation( "General" ) ),
+    interface_page_( "interface", to_translation( "Interface" ) ),
+    graphics_page_( "graphics", to_translation( "Graphics" ) ),
+    debug_page_( "debug", to_translation( "Debug" ) ),
+    world_default_page_( "world_default", to_translation( "World Defaults" ) ),
+    android_page_( "android", to_translation( "Android" ) )
 {
     pages_.emplace_back( general_page_ );
     pages_.emplace_back( interface_page_ );
@@ -2577,7 +2577,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                              _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
-                             "%s", _( pages_[i].get().name_ ) );
+                             "%s", pages_[i].get().name_ );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
