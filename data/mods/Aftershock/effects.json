@@ -1,32 +1,59 @@
 [
   {
-    "type": "effect_type",
-    "id": "migo_atmosphere",
-    "name": [ "Stinking air", "Disorienting air", "Disorienting air", "Smothering air", "Smothering air" ],
-    "desc": [
-      "The air in here smells like vinegar and mold.",
-      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
-      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
-      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly.",
-      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly."
+    "id": "fd_migo_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "foul-smelling air",
+        "sym": "8",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 1,
+            "min_duration": "5 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "10 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      }
     ],
-    "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
-    "max_intensity": 5,
-    "int_dur_factor": "5 seconds",
-    "rating": "bad",
-    "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
-    "harmful_cough": false,
-    "base_mods": { "cough_chance": [ -1002 ] },
-    "scaling_mods": {
-      "str_mod": [ -0.25 ],
-      "per_mod": [ -0.5 ],
-      "dex_mod": [ -0.25 ],
-      "int_mod": [ -0.75 ],
-      "speed_mod": [ -10 ],
-      "vomit_chance": [ 10 ],
-      "cough_chance": [ 501 ]
-    },
-    "show_in_info": true,
-    "immunity_data": { "traits": [ "MIGO_BREATHE" ] }
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
   }
+
 ]

@@ -77,6 +77,10 @@
   {
     "type": "overmap_terrain",
     "id": "mortuary_2story",
+    "name": "county mortuary",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 3,
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mortuary_north" },
