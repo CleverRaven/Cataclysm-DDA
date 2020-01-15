@@ -7,6 +7,24 @@
   },
   {
     "type": "city_building",
+    "id": "house",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_01",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_01_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_01_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_02",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_02_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_02_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "house_two_story_basement",
     "locations": [ "land", "swamp" ],
     "overmaps": [
