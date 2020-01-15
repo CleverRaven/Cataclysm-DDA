@@ -1,12 +1,5 @@
 [
   {
-    "id": "style_aikido",
-    "copy-from": "style_aikido",
-    "type": "martial_art",
-    "name": "Aikido",
-    "extend": { "weapons": [ "afs_hydraulic_gauntlet" ] }
-  },
-  {
     "id": "style_eskrima",
     "copy-from": "style_eskrima",
     "type": "martial_art",
@@ -19,20 +12,6 @@
     "type": "martial_art",
     "name": "Fencing",
     "extend": { "weapons": [ "afs_energy_saber_on" ] }
-  },
-  {
-    "id": "style_medievalpole",
-    "copy-from": "style_medievalpole",
-    "type": "martial_art",
-    "name": "Fior Di Battaglia",
-    "extend": { "weapons": [ "afs_titanium_bat" ] }
-  },
-  {
-    "id": "style_judo",
-    "copy-from": "style_judo",
-    "type": "martial_art",
-    "name": "Judo",
-    "extend": { "weapons": [ "afs_hydraulic_gauntlet" ] }
   },
   {
     "id": "style_krav_maga",
