@@ -3012,16 +3012,11 @@ void game::disp_NPC_epilogues()
                                    ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
-        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if( !npc_to_get ) {
+        shared_ptr_fast<npc> guy = overmap_buffer.find_npc( elem );
+        if( !guy ) {
             continue;
         }
-        npc *guy = npc_to_get.get();
-        std::vector<std::string> epilogue;
-        epilogue.emplace_back( guy->get_epilogue() );
-        werase( w );
-        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
-        multipage( w, epilogue, "", 2 );
+        scrollable_text( w, guy->disp_name(), guy->get_epilogue() );
     }
 
     refresh_all();
@@ -3035,9 +3030,14 @@ void game::display_faction_epilogues()
 
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
-            werase( w );
-            draw_border( w, BORDER_COLOR, elem.second.name, c_black_white );
-            multipage( w, elem.second.epilogue(), "", 2 );
+            const std::vector<std::string> epilogue = elem.second.epilogue();
+            if( !epilogue.empty() ) {
+                scrollable_text( w, elem.second.name,
+                                 std::accumulate( epilogue.begin() + 1, epilogue.end(), epilogue.front(),
+                []( const std::string & lhs, const std::string & rhs ) -> std::string {
+                    return lhs + "\n" + rhs;
+                } ) );
+            }
         }
     }
 
