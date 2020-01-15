@@ -110,7 +110,7 @@
         "c": "t_dirt",
         "d": "t_door_frame",
         "g": "t_grass",
-        "m": "t_door",
+        "m": "t_door_c",
         "p": "t_pit_shallow",
         "s": "t_sidewalk",
         "w": "t_wall_half",
