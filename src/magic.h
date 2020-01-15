@@ -62,6 +62,7 @@ enum energy_type {
     stamina_energy,
     bionic_energy,
     fatigue_energy,
+    item_energy,
     none_energy
 };
 
@@ -238,6 +239,9 @@ class spell_type
         // what energy do you use to cast this spell
         energy_type energy_source;
 
+        // If the spell requires an item, what item does it use
+        itype_id energy_req_item;
+
         damage_type dmg_type;
 
         // list of valid targets to be affected by the area of effect.
@@ -323,6 +327,8 @@ class spell
         int range() const;
         // how much energy does the spell cost
         int energy_cost( const player &p ) const;
+        // item used as energy
+        itype_id energy_item() const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;

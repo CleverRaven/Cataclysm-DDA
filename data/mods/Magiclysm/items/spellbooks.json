@@ -22,7 +22,8 @@
         "megablast",
         "test_area_push",
         "test_area_pull_field",
-        "test_area_pull_all"
+        "test_area_pull_all",
+        "magic_gun"
       ]
     }
   },

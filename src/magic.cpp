@@ -152,6 +152,8 @@ static energy_type energy_source_from_string( const std::string &str )
         return stamina_energy;
     } else if( str == "FATIGUE" ) {
         return fatigue_energy;
+    } else if( str == "ITEM" ) {
+        return item_energy;
     } else if( str == "NONE" ) {
         return none_energy;
     } else {
@@ -315,6 +317,9 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
+    if( energy_source == item_energy ) {
+        mandatory( jo, was_loaded, "energy_item", energy_req_item );
+    }
     optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
     dmg_type = damage_type_from_string( temp_string );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
@@ -613,11 +618,16 @@ int spell::energy_cost( const player &p ) const
             case stamina_energy:
                 cost += 100 * hands_encumb;
                 break;
+            case item_energy:
+                break;
         }
     }
     return cost;
 }
-
+itype_id spell::energy_item() const
+{
+    return type->energy_req_item;
+}
 bool spell::has_flag( const spell_flag &flag ) const
 {
     return type->spell_tags[flag];
@@ -647,6 +657,14 @@ bool spell::can_cast( const player &p ) const
             return p.get_power_level() >= units::from_kilojoule( energy_cost( p ) );
         case fatigue_energy:
             return p.get_fatigue() < EXHAUSTED;
+        case item_energy: {
+            const itype_id id = energy_item();
+            if( item( id ).count_by_charges() ) {
+                return p.inv.has_charges( id, energy_cost( p ) );
+            } else {
+                return p.inv.has_components( id, energy_cost( p ) );
+            }
+        }
         case none_energy:
         default:
             return true;
@@ -785,6 +803,9 @@ std::string spell::energy_string() const
             return _( "bionic power" );
         case fatigue_energy:
             return _( "fatigue" );
+        case item_energy: {
+            return item::nname( energy_item(), 1 );
+        }
         default:
             return "";
     }
@@ -808,6 +829,9 @@ std::string spell::energy_cost_string( const player &p ) const
     }
     if( energy_source() == fatigue_energy ) {
         return colorize( to_string( energy_cost( p ) ), c_cyan );
+    }
+    if( energy_source() == item_energy ) {
+        return colorize( to_string( energy_cost( p ) ), c_white );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -834,6 +858,30 @@ std::string spell::energy_cur_string( const player &p ) const
     if( energy_source() == fatigue_energy ) {
         const std::pair<std::string, nc_color> pair = p.get_fatigue_description();
         return colorize( pair.first, pair.second );
+    }
+    if( energy_source() == item_energy ) {
+        if( energy_cost( p ) == 0 ) {
+            return colorize( _( "Infinite" ), c_white );
+        }
+        const itype_id id = energy_item();
+        const inventory &player_inv = p.inv;
+        std::vector<const item *> a_filter = player_inv.items_with( [id]( const item & it ) {
+            return it.typeId() == id;
+        } );
+        int count = 0;
+        for( const item *it : a_filter ) {
+            if( it->count_by_charges() ) {
+                count += p.inv.charges_of( energy_item() );
+            } else {
+                count++;
+            }
+        }
+        count /= energy_cost( p );
+        if( count > 0 ) {
+            return colorize( std::to_string( count ), c_white );
+        } else {
+            return colorize( "0", c_dark_gray );
+        }
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -1399,6 +1447,7 @@ std::vector<spell_id> known_magic::spells() const
 bool known_magic::has_enough_energy( const player &p, spell &sp ) const
 {
     int cost = sp.energy_cost( p );
+
     switch( sp.energy_source() ) {
         case mana_energy:
             return available_mana() >= cost;
@@ -1415,6 +1464,14 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
             return false;
         case fatigue_energy:
             return p.get_fatigue() < EXHAUSTED;
+        case item_energy: {
+            const itype_id id = sp.energy_item();
+            if( item( id ).count_by_charges() ) {
+                return p.inv.has_charges( id, cost );
+            } else {
+                return p.inv.has_components( id, cost );
+            }
+        }
         case none_energy:
             return true;
         default:
