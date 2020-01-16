@@ -12,7 +12,6 @@
       "X": "t_chainfence",
       "G": "t_chaingate_c",
       ".": "t_thconc_floor",
-      "a": "t_open_air",
       "|": "t_wall_w",
       "-": "t_wall_w",
       "/": "t_strconc_wall",
@@ -34,7 +33,7 @@
       "f": "t_fence_wire",
       "+": [ [ "t_door_c", 2 ], "t_door_o" ],
       "=": [ [ "t_door_locked_interior", 3 ], "t_door_c", "t_door_o" ],
-      "d": "t_door_metal_c",
+      "d": [ "t_door_metal_c", "t_door_metal_o" ],
       "z": "t_door_metal_pickable",
       "D": "t_door_metal_locked",
       "g": "t_reinforced_glass_shutter",
@@ -105,7 +104,9 @@
       "V": "f_workbench",
       "k": "f_server",
       "U": "f_safe_l",
-      "E": "f_safe_l"
+      "E": "f_safe_l",
+      "a": "f_washer",
+      "!": "f_dryer"
     },
     "liquids": {
       "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },
