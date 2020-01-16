@@ -9,7 +9,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 400,
-    "description": "A fractal corolla winds inward in mathematical harmony, reflecting beauty in its ideal form.",
+    "description": "A fractal corolla winds inward in mathematical harmony, reflecting beauty in it's ideal form.",
     "price": 1000,
     "material": "veggy",
     "volume": "250 ml",
@@ -35,7 +35,7 @@
     "name": { "str": "kämpuch", "str_pl": "kämpuch" },
     "color": "purple",
     "comestible_type": "FOOD",
-    "description": "A small rod of curled white petals.  Inhaling or ingesting the pollen within will lead to an agonizing if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
+    "description": "A small rod of curled white petals.  Inhaling or ingesting the pollen within will lead to an agonizing, if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
     "volume": "250 ml",
     "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
   },
@@ -65,3 +65,5 @@
     "volume": "250 ml",
     "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
   }
+  ]
+  
