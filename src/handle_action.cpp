@@ -1494,6 +1494,9 @@ bool game::handle_action()
         }
 
         if( act == ACTION_MAIN_MENU ) {
+            if( uquit == QUIT_WATCH ) {
+                return false;
+            }
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
             destination_preview.clear();
@@ -1504,6 +1507,9 @@ bool game::handle_action()
         }
 
         if( act == ACTION_ACTIONMENU ) {
+            if( uquit == QUIT_WATCH ) {
+                return false;
+            }
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
             destination_preview.clear();
