@@ -192,7 +192,7 @@
     ]
   },
   {
-    "id": "afs_mon_bloodhound_drone",
+    "id": "mon_bloodhound_drone",
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "bloodhound drone" },
@@ -208,7 +208,7 @@
     "melee_cut": 12,
     "armor_bash": 2,
     "armor_cut": 8,
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
