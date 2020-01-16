@@ -239,7 +239,7 @@
       "place_loot": [
         { "item": "militarymap", "x": 14, "y": 5 },
         { "group": "SUS_coffee_cupboard", "x": 1, "y": 2, "chance": 50, "repeat": [ 1, 2 ] },
-        { "group": "dinnerware", "x": 3, "y": 1, "chance": 2, "repeat": [ 5, 10 ] },
+        { "group": "dinnerware", "x": 1, "y": 1, "chance": 2, "repeat": [ 5, 10 ] },
         { "group": "liquor_and_spirits", "x": 1, "y": 3, "chance": 50, "repeat": [ 3, 4 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_MIL_BASE", "x": [ 11, 19 ], "y": [ 0, 8 ], "repeat": [ 1, 2 ], "density": 0.1 } ]
