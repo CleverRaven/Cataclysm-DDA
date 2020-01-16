@@ -202,12 +202,7 @@ input_context game::get_player_input( std::string &action )
 
         ctxt.set_timeout( 125 );
         bool initial_draw = true;
-        // Force at least one animation frame if the player is dead.
-        while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
-            if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
-                break;
-            }
-
+        do {
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -323,15 +318,13 @@ input_context game::get_player_input( std::string &action )
             g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
-
                 query_popup()
                 .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true )
                 .show();
-
-                break;
             }
-        }
+        } while( handle_mouseview( ctxt, action )
+                 && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
     } else {
         ctxt.set_timeout( 125 );
