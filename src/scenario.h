@@ -49,12 +49,12 @@ class scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         scenario();
-        static void load_scenario( JsonObject &jo, const std::string &src );
+        static void load_scenario( const JsonObject &jo, const std::string &src );
 
         // these should be the only ways used to get at scenario
         static const scenario *generic(); // points to the generic, default profession

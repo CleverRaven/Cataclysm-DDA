@@ -55,7 +55,7 @@
     "skill": "shotgun",
     "dispersion": 335,
     "durability": 9,
-    "burst": 4,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

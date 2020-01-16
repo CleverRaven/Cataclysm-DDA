@@ -134,7 +134,7 @@
   {
     "id": "TALK_DENY_FOLLOW",
     "type": "talk_topic",
-    "dynamic_line": "Yeah... I don't think so.",
+    "dynamic_line": "Yeah… I don't think so.",
     "responses": [ { "text": "Oh, okay.", "topic": "TALK_DONE" } ]
   },
   {
@@ -413,7 +413,7 @@
   {
     "id": "TALK_KEEPING_ITEM",
     "type": "talk_topic",
-    "dynamic_line": "Right... I don't want any trouble.",
+    "dynamic_line": "Right… I don't want any trouble.",
     "responses": [ { "text": "Smart choice.", "topic": "TALK_DONE", "effect": "remove_stolen_status" } ]
   },
   {

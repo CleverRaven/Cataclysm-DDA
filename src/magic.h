@@ -2,7 +2,7 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
@@ -35,6 +35,7 @@ template <typename E> struct enum_traits;
 enum spell_flag {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     IGNORE_WALLS, // spell's aoe goes through walls
+    SWAP_POS, // a projectile spell swaps the positions of the caster and target
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
     SILENT, // spell makes no noise at target
@@ -51,6 +52,7 @@ enum spell_flag {
     RANDOM_TARGET, // picks a random valid target within your range instead of normal behavior.
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
+    PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     LAST
 };
 
@@ -102,7 +104,7 @@ struct fake_spell {
 
     spell get_spell( int input_level ) const;
 
-    void load( JsonObject &jo );
+    void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
@@ -244,13 +246,15 @@ class spell_type
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
 
+        std::set<mtype_id> targeted_monster_ids;
+
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 
-        static void load_spell( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_spell( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.
          */
@@ -366,6 +370,9 @@ class spell
         std::string energy_cur_string( const player &p ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
+        // returns the name string of all list of all targeted monster id
+        //if targeted_monster_ids is empty, it returns an empty string
+        std::string list_targeted_monster_names() const;
 
         std::string damage_string() const;
         std::string aoe_string() const;
@@ -399,9 +406,11 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
+        bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        tripoint random_valid_target( const Creature &caster, const tripoint &caster_pos ) const;
+        cata::optional<tripoint> random_valid_target( const Creature &caster,
+                const tripoint &caster_pos ) const;
 };
 
 class known_magic

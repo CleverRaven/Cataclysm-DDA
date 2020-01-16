@@ -211,7 +211,7 @@
       "inquire": "Do you have the stone?",
       "success": "I appreciate it, this will make Luke happy.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
@@ -222,7 +222,6 @@
       "update_mapgen": [
         {
           "om_terrain": "rural_outbuilding",
-          "om_special": "Isherwood Farms",
           "place_nested": [ { "chunks": [ "isherwood_outbuilding_kilns" ], "x": 0, "y": 0 } ],
           "set": [
             { "point": "furniture", "id": "f_kiln_empty", "x": 8, "y": 13 },
@@ -256,9 +255,9 @@
       "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
       "advice": "You can find it along river banks, or maybe landscaping supplies and hardware stores.",
       "inquire": "How is the search going?",
-      "success": "Thanks, now Luke can get started. Here's a token of my thanks.",
+      "success": "Thanks, now Luke can get started.  Here's a token of my thanks.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the sand went..."
+      "failure": "I wonder where all the sand went…"
     }
   },
   {
@@ -290,7 +289,7 @@
       "inquire": "How is the search going?",
       "success": "Thanks, now Luke can get started making jugs, We'd like to give you a cow, Here's Daisy, take good care of her and she'll provide you with milk.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the sand went..."
+      "failure": "I wonder where all the sand went…"
     }
   }
 ]

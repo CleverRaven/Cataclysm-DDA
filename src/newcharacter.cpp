@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <algorithm>
-#include <sstream>
 #include <vector>
 #include <iterator>
 #include <tuple>
@@ -53,8 +52,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-struct points_left;
-
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
 #define COL_STAT_BONUS      c_light_green // Bonus
@@ -87,90 +84,6 @@ struct points_left;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
-struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL
-    } limit;
-
-    points_left() {
-        limit = MULTI_POOL;
-        init_from_options();
-    }
-
-    void init_from_options() {
-        stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-        trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-        skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-    }
-
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return std::min( trait_points_left(),
-                                 stat_points + std::min( 0, trait_points + skill_points ) );
-        }
-
-        return 0;
-    }
-
-    int trait_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + std::min( 0, skill_points );
-        }
-
-        return 0;
-    }
-
-    int skill_points_left() const {
-        return stat_points + trait_points + skill_points;
-    }
-
-    bool is_freeform() {
-        return limit == FREEFORM;
-    }
-
-    bool is_valid() {
-        return is_freeform() ||
-               ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-                 skill_points_left() >= 0 );
-    }
-
-    bool has_spare() {
-        return !is_freeform() && is_valid() && skill_points_left() > 0;
-    }
-
-    std::string to_string() {
-        if( limit == MULTI_POOL ) {
-            return string_format(
-                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                       trait_points >= 0 ? '+' : '-',
-                       trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
-                       skill_points >= 0 ? '+' : '-',
-                       skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
-                       is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-        } else if( limit == ONE_POOL ) {
-            return string_format( _( "Points left: %4d" ), skill_points_left() );
-        } else {
-            return _( "Freeform" );
-        }
-    }
-};
-
 enum struct tab_direction {
     NONE,
     FORWARD,
@@ -190,7 +103,6 @@ tab_direction set_description( const catacurses::window &w, avatar &you, bool al
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const avatar &u, const std::string &name, const points_left &points );
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -202,7 +114,8 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
+                                  const avatar &u )
 {
     if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
@@ -216,8 +129,10 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style.  (press %s for more info)" ),
-                               ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    menu.text = string_format( _( "Select a style.  (press %s for more info)\n"
+                                  "STR: %d, DEX: %d, PER: %d, INT: %d" ),
+                               ctxt.get_desc( "SHOW_DESCRIPTION" ),
+                               u.get_str(), u.get_dex(), u.get_per(), u.get_int() );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
@@ -449,14 +364,17 @@ bool avatar::create( character_type type, const std::string &tempname )
     switch( type ) {
         case PLTYPE_CUSTOM:
             break;
-        case PLTYPE_RANDOM: //random scenario, default name if exist
+        case PLTYPE_RANDOM:
+            //random scenario, default name if exist
             randomize( true, points );
             tab = NEWCHAR_TAB_MAX;
             break;
-        case PLTYPE_NOW: //default world, fixed scenario, random name
+        case PLTYPE_NOW:
+            //default world, fixed scenario, random name
             randomize( false, points, true );
             break;
-        case PLTYPE_FULL_RANDOM: //default world, random scenario, random name
+        case PLTYPE_FULL_RANDOM:
+            //default world, random scenario, random name
             randomize( true, points, true );
             break;
         case PLTYPE_TEMPLATE:
@@ -465,7 +383,10 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
-            learned_recipes->clear();
+            // Except if it is a character transfer template
+            if( points.limit != points_left::TRANSFER ) {
+                learned_recipes->clear();
+            }
             tab = NEWCHAR_TAB_MAX;
             break;
     }
@@ -491,6 +412,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
         werase( w );
         wrefresh( w );
+
+        if( points.limit == points_left::TRANSFER ) {
+            tab = 6;
+        }
+
         switch( tab ) {
             case 0:
                 result = set_points( w, *this, points );
@@ -543,7 +469,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         return false;
     }
 
-    save_template( *this, _( "Last Character" ), points );
+    if( points.limit == points_left::TRANSFER ) {
+        return true;
+    }
+
+    save_template( _( "Last Character" ), points );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -638,7 +568,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         if( !styles.empty() ) {
             werase( w );
             wrefresh( w );
-            const matype_id ma_type = choose_ma_style( type, styles );
+            const matype_id ma_type = choose_ma_style( type, styles, *this );
             martial_arts_data.add_martialart( ma_type );
             martial_arts_data.set_style( ma_type );
         }
@@ -1446,73 +1376,72 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                        "                                             " ); // Clear the line
         }
 
-        std::ostringstream buffer;
+        std::string buffer;
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
-            buffer << colorize( _( "Addictions:" ), c_light_blue ) << "\n";
+            buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
             for( const auto &a : prof_addictions ) {
                 const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                buffer << string_format( format, addiction_name( a ), a.intensity ) << "\n";
+                buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
             }
         }
 
         // Profession traits
         const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-        buffer << colorize( _( "Profession traits:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession traits:" ), c_light_blue ) + "\n";
         if( prof_traits.empty() ) {
-            buffer << pgettext( "set_profession_trait", "None" ) << "\n";
+            buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
         } else {
             for( const auto &t : prof_traits ) {
-                buffer << mutation_branch::get_name( t ) << "\n";
+                buffer += mutation_branch::get_name( t ) + "\n";
             }
         }
 
         // Profession skills
         const auto prof_skills = sorted_profs[cur_id]->skills();
-        buffer << colorize( _( "Profession skills:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession skills:" ), c_light_blue ) + "\n";
         if( prof_skills.empty() ) {
-            buffer << pgettext( "set_profession_skill", "None" ) << "\n";
+            buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
         } else {
             for( const auto &sl : prof_skills ) {
                 const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
-                buffer << string_format( format, sl.first.obj().name(), sl.second ) << "\n";
+                buffer += string_format( format, sl.first.obj().name(), sl.second ) + "\n";
             }
         }
 
         // Profession items
         const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
-        buffer << colorize( _( "Profession items:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession items:" ), c_light_blue ) + "\n";
         if( prof_items.empty() ) {
-            buffer << pgettext( "set_profession_item", "None" ) << "\n";
+            buffer += pgettext( "set_profession_item", "None" ) + std::string( "\n" );
         } else {
             // TODO: If the item group is randomized *at all*, these will be different each time
             // and it won't match what you actually start with
             // TODO: Put like items together like the inventory does, so we don't have to scroll
             // through a list of a dozen forks.
-            std::ostringstream buffer_wielded;
-            std::ostringstream buffer_worn;
-            std::ostringstream buffer_inventory;
+            std::string buffer_wielded;
+            std::string buffer_worn;
+            std::string buffer_inventory;
             for( const auto &it : prof_items ) {
                 if( it.has_flag( "no_auto_equip" ) ) {
-                    buffer_inventory << it.display_name() << "\n";
+                    buffer_inventory += it.display_name() + "\n";
                 } else if( it.has_flag( "auto_wield" ) ) {
-                    buffer_wielded << it.display_name() << "\n";
+                    buffer_wielded += it.display_name() + "\n";
                 } else if( it.is_armor() ) {
-                    buffer_worn << it.display_name() << "\n";
+                    buffer_worn += it.display_name() + "\n";
                 } else {
-                    buffer_inventory << it.display_name() << "\n";
+                    buffer_inventory += it.display_name() + "\n";
                 }
             }
-            buffer << colorize( _( "Wielded:" ), c_cyan ) << "\n";
-            buffer << ( !buffer_wielded.str().empty() ? buffer_wielded.str() :
-                        pgettext( "set_profession_item_wielded", "None\n" ) );
-            buffer << colorize( _( "Worn:" ), c_cyan ) << "\n";
-            buffer << ( !buffer_worn.str().empty() ? buffer_worn.str() :
-                        pgettext( "set_profession_item_worn", "None\n" ) );
-            buffer << colorize( _( "Inventory:" ), c_cyan ) << "\n";
-            buffer << ( !buffer_inventory.str().empty() ? buffer_inventory.str() :
-                        pgettext( "set_profession_item_inventory", "None\n" ) );
+            buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n";
+            buffer += !buffer_wielded.empty() ? buffer_wielded : pgettext( "set_profession_item_wielded",
+                      "None\n" );
+            buffer += colorize( _( "Worn:" ), c_cyan ) + "\n";
+            buffer += !buffer_worn.empty() ? buffer_worn : pgettext( "set_profession_item_worn", "None\n" );
+            buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n";
+            buffer += !buffer_inventory.empty() ? buffer_inventory : pgettext( "set_profession_item_inventory",
+                      "None\n" );
         }
 
         // Profession bionics, active bionics shown first
@@ -1520,36 +1449,36 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
             return a->activated && !b->activated;
         } );
-        buffer << colorize( _( "Profession bionics:" ), c_light_blue ) << "\n";
+        buffer += colorize( _( "Profession bionics:" ), c_light_blue ) + "\n";
         if( prof_CBMs.empty() ) {
-            buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
+            buffer += pgettext( "set_profession_bionic", "None" ) + std::string( "\n" );
         } else {
             for( const auto &b : prof_CBMs ) {
                 const auto &cbm = b.obj();
 
                 if( cbm.activated && cbm.toggled ) {
-                    buffer << cbm.name << " (" << _( "toggled" ) << ")\n";
+                    buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                 } else if( cbm.activated ) {
-                    buffer << cbm.name << " (" << _( "activated" ) << ")\n";
+                    buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
                 } else {
-                    buffer << cbm.name << "\n";
+                    buffer += cbm.name + "\n";
                 }
             }
         }
         // Profession pet
         cata::optional<mtype_id> montype;
         if( !sorted_profs[cur_id]->pets().empty() ) {
-            buffer << colorize( _( "Pets:" ), c_light_blue ) << "\n";
+            buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
             for( auto elem : sorted_profs[cur_id]->pets() ) {
                 monster mon( elem );
-                buffer << mon.get_name() << "\n";
+                buffer += mon.get_name() + "\n";
             }
         }
         // Profession spells
         if( !sorted_profs[cur_id]->spells().empty() ) {
-            buffer << colorize( _( "Spells:" ), c_light_blue ) << "\n";
+            buffer += colorize( _( "Spells:" ), c_light_blue ) + "\n";
             for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
-                buffer << spell_pair.first->name << _( " level " ) << spell_pair.second << "\n";
+                buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
             }
         }
         werase( w_items );
@@ -1557,7 +1486,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                     ctxt.get_desc( "LEFT" ),
                                     ctxt.get_desc( "RIGHT" ) );
-        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_light_gray,
+        const int iheight = print_scrollable( w_items, desc_offset, buffer, c_light_gray,
                                               scroll_msg );
 
         werase( w_sorting );
@@ -1690,10 +1619,22 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( 31, 3 ), c_light_gray, std::string( getmaxx( w ) - 32, ' ' ) );
+
+        // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
-        mvwprintz( w, point( 31, 3 ), points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red,
-                   ngettext( "Upgrading %s costs %d point", "Upgrading %s costs %d points", cost ),
-                   currentSkill->name(), cost );
+        const int level = u.get_skill_level( currentSkill->ident() );
+        const int upgrade_levels = level == 0 ? 2 : 1;
+        // We have two different strings to pluralize, so we have to use two
+        // translation calls.
+        const std::string upgrade_levels_s = string_format(
+                //~ levels here are skill levels at character creation time
+                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+        const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
+        mvwprintz( w, point( 31, 3 ), color,
+                   //~ Second string is e.g. "1 level" or "2 levels"
+                   ngettext( "Upgrading %s by %s costs %d point",
+                             "Upgrading %s by %s costs %d points", cost ),
+                   currentSkill->name(), upgrade_levels_s, cost );
 
         // We want recipes from profession skills displayed, but without boosting the skills
         // Copy the skills, and boost the copy
@@ -1705,6 +1646,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
+            if( r.has_flag( "SECRET" ) ) {
+                continue;
+            }
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
@@ -2275,7 +2219,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             wrefresh( w_stats );
 
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = you.get_base_traits();
+            std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
+                                                   you.get_base_traits();
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
@@ -2300,13 +2245,16 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             profession::StartingSkillList list_skills = you.prof->skills();
             for( auto &elem : skillslist ) {
                 int level = you.get_skill_level( elem->ident() );
-                profession::StartingSkillList::iterator i = list_skills.begin();
-                while( i != list_skills.end() ) {
-                    if( i->first == ( elem )->ident() ) {
-                        level += i->second;
-                        break;
+
+                if( points.limit != points_left::TRANSFER ) {
+                    profession::StartingSkillList::iterator i = list_skills.begin();
+                    while( i != list_skills.end() ) {
+                        if( i->first == ( elem )->ident() ) {
+                            level += i->second;
+                            break;
+                        }
+                        ++i;
                     }
-                    ++i;
                 }
 
                 if( level > 0 ) {
@@ -2434,7 +2382,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
-                ::save_template( you, *name, points );
+                you.save_template( *name, points );
             }
             // redraw after saving template
             draw_character_tabs( w, _( "DESCRIPTION" ) );
@@ -2607,7 +2555,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const avatar &u, const std::string &name, const points_left &points )
+void avatar::save_template( const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
@@ -2622,7 +2570,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
     }
 #endif
 
-    write_to_file( FILENAMES["templatedir"] + native + ".template", [&]( std::ostream & fout ) {
+    write_to_file( PATH_INFO::templatedir() + native + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 
         jsout.start_array();
@@ -2632,10 +2580,10 @@ void save_template( const avatar &u, const std::string &name, const points_left 
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
-        jsout.member( "start_location", u.start_location );
+        jsout.member( "start_location", start_location );
         jsout.end_object();
 
-        u.serialize( jsout );
+        serialize( jsout );
 
         jsout.end_array();
     }, _( "player template" ) );
@@ -2643,7 +2591,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
 
 bool avatar::load_template( const std::string &template_name, points_left &points )
 {
-    return read_from_file_json( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
+    return read_from_file_json( PATH_INFO::templatedir() + utf8_to_native( template_name ) +
     ".template", [&]( JsonIn & jsin ) {
 
         if( jsin.test_array() ) {

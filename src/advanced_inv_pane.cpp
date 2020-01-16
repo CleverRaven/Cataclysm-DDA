@@ -1,3 +1,4 @@
+#include "advanced_inv_area.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
@@ -138,8 +139,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
 
 void advanced_inventory_pane::paginate( size_t itemsPerPage )
 {
+    // not needed as there are no category entries here.
     if( sortby != SORTBY_CATEGORY ) {
-        return; // not needed as there are no category entries here.
+        return;
     }
     // first, we insert all the items, then we sort the result
     for( size_t i = 0; i < items.size(); ++i ) {
@@ -175,10 +177,14 @@ void advanced_inventory_pane::fix_index()
 
 void advanced_inventory_pane::skip_category_headers( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
-    assert( static_cast<size_t>( index ) < items.size() ); // valid index is required
-    assert( offset == -1 || offset == +1 ); // only those two offsets are allowed
-    assert( !items.empty() ); // index would not be valid, and this would be an endless loop
+    // 0 would make no sense
+    assert( offset != 0 );
+    // valid index is required
+    assert( static_cast<size_t>( index ) < items.size() );
+    // only those two offsets are allowed
+    assert( offset == -1 || offset == +1 );
+    // index would not be valid, and this would be an endless loop
+    assert( !items.empty() );
     while( !items[index].is_item_entry() ) {
         mod_index( offset );
     }
@@ -186,7 +192,8 @@ void advanced_inventory_pane::skip_category_headers( int offset )
 
 void advanced_inventory_pane::mod_index( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
+    // 0 would make no sense
+    assert( offset != 0 );
     assert( !items.empty() );
     index += offset;
     if( index < 0 ) {
@@ -198,7 +205,8 @@ void advanced_inventory_pane::mod_index( int offset )
 
 void advanced_inventory_pane::scroll_by( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
+    // 0 would make no sense
+    assert( offset != 0 );
     if( items.empty() ) {
         return;
     }
@@ -209,26 +217,31 @@ void advanced_inventory_pane::scroll_by( int offset )
 
 void advanced_inventory_pane::scroll_category( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
-    assert( offset == -1 || offset == +1 ); // only those two offsets are allowed
+    // 0 would make no sense
+    assert( offset != 0 );
+    // only those two offsets are allowed
+    assert( offset == -1 || offset == +1 );
     if( items.empty() ) {
         return;
     }
-    assert( get_cur_item_ptr() != nullptr ); // index must already be valid!
+    // index must already be valid!
+    assert( get_cur_item_ptr() != nullptr );
     auto cur_cat = items[index].cat;
     if( offset > 0 ) {
         while( items[index].cat == cur_cat ) {
             index++;
+            // wrap to begin, stop there.
             if( static_cast<size_t>( index ) >= items.size() ) {
-                index = 0; // wrap to begin, stop there.
+                index = 0;
                 break;
             }
         }
     } else {
         while( items[index].cat == cur_cat ) {
             index--;
+            // wrap to end, stop there.
             if( index < 0 ) {
-                index = static_cast<int>( items.size() ) - 1; // wrap to end, stop there.
+                index = static_cast<int>( items.size() ) - 1;
                 break;
             }
         }

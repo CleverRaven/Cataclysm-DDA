@@ -29,7 +29,7 @@ help &get_help()
 
 void help::load()
 {
-    read_from_file_optional_json( FILENAMES["help"], [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( PATH_INFO::help(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }
@@ -67,9 +67,9 @@ void help::deserialize( JsonIn &jsin )
 std::string help::get_dir_grid()
 {
     static const std::array<action_id, 9> movearray = {{
-            ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-            ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-            ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+            ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
+            ACTION_MOVE_LEFT,  ACTION_PAUSE,  ACTION_MOVE_RIGHT,
+            ACTION_MOVE_BACK_LEFT, ACTION_MOVE_BACK, ACTION_MOVE_BACK_RIGHT
         }
     };
 
@@ -83,9 +83,10 @@ std::string help::get_dir_grid()
 
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
-        for( size_t i = 0; i < keys.size(); i++ ) {
+        for( size_t i = 0; i < 2; i++ ) {
             movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
-                                       string_format( "<color_light_blue>%s</color>", keys[i] ) );
+                                       i < keys.size() ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                                       : "<color_red>?</color>" );
         }
     }
 
@@ -189,5 +190,5 @@ void help::display_help()
 
 std::string get_hint()
 {
-    return SNIPPET.get( SNIPPET.assign( "hint" ) );
+    return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
 }

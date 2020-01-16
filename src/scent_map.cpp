@@ -4,9 +4,11 @@
 #include <cassert>
 #include <algorithm>
 
+#include "assign.h"
 #include "calendar.h"
 #include "color.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "map.h"
 #include "output.h"
 #include "cursesdef.h"
@@ -50,6 +52,7 @@ void scent_map::reset()
             val = 0;
         }
     }
+    typescent = scenttype_id();
 }
 
 void scent_map::decay()
@@ -94,20 +97,32 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
-void scent_map::set( const tripoint &p, int value )
+void scent_map::set( const tripoint &p, int value, scenttype_id type )
 {
     if( inbounds( p ) ) {
-        set_unsafe( p, value );
+        set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value )
+void scent_map::set_unsafe( const tripoint &p, int value, scenttype_id type )
 {
     grscent[p.x][p.y] = value;
+    if( !type.is_empty() ) {
+        typescent = type;
+    }
 }
 int scent_map::get_unsafe( const tripoint &p ) const
 {
     return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
+}
+
+scenttype_id scent_map::get_type( const tripoint &p ) const
+{
+    scenttype_id id;
+    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
+        id = typescent;
+    }
+    return id;
 }
 
 bool scent_map::inbounds( const tripoint &p ) const
@@ -196,7 +211,7 @@ void scent_map::update( const tripoint &center, map &m )
     // Rest of the scent map
     for( int x = scentmap_minx; x <= scentmap_maxx; ++x ) {
         for( int y = scentmap_miny; y <= scentmap_maxy; ++y ) {
-            auto &scent_here = grscent[x][y];
+            int &scent_here = grscent[x][y];
             if( !blocks_scent[x][y] ) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
@@ -226,6 +241,51 @@ void scent_map::update( const tripoint &center, map &m )
             } else {
                 // this cell blocks scent
                 scent_here = 0;
+            }
+        }
+    }
+}
+
+namespace
+{
+generic_factory<scent_type> scent_factory( "scent_type" );
+} // namespace
+
+template<>
+const scent_type &string_id<scent_type>::obj() const
+{
+    return scent_factory.obj( *this );
+}
+
+template<>
+bool string_id<scent_type>::is_valid() const
+{
+    return scent_factory.is_valid( *this );
+}
+
+void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
+{
+    scent_factory.load( jo, src );
+}
+
+void scent_type::load( const JsonObject &jo, const std::string & )
+{
+    assign( jo, "id", id );
+    assign( jo, "receptive_species", receptive_species );
+}
+
+const std::vector<scent_type> &scent_type::get_all()
+{
+    return scent_factory.get_all();
+}
+
+void scent_type::check_scent_consistency()
+{
+    for( const scent_type &styp : get_all() ) {
+        for( const species_id &spe : styp.receptive_species ) {
+            if( !spe.is_valid() ) {
+                debugmsg( "scent_type %s has invalid species_id %s in receptive_species", styp.id.c_str(),
+                          spe.c_str() );
             }
         }
     }

@@ -27,7 +27,7 @@ struct harvest_entry {
     std::string type = "null";
     float mass_ratio = 0.00f;
 
-    static harvest_entry load( JsonObject &jo, const std::string &src );
+    static harvest_entry load( const JsonObject &jo, const std::string &src );
 
     std::vector<std::string> flags;
     std::vector<fault_id> faults;
@@ -68,7 +68,7 @@ class harvest_list
         std::list<harvest_entry>::const_reverse_iterator rend() const;
 
         /** Load harvest data, create relevant global entries, then return the id of the new list */
-        static const harvest_id &load( JsonObject &jo, const std::string &src,
+        static const harvest_id &load( const JsonObject &jo, const std::string &src,
                                        const std::string &force_id = "" );
 
         /** Get all currently loaded harvest data */

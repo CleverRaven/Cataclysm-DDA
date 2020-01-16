@@ -22,6 +22,7 @@
           { "group": "textbooks", "prob": 25 }
         ]
       },
+      { "item": "id_science", "prob": 5 },
       { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
     ]
   },

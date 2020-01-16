@@ -92,6 +92,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "scent_type",
     "skill_boost",
     "SPECIES",
     "trait_group",
@@ -144,7 +145,6 @@ automatically_convertible = {
     "PET_ARMOR",
     "score",
     "skill",
-    "snippet",
     "speech",
     "SPELL",
     "start_location",
@@ -167,13 +167,17 @@ needs_plural = {
     "BIONIC_ITEM",
     "BOOK",
     "CONTAINER",
+    "ENGINE",
     "GENERIC",
     "GUN",
     "GUNMOD",
+    "MAGAZINE",
     "MONSTER",
+    "PET_ARMOR",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
+    "WHEEL",
 }
 
 # these objects can be automatically converted, but use format strings
@@ -760,6 +764,17 @@ def extract_fault(item):
         if "success_msg" in method:
             writestr(outfile, method["success_msg"], format_strings=True, comment="success message for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
 
+def extract_snippets(item):
+    outfile = get_outfile("snippet")
+    text = item["text"];
+    if type(text) is not list:
+        text = [text];
+    for snip in text:
+        if type(snip) is str:
+            writestr(outfile, snip)
+        else:
+            writestr(outfile, snip["text"])
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
@@ -782,6 +797,7 @@ extract_specials = {
     "recipe": extract_recipes,
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
+    "snippet": extract_snippets,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,
@@ -949,7 +965,7 @@ def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
     if not "type" in item:
-        raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
+        return
     object_type = item["type"]
     found_types.add(object_type)
     outfile = get_outfile(object_type)
@@ -997,6 +1013,11 @@ def extract(item, infilename):
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
         wrote = True
+    if "conditional_names" in item:
+        for cname in item["conditional_names"]:
+            c = "Conditional name for {} when {} matches {}".format(name, cname["type"], cname["condition"])
+            writestr(outfile, cname["name"], comment=c, format_strings=True, new_pl_fmt=True, **kwargs)
+            wrote = True
     if "description" in item:
         if name:
             c = "Description for {}".format(name)

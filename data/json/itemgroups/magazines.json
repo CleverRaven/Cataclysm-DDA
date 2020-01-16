@@ -104,6 +104,7 @@
     "items": [
       [ "38_speedloader", 8 ],
       [ "38_speedloader5", 6 ],
+      [ "38_speedloader6", 7 ],
       [ "40_speedloader6", 10 ],
       [ "glock17_17", 14 ],
       [ "glock17_22", 6 ],
@@ -273,6 +274,8 @@
     "items": [
       [ "saiga10mag", 50 ],
       [ "saiga30mag", 10 ],
+      [ "USAS10mag", 20 ],
+      [ "USAS20mag", 5 ],
       [ "saiga410mag_10rd", 30 ],
       [ "saiga410mag_30rd", 10 ],
       [ "shot_speedloader6", 15 ],
@@ -340,6 +343,7 @@
     "items": [
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
+      [ "af2011a1mag", 1 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "ppshmag", 10 ],

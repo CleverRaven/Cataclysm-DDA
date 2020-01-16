@@ -157,6 +157,27 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
     return type == S_NONE;
 }
 
+bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    if( modifier ) {
+        if( modifier->replace_item( itemid, replacementid ) ) {
+            return true;
+        }
+    }
+    if( type == S_ITEM ) {
+        if( itemid == id ) {
+            id = replacementid;
+            return true;
+        }
+    } else if( type == S_ITEM_GROUP ) {
+        Item_spawn_data *isd = item_controller->get_group( id );
+        if( isd != nullptr ) {
+            isd->replace_item( itemid, replacementid );
+        }
+    }
+    return type == S_NONE;
+}
+
 bool Single_item_creator::has_item( const Item_tag &itemid ) const
 {
     return type == S_ITEM && itemid == id;
@@ -195,6 +216,8 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
+      // Dirt in guns is capped unless overwritten in the itemgroup
+      // most guns should not be very dirty or dirty at all
     , dirt( 0, 500 )
     , charges( -1, -1 )
     , with_ammo( 0 )
@@ -209,11 +232,17 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
-    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    // no need for dirt if it's a bow
+    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) &&
+        !new_item.has_flag( "NON-FOULING" ) ) {
         int random_dirt = rng( dirt.first, dirt.second );
+        // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
+            // chance to be unlubed, but only if it's not a laser or something
+        } else if( one_in( 10 ) && !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+            new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
 
@@ -245,8 +274,8 @@ void Item_modifier::modify( item &new_item ) const
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
     int ch = -1;
     if( !charges_not_set ) {
-        int charges_min = charges.first;
-        int charges_max = charges.second;
+        int charges_min = charges.first == -1 ? 0 : charges.first;
+        int charges_max = charges.second == -1 ? max_capacity : charges.second;
 
         if( charges_min == -1 && charges_max != -1 ) {
             charges_min = 0;
@@ -363,6 +392,19 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     if( container != nullptr ) {
         if( container->remove_item( itemid ) ) {
             container.reset();
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Item_modifier::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    if( ammo != nullptr ) {
+        ammo->replace_item( itemid, replacementid );
+    }
+    if( container != nullptr ) {
+        if( container->replace_item( itemid, replacementid ) ) {
             return true;
         }
     }
@@ -488,9 +530,17 @@ bool Item_group::remove_item( const Item_tag &itemid )
     return items.empty();
 }
 
+bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
+        ( elem )->replace_item( itemid, replacementid );
+    }
+    return items.empty();
+}
+
 bool Item_group::has_item( const Item_tag &itemid ) const
 {
-    for( const auto &elem : items ) {
+    for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         if( ( elem )->has_item( itemid ) ) {
             return true;
         }
@@ -559,7 +609,7 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
@@ -582,22 +632,22 @@ static Group_tag get_unique_group_id()
     }
 }
 
-Group_tag item_group::load_item_group( JsonIn &stream, const std::string &default_subtype )
+Group_tag item_group::load_item_group( const JsonValue &value, const std::string &default_subtype )
 {
-    if( stream.test_string() ) {
-        return stream.get_string();
-    } else if( stream.test_object() ) {
+    if( value.test_string() ) {
+        return value.get_string();
+    } else if( value.test_object() ) {
         const Group_tag group = get_unique_group_id();
 
-        JsonObject jo = stream.get_object();
+        JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
         item_controller->load_item_group( jo, group, subtype );
 
         return group;
-    } else if( stream.test_array() ) {
+    } else if( value.test_array() ) {
         const Group_tag group = get_unique_group_id();
 
-        JsonArray jarr = stream.get_array();
+        JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
         // from the caller of this function.
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
@@ -607,7 +657,7 @@ Group_tag item_group::load_item_group( JsonIn &stream, const std::string &defaul
 
         return group;
     } else {
-        stream.error( "invalid item group, must be string (group id) or object/array (the group data)" );
+        value.throw_error( "invalid item group, must be string (group id) or object/array (the group data)" );
         // stream.error always throws, this is here to prevent a warning
         return Group_tag{};
     }

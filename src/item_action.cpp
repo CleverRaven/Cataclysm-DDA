@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <iterator>
-#include <sstream>
 #include <list>
 #include <memory>
 #include <set>
@@ -187,7 +186,7 @@ const item_action &item_action_generator::get_action( const item_action_id &id )
     return nullaction;
 }
 
-void item_action_generator::load_item_action( JsonObject &jo )
+void item_action_generator::load_item_action( const JsonObject &jo )
 {
     item_action ia;
 
@@ -259,15 +258,13 @@ void game::item_action_menu()
     // Add mapped actions to the menu vector.
     std::transform( iactions.begin(), iactions.end(), std::back_inserter( menu_items ),
     []( const std::pair<item_action_id, item *> &elem ) {
-        std::stringstream ss;
-        ss << elem.second->display_name();
+        std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss << " (" << elem.second->ammo_required() << '/'
-               << elem.second->ammo_remaining() << ')';
+            ss += string_format( " (%d/%d)", elem.second->ammo_required(), elem.second->ammo_remaining() );
         }
 
         const auto method = elem.second->get_use( elem.first );
-        return std::make_tuple( method->get_type(), method->get_name(), ss.str() );
+        return std::make_tuple( method->get_type(), method->get_name(), ss );
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );
@@ -289,18 +286,18 @@ void game::item_action_menu()
     }
     // Fill the menu.
     for( const auto &elem : menu_items ) {
-        std::stringstream ss;
-        ss << std::get<1>( elem )
-           << std::string( max_len.first - utf8_width( std::get<1>( elem ), true ), ' ' )
-           << std::string( 4, ' ' );
+        std::string ss;
+        ss += std::get<1>( elem );
+        ss += std::string( max_len.first - utf8_width( std::get<1>( elem ), true ), ' ' );
+        ss += std::string( 4, ' ' );
 
-        ss << std::get<2>( elem )
-           << std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
+        ss += std::get<2>( elem );
+        ss += std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
 
         const char bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
 
-        kmenu.addentry( num, enabled, bind, ss.str() );
+        kmenu.addentry( num, enabled, bind, ss );
         num++;
     }
 

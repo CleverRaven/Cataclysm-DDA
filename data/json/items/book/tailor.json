@@ -28,8 +28,7 @@
   {
     "id": "mag_tailor",
     "type": "BOOK",
-    "name": "Sew Awesome Monthly",
-    "name_plural": "Sew Awesome Monthlies",
+    "name": { "str": "Sew Awesome Monthly", "str_pl": "Sew Awesome Monthlies" },
     "description": "A well presented monthly magazine all about knitting, crocheting, and needlepoint.  Filled with ideas and project patterns.",
     "weight": "75 g",
     "volume": "250 ml",
@@ -47,8 +46,7 @@
   {
     "id": "manual_tailor",
     "type": "BOOK",
-    "name": "Sew What?  Clothing!",
-    "name_plural": "Sew What?  Clothing!",
+    "name": { "str": "Sew What? Clothing!", "str_pl": "copies of Sew What? Clothing!" },
     "description": "A colorful book about tailoring.",
     "weight": "454 g",
     "volume": "750 ml",
@@ -85,7 +83,7 @@
   {
     "id": "tailor_japanese",
     "type": "BOOK",
-    "name": "Traditional Japanese Kimono",
+    "name": { "str": "Traditional Japanese Kimono", "str_pl": "copies of Traditional Japanese Kimono" },
     "description": "An illustrated textbook on the crafting of Japanese traditional garb.",
     "weight": "2400 g",
     "volume": "1500 ml",
@@ -104,7 +102,7 @@
   {
     "id": "recipe_fauxfur",
     "type": "BOOK",
-    "name": "Friendly, Humane Fashion",
+    "name": { "str": "Friendly, Humane Fashion", "str_pl": "copies of Friendly, Humane Fashion" },
     "description": "An educational book detailing the uses of fake fur, as well as its benefits and disadvantages.  The prose is rather passionate, and a disclaimer on the cover proudly states that the book is printed and distributed by the Gryphon Animal Rights Organization.",
     "weight": "2267 g",
     "volume": "1 L",
@@ -124,8 +122,7 @@
   {
     "id": "textbook_tailor",
     "type": "BOOK",
-    "name": "Sewing Techniques for Designers",
-    "name_plural": "Sewing Techniques for Designers",
+    "name": { "str": "Sewing Techniques for Designers", "str_pl": "copies of Sewing Techniques for Designers" },
     "description": "A massive, hardbound book full of a wealth of information for the professional clothing designer.",
     "weight": "2600 g",
     "volume": "2 L",

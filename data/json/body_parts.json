@@ -13,7 +13,8 @@
     "hit_size_relative": [ 20, 33.33, 36.57 ],
     "hit_difficulty": 1,
     "side": "both",
-    "legacy_id": "TORSO"
+    "legacy_id": "TORSO",
+    "bionic_slots": 80
   },
   {
     "id": "head",
@@ -29,7 +30,8 @@
     "hit_size_relative": [ 0, 2.33, 5.71 ],
     "hit_difficulty": 1.35,
     "side": "both",
-    "legacy_id": "HEAD"
+    "legacy_id": "HEAD",
+    "bionic_slots": 18
   },
   {
     "id": "eyes",
@@ -44,7 +46,8 @@
     "hit_size_relative": [ 0, 0.33, 0.57 ],
     "hit_difficulty": 1.15,
     "side": "both",
-    "legacy_id": "EYES"
+    "legacy_id": "EYES",
+    "bionic_slots": 4
   },
   {
     "id": "mouth",
@@ -59,7 +62,8 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.15,
     "side": "both",
-    "legacy_id": "MOUTH"
+    "legacy_id": "MOUTH",
+    "bionic_slots": 4
   },
   {
     "id": "arm_l",
@@ -76,7 +80,8 @@
     "hit_size_relative": [ 15, 20, 22.86 ],
     "hit_difficulty": 0.95,
     "side": "left",
-    "legacy_id": "ARM_L"
+    "legacy_id": "ARM_L",
+    "bionic_slots": 20
   },
   {
     "id": "arm_r",
@@ -93,7 +98,8 @@
     "hit_size_relative": [ 15, 20, 22.86 ],
     "hit_difficulty": 0.95,
     "side": "right",
-    "legacy_id": "ARM_R"
+    "legacy_id": "ARM_R",
+    "bionic_slots": 20
   },
   {
     "id": "hand_l",
@@ -109,7 +115,8 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "side": "left",
-    "legacy_id": "HAND_L"
+    "legacy_id": "HAND_L",
+    "bionic_slots": 5
   },
   {
     "id": "hand_r",
@@ -125,7 +132,8 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "side": "right",
-    "legacy_id": "HAND_R"
+    "legacy_id": "HAND_R",
+    "bionic_slots": 5
   },
   {
     "id": "leg_l",
@@ -142,7 +150,8 @@
     "hit_size_relative": [ 25, 12, 5.71 ],
     "hit_difficulty": 0.975,
     "side": "left",
-    "legacy_id": "LEG_L"
+    "legacy_id": "LEG_L",
+    "bionic_slots": 30
   },
   {
     "id": "leg_r",
@@ -159,7 +168,8 @@
     "hit_size_relative": [ 25, 12, 5.71 ],
     "hit_difficulty": 0.975,
     "side": "right",
-    "legacy_id": "LEG_R"
+    "legacy_id": "LEG_R",
+    "bionic_slots": 30
   },
   {
     "id": "foot_l",
@@ -175,7 +185,8 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "side": "left",
-    "legacy_id": "FOOT_L"
+    "legacy_id": "FOOT_L",
+    "bionic_slots": 7
   },
   {
     "id": "foot_r",
@@ -191,7 +202,8 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "side": "right",
-    "legacy_id": "FOOT_R"
+    "legacy_id": "FOOT_R",
+    "bionic_slots": 7
   },
   {
     "id": "num_bp",

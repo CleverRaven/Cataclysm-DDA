@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "name": "donut holes",
     "name_plural": "donut holes",
-    "weight": 226,
+    "weight": "226 g",
     "color": "yellow",
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
@@ -267,7 +267,7 @@
     "stack_size": 20,
     "flags": [ "EATEN_HOT" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 12.5 ] ],
+    "vitamins": [ [ "calcium", 12 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
   }
 ]

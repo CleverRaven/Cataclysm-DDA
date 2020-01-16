@@ -178,8 +178,6 @@ class advanced_inventory
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, int &amount );
-
-        static char get_direction_key( aim_location area );
 };
 
 #endif

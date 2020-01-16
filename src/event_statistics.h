@@ -26,9 +26,9 @@ class event_transformation
     public:
         event_multiset initialize( stats_tracker & ) const;
 
-        void load( JsonObject &, const std::string & );
+        void load( const JsonObject &, const std::string & );
         void check() const;
-        static void load_transformation( JsonObject &, const std::string & );
+        static void load_transformation( const JsonObject &, const std::string & );
         static void check_consistency();
         static void reset();
 
@@ -46,9 +46,9 @@ class event_statistic
     public:
         cata_variant value( stats_tracker & ) const;
 
-        void load( JsonObject &, const std::string & );
+        void load( const JsonObject &, const std::string & );
         void check() const;
-        static void load_statistic( JsonObject &, const std::string & );
+        static void load_statistic( const JsonObject &, const std::string & );
         static void check_consistency();
         static void reset();
 
@@ -68,9 +68,9 @@ class score
         std::string description( stats_tracker & ) const;
         cata_variant value( stats_tracker & ) const;
 
-        void load( JsonObject &, const std::string & );
+        void load( const JsonObject &, const std::string & );
         void check() const;
-        static void load_score( JsonObject &, const std::string & );
+        static void load_score( const JsonObject &, const std::string & );
         static void check_consistency();
         static const std::vector<score> &get_all();
         static void reset();

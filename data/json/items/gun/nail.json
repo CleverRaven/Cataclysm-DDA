@@ -66,7 +66,7 @@
     "to_hit": -1,
     "bashing": 12,
     "skill": "rifle",
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],

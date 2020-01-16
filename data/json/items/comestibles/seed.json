@@ -419,6 +419,7 @@
     "price": 100,
     "weight": "2 g",
     "charges": 2,
+    "flags": [ "RAW" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" }
   },
   {
@@ -752,7 +753,7 @@
     "volume": "250 ml",
     "charges": 4,
     "fun": -10,
-    "flags": [ "HIDDEN_POISON" ],
+    "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": "POISON",
     "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
   },
@@ -775,7 +776,7 @@
     "calories": 549,
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "stack_size": 40,
     "weight": "106 g"
   },

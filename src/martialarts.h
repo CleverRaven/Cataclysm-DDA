@@ -35,12 +35,12 @@ struct ma_requirements {
     bool wall_adjacent; // Does it only work near a wall?
 
     /** Minimum amount of given skill to trigger this bonus */
-    std::map<skill_id, int> min_skill;
+    std::vector<std::pair<skill_id, int>> min_skill;
 
     /** Minimum amount of given damage type on the weapon
      *  Note: DT_FIRE currently won't work, not even on flaming weapons!
      */
-    std::map<damage_type, int> min_damage;
+    std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
@@ -58,7 +58,7 @@ struct ma_requirements {
     bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
 };
 
 class ma_technique
@@ -66,7 +66,7 @@ class ma_technique
     public:
         ma_technique();
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         matec_id id;
         bool was_loaded = false;
@@ -196,7 +196,7 @@ class ma_buff
         bool strictly_melee; // can we only use it with weapons?
         bool stealthy; // do we make less noise when moving?
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 };
 
 class martialart
@@ -204,7 +204,7 @@ class martialart
     public:
         martialart();
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         // modifies a Character's "current" stats with various types of bonuses
         void apply_static_buffs( Character &u ) const;
@@ -287,8 +287,8 @@ class ma_style_callback : public uilist_callback
         ~ma_style_callback() override = default;
 };
 
-void load_technique( JsonObject &jo, const std::string &src );
-void load_martial_art( JsonObject &jo, const std::string &src );
+void load_technique( const JsonObject &jo, const std::string &src );
+void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();

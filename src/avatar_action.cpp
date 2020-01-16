@@ -1,6 +1,6 @@
 #include "avatar_action.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <functional>
 #include <memory>
@@ -14,8 +14,10 @@
 #include "avatar.h"
 #include "creature.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -61,6 +63,9 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_harnessed( "harnessed" );
 
+static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
+
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -76,9 +81,6 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
     } else {
-        if( tile_iso && use_tiles && !you.has_destination() ) {
-            rotate_direction_cw( dx, dy );
-        }
         dest_loc.x = you.posx() + dx;
         dest_loc.y = you.posy() + dy;
         dest_loc.z = you.posz() + dz;
@@ -96,18 +98,21 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
-                you.defer_move( dest_loc ); // don't move into the tile until done mining
+                // don't move into the tile until done mining
+                you.defer_move( dest_loc );
                 return true;
             } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
-                you.defer_move( dest_loc ); // don't move into the tile until done mining
+                // don't move into the tile until done mining
+                you.defer_move( dest_loc );
                 return true;
             }
         }
         if( you.has_trait( trait_BURROW ) ) {
             item burrowing_item( itype_id( "fake_burrowing" ) );
             you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            you.defer_move( dest_loc ); // don't move into the tile until done mining
+            // don't move into the tile until done mining
+            you.defer_move( dest_loc );
             return true;
         }
     }
@@ -125,7 +130,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     int new_dx = dest_loc.x - you.posx();
     int new_dy = dest_loc.y - you.posy();
 
-    if( ! tile_iso ) {
+    if( !tile_iso ) {
         if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
             if( you.is_mounted() ) {
@@ -237,9 +242,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         monster &critter = *mon_ptr;
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
-            if( you.has_destination() ) {
+            if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
-                add_msg( m_info, _( "Click directly on monster to attack." ) );
+                add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
             } else {
@@ -271,9 +276,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     // If not a monster, maybe there's an NPC there
     if( npc *const np_ = g->critter_at<npc>( dest_loc ) ) {
         npc &np = *np_;
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto-move canceled." ) );
-            add_msg( m_info, _( "Click directly on NPC to attack." ) );
+            add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
             you.clear_destination();
             return false;
         }
@@ -326,11 +331,12 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
 
-    if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
+    // Dive into water!
+    if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
         if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
-            if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
+            if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
             }
@@ -356,7 +362,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;
@@ -381,7 +387,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;
@@ -390,7 +396,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
-        if( you.has_destination() ) {
+        if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
         return true;
@@ -526,7 +532,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
     }
-    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
+    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 );
     you.inv.rust_iron_items();
 
     if( !you.is_mounted() ) {
@@ -559,7 +565,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    auto critters = you.get_hostile_creatures( reach );
+    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
@@ -621,7 +627,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
     std::vector<std::string> messages;
 
-    for( const std::pair<gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
+    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
         bool fireable = true;
         // check that a valid mode was returned and we are able to use it
         if( !( mode_map.second && you.can_use( *mode_map.second ) ) ) {
@@ -673,7 +679,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                            ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                         messages.push_back( string_format(
-                                                _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire the %s!" ),
+                                                _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
                                                 mode_map.second->tname(), ups_drain, adv_ups_drain ) );
                         fireable = false;
                     }
@@ -763,8 +769,8 @@ bool avatar_action::fire( avatar &you, map &m )
             }
 
             // Burn 0.2% max base stamina x the strength required to fire.
-            you.mod_stat( "stamina", gun->get_min_str() * static_cast<int>( 0.002f *
-                          get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+            you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
+                             get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -797,7 +803,8 @@ bool avatar_action::fire( avatar &you, map &m )
         g->reenter_fullscreen();
         return false;
     }
-    g->draw_ter(); // Recenter our view
+    // Recenter our view
+    g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
 
@@ -844,7 +851,104 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     return avatar_action::fire( you, m );
 }
 
-void avatar_action::plthrow( avatar &you, int pos,
+void avatar_action::mend( avatar &you, item_location loc )
+{
+    if( !loc ) {
+        if( you.is_armed() ) {
+            loc = item_location( you, &you.weapon );
+        } else {
+            add_msg( m_info, _( "You're not wielding anything." ) );
+            return;
+        }
+    }
+
+    if( you.has_item( *loc ) ) {
+        you.mend_item( item_location( loc ) );
+    }
+}
+
+bool avatar_action::eat_here( avatar &you )
+{
+    if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
+        ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
+        if( you.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
+            return true;
+        } else {
+            you.moves -= 400;
+            g->m.ter_set( you.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            you.eat( food );
+            return true;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
+            g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
+        if( you.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+            return true;
+        } else {
+            you.moves -= 400;
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            you.eat( food );
+            if( g->m.ter( you.pos() ) == t_grass_tall ) {
+                g->m.ter_set( you.pos(), t_grass_long );
+            } else if( g->m.ter( you.pos() ) == t_grass_long ) {
+                g->m.ter_set( you.pos(), t_grass );
+            } else {
+                g->m.ter_set( you.pos(), t_dirt );
+            }
+            return true;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) ) {
+        if( g->m.ter( you.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return true;
+        } else if( g->m.ter( you.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return true;
+        } else if( g->m.ter( you.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
+            return true;
+        }
+    }
+    return false;
+}
+
+void avatar_action::eat( avatar &you )
+{
+    item_location loc = game_menus::inv::consume( you );
+    avatar_action::eat( you, loc );
+}
+
+void avatar_action::eat( avatar &you, item_location loc )
+{
+    if( !loc ) {
+        you.cancel_activity();
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    item *it = loc.get_item();
+    if( loc.where() == item_location::type::character ) {
+        you.consume( loc );
+
+    } else if( you.consume_item( *it ) ) {
+        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
+            it->contents.erase( it->contents.begin() );
+            add_msg( _( "You leave the empty %s." ), it->tname() );
+        } else {
+            loc.remove_item();
+        }
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+}
+
+void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
     if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -852,7 +956,7 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
     if( you.is_mounted() ) {
-        auto mons = g->u.mounted_creature.get();
+        monster *mons = g->u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -862,17 +966,21 @@ void avatar_action::plthrow( avatar &you, int pos,
         }
     }
 
-    if( pos == INT_MIN ) {
-        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+    if( !loc ) {
+        loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                            _( "You don't have any items to throw." ) );
         g->refresh_all();
     }
 
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
-
-    item thrown = you.i_at( pos );
+    // make a copy and get the original.
+    // the copy is thrown and has its and the originals charges set appropiately
+    // or deleted from inventory if its charges(1) or not stackable.
+    item *orig = loc.get_item();
+    item thrown = *orig;
     int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
@@ -882,7 +990,7 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
 
-    if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
+    if( you.is_wielding( *orig ) && orig->has_flag( "NO_UNWIELD" ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
@@ -898,22 +1006,16 @@ void avatar_action::plthrow( avatar &you, int pos,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( pos < -1 ) {
-        auto ret = you.can_takeoff( you.i_at( pos ) );
+    if( you.is_wearing( orig->typeId() ) ) {
+        ret_val<bool> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
     }
     // you must wield the item to throw it
-    if( pos != -1 ) {
-        you.i_rem( pos );
-        if( !you.wield( thrown ) ) {
-            // We have to remove the item before checking for wield because it
-            // can invalidate our pos index.  Which means we have to add it
-            // back if the player changed their mind about unwielding their
-            // current item
-            you.i_add( thrown );
+    if( !you.is_wielding( *orig ) ) {
+        if( !you.wield( *orig ) ) {
             return;
         }
     }
@@ -933,7 +1035,8 @@ void avatar_action::plthrow( avatar &you, int pos,
     const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode, &thrown,
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode,
+                                       &you.weapon,
                                        range );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -945,12 +1048,114 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
 
-    if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        you.i_at( -1 ).charges--;
+    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
+        you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.i_rem( -1 );
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
+}
+
+static void make_active( item_location loc )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+        default:
+            break;
+    }
+}
+
+static void update_lum( item_location loc, bool add )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.update_lum( loc, add );
+            break;
+        default:
+            break;
+    }
+}
+
+void avatar_action::use_item( avatar &you )
+{
+    item_location loc;
+    avatar_action::use_item( you, loc );
+}
+
+void avatar_action::use_item( avatar &you, item_location &loc )
+{
+    // Some items may be used without being picked up first
+    bool use_in_place = false;
+
+    if( !loc ) {
+        loc = game_menus::inv::use( you );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        if( loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_in_place = true;
+        } else {
+            const int obtain_cost = loc.obtain_cost( you );
+            item &target = you.i_at( loc.obtain( you ) );
+            if( target.is_null() ) {
+                debugmsg( "Failed to obtain target item" );
+                return;
+            }
+            loc = item_location( you, &target );
+
+            // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
+            // This method only handles items in the inventory, so refund the obtain cost.
+            you.mod_moves( obtain_cost );
+        }
+    }
+
+    g->refresh_all();
+
+    if( use_in_place ) {
+        update_lum( loc, false );
+        you.use( loc );
+        update_lum( loc, true );
+
+        make_active( loc );
+    } else {
+        you.use( loc );
+    }
+
+    you.invalidate_crafting_inventory();
+}
+
+// Opens up a menu to Unload a container, gun, or tool
+// If it's a gun, some gunmods can also be loaded
+void avatar_action::unload( avatar &you )
+{
+    item_location loc;
+
+    loc = g->inv_map_splice( [&you]( const item & it ) {
+        return you.rate_action_unload( it ) == HINT_GOOD;
+    }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    item *it = loc.get_item();
+    if( loc.where() != item_location::type::character ) {
+        it = &you.i_at( loc.obtain( you ) );
+    }
+    if( you.unload( *it ) ) {
+        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
+            you.remove_item( *it );
+        }
+    }
 }

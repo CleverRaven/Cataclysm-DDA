@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "weighted_list.h"
 #include "point.h"
+#include "pimpl.h"
 
 class Creature;
 class player;
@@ -188,7 +189,7 @@ class tileset_loader
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
-        void load_ascii_set( JsonObject &entry );
+        void load_ascii_set( const JsonObject &entry );
         /**
          * Create a new tile_type, add it to tile_ids (using <B>id</B>).
          * Set the fg and bg properties of it (loaded from the json object).
@@ -196,12 +197,12 @@ class tileset_loader
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type &load_tile( JsonObject &entry, const std::string &id );
+        tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
-        void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
+        void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
                                     const std::string &objname );
 
-        void load_ascii( JsonObject &config );
+        void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
@@ -218,12 +219,12 @@ class tileset_loader
          * sprite offset dictates where each sprite should render in its tile
          * @throw std::exception On any error.
          */
-        void load_tilejson_from_file( JsonObject &config );
+        void load_tilejson_from_file( const JsonObject &config );
         /**
          * Helper function called by load.
          * @throw std::exception On any error.
          */
-        void load_internal( JsonObject &config, const std::string &tileset_root,
+        void load_internal( const JsonObject &config, const std::string &tileset_root,
                             const std::string &img_path );
     public:
         tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
@@ -573,7 +574,7 @@ class cata_tiles
          */
         bool nv_goggles_activated;
 
-        std::unique_ptr<pixel_minimap> minimap;
+        pimpl<pixel_minimap> minimap;
 
     public:
         std::string memory_map_mode = "color_pixel_sepia";

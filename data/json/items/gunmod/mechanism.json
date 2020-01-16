@@ -37,7 +37,7 @@
     "//install_time": "5 m",
     "dispersion_modifier": 10,
     "//durability_modifier": -1,
-    "mode_modifier": [ [ "AUTO", "auto", 13 ] ],
+    "mode_modifier": [ [ "AUTO", "auto", 4 ] ],
     "min_skills": [ [ "rifle", 2 ] ]
   },
   {

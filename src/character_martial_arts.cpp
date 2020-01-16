@@ -5,8 +5,8 @@
 #include "messages.h"
 #include "output.h"
 
-const matype_id style_none( "style_none" );
-const matype_id style_kicks( "style_kicks" );
+static const matype_id style_none( "style_none" );
+static const matype_id style_kicks( "style_kicks" );
 
 using itype_id = std::string;
 

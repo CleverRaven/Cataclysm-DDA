@@ -24,7 +24,7 @@
 #include "string_id.h"
 #include "enums.h"
 
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_swimming( "swimming" );
 
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
@@ -127,7 +127,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d", e.armor_encumbrance );
+        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
+                   e.encumbrance - e.layer_penalty );
         // separator in low toned color
         mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
         // take into account the new encumbrance system for layers
@@ -151,39 +152,28 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
 
 static std::string swim_cost_text( int moves )
 {
-    return string_format( ngettext( "Swimming costs %+d movement point. ",
-                                    "Swimming costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( _( "Swimming movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string run_cost_text( int moves )
 {
-    return string_format( ngettext( "Running costs %+d movement point. ",
-                                    "Running costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( _( "Running movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string reload_cost_text( int moves )
 {
-    return string_format( ngettext( "Reloading costs %+d movement point. ",
-                                    "Reloading costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string melee_cost_text( int moves )
 {
-    return string_format( ngettext( "Melee and thrown attacks cost %+d movement point. ",
-                                    "Melee and thrown attacks cost %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format(
+               _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string dodge_skill_text( double mod )
 {
-    return string_format( _( "Dodge skill %+.1f. " ), mod );
+    return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
 static int get_encumbrance( const player &p, body_part bp, bool combine )
@@ -203,7 +193,7 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
     switch( bp ) {
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
-            s += string_format( _( "Melee attack rolls %+d%%; " ), melee_roll_pen );
+            s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
@@ -211,29 +201,31 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
             break;
         }
         case bp_head:
-            s += _( "Head encumbrance has no effect; it simply limits how much you can put on." );
+            s += _( "<color_magenta>Head encumbrance has no effect; it simply limits how much you can put on.</color>" );
             break;
         case bp_eyes:
-            s += string_format( _( "Perception %+d when checking traps or firing ranged weapons;\n"
-                                   "Dispersion %+d when throwing items." ),
-                                -( eff_encumbrance / 10 ),
-                                eff_encumbrance * 10 );
+            s += string_format(
+                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
+                        "Dispersion when throwing items: <color_white>%+d</color>" ),
+                     -( eff_encumbrance / 10 ),
+                     eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "Covering your mouth will make it more difficult to breathe and catch your breath." );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>" );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons." );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>" );
             break;
         case bp_hand_l:
         case bp_hand_r:
-            s += _( "Reduces the speed at which you can handle or manipulate items\n" );
+            s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity %+.1f when throwing items;\n" ), -( eff_encumbrance / 10.0f ) );
+            s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
+                                -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
-            s += "\n";
-            s += string_format( _( "Reduces aim speed of guns by %.1f." ), p.aim_speed_encumbrance_modifier() );
+            s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
+                                p.aim_speed_encumbrance_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -345,8 +337,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your weight is a general indicator of how much fat your body has stored up,"
                                              " which in turn shows how prepared you are to survive for a time without food."
-                                             "Having too much, or too little, can be unhealthy." ) );
-        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                             "  Having too much, or too little, can be unhealthy." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.get_weight_description() );
     }
     wrefresh( w_stats );
@@ -406,7 +398,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
     }
     const std::string s = get_encumbrance_description( you, bp, combined_here );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, s );
+    fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, s );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
@@ -467,7 +459,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
     if( line < traitslist.size() ) {
         const auto &mdata = traitslist[line].obj();
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format(
                             "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
     }
     wrefresh( w_traits );
@@ -537,7 +529,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     }
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white, "%s",
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, "%s",
                         bionicslist[line].info().description );
     }
     wrefresh( w_bionics );
@@ -611,7 +603,7 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
     }
     if( line < actual_size ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         effect_name_and_text[line].second );
     }
     wrefresh( w_effects );
@@ -764,7 +756,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
 
     if( selectedSkill ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         selectedSkill->description() );
     }
     wrefresh( w_info );
@@ -1125,26 +1117,29 @@ void player::disp_info()
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
-        std::stringstream starvation_text;
+        std::string starvation_text;
 
         if( bmi < character_weight_category::emaciated ) {
             starvation_name = _( "Severely Malnourished" );
-            starvation_text <<
-                            _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
+            starvation_text =
+                _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
         } else {
             starvation_name = _( "Malnourished" );
-            starvation_text <<
-                            _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
+            starvation_text =
+                _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
         if( bmi < character_weight_category::underweight ) {
             const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
-            starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
-            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
-            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
+            starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 100.0f );
+            starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 50.0f );
+            starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%2.0f%%",
+                               str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text.str() } );
+        effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
@@ -1356,29 +1351,35 @@ void player::disp_info()
     do {
         werase( w_info );
         switch( curtab ) {
-            case 1: // Stats tab
+            case 1:
+                // Stats tab
                 draw_stats_tab( w_stats, w_info, *this, line, curtab, ctxt, done, action );
                 break;
-            case 2: // Encumbrance tab
+            case 2:
+                // Encumbrance tab
                 draw_encumbrance_tab( w_encumb, w_info, *this, line, curtab, ctxt, done, action );
                 break;
 
-            case 4: // Traits tab
+            case 4:
+                // Traits tab
                 draw_traits_tab( w_traits, w_info, line, curtab, ctxt, done, action,
                                  traitslist, trait_win_size_y );
                 break;
 
-            case 5: // Bionics tab
+            case 5:
+                // Bionics tab
                 draw_bionics_tab( w_bionics, w_info, *this, line, curtab, ctxt, done, action,
                                   bionicslist, bionics_win_size_y );
                 break;
 
-            case 6: // Effects tab
+            case 6:
+                // Effects tab
                 draw_effects_tab( w_effects, w_info, line, curtab, ctxt, done, action,
                                   effect_name_and_text, effect_win_size_y );
                 break;
 
-            case 3: // Skills tab
+            case 3:
+                // Skills tab
                 draw_skills_tab( w_skills, w_info, *this, line, curtab, ctxt, done, action,
                                  skillslist, skill_win_size_y );
 

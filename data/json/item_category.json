@@ -38,7 +38,8 @@
     "id": "clothing",
     "type": "ITEM_CATEGORY",
     "name": "CLOTHING",
-    "//": "zone is hardcoded due to filthy clothing",
+    "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
+    "zone": "LOOT_CLOTHING",
     "sort_rank": -18
   },
   {
@@ -149,7 +150,8 @@
     "id": "armor",
     "type": "ITEM_CATEGORY",
     "name": "ARMOR",
-    "//": "zone is hardcoded due to filthy clothing",
+    "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
+    "zone": "LOOT_ARMOR",
     "sort_rank": 20
   },
   {

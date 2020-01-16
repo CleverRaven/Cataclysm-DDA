@@ -15,7 +15,7 @@
           "type": "dialogue",
           "context": "foodperson",
           "value": "yes",
-          "no": "So you're back... Explain yourself!",
+          "no": "So you're back… Explain yourself!",
           "yes": "Greetings friend, it's nice to see you."
         }
       },
@@ -92,7 +92,7 @@
           ]
         },
         "text": "I am you but from an alternate reality.",
-        "trial": { "type": "LIE", "difficulty": 10, "mod": { "trust": 1, "value": 1 } },
+        "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ] ] },
         "success": { "topic": "TALK_FOODPERSON_MULTIVERSE", "opinion": { "trust": 2, "value": 2 } },
         "failure": { "topic": "TALK_FOODPERSON_ONLYONE", "opinion": { "trust": -5, "value": -5 } }
       },
@@ -423,7 +423,7 @@
   {
     "id": "TALK_FOODPERSON_SHELTER",
     "type": "talk_topic",
-    "dynamic_line": "Well...  You seem like a decent sort, I might have an offer for you.",
+    "dynamic_line": "Well…  You seem like a decent sort, I might have an offer for you.",
     "speaker_effect": { "effect": { "npc_add_var": "npc_succes_shelter", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [ { "text": "I'm listening.", "topic": "TALK_FOODPERSON_SIDEKICK" } ]
   },
@@ -459,7 +459,7 @@
   {
     "id": "TALK_FOODPERSON_TWO",
     "type": "talk_topic",
-    "dynamic_line": "The way you talk, the way you move...  You're...  You're me?  But how?",
+    "dynamic_line": "The way you talk, the way you move…  You're…  You're me?  But how?",
     "responses": [
       {
         "text": "I…  I don't know.  It probably has something to do with <the_cataclysm>!  What do you say we team up to find out?",
@@ -478,7 +478,7 @@
   {
     "id": "TALK_FOODPERSON_MULTIVERSE",
     "type": "talk_topic",
-    "dynamic_line": "Wha...  But.  But...  How?",
+    "dynamic_line": "Wha…  But.  But…  How?",
     "responses": [
       {
         "text": "No time to explain, the world is at an end and we must join forces to save it!",
@@ -486,7 +486,7 @@
         "topic": "TALK_FOODPERSON_TEAMUP"
       },
       {
-        "text": "The cataclysm weakened the space-time continuum, I accidentally fell through a tear in reality and ended up here.  I will need access to your resources to keep fighting.",
+        "text": "The Cataclysm weakened the space-time continuum, I accidentally fell through a tear in reality and ended up here.  I will need access to your resources to keep fighting.",
         "effect": { "npc_add_var": "foodperson_meeting_solved", "type": "dialogue", "context": "foodperson", "value": "yes" },
         "topic": "TALK_FOODPERSON_SHARING"
       },
@@ -500,7 +500,7 @@
   {
     "id": "TALK_FOODPERSON_SHARING",
     "type": "talk_topic",
-    "dynamic_line": "Of course, whatever you need...  Foodperson.",
+    "dynamic_line": "Of course, whatever you need…  Foodperson.",
     "speaker_effect": { "effect": { "npc_add_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [
       {

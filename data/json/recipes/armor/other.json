@@ -88,7 +88,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "bead_necklace",
@@ -99,7 +99,7 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
-    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "string_36", 1 ] ] ]
+    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "down_blanket",
@@ -141,7 +141,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
@@ -158,7 +158,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "faux_fur", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
@@ -214,7 +214,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },

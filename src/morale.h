@@ -69,7 +69,7 @@ class player_morale
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
     private:
 

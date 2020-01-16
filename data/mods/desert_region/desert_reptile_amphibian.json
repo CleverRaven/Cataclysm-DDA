@@ -8,7 +8,7 @@
     "bodytype": "lizard",
     "species": [ "REPTILE" ],
     "volume": "4000 ml",
-    "weight": 1814,
+    "weight": "1814 g",
     "hp": 16,
     "speed": 85,
     "material": [ "iflesh" ],

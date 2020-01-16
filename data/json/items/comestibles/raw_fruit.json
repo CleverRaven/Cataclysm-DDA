@@ -77,7 +77,7 @@
     "price": 120,
     "material": "fruit",
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 74 ], [ "calcium", 1 ], [ "iron", 2 ] ],
     "fun": -4
@@ -99,7 +99,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": 2,
-    "flags": [ "SMOKABLE", "SMOKABLE" ],
+    "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 24 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
@@ -141,7 +141,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "charges": 3,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 27 ], [ "iron", 1 ] ]
   },
@@ -162,7 +162,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": 4,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 64 ], [ "calcium", 3 ], [ "iron", 5 ] ]
   },
@@ -225,7 +225,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 61 ], [ "calcium", 6 ], [ "iron", 14 ] ]
   },
@@ -246,7 +246,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": 2,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 32 ], [ "vitC", 634 ], [ "calcium", 23 ], [ "iron", 8 ] ]
   },
@@ -506,7 +506,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": 4,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "iron", 2 ] ]
   },
@@ -658,6 +658,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": -1,
+    "flags": [ "RAW" ],
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 16 ], [ "calcium", 16 ], [ "iron", 2 ] ]
   }
 ]

@@ -4,17 +4,18 @@ The **region_settings** define the attributes for map generation that apply to a
 The general settings define the default overmap terrain and ground cover. Additional sections are
 as follows:
 
-|             Section             |                             Description                             |
-| ------------------------------- | ------------------------------------------------------------------- |
-| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.           |
-| `overmap_lake_settings`         | Defines parameters for generating lakes in the region.              |
-| `overmap_forest_settings`       | Defines parameters for generating forests and swamps in the region. |
-| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types.  |
-| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.           |
-| `city`                          | Defines the structural compositions of cities.                      |
-| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.        |
-| `weather`                       | Defines the base weather attributes for the region.                 |
-| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.        |
+|             Section             |                              Description                              |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `region_terrain_and_furniture`  | Defines the resolution of regional terrain/furniture to actual types. |
+| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.             |
+| `overmap_lake_settings`         | Defines parameters for generating lakes in the region.                |
+| `overmap_forest_settings`       | Defines parameters for generating forests and swamps in the region.   |
+| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types.    |
+| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.             |
+| `city`                          | Defines the structural compositions of cities.                        |
+| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.          |
+| `weather`                       | Defines the base weather attributes for the region.                   |
+| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.          |
 
 Note that for the default region, all attributes and sections are required.
 
@@ -40,6 +41,49 @@ Note that for the default region, all attributes and sections are required.
 	]
 }
 ```
+
+## Region Terrain / Furniture
+
+The **region_terrain_and_furniture** section defines the resolution of regional terrain/furniture
+to their actual terrain and furniture types for the region, with a weighted list for
+terrain/furniture entry that defines the relative weight of a given entry when mapgen resolves the
+regional entry to an actual entry.
+
+### Fields
+
+| Identifier  |                            Description                             |
+| ----------- | ------------------------------------------------------------------ |
+| `terrain`   | List of regional terrain and their corresponding weighted lists.   |
+| `furniture` | List of regional furniture and their corresponding weighted lists. |
+
+### Example
+```json
+{
+	"region_terrain_and_furniture": {
+		"terrain": {
+			"t_region_groundcover": {
+				"t_grass": 4,
+				"t_grass_long": 2,
+				"t_dirt": 1
+			}
+		},
+		"furniture": {
+			"f_region_flower": {
+				"f_black_eyed_susan": 1,
+				"f_lily": 1,
+				"f_flower_tulip": 1,
+				"f_flower_spurge": 1,
+				"f_chamomile": 1,
+				"f_dandelion": 1,
+				"f_datura": 1,
+				"f_dahlia": 1,
+				"f_bluebell": 1
+			}
+		}
+	}
+}
+```
+
 
 ## Field Coverage
 

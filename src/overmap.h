@@ -59,6 +59,8 @@ struct city {
 struct om_note {
     std::string text;
     point p;
+    bool dangerous = false;
+    int danger_radius = 0;
 };
 
 struct om_map_extra {
@@ -233,9 +235,11 @@ class overmap
         bool is_explored( const tripoint &p ) const;
 
         bool has_note( const tripoint &p ) const;
+        bool is_marked_dangerous( const tripoint &p ) const;
         const std::string &note( const tripoint &p ) const;
         void add_note( const tripoint &p, std::string message );
         void delete_note( const tripoint &p );
+        void mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous );
 
         bool has_extra( const tripoint &p ) const;
         const string_id<map_extra> &extra( const tripoint &p ) const;
@@ -295,6 +299,11 @@ class overmap
         }
 
         void clear_mon_groups();
+        void clear_overmap_special_placements();
+        void clear_cities();
+        void clear_connections_out();
+        void place_special_forced( const overmap_special_id &special_id, const tripoint &p,
+                                   om_direction::type dir );
     private:
         std::multimap<tripoint, mongroup> zg;
     public:
@@ -310,25 +319,26 @@ class overmap
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
-        void insert_npc( std::shared_ptr<npc> who );
+        void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        std::shared_ptr<npc> erase_npc( character_id id );
+        shared_ptr_fast<npc> erase_npc( character_id id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        std::shared_ptr<npc> find_npc( character_id id ) const;
+        shared_ptr_fast<npc> find_npc( character_id id ) const;
 
-        const std::vector<std::shared_ptr<npc>> &get_npcs() const {
+        const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
         }
-        std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate )
+        std::vector<shared_ptr_fast<npc>> get_npcs( const std::function<bool( const npc & )>
+                                       &predicate )
                                        const;
 
     private:
         friend class overmapbuffer;
 
-        std::vector<std::shared_ptr<npc>> npcs;
+        std::vector<shared_ptr_fast<npc>> npcs;
 
         bool nullbool = false;
         point loc = point_zero;
@@ -476,7 +486,7 @@ class overmap
         void load_legacy_monstergroups( JsonIn &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( JsonObject &jo );
+        static void load_obsolete_terrains( const JsonObject &jo );
 };
 
 bool is_river( const oter_id &ter );

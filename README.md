@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
+[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
+[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)
 
 # Cataclysm: Dark Days Ahead
 
@@ -9,10 +11,27 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
+<a href="https://repology.org/project/cataclysm-dda/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging status" align="right">
+</a>
+
 Visit [our website](http://cataclysmdda.org) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
 
+## Packaging status
+
+### Arch Linux
+
+Ncurses and tiles version avaliable in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
+
+`sudo pacman -S cataclysm-dda`
+
+### Fedora
+
+Ncurses and tiles version avaliable in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
+
+`sudo dnf install cataclysm-dda`
 
 ## Compile
 
@@ -25,7 +44,7 @@ We also have the following build guides:
 
 ## Contribute
 
-Cataclysm:Dark Days Ahead is the result of contributions from over 900 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm:Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=146201)](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)

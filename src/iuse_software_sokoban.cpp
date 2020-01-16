@@ -1,6 +1,5 @@
 #include "iuse_software_sokoban.h"
 
-#include <sstream>
 #include <algorithm>
 #include <functional>
 #include <memory>
@@ -22,22 +21,15 @@ sokoban_game::sokoban_game() = default;
 
 void sokoban_game::print_score( const catacurses::window &w_sokoban, int iScore, int iMoves )
 {
-    std::stringstream ssTemp;
-    ssTemp << string_format( _( "Level: %d/%d" ), iCurrentLevel + 1, iNumLevel ) << "    ";
-    mvwprintz( w_sokoban, point( 3, 1 ), c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 1 ), c_white, _( "Level: %d/%d" ), iCurrentLevel + 1, iNumLevel );
+    wprintw( w_sokoban, "    " );
 
-    ssTemp.str( "" );
-    ssTemp << string_format( _( "Score: %d" ), iScore );
-    mvwprintz( w_sokoban, point( 3, 2 ), c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 2 ), c_white, _( "Score: %d" ), iScore );
 
-    ssTemp.str( "" );
-    ssTemp << string_format( _( "Moves: %d" ), iMoves ) << "    ";
-    mvwprintz( w_sokoban, point( 3, 3 ), c_white, ssTemp.str() );
+    mvwprintz( w_sokoban, point( 3, 3 ), c_white, _( "Moves: %d" ), iMoves );
+    wprintw( w_sokoban, "    " );
 
-    ssTemp.str( "" );
-    ssTemp << string_format( _( "Total moves: %d" ), iTotalMoves );
-    mvwprintz( w_sokoban, point( 3, 4 ), c_white, ssTemp.str() );
-
+    mvwprintz( w_sokoban, point( 3, 4 ), c_white, _( "Total moves: %d" ), iTotalMoves );
 }
 
 void sokoban_game::parse_level( std::istream &fin )
@@ -242,7 +234,7 @@ int sokoban_game::start_game()
     const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     using namespace std::placeholders;
-    read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
+    read_from_file( PATH_INFO::sokoban(), std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     const catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          point( iOffsetX, iOffsetY ) );

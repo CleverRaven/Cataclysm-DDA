@@ -17,6 +17,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "memory_fast.h"
 
 class JsonObject;
 
@@ -214,6 +215,18 @@ struct map_extras {
     map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
+struct region_terrain_and_furniture_settings {
+    std::map<std::string, std::map<std::string, int>> unfinalized_terrain;
+    std::map<std::string, std::map<std::string, int>> unfinalized_furniture;
+    std::map<ter_id, weighted_int_list<ter_id>> terrain;
+    std::map<furn_id, weighted_int_list<furn_id>> furniture;
+
+    void finalize();
+    ter_id resolve( ter_id ) const;
+    furn_id resolve( furn_id ) const;
+    region_terrain_and_furniture_settings() = default;
+};
+
 /*
  * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
@@ -223,7 +236,7 @@ struct regional_settings {
     oter_str_id default_oter; // 'field'
     double river_scale;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
-    std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
+    shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
@@ -233,6 +246,7 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
@@ -246,9 +260,9 @@ using t_regional_settings_map = std::unordered_map<std::string, regional_setting
 using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
-void load_region_settings( JsonObject &jo );
+void load_region_settings( const JsonObject &jo );
 void reset_region_settings();
-void load_region_overlay( JsonObject &jo );
-void apply_region_overlay( JsonObject &jo, regional_settings &region );
+void load_region_overlay( const JsonObject &jo );
+void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
 #endif

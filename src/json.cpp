@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <exception>
 #include <utility>
+#include <limits>
 
 #include "cata_utility.h"
 
@@ -94,70 +95,95 @@ JsonObject::JsonObject( JsonIn &j )
         positions[n] = p;
         jsin->skip_value();
     }
-    end = jsin->tell();
+    end_ = jsin->tell();
     final_separator = jsin->get_ate_separator();
 }
 
-void JsonObject::finish()
+void JsonObject::mark_visited( const std::string &name ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members.emplace( name );
+#else
+    static_cast<void>( name );
+#endif
+}
+
+void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
     if( test_mode && report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
-        for( const std::pair<std::string, int> &p : positions ) {
+        for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
-                dbg( D_ERROR ) << "Failed to visit member '" << name << "' in JsonObject at "
-                               << jsin->line_number( start ) << ":\n" << str() << std::endl;
+                try {
+                    throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
             }
         }
     }
 #endif
+}
+
+void JsonObject::finish()
+{
+    report_unvisited();
     if( jsin && jsin->good() ) {
-        jsin->seek( end );
+        jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
     }
 }
 
-size_t JsonObject::size()
+size_t JsonObject::size() const
 {
     return positions.size();
 }
-bool JsonObject::empty()
+bool JsonObject::empty() const
 {
     return positions.empty();
 }
 
-void JsonObject::allow_omitted_members()
+void JsonObject::allow_omitted_members() const
 {
+#ifndef CATA_IN_TOOL
     report_unvisited_members = false;
+#endif
 }
 
 int JsonObject::verify_position( const std::string &name,
-                                 const bool throw_exception )
+                                 const bool throw_exception ) const
 {
-    visited_members.insert( name );
-    int pos = positions[name]; // initialized to 0 if it doesn't exist
-    if( pos > start ) {
-        return pos;
-    } else if( throw_exception && !jsin ) {
-        throw JsonError( std::string( "member lookup on empty object: " ) + name );
-    } else if( throw_exception ) {
-        jsin->seek( start );
-        jsin->error( "member not found: " + name );
+    if( !jsin ) {
+        if( throw_exception ) {
+            throw JsonError( std::string( "member lookup on empty object: " ) + name );
+        }
+        // 0 is always the opening brace,
+        // so it will never indicate a valid member position
+        return 0;
     }
-    // 0 is always the opening brace,
-    // so it will never indicate a valid member position
-    return 0;
+    const auto iter = positions.find( name );
+    if( iter == positions.end() ) {
+        if( throw_exception ) {
+            jsin->seek( start );
+            jsin->error( "member not found: " + name );
+        }
+        // 0 is always the opening brace,
+        // so it will never indicate a valid member position
+        return 0;
+    }
+    return iter->second;
 }
 
-bool JsonObject::has_member( const std::string &name )
+bool JsonObject::has_member( const std::string &name ) const
 {
-    return static_cast<bool>( verify_position( name, false ) );
+    return positions.count( name ) > 0;
 }
 
-std::set<std::string> JsonObject::get_member_names()
+std::set<std::string> JsonObject::get_member_names() const
 {
     std::set<std::string> ret;
     for( auto &elem : positions ) {
@@ -166,187 +192,191 @@ std::set<std::string> JsonObject::get_member_names()
     return ret;
 }
 
-std::string JsonObject::line_number()
+std::string JsonObject::line_number() const
 {
     jsin->seek( start );
     return jsin->line_number();
 }
 
-std::string JsonObject::str()
+std::string JsonObject::str() const
 {
     // If we're getting the string form, we might be re-parsing later, so don't
     // complain about unvisited members.
     allow_omitted_members();
 
-    if( jsin && end >= start ) {
-        return jsin->substr( start, end - start );
+    if( jsin && end_ >= start ) {
+        return jsin->substr( start, end_ - start );
     } else {
         return "{}";
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name )
+void JsonObject::throw_error( std::string err, const std::string &name ) const
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     jsin->seek( verify_position( name, false ) );
     jsin->error( err );
 }
 
 void JsonArray::throw_error( std::string err )
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     jsin->error( err );
 }
 
 void JsonArray::throw_error( std::string err, int idx )
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     if( idx >= 0 && size_t( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err )
+void JsonObject::throw_error( std::string err ) const
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     jsin->error( err );
 }
 
-JsonIn *JsonObject::get_raw( const std::string &name )
+JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
     int pos = verify_position( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin;
 }
 
 /* returning values by name */
 
-bool JsonObject::get_bool( const std::string &name )
+bool JsonObject::get_bool( const std::string &name ) const
 {
-    int pos = verify_position( name );
+    return get_member( name ).get_bool();
+}
+
+bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
+{
+    int pos = verify_position( name, false );
+    if( !pos ) {
+        return fallback;
+    }
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_bool();
 }
 
-bool JsonObject::get_bool( const std::string &name, const bool fallback )
+int JsonObject::get_int( const std::string &name ) const
 {
-    visited_members.insert( name );
-    int pos = positions[name];
-    if( pos <= start ) {
-        return fallback;
-    }
-    jsin->seek( pos );
-    return jsin->get_bool();
+    return get_member( name ).get_int();
 }
 
-int JsonObject::get_int( const std::string &name )
+int JsonObject::get_int( const std::string &name, const int fallback ) const
 {
-    int pos = verify_position( name );
+    int pos = verify_position( name, false );
+    if( !pos ) {
+        return fallback;
+    }
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_int();
 }
 
-int JsonObject::get_int( const std::string &name, const int fallback )
+double JsonObject::get_float( const std::string &name ) const
 {
-    visited_members.insert( name );
-    int pos = positions[name];
-    if( pos <= start ) {
-        return fallback;
-    }
-    jsin->seek( pos );
-    return jsin->get_int();
+    return get_member( name ).get_float();
 }
 
-double JsonObject::get_float( const std::string &name )
+double JsonObject::get_float( const std::string &name, const double fallback ) const
 {
-    int pos = verify_position( name );
+    int pos = verify_position( name, false );
+    if( !pos ) {
+        return fallback;
+    }
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_float();
 }
 
-double JsonObject::get_float( const std::string &name, const double fallback )
+std::string JsonObject::get_string( const std::string &name ) const
 {
-    visited_members.insert( name );
-    int pos = positions[name];
-    if( pos <= start ) {
-        return fallback;
-    }
-    jsin->seek( pos );
-    return jsin->get_float();
+    return get_member( name ).get_string();
 }
 
-std::string JsonObject::get_string( const std::string &name )
+std::string JsonObject::get_string( const std::string &name, const std::string &fallback ) const
 {
-    int pos = verify_position( name );
-    jsin->seek( pos );
-    return jsin->get_string();
-}
-
-std::string JsonObject::get_string( const std::string &name, const std::string &fallback )
-{
-    visited_members.insert( name );
-    int pos = positions[name];
-    if( pos <= start ) {
+    int pos = verify_position( name, false );
+    if( !pos ) {
         return fallback;
     }
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_string();
 }
 
 /* returning containers by name */
 
-JsonArray JsonObject::get_array( const std::string &name )
+JsonArray JsonObject::get_array( const std::string &name ) const
 {
-    visited_members.insert( name );
-    int pos = positions[name];
-    if( pos <= start ) {
-        return JsonArray(); // empty array
+    int pos = verify_position( name, false );
+    if( !pos ) {
+        return JsonArray();
     }
+    mark_visited( name );
     jsin->seek( pos );
     return JsonArray( *jsin );
 }
 
-std::vector<int> JsonObject::get_int_array( const std::string &name )
+std::vector<int> JsonObject::get_int_array( const std::string &name ) const
 {
-    JsonArray ja = get_array( name );
     std::vector<int> ret;
-    while( ja.has_more() ) {
-        ret.push_back( ja.next_int() );
+    for( const int entry : get_array( name ) ) {
+        ret.push_back( entry );
     }
     return ret;
 }
 
-std::vector<std::string> JsonObject::get_string_array( const std::string &name )
+std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
 {
-    JsonArray ja = get_array( name );
     std::vector<std::string> ret;
-    while( ja.has_more() ) {
-        ret.push_back( ja.next_string() );
+    for( const std::string entry : get_array( name ) ) {
+        ret.push_back( entry );
     }
     return ret;
 }
 
-JsonObject JsonObject::get_object( const std::string &name )
+JsonObject JsonObject::get_object( const std::string &name ) const
 {
-    visited_members.insert( name );
-    int pos = positions[name];
-    if( pos <= start ) {
-        return JsonObject(); // empty object
+    int pos = verify_position( name, false );
+    if( !pos ) {
+        return JsonObject();
     }
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_object();
 }
 
 /* non-fatal member existence and type testing */
 
-bool JsonObject::has_null( const std::string &name )
+bool JsonObject::has_null( const std::string &name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->test_null();
 }
 
-bool JsonObject::has_bool( const std::string &name )
+bool JsonObject::has_bool( const std::string &name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -356,7 +386,7 @@ bool JsonObject::has_bool( const std::string &name )
     return jsin->test_bool();
 }
 
-bool JsonObject::has_number( const std::string &name )
+bool JsonObject::has_number( const std::string &name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -366,7 +396,7 @@ bool JsonObject::has_number( const std::string &name )
     return jsin->test_number();
 }
 
-bool JsonObject::has_string( const std::string &name )
+bool JsonObject::has_string( const std::string &name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -376,7 +406,7 @@ bool JsonObject::has_string( const std::string &name )
     return jsin->test_string();
 }
 
-bool JsonObject::has_array( const std::string &name )
+bool JsonObject::has_array( const std::string &name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -386,7 +416,7 @@ bool JsonObject::has_array( const std::string &name )
     return jsin->test_array();
 }
 
-bool JsonObject::has_object( const std::string &name )
+bool JsonObject::has_object( const std::string &name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -411,7 +441,7 @@ JsonArray::JsonArray( JsonIn &j )
         positions.push_back( jsin->tell() );
         jsin->skip_value();
     }
-    end = jsin->tell();
+    end_ = jsin->tell();
     final_separator = jsin->get_ate_separator();
 }
 
@@ -421,7 +451,7 @@ JsonArray::JsonArray( const JsonArray &ja )
     start = ja.start;
     index = 0;
     positions = ja.positions;
-    end = ja.end;
+    end_ = ja.end_;
     final_separator = ja.final_separator;
 }
 
@@ -431,7 +461,7 @@ JsonArray &JsonArray::operator=( const JsonArray &ja )
     start = ja.start;
     index = 0;
     positions = ja.positions;
-    end = ja.end;
+    end_ = ja.end_;
     final_separator = ja.final_separator;
 
     return *this;
@@ -440,14 +470,14 @@ JsonArray &JsonArray::operator=( const JsonArray &ja )
 void JsonArray::finish()
 {
     if( jsin && jsin->good() ) {
-        jsin->seek( end );
+        jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
     }
 }
 
-bool JsonArray::has_more()
+bool JsonArray::has_more() const
 {
-    return ( index >= 0 && size_t( index ) < positions.size() );
+    return index < positions.size();
 }
 size_t JsonArray::size() const
 {
@@ -461,17 +491,17 @@ bool JsonArray::empty()
 std::string JsonArray::str()
 {
     if( jsin ) {
-        return jsin->substr( start, end - start );
+        return jsin->substr( start, end_ - start );
     } else {
         return "[]";
     }
 }
 
-void JsonArray::verify_index( int i )
+void JsonArray::verify_index( const size_t i ) const
 {
     if( !jsin ) {
         throw JsonError( "tried to access empty array." );
-    } else if( i < 0 || size_t( i ) >= positions.size() ) {
+    } else if( i >= positions.size() ) {
         jsin->seek( start );
         std::stringstream err;
         err << "bad index value: " << i;
@@ -531,42 +561,42 @@ void JsonArray::skip_value()
 
 /* static access */
 
-bool JsonArray::get_bool( int i )
+bool JsonArray::get_bool( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_bool();
 }
 
-int JsonArray::get_int( int i )
+int JsonArray::get_int( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_int();
 }
 
-double JsonArray::get_float( int i )
+double JsonArray::get_float( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_float();
 }
 
-std::string JsonArray::get_string( int i )
+std::string JsonArray::get_string( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_string();
 }
 
-JsonArray JsonArray::get_array( int i )
+JsonArray JsonArray::get_array( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_array();
 }
 
-JsonObject JsonArray::get_object( int i )
+JsonObject JsonArray::get_object( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
@@ -575,7 +605,7 @@ JsonObject JsonArray::get_object( int i )
 
 /* iterative type checking */
 
-bool JsonArray::test_null()
+bool JsonArray::test_null() const
 {
     if( !has_more() ) {
         return false;
@@ -584,7 +614,7 @@ bool JsonArray::test_null()
     return jsin->test_null();
 }
 
-bool JsonArray::test_bool()
+bool JsonArray::test_bool() const
 {
     if( !has_more() ) {
         return false;
@@ -593,7 +623,7 @@ bool JsonArray::test_bool()
     return jsin->test_bool();
 }
 
-bool JsonArray::test_number()
+bool JsonArray::test_number() const
 {
     if( !has_more() ) {
         return false;
@@ -602,7 +632,7 @@ bool JsonArray::test_number()
     return jsin->test_number();
 }
 
-bool JsonArray::test_string()
+bool JsonArray::test_string() const
 {
     if( !has_more() ) {
         return false;
@@ -611,7 +641,7 @@ bool JsonArray::test_string()
     return jsin->test_string();
 }
 
-bool JsonArray::test_bitset()
+bool JsonArray::test_bitset() const
 {
     if( !has_more() ) {
         return false;
@@ -620,7 +650,7 @@ bool JsonArray::test_bitset()
     return jsin->test_bitset();
 }
 
-bool JsonArray::test_array()
+bool JsonArray::test_array() const
 {
     if( !has_more() ) {
         return false;
@@ -629,7 +659,7 @@ bool JsonArray::test_array()
     return jsin->test_array();
 }
 
-bool JsonArray::test_object()
+bool JsonArray::test_object() const
 {
     if( !has_more() ) {
         return false;
@@ -640,53 +670,52 @@ bool JsonArray::test_object()
 
 /* random-access type checking */
 
-bool JsonArray::has_null( int i )
+bool JsonArray::has_null( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_null();
 }
 
-bool JsonArray::has_bool( int i )
+bool JsonArray::has_bool( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_bool();
 }
 
-bool JsonArray::has_number( int i )
+bool JsonArray::has_number( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_number();
 }
 
-bool JsonArray::has_string( int i )
+bool JsonArray::has_string( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_string();
 }
 
-bool JsonArray::has_array( int i )
+bool JsonArray::has_array( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_array();
 }
 
-bool JsonArray::has_object( int i )
+bool JsonArray::has_object( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_object();
 }
 
-void add_array_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name )
+void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const std::string &name )
 {
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
+    for( const std::string line : json.get_array( name ) ) {
+        s.insert( line );
     }
 }
 
@@ -1006,32 +1035,101 @@ std::string JsonIn::get_string()
     throw JsonError( "something went wrong D:" );
 }
 
-int JsonIn::get_int()
+// These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
+constexpr static uint64_t neg_INT_MIN()
 {
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<int>( get_float() );
+    int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
+    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int>::max() ) + ( -x ) :
+           static_cast<uint64_t>( std::numeric_limits<int>::max() ) - x;
+}
+constexpr static uint64_t neg_INT64_MIN()
+{
+    int x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
+    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + ( -x ) :
+           static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - x;
 }
 
-std::int64_t JsonIn::get_int64()
+number_sci_notation JsonIn::get_any_int()
 {
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<int64_t>( get_float() );
+    number_sci_notation n = get_any_number();
+    if( n.exp < 0 ) {
+        error( "Integers cannot have a decimal point or negative order of magnitude." );
+    }
+    // Manually apply scientific notation, since std::pow converts to double under the hood.
+    for( int64_t i = 0; i < n.exp; i++ ) {
+        if( n.number > std::numeric_limits<uint64_t>::max() / 10ULL ) {
+            error( "Specified order of magnitude too large -- encountered overflow applying it." );
+        }
+        n.number *= 10ULL;
+    }
+    n.exp = 0;
+    return n;
+}
+
+int JsonIn::get_int()
+{
+    number_sci_notation n = get_any_int();
+    if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
+        error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
+               " which is unsupported in this context." );
+    } else if( n.negative && n.number > neg_INT_MIN() ) {
+        error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
+               " which is unsupported in this context." );
+    }
+    return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
+}
+
+unsigned int JsonIn::get_uint()
+{
+    number_sci_notation n = get_any_int();
+    if( n.number > std::numeric_limits<unsigned int>::max() ) {
+        error( "Found a number greater than " +
+               std::to_string( std::numeric_limits<unsigned int>::max() ) +
+               " which is unsupported in this context." );
+    }
+    if( n.negative ) {
+        error( "Unsigned integers cannot have a negative sign." );
+    }
+    return static_cast<unsigned int>( n.number );
+}
+
+int64_t JsonIn::get_int64()
+{
+    number_sci_notation n = get_any_int();
+    if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
+        error( "Signed integers greater than " +
+               std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
+    } else if( n.negative && n.number > neg_INT64_MIN() ) {
+        error( "Integers less than "
+               + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
+    }
+    return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
+}
+
+uint64_t JsonIn::get_uint64()
+{
+    number_sci_notation n = get_any_int();
+    if( n.negative ) {
+        error( "Unsigned integers cannot have a negative sign." );
+    }
+    return n.number;
 }
 
 double JsonIn::get_float()
 {
+    number_sci_notation n = get_any_number();
+    return n.number * std::pow( 10.0f, n.exp ) * ( n.negative ? -1.f : 1.f );
+}
+
+number_sci_notation JsonIn::get_any_number()
+{
     // this could maybe be prettier?
     char ch;
-    bool neg = false;
-    int i = 0;
-    int e = 0;
+    number_sci_notation ret;
     int mod_e = 0;
     eat_whitespace();
     stream->get( ch );
-    if( ch == '-' ) {
-        neg = true;
+    if( ( ret.negative = ch == '-' ) ) {
         stream->get( ch );
     } else if( ch != '.' && ( ch < '0' || ch > '9' ) ) {
         // not a valid float
@@ -1047,45 +1145,41 @@ double JsonIn::get_float()
         }
     }
     while( ch >= '0' && ch <= '9' ) {
-        i *= 10;
-        i += ( ch - '0' );
+        ret.number *= 10;
+        ret.number += ( ch - '0' );
         stream->get( ch );
     }
     if( ch == '.' ) {
         stream->get( ch );
         while( ch >= '0' && ch <= '9' ) {
-            i *= 10;
-            i += ( ch - '0' );
+            ret.number *= 10;
+            ret.number += ( ch - '0' );
             mod_e -= 1;
             stream->get( ch );
         }
     }
-    if( neg ) {
-        i *= -1;
-    }
     if( ch == 'e' || ch == 'E' ) {
         stream->get( ch );
-        neg = false;
-        if( ch == '-' ) {
-            neg = true;
+        bool neg;
+        if( ( neg = ch == '-' ) ) {
             stream->get( ch );
         } else if( ch == '+' ) {
             stream->get( ch );
         }
         while( ch >= '0' && ch <= '9' ) {
-            e *= 10;
-            e += ( ch - '0' );
+            ret.exp *= 10;
+            ret.exp += ( ch - '0' );
             stream->get( ch );
         }
         if( neg ) {
-            e *= -1;
+            ret.exp *= -1;
         }
     }
     // unget the final non-number character (probably a separator)
     stream->unget();
     end_value();
-    // now put it all together!
-    return i * std::pow( 10.0f, e + mod_e );
+    ret.exp += mod_e;
+    return ret;
 }
 
 bool JsonIn::get_bool()
@@ -1318,12 +1412,21 @@ bool JsonIn::read( std::int64_t &i, bool throw_on_error )
     return true;
 }
 
+bool JsonIn::read( std::uint64_t &i, bool throw_on_error )
+{
+    if( !test_number() ) {
+        return error_or_false( throw_on_error, "Expected number" );
+    }
+    i = get_uint64();
+    return true;
+}
+
 bool JsonIn::read( unsigned int &u, bool throw_on_error )
 {
     if( !test_number() ) {
         return error_or_false( throw_on_error, "Expected number" );
     }
-    u = get_int();
+    u = get_uint();
     return true;
 }
 
@@ -1793,3 +1896,19 @@ std::ostream &operator<<( std::ostream &stream, const JsonError &err )
 // instantiate them here, or move the templated read/write functions into the header.
 template void JsonOut::write<12>( const std::bitset<12> & );
 template bool JsonIn::read<12>( std::bitset<12> &, bool throw_on_error );
+
+JsonIn &JsonValue::seek() const
+{
+    jsin_.seek( pos_ );
+    return jsin_;
+}
+
+JsonValue JsonObject::get_member( const std::string &name ) const
+{
+    const auto iter = positions.find( name );
+    if( !jsin || iter == positions.end() ) {
+        throw_error( "requested non-existing member \"" + name + "\"" );
+    }
+    mark_visited( name );
+    return JsonValue( *jsin, iter->second );
+}

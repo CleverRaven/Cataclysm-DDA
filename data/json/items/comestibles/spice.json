@@ -111,7 +111,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 20,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "stack_size": 100,
     "fun": -1
   },

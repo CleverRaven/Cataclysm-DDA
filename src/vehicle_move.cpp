@@ -39,10 +39,10 @@ static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
 
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_harnessed( "harnessed" );
-const skill_id skill_driving( "driving" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const skill_id skill_driving( "driving" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -498,13 +498,16 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     int dmg_mod = part_info( ret.part ).dmg_mod;
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0;
-    float e = 0.3; // e = 0 -> plastic collision
+    // e = 0 -> plastic collision
+    float e = 0.3;
     // e = 1 -> inelastic collision
-    float part_dens = 0; //part density
+    //part density
+    float part_dens = 0;
 
     if( is_body_collision ) {
         // Check any monster/NPC/player on the way
-        ret.type = veh_coll_body; // body
+        // body
+        ret.type = veh_coll_body;
         ret.target = critter;
         e = 0.30;
         part_dens = 15;
@@ -529,7 +532,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.target_name = g->m.disp_name( p );
     } else if( g->m.impassable_ter_furn( p ) ||
                ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
-        ret.type = veh_coll_other; // not destructible
+        // not destructible
+        ret.type = veh_coll_other;
         mass2 = 1000;
         e = 0.10;
         part_dens = 80;
@@ -540,7 +544,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Hit nothing or we aren't actually hitting
         return ret;
     }
-
+    stop_autodriving();
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     const float mass = to_kilogram( total_mass() );
@@ -553,7 +557,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         for( auto &mat_id : mats ) {
             vpart_dens += mat_id.obj().density();
         }
-        vpart_dens /= mats.size(); // average
+        // average
+        vpart_dens /= mats.size();
     }
 
     //k=100 -> 100% damage on part
@@ -606,7 +611,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( fabs( vel2_a ) > fabs( vel2 ) ) {
                 vel2 = vel2_a;
             }
-            if( mass2 == 0 ) { // this causes infinite loop
+            // this causes infinite loop
+            if( mass2 == 0 ) {
                 mass2 = 1;
             }
             continue;
@@ -1005,11 +1011,14 @@ void vehicle::possibly_recover_from_skid()
 
     if( fabs( dot ) * 100 > dice( 9, 20 ) ) {
         add_msg( _( "The %s recovers from its skid." ), name );
-        skidding = false; // face_vec takes over.
-        velocity *= dot; // Wheels absorb horizontal velocity.
+        // face_vec takes over.
+        skidding = false;
+        // Wheels absorb horizontal velocity.
+        velocity *= dot;
         if( dot < -.8 ) {
             // Pointed backwards, velo-wise.
-            velocity *= -1; // Move backwards.
+            // Move backwards.
+            velocity *= -1;
         }
 
         move = face;
@@ -1073,8 +1082,10 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
         const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
         int &turning_wheels_that_are_one_axis ) const
 {
-    tileray mdir; // The direction we're moving
-    mdir.init( new_turn_dir ); // calculate direction after turn
+    // The direction we're moving
+    tileray mdir;
+    // calculate direction after turn
+    mdir.init( new_turn_dir );
     tripoint dp;
     bool is_diagonal_movement = new_turn_dir % 90 == 45;
 
@@ -1143,9 +1154,12 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
                 }
             }
         }
-        if( rails_ahead ) { // found a wheel that turns correctly on rails
-            if( yVal == INT_MAX ) { // if wheel that lands on rail still not found
-                yVal = wheel.mount.y; // store mount point.y of wheel
+        // found a wheel that turns correctly on rails
+        if( rails_ahead ) {
+            // if wheel that lands on rail still not found
+            if( yVal == INT_MAX ) {
+                // store mount point.y of wheel
+                yVal = wheel.mount.y;
             }
             if( yVal == wheel.mount.y ) {
                 turning_wheels_that_are_one_axis++;
@@ -1177,7 +1191,8 @@ static int get_corrected_turn_dir( int turn_dir, int face_dir )
 bool vehicle::allow_manual_turn_on_rails( int &corrected_turn_dir ) const
 {
     bool allow_turn_on_rail = false;
-    if( turn_dir != face.dir() ) { // driver tried to turn rails vehicle
+    // driver tried to turn rails vehicle
+    if( turn_dir != face.dir() ) {
         corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
 
         int wheels_on_rail, turning_wheels_that_are_one_axis;
@@ -1194,7 +1209,8 @@ bool vehicle::allow_manual_turn_on_rails( int &corrected_turn_dir ) const
 bool vehicle::allow_auto_turn_on_rails( int &corrected_turn_dir ) const
 {
     bool allow_turn_on_rail = false;
-    if( turn_dir == face.dir() ) {  // check if autoturn is possible
+    // check if autoturn is possible
+    if( turn_dir == face.dir() ) {
         // precalculate wheels for every direction
         int straight_wheels_on_rail, straight_turning_wheels_that_are_one_axis;
         precalculate_vehicle_turning( face.dir(), true, TFLAG_RAIL, straight_wheels_on_rail,
@@ -1276,7 +1292,8 @@ vehicle *vehicle::act_on_map()
     // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
     //  for as long as of_turn doesn't run out.
     if( should_fall ) {
-        const float g = 9.8f; // 9.8 m/s^2
+        // 9.8 m/s^2
+        const float g = 9.8f;
         // Convert from 100*mph to m/s
         const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
@@ -1372,7 +1389,8 @@ vehicle *vehicle::act_on_map()
         }
     }
 
-    tileray mdir; // The direction we're moving
+    // The direction we're moving
+    tileray mdir;
     if( skidding || should_fall ) {
         // If skidding, it's the move vector
         // Same for falling - no air control

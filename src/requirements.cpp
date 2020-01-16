@@ -1,14 +1,14 @@
 #include "requirements.h"
 
-#include <limits.h>
+#include <climits>
 #include <cstdlib>
 #include <algorithm>
 #include <limits>
-#include <sstream>
 #include <iterator>
 #include <list>
 #include <memory>
 #include <set>
+#include <stack>
 #include <unordered_map>
 
 #include "avatar.h"
@@ -62,21 +62,19 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( JsonObject &jo, const std::string &src )
+void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
 }
 
-void quality::load( JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
-    JsonArray arr = jo.get_array( "usages" );
-    while( arr.has_more() ) {
-        auto lvl = arr.next_array();
-        auto funcs = lvl.get_array( 1 );
-        while( funcs.has_more() ) {
-            usages.emplace_back( lvl.get_int( 0 ), funcs.next_string() );
+    for( JsonArray levels : jo.get_array( "usages" ) ) {
+        const int level = levels.get_int( 0 );
+        for( const std::string line : levels.get_array( 1 ) ) {
+            usages.emplace_back( level, line );
         }
     }
 }
@@ -158,9 +156,9 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     }
 }
 
-void quality_requirement::load( JsonArray &jsarr )
+void quality_requirement::load( const JsonValue &value )
 {
-    JsonObject quality_data = jsarr.next_object();
+    const JsonObject quality_data = value.get_object();
     type = quality_id( quality_data.get_string( "id" ) );
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
@@ -170,27 +168,27 @@ void quality_requirement::load( JsonArray &jsarr )
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
 
-void tool_comp::load( JsonArray &ja )
+void tool_comp::load( const JsonValue &value )
 {
-    if( ja.test_string() ) {
+    if( value.test_string() ) {
         // constructions uses this format: [ "tool", ... ]
-        type = ja.next_string();
+        type = value.get_string();
         count = -1;
     } else {
-        JsonArray comp = ja.next_array();
+        JsonArray comp = value.get_array();
         type = comp.get_string( 0 );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
     }
     if( count == 0 ) {
-        ja.throw_error( "tool count must not be 0" );
+        value.throw_error( "tool count must not be 0" );
     }
     // Note: negative count means charges (of the tool) should be consumed
 }
 
-void item_comp::load( JsonArray &ja )
+void item_comp::load( const JsonValue &value )
 {
-    JsonArray comp = ja.next_array();
+    JsonArray comp = value.get_array();
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
     size_t handled = 2;
@@ -203,20 +201,19 @@ void item_comp::load( JsonArray &ja )
         }
     }
     if( count <= 0 ) {
-        ja.throw_error( "item count must be a positive number" );
+        value.throw_error( "item count must be a positive number" );
     }
 }
 
 template<typename T>
-void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector<T> > &objs )
+void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs )
 {
-    while( jsarr.has_more() ) {
-        if( jsarr.test_array() ) {
+    for( const JsonValue entry : jsarr ) {
+        if( entry.test_array() ) {
             std::vector<T> choices;
-            JsonArray ja = jsarr.next_array();
-            while( ja.has_more() ) {
+            for( const JsonValue subentry : entry.get_array() ) {
                 choices.push_back( T() );
-                choices.back().load( ja );
+                choices.back().load( subentry );
             }
             if( !choices.empty() ) {
                 objs.push_back( choices );
@@ -225,7 +222,7 @@ void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector
             // tool qualities don't normally use a list of alternatives
             // each quality is mandatory.
             objs.push_back( std::vector<T>( 1 ) );
-            objs.back().back().load( jsarr );
+            objs.back().back().load( entry );
         }
     }
 }
@@ -266,16 +263,13 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 
-    JsonArray jsarr = jsobj.get_array( "components" );
-    requirement_data::load_obj_list( jsarr, req.components );
-    jsarr = jsobj.get_array( "qualities" );
-    requirement_data::load_obj_list( jsarr, req.qualities );
-    jsarr = jsobj.get_array( "tools" );
-    requirement_data::load_obj_list( jsarr, req.tools );
+    load_obj_list( jsobj.get_array( "components" ), req.components );
+    load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
+    load_obj_list( jsobj.get_array( "tools" ), req.tools );
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -313,65 +307,66 @@ template<typename T>
 std::string requirement_data::print_all_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
-    std::ostringstream buffer;
+    std::string buffer;
     for( const auto &list : objs ) {
-        if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+        if( !buffer.empty() ) {
+            buffer += std::string( "\n" ) + _( "and " );
         }
-        for( auto it = list.begin(); it != list.end(); ++it ) {
-            if( it != list.begin() ) {
-                buffer << _( " or " );
-            }
-            buffer << it->to_string();
-        }
+        std::vector<std::string> alternatives;
+        std::transform( list.begin(), list.end(), std::back_inserter( alternatives ),
+        []( const T & t ) {
+            return t.to_string();
+        } );
+        std::sort( alternatives.begin(), alternatives.end() );
+        buffer += join( alternatives, _( " or " ) );
     }
-    if( buffer.str().empty() ) {
+    if( buffer.empty() ) {
         return std::string();
     }
-    return header + "\n" + buffer.str() + "\n";
+    return header + "\n" + buffer + "\n";
 }
 
 std::string requirement_data::list_all() const
 {
-    std::ostringstream buffer;
-    buffer << print_all_objs( _( "These tools are required:" ), tools );
-    buffer << print_all_objs( _( "These tools are required:" ), qualities );
-    buffer << print_all_objs( _( "These components are required:" ), components );
-    return buffer.str();
+    std::string buffer;
+    buffer += print_all_objs( _( "These tools are required:" ), tools );
+    buffer += print_all_objs( _( "These tools are required:" ), qualities );
+    buffer += print_all_objs( _( "These components are required:" ), components );
+    return buffer;
 }
 
 template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
-    std::ostringstream buffer;
+    std::string buffer;
     for( const auto &list : objs ) {
         if( any_marked_available( list ) ) {
             continue;
         }
-        if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+        if( !buffer.empty() ) {
+            buffer += std::string( "\n" ) + _( "and " );
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer += _( " or " );
             }
-            buffer << it->to_string();
+            buffer += it->to_string();
         }
     }
-    if( buffer.str().empty() ) {
+    if( buffer.empty() ) {
         return std::string();
     }
-    return header + "\n" + buffer.str() + "\n";
+    return header + "\n" + buffer + "\n";
 }
 
 std::string requirement_data::list_missing() const
 {
-    std::ostringstream buffer;
-    buffer << print_missing_objs( _( "These tools are missing:" ), tools );
-    buffer << print_missing_objs( _( "These tools are missing:" ), qualities );
-    buffer << print_missing_objs( _( "These components are missing:" ), components );
-    return buffer.str();
+    std::string buffer;
+    buffer += print_missing_objs( _( "These tools are missing:" ), tools );
+    buffer += print_missing_objs( _( "These tools are missing:" ), qualities );
+    buffer += print_missing_objs( _( "These components are missing:" ), components );
+    return buffer;
 }
 
 void quality_requirement::check_consistency( const std::string &display_name ) const
@@ -485,7 +480,7 @@ void requirement_data::reset()
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-        std::string hilite ) const
+        std::string hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -494,7 +489,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back( colorize( _( "Components required:" ), col ) );
 
     std::vector<std::string> folded_buffer =
-        get_folded_list( width, crafting_inv, filter, components, batch, hilite );
+        get_folded_list( width, crafting_inv, filter, components, batch, hilite, flags );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -503,10 +498,14 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite ) const
+        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite,
+        requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv, filter );
+
+    const bool no_unavailable =
+        static_cast<bool>( flags & requirement_display_flags::no_unavailable );
 
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
@@ -535,7 +534,9 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 color = yellow_background( color );
             }
 
-            list_as_string.push_back( colorize( text, color ) );
+            if( !no_unavailable || component.has( crafting_inv, filter, batch ) ) {
+                list_as_string.push_back( colorize( text, color ) );
+            }
             buffer_has.push_back( text + color_tag );
         }
         std::sort( list_as_string.begin(), list_as_string.end() );
@@ -577,7 +578,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 }
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -588,7 +589,7 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
     if( !has_comps( crafting_inv, qualities, return_true<item> ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, tools, return_true<item>, batch ) ) {
+    if( !has_comps( crafting_inv, tools, return_true<item>, batch, flags ) ) {
         retval = false;
     }
     if( !has_comps( crafting_inv, components, filter, batch ) ) {
@@ -604,7 +605,7 @@ template<typename T>
 bool requirement_data::has_comps( const inventory &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
-                                  int batch )
+                                  int batch, craft_flags flags )
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
@@ -612,7 +613,8 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
         bool has_tool_in_set = false;
         int UPS_charges_used = std::numeric_limits<int>::max();
         for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv, filter, batch, [ &UPS_charges_used ]( int charges ) {
+            if( tool.has( crafting_inv, filter, batch, flags,
+            [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
             } ) ) {
                 tool.available = a_true;
@@ -636,8 +638,9 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv,
-                               const std::function<bool( const item & )> &, int, std::function<void( int )> ) const
+bool quality_requirement::has(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
+    craft_flags, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -654,9 +657,9 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
     return has_one ? c_dark_gray : c_red;
 }
 
-bool tool_comp::has( const inventory &crafting_inv,
-                     const std::function<bool( const item & )> &filter, int batch,
-                     std::function<void( int )> visitor ) const
+bool tool_comp::has(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
+    craft_flags flags, std::function<void( int )> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -664,7 +667,11 @@ bool tool_comp::has( const inventory &crafting_inv,
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
-        const int charges_required = count * batch * item::find_type( type )->charge_factor();
+        int charges_required = count * batch * item::find_type( type )->charge_factor();
+
+        if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
+            charges_required = charges_required / 20 + charges_required % 20;
+        }
 
         int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
         return charges_found == charges_required;
@@ -682,9 +689,9 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
     return has_one ? c_dark_gray : c_red;
 }
 
-bool item_comp::has( const inventory &crafting_inv,
-                     const std::function<bool( const item & )> &filter, int batch,
-                     std::function<void( int )> ) const
+bool item_comp::has(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
+    craft_flags, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -814,6 +821,42 @@ void requirement_data::blacklist_item( const std::string &id )
 {
     blacklisted |= apply_blacklist( tools, id );
     blacklisted |= apply_blacklist( components, id );
+}
+
+template <typename T>
+static void apply_replacement( std::vector<std::vector<T>> &vec, const std::string &id,
+                               const std::string &replacement )
+{
+    // If the target and replacement are both present, remove the target.
+    // If only the target is present, replace it.
+    for( auto &opts : vec ) {
+        typename std::vector<T>::iterator target = opts.end();
+        typename std::vector<T>::iterator replacement_target = opts.end();
+        for( typename std::vector<T>::iterator iter = opts.begin(); iter != opts.end(); ++iter ) {
+            if( iter->type == id ) {
+                target = iter;
+            } else if( iter->type == replacement ) {
+                replacement_target = iter;
+            }
+        }
+        // No target to replace, do nothing.
+        if( target == opts.end() ) {
+            continue;
+        }
+        // Target but no replacement, replace.
+        if( replacement_target == opts.end() ) {
+            target->type = replacement;
+            continue;
+        }
+        // Both target and replacement, remove the target entry and leave the existing replacement.
+        opts.erase( target );
+    }
+}
+
+void requirement_data::replace_item( const itype_id &id, const itype_id &replacement )
+{
+    apply_replacement( tools, id, replacement );
+    apply_replacement( components, id, replacement );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
@@ -1093,4 +1136,205 @@ void requirement_data::consolidate()
         }
     }
     components = std::move( all_comps );
+}
+
+/// Helper function for deduped_requirement_data constructor below.
+///
+/// The goal of this function is to consolidate a particular item_comp that
+/// would otherwise be duplicated between two requirements.
+///
+/// It operates recursively (increasing @p index with the depth of recursion),
+/// searching for another item_comp to merge @p leftover with.  For each
+/// compatible item_comp found it performs that merger and writes out a
+/// suitably updated form of the overall requirements to @p result.
+///
+/// If it chooses *not* to merge with any particular item_comp, then it deletes
+/// that item_comp from the options, to avoid the duplication.
+///
+/// Lastly, it also outputs a version of the requirements where @p leftover
+/// remains where it was, and all other compatible item_comp entries have been
+/// deleted.
+///
+/// @param leftover The item_comp needing to be dealt with.
+/// @param req_prefix The requirements considered so far; more will be appended
+/// to this.
+/// @param to_expand The original requirements we are working through to look
+/// for a duplicate.
+/// @param orig_index The index into the alter_item_comp_vector where @p
+/// leftover was originally to be found.  If it isn't merged with another item,
+/// then it will be re-inserted at this position.
+/// @param index The position within @p to_expand where we will next look for
+/// duplicates of @p leftover to merge with.
+/// @param result The finished requirements should be appended to this.
+static void expand_item_in_reqs(
+    const item_comp &leftover, requirement_data::alter_item_comp_vector req_prefix,
+    const requirement_data::alter_item_comp_vector &to_expand, size_t orig_index, size_t index,
+    std::vector<requirement_data::alter_item_comp_vector> &result )
+{
+    assert( req_prefix.size() >= orig_index );
+    assert( orig_index < index );
+
+    if( index == to_expand.size() ) {
+        // We reached the end without using the leftovers.  So need to add them
+        // as their own requirement, separate from everything else.
+        req_prefix.insert( req_prefix.begin() + orig_index, { leftover } );
+        result.push_back( req_prefix );
+        return;
+    }
+
+    std::vector<item_comp> this_requirement = to_expand[index];
+    auto duplicate = std::find_if( this_requirement.begin(), this_requirement.end(),
+    [&]( const item_comp & c ) {
+        return c.type == leftover.type;
+    } );
+    if( duplicate == this_requirement.end() ) {
+        // No match in this one; proceed to next
+        req_prefix.push_back( this_requirement );
+        expand_item_in_reqs( leftover, req_prefix, to_expand, orig_index, index + 1, result );
+        return;
+    }
+    // First option: amalgamate the leftovers into this requirement, which
+    // forces us to pick that specific option:
+    requirement_data::alter_item_comp_vector req = req_prefix;
+    req.push_back( { item_comp( leftover.type, leftover.count + duplicate->count ) } );
+    req.insert( req.end(), to_expand.begin() + index + 1, to_expand.end() );
+    result.push_back( req );
+
+    // Second option: use a separate option for this requirement, which means
+    // we need to recurse further to find something into which to amalgamate
+    // the original requirement
+    this_requirement.erase( duplicate );
+    if( !this_requirement.empty() ) {
+        req_prefix.push_back( this_requirement );
+        expand_item_in_reqs( leftover, req_prefix, to_expand, orig_index, index + 1, result );
+    }
+}
+
+deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
+        const recipe_id &context )
+{
+    // This constructor works through a requirement_data, converting it into an
+    // equivalent set of requirement_data alternatives, where each alternative
+    // has the property that no item type appears more than once.
+    //
+    // We only deal with item requirements.  Tool requirements could be handled
+    // similarly, but no examples where they are a problem have yet been
+    // raised.
+    //
+    // We maintain a queue of requirement_data component info to be split.
+    // Each to_check struct has a vector of component requirements, and an
+    // index.  The index is the position within the vector to be checked next.
+    struct to_check {
+        alter_item_comp_vector components;
+        size_t index;
+    };
+    std::stack<to_check, std::vector<to_check>> pending;
+    pending.push( { in.get_components(), 0 } );
+
+    while( !pending.empty() ) {
+        to_check next = pending.top();
+        pending.pop();
+
+        if( next.index == next.components.size() ) {
+            alternatives_.emplace_back( in.get_tools(), in.get_qualities(), next.components );
+            continue;
+        }
+
+        // Build a set of all the itypes used in later stages of this set of
+        // requirements.
+        std::unordered_set<itype_id> later_itypes;
+        for( size_t i = next.index + 1; i != next.components.size(); ++i ) {
+            std::transform( next.components[i].begin(), next.components[i].end(),
+                            std::inserter( later_itypes, later_itypes.end() ),
+            []( const item_comp & c ) {
+                return c.type;
+            } );
+        }
+
+        std::vector<item_comp> this_requirement = next.components[next.index];
+
+        auto first_duplicated = std::stable_partition(
+                                    this_requirement.begin(), this_requirement.end(),
+        [&]( const item_comp & c ) {
+            return !later_itypes.count( c.type );
+        }
+                                );
+
+        for( auto comp_it = first_duplicated; comp_it != this_requirement.end(); ++comp_it ) {
+            // Factor this requirement out into its own separate case
+
+            alter_item_comp_vector req_prefix( next.components.begin(),
+                                               next.components.begin() + next.index );
+            std::vector<alter_item_comp_vector> result;
+            expand_item_in_reqs( *comp_it, req_prefix, next.components, next.index, next.index + 1,
+                                 result );
+            for( const alter_item_comp_vector &v : result ) {
+                // When v is smaller, that means the current requirement was
+                // deleted, in which case we don't advance index.
+                size_t index_inc = v.size() == next.components.size() ? 1 : 0;
+                pending.push( { v, next.index + index_inc } );
+            }
+        }
+
+        // Deal with all the remaining, non-duplicated ones
+        this_requirement.erase( first_duplicated, this_requirement.end() );
+        if( !this_requirement.empty() ) {
+            alter_item_comp_vector without_dupes = next.components;
+            without_dupes[next.index] = this_requirement;
+            pending.push( { without_dupes, next.index + 1 } );
+        }
+
+        // Because this algorithm is super-exponential in the worst case, add a
+        // sanity check to prevent things getting too far out of control.
+        // The worst case in the core game currently is chainmail_suit_faraday
+        // with 63 alternatives.
+        static constexpr size_t max_alternatives = 100;
+        if( alternatives_.size() + pending.size() > max_alternatives ) {
+            debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
+                      "The recipe %s should be simplified.  See the Recipe section in "
+                      "doc/JSON_INFO.md for more details.", context.str() );
+            is_too_complex_ = true;
+            alternatives_ = { in };
+            return;
+        }
+    }
+}
+
+bool deduped_requirement_data::can_make_with_inventory(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+    int batch, craft_flags flags ) const
+{
+    return std::any_of( alternatives().begin(), alternatives().end(),
+    [&]( const requirement_data & alt ) {
+        return alt.can_make_with_inventory( crafting_inv, filter, batch, flags );
+    } );
+}
+
+std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
+    const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
+    int batch, craft_flags flags ) const
+{
+    std::vector<const requirement_data *> result;
+    for( const requirement_data &req : alternatives() ) {
+        if( req.can_make_with_inventory( crafting_inv, filter, batch, flags ) ) {
+            result.push_back( &req );
+        }
+    }
+    return result;
+}
+
+const requirement_data *deduped_requirement_data::select_alternative(
+    player &crafter, const std::function<bool( const item & )> &filter, int batch,
+    craft_flags flags ) const
+{
+    return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
+}
+
+const requirement_data *deduped_requirement_data::select_alternative(
+    player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
+    int batch, craft_flags flags ) const
+{
+    const std::vector<const requirement_data *> all_reqs =
+        feasible_alternatives( inv, filter, batch, flags );
+    return crafter.select_requirements( all_reqs, 1, inv, filter );
 }

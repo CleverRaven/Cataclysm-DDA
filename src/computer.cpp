@@ -45,6 +45,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "int_id.h"
 #include "item.h"
 #include "omdata.h"
@@ -54,18 +55,20 @@
 #include "colony.h"
 #include "point.h"
 
-const mtype_id mon_manhack( "mon_manhack" );
-const mtype_id mon_secubot( "mon_secubot" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_crows_m240( "mon_crows_m240" );
 
-const skill_id skill_computer( "computer" );
+static const skill_id skill_computer( "computer" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
 
-const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_amigara( "amigara" );
 
-int alerts = 0;
+static int alerts = 0;
 
 computer_option::computer_option()
     : name( "Unknown" ), action( COMPACT_NULL ), security( 0 )
@@ -205,54 +208,46 @@ void computer::use()
     }
 
     // Main computer loop
+    int sel = 0;
     while( true ) {
-        //reset_terminal();
         size_t options_size = options.size();
-        print_newline();
-        print_line( "%s - %s", _( name ), _( "Root Menu" ) );
-#if defined(__ANDROID__)
-        input_context ctxt( "COMPUTER_MAINLOOP" );
-#endif
+
+        uilist computer_menu;
+        computer_menu.text = string_format( _( "%s - Root Menu" ), name );
+        computer_menu.selected = sel;
+        computer_menu.fselected = sel;
+
         for( size_t i = 0; i < options_size; i++ ) {
-            print_line( "%d - %s", i + 1, _( options[i].name ) );
-#if defined(__ANDROID__)
-            ctxt.register_manual_key( '1' + i, options[i].name );
-#endif
+            computer_menu.addentry( i, true, MENU_AUTOASSIGN, options[i].name );
         }
-        print_line( "Q - %s", _( "Quit and Shut Down" ) );
-        print_newline();
-#if defined(__ANDROID__)
-        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
-#endif
-        char ch;
-        do {
-            // TODO: use input context
-            ch = inp_mngr.get_input_event().get_first_input();
-        } while( ch != 'q' && ch != 'Q' && ( ch < '1' || ch - '1' >= static_cast<char>( options_size ) ) );
-        if( ch == 'q' || ch == 'Q' ) {
-            break; // Exit from main computer loop
-        } else { // We selected an option other than quit.
-            ch -= '1'; // So '1' -> 0; index in options.size()
-            computer_option current = options[ch];
-            // Once you trip the security, you have to roll every time you want to do something
-            if( ( current.security + ( alerts ) ) > 0 ) {
-                print_error( _( "Password required." ) );
-                if( query_bool( _( "Hack into system?" ) ) ) {
-                    if( !hack_attempt( g->u, current.security ) ) {
-                        activate_random_failure();
-                        shutdown_terminal();
-                        return;
-                    } else {
-                        // Successfully hacked function
-                        options[ch].security = 0;
-                        activate_function( current.action );
-                    }
+
+        computer_menu.query();
+        if( computer_menu.ret < 0 || static_cast<size_t>( computer_menu.ret ) >= options.size() ) {
+            break;
+        }
+
+        sel = computer_menu.ret;
+        computer_option current = options[sel];
+        reset_terminal();
+        // Once you trip the security, you have to roll every time you want to do something
+        if( current.security + alerts > 0 ) {
+            print_error( _( "Password required." ) );
+            if( query_bool( _( "Hack into system?" ) ) ) {
+                if( !hack_attempt( g->u, current.security ) ) {
+                    activate_random_failure();
+                    shutdown_terminal();
+                    return;
+                } else {
+                    // Successfully hacked function
+                    options[sel].security = 0;
+                    activate_function( current.action );
                 }
-            } else { // No need to hack, just activate
-                activate_function( current.action );
             }
-            reset_terminal();
-        } // Done processing a selected option.
+        } else { // No need to hack, just activate
+            activate_function( current.action );
+        }
+        reset_terminal();
+        // Done processing a selected option.
     }
 
     shutdown_terminal(); // This should have been done by now, but just in case.
@@ -319,6 +314,7 @@ std::string computer::save_data() const
 
 void computer::load_data( const std::string &data )
 {
+    static const std::set<std::string> blacklisted_options = {{ "Launch_Missile" }};
     options.clear();
     failures.clear();
 
@@ -339,7 +335,9 @@ void computer::load_data( const std::string &data )
         int tmpsec;
 
         dump >> tmpname >> tmpaction >> tmpsec;
-
+        if( blacklisted_options.find( tmpname ) != blacklisted_options.end() ) {
+            continue;
+        }
         add_option( string_replace( tmpname, "_", " " ), static_cast<computer_action>( tmpaction ),
                     tmpsec );
     }
@@ -366,9 +364,13 @@ void computer::load_data( const std::string &data )
 
 static item *pick_usb()
 {
-    const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
-    if( pos != INT_MIN ) {
-        return &g->u.i_at( pos );
+    auto filter = []( const item & it ) {
+        return it.typeId() == "usb_drive";
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
+    if( loc ) {
+        return &*loc;
     }
     return nullptr;
 }
@@ -378,7 +380,8 @@ static void remove_submap_turrets()
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle ) &&
+            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
+              critter.type->id == mon_crows_m240 ) &&
             critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -391,8 +394,10 @@ void computer::activate_function( computer_action action )
     g->u.moves -= 30;
     switch( action ) {
 
-        case COMPACT_NULL: // Unknown action.
-        case NUM_COMPUTER_ACTIONS: // Suppress compiler warning [-Wswitch]
+        case COMPACT_NULL:
+        // Unknown action.
+        case NUM_COMPUTER_ACTIONS:
+            // Suppress compiler warning [-Wswitch]
             break;
 
         // OPEN_DISARM falls through to just OPEN
@@ -539,14 +544,14 @@ void computer::activate_function( computer_action action )
             // TODO: seed should probably be a member of the computer, or better: of the computer action.
             // It is here to ensure one computer reporting the same text on each invocation.
             const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
-            std::string log = SNIPPET.get( SNIPPET.assign( "lab_notes", seed ) );
-            if( log.empty() ) {
-                log = _( "No data found." );
+            cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
+            if( !log.has_value() ) {
+                log = to_translation( "No data found." );
             } else {
                 g->u.moves -= 70;
             }
 
-            print_text( "%s", log );
+            print_text( "%s", log.value() );
             // One's an anomaly
             if( alerts == 0 ) {
                 query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key…" ) );
@@ -566,7 +571,7 @@ void computer::activate_function( computer_action action )
             sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                              2000 );
             print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
-                        SNIPPET.random_from_category( "radio_archive" ) );
+                        SNIPPET.random_from_category( "radio_archive" ).value_or( translation() ) );
             if( one_in( 3 ) ) {
                 query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key…" ) );
                 alerts ++;
@@ -624,70 +629,10 @@ void computer::activate_function( computer_action action )
         }
         break;
 
-        case COMPACT_MISS_LAUNCH: {
-            // Target Acquisition.
-            tripoint target = ui::omap::choose_point( 0 );
-            if( target == overmap::invalid_tripoint ) {
-                add_msg( m_info, _( "Target acquisition canceled." ) );
-                return;
-            }
-
-            // TODO: Z
-            target.z = 0;
-
-            if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
-                add_msg( m_info, _( "Nuclear missile launched!" ) );
-                //Remove the option to fire another missile.
-                options.clear();
-            } else {
-                add_msg( m_info, _( "Nuclear missile launch aborted." ) );
-                return;
-            }
-            g->refresh_all();
-
-            //Put some smoke gas and explosions at the nuke location.
-            const tripoint nuke_location = { g->u.pos() - point( 12, 0 ) };
-            for( const auto &loc : g->m.points_in_radius( nuke_location, 5, 0 ) ) {
-                if( one_in( 4 ) ) {
-                    g->m.add_field( loc, fd_smoke, rng( 1, 9 ) );
-                }
-            }
-
-            //Only explode once. But make it large.
-            explosion_handler::explosion( nuke_location, 2000, 0.7, true );
-
-            //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
-            // For each level between here and the surface, remove the missile
-            for( int level = g->get_levz(); level <= 0; level++ ) {
-                map tmpmap;
-                tmpmap.load( tripoint( g->get_levx(), g->get_levy(), level ), false );
-
-                if( level < 0 ) {
-                    tmpmap.translate( t_missile, t_hole );
-                } else {
-                    tmpmap.translate( t_metal_floor, t_hole );
-                }
-                tmpmap.save();
-            }
-
-            const oter_id oter = overmap_buffer.ter( target );
-            g->events().send<event_type::launches_nuke>( oter );
-            for( const tripoint &p : g->m.points_in_radius( target, 2 ) ) {
-                // give it a nice rounded shape
-                if( !( p.x == target.x - 2 && p.y == target.y - 2 ) &&
-                    !( p.x == target.x - 2 && p.y == target.y + 2 ) &&
-                    !( p.x == target.x + 2 && p.y == target.y - 2 ) &&
-                    !( p.x == target.x + 2 && p.y == target.y + 2 ) ) {
-                    // TODO: other Z-levels.
-                    explosion_handler::nuke( tripoint( p.xy(), 0 ) );
-                }
-            }
-
-            activate_failure( COMPFAIL_SHUTDOWN );
-        }
-        break;
-
-        case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
+        case COMPACT_OBSOLETE:
+            break;
+        case COMPACT_MISS_DISARM:
+            // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
                 g->events().send<event_type::disarms_nuke>();
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
@@ -708,7 +653,7 @@ void computer::activate_function( computer_action action )
                 for( item &elem : g->m.i_at( p ) ) {
                     if( elem.is_bionic() ) {
                         if( static_cast<int>( names.size() ) < TERMY - 8 ) {
-                            names.push_back( elem.tname() );
+                            names.push_back( elem.type_name() );
                         } else {
                             more++;
                         }
@@ -747,7 +692,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara1" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
@@ -755,7 +700,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara2" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
 
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
@@ -763,7 +708,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara3" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
 
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
@@ -786,7 +731,7 @@ void computer::activate_function( computer_action action )
             print_line( _( "SITE %d%d%d\n"
                            "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
             print_gibberish_line();
             print_gibberish_line();
             print_newline();
@@ -927,7 +872,7 @@ void computer::activate_function( computer_action action )
                         if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
-                            g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
+                            g->m.add_item_or_charges( g->u.pos(), transcript );
                         } else {
                             print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                         }
@@ -981,52 +926,52 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_SR1_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr1_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr1_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR2_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr2_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr2_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR3_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr3_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr3_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR4_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr4_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr4_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_1_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_1_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_1_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_2_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_1_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_2_1_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_2_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_2_2_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_3_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_3_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_3_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_SEAL_ORDER:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_seal_order" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_seal_order" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
@@ -1181,7 +1126,7 @@ void computer::activate_function( computer_action action )
                 print_newline();
             }
             print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
-            print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), g->u.radiation );
+            print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), g->u.get_rad() );
             print_newline();
             query_any( _( "Press any key…" ) );
             break;
@@ -1318,8 +1263,10 @@ void computer::activate_failure( computer_failure_type fail )
     bool found_tile = false;
     switch( fail ) {
 
-        case COMPFAIL_NULL: // Unknown action.
-        case NUM_COMPUTER_FAILURES: // Suppress compiler warning [-Wswitch]
+        case COMPFAIL_NULL:
+        // Unknown action.
+        case NUM_COMPUTER_FAILURES:
+            // Suppress compiler warning [-Wswitch]
             break;
 
         case COMPFAIL_SHUTDOWN:
@@ -1649,21 +1596,7 @@ void computer::print_newline()
     wprintz( w_terminal, c_green, "\n" );
 }
 
-computer_option computer_option::from_json( JsonObject &jo )
-{
-    std::string name = jo.get_string( "name" );
-    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
-    int sec = jo.get_int( "security", 0 );
-    return computer_option( name, action, sec );
-}
-
-computer_failure computer_failure::from_json( JsonObject &jo )
-{
-    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
-    return computer_failure( type );
-}
-
-computer_action computer_action_from_string( const std::string &str )
+static computer_action computer_action_from_string( const std::string &str )
 {
     static const std::map<std::string, computer_action> actions = {{
             { "null", COMPACT_NULL },
@@ -1684,7 +1617,6 @@ computer_action computer_action_from_string( const std::string &str )
             { "maps", COMPACT_MAPS },
             { "map_sewer", COMPACT_MAP_SEWER },
             { "map_subway", COMPACT_MAP_SUBWAY },
-            { "miss_launch", COMPACT_MISS_LAUNCH },
             { "miss_disarm", COMPACT_MISS_DISARM },
             { "list_bionics", COMPACT_LIST_BIONICS },
             { "elevator_on", COMPACT_ELEVATOR_ON },
@@ -1728,7 +1660,7 @@ computer_action computer_action_from_string( const std::string &str )
     return COMPACT_NULL;
 }
 
-computer_failure_type computer_failure_type_from_string( const std::string &str )
+static computer_failure_type computer_failure_type_from_string( const std::string &str )
 {
     static const std::map<std::string, computer_failure_type> fails = {{
             { "null", COMPFAIL_NULL },
@@ -1752,4 +1684,17 @@ computer_failure_type computer_failure_type_from_string( const std::string &str 
 
     debugmsg( "Invalid computer failure %s", str );
     return COMPFAIL_NULL;
+}
+computer_option computer_option::from_json( const JsonObject &jo )
+{
+    std::string name = jo.get_string( "name" );
+    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
+    int sec = jo.get_int( "security", 0 );
+    return computer_option( name, action, sec );
+}
+
+computer_failure computer_failure::from_json( const JsonObject &jo )
+{
+    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
+    return computer_failure( type );
 }

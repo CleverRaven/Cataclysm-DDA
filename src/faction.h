@@ -12,6 +12,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
@@ -59,14 +60,15 @@ class faction_template
 {
     protected:
         faction_template();
-        void load_relations( JsonObject &jsobj );
+        void load_relations( const JsonObject &jsobj );
 
     private:
-        explicit faction_template( JsonObject &jsobj );
+        explicit faction_template( const JsonObject &jsobj );
 
     public:
         explicit faction_template( const faction_template & ) = default;
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
+        static void check_consistency();
         static void reset();
 
         std::string name;
@@ -83,6 +85,7 @@ class faction_template
         std::string currency; // itype_id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        std::set<std::tuple<int, int, snippet_id>> epilogue_data;
 };
 
 class faction : public faction_template
@@ -96,6 +99,7 @@ class faction : public faction_template
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
         std::string describe() const;
+        std::vector<std::string> epilogue() const;
 
         std::string food_supply_text();
         nc_color food_supply_color();

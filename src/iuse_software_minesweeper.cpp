@@ -1,6 +1,5 @@
 #include "iuse_software_minesweeper.h"
 
-#include <sstream>
 #include <string>
 #include <vector>
 #include <array>
@@ -44,8 +43,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
     mLevelReveal.clear();
 
     auto set_num = [&]( const std::string & sType, int &iVal, const int iMin, const int iMax ) {
-        std::ostringstream ssTemp;
-        ssTemp << _( "Min:" ) << iMin << " " << _( "Max:" ) << " " << iMax;
+        const std::string desc = string_format( _( "Min: %d Max: %d" ), iMin, iMax );
 
         do {
             if( iVal < iMin || iVal > iMax ) {
@@ -55,7 +53,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
             string_input_popup()
             .title( sType )
             .width( 5 )
-            .description( ssTemp.str() )
+            .description( desc )
             .edit( iVal );
         } while( iVal < iMin || iVal > iMax );
     };

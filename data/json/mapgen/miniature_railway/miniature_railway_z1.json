@@ -61,6 +61,10 @@
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 35, 40 ], "y": [ 10, 15 ], "repeat": [ 0, 1 ], "density": 1 },
         { "monster": "GROUP_SCHOOL", "x": [ 35, 40 ], "y": [ 35, 40 ], "repeat": [ 0, 1 ], "density": 1 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "miniature_train_loco", "x": 5, "y": 31, "chance": 5, "fuel": 20, "status": 25, "rotation": 270 },
+        { "vehicle": "miniature_train_loco", "x": 41, "y": 41, "chance": 5, "fuel": 5, "status": 15, "rotation": 270 }
       ]
     }
   }

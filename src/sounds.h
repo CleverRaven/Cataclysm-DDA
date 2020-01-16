@@ -24,6 +24,7 @@ enum class sound_t : int {
     music,
     movement,
     speech,
+    electronic_speech, // Any electronic sound that's not music/alarm: Robot speech, radio, etc.
     activity,
     destructive_activity,
     alarm,
@@ -127,9 +128,9 @@ enum class group : int {
     fatigue         //SFX related to fatigue
 };
 
-void load_sound_effects( JsonObject &jsobj );
-void load_sound_effect_preload( JsonObject &jsobj );
-void load_playlist( JsonObject &jsobj );
+void load_sound_effects( const JsonObject &jsobj );
+void load_sound_effect_preload( const JsonObject &jsobj );
+void load_playlist( const JsonObject &jsobj );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                          double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );

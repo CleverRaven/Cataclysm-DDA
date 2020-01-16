@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...........ss________ssssssssssssssssyyyyy___sss",
+        "...........ss________sssssssssssssssPyyyyy___sss",
         "....,,,....ss________s,;,,,;,,;,,,;,syyyyy___s,s",
         "||||www||||ss________ssssssssssssssss________s;s",
         "|p       p|ss________________________________s,s",
@@ -18,7 +18,7 @@
         "| BBB BBB |ss______________________yy________s,s",
         "|         |Gs______________________yy________s;s",
         "| BBB BBB |Gs______________________yy________s,s",
-        "|         +ss________''''''''''''''''________s,s",
+        "|         +ss________'''''''''''''''P________s,s",
         "|8        +ss________'I''bbb''bbb''I'________s;s",
         "|9  r    Y|ss________________________________s,s",
         "||+|||ddd||ss________________________________s,s",
@@ -28,7 +28,7 @@
         "|:|:|FF| cwss______________________yy________s,s",
         "|T|T|l:|  |ss______________________yy________s;s",
         "|||||i:+  +ss______________________yy________s,s",
-        "...4|||||||ssssssssss''''''''''''''''sssssssssss",
+        "...4|||||||ssssssssss'''''''''''''''Psssssssssss",
         "..........fssssssssss'I''bbb''bbb''I'sssssssssss",
         "..........ffffffffffffffffffffffffffffffffffffff"
       ],
@@ -81,6 +81,7 @@
         "h": "f_chair",
         "Y": "f_rack_coat",
         "F": "f_filing_cabinet",
+        "P": "f_traffic_light",
         "G": "f_bulletin"
       },
       "items": {

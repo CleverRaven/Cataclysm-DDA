@@ -74,7 +74,7 @@ class wish_mutate_callback: public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            if( ! started ) {
+            if( !started ) {
                 started = true;
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -283,15 +283,23 @@ void debug_menu::wishmutate( player *p )
 class wish_monster_callback: public uilist_callback
 {
     public:
-        int lastent;           // last menu entry
-        std::string msg;       // feedback message
-        bool friendly;         // spawn friendly critter?
+        // last menu entry
+        int lastent;
+        // feedback message
+        std::string msg;
+        // spawn friendly critter?
+        bool friendly;
         bool hallucination;
-        int group;             // Number of monsters to spawn.
-        catacurses::window w_info;        // ui_parent menu's padding area
-        monster tmp;           // scrap critter for monster::print_info
-        bool started;          // if unset, initialize window
-        std::string padding;   // ' ' x window width
+        // Number of monsters to spawn.
+        int group;
+        // ui_parent menu's padding area
+        catacurses::window w_info;
+        // scrap critter for monster::print_info
+        monster tmp;
+        // if unset, initialize window
+        bool started;
+        // ' ' x window width
+        std::string padding;
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
@@ -336,7 +344,7 @@ class wish_monster_callback: public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            if( ! started ) {
+            if( !started ) {
                 started = true;
                 setup( menu );
             }
@@ -527,6 +535,11 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             if( cb.has_flag ) {
                 granted.item_tags.insert( cb.flag );
             }
+            // If the item has an ammunition, this loads it to capacity, including magazines.
+            if( granted.ammo_default() != "NULL" ) {
+                granted.ammo_set( granted.ammo_default(), -1 );
+            }
+
             granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;

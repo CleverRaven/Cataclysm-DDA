@@ -1,0 +1,22 @@
+[
+  {
+    "type": "AMMO",
+    "id": "acidic_bore",
+    "price": 10000,
+    "price_postapoc": 500,
+    "name": "acidic bore",
+    "symbol": "=",
+    "color": "red",
+    "description": "This wriggling nodule of resin and flesh appears to be secreting a pungent fluid.  You'd probably best feed it into the bioblaster. ",
+    "material": "alien_resin",
+    "volume": "250 ml",
+    "weight": "1 g",
+    "ammo_type": "acidic_bore",
+    "damage": 5,
+    "dispersion": 100,
+    "count": 80,
+    "stack_size": 80,
+    "loudness": 9,
+    "effects": "NEVER_MISFIRES"
+  }
+]

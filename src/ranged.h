@@ -16,7 +16,7 @@ struct tripoint;
  * and should return pointer to effective ammo data (if any)
  */
 using target_callback = std::function<const itype *( item *obj )>;
-using firing_callback = std::function<void( const int )>;
+using firing_callback = std::function<void( int )>;
 
 enum target_mode : int {
     TARGET_MODE_FIRE,

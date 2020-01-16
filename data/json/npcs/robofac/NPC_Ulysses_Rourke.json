@@ -70,7 +70,7 @@
     "id": "NC_robofac_security_head_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb" },
+      { "item": "grenade_emp" },
       { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy" },
       { "item": "goggles_nv" },
       { "item": "flashbang", "count": 2 },

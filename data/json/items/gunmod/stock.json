@@ -52,7 +52,7 @@
     "color": "dark_gray",
     "location": "stock",
     "handling_modifier": 2,
-    "mod_targets": [ "pistol", "smg", "rifle" ],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
     "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "NEEDS_UNFOLD" ]
   },

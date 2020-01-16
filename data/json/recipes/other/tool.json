@@ -189,16 +189,35 @@
     "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "wire", 1 ] ], [ [ "scrap", 1 ] ], [ [ "weights", 40, "LIST" ] ] ]
   },
   {
-    "result": "riding_saddle",
+    "result": "churn",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "tailor",
-    "difficulty": 4,
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "cooking", 4 ],
+    "time": "300 m",
+    "reversible": true,
+    "book_learn": [ [ "family_cookbook", 4 ], [ "textbook_survival", 4 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 18 ] ],
+      [ [ "nail", 14 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "horse_tack",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skills_required": [ [ "fabrication", 3 ], [ "tailor", 4 ] ],
     "time": 300000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 100 ], [ "cordage", 2 ] ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "result": "jack",
@@ -399,7 +418,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
     "time": "20 m",
     "reversible": true,
@@ -413,7 +431,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
     "time": "20 m",
     "reversible": true,
@@ -514,6 +531,7 @@
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
       [
         [ "lamp_oil", 50 ],
+        [ "motor_oil", 50 ],
         [ "chem_ethanol", 100 ],
         [ "denat_alcohol", 100 ],
         [ "gasoline", 250 ],

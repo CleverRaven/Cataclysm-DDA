@@ -79,15 +79,12 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
-const skill_id skill_mechanics( "mechanics" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
 //
-// Point dxs for the adjacent cardinal tiles.
-point vehicles::cardinal_d[5] = { point_west, point_east, point_north, point_south, point_zero };
 
 // For reference what each function is supposed to do, see their implementation in
 // @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
@@ -130,7 +127,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
                     }
                 }
             }
-            // @todo maybe do this for all the nearby NPCs as well?
+            // @TODO: maybe do this for all the nearby NPCs as well?
 
             if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
                 if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
@@ -177,7 +174,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
         }
         void removed( vehicle &veh, const int /*part*/ ) override {
-            // @todo check if this is necessary, it probably isn't during mapgen
+            // @TODO: check if this is necessary, it probably isn't during mapgen
             m.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
@@ -185,7 +182,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored. The base item will not be changed and will spawn as is:
             // still containing the animal.
             // This should not happend during mapgen anyway.
-            // @todo *if* this actually happens: create a spawn point for the animal instead.
+            // @TODO: *if* this actually happens: create a spawn point for the animal instead.
         }
 };
 
@@ -204,7 +201,7 @@ units::volume vehicle_stack::max_volume() const
 {
     if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->parts[part_num].info().size, 10000000_ml );
+        return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
     return 0_ml;
 }
@@ -738,6 +735,9 @@ std::set<point> vehicle::immediate_path( int rotate )
 
 void vehicle::stop_autodriving()
 {
+    if( !is_autodriving && !is_patrolling && !is_following ) {
+        return;
+    }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
             autodrive( 0, 10 );
@@ -1165,7 +1165,9 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
-                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3;
+                // An animal that can carry twice as much weight, can pull a cart twice as hard.
+                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
+                      * ( mon->get_mountable_weight_ratio() * 5 );
             } else {
                 pwr = 0;
             }
@@ -1681,8 +1683,8 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
         discovered.pop_front();
         auto current = current_part.mount;
 
-        for( int i = 0; i < 4; i++ ) {
-            point next = current + vehicles::cardinal_d[i];
+        for( const point &offset : four_adjacent_offsets ) {
+            point next = current + offset;
 
             if( next == target ) {
                 //Success!
@@ -1812,8 +1814,9 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
         partial_matches.assign( 4, veh_partial_match );
         for( auto rack_part : this_bike_rack ) {
             tripoint rack_pos = global_part_pos3( rack_part );
-            for( int i = 0; i < 4; i++ ) {
-                tripoint search_pos( rack_pos + vehicles::cardinal_d[ i ] );
+            int i = 0;
+            for( const point &offset : four_cardinal_directions ) {
+                tripoint search_pos( rack_pos + offset );
                 test_veh = veh_pointer_or_null( g->m.veh_at( search_pos ) );
                 if( test_veh == nullptr || test_veh == this ) {
                     continue;
@@ -1825,6 +1828,7 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
                 if( partial_matches[ i ] == test_veh->get_points() ) {
                     return merge_rackable_vehicle( test_veh, this_bike_rack );
                 }
+                ++i;
             }
         }
     }
@@ -1897,18 +1901,19 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             // There's no mathematical transform from global pos3 to vehicle mount, so search for the
             // carry part in global pos3 after translating
             point carry_mount;
-            for( j = 0; j < 4; j++ ) {
-                carry_mount = parts[ rack_part ].mount + vehicles::cardinal_d[ j ];
+            for( const point &offset : four_cardinal_directions ) {
+                carry_mount = parts[ rack_part ].mount + offset;
                 tripoint possible_pos = mount_to_tripoint( carry_mount );
                 if( possible_pos == carry_pos ) {
                     break;
                 }
+                ++j;
             }
 
             // We checked the adjacent points from the mounting rack and managed
             // to find the current structure part were looking for nearby. If the part was not
             // near this particular rack, we would look at each in the list of rack_parts
-            const bool carry_part_next_to_this_rack = j < 4;
+            const bool carry_part_next_to_this_rack = j < four_adjacent_offsets.size();
             if( carry_part_next_to_this_rack ) {
                 mapping carry_map;
                 point old_mount = carry_veh->parts[ carry_part ].mount;
@@ -2089,7 +2094,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
-        // @todo fix this ^^
+        // @TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         handler.add_item_or_charges( dest, i );
     }
@@ -2289,8 +2294,8 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 veh_parts.push_back( p );
             }
             checked_parts.insert( test_part );
-            for( size_t i = 0; i < 4; i++ ) {
-                const point dp = parts[test_part].mount + vehicles::cardinal_d[ i ];
+            for( const point &offset : four_adjacent_offsets ) {
+                const point dp = parts[test_part].mount + offset;
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
@@ -3579,7 +3584,7 @@ static double simple_cubic_solution( double a, double b, double c, double d )
         std::complex<double> term_sum( term1 + term2 );
 
         if( imag( term_sum ) < 2 ) {
-            return p + real( term_sum ) ;
+            return p + real( term_sum );
         } else {
             debugmsg( "cubic solution returned imaginary values" );
             return 0;
@@ -3704,7 +3709,7 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            if( g->weather.weather >= WEATHER_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
+            if( g->weather.weather >= WEATHER_LIGHT_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
                 vp.part().blood--;
             }
         }
@@ -3800,7 +3805,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     if( !combustion ) {
         return;
     }
-    /// @todo handle other engine types: muscle / animal / wind / coal / ...
+    /// @TODO: handle other engine types: muscle / animal / wind / coal / ...
 
     if( exhaust_part != -1 && engine_on ) {
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
@@ -4456,7 +4461,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             g->u.mod_thirst( 1 );
             g->u.mod_fatigue( 1 );
         }
-        g->u.mod_stat( "stamina", -( base_burn + mod ) );
+        g->u.mod_stamina( -( base_burn + mod ) );
         add_msg( m_debug, "Load: %d", load );
         add_msg( m_debug, "Mod: %d", mod );
         add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );
@@ -4745,6 +4750,21 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     }
 
     return nullptr;
+}
+
+void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
+                                  std::set<vehicle *> &vehicle_list )
+{
+    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount, int ) {
+        // Only emplaces if element is not present already.
+        connected_vehicles.emplace( veh, false );
+        return amount;
+    };
+    for( vehicle *veh : vehicle_list ) {
+        // This autovivifies, and also overwrites the value if already present.
+        connected_vehicles[veh] = true;
+        traverse_vehicle_graph( veh, 1, enumerate_visitor );
+    }
 }
 
 template <typename Func, typename Vehicle>
@@ -5645,11 +5665,14 @@ void vehicle::refresh_insides()
             continue;
         }
 
-        parts[p].inside = true; // inside if not otherwise
-        for( int i = 0; i < 4; i++ ) { // let's check four neighbor parts
-            point near_mount = parts[ p ].mount + vehicles::cardinal_d[ i ];
+        // inside if not otherwise
+        parts[p].inside = true;
+        // let's check four neighbor parts
+        for( const point &offset : four_adjacent_offsets ) {
+            point near_mount = parts[ p ].mount + offset;
             std::vector<int> parts_n3ar = parts_at_relative( near_mount, true );
-            bool cover = false; // if we aren't covered from sides, the roof at p won't save us
+            // if we aren't covered from sides, the roof at p won't save us
+            bool cover = false;
             for( auto &j : parts_n3ar ) {
                 // another roof -- cover
                 if( part_flag( j, "ROOF" ) && parts[ j ].is_available() ) {
@@ -5658,7 +5681,8 @@ void vehicle::refresh_insides()
                 } else if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
                     // found an obstacle, like board or windshield or door
                     if( parts[j].inside || ( part_flag( j, "OPENABLE" ) && parts[j].open ) ) {
-                        continue; // door and it's open -- can't cover
+                        // door and it's open -- can't cover
+                        continue;
                     }
                     cover = true;
                     break;
@@ -6325,11 +6349,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0_gram;
-        }
-
-        if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
-            m_part += units::from_gram( animal_mass );
         }
 
         if( use_precalc ) {

@@ -27,6 +27,7 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 struct species_type {
     species_id id;
     bool was_loaded = false;
+    translation description;
     std::string footsteps;
     enum_bitset<m_flag> flags;
     enum_bitset<mon_trigger> anger;
@@ -40,7 +41,7 @@ struct species_type {
 
     }
 
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
 };
 
 class MonsterGenerator
@@ -57,9 +58,9 @@ class MonsterGenerator
         void reset();
 
         // JSON loading functions
-        void load_monster( JsonObject &jo, const std::string &src );
-        void load_species( JsonObject &jo, const std::string &src );
-        void load_monster_attack( JsonObject &jo, const std::string &src );
+        void load_monster( const JsonObject &jo, const std::string &src );
+        void load_species( const JsonObject &jo, const std::string &src );
+        void load_monster_attack( const JsonObject &jo, const std::string &src );
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
@@ -71,6 +72,7 @@ class MonsterGenerator
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
+        std::map<m_flag, int> m_flag_usage_stats;
 
     private:
         MonsterGenerator();
@@ -86,7 +88,7 @@ class MonsterGenerator
         void add_attack( const mtype_special_attack &wrapper );
 
         /** Gets an actor object without saving it anywhere */
-        mtype_special_attack create_actor( JsonObject &obj, const std::string &src ) const;
+        mtype_special_attack create_actor( const JsonObject &obj, const std::string &src ) const;
 
         // finalization
         void apply_species_attributes( mtype &mon );
@@ -107,6 +109,6 @@ class MonsterGenerator
         std::map<std::string, mtype_special_attack> attack_map;
 };
 
-void load_monster_adjustment( JsonObject &jsobj );
+void load_monster_adjustment( const JsonObject &jsobj );
 
 #endif

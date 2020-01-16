@@ -9,7 +9,7 @@
     "difficulty": 8,
     "time": 2500,
     "reversible": true,
-    "auto_learn": true,
+    "autolearn": true,
     "tools": [ [ [ "electrohack", 20 ] ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -33,7 +33,7 @@
     "difficulty": 3,
     "time": 2500,
     "reversible": true,
-    "auto_learn": true,
+    "autolearn": true,
     "tools": [ [ [ "electrohack", 20 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ]
   },
@@ -68,7 +68,7 @@
     "difficulty": 6,
     "time": 25000,
     "reversible": false,
-    "auto_learn": true,
+    "autolearn": true,
     "tools": [ [ [ "electrohack", 20 ] ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]

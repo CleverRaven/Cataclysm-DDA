@@ -50,16 +50,16 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     int scol = 0; // sorting column
 
     std::map<std::string, standard_npc> test_npcs;
-    test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" }, 4, 8, 10, 8,
-                                      10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4, 8, 8, 8,
-                                      10 /* PER 10 */ );
-    test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8,
-                                      8 /* STAT 10 */ );
-    test_npcs[ "S4" ] = standard_npc( "S4", {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S5" ] = standard_npc( "S5", {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S6" ] = standard_npc( "S6", { "gloves_hsurvivor", "mask_hsurvivor" }, 4, 8, 10, 8,
-                                      10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S1" ] = standard_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
+                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S2" ] = standard_npc( "S2", { 0, 0, 3 }, { "gloves_fingerless", "sunglasses" },
+                                      4, 8, 8, 8, 10 /* PER 10 */ );
+    test_npcs[ "S3" ] = standard_npc( "S3", { 0, 0, 4 }, { "gloves_plate", "helmet_plate" },
+                                      4, 10, 8, 8, 8 /* STAT 10 */ );
+    test_npcs[ "S4" ] = standard_npc( "S4", { 0, 0, 5 }, {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S5" ] = standard_npc( "S5", { 0, 0, 6 }, {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S6" ] = standard_npc( "S6", { 0, 0, 7 }, { "gloves_hsurvivor", "mask_hsurvivor" },
+                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     std::map<std::string, item> test_items;
     test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
@@ -141,10 +141,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.get_comestible()->get_calories() ) );
+            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal ) );
             r.push_back( to_string( obj.get_comestible()->quench ) );
             r.push_back( to_string( obj.get_comestible()->healthy ) );
-            auto vits = g->u.vitamins_from( obj );
+            auto vits = obj.get_comestible()->default_nutrition.vitamins;
             for( const auto &v : vitamin::all() ) {
                 r.push_back( to_string( vits[ v.first ] ) );
             }

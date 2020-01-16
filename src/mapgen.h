@@ -11,6 +11,7 @@
 
 #include "regional_settings.h"
 #include "type_id.h"
+#include "memory_fast.h"
 
 class time_point;
 struct point;
@@ -66,12 +67,12 @@ struct jmapgen_int {
     /**
      * Throws as usually if the json is invalid or missing.
      */
-    jmapgen_int( JsonObject &jo, const std::string &tag );
+    jmapgen_int( const JsonObject &jo, const std::string &tag );
     /**
      * Throws is the json is malformed (e.g. a string not an integer, but does not throw
      * if the member is just missing (the default values are used instead).
      */
-    jmapgen_int( JsonObject &jo, const std::string &tag, short def_val, short def_valmax );
+    jmapgen_int( const JsonObject &jo, const std::string &tag, short def_val, short def_valmax );
 
     int get() const;
 };
@@ -171,7 +172,7 @@ class jmapgen_place
     public:
         jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
         jmapgen_place( const point &p ) : x( p.x ), y( p.y ), repeat( 1, 1 ) { }
-        jmapgen_place( JsonObject &jsi );
+        jmapgen_place( const JsonObject &jsi );
         void offset( const point & );
         jmapgen_int x;
         jmapgen_int y;
@@ -189,7 +190,7 @@ class mapgen_palette
          * similar to objects, but it uses key to get the actual position where to place things
          * out of the json "bitmap" (which is used to paint the terrain/furniture).
          */
-        using placing_map = std::map< int, std::vector< std::shared_ptr<const jmapgen_piece> > >;
+        using placing_map = std::map< int, std::vector< shared_ptr_fast<const jmapgen_piece> > >;
 
         std::map<int, ter_id> format_terrain;
         std::map<int, furn_id> format_furniture;
@@ -200,17 +201,17 @@ class mapgen_palette
          * Load (append to format_placings) the places that should be put there.
          * member_name is the name of an optional object / array in the json object jsi.
          */
-        void load_place_mapings( JsonObject &jo, const std::string &member_name,
+        void load_place_mapings( const JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings );
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
-        static mapgen_palette load_temp( JsonObject &jo, const std::string &src );
+        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src );
         /**
          * Load a palette object and adds it to the global set of palettes.
          * If "palette" field is specified, those palettes will be loaded recursively.
          */
-        static void load( JsonObject &jo, const std::string &src );
+        static void load( const JsonObject &jo, const std::string &src );
 
         /**
          * Returns a palette with given id. If not found, debugmsg and returns a dummy.
@@ -218,7 +219,7 @@ class mapgen_palette
         static const mapgen_palette &get( const palette_id &id );
 
     private:
-        static mapgen_palette load_internal( JsonObject &jo, const std::string &src, bool require_id,
+        static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
                                              bool allow_recur );
 
         /**
@@ -233,13 +234,13 @@ struct jmapgen_objects {
 
         jmapgen_objects( const point &offset, const point &mapsize );
 
-        bool check_bounds( jmapgen_place place, JsonObject &jso );
+        bool check_bounds( jmapgen_place place, const JsonObject &jso );
 
-        void add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece );
+        void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
-         * JsonObject as parameter. The function loads all objects from the json array and stores
+         * const JsonObject &as parameter. The function loads all objects from the json array and stores
          * them in @ref objects.
          */
         template<typename PieceType>
@@ -250,7 +251,7 @@ struct jmapgen_objects {
          * nothing is loaded and the function just returns.
          */
         template<typename PieceType>
-        void load_objects( JsonObject &jsi, const std::string &member_name );
+        void load_objects( const JsonObject &jsi, const std::string &member_name );
 
         void check( const std::string &oter_name ) const;
 
@@ -267,7 +268,7 @@ struct jmapgen_objects {
         /**
          * Combination of where to place something and what to place.
          */
-        using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<const jmapgen_piece> >;
+        using jmapgen_obj = std::pair<jmapgen_place, shared_ptr_fast<const jmapgen_piece> >;
         std::vector<jmapgen_obj> objects;
         point m_offset;
         point mapgensize;
@@ -276,8 +277,9 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
-        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, JsonObject &jso ) const;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
         size_t calc_index( const point &p ) const;
+        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 
     private:
         std::string jdata;
@@ -287,10 +289,10 @@ class mapgen_function_json_base
         virtual ~mapgen_function_json_base();
 
         void setup_common();
-        bool setup_common( JsonObject &jo );
-        void setup_setmap( JsonArray &parray );
+        bool setup_common( const JsonObject &jo );
+        void setup_setmap( const JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
-        virtual bool setup_internal( JsonObject &jo ) = 0;
+        virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
 
         void check_common( const std::string &oter_name ) const;
@@ -322,7 +324,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         oter_id predecessor_mapgen;
 
     protected:
-        bool setup_internal( JsonObject &jo ) override;
+        bool setup_internal( const JsonObject &jo ) override;
 
     private:
         jmapgen_int rotation;
@@ -335,7 +337,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
         ~update_mapgen_function_json() override = default;
 
         void setup();
-        bool setup_update( JsonObject &jo );
+        bool setup_update( const JsonObject &jo );
         void check( const std::string &oter_name ) const;
         bool update_map( const tripoint &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
@@ -343,7 +345,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
                          bool verify = false ) const;
 
     protected:
-        bool setup_internal( JsonObject &/*jo*/ ) override;
+        bool setup_internal( const JsonObject &/*jo*/ ) override;
         ter_id fill_ter;
 };
 
@@ -357,7 +359,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 
         void nest( mapgendata &dat, const point &offset ) const;
     protected:
-        bool setup_internal( JsonObject &jo ) override;
+        bool setup_internal( const JsonObject &jo ) override;
 
     private:
         jmapgen_int rotation;
@@ -368,13 +370,13 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 /*
  * Load mapgen function of any type from a json object
  */
-std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string &id_base,
-        int default_idx, const point &offset = point_zero );
+std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
+        const std::string &id_base, int default_idx, const point &offset = point_zero );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
  */
-void load_mapgen( JsonObject &jo );
+void load_mapgen( const JsonObject &jo );
 void reset_mapgens();
 /*
  * stores function ref and/or required data

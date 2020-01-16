@@ -149,6 +149,8 @@ If you are also looking for suggestions then mark it with [CR] — "comments req
 
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
 
+It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
+
 ### All PRs should have a "Summary" line
 Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
 

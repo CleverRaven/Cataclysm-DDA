@@ -13,8 +13,12 @@
 #include "creature.h"
 #include "damage.h"
 #include "game.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mattack_actors.h"
 #include "messages.h"
 #include "monster.h"
+#include "npc.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
@@ -23,7 +27,8 @@
 #include "item.h"
 #include "point.h"
 
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_rifle( "rifle" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -126,5 +131,69 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     if( g->u.sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ),
                  m.disp_name() );
+    }
+}
+
+void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile_attack *proj )
+{
+    // No return fire for untargeted projectiles, i.e. from explosions.
+    if( source == nullptr ) {
+        return;
+    }
+    // No return fire for melee attacks.
+    if( proj == nullptr ) {
+        return;
+    }
+    // No return fire from dead monsters.
+    if( m.is_dead_state() ) {
+        return;
+    }
+
+    const player *const foe = dynamic_cast<player *>( source );
+    // No return fire for quiet or completely silent projectiles (bows, throwing etc).
+    if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+        return;
+    }
+
+    const tripoint fire_point = source->pos();
+
+    // Create a fake NPC which will actually fire
+    npc tmp;
+    tmp.set_fake( true );
+    tmp.setpos( m.pos() );
+
+    // We might be aiming at the player square, but we aren't totally sure where they are,
+    // so represent that with initial recoil.
+    tmp.recoil = 150;
+
+    for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
+        if( attack.second->id == "gun" ) {
+            sounds::sound( m.pos(), 50, sounds::sound_t::alert,
+                           _( "Detected shots from unseen attacker, return fire mode engaged." ) );
+            tmp.moves -= 150;
+
+            const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
+
+            // Set fake NPC's dexterity...
+            tmp.dex_cur = gunactor->fake_dex;
+
+            // ...skills...
+            for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
+                if( skill.first == "gun" ) {
+                    tmp.set_skill_level( skill_gun, skill.second );
+                }
+                if( skill.first == "rifle" ) {
+                    tmp.set_skill_level( skill_rifle, skill.second );
+                }
+            }
+
+            // ...and weapon, everything based on turret's properties
+            tmp.weapon = item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
+                         m.ammo[ gunactor->ammo_type ] );
+            const int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
+
+            // Fire the weapon and consume ammo
+            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * tmp.weapon.ammo_required();
+        }
     }
 }

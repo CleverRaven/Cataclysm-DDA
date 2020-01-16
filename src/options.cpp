@@ -147,14 +147,32 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
+    thisOpt.verbose = false;
 
     thisOpt.eType = get_value_type( thisOpt.sType );
 
-    thisOpt.iMin = INT_MIN;
-    thisOpt.iMax = INT_MAX;
-
-    thisOpt.fMin = INT_MIN;
-    thisOpt.fMax = INT_MAX;
+    switch( thisOpt.eType ) {
+        case cOpt::CVT_BOOL:
+            thisOpt.bSet = false;
+            thisOpt.bDefault = false;
+            break;
+        case cOpt::CVT_INT:
+            thisOpt.iMin = INT_MIN;
+            thisOpt.iMax = INT_MAX;
+            thisOpt.iDefault = 0;
+            thisOpt.iSet = 0;
+            break;
+        case cOpt::CVT_FLOAT:
+            thisOpt.fMin = INT_MIN;
+            thisOpt.fMax = INT_MAX;
+            thisOpt.fDefault = 0;
+            thisOpt.fSet = 0;
+            thisOpt.fStep = 1;
+            break;
+        default:
+            // all other type-specific values have default constructors
+            break;
+    }
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
     thisOpt.setSortPos( sPageIn );
@@ -269,7 +287,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.iMax = iMaxIn;
 
     if( iDefaultIn < iMinIn || iDefaultIn > iMaxIn ) {
-        iDefaultIn = iMinIn ;
+        iDefaultIn = iMinIn;
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -348,7 +366,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.fStep = fStepIn;
 
     if( fDefaultIn < fMinIn || fDefaultIn > fMaxIn ) {
-        fDefaultIn = fMinIn ;
+        fDefaultIn = fMinIn;
     }
 
     thisOpt.fDefault = fDefaultIn;
@@ -841,23 +859,22 @@ void options_manager::cOpt::setValue( std::string sSetIn )
 }
 
 /** Fill a mapping with values.
- * Scans all directories in FILENAMES[dirname_label] directory for
- * a file named FILENAMES[filename_label].
+ * Scans all directories in @p dirname directory for
+ * a file named @p filename.
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
 static std::vector<options_manager::id_and_option> build_resource_list(
     std::map<std::string, std::string> &resource_option, const std::string &operation_name,
-    const std::string &dirname_label, const std::string &filename_label )
+    const std::string &dirname, const std::string &filename )
 {
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
-    const auto resource_dirs = get_directories_with( FILENAMES[filename_label],
-                               FILENAMES[dirname_label], true );
+    const auto resource_dirs = get_directories_with( filename, dirname, true );
 
     for( auto &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream & fin ) {
+        read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -885,8 +902,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
             resource_names.emplace_back( resource_name,
                                          view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
             if( resource_option.count( resource_name ) != 0 ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " <<
-                                            resource_name;
+                debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
+                          operation_name, resource_name );
             } else {
                 resource_option.insert( std::pair<std::string, std::string>( resource_name, resource_dir ) );
             }
@@ -901,7 +918,8 @@ std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
 {
     // Use local map as build_resource_list will clear the first parameter
     std::map<std::string, std::string> local_tilesets;
-    auto tileset_names = build_resource_list( local_tilesets, "tileset", path, "tileset-conf" );
+    auto tileset_names = build_resource_list( local_tilesets, "tileset", path,
+                         PATH_INFO::tileset_conf() );
 
     // Copy found tilesets
     TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
@@ -916,12 +934,18 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<id_and_option> result;
 
     // Load from data directory
-    auto data_tilesets = load_tilesets_from( "gfxdir" );
+    std::vector<options_manager::id_and_option> data_tilesets = load_tilesets_from(
+                PATH_INFO::gfxdir() );
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    auto user_tilesets = load_tilesets_from( "user_gfx" );
-    result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
+    std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
+                PATH_INFO::user_gfx() );
+    for( options_manager::id_and_option id : user_tilesets ) {
+        if( std::find( result.begin(), result.end(), id ) == result.end() ) {
+            result.emplace_back( id );
+        }
+    }
 
     // Default values
     if( result.empty() ) {
@@ -936,7 +960,8 @@ std::vector<options_manager::id_and_option> options_manager::load_soundpack_from
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
-    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path, "soundpack-conf" );
+    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path,
+                           PATH_INFO::soundpack_conf() );
 
     // Copy over found soundpacks
     SOUNDPACKS.insert( local_soundpacks.begin(), local_soundpacks.end() );
@@ -952,11 +977,11 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     std::vector<id_and_option> result;
 
     // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( "data_sound" );
+    auto data_soundpacks = load_soundpack_from( PATH_INFO::data_sound() );
     result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
 
     // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( "user_sound" );
+    auto user_soundpacks = load_soundpack_from( PATH_INFO::user_sound() );
     result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
 
     // Select default built-in sound pack
@@ -1139,6 +1164,13 @@ void options_manager::add_options_general()
          false
        );
 
+    add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
+         translate_marker( "Dangerous terrain warning prompt" ),
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
+    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+    "ALWAYS"
+       );
+
     mOptionsSort["general"]++;
 
     add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
@@ -1182,7 +1214,7 @@ void options_manager::add_options_general()
 
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
          translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
-         false
+         true
        );
 
     add( "AUTOSAVE_TURNS", "general", translate_marker( "Game turns between autosaves" ),
@@ -1491,6 +1523,11 @@ void options_manager::add_options_interface()
     "Vertical"
        );
 
+    add( "AIM_WIDTH", "interface", translate_marker( "Full screen Advanced Inventory Manager" ),
+         translate_marker( "If true, Advanced Inventory Manager menu will fit full screen, otherwise it will leave sidebar visible." ),
+         false
+       );
+
     mOptionsSort["interface"]++;
 
     add( "MOVE_VIEW_OFFSET", "interface", translate_marker( "Move view offset" ),
@@ -1532,6 +1569,10 @@ void options_manager::add_options_interface()
     add( "ITEM_SYMBOLS", "interface", translate_marker( "Show item symbols" ),
          translate_marker( "If true, show item symbols in inventory and pick up menu." ),
          false
+       );
+    add( "AMMO_IN_NAMES", "interface", translate_marker( "Add ammo to weapon/magazine names" ),
+         translate_marker( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
+         true
        );
 
     mOptionsSort["interface"]++;
@@ -1773,7 +1814,7 @@ void options_manager::add_options_graphics()
 #if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
-    { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
+    { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
 #endif
@@ -1924,9 +1965,9 @@ void options_manager::add_options_world_default()
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
     translate_marker( "Handling of game world when last character dies." ), {
-        { "keep", translate_marker( "Keep" ) }, { "reset", translate_marker( "Reset" ) },
-        { "delete", translate_marker( "Delete" ) },  { "query", translate_marker( "Query" ) }
-    }, "keep"
+        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
+        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    }, "reset"
        );
 
     mOptionsSort["world_default"]++;
@@ -2406,6 +2447,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
     std::map<int, bool> mapLines;
+    std::map<int, bool> mapLinesOriginal;
     mapLines[4] = true;
     mapLines[60] = true;
 
@@ -2422,6 +2464,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
     }
 
+    mapLinesOriginal = mapLines;
     draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
                            world_options_only );
     draw_borders_internal( w_options_header, mapLines );
@@ -2587,9 +2630,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         const std::string action = ctxt.handle_input();
 
         if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             return action;
         }
 
@@ -2674,12 +2715,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 }
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
-            // keybinding screen erased the internal borders of main menu, restore it:
-            draw_borders_internal( w_options_header, mapLines );
+            draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
+                                   world_options_only );
         } else if( action == "QUIT" ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::clear();
+            catacurses::refresh();
             break;
         }
     }
@@ -2807,15 +2847,11 @@ void options_manager::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject joOptions = jsin.get_object();
+        joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
-
-        // Verify format of options file
-        if( !joOptions.has_string( "info" ) || !joOptions.has_string( "default" ) ) {
-            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
-        }
 
         add_retry( name, value );
         options[ name ].setValue( value );
@@ -2842,7 +2878,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 bool options_manager::save()
 {
-    const auto savefile = FILENAMES["options"];
+    const auto savefile = PATH_INFO::options();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2863,14 +2899,14 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    const auto file = FILENAMES["options"];
+    const auto file = PATH_INFO::options();
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
     } ) ) {
         if( load_legacy() ) {
             if( save() ) {
-                remove_file( FILENAMES["legacy_options"] );
-                remove_file( FILENAMES["legacy_options2"] );
+                remove_file( PATH_INFO::legacy_options() );
+                remove_file( PATH_INFO::legacy_options2() );
             }
         }
     }
@@ -2911,8 +2947,8 @@ bool options_manager::load_legacy()
         }
     };
 
-    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
-           read_from_file_optional( FILENAMES["legacy_options2"], reader );
+    return read_from_file_optional( PATH_INFO::legacy_options(), reader ) ||
+           read_from_file_optional( PATH_INFO::legacy_options2(), reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const
@@ -2997,7 +3033,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
-        };
+        }
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }

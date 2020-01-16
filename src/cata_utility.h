@@ -340,7 +340,8 @@ class list_circularizer
 
         /** Return list element at the current location */
         T &cur() const {
-            return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+            // list could be null, but it would be a design time mistake and really, the callers fault.
+            return ( *_list )[_index];
         }
 };
 

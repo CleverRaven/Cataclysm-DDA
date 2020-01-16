@@ -10,6 +10,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_camp_new_0",
+    "name": "survivor camp",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_camp_1",
     "name": "survivor camp",
     "sym": "+",

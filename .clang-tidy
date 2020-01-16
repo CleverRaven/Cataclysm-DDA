@@ -29,13 +29,13 @@ readability-*,\
 -cert-msc51-cpp,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-c-arrays,\
--modernize-deprecated-headers,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-auto,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
 -modernize-use-transparent-functors,\
+-modernize-use-trailing-return-type,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
 -performance-noexcept-move-constructor,\

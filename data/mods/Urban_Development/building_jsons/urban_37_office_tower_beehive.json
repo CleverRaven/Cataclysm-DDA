@@ -7,7 +7,7 @@
     "symbol": "}",
     "color": [ "dark_gray" ],
     "move_cost_mod": 2,
-    "max_volume": 4000,
+    "max_volume": "1000 L",
     "required_str": 8,
     "bash": {
       "str_min": 8,

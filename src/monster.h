@@ -27,6 +27,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "point.h"
+#include "value_ptr.h"
 
 class JsonObject;
 class JsonIn;
@@ -88,7 +89,7 @@ class monster : public Creature
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) ;
+        monster( const monster & );
         monster( monster && );
         ~monster() override;
         monster &operator=( const monster & );
@@ -101,12 +102,15 @@ class monster : public Creature
         void poly( const mtype_id &id );
         bool can_upgrade();
         void hasten_upgrade();
+        int get_upgrade_time() const;
+        void allow_upgrade();
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
+        units::mass weight_capacity() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
@@ -138,11 +142,17 @@ class monster : public Creature
         std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
-        bool can_see() const;      // MF_SEES and no ME_BLIND
-        bool can_hear() const;     // MF_HEARS and no ME_DEAF
-        bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
-        bool can_drown() const;    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
-        bool digging() const override;      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        bool can_see() const;      // MF_SEES and no MF_BLIND
+        bool can_hear() const;     // MF_HEARS and no MF_DEAF
+        bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
+        bool can_drown() const;    // MF_AQUATIC or swims() or MF_NO_BREATHE or flies()
+        bool can_climb() const;         // climbs() or flies()
+        bool digging() const override;  // digs() or can_dig() and diggable terrain
+        bool can_dig() const;
+        bool digs() const;
+        bool flies() const;
+        bool climbs() const;
+        bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
@@ -402,8 +412,8 @@ class monster : public Creature
         /**
          * Makes monster react to heard sound
          *
-         * @param from Location of the sound source
-         * @param source_volume Volume at the center of the sound source
+         * @param source Location of the sound source
+         * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
         void hear_sound( const tripoint &source, int vol, int distance );
@@ -428,8 +438,15 @@ class monster : public Creature
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        cata::optional<item> tied_item; // item used to tie the monster
-        cata::optional<item> battery_item; // item to power mechs
+        cata::value_ptr<item> tied_item; // item used to tie the monster
+        cata::value_ptr<item> tack_item; // item representing saddle and reins and such
+        cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
+        cata::value_ptr<item> storage_item; // storage item for monster carrying items
+        cata::value_ptr<item> battery_item; // item to power mechs
+        units::mass get_carried_weight();
+        units::volume get_carried_volume();
+        void move_special_item_to_inv( cata::value_ptr<item> &it );
+
         // DEFINING VALUES
         int friendly;
         int anger = 0;
@@ -537,7 +554,7 @@ class monster : public Creature
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;

@@ -48,33 +48,31 @@
 #include "point.h"
 #include "mattack_actors.h"
 
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_blob_brain( "mon_blob_brain" );
-const mtype_id mon_blob_small( "mon_blob_small" );
-const mtype_id mon_breather( "mon_breather" );
-const mtype_id mon_breather_hub( "mon_breather_hub" );
-const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-const mtype_id mon_halfworm( "mon_halfworm" );
-const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_thing( "mon_thing" );
-const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
-const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
-const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroach" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id BLOB( "BLOB" );
 
-const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_no_ammo( "no_ammo" );
-const efftype_id effect_pacified( "pacified" );
-const efftype_id effect_rat( "rat" );
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_rat( "rat" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PRED1( "PRED1" );
@@ -221,7 +219,7 @@ void mdeath::splatter( monster &z )
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
-        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( "GIBBED" );
@@ -602,7 +600,7 @@ void mdeath::focused_beam( monster &z )
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
         for( auto &elem : traj ) {
-            if( !g->m.trans( elem ) ) {
+            if( !g->m.is_transparent( elem ) ) {
                 break;
             }
             g->m.add_field( elem, fd_dazzling, 2 );
@@ -635,10 +633,10 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+        for( const std::pair<const std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
                 bool spawned = false;
-                for( const std::pair<std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
+                for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
@@ -852,7 +850,7 @@ void mdeath::broken_ammo( monster &z )
 
 void make_mon_corpse( monster &z, int damageLvl )
 {
-    item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+    item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {

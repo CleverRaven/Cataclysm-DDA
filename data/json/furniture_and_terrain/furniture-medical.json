@@ -10,7 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
     "deconstruct": {
       "items": [
@@ -66,8 +66,7 @@
         { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
       ]
     },
-    "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "AUTODOC_COUCH" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -91,7 +90,6 @@
     "move_cost_mod": 3,
     "coverage": 60,
     "required_str": 16,
-    "max_volume": 4000,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
@@ -136,7 +134,6 @@
     "move_cost_mod": 3,
     "coverage": 60,
     "required_str": 16,
-    "max_volume": 4000,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
     "deconstruct": {
@@ -180,7 +177,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 18,
-    "max_volume": 7000,
+    "max_volume": "1750 L",
     "looks_like": "f_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -237,7 +234,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": "1750 L",
     "bash": {
       "str_min": 35,
       "str_max": 80,
@@ -313,7 +310,6 @@
     "move_cost_mod": 3,
     "coverage": 45,
     "required_str": 10,
-    "max_volume": 4000,
     "looks_like": "f_glass_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
@@ -501,7 +497,6 @@
     "move_cost_mod": -1,
     "coverage": 45,
     "required_str": -1,
-    "max_volume": 4000,
     "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -543,7 +538,6 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "max_volume": 4000,
     "looks_like": "t_machinery_heavy",
     "deconstruct": {
       "items": [

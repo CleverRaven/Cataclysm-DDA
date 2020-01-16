@@ -55,7 +55,7 @@
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
       { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "EMPbomb" },
+      { "item": "grenade_emp" },
       { "item": "bot_grenade_hack", "count": 2 }
     ]
   },
@@ -174,7 +174,7 @@
       "Thinking I should go hunt something soon...",
       "Wondering if things will get better someday...",
       "Hmm? Nothing, I guess I just like resting in this place.",
-      "Have you ever noticed how... wait no, never mind.",
+      "Have you ever noticed how… wait no, never mind.",
       "I heard some strange dimensional resonance caused all this, do you think it has happened to other places?",
       "You noticed this place has working WI-FI?  Well not the rest of the net works anyways."
     ],
@@ -203,7 +203,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "I could do with some help...",
+      "describe": "I could do with some help…",
       "offer": "I'm still supposed to scavenge for gold, I can offer you the same deal as last time.",
       "accepted": "Wonderful.",
       "rejected": "Well I'll look for the gold myself.",

@@ -16,7 +16,8 @@
       [ "hand_drill", 20 ],
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
-      [ "toolbox", 15 ]
+      [ "toolbox", 12 ],
+      [ "toolbox_workshop", 3 ]
     ]
   },
   {
@@ -30,9 +31,10 @@
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
-      [ "toolbox", 25 ],
+      [ "toolbox", 20 ],
+      [ "toolbox_workshop", 5 ],
       [ "recharge_station", 10 ],
-      [ "angular_grinder", 30 ]
+      [ "angle_grinder", 30 ]
     ]
   },
   {
@@ -59,7 +61,7 @@
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
-      [ "hand_vice", 10 ]
+      [ "clamp", 10 ]
     ]
   },
   {
@@ -79,7 +81,6 @@
       [ "jumper_cable_heavy", 2 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
-      [ "lawnmower", 10 ],
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
@@ -163,7 +164,7 @@
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
-      [ "hand_vice", 10 ]
+      [ "clamp", 10 ]
     ]
   },
   {
@@ -193,7 +194,8 @@
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
-      [ "toolbox", 5 ]
+      [ "toolbox", 4 ],
+      [ "toolbox_workshop", 1 ]
     ]
   },
   {
@@ -218,9 +220,9 @@
       { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
       [ "polisher", 70 ],
-      [ "angular_grinder", 5 ],
+      [ "angle_grinder", 5 ],
       [ "welder", 10 ],
-      [ "hand_vice", 10 ]
+      [ "clamp", 10 ]
     ]
   },
   {
@@ -302,7 +304,7 @@
       [ "chem_hexamine", 10 ],
       [ "esbit_stove", 15 ],
       [ "mess_tin", 5 ],
-      [ "riding_saddle", 3 ],
+      [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],
       [ "acetylene_machine", 2 ]
@@ -423,7 +425,7 @@
       [ "sm_extinguisher", 10 ],
       [ "toolbox", 5 ],
       [ "tool_belt", 10 ],
-      [ "hand_vice", 10 ],
+      [ "clamp", 10 ],
       [ "wrench", 10 ]
     ]
   },
@@ -442,7 +444,7 @@
       [ "screwdriver", 35 ],
       [ "pin_reamer", 10 ],
       [ "metal_file", 10 ],
-      [ "hand_vice", 20 ]
+      [ "clamp", 20 ]
     ]
   },
   {
@@ -455,7 +457,7 @@
       [ "jackhammer", 50 ],
       [ "elec_jackhammer", 50 ],
       [ "circsaw_off", 10 ],
-      [ "angular_grinder", 20 ]
+      [ "angle_grinder", 20 ]
     ]
   },
   {

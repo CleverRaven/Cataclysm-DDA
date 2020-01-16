@@ -11,6 +11,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "forest_with_swamp",
+    "terrains": [ "forest", "forest_thick", "forest_water" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "forest",
     "terrains": [ "forest", "forest_thick", "forest_trail" ]
   },

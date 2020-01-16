@@ -82,7 +82,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( JsonObject &jo, const std::string &src )
+void recipe::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -132,8 +132,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         } else if( sk.has_array( 0 ) ) {
             // multiple requirements
-            while( sk.has_more() ) {
-                auto arr = sk.next_array();
+            for( JsonArray arr : sk ) {
                 required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
 
@@ -149,9 +148,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
     } else if( jo.has_array( "autolearn" ) ) {
         autolearn = true;
-        auto sk = jo.get_array( "autolearn" );
-        while( sk.has_more() ) {
-            auto arr = sk.next_array();
+        for( JsonArray arr : jo.get_array( "autolearn" ) ) {
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
@@ -171,22 +168,21 @@ void recipe::load( JsonObject &jo, const std::string &src )
             assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
 
         } else if( jo.has_array( "decomp_learn" ) ) {
-            auto sk = jo.get_array( "decomp_learn" );
-            while( sk.has_more() ) {
-                auto arr = sk.next_array();
+            for( JsonArray arr : jo.get_array( "decomp_learn" ) ) {
                 learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
         }
     }
 
     if( jo.has_member( "book_learn" ) ) {
-        auto bk = jo.get_array( "book_learn" );
         booksets.clear();
-
-        while( bk.has_more() ) {
-            auto arr = bk.next_array();
+        for( JsonArray arr : jo.get_array( "book_learn" ) ) {
             booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
         }
+    }
+
+    if( jo.has_member( "delete_flags" ) ) {
+        flags_to_delete = jo.get_tags( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
@@ -194,11 +190,8 @@ void recipe::load( JsonObject &jo, const std::string &src )
         reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
 
     } else if( jo.has_array( "using" ) ) {
-        auto arr = jo.get_array( "using" );
         reqs_external.clear();
-
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
+        for( JsonArray cur : jo.get_array( "using" ) ) {
             reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -222,41 +215,31 @@ void recipe::load( JsonObject &jo, const std::string &src )
             if( this->reversible ) {
                 jo.throw_error( "Recipe cannot be reversible and have byproducts" );
             }
-            auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
-            while( bp.has_more() ) {
-                auto arr = bp.next_array();
+            for( JsonArray arr : jo.get_array( "byproducts" ) ) {
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.empty() ) {
             assign( jo, "blueprint_name", bp_name );
-            JsonArray bp_array = jo.get_array( "blueprint_resources" );
             bp_resources.clear();
-            while( bp_array.has_more() ) {
-                std::string resource = bp_array.next_string();
+            for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
             }
-            bp_array = jo.get_array( "blueprint_provides" );
-            while( bp_array.has_more() ) {
-                JsonObject provide = bp_array.next_object();
+            for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {
                 bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
             bp_provides.emplace_back( std::make_pair( result_, 1 ) );
-            bp_array = jo.get_array( "blueprint_requires" );
-            while( bp_array.has_more() ) {
-                JsonObject require = bp_array.next_object();
+            for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
             bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
-            bp_array = jo.get_array( "blueprint_excludes" );
-            while( bp_array.has_more() ) {
-                JsonObject exclude = bp_array.next_object();
+            for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
@@ -289,6 +272,8 @@ void recipe::finalize()
     if( bp_autocalc ) {
         requirements_.consolidate();
     }
+
+    deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
     if( contained && container == "null" ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
@@ -500,14 +485,36 @@ std::string recipe::result_name() const
     return name;
 }
 
-std::function<bool( const item & )> recipe::get_component_filter() const
+bool recipe::will_be_blacklisted() const
+{
+    if( requirements_.is_blacklisted() ) {
+        return true;
+    }
+
+    auto any_is_blacklisted = []( const std::vector<std::pair<requirement_id, int>> &reqs ) {
+        auto req_is_blacklisted = []( const std::pair<requirement_id, int> &req ) {
+            return req.first->is_blacklisted();
+        };
+
+        return std::any_of( reqs.begin(), reqs.end(), req_is_blacklisted );
+    };
+
+    return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
+}
+
+std::function<bool( const item & )> recipe::get_component_filter(
+    const recipe_filter_flags flags ) const
 {
     const item result = create_result();
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
+    const bool recipe_forbids_rotten =
+        result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
+    const bool flags_forbid_rotten =
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad();
     std::function<bool( const item & )> rotten_filter = return_true<item>;
-    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+    if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
             return !component.rotten();
         };
@@ -608,7 +615,7 @@ bool recipe::hot_result() const
     //
     // TODO: Make this less of a hack
     if( create_result().is_food() ) {
-        const requirement_data::alter_tool_comp_vector &tool_lists = requirements().get_tools();
+        const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
                 if( t.type == "hotplate" ) {

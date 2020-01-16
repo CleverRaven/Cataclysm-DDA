@@ -47,7 +47,7 @@ int vitamin::severity( int qty ) const
     return 0;
 }
 
-void vitamin::load_vitamin( JsonObject &jo )
+void vitamin::load_vitamin( const JsonObject &jo )
 {
     vitamin vit;
 
@@ -61,20 +61,25 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.max_ = jo.get_int( "max", 0 );
     vit.rate_ = read_from_json_string<time_duration>( *jo.get_raw( "rate" ), time_duration::units );
 
+    if( !jo.has_string( "vit_type" ) ) {
+        jo.throw_error( "vitamin must have a vitamin type", "vit_type" );
+    }
+    vit.type_ = jo.get_enum_value<vitamin_type>( "vit_type" );
+
     if( vit.rate_ < 0_turns ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
 
-    JsonArray def = jo.get_array( "disease" );
-    while( def.has_more() ) {
-        JsonArray e = def.next_array();
+    for( JsonArray e : jo.get_array( "disease" ) ) {
         vit.disease_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
-    auto exc = jo.get_array( "disease_excess" );
-    while( exc.has_more() ) {
-        auto e = exc.next_array();
+    for( JsonArray e : jo.get_array( "disease_excess" ) ) {
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
+    }
+
+    for( std::string e : jo.get_array( "flags" ) ) {
+        vit.flags_.insert( e );
     }
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
@@ -106,3 +111,25 @@ void vitamin::reset()
 {
     vitamins_all.clear();
 }
+
+namespace io
+{
+template<>
+std::string enum_to_string<vitamin_type>( vitamin_type data )
+{
+    switch( data ) {
+        case vitamin_type::VITAMIN:
+            return "vitamin";
+        case vitamin_type::TOXIN:
+            return "toxin";
+        case vitamin_type::DRUG:
+            return "drug";
+        case vitamin_type::COUNTER:
+            return "counter";
+        case vitamin_type::num_vitamin_types:
+            break;
+    }
+    debugmsg( "Invalid vitamin_type" );
+    abort();
+}
+} // namespace io

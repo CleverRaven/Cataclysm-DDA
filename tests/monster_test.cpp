@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -27,7 +27,7 @@ using move_statistics = statistics<int>;
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
-    clear_map();
+    clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
@@ -53,7 +53,6 @@ static int moves_to_destination( const std::string &monster_type,
     // Return an unreasonably high number.
     return 100000;
 }
-
 
 struct track {
     char participant;
@@ -91,7 +90,8 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     std::list<item> temp;
     while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
 
-    test_player.setpos( { 65, 65, 0 } );
+    const tripoint center{ 65, 65, 0 };
+    test_player.setpos( center );
     test_player.set_moves( 0 );
     // Give the player a head start.
     const tripoint monster_start = { -10 * direction_of_flight + test_player.pos()
@@ -114,15 +114,9 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 test_player.pos().y < SEEY * int( MAPSIZE / 2 ) ||
                 test_player.pos().x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) ||
                 test_player.pos().y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
-                g->update_map( test_player );
-                wipe_map_terrain();
-                clear_npcs();
-                for( monster &critter : g->all_monsters() ) {
-                    if( &critter != &test_monster ) {
-                        g->remove_zombie( critter );
-                    }
-                }
-                g->m.clear_traps();
+                tripoint offset = center - test_player.pos();
+                test_player.setpos( center );
+                test_monster.setpos( test_monster.pos() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
@@ -133,6 +127,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                } );
             test_player.mod_moves( -move_cost );
         }
+        g->m.clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
@@ -155,7 +150,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         }
     }
     WARN( tracker );
-    clear_map();
     return -1000;
 }
 
@@ -253,7 +247,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
         std::ofstream data;
         data.open( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) + monster_type );
         for( const auto &stat_pair : turns_at_angle ) {
-            data << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
+            data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }
         data.close();
     }

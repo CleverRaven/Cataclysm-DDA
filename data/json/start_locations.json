@@ -268,6 +268,12 @@
   },
   {
     "type": "start_location",
+    "ident": "mi-go_camp",
+    "name": "Mi-go camp",
+    "target": "mi-go_camp1"
+  },
+  {
+    "type": "start_location",
     "ident": "Swamp Shack",
     "name": "Hermit Shack",
     "target": "hunter_shack"

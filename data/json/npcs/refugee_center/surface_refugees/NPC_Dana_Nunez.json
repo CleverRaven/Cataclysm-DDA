@@ -221,7 +221,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_sorry",
-    "dynamic_line": "That's kind of you to say.  I'm doing my best to move on... it hurts, but in the scale of things it could be worse.  Pablo and I still have each other, that's a lot more than most.",
+    "dynamic_line": "That's kind of you to say.  I'm doing my best to move on… it hurts, but in the scale of things it could be worse.  Pablo and I still have each other, that's a lot more than most.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
@@ -262,7 +262,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_baking_revival",
-    "dynamic_line": "Sorry, not quite yet.  Landough was in pretty rough shape.  No fault of yours, it was no good having him cooped up in a dank fridge for that long... and I think my apprentice baker may have fucked with him before the cataclysm too.  He'd better hope he's a zombie now, because if I see him alive... anyway, it's gonna take a few more feeds before I can get him ready for prime time, check back in a couple days.",
+    "dynamic_line": "Sorry, not quite yet.  Landough was in pretty rough shape.  No fault of yours, it was no good having him cooped up in a dank fridge for that long… and I think my apprentice baker may have fucked with him before the Cataclysm too.  He'd better hope he's a zombie now, because if I see him alive… anyway, it's gonna take a few more feeds before I can get him ready for prime time, check back in a couple days.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
@@ -328,7 +328,7 @@
     "item": "landough_calrisean",
     "start": {
       "assign_mission_target": { "om_terrain": "bakery", "reveal_radius": 1, "random": true, "search_range": 120 },
-      "update_mapgen": { "om_terrain": "bakery", "om_special": "bakery", "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
+      "update_mapgen": { "om_terrain": "bakery", "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
       "effect": { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
@@ -339,15 +339,15 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "I could get my real sourdough starter...",
-      "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and has been in my family for generations... if you can bring him to me, I'll bake you the finest bread you've ever had.",
+      "describe": "I could get my real sourdough starter…",
+      "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and has been in my family for generations… if you can bring him to me, I'll bake you the finest bread you've ever had.",
       "accepted": "Take care of yourself out there.  And listen, when you bring my sourdough back, I don't want to see a scratch on him, you understand?",
       "rejected": "I can understand why you think you wouldn't want to risk your life for a bread starter.  You haven't tried that bread.",
       "advice": "He'll be in the right-hand fridge, in a jar with a picture of the Millenium Falcon on it.",
       "inquire": "So, you seen my sourdough starter?",
       "success": "Oh, you will not regret this.  He may not look like much, but he's got it where it counts, kid.  It's gonna take me a few days to revive him after being abandoned so long, but he'll be operational soon and then you can come back for some real bread.",
       "success_lie": "This ain't it.",
-      "failure": "I am not sure if I'm gonna make it through the cataclysm without my special jar of goop."
+      "failure": "I am not sure if I'm gonna make it through the Cataclysm without my special jar of goop."
     }
   },
   {

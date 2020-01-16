@@ -2,7 +2,7 @@
   {
     "id": "3006_clip",
     "type": "MAGAZINE",
-    "name": "rifle clip - .30-06",
+    "name": ".30-06 clip",
     "//": "Provisional.",
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",
@@ -34,7 +34,7 @@
   {
     "id": "garandclip",
     "type": "MAGAZINE",
-    "name": "M1 Garand Clip",
+    "name": "M1 Garand clip",
     "description": "A light-weight en-bloc clip for use with the M1 Garand that will be ejected after the last round is fired.",
     "weight": "30 g",
     "volume": "250 ml",

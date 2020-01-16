@@ -172,14 +172,16 @@ tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission
                                bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
-void set_reveal_any( JsonArray &ja, std::vector<std::function<void( mission *miss )>> &funcs );
-mission_target_params parse_mission_om_target( JsonObject &jo );
+void set_reveal_any( const JsonArray &ja,
+                     std::vector<std::function<void( mission *miss )>> &funcs );
+mission_target_params parse_mission_om_target( const JsonObject &jo );
 cata::optional<tripoint> assign_mission_target( const mission_target_params &params );
 tripoint get_om_terrain_pos( const mission_target_params &params );
-void set_assign_om_target( JsonObject &jo,
+void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
-bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
-bool load_funcs( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
+bool set_update_mapgen( const JsonObject &jo,
+                        std::vector<std::function<void( mission *miss )>> &funcs );
+bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
 
 struct mission_goal_condition_context {
@@ -239,7 +241,7 @@ struct mission_type {
         std::function<void( mission * )> end = mission_end::standard;
         std::function<void( mission * )> fail = mission_fail::standard;
 
-        std::map<std::string, std::string> dialogue;
+        std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
         std::function<bool( const mission_goal_condition_context & )> goal_condition;
@@ -270,12 +272,12 @@ struct mission_type {
         bool test_goal_condition( const mission_goal_condition_context &d ) const;
 
         static void reset();
-        static void load_mission_type( JsonObject &jo, const std::string &src );
+        static void load_mission_type( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check_consistency();
 
-        bool parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func );
-        void load( JsonObject &jo, const std::string &src );
+        bool parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func );
+        void load( const JsonObject &jo, const std::string &src );
 
         /**
          * Returns the translated name

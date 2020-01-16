@@ -1,7 +1,6 @@
 #include "construction.h"
 
 #include <algorithm>
-#include <sstream>
 #include <array>
 #include <iterator>
 #include <memory>
@@ -64,9 +63,9 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
-const trap_str_id tr_firewood_source( "tr_firewood_source" );
-const trap_str_id tr_practice_target( "tr_practice_target" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 // Construction functions.
 namespace construct
@@ -115,6 +114,31 @@ static void place_construction( const std::string &desc );
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles
 static const deferred_color color_data = def_c_cyan; //color for data parts
+
+static bool has_pre_terrain( const construction &con, const tripoint &p )
+{
+    if( con.pre_terrain.empty() ) {
+        return true;
+    }
+
+    if( con.pre_is_furniture ) {
+        furn_id f = furn_id( con.pre_terrain );
+        return g->m.furn( p ) == f;
+    } else {
+        ter_id t = ter_id( con.pre_terrain );
+        return g->m.ter( p ) == t;
+    }
+}
+
+static bool has_pre_terrain( const construction &con )
+{
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( p != g->u.pos() && has_pre_terrain( con, p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void standardize_construction_times( const int time )
 {
@@ -176,7 +200,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
 static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;
@@ -399,14 +423,20 @@ int construction_menu( bool blueprint )
                         current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component );
 
                         std::vector<std::string> current_buffer;
-                        std::ostringstream current_line;
+
+                        const auto add_folded = [&]( const std::vector<std::string> &folded ) {
+                            current_buffer.insert( current_buffer.end(), folded.begin(), folded.end() );
+                        };
+                        const auto add_line = [&]( const std::string & line ) {
+                            add_folded( foldstring( line, available_window_width ) );
+                        };
 
                         // display final product name only if more than one step.
                         // Assume single stage constructions should be clear
                         // in their title what their result is.
                         if( !current_con->post_terrain.empty() && options.size() > 1 ) {
                             //also print out stage number when multiple stages are available
-                            current_line << _( "Stage/Variant #" ) << stage_counter << ": ";
+                            std::string current_line = string_format( _( "Stage/Variant #%d: " ), stage_counter );
 
                             // print name of the result of each stage
                             std::string result_string;
@@ -415,59 +445,47 @@ int construction_menu( bool blueprint )
                             } else {
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
-                            current_line << colorize( result_string, color_title );
-                            std::vector<std::string> folded_result_string = foldstring( current_line.str(),
-                                    available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            current_line += colorize( result_string, color_title );
+                            add_line( current_line );
 
                             // display description of the result for multi-stages
-                            current_line.str( "" );
-                            current_line << _( "Result: " );
+                            current_line = _( "Result: " );
                             if( current_con->post_is_furniture ) {
-                                current_line << colorize(
-                                                 furn_str_id( current_con->post_terrain ).obj().description,
-                                                 color_data
-                                             );
+                                current_line += colorize(
+                                                    furn_str_id( current_con->post_terrain ).obj().description,
+                                                    color_data
+                                                );
                             } else {
-                                current_line << colorize(
-                                                 ter_str_id( current_con->post_terrain ).obj().description,
-                                                 color_data
-                                             );
+                                current_line += colorize(
+                                                    ter_str_id( current_con->post_terrain ).obj().description,
+                                                    color_data
+                                                );
                             }
-                            folded_result_string = foldstring( current_line.str(), available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
 
                             // display description of the result for single stages
                         } else if( !current_con->post_terrain.empty() ) {
-                            current_line.str( "" );
-                            current_line << _( "Result: " );
+                            std::string current_line = _( "Result: " );
                             if( current_con->post_is_furniture ) {
-                                current_line << colorize(
-                                                 furn_str_id( current_con->post_terrain ).obj().description,
-                                                 color_data
-                                             );
+                                current_line += colorize(
+                                                    furn_str_id( current_con->post_terrain ).obj().description,
+                                                    color_data
+                                                );
                             } else {
-                                current_line << colorize(
-                                                 ter_str_id( current_con->post_terrain ).obj().description,
-                                                 color_data
-                                             );
+                                current_line += colorize(
+                                                    ter_str_id( current_con->post_terrain ).obj().description,
+                                                    color_data
+                                                );
                             }
-                            std::vector<std::string> folded_result_string = foldstring( current_line.str(),
-                                    available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
                         }
 
-                        current_line.str( "" );
                         // display required skill and difficulty
                         if( current_con->required_skills.empty() ) {
-                            current_line << _( "N/A" );
+                            add_line( _( "N/A" ) );
                         } else {
-                            current_line << _( "Required skills: " ) <<
-                                         enumerate_as_string( current_con->required_skills.begin(),
-                                                              current_con->required_skills.end(),
+                            std::string current_line = _( "Required skills: " ) + enumerate_as_string(
+                                                           current_con->required_skills.begin(), current_con->required_skills.end(),
                             []( const std::pair<skill_id, int> &skill ) {
                                 nc_color col;
                                 int s_lvl = g->u.get_skill_level( skill.first );
@@ -481,50 +499,35 @@ int construction_menu( bool blueprint )
 
                                 return colorize( string_format( "%s (%d)", skill.first.obj().name(), skill.second ), col );
                             }, enumeration_conjunction::none );
+                            add_line( current_line );
                         }
 
-                        current_buffer.push_back( current_line.str() );
                         // TODO: Textify pre_flags to provide a bit more information.
                         // Example: First step of dig pit could say something about
                         // requiring diggable ground.
-                        current_line.str( "" );
                         if( !current_con->pre_terrain.empty() ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
-                                require_string = furn_str_id( current_con->pre_terrain ).obj().name();
+                                require_string = furn_str_id( current_con->pre_terrain )->name();
                             } else {
-                                require_string = ter_str_id( current_con->pre_terrain ).obj().name();
+                                require_string = ter_str_id( current_con->pre_terrain )->name();
                             }
-                            current_line << _( "Requires: " )
-                                         << colorize( require_string, color_data );
-                            std::vector<std::string> folded_result_string = foldstring( current_line.str(),
-                                    available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
+                            add_line( _( "Requires: " ) + colorize( require_string, pre_color ) );
                         }
                         if( !current_con->pre_note.empty() ) {
-                            current_line.str( "" );
-                            current_line << _( "Annotation: " )
-                                         << colorize( _( current_con->pre_note ), color_data );
-                            std::vector<std::string> folded_result_string =
-                                foldstring( current_line.str(), available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( _( "Annotation: " ) + colorize( _( current_con->pre_note ), color_data ) );
                         }
                         // get pre-folded versions of the rest of the construction project to be displayed later
 
                         // get time needed
-                        std::vector<std::string> folded_time = current_con->get_folded_time_string(
-                                available_window_width );
-                        current_buffer.insert( current_buffer.end(), folded_time.begin(), folded_time.end() );
+                        add_folded( current_con->get_folded_time_string( available_window_width ) );
 
-                        std::vector<std::string> folded_tools = current_con->requirements->get_folded_tools_list(
-                                available_window_width, color_stage, total_inv );
-                        current_buffer.insert( current_buffer.end(), folded_tools.begin(), folded_tools.end() );
+                        add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
+                                    total_inv ) );
 
-                        std::vector<std::string> folded_components = current_con->requirements->get_folded_components_list(
-                                    available_window_width, color_stage, total_inv, is_crafting_component );
-                        current_buffer.insert( current_buffer.end(), folded_components.begin(), folded_components.end() );
+                        add_folded( current_con->requirements->get_folded_components_list( available_window_width,
+                                    color_stage, total_inv, is_crafting_component ) );
 
                         construct_buffers.push_back( current_buffer );
                     }
@@ -736,15 +739,7 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the special pre-function checks out
     bool place_okay = con.pre_special( p );
     // see if the terrain type checks out
-    if( !con.pre_terrain.empty() ) {
-        if( con.pre_is_furniture ) {
-            furn_id f = furn_id( con.pre_terrain );
-            place_okay &= g->m.furn( p ) == f;
-        } else {
-            ter_id t = ter_id( con.pre_terrain );
-            place_okay &= g->m.ter( p ) == t;
-        }
-    }
+    place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
     [&p]( const std::string & flag ) {
@@ -823,7 +818,7 @@ void place_construction( const std::string &desc )
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
     // Basically just dont add the unfinished construction trap.
-    // TODO : handle this cleaner, instead of adding a special case to pit iexamine.
+    // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
     if( g->m.tr_at( pnt ).loadid == tr_null ) {
         g->m.trap_set( pnt, tr_unfinished_construction );
     }
@@ -1319,16 +1314,14 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
     }
 }
 
-void load_construction( JsonObject &jo )
+void load_construction( const JsonObject &jo )
 {
     construction con;
     con.id = constructions.size();
 
     con.description = jo.get_string( "description" );
     if( jo.has_member( "required_skills" ) ) {
-        auto sk = jo.get_array( "required_skills" );
-        while( sk.has_more() ) {
-            auto arr = sk.next_array();
+        for( JsonArray arr : jo.get_array( "required_skills" ) ) {
             con.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     } else {
@@ -1353,10 +1346,7 @@ void load_construction( JsonObject &jo )
     if( jo.has_string( "using" ) ) {
         con.reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
     } else if( jo.has_array( "using" ) ) {
-        auto arr = jo.get_array( "using" );
-
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
+        for( JsonArray cur : jo.get_array( "using" ) ) {
             con.reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -1385,8 +1375,8 @@ void load_construction( JsonObject &jo )
     con.post_flags = jo.get_tags( "post_flags" );
 
     if( jo.has_member( "byproducts" ) ) {
-        JsonIn &stream = *jo.get_raw( "byproducts" );
-        con.byproduct_item_group = item_group::load_item_group( stream, "collection" );
+        con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
+                                   "collection" );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{

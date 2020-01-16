@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "tri_tower_1trc",
-    "comment": "top right corner, ground floor",
+    "//": "top right corner, ground floor",
     "weight": 250,
     "method": "json",
     "object": {

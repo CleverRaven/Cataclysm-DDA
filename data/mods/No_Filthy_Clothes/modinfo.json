@@ -10,21 +10,18 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "FILTHY_CLOTHES",
-    "info": "If true, zombies will drop filthy clothing.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "FILTHY_MORALE",
-    "info": "Morale penalty for filthy clothing.  If true, wearing filthy clothing will cause morale penalties.  Doesn't make sense if FILTHY_CLOTHES option is false.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "FILTHY_WOUNDS",
-    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.  Doesn't make sense if FILTHY_CLOTHES option is false.",
     "stype": "bool",
     "value": false
   }

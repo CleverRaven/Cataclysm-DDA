@@ -275,16 +275,7 @@
     "start_name": "Outside Town",
     "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
     "add_professions": true,
-    "professions": [
-      "sheltered_survivor",
-      "sheltered_militia",
-      "winter_survivor",
-      "winter_scavenger",
-      "winter_army",
-      "road_warrior",
-      "player_bandit",
-      "waste_ranger"
-    ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
   {
     "type": "scenario",
@@ -308,23 +299,14 @@
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
     "add_professions": true,
-    "professions": [
-      "sheltered_survivor",
-      "sheltered_militia",
-      "winter_survivor",
-      "winter_scavenger",
-      "winter_army",
-      "road_warrior",
-      "player_bandit",
-      "waste_ranger"
-    ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
   {
     "type": "scenario",
     "ident": "alone",
     "name": "Sheltered",
     "points": -3,
-    "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
+    "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
     "allowed_locs": [ "lmoe_empty", "shelter" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "WIN_START", "LONE_START" ],
@@ -358,7 +340,7 @@
     "ident": "prisonbreak",
     "name": "Prison",
     "points": -4,
-    "description": "When the cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight... you might need to expedite your escape plans.",
+    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
     "allowed_locs": [ "prison" ],
     "start_name": "Prison",
     "professions": [
@@ -378,7 +360,7 @@
     "ident": "alcatraz",
     "name": "Challenge - Island Prison",
     "points": -6,
-    "description": "You were at a high-security prison right before the Cataclysm.  You  managed to make it outside the inner walls...  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
+    "description": "You were at a high-security prison right before the Cataclysm.  You  managed to make it outside the inner walls…  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
     "allowed_locs": [ "alcatraz" ],
     "start_name": "Island prison",
     "professions": [
@@ -395,10 +377,21 @@
   },
   {
     "type": "scenario",
+    "ident": "migo_prisoner",
+    "name": "Challenge - Mi-Go Camp",
+    "points": -8,
+    "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
+    "allowed_locs": [ "mi-go_camp" ],
+    "start_name": "Mi-Go Camp",
+    "professions": [ "captive", "rescuer" ],
+    "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
+  },
+  {
+    "type": "scenario",
     "ident": "mutant",
     "name": "Experiment",
     "points": 2,
-    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
+    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name": "Wilderness",
     "allowed_locs": [ "forest", "field" ],
     "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "broken_cyborg", "faulty_bionic", "cykotic" ],
@@ -482,7 +475,7 @@
     "ident": "Mine_bottom",
     "name": "Bottom of a Mine",
     "points": 1,
-    "description": "You were participating in a mining operation when you found... something.  You're not sure what, but it sure is dark down here.",
+    "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "mine_finale" ],
     "professions": [ "miner", "labtech", "security", "bionic_worker", "archaeologist", "drone_op" ],
