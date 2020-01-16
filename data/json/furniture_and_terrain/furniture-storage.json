@@ -31,7 +31,7 @@
     "id": "f_entertainment_center",
     "name": "entertainment center",
     "symbol": "{",
-    "description": "Stores audio visual equipment, books and collectible.",
+    "description": "Stores audio visual equipment, books and collectibles.",
     "color": "brown",
     "looks_like": "f_bookcase",
     "move_cost_mod": -1,

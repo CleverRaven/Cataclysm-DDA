@@ -1044,7 +1044,7 @@
     "description": "A tall deciduous tree of the 'Carya' genus.  You could look for hickory nuts if you examined the tree more closely.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "i_light_green", "brown" ],
-    "//": "barren in winter, harvestable in autum",
+    "//": "barren in winter, harvestable in autumn",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],

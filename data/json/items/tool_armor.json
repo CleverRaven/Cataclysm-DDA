@@ -738,7 +738,7 @@
     "name": "5-point anchor (on)",
     "name_plural": "5-point anchors (on)",
     "looks_like": "dimensional_anchor",
-    "description": "The harness' shoulder mounted LED glows with a soft green hue.  Theres no further indication of anything happening.",
+    "description": "The harness' shoulder mounted LED glows with a soft green hue.  There's no further indication of anything happening.",
     "turns_per_charge": 100,
     "revert_to": "dimensional_anchor",
     "use_action": {

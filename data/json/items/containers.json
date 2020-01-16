@@ -170,7 +170,7 @@
     "type": "CONTAINER",
     "category": "container",
     "name": "IV bag",
-    "description": "A small, slealed plastic bag for liquids used in intravenous therapy.",
+    "description": "A small, sealed plastic bag for liquids used in intravenous therapy.",
     "looks_like": "bag_plastic",
     "weight": "10 g",
     "volume": 0,

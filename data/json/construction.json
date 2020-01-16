@@ -543,7 +543,7 @@
   {
     "type": "construction",
     "description": "Armor Reinforced Window",
-    "//": "Armo up regular reinforced window",
+    "//": "Armor up regular reinforced window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "30 m",
@@ -864,7 +864,7 @@
   {
     "type": "construction",
     "description": "Make Woodchip Floor",
-    "//": "Adds wood chippings to a shallowed dirt area to prevent plants growing, or for looks.",
+    "//": "Adds wood chippings to a shallow pit to prevent plants growing, or for looks.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
