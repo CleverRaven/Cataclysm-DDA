@@ -285,7 +285,7 @@
     "dispersion": 180,
     "durability": 6,
     "clip_size": 1,
-    "reload": 200,
+    "reload": 1200,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],
@@ -322,7 +322,7 @@
     "dispersion": 150,
     "durability": 6,
     "clip_size": 1,
-    "reload": 200,
+    "reload": 1200,
     "valid_mod_locations": [
       [ "dampening", 1 ],
       [ "reloading mechanism", 1 ],
@@ -356,7 +356,7 @@
     "dispersion": 220,
     "durability": 6,
     "clip_size": 1,
-    "reload": 200,
+    "reload": 1200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -395,7 +395,7 @@
     "dispersion": 200,
     "durability": 6,
     "clip_size": 1,
-    "reload": 200,
+    "reload": 1200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -434,7 +434,7 @@
     "recoil": 30,
     "durability": 6,
     "clip_size": 1,
-    "reload": 200,
+    "reload": 1200,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "reloading mechanism", 1 ] ]
   },
   {
@@ -461,7 +461,7 @@
     "recoil": 30,
     "durability": 6,
     "clip_size": 10,
-    "reload": 150,
+    "reload": 900,
     "valid_mod_locations": [ [ "dampening", 1 ] ]
   }
 ]

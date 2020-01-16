@@ -336,7 +336,7 @@
     "dispersion": 250,
     "durability": 6,
     "clip_size": 1,
-    "reload": 50
+    "reload": 150
   },
   {
     "id": "shortbow",
@@ -363,7 +363,7 @@
     "dispersion": 210,
     "durability": 6,
     "clip_size": 1,
-    "reload": 30,
+    "reload": 90,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
   },
   {
@@ -391,7 +391,7 @@
     "dispersion": 100,
     "durability": 6,
     "clip_size": 1,
-    "reload": 110,
+    "reload": 330,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "use_action": {
       "menu_text": "Tighten Limbs",
@@ -410,7 +410,7 @@
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
     "min_strength": 8,
     "dispersion": 85,
-    "reload": 120,
+    "reload": 240,
     "ranged_damage": 24,
     "range": 24,
     "use_action": {
@@ -430,7 +430,7 @@
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "min_strength": 6,
     "dispersion": 115,
-    "reload": 85,
+    "reload": 255,
     "ranged_damage": 20,
     "range": 20,
     "use_action": {
@@ -466,7 +466,7 @@
     "dispersion": 150,
     "durability": 6,
     "clip_size": 1,
-    "reload": 35,
+    "reload": 105,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
   },
   {
@@ -494,7 +494,7 @@
     "dispersion": 120,
     "durability": 6,
     "clip_size": 1,
-    "reload": 90,
+    "reload": 270,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
@@ -522,7 +522,7 @@
     "dispersion": 120,
     "durability": 6,
     "clip_size": 1,
-    "reload": 40,
+    "reload": 120,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
   },
   {
@@ -550,7 +550,7 @@
     "dispersion": 210,
     "durability": 6,
     "clip_size": 1,
-    "reload": 70,
+    "reload": 210,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
   },
   {
@@ -566,7 +566,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 7, "material_thickness": 2, "encumbrance": 25 },
     "dispersion": 200,
     "durability": 8,
-    "reload": 100,
+    "reload": 300,
     "loudness": 16,
     "ranged_damage": 24,
     "range": 24
@@ -591,7 +591,7 @@
     "reload_noise_volume": 4,
     "loudness": 20,
     "durability": 8,
-    "reload": 150,
+    "reload": 450,
     "ranged_damage": 31,
     "range": 31,
     "dispersion": 100,
@@ -623,7 +623,7 @@
     "dispersion": 120,
     "durability": 6,
     "clip_size": 1,
-    "reload": 40,
+    "reload": 120,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
   },
   {
