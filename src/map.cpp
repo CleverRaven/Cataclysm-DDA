@@ -6992,13 +6992,13 @@ void map::decay_cosmetic_fields( const tripoint &p, const time_duration &time_si
 {
     for( auto &pr : field_at( p ) ) {
         auto &fd = pr.second;
-        if( !fd.decays_on_actualize() ) {
+        const time_duration hl = fd.get_field_type().obj().half_life;
+        if( !fd.decays_on_actualize() || hl <= 0_turns ) {
             continue;
         }
 
         const time_duration added_age = 2 * time_since_last_actualize / rng( 2, 4 );
         fd.mod_field_age( added_age );
-        const time_duration hl = fd.get_field_type().obj().half_life;
         const int intensity_drop = fd.get_field_age() / hl;
         if( intensity_drop > 0 ) {
             fd.set_field_intensity( fd.get_field_intensity() - intensity_drop );
