@@ -130,7 +130,7 @@
     "points": 3,
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "ELFA" ],
     "speed_modifier": 1.1
   },
   {
@@ -446,7 +446,7 @@
     "starting_trait": true,
     "category": [ "BEAST", "ELFA" ],
     "changes_to": [ "ANIMALEMPATH2" ],
-    "cancels": [ "ANIMALDISCORD" ]
+    "cancels": [ "ANIMALDISCORD", "ANIMALDISCORD2" ]
   },
   {
     "type": "mutation",
@@ -456,7 +456,20 @@
     "description": "Something about your presence is calming to animals, and they will treat you with innate trust.  This only applies to natural animals such as woodland creatures.",
     "category": [ "ELFA" ],
     "prereqs": [ "ANIMALEMPATH" ],
-    "cancels": [ "ANIMALDISCORD" ]
+    "changes_to": [ "ANIMALEMPATH3" ],
+    "cancels": [ "ANIMALDISCORD", "ANIMALDISCORD2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH3",
+    "name": "Animal Harmony",
+    "purifiable": false,
+    "points": 4,
+    "description": "You live in harmony with animals.  They will no longer attack you unless provoked.  This only applies to natural animals such as woodland creatures.",
+    "category": [ "ELFA" ],
+    "threshreq": [ "THRESH_ELFA" ],
+    "prereqs": [ "ANIMALEMPATH2" ],
+    "cancels": [ "ANIMALDISCORD", "ANIMALDISCORD2" ]
   },
   {
     "type": "mutation",
@@ -1118,7 +1131,7 @@
     "points": -1,
     "description": "Most animals don't like you, and aggressive animals are more likely to attack you.  This only applies to natural animals such as woodland creatures.",
     "starting_trait": true,
-    "cancels": [ "ANIMALEMPATH" ],
+    "cancels": [ "ANIMALEMPATH", "ANIMALEMPATH2" ],
     "changes_to": [ "ANIMALDISCORD2" ],
     "category": [ "LUPINE", "BEAST", "RAPTOR", "INSECT" ]
   },
@@ -1128,7 +1141,7 @@
     "name": { "str": "Prey Animal" },
     "points": -3,
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
-    "cancels": [ "ANIMALEMPATH" ],
+    "cancels": [ "ANIMALEMPATH", "ANIMALEMPATH2"  ],
     "prereqs": [ "ANIMALDISCORD" ],
     "category": [ "MOUSE" ]
   },
@@ -4467,7 +4480,7 @@
     "points": 3,
     "visibility": 7,
     "ugliness": -7,
-    "description": "You are a vision of beauty.  Some people will react very well to your looks, and most people will trust you immediately.",
+    "description": "You are a true beauty.  Many people will react well to your looks, and most people will trust you immediately.",
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ]
@@ -4475,13 +4488,27 @@
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
-    "name": { "str": "Glorious" },
+    "name": "Extremely Beautiful",
     "points": 4,
     "visibility": 10,
     "ugliness": -10,
-    "description": "You are incredibly beautiful.  People cannot help themselves due to your charms, and will do whatever they can to please you.",
+    "description": "You are incredibly beautiful.  Most people will react well to your looks, and will do what they can to please you.",
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "BEAUTIFUL2" ],
+    "changes_to": [ "GLORIOUS" ],
+    "category": [ "ELFA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GLORIOUS",
+    "name": "Glorious",
+    "points": 5,
+    "visibility": 15,
+    "ugliness": -15,
+    "description": "You are beautiful beyond measure; some might say you are the pinnacle of beauty.  Almost anyone will react well to your looks, and will do whatever they can to please you.",
+    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "prereqs": [ "BEAUTIFUL3" ],
+    "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ]
   },
   {
@@ -5399,12 +5426,49 @@
   },
   {
     "type": "mutation",
+    "id": "GRUFF",
+    "name": "Gruff Voice",
+    "points": 0,
+    "description": "You have a gruff voice.  Persuading NPCs will be a little harder, but threatening them will be easier.",
+    "changes_to": [ "PLEASANT", "GROWL", "HISS" ],
+    "types": [ "VOICE" ],
+    "category": [ "ELFA", "RAT", "URSINE", "LUPINE", "LIZARD", "RAPTOR" ],
+    "social_modifiers": { "persuade": -5, "lie": -5, "intimidate": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "PLEASANT",
+    "name": "Pleasant Voice",
+    "points": 2,
+    "description": "You have a pleasant lilt to your voice.  Persuading NPCs will be easier, but threatening them will be difficult.",
+    "prereqs": [ "GRUFF" ],
+    "changes_to": [ "MELODY" ],
+    "types": [ "VOICE" ],
+    "category": [ "ELFA", "BIRD" ],
+    "social_modifiers": { "persuade": 20, "lie": 10, "intimidate": -15 }
+  },
+  {
+    "type": "mutation",
+    "id": "MELODY",
+    "name": "Melodic Voice",
+    "points": 3,
+    "valid": false,
+    "description": "Your voice almost sounds like a song.  Persuading NPCs will be much easier, but threatening them will be very difficult.",
+    "category": [ "ELFA" ],
+    "prereqs": [ "PLEASANT" ],
+    "types": [ "VOICE" ],
+    "threshreq": [ "THRESH_ELFA" ],
+    "social_modifiers": { "persuade": 40, "lie": 25, "intimidate": -35 }
+  },
+  {
+    "type": "mutation",
     "id": "GROWL",
     "name": { "str": "Growling Voice" },
     "points": -1,
     "mixed_effect": true,
     "description": "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
     "changes_to": [ "SNARL" ],
+    "types": [ "VOICE" ],
     "category": [ "RAT", "URSINE", "LUPINE" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
@@ -5416,6 +5480,7 @@
     "mixed_effect": true,
     "description": "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
     "prereqs": [ "GROWL" ],
+    "types": [ "VOICE" ],
     "category": [ "BEAST", "CHIMERA", "FELINE", "LUPINE" ],
     "social_modifiers": { "persuade": -60, "lie": -40, "intimidate": 20 }
   },
@@ -5426,6 +5491,7 @@
     "mixed_effect": true,
     "points": -1,
     "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
+    "types": [ "VOICE" ],
     "category": [ "LIZARD", "RAPTOR" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },

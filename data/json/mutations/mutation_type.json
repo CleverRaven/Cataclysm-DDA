@@ -65,6 +65,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "VOICE"
+  },
+  {
+    "type": "mutation_type",
     "id": "skin_tone"
   },
   {
