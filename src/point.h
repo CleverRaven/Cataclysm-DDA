@@ -11,6 +11,7 @@
 #include <climits>
 #include <functional>
 #include <ostream>
+#include <vector>
 
 #else
 
@@ -258,6 +259,14 @@ struct box {
         p_max -= amount;
     }
 };
+
+
+/**
+ * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
+ * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
+ */
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, size_t radius );
+std::vector<point> closest_points_first( const point &center, size_t radius );
 
 static constexpr tripoint tripoint_zero { 0, 0, 0 };
 static constexpr point point_zero{ tripoint_zero.xy() };

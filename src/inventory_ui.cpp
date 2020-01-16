@@ -1202,7 +1202,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
-        for( const auto &pos : closest_tripoints_first( radius, u.pos() ) ) {
+        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
             if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;

@@ -6804,9 +6804,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    std::vector<tripoint> points = closest_tripoints_first( iRadius, u.pos() );
-
-    for( auto &points_p_it : points ) {
+    for( auto &points_p_it : closest_tripoints_first( u.pos(), iRadius ) ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
@@ -10191,7 +10189,7 @@ void game::vertical_move( int movez, bool force )
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
-        auto candidates = closest_tripoints_first( 1, u.pos() );
+        std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
         std::remove_if( candidates.begin(), candidates.end(), [this]( const tripoint & c ) {
             return !is_empty( c );
         } );
