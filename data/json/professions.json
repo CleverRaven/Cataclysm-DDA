@@ -3190,7 +3190,7 @@
         ],
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
+          { "item": "flintlock_pouch" , "ammo-item": "flintlock_ammo", "charges": 14 },
           { "item": "flintlock_ammo", "charges": 15 }
         ]
       },
@@ -3254,7 +3254,7 @@
         ],
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
+          { "item": "flintlock_pouch" , "ammo-item": "flintlock_ammo", "charges": 14 },
           { "item": "needle_wood", "charges": 50 },
           { "item": "flintlock_ammo", "charges": 15 }
         ]
