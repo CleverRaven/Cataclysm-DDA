@@ -4806,6 +4806,50 @@ bool mattack::flesh_tendril( monster *z )
     return false;
 }
 
+bool mattack::bio_op_random_biojutsu( monster *z )
+{
+    int choice;
+    int redo;
+
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    player *foe = dynamic_cast< player * >( target );
+
+    do {
+        choice = rng( 1, 3 );
+        redo = false;
+
+        // ignore disarm if the target isn't a "player" or isn't armed
+        if( choice == 3 && foe != nullptr && !foe->is_armed() ) {
+            redo = true;
+        }
+
+    } while( redo );
+
+    switch( choice ) {
+    case 1:
+        bio_op_takedown( z );
+        break;
+    case 2:
+        bio_op_impale( z );
+        break;
+    case 3:
+        bio_op_disarm( z );
+        break;
+    }
+
+    return true;
+}
+
 bool mattack::bio_op_takedown( monster *z )
 {
     if( !z->can_act() ) {
@@ -4894,6 +4938,151 @@ bool mattack::bio_op_takedown( monster *z )
     }
     target->on_hit( z, hit,  z->type->melee_skill );
     foe->check_dead_state();
+
+    return true;
+}
+
+bool mattack::bio_op_impale( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    bool seen = g->u.sees( *z );
+    player *foe = dynamic_cast< player * >( target );
+    if( seen ) {
+        add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
+            target->disp_name() );
+    }
+    z->moves -= 100;
+
+    if( target->uncanny_dodge() ) {
+        return true;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+            _( "<npcname> dodges it!" ) );
+        target->on_dodge( z, z->type->melee_skill * 2 );
+        return true;
+    }
+
+    int dam = rng( 8, 24 );
+    if( foe == nullptr ) {
+        // Handle mons earlier - less to check for
+        target->deal_damage( z, bp_torso, damage_instance( DT_STAB, dam ) );
+        if( seen ) {
+            add_msg( _( "%1$s impales %2$s!" ), z->name(), target->disp_name() );
+        }
+        target->check_dead_state();
+        return true;
+    }
+
+    // Yes, it has the CQC bionic.
+    body_part hit = target->get_random_body_part();
+    bool do_bleed = false;
+    int t_dam;
+
+    target->add_msg_if_player( m_bad, _( "The zombie tries to impale your %s…" ),
+        body_part_name_accusative( hit ) );
+
+    if( one_in( 4 ) ) {
+        dam = rng( 12, 36 ); // 50% damage buff for the crit.
+        do_bleed = true;
+    }
+
+    t_dam = foe->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+
+    if( t_dam > 0 ) {
+        target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
+
+        if( do_bleed ) {
+            if( target->is_player() || target->is_npc() ) {
+                target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
+            } else {
+                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            }
+        }
+    } else {
+        target->add_msg_if_player( m_good, "but fails to penetrate your armor!" );
+    }
+
+    target->on_hit( z, hit, z->type->melee_skill );
+    foe->check_dead_state();
+
+    return true;
+}
+
+bool mattack::bio_op_disarm( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    bool seen = g->u.sees( *z );
+    player *foe = dynamic_cast< player * >( target );
+
+    // disarm doesn't work on creatures
+    if( foe == nullptr ) {
+        return false;
+    }
+
+    if( seen ) {
+        add_msg( _( "The %1$s mechanically reaches for %2$s!" ), z->name(),
+            target->disp_name() );
+    }
+    z->moves -= 100;
+
+    if( target->uncanny_dodge() ) {
+        return true;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+            _( "<npcname> dodges it!" ) );
+        target->on_dodge( z, z->type->melee_skill * 2 );
+        return true;
+    }
+
+    int mon_stat = z->type->melee_dice * z->type->melee_sides;
+    int my_roll = dice( 3, 2 * mon_stat );
+    my_roll += dice( 3, z->type->melee_skill );
+
+    /** @EFFECT_STR increases chance to avoid disarm, primary stat */
+    /** @EFFECT_DEX increases chance to avoid disarm, secondary stat */
+    /** @EFFECT_PER increases chance to avoid disarm, secondary stat */
+    /** @EFFECT_MELEE increases chance to avoid disarm */
+    int their_roll = dice( 3, 2 * foe->get_str() + foe->get_dex() );
+    their_roll += dice( 3, foe->get_per() );
+    their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
+
+    item &it = foe->weapon;
+
+    target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
+
+    if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
+        target->add_msg_if_player( m_bad, "and throws it to the ground!" );
+        const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        g->m.add_item_or_charges( tp, foe->i_rem( &it ) );
+    } else {
+        target->add_msg_if_player( m_good, "but you break its grip!" );
+    }
 
     return true;
 }
