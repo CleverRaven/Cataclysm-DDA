@@ -409,7 +409,7 @@
       {
         "text": "Attack only enemies that I attack first.",
         "topic": "TALK_NONE",
-        "condition": { "not": { "npc_engagement_rule": "ENAGE_HIT" } },
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_HIT" } },
         "effect": { "set_npc_engagement_rule": "ENGAGE_HIT" }
       },
       {
