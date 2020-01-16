@@ -121,10 +121,30 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
-    input_context ctxt = get_default_mode_input_context();
-    // register QUIT action so it catches q/Q/etc instead of just Q
+    input_context ctxt;
     if( uquit == QUIT_WATCH ) {
-        ctxt.register_action( "QUIT" );
+        ctxt = input_context( "DEFAULTMODE" );
+        ctxt.set_iso( true );
+        // The list of allowed actions in death-cam mode in game::handle_action
+        for( const action_id id : {
+                 ACTION_TOGGLE_MAP_MEMORY,
+                 ACTION_CENTER,
+                 ACTION_SHIFT_N,
+                 ACTION_SHIFT_NE,
+                 ACTION_SHIFT_E,
+                 ACTION_SHIFT_SE,
+                 ACTION_SHIFT_S,
+                 ACTION_SHIFT_SW,
+                 ACTION_SHIFT_W,
+                 ACTION_SHIFT_NW,
+                 ACTION_LOOK,
+                 ACTION_KEYBINDINGS,
+             } ) {
+            ctxt.register_action( action_ident( id ) );
+        }
+        ctxt.register_action( "QUIT", _( "Accept your fate" ) );
+    } else {
+        ctxt = get_default_mode_input_context();
     }
 
     m.update_visibility_cache( u.posz() );
@@ -1598,7 +1618,7 @@ bool game::handle_action()
 
     int before_action_moves = u.moves;
 
-    // These actions are allowed while deathcam is active.
+    // These actions are allowed while deathcam is active. Registered in game::get_player_input
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
             case ACTION_TOGGLE_MAP_MEMORY:
@@ -1648,6 +1668,10 @@ bool game::handle_action()
 
             case ACTION_LOOK:
                 look_around();
+                break;
+
+            case ACTION_KEYBINDINGS:
+                // already handled by input context
                 break;
 
             default:
