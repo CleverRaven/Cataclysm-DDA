@@ -1856,7 +1856,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "quit",
+    "id": "SUICIDE",
     "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
   },
   {

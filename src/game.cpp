@@ -2348,7 +2348,7 @@ input_context get_default_mode_input_context()
 #if !defined(RELEASE)
     ctxt.register_action( "quickload" );
 #endif
-    ctxt.register_action( "quit" );
+    ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
     ctxt.register_action( "sky" );

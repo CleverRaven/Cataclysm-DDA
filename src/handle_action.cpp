@@ -1478,7 +1478,6 @@ bool game::handle_action()
     // of location clicked.
     cata::optional<tripoint> mouse_target;
 
-    // quit prompt check (ACTION_QUIT only grabs 'Q')
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
         return false;
@@ -2180,7 +2179,7 @@ bool game::handle_action()
                 }
                 break;
 
-            case ACTION_QUIT:
+            case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
                         u.moves = 0;
