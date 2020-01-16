@@ -3199,8 +3199,8 @@
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
           { "item": "flintlock_ammo", "charges": 15 },
-          { "item": "bottle_plastic_small", "ammo-item": "vinegar", "charges": 16 },
-          { "item": "bottle_plastic_small", "ammo-item": "lamp_oil", "charges": 250 }
+          { "item": "vinegar", "container-item": "bottle_plastic_small" },
+          { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
         ]
       },
       "female": [
@@ -3267,8 +3267,8 @@
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
           { "item": "flintlock_ammo", "charges": 15 },
-          { "item": "bottle_plastic_small", "ammo-item": "vinegar", "charges": 16 },
-          { "item": "bottle_plastic_small", "ammo-item": "lamp_oil", "charges": 250 }
+          { "item": "vinegar", "container-item": "bottle_plastic_small" },
+          { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
         ]
       }
     }
