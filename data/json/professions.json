@@ -3166,9 +3166,9 @@
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "survival" },
       { "level": 2, "name": "tailor" },
-      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
     ],
     "items": {
@@ -3220,9 +3220,9 @@
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "survival" },
       { "level": 2, "name": "tailor" },
-      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
     ],
     "items": {
