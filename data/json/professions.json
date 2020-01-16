@@ -3186,12 +3186,15 @@
           "knit_scarf",
           "tricorne",
           "hatchet",
-          "hardtack"
+          "hardtack",
+          "pipe_cleaner"
         ],
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_pouch" , "ammo-item": "flintlock_ammo", "charges": 14 },
-          { "item": "flintlock_ammo", "charges": 15 }
+          { "item": "flintlock_ammo", "charges": 15 },
+          { "item": "bottle_plastic_small", "ammo-item": "vinegar", "charges": 16 },
+          { "item": "bottle_plastic_small", "ammo-item": "lamp_oil", "charges": 250 }
         ]
       },
       "female": [
@@ -3234,6 +3237,7 @@
         "gloves_leather",
         "long_knit_scarf",
         "hat_fur",
+        "needle_wood",
         "purse",
         "oil_lamp",
         "pot",
@@ -3250,13 +3254,15 @@
           "knit_scarf",
           "tricorne",
           "hatchet",
-          "hardtack"
+          "hardtack",
+          "pipe_cleaner"
         ],
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_pouch" , "ammo-item": "flintlock_ammo", "charges": 14 },
-          { "item": "needle_wood", "charges": 50 },
-          { "item": "flintlock_ammo", "charges": 15 }
+          { "item": "flintlock_ammo", "charges": 15 },
+          { "item": "bottle_plastic_small", "ammo-item": "vinegar", "charges": 16 },
+          { "item": "bottle_plastic_small", "ammo-item": "lamp_oil", "charges": 250 }
         ]
       }
     }
