@@ -132,7 +132,13 @@
     "using": [ [ "forging_standard", 3 ], [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SMOOTH", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "water", 6 ],[ "water_clean", 6 ] ], [ [ "concrete", 1 ] ], [ [ "cu_pipe", 2 ] ], [ [ "cable", 241 ] ], [ [ "chem_compositionb", 450 ] ] ]
+    "components": [
+      [ [ "water", 6 ], [ "water_clean", 6 ] ],
+      [ [ "concrete", 1 ] ],
+      [ [ "cu_pipe", 2 ] ],
+      [ [ "cable", 241 ] ],
+      [ [ "chem_compositionb", 450 ] ]
+    ]
   },
   {
     "result": "solder_wire",
