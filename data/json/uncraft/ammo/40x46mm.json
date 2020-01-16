@@ -27,7 +27,7 @@
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lg_pistol_primer", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
       [ [ "chem_compositionb", 32 ] ],
       [ [ "gunpowder_shotgun", 35 ] ],
       [ [ "impact_fuze", 1 ] ]

@@ -239,5 +239,11 @@
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using 7.62x54R or derivatives",
     "tools": [ [ [ "762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ] ]
+  },
+  {
+    "id": "explosives_casting_standard",
+    "type": "requirement",
+    "//": "References needed for forge and crucible to recast your stabilized explosives",
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ]
   }
 ]
