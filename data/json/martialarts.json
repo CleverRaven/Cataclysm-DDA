@@ -31,14 +31,14 @@
       {
         "id": "buff_aikido_static1",
         "name": "Aikido Stance",
-        "description": "By disregarding offensive in favor of self-defense, you are better at protecting. Blocked damage reduced by 100%% of Dexterity.",
+        "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100%% of Dexterity.",
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "block", "dex", 1.0 ] ]
       },
       {
         "id": "buff_aikido_static2",
         "name": "Intermediate Aikido",
-        "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\n+1 Block attempts, +1 Dodge attempts.",
+        "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\nBlocked Damage reduced by 100%% of Dexterity.\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "bonus_dodges": 1,
@@ -97,7 +97,7 @@
       {
         "id": "buff_boxing_ondodge",
         "name": "Counter Chance",
-        "description": "You've seen your chance. Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "description": "You've seen your chance. Now strike back!\n\n+25%% Bash damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -231,7 +231,7 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true. Intelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
+        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true.\nIntelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ] ]
       }
@@ -648,7 +648,7 @@
     "type": "martial_art",
     "id": "style_leopard",
     "name": "Leopard Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception improves your accuracy instead of Dexterity.  Moving increases dodge skill and accuracy further.  Attacking after moving increases damage.",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength.  Moving increases dodge skill and accuracy further; attacking after moving increases damage.",
     "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
     "learn_difficulty": 10,
     "static_buffs": [
@@ -681,7 +681,7 @@
       {
         "id": "buff_leopard_onmove2",
         "name": "Leopard's Pounce",
-        "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
+        "description": "You are ready.  Attack and claim your prey!\n\n+25%% bonus to all damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "req_buffs": [ "buff_leopard_onmove1" ],
@@ -947,7 +947,7 @@
       {
         "id": "buff_niten_static",
         "name": "Niten Ichi-Ryu Stance",
-        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut damage increased by 50%% of Perception, blocked damage reduced by 100%% of Perception.",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut armor penetration increased by 50%% of Perception, blocked damage reduced by 100%% of Perception.",
         "melee_allowed": true,
         "flat_bonuses": [ [ "arpen", "cut", "per", 0.5 ], [ "arpen", "bash", "per", 0.5 ], [ "block", "per", 1.0 ] ]
       }
@@ -1340,7 +1340,7 @@
       {
         "id": "buff_tiger_static",
         "name": "Tiger's Strength",
-        "description": "You do not need defense.  You do not need a plan.  You need strength.  Strength will break your opponents' defenses and overwhelm them completely.\n\nStrength increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Strength but decreased by 25%% of Dexterity.",
+        "description": "You do not need defense.  You do not need a plan.  You need strength.  Strength will break your opponents' defenses and overwhelm them completely.\nStrength increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Strength but decreased by 25%% of Dexterity.",
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "hit", "str", 0.25 ], [ "hit", "dex", -0.25 ] ]
       }
