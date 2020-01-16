@@ -8,6 +8,7 @@
 
 #include <array>
 #include <cassert>
+#include <cstddef>
 #include <climits>
 #include <functional>
 #include <ostream>
