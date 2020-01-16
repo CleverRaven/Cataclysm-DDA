@@ -218,7 +218,7 @@ Item_modifier::Item_modifier()
     , count( 1, 1 )
       // Dirt in guns is capped unless overwritten in the itemgroup
       // most guns should not be very dirty or dirty at all
-    , dirt( 0, 9999 )
+    , dirt( 0, 500 )
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
