@@ -342,6 +342,16 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
+static void clear_faults( item &it )
+{
+    if( it.get_var( "dirt", 0 ) > 0 ) {
+        it.set_var( "dirt", 0 );
+    }
+    if( it.is_faulty() ) {
+        it.faults.clear();
+    }
+}
+
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
 {
     std::list<item> result;
@@ -381,6 +391,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
+        clear_faults( it );
+        if( it.is_holster() && it.contents.size() == 1 ) {
+            clear_faults( it.contents.front() );
+        }
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
