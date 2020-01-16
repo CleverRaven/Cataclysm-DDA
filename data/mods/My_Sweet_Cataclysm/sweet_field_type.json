@@ -57,6 +57,7 @@
     "description_affix": "covered_in",
     "priority": 2,
     "phase": "solid",
+    "half_life": "2 h",
     "display_items": false,
     "display_field": true
   },
