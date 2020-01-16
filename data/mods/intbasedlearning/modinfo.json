@@ -5,7 +5,7 @@
     "name": "INT Based Learning",
     "authors": [ "1n17" ],
     "maintainers": [ "1n17" ],
-    "description": "Learning trough practice and reading is highly dependent on INT and focus. Respective traits are disabled.",
+    "description": "Learning through practice and reading is highly dependent on INT and focus. Respective traits are disabled.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   },
