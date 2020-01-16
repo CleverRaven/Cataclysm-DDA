@@ -1080,7 +1080,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
-            for( const std::pair<species_id, int> &elem : mut.obj().anger_relations ) {
+            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
                 if( type->in_species( elem.first ) ) {
                     effective_anger += elem.second;
                 }

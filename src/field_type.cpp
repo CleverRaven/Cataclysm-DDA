@@ -249,7 +249,7 @@ void field_type::finalize()
 {
     wandering_field = field_type_id( wandering_field_id );
     wandering_field_id.clear();
-    for( const mtype_id m_id : immune_mtypes ) {
+    for( const mtype_id &m_id : immune_mtypes ) {
         if( !m_id.is_valid() ) {
             debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
         }
