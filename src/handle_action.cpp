@@ -127,19 +127,19 @@ input_context game::get_player_input( std::string &action )
         ctxt.set_iso( true );
         // The list of allowed actions in death-cam mode in game::handle_action
         for( const action_id id : {
-                 ACTION_TOGGLE_MAP_MEMORY,
-                 ACTION_CENTER,
-                 ACTION_SHIFT_N,
-                 ACTION_SHIFT_NE,
-                 ACTION_SHIFT_E,
-                 ACTION_SHIFT_SE,
-                 ACTION_SHIFT_S,
-                 ACTION_SHIFT_SW,
-                 ACTION_SHIFT_W,
-                 ACTION_SHIFT_NW,
-                 ACTION_LOOK,
-                 ACTION_KEYBINDINGS,
-             } ) {
+        ACTION_TOGGLE_MAP_MEMORY,
+        ACTION_CENTER,
+        ACTION_SHIFT_N,
+        ACTION_SHIFT_NE,
+        ACTION_SHIFT_E,
+        ACTION_SHIFT_SE,
+        ACTION_SHIFT_S,
+        ACTION_SHIFT_SW,
+        ACTION_SHIFT_W,
+        ACTION_SHIFT_NW,
+        ACTION_LOOK,
+        ACTION_KEYBINDINGS,
+    } ) {
             ctxt.register_action( action_ident( id ) );
         }
         ctxt.register_action( "QUIT", _( "Accept your fate" ) );
