@@ -1249,8 +1249,6 @@ class player : public Character
         /** warnings from a faction about bad behaviour */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 
-
-
     private:
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         shared_ptr_fast<targeting_data> tdata;

@@ -1408,7 +1408,7 @@ void overmap::add_extra( const tripoint &p, const string_id<map_extra> &id )
     if( it == std::end( extras ) ) {
         extras.emplace_back( om_map_extra{ id, p.xy() } );
     } else if( !id.is_null() ) {
-        it->id = id ;
+        it->id = id;
     } else {
         extras.erase( it );
     }
@@ -2067,7 +2067,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
                 const int inc_roll = rng( min_inc_inter, calculated_inter );
                 mg.inc_interest( inc_roll );
-                add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist ) ;
+                add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist );
             } else { // New signal source
                 mg.set_target( p.x, p.y );
                 mg.set_interest( min_capped_inter );
@@ -2087,7 +2087,7 @@ void overmap::populate_connections_out_from_neighbors( const overmap *north, con
             return;
         }
 
-        for( const std::pair<string_id<overmap_connection>, std::vector<tripoint>> &kv :
+        for( const std::pair<const string_id<overmap_connection>, std::vector<tripoint>> &kv :
              adjacent->connections_out ) {
             std::vector<tripoint> &out = connections_out[kv.first];
             const auto adjacent_out = adjacent->connections_out.find( kv.first );

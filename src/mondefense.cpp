@@ -166,7 +166,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     // so represent that with initial recoil.
     tmp.recoil = 150;
 
-    for( const std::pair<std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
+    for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
             sounds::sound( m.pos(), 50, sounds::sound_t::alert,
                            _( "Detected shots from unseen attacker, return fire mode engaged." ) );

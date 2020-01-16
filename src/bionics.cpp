@@ -1164,7 +1164,7 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
     if( coverage_penalty ) {
         int coverage = 0;
         const std::map< body_part, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
-        for( const std::pair< body_part, size_t > &elem : occupied_bodyparts ) {
+        for( const std::pair< const body_part, size_t > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
                 if( i.covers( elem.first ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
                     !i.has_flag( "SEMITANGIBLE" ) &&
@@ -1672,7 +1672,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         if( bid->is_included( b_id ) ) {
             popup( _( "%s must remove the %s bionic to remove the %s." ), installer.disp_name(),
                    bid->name, b_id->name );
@@ -1789,7 +1789,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<body_part, size_t> &elem : b_id->occupied_bodyparts ) {
+    for( const std::pair<const body_part, size_t> &elem : b_id->occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
@@ -1867,7 +1867,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
                  installer.name(), patient.disp_name() );
     }
 
-    installer.ammo[ammo_type] -= 1 ;
+    installer.ammo[ammo_type] -= 1;
 
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
@@ -2044,7 +2044,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<body_part, size_t> &elem : bioid->occupied_bodyparts ) {
+    for( const std::pair<const body_part, size_t> &elem : bioid->occupied_bodyparts ) {
         activity.values.push_back( elem.first );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
@@ -2212,7 +2212,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 int Character::get_used_bionics_slots( const body_part bp ) const
 {
     int used_slots = 0;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         auto search = bid->occupied_bodyparts.find( bp );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -2457,7 +2457,7 @@ void load_bionic( const JsonObject &jsobj )
 
 void check_bionics()
 {
-    for( const std::pair<bionic_id, bionic_data> &bio : bionics ) {
+    for( const std::pair<const bionic_id, bionic_data> &bio : bionics ) {
         if( !bio.second.fake_item.empty() &&
             !item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
@@ -2469,7 +2469,7 @@ void check_bionics()
                           bio.first.c_str(), mid.c_str() );
             }
         }
-        for( const bionic_id bid : bio.second.included_bionics ) {
+        for( const bionic_id &bid : bio.second.included_bionics ) {
             if( !bid.is_valid() ) {
                 debugmsg( "Bionic %s includes undefined bionic %s",
                           bio.first.c_str(), bid.c_str() );
@@ -2495,7 +2495,7 @@ void check_bionics()
 
 void finalize_bionics()
 {
-    for( const std::pair<bionic_id, bionic_data> &bio : bionics ) {
+    for( const std::pair<const bionic_id, bionic_data> &bio : bionics ) {
         if( bio.second.upgraded_bionic ) {
             bionics[ bio.second.upgraded_bionic ].available_upgrades.insert( bio.first );
         }
@@ -2635,7 +2635,7 @@ void bionic::deserialize( JsonIn &jsin )
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
-        for( const std::string &line : jo.get_array( "bionic_tags" ) ) {
+        for( const std::string line : jo.get_array( "bionic_tags" ) ) {
             bionic_tags.insert( line );
         }
     }

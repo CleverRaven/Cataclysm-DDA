@@ -89,7 +89,7 @@ class monster : public Creature
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) ;
+        monster( const monster & );
         monster( monster && );
         ~monster() override;
         monster &operator=( const monster & );

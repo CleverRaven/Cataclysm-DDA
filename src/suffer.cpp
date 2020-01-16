@@ -827,7 +827,7 @@ void Character::suffer_from_albinism()
     body_part max_affected_bp = num_bp;
     float max_affected_bp_percent = 0;
     int count_affected_bp = 0;
-    for( const std::pair<body_part, float> &it : open_percent ) {
+    for( const std::pair<const body_part, float> &it : open_percent ) {
         const body_part &bp = it.first;
         const float &p = it.second;
 

@@ -748,7 +748,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": "500 L",
+    "max_volume": "1500 L",
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -781,7 +781,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": "2500 L",
+    "max_volume": "3500 L",
     "bash": {
       "str_min": 8,
       "str_max": 30,

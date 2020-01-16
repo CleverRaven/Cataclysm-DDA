@@ -404,7 +404,7 @@ void mod_manager::load_mods_list( WORLDPTR world ) const
     amo.clear();
     bool obsolete_mod_found = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn & jsin ) {
-        for( const std::string &line : jsin.get_array() ) {
+        for( const std::string line : jsin.get_array() ) {
             const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;

@@ -4882,7 +4882,12 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
+      [
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "edible_tallow_lard", 1, "LIST" ],
+        [ "any_butter", 1, "LIST" ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },

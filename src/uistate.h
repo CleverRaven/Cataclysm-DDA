@@ -255,10 +255,10 @@ class uistatedata
             jo.read( "list_item_downvote_active", list_item_downvote_active );
             jo.read( "list_item_priority_active", list_item_priority_active );
 
-            for( const JsonMember &member : jo.get_object( "input_history" ) ) {
+            for( const JsonMember member : jo.get_object( "input_history" ) ) {
                 std::vector<std::string> &v = gethistory( member.name() );
                 v.clear();
-                for( const std::string &line : member.get_array() ) {
+                for( const std::string line : member.get_array() ) {
                     v.push_back( line );
                 }
             }

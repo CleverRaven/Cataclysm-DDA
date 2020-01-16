@@ -997,9 +997,11 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             if( p == other_p ) {
                 continue;
             }
-            if( ( part_info( p ).location.empty() &&
-                  part_info( p ).get_id() == part_info( other_p ).get_id() ) ||
-                ( part_info( p ).location == part_info( other_p ).location ) ) {
+            const vpart_info &p_info = part_info( p );
+            const vpart_info &other_p_info = part_info( other_p );
+
+            if( p_info.get_id() == other_p_info.get_id() ||
+                ( !p_info.location.empty() && p_info.location == other_p_info.location ) ) {
                 // Deferred creation of the handler to here so it is only created when actually needed.
                 if( !handler_ptr ) {
                     // This is a heuristic: we just assume the default handler is good enough when called
@@ -3584,7 +3586,7 @@ static double simple_cubic_solution( double a, double b, double c, double d )
         std::complex<double> term_sum( term1 + term2 );
 
         if( imag( term_sum ) < 2 ) {
-            return p + real( term_sum ) ;
+            return p + real( term_sum );
         } else {
             debugmsg( "cubic solution returned imaginary values" );
             return 0;
@@ -4750,6 +4752,21 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     }
 
     return nullptr;
+}
+
+void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
+                                  std::set<vehicle *> &vehicle_list )
+{
+    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount, int ) {
+        // Only emplaces if element is not present already.
+        connected_vehicles.emplace( veh, false );
+        return amount;
+    };
+    for( vehicle *veh : vehicle_list ) {
+        // This autovivifies, and also overwrites the value if already present.
+        connected_vehicles[veh] = true;
+        traverse_vehicle_graph( veh, 1, enumerate_visitor );
+    }
 }
 
 template <typename Func, typename Vehicle>

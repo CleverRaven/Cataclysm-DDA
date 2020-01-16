@@ -615,7 +615,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 
     if( obj.has_array( "effects" ) ) {
-        for( const JsonObject &e : obj.get_array( "effects" ) ) {
+        for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
     }
@@ -1188,7 +1188,7 @@ void reveal_map_actor::load( const JsonObject &obj )
     message = obj.get_string( "message" );
     std::string ter;
     ot_match_type ter_match_type;
-    for( const JsonValue &entry : obj.get_array( "terrain" ) ) {
+    for( const JsonValue entry : obj.get_array( "terrain" ) ) {
         if( entry.test_string() ) {
             ter = entry.get_string();
             ter_match_type = ot_match_type::contains;
@@ -2337,7 +2337,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
-    for( const std::string sp : spells ) {
+    for( const std::string &sp : spells ) {
         dump.emplace_back( "SPELL", spell_id( sp ).obj().name.translated() );
     }
 }
@@ -2352,7 +2352,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     uilist spellbook_uilist;
     spellbook_callback sp_cb;
     bool know_it_all = true;
-    for( const std::string sp_id_str : spells ) {
+    for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
         uilist_entry entry( sp_id.obj().name.translated() );
@@ -2876,7 +2876,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
 void repair_item_actor::load( const JsonObject &obj )
 {
     // Mandatory:
-    for( const std::string &line : obj.get_array( "materials" ) ) {
+    for( const std::string line : obj.get_array( "materials" ) ) {
         materials.emplace( line );
     }
 
@@ -3483,7 +3483,7 @@ void heal_actor::load( const JsonObject &obj )
     long_action = obj.get_bool( "long_action", false );
 
     if( obj.has_array( "effects" ) ) {
-        for( const JsonObject &e : obj.get_array( "effects" ) ) {
+        for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
     }
@@ -4538,10 +4538,10 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 void sew_advanced_actor::load( const JsonObject &obj )
 {
     // Mandatory:
-    for( const std::string &line : obj.get_array( "materials" ) ) {
+    for( const std::string line : obj.get_array( "materials" ) ) {
         materials.emplace( line );
     }
-    for( const std::string &line : obj.get_array( "clothing_mods" ) ) {
+    for( const std::string line : obj.get_array( "clothing_mods" ) ) {
         clothing_mods.push_back( clothing_mod_id( line ) );
     }
 

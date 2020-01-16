@@ -1478,7 +1478,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, body_part bp ) const override;
 
-
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
