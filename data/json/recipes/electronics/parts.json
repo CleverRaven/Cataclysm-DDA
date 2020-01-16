@@ -129,7 +129,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "60 m",
     "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
-    "using": [ [ "forging_standard", 3 ], [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "explosives_casting_standard", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SMOOTH", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
