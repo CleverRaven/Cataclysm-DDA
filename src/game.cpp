@@ -2348,7 +2348,7 @@ input_context get_default_mode_input_context()
 #if !defined(RELEASE)
     ctxt.register_action( "quickload" );
 #endif
-    ctxt.register_action( "quit" );
+    ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
     ctxt.register_action( "sky" );
@@ -2358,7 +2358,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "morale" );
     ctxt.register_action( "messages" );
     ctxt.register_action( "help" );
-    ctxt.register_action( "open_keybindings" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "open_options" );
     ctxt.register_action( "open_autopickup" );
     ctxt.register_action( "open_autonotes" );
@@ -3012,15 +3012,11 @@ void game::disp_NPC_epilogues()
                                    ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
-        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if( !npc_to_get ) {
+        shared_ptr_fast<npc> guy = overmap_buffer.find_npc( elem );
+        if( !guy ) {
             continue;
         }
-        npc *guy = npc_to_get.get();
-        std::vector<std::string> epilogue;
-        epilogue.emplace_back( guy->get_epilogue() );
-        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
-        multipage( w, epilogue, "", 2 );
+        scrollable_text( w, guy->disp_name(), guy->get_epilogue() );
     }
 
     refresh_all();
@@ -3034,7 +3030,14 @@ void game::display_faction_epilogues()
 
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
-            display_table( w, elem.second.name, 1, elem.second.epilogue() );
+            const std::vector<std::string> epilogue = elem.second.epilogue();
+            if( !epilogue.empty() ) {
+                scrollable_text( w, elem.second.name,
+                                 std::accumulate( epilogue.begin() + 1, epilogue.end(), epilogue.front(),
+                []( const std::string & lhs, const std::string & rhs ) -> std::string {
+                    return lhs + "\n" + rhs;
+                } ) );
+            }
         }
     }
 
@@ -4600,7 +4603,7 @@ static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
     if( g.critter_at<Character>( p ) ) {
         return false;
     }
-    return mon.can_move_to( p );
+    return mon.will_move_to( p );
 }
 
 static cata::optional<tripoint> choose_where_to_place_monster( game &g, const monster &mon,

@@ -1031,7 +1031,7 @@
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
-    "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediatly",
+    "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",
     "id": "mon_nursebot",
     "type": "MONSTER",
     "name": "nurse bot",
@@ -1568,7 +1568,7 @@
   {
     "id": "mon_homunculus",
     "type": "MONSTER",
-    "name": { "str": "homunculus", "str_pl": "homunculuses" },
+    "name": { "str": "homunculus", "str_pl": "homunculi" },
     "description": "A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
     "default_faction": "cult",
     "bodytype": "human",
@@ -2326,7 +2326,7 @@
     "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
-    "//": "Skely brute gaps the evolution between normal and the juggernaut.",
+    "//": "Skelly brute gaps the evolution between normal and the juggernaut.",
     "id": "mon_skeleton_brute",
     "type": "MONSTER",
     "name": "skeletal brute",

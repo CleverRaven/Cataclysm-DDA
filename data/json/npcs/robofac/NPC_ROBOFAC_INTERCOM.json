@@ -338,7 +338,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_1_INTRODUCTION",
     "type": "talk_topic",
-    "dynamic_line": "Theres nothing you could do for us, now leave before I'm forced to…\n[You hear a short, muffled conversation from across the intercom]\n\nthe intercom: Well, it seems we do have some use for you.  It's a dangerous task, but if you complete it we will allow you limited trading access.",
+    "dynamic_line": "There's nothing you could do for us, now leave before I'm forced to…\n[You hear a short, muffled conversation from across the intercom]\n\nthe intercom: Well, it seems we do have some use for you.  It's a dangerous task, but if you complete it we will allow you limited trading access.",
     "responses": [
       { "text": "Tell me about it.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
       { "text": "I'm not risking myself for a deal that bad.", "topic": "TALK_DONE" }

@@ -258,6 +258,22 @@ android {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/res']
+        }
+    }
+    experimental {
+        resources {
+            srcDirs = ['src/experimental/res']
+        }
+    }
+}
+
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 }

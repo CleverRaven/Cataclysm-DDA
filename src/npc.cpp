@@ -483,9 +483,9 @@ faction *npc::get_faction() const
 static item random_item_from( const npc_class_id &type, const std::string &what,
                               const std::string &fallback )
 {
-    auto result = item_group::item_from( type.str() + "_" + what );
+    auto result = item_group::item_from( type.str() + "_" + what, calendar::turn );
     if( result.is_null() ) {
-        result = item_group::item_from( fallback );
+        result = item_group::item_from( fallback, calendar::turn );
     }
     return result;
 }
@@ -781,7 +781,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        weapon = item_group::item_from( type->weapon_override );
+        weapon = item_group::item_from( type->weapon_override, calendar::turn );
         return;
     }
 
@@ -1683,7 +1683,7 @@ void npc::shop_restock()
     int count = 0;
     bool last_item = false;
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
-        item tmpit = item_group::item_from( from, 0 );
+        item tmpit = item_group::item_from( from, calendar::turn );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             tmpit.set_owner( *this );
             ret.push_back( tmpit );

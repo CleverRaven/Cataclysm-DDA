@@ -189,7 +189,7 @@
       {
         "id": "buff_crane_static",
         "name": "Crane's Precision",
-        "description": "Your attacks strike at your opponents weakness with speed and percision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
+        "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "damage", "bash", "dex", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
       }
@@ -231,7 +231,7 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true.\nIntelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
+        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\nIntelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ] ]
       }
@@ -376,7 +376,7 @@
       {
         "id": "buff_fencing_onmiss",
         "name": "Remise",
-        "description": "Your feint is the perfect setup for a devistating followup attack!\n\n+1 Accuracy.\nEnables \"Compound Attack\" technique.\nLasts 1 turn.",
+        "description": "Your feint is the perfect setup for a devastating followup attack!\n\n+1 Accuracy.\nEnables \"Compound Attack\" technique.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -649,7 +649,7 @@
     "id": "style_leopard",
     "name": "Leopard Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength.  Moving increases dodge skill and accuracy further; attacking after moving increases damage.",
-    "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
+    "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
     "learn_difficulty": 10,
     "static_buffs": [
       {
@@ -672,7 +672,7 @@
       {
         "id": "buff_leopard_onmove1",
         "name": "Leopard's Stalk",
-        "description": "You proudly stalk the shadows and preparing to pouce with unrelenting fury.\n\n+2 Accuracy.\nEnables \"Leopard's Pounce\" buff.\nLasts 1 turn.",
+        "description": "You proudly stalk the shadows and preparing to pounce with unrelenting fury.\n\n+2 Accuracy.\nEnables \"Leopard's Pounce\" buff.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -1077,7 +1077,7 @@
       {
         "id": "buff_silat_ondodge",
         "name": "Silat Appraisal",
-        "description": "Each time you dodge an attack, you learn a bit more about your opponents' fighting style.  This allows you to make more precise attacks against them.\n\nAccuracy increased by 15%% of Dexterirty.\nLasts 2 turns.  Stacks 3 times.",
+        "description": "Each time you dodge an attack, you learn a bit more about your opponents' fighting style.  This allows you to make more precise attacks against them.\n\nAccuracy increased by 15%% of Dexterity.\nLasts 2 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 2,
@@ -1309,7 +1309,7 @@
       {
         "id": "buff_tai_chi_ondodge",
         "name": "Repulse the Monkey",
-        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20%% of Perception, gain bash Armor Pentration equal to 50%% of Perception.\nLasts 2 turns.",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20%% of Perception, gain bash Armor Penetration equal to 50%% of Perception.\nLasts 2 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 2,

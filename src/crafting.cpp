@@ -1869,10 +1869,18 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
+
     // refuse to disassemble rotten items
     const item *food = obj.get_food();
     if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
         return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+    }
+
+    // refuse to disassemble items containing monsters/pets
+    std::string monster = obj.get_var( "contained_name" );
+    if( !monster.empty() ) {
+        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+                                            monster );
     }
 
     if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {

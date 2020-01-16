@@ -504,7 +504,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display Help",
+    "name": "Display keybindings menu",
     "bindings": [ { "input_method": "keyboard", "key": "?" } ]
   },
   {
@@ -1856,7 +1856,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "quit",
+    "id": "SUICIDE",
     "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
   },
   {
@@ -2130,13 +2130,6 @@
     "category": "DEFAULTMODE",
     "id": "main_menu",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Keybindings",
-    "category": "DEFAULTMODE",
-    "id": "open_keybindings",
-    "bindings": [ { "input_method": "keyboard", "key": "?" } ]
   },
   {
     "type": "keybinding",

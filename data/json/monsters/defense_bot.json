@@ -95,7 +95,7 @@
     "id": "mon_skitterbot",
     "type": "MONSTER",
     "name": { "str": "skitterbot" },
-    "description": "A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
+    "description": "An insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 2,

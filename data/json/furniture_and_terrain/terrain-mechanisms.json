@@ -398,7 +398,7 @@
     "id": "t_card_fp",
     "looks_like": "t_card_science",
     "name": "card reader",
-    "description": "This looks like the console controling the security door, there's a pretty big reading surface on it.  You can see \"Fp\" soberly printed above the reader.  You have no idea what could open it.",
+    "description": "This looks like the console controlling the security door, there's a pretty big reading surface on it.  You can see \"Fp\" soberly printed above the reader.  You have no idea what could open it.",
     "//": "FoodPlace",
     "symbol": "6",
     "color": "pink",
@@ -428,7 +428,7 @@
       "str_max": 600,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "//": "Since these are set into the walls, they ought to have the resilence of metal walls.",
+      "//": "Since these are set into the walls, they ought to have the resilience of metal walls.",
       "ter_set": "t_concrete",
       "items": [
         { "item": "processor", "prob": 25 },
