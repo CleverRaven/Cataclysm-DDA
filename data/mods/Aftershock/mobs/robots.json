@@ -190,5 +190,27 @@
       "PATH_AVOID_DANGER_2",
       "HIT_AND_RUN"
     ]
+  },
+  {
+    "id": "afs_mon_bloodhound_drone",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": { "str": "bloodhound drone" },
+    "description": "An automated seeker drone designed to harry and harrass while maintaining visual contact for other pursuers, a small spiked quadcopter robot with a high powered spotlight.",
+    "diff": 2,
+    "speed": 190,
+    "color": "light_green",
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
+    "luminance": 2,
+    "melee_cut": 12,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "revert_to_itype": "bot_manhack",
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
+    "death_function": [ "BROKEN" ],
+    "extend": { "flags": [ "HIT_AND_RUN" ] }
   }
 ]
