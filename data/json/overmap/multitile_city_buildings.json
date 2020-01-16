@@ -25,6 +25,12 @@
   },
   {
     "type": "city_building",
+    "id": "house_03",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_03_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_03_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "house_two_story_basement",
     "locations": [ "land", "swamp" ],
     "overmaps": [
@@ -254,6 +260,12 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_19_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_20",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_20_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_20_roof_north" } ]
   },
   {
     "type": "city_building",
