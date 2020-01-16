@@ -105,21 +105,8 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-bool monster::can_move_to( const tripoint &p ) const
+bool monster::will_move_to( const tripoint &p ) const
 {
-    if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
-            // can't go through the roof
-            return false;
-        }
-    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
-            // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
-            return false;
-        }
-    }
-
     if( g->m.impassable( p ) ) {
         if( digging() ) {
             if( !g->m.has_flag( "BURROWABLE", p ) ) {
@@ -227,6 +214,28 @@ bool monster::can_move_to( const tripoint &p ) const
     }
 
     return true;
+}
+
+bool monster::can_reach_to( const tripoint &p ) const
+{
+    if( p.z > pos().z && z_is_valid( pos().z ) ) {
+        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+            // can't go through the roof
+            return false;
+        }
+    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
+        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
+            // can't go through the floor
+            // you would fall anyway if there was no floor, so no need to check for that here
+            return false;
+        }
+    }
+    return true;
+}
+
+bool monster::can_move_to( const tripoint &p ) const
+{
+    return can_reach_to( p ) && will_move_to( p );
 }
 
 void monster::set_dest( const tripoint &p )

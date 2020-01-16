@@ -4603,7 +4603,7 @@ static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
     if( g.critter_at<Character>( p ) ) {
         return false;
     }
-    return mon.can_move_to( p );
+    return mon.will_move_to( p );
 }
 
 static cata::optional<tripoint> choose_where_to_place_monster( game &g, const monster &mon,
