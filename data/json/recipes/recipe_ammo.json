@@ -748,7 +748,7 @@
     ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
-      [ [ "gasoline", 125 ], [ "diesel", 125 ], ["biodiesel", 125] ],
+      [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "bleach", 2 ] ],
       [ [ "oxy_powder", 15 ] ],
