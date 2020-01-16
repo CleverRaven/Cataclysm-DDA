@@ -4480,7 +4480,7 @@
     "points": 3,
     "visibility": 7,
     "ugliness": -7,
-    "description": "You are a true beauty.  Many people will react well to your looks, and most people will trust you immediately.",
+    "description": "You are a true beauty.  Many people will react well to your looks, and some people will trust you immediately.",
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ]
@@ -5428,7 +5428,7 @@
     "type": "mutation",
     "id": "GRUFF",
     "name": "Gruff Voice",
-    "points": 0,
+    "points": 1,
     "description": "You have a gruff voice.  Persuading NPCs will be a little harder, but threatening them will be easier.",
     "changes_to": [ "PLEASANT", "GROWL", "HISS" ],
     "types": [ "VOICE" ],
