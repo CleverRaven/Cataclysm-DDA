@@ -748,7 +748,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": "500 L",
+    "max_volume": "1500 L",
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -759,6 +759,39 @@
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_warehouse_shelf",
+    "name": "warehouse shelf",
+    "description": "A large, sturdy shelf made of metal for storing pallets and crates in warehouses.",
+    "symbol": "{",
+    "looks_like": "f_utility_shelf",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": 10,
+    "flags": [ "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "sheet_metal", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": "3500 L",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "pipe", "count": 4 }
       ]
     }
   },

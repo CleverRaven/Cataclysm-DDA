@@ -487,7 +487,7 @@ void Item_factory::finalize_item_blacklist()
         }
     }
 
-    for( const std::pair<itype_id, migration> &migrate : migrations ) {
+    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
         if( m_templates.find( migrate.second.replace ) == m_templates.end() ) {
             debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
             continue;

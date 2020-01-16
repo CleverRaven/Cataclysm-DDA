@@ -841,5 +841,22 @@
     "volume": "900 ml",
     "bashing": 7,
     "price": 200
+  },
+  {
+    "id": "mess_tray",
+    "name": "meal tray",
+    "description": "A stainless steel tray used for serving food in cafeterias, mess halls, or similar places.",
+    "looks_like": "tin_plate",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "light_gray",
+    "price": 10,
+    "price_postapoc": 0,
+    "material": "steel",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "bashing": 2,
+    "to_hit": -1,
+    "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ]
   }
 ]
