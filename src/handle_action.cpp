@@ -1614,7 +1614,6 @@ bool game::handle_action()
     gamemode->pre_action( act );
 
     int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
-    int soffsetr = 0 - soffset;
 
     int before_action_moves = u.moves;
 
@@ -1631,40 +1630,27 @@ bool game::handle_action()
                 break;
 
             case ACTION_SHIFT_N:
-                u.view_offset.y += soffsetr;
-                break;
-
             case ACTION_SHIFT_NE:
-                u.view_offset.x += soffset;
-                u.view_offset.y += soffsetr;
-                break;
-
             case ACTION_SHIFT_E:
-                u.view_offset.x += soffset;
-                break;
-
             case ACTION_SHIFT_SE:
-                u.view_offset.x += soffset;
-                u.view_offset.y += soffset;
-                break;
-
             case ACTION_SHIFT_S:
-                u.view_offset.y += soffset;
-                break;
-
             case ACTION_SHIFT_SW:
-                u.view_offset.x += soffsetr;
-                u.view_offset.y += soffset;
-                break;
-
             case ACTION_SHIFT_W:
-                u.view_offset.x += soffsetr;
-                break;
-
-            case ACTION_SHIFT_NW:
-                u.view_offset.x += soffsetr;
-                u.view_offset.y += soffsetr;
-                break;
+            case ACTION_SHIFT_NW: {
+                static const std::map<action_id, std::pair<point, point>> shift_delta = {
+                    { ACTION_SHIFT_N, { point_north, point_north_east } },
+                    { ACTION_SHIFT_NE, { point_north_east, point_east } },
+                    { ACTION_SHIFT_E, { point_east, point_south_east } },
+                    { ACTION_SHIFT_SE, { point_south_east, point_south } },
+                    { ACTION_SHIFT_S, { point_south, point_south_west } },
+                    { ACTION_SHIFT_SW, { point_south_west, point_west } },
+                    { ACTION_SHIFT_W, { point_west, point_north_west } },
+                    { ACTION_SHIFT_NW, { point_north_west, point_north } },
+                };
+                u.view_offset += use_tiles && tile_iso ?
+                                 shift_delta.at( act ).second * soffset : shift_delta.at( act ).first * soffset;
+            }
+            break;
 
             case ACTION_LOOK:
                 look_around();
