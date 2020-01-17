@@ -224,7 +224,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         if( !blueprint.empty() ) {
             assign( jo, "blueprint_name", bp_name );
             bp_resources.clear();
-            for( const std::string &resource : jo.get_array( "blueprint_resources" ) ) {
+            for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
             }
             for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {

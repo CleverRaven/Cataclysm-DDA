@@ -181,12 +181,16 @@
   },
   {
     "type": "profession",
-    "ident": "afs_circus_strongman",
-    "name": { "male": "Circus Strongman", "female": "Circus Strongwoman" },
-    "description": "You were born with a genetic defect that made your body unnaturally strong.  Your life was strange and multifaceted, and ultimately, you ended up traveling with a troupe up and down the coastline, putting on shows of strength  (NOTE: To preserve balance, choose this profession *before* adjusting your stats.  Or don't.  I'm a description, not a cop.)",
-    "points": 2,
-    "traits": [ "AFS_PROF_STRONGMAN" ],
-    "items": { "both": [ "b_shorts", "undershirt" ], "male": [ "briefs" ], "female": [ "boy_shorts" ] }
+    "ident": "afs_vatgrown_bodyguard",
+    "name": "Vatgrown Bodyguard",
+    "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
+    "points": 3,
+    "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
+    "items": {
+      "both": [ "suit", "dress_shoes", "bootsheath", "ceramic_knife" ],
+      "male": [ "briefs", "undershirt" ],
+      "female": [ "boy_shorts", "bra" ]
+    }
   },
   {
     "type": "profession",

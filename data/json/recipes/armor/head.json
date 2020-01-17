@@ -81,7 +81,7 @@
         [ "bandages", 2 ]
       ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
     "result": "cowboy_hat",
@@ -1002,7 +1002,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "tshirt", 1 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 1 ], [ "tshirt_text", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
     "result": "mask_ski",

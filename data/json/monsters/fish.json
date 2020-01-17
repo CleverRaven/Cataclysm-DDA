@@ -274,7 +274,7 @@
     "copy-from": "mon_fish_small",
     "name": { "str": "perch", "str_pl": "perches" },
     "looks_like": "mon_fish_pickerel",
-    "description": "A small spritely Perch.  A very bony fish, still got some tasty meat on it though."
+    "description": "A small sprightly Perch.  A very bony fish, still got some tasty meat on it though."
   },
   {
     "id": "mon_fish_walleye",
@@ -344,7 +344,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str": "rock bass", "str_pl": "rock bass" },
     "looks_like": "mon_fish_sunfish",
-    "description": "A Rock Bass.  Related to sunfish, this tiny fish has a camoflauge-like patterning and a red eye."
+    "description": "A Rock Bass.  Related to sunfish, this tiny fish has a camouflage-like patterning and a red eye."
   },
   {
     "id": "mon_fish_calico_bass",

@@ -1612,7 +1612,7 @@ void basecamp::job_assignment_ui()
         werase( w_jobs );
         // create a list of npcs stationed at this camp
         std::vector<npc *> stationed_npcs;
-        for( const auto elem : get_npcs_assigned() ) {
+        for( const auto &elem : get_npcs_assigned() ) {
             if( elem ) {
                 stationed_npcs.push_back( elem.get() );
             }
@@ -3574,7 +3574,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     if( item_group::group_is_defined( "gathering_" + bldg ) ) {
         itemlist = "gathering_" + bldg;
     } else {
-        itemlist = "forest" ;
+        itemlist = "forest";
     }
     std::string output;
 

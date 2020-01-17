@@ -1070,7 +1070,7 @@ bool Character::movement_mode_is( const character_movemode mode ) const
     return move_mode == mode;
 }
 
-void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                             bool permanent, int intensity, bool force, bool deferred )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
@@ -1299,7 +1299,7 @@ std::vector<bionic_id> Character::get_bionics() const
 
 bool Character::has_bionic( const bionic_id &b ) const
 {
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         if( bid == b ) {
             return true;
         }
@@ -1324,7 +1324,7 @@ bool Character::has_any_bionic() const
 
 bionic_id Character::get_remote_fueled_bionic() const
 {
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         if( bid->is_remote_fueled ) {
             return bid;
         }
@@ -1338,8 +1338,8 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         return false;
     }
 
-    for( const bionic_id bid : get_bionics() ) {
-        for( const itype_id fuel : bid->fuel_opts ) {
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const itype_id &fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
                 return true;
             }
@@ -1352,8 +1352,8 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 {
     std::vector<bionic_id> bionics;
 
-    for( const bionic_id bid : get_bionics() ) {
-        for( const itype_id fuel : bid->fuel_opts ) {
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const itype_id &fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
                 bionics.emplace_back( bid );
             }
@@ -1366,7 +1366,7 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 std::vector<bionic_id> Character::get_fueled_bionics() const
 {
     std::vector<bionic_id> bionics;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         if( !bid->fuel_opts.empty() ) {
             bionics.emplace_back( bid );
         }
@@ -1450,7 +1450,7 @@ bool Character::enough_power_for( const bionic_id &bid ) const
 std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
 {
     std::vector<itype_id> stored_fuels;
-    for( const itype_id fuel : bio->fuel_opts ) {
+    for( const itype_id &fuel : bio->fuel_opts ) {
         const item tmp_fuel( fuel );
         if( !get_value( fuel ).empty() || tmp_fuel.has_flag( "PERPETUAL" ) ) {
             stored_fuels.emplace_back( fuel );
@@ -1459,14 +1459,14 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
-int Character::get_fuel_capacity( const itype_id fuel ) const
+int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
     if( !get_value( fuel ).empty() ) {
         amount_stored = std::stoi( get_value( fuel ) );
     }
     int capacity = 0;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         for( const itype_id &fl : bid->fuel_opts ) {
             if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
                 if( fl == fuel ) {
@@ -1478,10 +1478,10 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
     return capacity - amount_stored;
 }
 
-int Character::get_total_fuel_capacity( const itype_id fuel ) const
+int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 {
     int capacity = 0;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         for( const itype_id &fl : bid->fuel_opts ) {
             if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
                 if( fl == fuel ) {
@@ -1543,7 +1543,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
 int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
 {
     int ret = 0;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         const auto St_bn = bid->stat_bonus.find( Stat );
         if( St_bn != bid->stat_bonus.end() ) {
             ret += St_bn->second;
@@ -2174,12 +2174,12 @@ units::mass Character::weight_capacity() const
     }
 
     units::mass bio_weight_bonus = 0_gram;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         ret *= bid->weight_capacity_modifier;
         bio_weight_bonus +=  bid->weight_capacity_bonus;
     }
 
-    ret += bio_weight_bonus + worn_weight_bonus ;
+    ret += bio_weight_bonus + worn_weight_bonus;
 
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
@@ -3152,8 +3152,8 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
 
-    for( const bionic_id bid : get_bionics() ) {
-        for( const std::pair<body_part, int> &element : bid->encumbrance ) {
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
             vals[element.first].encumbrance += element.second;
         }
     }
@@ -4040,7 +4040,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @TODO: make this simpler and use time_duration/time_point
+                // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -4604,7 +4604,7 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id fid ) const
+bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
@@ -4858,7 +4858,7 @@ float Character::active_light() const
                 }
                 curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
             }
-            mut_lum += curr_lum ;
+            mut_lum += curr_lum;
         }
     }
 
@@ -5231,6 +5231,7 @@ mutation_value_map = {
     { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
+    { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> }
 };
 
@@ -5423,7 +5424,7 @@ units::mass Character::bodyweight() const
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         if( !bid->included ) {
             bio_weight += item::find_type( bid.c_str() )->weight;
         }
@@ -5616,7 +5617,7 @@ int Character::get_env_resist( body_part bp ) const
         }
     }
 
-    for( const bionic_id bid : get_bionics() ) {
+    for( const bionic_id &bid : get_bionics() ) {
         const auto EP = bid->env_protec.find( bp );
         if( EP != bid->env_protec.end() ) {
             ret += EP->second;
@@ -6354,13 +6355,13 @@ void Character::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
 
         // Then use the map to set the category levels
-        for( const std::pair<trait_id, int> &i : dependency_map ) {
+        for( const std::pair<const trait_id, int> &i : dependency_map ) {
             const mutation_branch &mdata = i.first.obj();
             if( !mdata.flags.count( "NON_THRESH" ) ) {
                 for( const std::string &cat : mdata.category ) {
@@ -6401,7 +6402,7 @@ std::string Character::get_highest_category() const
     int iLevel = 0;
     std::string sMaxCat;
 
-    for( const std::pair<std::string, int> &elem : mutation_category_level ) {
+    for( const std::pair<const std::string, int> &elem : mutation_category_level ) {
         if( elem.second > iLevel ) {
             sMaxCat = elem.first;
             iLevel = elem.second;
@@ -6448,8 +6449,7 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
-        // Horrible hack warning!
-        // Get rid of this as soon as CUT and STAB are split
+        // HACK: Get rid of this as soon as CUT and STAB are split
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
@@ -6885,7 +6885,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool Character::crossed_threshold() const
 {
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
         if( mut.first->threshold ) {
             return true;
         }
@@ -7833,7 +7833,7 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( is_npc() ) {
-        // A hack to make NPCs use their Molotovs
+        // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
     return false;

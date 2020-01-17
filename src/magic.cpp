@@ -324,7 +324,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+    for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
@@ -429,7 +429,7 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, translation alt_msg ) :
+spell::spell( spell_id sp, const translation &alt_msg ) :
     type( sp ),
     alt_message( alt_msg )
 {}
@@ -1048,7 +1048,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @TODO: if only we had a function to enumerate strings and concatenate them...
+    // TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );
@@ -1076,7 +1076,6 @@ std::string spell::list_targeted_monster_names() const
     std::string ret = enumerate_as_string( all_valid_monster_names );
     return ret;
 }
-
 
 damage_type spell::dmg_type() const
 {
@@ -1715,7 +1714,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     if( found != invlets.end() ) {
         return found->second;
     }
-    for( const std::pair<spell_id, int> &invlet_pair : invlets ) {
+    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
         used_invlets.emplace( invlet_pair.second );
     }
     for( int i = 'a'; i <= 'z'; i++ ) {
@@ -1772,7 +1771,7 @@ int known_magic::select_spell( const player &p )
 
 void known_magic::on_mutation_gain( const trait_id &mid, player &p )
 {
-    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+    for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
         for( int level = 0; level < sp.second; level++ ) {

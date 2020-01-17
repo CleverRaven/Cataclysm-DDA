@@ -591,7 +591,15 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "+": "f_null", ".": "f_null", "^": "f_null", "D": "f_dumpster", "_": "f_null", "{": "f_rack", "|": "f_null" },
+      "furniture": {
+        "+": "f_null",
+        ".": "f_null",
+        "^": "f_null",
+        "D": "f_dumpster",
+        "_": "f_null",
+        "{": "f_warehouse_shelf",
+        "|": "f_null"
+      },
       "items": {
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },

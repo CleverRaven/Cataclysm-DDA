@@ -940,7 +940,7 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
-        // @TODO: start_moves is in moves, but it's an integer, convert it to some time class
+        // TODO: start_moves is in moves, but it's an integer, convert it to some time class
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );
@@ -2054,7 +2054,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_WELDER: {
             if( veh_tool( "welder" ) ) {
-                // Evil hack incoming
+                // HACK: Evil hack incoming
                 auto &act = g->u.activity;
                 if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
                     // Magic: first tell activity the item doesn't really exist

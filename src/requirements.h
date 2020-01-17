@@ -208,7 +208,6 @@ struct requirement_data {
             return tools.empty() && components.empty() && qualities.empty();
         }
 
-        /** check if removal of items via @ref blacklist_item left no alternatives in group */
         bool is_blacklisted() const {
             return blacklisted;
         }
@@ -270,6 +269,10 @@ struct requirement_data {
          * will be marked as @ref blacklisted
          */
         void blacklist_item( const itype_id &id );
+        /**
+         * Replace tools or components of the given type.
+         */
+        void replace_item( const itype_id &id, const itype_id &replacement );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
@@ -404,7 +407,12 @@ class deduped_requirement_data
         bool can_make_with_inventory(
             const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
+
+        bool is_too_complex() const {
+            return is_too_complex_;
+        }
     private:
+        bool is_too_complex_ = false;
         std::vector<requirement_data> alternatives_;
 };
 

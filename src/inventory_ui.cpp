@@ -1202,7 +1202,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
-        for( const auto &pos : closest_tripoints_first( radius, u.pos() ) ) {
+        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
             if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
@@ -2002,7 +2002,7 @@ drop_locations inventory_iuse_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *, int> &use_pair : to_use ) {
+    for( const std::pair<const item *const, int> &use_pair : to_use ) {
         item_location loc( u, const_cast<item *>( use_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
     }
@@ -2152,7 +2152,7 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *, int> &drop_pair : dropping ) {
+    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
         item_location loc( u, const_cast<item *>( drop_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
     }

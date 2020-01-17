@@ -861,7 +861,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+            for( const std::pair< const trait_id, trait_data > &mut : my_mutations ) {
                 if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
                     continue;
                 }
@@ -945,7 +945,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
-            for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+            for( const std::pair< const trait_id, trait_data > &mut : my_mutations ) {
                 if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
                     continue;
                 }

@@ -470,7 +470,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             if( !world_pages[i].empty() ) {
                 nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
-                wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 ) ;
+                wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 );
                 wprintz( w_worlds_header, c_white, "]" );
                 wputch( w_worlds_header, BORDER_COLOR, LINE_OXOX );
             }
@@ -1413,7 +1413,7 @@ void load_world_option( const JsonObject &jo )
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }
-    for( const std::string &line : arr ) {
+    for( const std::string line : arr ) {
         get_options().get_option( line ).setValue( "true" );
     }
 }

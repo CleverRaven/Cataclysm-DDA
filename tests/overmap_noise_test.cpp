@@ -48,7 +48,6 @@ static void export_interpreted_noise(
     testfile.close();
 }
 
-
 TEST_CASE( "om_noise_layer_forest_export", "[.]" )
 {
     const om_noise::om_noise_layer_forest f( point_zero, 1920237457 );
