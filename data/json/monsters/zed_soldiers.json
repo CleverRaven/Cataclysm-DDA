@@ -451,7 +451,6 @@
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
-    "upgrades": { "half_life": 38, "into": "mon_zombie_bio_op2" },
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
@@ -476,7 +475,6 @@
     "description": "Once a highly trained soldier, various bionics cover this zombie's broken body.  Strangely, it maintains a vague martial arts stance.",
     "copy-from": "mon_zombie_bio_op",
     "looks_like": "mon_zombie_bio_op",
-    "delete": { "upgrades": { "half_life": 38, "into": "mon_zombie_bio_op2" } },
     "diff": 10,
     "hp": 180,
     "melee_skill": 8,
