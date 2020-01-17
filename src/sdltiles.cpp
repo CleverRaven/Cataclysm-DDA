@@ -2866,9 +2866,9 @@ static void CheckMessages()
                         break;
                     case SDL_WINDOWEVENT_MINIMIZED:
                         isMinimized = true;
-                        /* SDL_SetWindowSize needs, since after alt-tabbing the window takes a very small wrong resolution */
-                        /* which can lead to crash. Therefore, SDL_SetWindowSize returns its original resolution. */
-                        SDL_SetWindowSize( ::window.get(), WindowWidth, WindowHeight );
+                        if( fullscreen ) {
+                            toggle_fullscreen_window();
+                        }
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
@@ -2880,6 +2880,9 @@ static void CheckMessages()
                         }
 #endif
                         isMinimized = false;
+                        if( !fullscreen && get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
+                            toggle_fullscreen_window();
+                        }
                         break;
                     case SDL_WINDOWEVENT_RESIZED:
                         if( !isMinimized ) {
