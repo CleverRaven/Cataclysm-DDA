@@ -632,7 +632,7 @@ void monster::move()
         g->m.i_clear( pos() );
     }
     // record position before moving to put the player there if we're dragging
-    tripoint drag_to = pos();
+    tripoint drag_to = g->m.getabs( pos() );
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -829,6 +829,7 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            tripoint candidate_abs = g->m.getabs( candidate );
             if( candidate.z != posz() ) {
                 bool can_z_move = true;
                 if( !g->m.valid_move( pos(), candidate, false, true ) ) {
@@ -871,7 +872,7 @@ void monster::move()
                 if( att == A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
-                    next_step = candidate;
+                    next_step = candidate_abs;
                     break;
                 } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
                     continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
@@ -885,7 +886,6 @@ void monster::move()
 
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
-
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
@@ -909,7 +909,7 @@ void monster::move()
             // Randomly pick one of the viable squares to move to weighted by distance.
             if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
                 moved = true;
-                next_step = candidate;
+                next_step = candidate_abs;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
@@ -929,7 +929,8 @@ void monster::move()
             ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
+            move_to( g->m.getlocal( next_step ), false, get_stagger_adjust( pos(), destination,
+                     g->m.getlocal( next_step ) ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -939,8 +940,9 @@ void monster::move()
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
-            } else if( drag_to != pos() && g->critter_at( drag_to ) == nullptr ) {
-                dragged_foe->setpos( drag_to );
+            } else if( g->m.getlocal( drag_to ) != pos() &&
+                       g->critter_at( g->m.getlocal( drag_to ) ) == nullptr ) {
+                dragged_foe->setpos( g->m.getlocal( drag_to ) );
             }
         }
     } else {
