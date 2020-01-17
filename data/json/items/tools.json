@@ -971,7 +971,7 @@
     "name_plural": "cellphones",
     "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
     "weight": "226 g",
-    "volume": "100 ml",
+    "volume": "130 ml",
     "price": 9000,
     "price_postapoc": 2000,
     "material": [ "plastic", "aluminum" ],
@@ -4073,12 +4073,8 @@
       [
         "battery",
         [
-          "light_battery_cell",
-          "light_plus_battery_cell",
           "light_minus_battery_cell",
-          "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell",
-          "light_disposable_cell",
           "light_minus_disposable_cell"
         ]
       ]
