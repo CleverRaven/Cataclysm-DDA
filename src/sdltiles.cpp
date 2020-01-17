@@ -2861,7 +2861,9 @@ static void CheckMessages()
                         break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
+                        break;
                     case SDL_WINDOWEVENT_EXPOSED:
+                        break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
 #if defined(__ANDROID__)
