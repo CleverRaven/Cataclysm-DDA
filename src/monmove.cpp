@@ -891,7 +891,6 @@ void monster::move()
                 if( !can_bash ) {
                     continue;
                 }
-
                 const int estimate = g->m.bash_rating( bash_estimate(), candidate );
                 if( estimate <= 0 ) {
                     continue;
@@ -923,14 +922,14 @@ void monster::move()
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
+    const tripoint local_next_step = g->m.getlocal( next_step );
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( next_step ) ) ||
-            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
-            ( !pacified && bash_at( next_step ) ) ||
-            ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            move_to( g->m.getlocal( next_step ), false, get_stagger_adjust( pos(), destination,
-                     g->m.getlocal( next_step ) ) );
+            ( !pacified && attack_at( local_next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
+            ( !pacified && bash_at( local_next_step ) ) ||
+            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
+            move_to( local_next_step, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
