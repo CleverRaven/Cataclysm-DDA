@@ -905,7 +905,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, char type )
+static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, char type )
 {
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
     if( !veh ) {
@@ -1034,7 +1034,7 @@ static activity_reason_info find_base_construction(
     player &p,
     const inventory &inv,
     const tripoint &loc,
-    const cata::optional<size_t> part_con_idx,
+    const cata::optional<size_t> &part_con_idx,
     const size_t idx,
     std::set<size_t> &used )
 {
@@ -1854,7 +1854,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
+static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
                                    const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
                                    activity_id activity_to_restore )
 {
@@ -1962,7 +1962,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
     std::string picked_up;
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    // TODO : vehicle_stack and map_stack into one loop.
+    // TODO: vehicle_stack and map_stack into one loop.
     if( src_veh ) {
         for( auto &veh_elem : src_veh->get_items( src_part ) ) {
             for( auto elem : mental_map_2 ) {
@@ -2950,7 +2950,7 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
-    auto adjacent = closest_tripoints_first( PICKUP_RANGE, pos );
+    std::vector<tripoint> adjacent = closest_tripoints_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
     cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,

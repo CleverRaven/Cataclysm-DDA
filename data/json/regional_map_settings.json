@@ -114,7 +114,8 @@
           "f_datura": 1,
           "f_dahlia": 1,
           "f_chicory": 1,
-          "f_bluebell": 1
+          "f_bluebell": 1,
+          "f_sunflower": 1
         },
         "f_region_flower_decorative": {
           "f_lily": 4,
@@ -136,7 +137,8 @@
           "f_black_eyed_susan": 1,
           "f_lily": 1,
           "f_flower_tulip": 1,
-          "f_mutpoppy": 1
+          "f_mutpoppy": 1,
+          "f_sunflower": 1
         },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
@@ -202,7 +204,8 @@
         "f_bluebell": 3.5,
         "f_dahlia": 3.5,
         "f_datura": 0.2,
-        "f_dandelion": 5.0
+        "f_dandelion": 5.0,
+        "f_sunflower": 3.5
       },
       "boosted_other_percent": 50.0
     },
@@ -581,6 +584,8 @@
         "house_20": 50,
         "house_21": 50,
         "house_22": 50,
+        "house_23": 50,
+        "house_24": 50,
         "house_garage": 50,
         "house_garage2": 50,
         "house_garage3": 50,

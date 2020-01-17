@@ -129,6 +129,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         init_selection = true;
     }
 
+    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -137,7 +138,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
-            inv_s.update();
+            inv_s.update( need_refresh );
             inv_s.select_position( init_pair );
             init_selection = false;
         }
@@ -183,11 +184,12 @@ void game_menus::inv::common( avatar &you )
 
     int res = 0;
 
+    bool need_refresh = true;
     do {
         you.inv.restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.update();
+        inv_s.update( need_refresh );
 
         const item_location &location = inv_s.execute();
 
@@ -580,7 +582,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
     protected:
-        int get_order( const item_location &loc, const time_duration time ) const {
+        int get_order( const item_location &loc, const time_duration &time ) const {
             if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 0;
             } else if( get_consumable_item( loc ).rotten() ) {
@@ -1541,7 +1543,7 @@ static item_location autodoc_internal( player &u, player &patient,
 
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
-
+    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -1550,7 +1552,7 @@ static item_location autodoc_internal( player &u, player &patient,
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
-            inv_s.update();
+            inv_s.update( need_refresh );
             inv_s.select_position( init_pair );
             init_selection = false;
         }
@@ -1951,6 +1953,7 @@ static item_location autoclave_internal( player &u,
 
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
+    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -1959,7 +1962,7 @@ static item_location autoclave_internal( player &u,
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
-            inv_s.update();
+            inv_s.update( need_refresh );
             inv_s.select_position( init_pair );
             init_selection = false;
         }

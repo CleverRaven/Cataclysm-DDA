@@ -698,13 +698,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
-    if( proj.proj_effects.count( "FLAME" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
-        } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
-        }
-    } else if( proj.proj_effects.count( "INCENDIARY" ) ) {
+    if( proj.proj_effects.count( "INCENDIARY" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
@@ -918,7 +912,7 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
-void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity

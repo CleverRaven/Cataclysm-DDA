@@ -734,7 +734,7 @@ void npc::place_on_map()
         return;
     }
 
-    for( const tripoint &p : closest_tripoints_first( SEEX + 1, pos() ) ) {
+    for( const tripoint &p : closest_tripoints_first( pos(), SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
             return;
@@ -1168,8 +1168,8 @@ bool npc::wield( item &it )
             assert( !maybe_holster.contents.empty() );
             const size_t old_size = maybe_holster.contents.size();
             invoke_item( &maybe_holster );
-            // @TODO: change invoke_item to somehow report this change
-            // @HACK: test whether wielding the item from the holster has been done.
+            // TODO: change invoke_item to somehow report this change
+            // HACK: test whether wielding the item from the holster has been done.
             // (Wielding may be prevented by various reasons: see player::wield_contained)
             if( old_size != maybe_holster.contents.size() ) {
                 return true;
@@ -2174,7 +2174,7 @@ bool npc::is_active() const
 
 int npc::follow_distance() const
 {
-    // If the player is standing on stairs, follow closely
+    // HACK: If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
     if( is_walking_with() &&
         ( g->m.has_flag( TFLAG_GOES_DOWN, g->u.pos() ) ||

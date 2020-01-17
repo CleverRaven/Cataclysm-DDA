@@ -397,9 +397,8 @@ std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 // They must also be passable.
 static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
 {
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
     std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
+    for( const auto &p : closest_tripoints_first( center, radius ) ) {
         if( g->m.impassable( p ) ) {
             continue;
         }
@@ -4626,12 +4625,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
     };
-    const auto get_volume_compare_color = [&]( const units::volume before, const units::volume after,
+    const auto get_volume_compare_color = [&]( const units::volume & before,
+                                          const units::volume & after,
     const bool higher_is_better ) {
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
     };
-    const auto format_desc_string = [&]( const std::string label, const int before, const int after,
+    const auto format_desc_string = [&]( const std::string & label, const int before, const int after,
     const bool higher_is_better ) {
         return colorize( string_format( "%s: %d->%d\n", label, before, after ), get_compare_color( before,
                          after, higher_is_better ) );
@@ -4649,8 +4649,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            // @TODO: Fix for UTF-8 strings
-            // @TODO: find other places where this is used and make a global function for all
+            // TODO: Fix for UTF-8 strings
+            // TODO: find other places where this is used and make a global function for all
             static const auto tolower = []( std::string t ) {
                 if( !t.empty() ) {
                     t.front() = std::tolower( t.front() );

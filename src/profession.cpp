@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "json.h"
 #include "mtype.h"
+#include "options.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"
@@ -337,9 +338,25 @@ std::string profession::description( bool male ) const
     }
 }
 
+static time_point advanced_spawn_time()
+{
+    const int initial_days = get_option<int>( "INITIAL_DAY" );
+    return calendar::before_time_starts + 1_days * initial_days;
+}
+
 signed int profession::point_cost() const
 {
     return _point_cost;
+}
+
+static void clear_faults( item &it )
+{
+    if( it.get_var( "dirt", 0 ) > 0 ) {
+        it.set_var( "dirt", 0 );
+    }
+    if( it.is_faulty() ) {
+        it.faults.clear();
+    }
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
@@ -347,7 +364,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     std::list<item> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            item it( elem.type_id, 0, item::default_charges_tag {} );
+            item it( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
             if( !elem.snip_id.is_null() ) {
                 it.set_snippet( elem.snip_id );
             }
@@ -359,16 +376,17 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items );
+    const std::vector<item> group_both = item_group::items_from( _starting_items,
+                                         advanced_spawn_time() );
     const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female );
+                                           _starting_items_female, advanced_spawn_time() );
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item( elem, 0, item::default_charges_tag {} ) );
+            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
@@ -381,6 +399,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
+        clear_faults( it );
+        if( it.is_holster() && it.contents.size() == 1 ) {
+            clear_faults( it.contents.front() );
+        }
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
@@ -621,7 +643,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        item result( inf.new_item );
+        item result( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {

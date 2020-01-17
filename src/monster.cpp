@@ -364,7 +364,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            // @TODO: revisit this and make it simpler
+            // TODO: revisit this and make it simpler
             upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
@@ -1739,7 +1739,7 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part

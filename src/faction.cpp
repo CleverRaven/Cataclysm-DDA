@@ -136,7 +136,7 @@ std::vector<std::string> faction::epilogue() const
     return ret;
 }
 
-void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+void faction::add_to_membership( const character_id &guy_id, const std::string &guy_name,
                                  const bool known )
 {
     members[guy_id] = std::make_pair( guy_name, known );
@@ -547,7 +547,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
     bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
-    // TODO NPCS on mission contactable same as travelling
+    // TODO: NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;

@@ -63,6 +63,7 @@
   },
   {
     "id": "welding_mask",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": "welding mask",
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
@@ -1059,6 +1060,7 @@
   },
   {
     "id": "mask_bunker",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "[",
@@ -1526,6 +1528,7 @@
   },
   {
     "id": "folding_poncho_on",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "symbol": "[",
@@ -1548,6 +1551,7 @@
   {
     "type": "TOOL",
     "id": "emer_blanket",
+    "repairs_like": "miner_hat",
     "symbol": ",",
     "color": "light_gray",
     "name": "folded emergency blanket",
@@ -2196,6 +2200,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "mask_ski",
+    "repairs_like": "miner_hat",
     "name": "ski mask",
     "category": "clothing",
     "weight": "86 g",
@@ -2502,6 +2507,7 @@
   },
   {
     "id": "powered_earmuffs",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "[",
@@ -2692,6 +2698,7 @@
   },
   {
     "id": "helmet_riot",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": "riot helmet",
@@ -2904,6 +2911,7 @@
   },
   {
     "id": "foodperson_mask",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "name": "Foodperson mask",
     "description": "Foodperson, the mascot your stomach deserves!",

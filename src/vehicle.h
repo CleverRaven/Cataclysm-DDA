@@ -745,7 +745,7 @@ class vehicle
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
         std::string get_owner_name() const;
-        void set_old_owner( faction_id temp_owner ) {
+        void set_old_owner( const faction_id &temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
         }
@@ -753,7 +753,7 @@ class vehicle
             theft_time = cata::nullopt;
             old_owner = faction_id::NULL_ID();
         }
-        void set_owner( faction_id new_owner ) {
+        void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );
@@ -778,7 +778,7 @@ class vehicle
         std::set<point> collision_check_points;
         void autopilot_patrol();
         double get_angle_from_targ( const tripoint &targ );
-        void drive_to_local_target( tripoint target, bool follow_protocol );
+        void drive_to_local_target( const tripoint &target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
         }

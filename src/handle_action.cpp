@@ -126,22 +126,24 @@ input_context game::get_player_input( std::string &action )
         ctxt = input_context( "DEFAULTMODE" );
         ctxt.set_iso( true );
         // The list of allowed actions in death-cam mode in game::handle_action
+        // *INDENT-OFF*
         for( const action_id id : {
-        ACTION_TOGGLE_MAP_MEMORY,
-        ACTION_CENTER,
-        ACTION_SHIFT_N,
-        ACTION_SHIFT_NE,
-        ACTION_SHIFT_E,
-        ACTION_SHIFT_SE,
-        ACTION_SHIFT_S,
-        ACTION_SHIFT_SW,
-        ACTION_SHIFT_W,
-        ACTION_SHIFT_NW,
-        ACTION_LOOK,
-        ACTION_KEYBINDINGS,
-    } ) {
+            ACTION_TOGGLE_MAP_MEMORY,
+            ACTION_CENTER,
+            ACTION_SHIFT_N,
+            ACTION_SHIFT_NE,
+            ACTION_SHIFT_E,
+            ACTION_SHIFT_SE,
+            ACTION_SHIFT_S,
+            ACTION_SHIFT_SW,
+            ACTION_SHIFT_W,
+            ACTION_SHIFT_NW,
+            ACTION_LOOK,
+            ACTION_KEYBINDINGS,
+        } ) {
             ctxt.register_action( action_ident( id ) );
         }
+        // *INDENT-ON*
         ctxt.register_action( "QUIT", _( "Accept your fate" ) );
     } else {
         ctxt = get_default_mode_input_context();
@@ -1175,7 +1177,7 @@ static void read()
 
     if( loc ) {
         // calling obtain() invalidates the item pointer
-        // @TODO: find a way to do this without an int index
+        // TODO: find a way to do this without an int index
         u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
