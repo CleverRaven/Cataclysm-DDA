@@ -2866,7 +2866,9 @@ static void CheckMessages()
                         break;
                     case SDL_WINDOWEVENT_MINIMIZED:
                         isMinimized = true;
-                        SDL_SetWindowSize( ::window.get(), WindowWidth, WindowHeight);
+                        /* SDL_SetWindowSize needs, since after alt-tabbing the window takes a very small wrong resolution */
+                        /* which can lead to crash. Therefore, SDL_SetWindowSize returns its original resolution. */
+                        SDL_SetWindowSize( ::window.get(), WindowWidth, WindowHeight );
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
@@ -2880,8 +2882,8 @@ static void CheckMessages()
                         isMinimized = false;
                         break;
                     case SDL_WINDOWEVENT_RESIZED:
-                        if (!isMinimized) {
-                            needupdate = handle_resize(ev.window.data1, ev.window.data2);
+                        if( !isMinimized ) {
+                            needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                         }
                         break;
                     default:
