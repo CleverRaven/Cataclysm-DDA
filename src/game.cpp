@@ -3286,7 +3286,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                   POSY - u.posy() ), c_white, 'X' );
     }
 
-    if( u.controlling_vehicle && !looking ) {
+    if( ( u.controlling_vehicle || g->remoteveh() ) && !looking ) {
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
@@ -3300,13 +3300,30 @@ cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
         return cata::nullopt;
     }
     const optional_vpart_position vp = m.veh_at( u.pos() );
-    if( !vp ) {
+
+    if (!vp && !g->remoteveh() ) {
         return cata::nullopt;
     }
-    vehicle *const veh = &vp->vehicle();
+
+    vehicle *veh;
+    tripoint veh_ref_pos = u.pos();
+    if( vp ) {
+        veh = &vp->vehicle();
+    } else {
+        veh = g->remoteveh();
+
+        for ( const vpart_reference &vp : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            veh_ref_pos = vp.pos();
+            break;
+        }
+    }
+
+    int veh_offset_x = veh_ref_pos.x - u.pos().x;
+    int veh_offset_y = veh_ref_pos.y - u.pos().y;
+
     rl_vec2d face = next ? veh->dir_vec() : veh->face_vec();
     float r = 10.0;
-    return tripoint( static_cast<int>( r * face.x ), static_cast<int>( r * face.y ), u.pos().z );
+    return tripoint( static_cast<int>( r * face.x ) + veh_offset_x, static_cast<int>( r * face.y )  + veh_offset_y, veh_ref_pos.z );
 }
 
 void game::draw_veh_dir_indicator( bool next )
