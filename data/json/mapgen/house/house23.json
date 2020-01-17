@@ -39,6 +39,7 @@
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
+        "#": "t_rock_wall",
         "-": "t_linoleum_white",
         "Q": "t_linoleum_white",
         "8": "t_linoleum_white",
