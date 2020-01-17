@@ -198,7 +198,7 @@
     "id": "bot_bloodhound_drone",
     "type": "TOOL",
     "name": "inactive bloodhound drone",
-    "description": "This is an inactive bloodhound drone. An automated seeker drone designed to harry and harrass while maintaining visual contact for other pursuers, a small spiked quadcopter robot with a high powered spotlight.",
+    "description": "This is an inactive bloodhound drone.  An automated seeker drone designed to harry and harrass while maintaining visual contact for other pursuers, a small spiked quadcopter robot with a high powered spotlight.",
     "weight": "5400 g",
     "volume": "750 ml",
     "price": 60000,
