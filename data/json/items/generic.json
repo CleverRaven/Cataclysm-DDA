@@ -659,7 +659,7 @@
     "container": "bag_canvas",
     "price": 10000,
     "price_postapoc": 100,
-    "material": "powder",
+    "material": "powder_nonflam",
     "weight": "2340 g",
     "volume": "1 L",
     "bashing": 4
@@ -1918,7 +1918,7 @@
     "category": "spare_parts",
     "container": "bag_canvas",
     "price": 5000,
-    "material": "powder",
+    "material": "powder_nonflam",
     "weight": "2340 g",
     "volume": "1 L",
     "bashing": 4

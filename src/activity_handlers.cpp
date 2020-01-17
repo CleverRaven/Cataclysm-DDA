@@ -352,8 +352,8 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 static void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                               const time_point &age, const int roll, const std::vector<std::string> flags,
-                               const std::vector<fault_id> faults )
+                               const time_point &age, const int roll, const std::vector<std::string> &flags,
+                               const std::vector<fault_id> &faults )
 {
     if( roll < 0 ) {
         return;
@@ -2316,7 +2316,7 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     return REPEAT_CANCEL;
 }
 
-// This is a part of a hack to provide pseudo items for long repair activity
+// HACK: This is a part of a hack to provide pseudo items for long repair activity
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
 struct weldrig_hack {
@@ -3153,7 +3153,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
-    time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
+    time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
     if( autodoc && g->m.inbounds( p->pos() ) ) {
         const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
@@ -3756,7 +3756,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p->get_skill_level( skill_id( "fabrication" ) ), 1 );
     int wasted_planks = max_planks - planks;
-    int scraps = rng( wasted_planks, wasted_planks * 3 ) ;
+    int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
 
     if( planks > 0 ) {

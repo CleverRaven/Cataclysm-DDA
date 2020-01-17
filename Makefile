@@ -92,10 +92,9 @@ WARNINGS = \
   -Wmissing-declarations \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wsuggest-override \
+  -Wno-unknown-warning-option \
   -Wpedantic
-ifndef CLANG
-  WARNINGS += -Wsuggest-override
-endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g

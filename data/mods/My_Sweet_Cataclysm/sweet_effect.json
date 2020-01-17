@@ -1,0 +1,15 @@
+[
+  {
+    "type": "effect_type",
+    "id": "gummed",
+    "name": [ "Gummed" ],
+    "desc": [ "You have some gum on you.", "You are covered in gum!", "You're trapped in gum!" ],
+    "apply_message": "You're covered in gum!",
+    "rating": "bad",
+    "miss_messages": [ [ "The gum webs constrict your movement.", 4 ] ],
+    "max_intensity": 3,
+    "base_mods": { "speed_mod": [ -20 ] },
+    "scaling_mods": { "speed_mod": [ -20 ] },
+    "show_in_info": true
+  }
+]

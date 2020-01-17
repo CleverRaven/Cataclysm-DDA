@@ -6441,5 +6441,25 @@
     "city_sizes": [ 4, 20 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "military helipad",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "helipad_nw_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "helipad_ne_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "helipad_sw_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "helipad_se_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "helipad2f_nw_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "helipad2f_ne_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "helipad2f_sw_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "helipad2f_se_north" }
+    ],
+    "locations": [ "land" ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
+    "city_distance": [ 10, 100 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC" ]
   }
 ]

@@ -16,8 +16,12 @@
       "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_null",
-      "items": [ { "item": "pebble", "count": [ 2, 6 ] }, { "item": "sharp_rock", "count": [ 1, 3 ] } ]
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "pebble", "count": [ 75, 100 ] },
+        { "item": "sharp_rock", "count": [ 0, 2 ] },
+        { "item": "rock", "count": [ 4, 12 ] }
+      ]
     },
     "flags": [ "BASHABLE", "TRANSPARENT" ]
   },

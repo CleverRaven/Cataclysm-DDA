@@ -200,11 +200,11 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
-        for( const JsonObject &effect_obj : jo.get_array( "effects" ) ) {
+        for( const JsonObject effect_obj : jo.get_array( "effects" ) ) {
             time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
-                for( const JsonObject &fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
+                for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
                     fake_spell fake;
                     fake.load( fake_spell_obj );
                     add_activation( dur, fake );
@@ -223,7 +223,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
                                "ALWAYS" ) );
 
     if( jo.has_array( "values" ) ) {
-        for( const JsonObject &value_obj : jo.get_array( "values" ) ) {
+        for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
@@ -304,10 +304,10 @@ bool enchantment::add( const enchantment &rhs )
 
 void enchantment::force_add( const enchantment &rhs )
 {
-    for( const std::pair<mod, int> &pair_values : rhs.values_add ) {
+    for( const std::pair<const mod, int> &pair_values : rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second;
     }
-    for( const std::pair<mod, double> &pair_values : rhs.values_multiply ) {
+    for( const std::pair<const mod, double> &pair_values : rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
         values_multiply[pair_values.first] += pair_values.second;
@@ -317,7 +317,7 @@ void enchantment::force_add( const enchantment &rhs )
 
     hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
 
-    for( const std::pair<time_duration, std::vector<fake_spell>> &act_pair :
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
             intermittent_activation[act_pair.first].emplace_back( fake );
