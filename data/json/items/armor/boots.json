@@ -71,6 +71,7 @@
   },
   {
     "id": "boots_bunker",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of turnout boots",
@@ -131,6 +132,7 @@
   },
   {
     "id": "boots_combat",
+    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of combat boots",
@@ -230,6 +232,7 @@
   },
   {
     "id": "boots_hiking",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of hiking boots",
     "name_plural": "pairs of hiking boots",
@@ -354,6 +357,7 @@
   },
   {
     "id": "boots_rubber",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of rubber boots",
     "name_plural": "pairs of rubber boots",
@@ -401,6 +405,7 @@
   },
   {
     "id": "boots_steel",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of steeltoed boots",
@@ -536,6 +541,7 @@
   },
   {
     "id": "cleats",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of cleats",
     "name_plural": "pairs of cleats",
@@ -558,6 +564,7 @@
   },
   {
     "id": "golf_shoes",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of golf shoes",
     "name_plural": "pairs of golf shoes",
@@ -604,6 +611,7 @@
   },
   {
     "id": "clownshoes",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of clown shoes",
     "name_plural": "pairs of clown shoes",
@@ -651,6 +659,7 @@
   },
   {
     "id": "dress_shoes",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of dress shoes",
     "name_plural": "pairs of dress shoes",
@@ -803,6 +812,7 @@
   },
   {
     "id": "heels",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of heels",
     "name_plural": "pairs of heels",
@@ -825,6 +835,7 @@
   },
   {
     "id": "knee_high_boots",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of knee-high boots",
     "name_plural": "pairs of knee-high boots",
@@ -870,6 +881,7 @@
   },
   {
     "id": "lowtops",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of lowtop tennis shoes",
     "name_plural": "pairs of lowtop tennis shoes",
@@ -912,6 +924,7 @@
   },
   {
     "id": "motorbike_boots",
+    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "name": "pair of motorcycle boots",
     "name_plural": "pairs of motorcycle boots",
@@ -935,6 +948,7 @@
   },
   {
     "id": "roller_blades",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of rollerblades",
     "name_plural": "pairs of rollerblades",
@@ -958,6 +972,7 @@
   },
   {
     "id": "rollerskates",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of rollerskates",
     "name_plural": "pairs of rollerskates",
@@ -1003,6 +1018,7 @@
   },
   {
     "id": "shoes_bowling",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of bowling shoes",
     "name_plural": "pairs of bowling shoes",
@@ -1024,6 +1040,7 @@
   },
   {
     "id": "slippers",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of slippers",
     "name_plural": "pairs of slippers",
@@ -1046,6 +1063,7 @@
   },
   {
     "id": "sneakers",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of sneakers",
     "name_plural": "pairs of sneakers",
@@ -1109,6 +1127,7 @@
   },
   {
     "id": "thigh_high_boots",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of thigh-high boots",
     "name_plural": "pairs of thigh-high boots",
@@ -1155,6 +1174,7 @@
   },
   {
     "id": "roller_shoes_off",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of heelys (off)",
     "name_plural": "pairs of heelys (off)",
@@ -1317,6 +1337,7 @@
   },
   {
     "id": "socks_bowling",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of disposable bowling socks",
     "name_plural": "pairs of disposable bowling socks",
@@ -1414,6 +1435,7 @@
   },
   {
     "id": "tabi_gi",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of gi tabi",
     "name_plural": "pairs of gi tabi",
