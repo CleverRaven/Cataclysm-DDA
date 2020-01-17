@@ -2829,7 +2829,7 @@ static void CheckMessages()
         }
     }
 #endif
-
+    static bool isMinimized;
     last_input = input_event();
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -2864,6 +2864,10 @@ static void CheckMessages()
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
                         break;
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                        isMinimized = true;
+                        SDL_SetWindowSize( ::window.get(), WindowWidth, WindowHeight);
+                        break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
 #if defined(__ANDROID__)
@@ -2873,9 +2877,12 @@ static void CheckMessages()
                             SDL_StartTextInput();
                         }
 #endif
+                        isMinimized = false;
                         break;
                     case SDL_WINDOWEVENT_RESIZED:
-                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                        if (!isMinimized) {
+                            needupdate = handle_resize(ev.window.data1, ev.window.data2);
+                        }
                         break;
                     default:
                         break;
