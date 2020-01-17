@@ -1141,11 +1141,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
 
-    const optional_vpart_position vp = veh_at( origin );
-    if( !vp ) {
+    const bool is_remote_controlled = static_cast<bool>( g->remoteveh() );
+    vehicle *const veh = g->get_posessed_vehicle( origin );
+    if ( !veh )
         return;
-    }
-    vehicle *const veh = &vp->vehicle();
 
     // We're inside a vehicle. Do mirror calculations.
     std::vector<int> mirrors;
@@ -1171,7 +1170,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
     for( int mirror : mirrors ) {
         bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
-        if( is_camera && cam_control < 0 ) {
+        if( is_camera && cam_control < 0 && !is_remote_controlled ) {
             continue; // Player not at camera control, so cameras don't work
         }
 

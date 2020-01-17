@@ -3294,24 +3294,32 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     wmove( w_terrain, -center.xy() + g->u.pos().xy() + point( POSX, POSY ) );
 }
 
+
+vehicle* game::get_posessed_vehicle( const tripoint &character_location ) const
+{
+    vehicle *veh = nullptr;
+    // Remote-controlled first. player can sit in one vehicle, and remote-control another
+    if( g->remoteveh() ) {
+        veh = g->remoteveh();
+    } else {
+        const optional_vpart_position vp = m.veh_at( character_location );
+        veh = &vp->vehicle();
+    }
+    return veh;
+}
+
 cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
 {
     if( !get_option<bool>( "VEHICLE_DIR_INDICATOR" ) ) {
         return cata::nullopt;
     }
-    const optional_vpart_position vp = m.veh_at( u.pos() );
 
-    if (!vp && !g->remoteveh() ) {
+    vehicle *const veh = g->get_posessed_vehicle( u.pos() );
+    if ( !veh )
         return cata::nullopt;
-    }
 
-    vehicle *veh;
     tripoint veh_ref_pos = u.pos();
-    if( vp ) {
-        veh = &vp->vehicle();
-    } else {
-        veh = g->remoteveh();
-
+    if( g->remoteveh() ) {
         for ( const vpart_reference &vp : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
             veh_ref_pos = vp.pos();
             break;
