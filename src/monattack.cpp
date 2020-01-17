@@ -5178,7 +5178,7 @@ bool mattack::bio_op_impale( monster *z )
         return false;
     }
 
-    bool seen = g->u.sees( *z );
+    const bool seen = g->u.sees( *z );
     player *foe = dynamic_cast< player * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
@@ -5198,44 +5198,46 @@ bool mattack::bio_op_impale( monster *z )
         return true;
     }
 
-    int dam = rng( 8, 24 );
-    if( foe == nullptr ) {
-        // Handle mons earlier - less to check for
-        target->deal_damage( z, bp_torso, damage_instance( DT_STAB, dam ) );
-        if( seen ) {
-            add_msg( _( "%1$s impales %2$s!" ), z->name(), target->disp_name() );
-        }
-        target->check_dead_state();
-        return true;
-    }
-
     // Yes, it has the CQC bionic.
-    body_part hit = target->get_random_body_part();
+    int dam = rng( 8, 24 );
     bool do_bleed = false;
     int t_dam;
-
-    target->add_msg_if_player( m_bad, _( "The zombie tries to impale your %s…" ),
-        body_part_name_accusative( hit ) );
 
     if( one_in( 4 ) ) {
         dam = rng( 12, 36 ); // 50% damage buff for the crit.
         do_bleed = true;
     }
 
+    if( foe == nullptr ) {
+        // Handle mons earlier - less to check for
+        target->deal_damage( z, bp_torso, damage_instance( DT_STAB, dam ) );
+        if( do_bleed ) {
+            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+        }
+        if( seen ) {
+            add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
+        }
+        target->check_dead_state();
+        return true;
+    }
+
+    body_part hit = target->get_random_body_part();
+
     t_dam = foe->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+    
+    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %s…" ),
+        _( "The %1$s tries to impale <npcname>'s %s…" ),
+        z->name(), body_part_name_accusative( hit ) );
 
     if( t_dam > 0 ) {
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
-            } else {
-                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
-            }
+            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
         }
     } else {
-        target->add_msg_if_player( m_good, "but fails to penetrate your armor!" );
+        target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
+            _( "but fails to penetrate <npcname>'s armor!" ) );
     }
 
     target->on_hit( z, hit, z->type->melee_skill );
@@ -5257,7 +5259,7 @@ bool mattack::bio_op_disarm( monster *z )
         return false;
     }
 
-    bool seen = g->u.sees( *z );
+    const bool seen = g->u.sees( *z );
     player *foe = dynamic_cast< player * >( target );
 
     // disarm doesn't work on creatures
@@ -5300,11 +5302,11 @@ bool mattack::bio_op_disarm( monster *z )
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
     if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
-        target->add_msg_if_player( m_bad, "and throws it to the ground!" );
+        target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
         const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         g->m.add_item_or_charges( tp, foe->i_rem( &it ) );
     } else {
-        target->add_msg_if_player( m_good, "but you break its grip!" );
+        target->add_msg_if_player( m_good, _( "but you break its grip!" ) );
     }
 
     return true;
