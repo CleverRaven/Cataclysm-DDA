@@ -208,7 +208,7 @@
     "name": "medium disposable battery",
     "name_plural": "medium disposable batteries",
     "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
-    "weight": "600 g",
+    "weight": "725 g",
     "volume": "525ml",
     "price": 10000,
     "material": [ "iron", "plastic" ],
