@@ -380,5 +380,12 @@
     "sym": "x",
     "color": "yellow",
     "autonote": true
+  },
+  {
+    "id": "mx_prison_bus",
+    "type": "map_extra",
+    "name": "Prison Bus",
+    "description": "A prison bus.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_bus" }
   }
 ]
