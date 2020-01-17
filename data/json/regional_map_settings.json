@@ -479,7 +479,8 @@
           "mx_roadworks": 100,
           "mx_mayhem": 50,
           "mx_casings": 100,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_prison_bus": 15
         }
       },
       "build": {
