@@ -605,7 +605,7 @@
     "name_plural": "lithium carbonate",
     "symbol": "=",
     "color": "white",
-    "description": "A handful of lithium carbonate.  Commonly used in the processing of metal oxides and treatment of mood disorders. It is also used to prepare lithium compounds for use in lithium-ion batteries.",
+    "description": "A handful of lithium carbonate.  Commonly used in the processing of metal oxides and treatment of mood disorders.  It is also used to prepare lithium compounds for use in lithium-ion batteries.",
     "material": "powder_nonflam",
     "volume": "20 ml",
     "weight": "443 mg",
