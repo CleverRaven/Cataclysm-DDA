@@ -274,8 +274,8 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 80, 0.2 );
     }
     SECTION("an unskilled shooter with an inaccurate bow") {
-        arm_shooter(shooter, "selfbow");
-        test_shooting_scenario(shooter, 4, 5, 17);
+        arm_shooter(shooter, "shortbow");
+        test_shooting_scenario(shooter, 4, 5, 18);
         test_fast_shooting(shooter, 50, 0.2);
     }
 }
