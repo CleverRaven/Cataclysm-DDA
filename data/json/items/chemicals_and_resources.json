@@ -554,7 +554,7 @@
     "description": "A piece of lithium in mineral oil.  It is a volatile element that is commonly used in the making of heat-resistant glass and ceramics.",
     "material": "powder",
     "volume": "250 ml",
-    "weight": "426 mg",
+    "weight": "185 g",
     "phase": "liquid",
     "bashing": 1,
     "ammo_type": "components",
