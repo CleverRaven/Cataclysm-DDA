@@ -8,6 +8,10 @@
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 
+struct ammo_effect;
+using ammo_effect_id = int_id<ammo_effect>;
+using ammo_effect_str_id = string_id<ammo_effect>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
