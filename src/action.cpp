@@ -227,6 +227,8 @@ std::string action_ident( action_id act )
             return "reload_item";
         case ACTION_RELOAD_WEAPON:
             return "reload_weapon";
+        case ACTION_RELOAD_WIELDED:
+            return "reload_wielded";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -860,6 +862,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
+            REGISTER_ACTION( ACTION_RELOAD_WIELDED );
             REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );

@@ -1,15 +1,5 @@
 [
   {
-    "id": "rock",
-    "copy-from": "rock",
-    "type": "AMMO",
-    "name": "rock",
-    "count": 1,
-    "damage": 15,
-    "dispersion": 45,
-    "effects": [ "RECOVER_10", "BEANBAG" ]
-  },
-  {
     "id": "flamethrower",
     "copy-from": "flamethrower",
     "type": "vehicle_part",

@@ -1922,6 +1922,10 @@ bool game::handle_action()
                 reload_weapon();
                 break;
 
+            case ACTION_RELOAD_WIELDED:
+                reload_wielded();
+                break;
+
             case ACTION_UNLOAD:
                 avatar_action::unload( u );
                 break;

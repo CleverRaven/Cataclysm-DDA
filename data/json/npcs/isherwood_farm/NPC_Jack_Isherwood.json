@@ -327,7 +327,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Thanks.  Here's your reward.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the jars went..."
+      "failure": "I wonder where all the jars went…"
     }
   },
   {
@@ -359,7 +359,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Thanks.  Here's your reward.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the seeds went..."
+      "failure": "I wonder where all the seeds went…"
     }
   }
 ]

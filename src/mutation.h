@@ -140,6 +140,7 @@ struct mutation_branch {
         float max_stamina_modifier = 1.0f;
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
+        float movecost_swim_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity;

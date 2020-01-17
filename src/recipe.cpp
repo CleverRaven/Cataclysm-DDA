@@ -500,14 +500,19 @@ bool recipe::will_be_blacklisted() const
     return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
 }
 
-std::function<bool( const item & )> recipe::get_component_filter() const
+std::function<bool( const item & )> recipe::get_component_filter(
+    const recipe_filter_flags flags ) const
 {
     const item result = create_result();
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
+    const bool recipe_forbids_rotten =
+        result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
+    const bool flags_forbid_rotten =
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad();
     std::function<bool( const item & )> rotten_filter = return_true<item>;
-    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+    if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
             return !component.rotten();
         };

@@ -54,8 +54,8 @@
     "name": "corpse",
     "description": "A dead body of a young woman.",
     "looks_like": "corpse",
-    "volume": "40000 ml",
-    "weight": "52000 g",
+    "volume": "40 L",
+    "weight": "52 kg",
     "material": "hflesh"
   },
   {
@@ -65,6 +65,8 @@
     "name": "corpse",
     "description": "A dead body of a little boy.",
     "looks_like": "corpse",
+    "volume": "30 L",
+    "weight": "30 kg",
     "material": "hflesh"
   },
   {
@@ -74,6 +76,8 @@
     "name": "corpse",
     "description": "A dead body of a little girl.",
     "looks_like": "corpse",
+    "volume": "30 L",
+    "weight": "30 kg",
     "material": "hflesh"
   },
   {
@@ -83,8 +87,8 @@
     "name": "corpse",
     "description": "The dead body of a small child.  Their corpse bears a calm facial expression, as if they died instantly.",
     "looks_like": "corpse",
-    "volume": "30000 ml",
-    "weight": "40750 g",
+    "volume": "30 L",
+    "weight": "30 kg",
     "material": "hflesh"
   },
   {
@@ -94,8 +98,8 @@
     "name": "corpse",
     "description": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender.",
     "looks_like": "corpse",
-    "volume": "30000 ml",
-    "weight": "40750 g",
+    "volume": "30 L",
+    "weight": "30 kg",
     "material": "hflesh"
   },
   {
@@ -106,8 +110,8 @@
     "description": "A dead body of an old woman.  Both of her earlobes are torn, several fingers on her hands have been chopped off, and several teeth have been knocked out.",
     "//": "Implied that someone hacked off her body parts for jewelry.",
     "looks_like": "corpse",
-    "volume": "40000 ml",
-    "weight": "52000 g",
+    "volume": "40 L",
+    "weight": "52 kg",
     "material": "hflesh"
   },
   {
@@ -153,8 +157,8 @@
     "name": "corpse",
     "description": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head.",
     "looks_like": "corpse",
-    "volume": "40000 ml",
-    "weight": "52000 g",
+    "volume": "40 L",
+    "weight": "52 kg",
     "material": "hflesh"
   },
   {
@@ -164,8 +168,8 @@
     "name": "corpse",
     "description": "The upper half of a dead body, as if torn apart with enormous force.  Some organs are hanging out.",
     "looks_like": "corpse",
-    "volume": "30000 ml",
-    "weight": "40000 g",
+    "volume": "30 L",
+    "weight": "40 kg",
     "material": "hflesh"
   },
   {
@@ -175,8 +179,8 @@
     "name": "corpse",
     "description": "A half-decapitated dead body.  It is unclear what could have caused such a wound.",
     "looks_like": "corpse",
-    "volume": "57000 ml",
-    "weight": "78000 g",
+    "volume": "57 L",
+    "weight": "78 kg",
     "material": "hflesh"
   }
 ]

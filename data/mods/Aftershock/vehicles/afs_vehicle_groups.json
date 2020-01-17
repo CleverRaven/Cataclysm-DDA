@@ -52,5 +52,10 @@
     "id": "highway",
     "type": "vehicle_group",
     "vehicles": [ [ "car_atomic", 1500 ], [ "suv_atomic", 1500 ], [ "compact_atomic", 300 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [ [ "afs_sports_bike", 400 ] ]
   }
 ]

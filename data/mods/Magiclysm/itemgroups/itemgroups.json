@@ -60,7 +60,7 @@
   {
     "type": "item_group",
     "id": "displays",
-    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ] ]
+    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ], [ "cauldron_demon_chitin", 3 ] ]
   },
   {
     "id": "coffee_display_2",
@@ -256,7 +256,8 @@
       { "item": "mtorch_everburning", "prob": 10 },
       { "item": "mflask_hip_whiskey", "prob": 10 },
       { "item": "mtailors_kit", "prob": 10 },
-      { "item": "mspider_box", "prob": 10 }
+      { "item": "mspider_box", "prob": 10 },
+      { "item": "cauldron_demon_chitin", "prob": 2 }
     ]
   },
   {

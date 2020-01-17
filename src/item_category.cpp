@@ -32,7 +32,6 @@ void zone_priority_data::load( JsonObject &jo )
     optional( jo, was_loaded, "filthy", filthy, false );
 }
 
-
 void item_category::load_item_cat( const JsonObject &jo, const std::string &src )
 {
     item_category_factory.load( jo, src );

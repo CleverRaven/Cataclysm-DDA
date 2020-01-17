@@ -2978,5 +2978,19 @@
     "color": "green",
     "use_action": "DISASSEMBLE",
     "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "plastic_six_dice",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "plastic dice", "str_pl": "plastic dice" },
+    "description": "A six-sided plastic dice.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": 100,
+    "material": "plastic",
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "NO_REPAIR" ]
   }
 ]

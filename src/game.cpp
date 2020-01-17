@@ -210,14 +210,12 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
-static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -518,7 +516,7 @@ void game::init_ui( const bool resized )
     /**
      * Doing the same thing as above for the overmap
      */
-    static const int OVERMAP_LEGEND_WIDTH = 28;
+    OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
     OVERMAP_WINDOW_HEIGHT = TERMY;
     OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
     to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
@@ -2332,6 +2330,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pick_style" );
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
+    ctxt.register_action( "reload_wielded" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -3976,7 +3975,7 @@ void game::mon_info_update( )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    // @todo change current_turn to time_point
+    // @TODO: change current_turn to time_point
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -4142,7 +4141,6 @@ void game::mon_info_update( )
     previous_turn = current_turn;
     mostseen = newseen;
 }
-
 
 void game::cleanup_dead()
 {
@@ -4724,7 +4722,7 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> mon, const tripo
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
@@ -4755,7 +4753,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
 {
-    // @todo change this into an assert, it must never happen.
+    // @TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
@@ -5050,18 +5048,19 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const std::string &door_name = door_type.obj().name();
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
-    for( int i = 0; i < 20; i++ ) {
-        const int x_ = x + rng( -1, +1 );
-        const int y_ = y + rng( -1, +1 );
-        if( is_empty( {x_, y_, get_levz()} ) ) {
-            // invert direction, as game::knockback needs
-            // the source of the force that knocks back
-            kbx = -x_ + x + x;
-            kby = -y_ + y + y;
-            break;
-        }
+    const auto valid_location = [&]( const tripoint & p ) {
+        return g->is_empty( p );
+    };
+    if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
+            valid_location ) ) {
+        kbx = -pos->x + x + x;
+        kby = -pos->y + y + y;
     }
     const tripoint kbp( kbx, kby, p.z );
+    if( kbp == p ) {
+        // cant pushback any creatures anywhere, that means the door cant close.
+        return false;
+    }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
@@ -7540,8 +7539,16 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
+        draw_custom_border( w_item_info, bDrawLeft, true, true, true, LINE_XXXO, LINE_XOXX, true, true );
 
-        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
+        if( iItemNum > 0 ) {
+            // print info window title: < item name >
+            mvwprintw( w_item_info, point( 2, 0 ), "< " );
+            trim_and_print( w_item_info, point( 4, 0 ), width - 8, activeItem->example->color_in_inventory(),
+                            activeItem->example->display_name() );
+            wprintw( w_item_info, " >" );
+        }
+
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -8474,6 +8481,16 @@ void game::reload_item()
         return;
     }
 
+    reload( item_loc );
+}
+
+void game::reload_wielded()
+{
+    if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
+        add_msg( _( "You aren't holding something you can reload." ) );
+        return;
+    }
+    item_location item_loc = item_location( u, &u.weapon );
     reload( item_loc );
 }
 

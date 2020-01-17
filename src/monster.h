@@ -102,6 +102,7 @@ class monster : public Creature
         bool can_upgrade();
         void hasten_upgrade();
         int get_upgrade_time() const;
+        void allow_upgrade();
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();

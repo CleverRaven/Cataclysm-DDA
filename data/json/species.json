@@ -46,6 +46,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "LEECH_PLANT",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "INSECT",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]

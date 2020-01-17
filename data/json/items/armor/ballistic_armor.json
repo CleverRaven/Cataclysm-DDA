@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ballistic_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "//": "Based on US Army SPCS",
+    "name": { "str": "ballistic vest" },
+    "description": "Ballistic armor with ESAPI ceramic armor plates.",
+    "weight": "9911 g",
+    "volume": "6 L",
+    "price": 280000,
+    "material": [ "nylon", "ceramic" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 85,
+    "encumbrance": 10,
+    "warmth": 15,
+    "material_thickness": 20,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ]
+  }
+]

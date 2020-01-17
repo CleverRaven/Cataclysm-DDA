@@ -96,19 +96,21 @@
       { "item": "jacket_army" },
       { "item": "elbow_pads", "prob": 10 },
       { "item": "pants_army" },
+      { "item": "webbing_belt" },
       { "item": "knee_pads", "prob": 85 },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
+      { "item": "ballistic_vest", "prob": 90 },
+      { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
-      { "group": "clothing_tactical_torso", "prob": 15 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
       },
-      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       {
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
@@ -131,19 +133,21 @@
       { "item": "winter_jacket_army" },
       { "item": "elbow_pads", "prob": 10 },
       { "item": "winter_pants_army" },
+      { "item": "webbing_belt" },
       { "item": "knee_pads", "prob": 85 },
+      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat" },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
-      { "collection": [ { "item": "gloves_liner" }, { "item": "winter_gloves_army" } ], "prob": 80 },
+      { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
+      { "item": "ballistic_vest", "prob": 90 },
+      { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
-      { "group": "clothing_tactical_torso", "prob": 15 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
       },
-      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       {
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
@@ -162,13 +166,20 @@
     "subtype": "collection",
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
-      { "distribution": [ { "item": "longshirt", "prob": 75 }, { "item": "tshirt", "prob": 25 } ] },
+      { "group": "clothing_soldier_shirt" },
       { "item": "jacket_army" },
       { "item": "pants_army" },
+      { "item": "webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
-      { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ] },
-      { "group": "underwear" },
-      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
       { "distribution": [ { "item": "fancy_sunglasses", "prob": 95 }, { "item": "glasses_bal", "prob": 5 } ] },
       { "group": "clothing_watch", "prob": 85 },
       { "item": "goggles_ir", "prob": 10 }
@@ -178,7 +189,7 @@
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "army_top", "prob": 50 }, { "item": "longshirt", "prob": 40 }, { "item": "tshirt", "prob": 20 } ]
+    "entries": [ { "item": "tshirt" } ]
   },
   {
     "id": "clothing_outdoor_pants",
@@ -2563,106 +2574,6 @@
       [ "sunglasses", 25 ],
       [ "tieclip", 15 ],
       [ "hairpin", 15 ]
-    ]
-  },
-  {
-    "id": "desks_bedroom_unisex",
-    "type": "item_group",
-    "//": "clothing and wearable items for domestic desks, tables, etc.",
-    "subtype": "collection",
-    "items": [
-      { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
-      { "group": "accesories_personal_womens", "prob": 50 },
-      { "group": "accesories_personal_mens", "prob": 50 },
-      { "group": "masks_unisex", "prob": 20 },
-      { "group": "socks_unisex", "prob": 60 },
-      { "group": "scarfs_unisex", "prob": 30 },
-      { "group": "gloves_womens", "prob": 10 },
-      { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 50 }
-    ]
-  },
-  {
-    "id": "wardrobe_mens",
-    "type": "item_group",
-    "//": "clothing found in a man's wardrobe",
-    "subtype": "collection",
-    "items": [
-      { "group": "shoes_unisex", "prob": 50 },
-      { "item": "fishing_waders", "prob": 3 },
-      { "item": "kilt", "prob": 10 },
-      { "item": "football_armor", "prob": 10 },
-      { "item": "sleeping_bag", "prob": 10 },
-      { "item": "sleeping_bag_roll", "prob": 10 },
-      { "item": "bscabbard", "prob": 5 },
-      { "item": "kilt_leather", "prob": 5 },
-      { "item": "chaps_leather", "prob": 5 },
-      { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 30 },
-      { "group": "suits_mens", "prob": 30 },
-      { "group": "bags_unisex", "prob": 20 }
-    ]
-  },
-  {
-    "id": "wardrobe_womens",
-    "type": "item_group",
-    "//": "clothing found in a woman's wardrobe",
-    "subtype": "collection",
-    "items": [
-      { "group": "shoes_unisex", "prob": 50 },
-      { "group": "shoes_womens", "prob": 60 },
-      { "item": "fishing_waders", "prob": 2 },
-      { "item": "football_armor", "prob": 5 },
-      { "item": "skirt", "prob": 20 },
-      { "item": "skirt_leather", "prob": 10 },
-      { "item": "bscabbard", "prob": 3 },
-      { "item": "sleeping_bag", "prob": 10 },
-      { "item": "sleeping_bag_roll", "prob": 10 },
-      { "item": "chaps_leather", "prob": 5 },
-      { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 30 },
-      { "group": "suits_womens", "prob": 40 },
-      { "group": "bags_unisex", "prob": 20 }
-    ]
-  },
-  {
-    "id": "dresser_mens",
-    "type": "item_group",
-    "//": "clothing found in a man's dresser",
-    "subtype": "collection",
-    "items": [
-      { "group": "accesories_personal_unisex", "prob": 10 },
-      { "group": "accesories_personal_mens", "prob": 10 },
-      { "group": "masks_unisex", "prob": 5 },
-      { "group": "socks_unisex", "prob": 70 },
-      { "group": "scarfs_unisex", "prob": 20 },
-      { "group": "shirts_unisex", "prob": 50 },
-      { "group": "underwear_mens", "prob": 80 },
-      { "group": "underwear_unisex", "prob": 80 },
-      { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_mens", "prob": 60 },
-      { "group": "gloves_unisex", "prob": 20 }
-    ]
-  },
-  {
-    "id": "dresser_womens",
-    "type": "item_group",
-    "//": "clothing found in a woman's dresser",
-    "subtype": "collection",
-    "items": [
-      { "group": "accesories_personal_unisex", "prob": 30 },
-      { "group": "accesories_personal_womens", "prob": 5 },
-      { "group": "masks_unisex", "prob": 5 },
-      { "group": "socks_unisex", "prob": 70 },
-      { "group": "scarfs_unisex", "prob": 10 },
-      { "group": "shirts_womens", "prob": 60 },
-      { "group": "shirts_unisex", "prob": 50 },
-      { "group": "underwear_womens", "prob": 80 },
-      { "group": "underwear_unisex", "prob": 80 },
-      { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_womens", "prob": 60 },
-      { "group": "gloves_womens", "prob": 5 },
-      { "group": "gloves_unisex", "prob": 30 }
     ]
   },
   {

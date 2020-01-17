@@ -468,26 +468,14 @@
     "id": "bowling_alcohol",
     "type": "item_group",
     "items": [
-      [ "beer", 60 ],
-      [ "european_pilsner", 50 ],
-      [ "pale_ale", 50 ],
-      [ "wine_barley", 45 ],
-      [ "india_pale_ale", 47 ],
-      [ "stout", 46 ],
-      [ "belgian_ale", 40 ],
-      [ "imperial_stout", 35 ],
-      [ "whiskey", 10 ],
-      [ "vodka", 10 ],
-      [ "gin", 10 ],
-      [ "rum", 10 ],
-      [ "tequila", 10 ],
-      [ "triple_sec", 5 ],
-      [ "fruit_wine", 5 ],
-      [ "brandy", 5 ],
+      { "group": "beer", "prob": 373 },
+      { "group": "liquor_and_spirits", "prob": 80 },
       [ "drink_rumcola", 40 ],
       [ "drink_screwdriver", 35 ],
       [ "drink_wild_apple", 10 ],
-      [ "long_island", 17 ]
+      [ "long_island", 17 ],
+      [ "wine_chardonnay", 20 ],
+      [ "wine_cabernet", 20 ]
     ]
   },
   {

@@ -2137,6 +2137,30 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"visceral chittering.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"a clear high-pitched hum.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"the hum of static electricity.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"a low buzzing sound.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
     "speaker": "foodperson_mask",
     "sound": "\"I AM FOODPERSON.  AND I BRING SUSTENANCE!\"",
     "volume": 17

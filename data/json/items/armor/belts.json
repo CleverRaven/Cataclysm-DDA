@@ -1,0 +1,16 @@
+[
+  {
+    "id": "webbing_belt",
+    "type": "ARMOR",
+    "name": "webbing belt",
+    "description": "A 2-inch nylon webbing belt commonly used by military forces.",
+    "weight": "210 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "material": [ "nylon", "steel" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+  }
+]

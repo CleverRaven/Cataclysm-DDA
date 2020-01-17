@@ -317,6 +317,12 @@ int monster::get_upgrade_time() const
     return upgrade_time;
 }
 
+// Sets time to upgrade to 0.
+void monster::allow_upgrade()
+{
+    upgrade_time = 0;
+}
+
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time()
@@ -357,7 +363,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            // @todo revisit this and make it simpler
+            // @TODO: revisit this and make it simpler
             upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
@@ -443,7 +449,7 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
                 g->m.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
