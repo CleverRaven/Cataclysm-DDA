@@ -46,7 +46,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": 80000,
+    "time": 160000,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
