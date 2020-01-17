@@ -139,6 +139,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "flintlock_pouch_reenactor",
+    "entries": [ { "item": "flintlock_ammo", "charges": 14 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
   },
@@ -3166,9 +3172,9 @@
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "survival" },
       { "level": 2, "name": "tailor" },
-      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
     ],
     "items": {
@@ -3186,12 +3192,15 @@
           "knit_scarf",
           "tricorne",
           "hatchet",
-          "hardtack"
+          "hardtack",
+          "pipe_cleaner"
         ],
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
-          { "item": "flintlock_ammo", "charges": 15 }
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 15 },
+          { "item": "vinegar", "container-item": "bottle_plastic_small" },
+          { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
         ]
       },
       "female": [
@@ -3217,9 +3226,9 @@
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "survival" },
       { "level": 2, "name": "tailor" },
-      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
     ],
     "items": {
@@ -3234,6 +3243,7 @@
         "gloves_leather",
         "long_knit_scarf",
         "hat_fur",
+        "needle_wood",
         "purse",
         "oil_lamp",
         "pot",
@@ -3250,13 +3260,15 @@
           "knit_scarf",
           "tricorne",
           "hatchet",
-          "hardtack"
+          "hardtack",
+          "pipe_cleaner"
         ],
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
-          { "item": "needle_wood", "charges": 50 },
-          { "item": "flintlock_ammo", "charges": 15 }
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 15 },
+          { "item": "vinegar", "container-item": "bottle_plastic_small" },
+          { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
         ]
       }
     }
