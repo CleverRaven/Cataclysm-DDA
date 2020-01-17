@@ -256,8 +256,8 @@ CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
-  CXXFLAGS += -fsanitize=$(SANITIZE)
-  LDFLAGS += -fsanitize=$(SANITIZE)
+  CXXFLAGS += -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
+  LDFLAGS += -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
 endif
 
 # enable optimizations. slow to build
