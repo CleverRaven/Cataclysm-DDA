@@ -558,8 +558,7 @@
     "phase": "liquid",
     "bashing": 1,
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
