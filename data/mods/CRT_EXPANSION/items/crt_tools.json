@@ -36,7 +36,6 @@
     "cutting": 10,
     "bashing": 5,
     "to_hit": 2,
-    "durability": 15,
     "symbol": ";",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": "CROWBAR",
@@ -56,7 +55,6 @@
     "price": 20000,
     "bashing": 10,
     "to_hit": 1,
-    "durability": 15,
     "symbol": "8",
     "flags": [ "UNARMED_WEAPON", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_2", "UHAND", "HOOK" ]
