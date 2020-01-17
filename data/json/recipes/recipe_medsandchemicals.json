@@ -1275,44 +1275,5 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "material_rhodonite", 1 ] ] ]
-  },
-  {
-    "result": "chem_lithium_carbonate",
-    "type": "recipe",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "charge": 100,
-    "time": "1 h",
-    "book_learn": [ "salt_chemistry", 3 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_lithium_peroxide", 100 ] ], [ [ "coal_lump", 1 ], [ "charcoal", 1 ] ] ]
-  },
-  {
-    "result": "chem_lithium_peroxide",
-    "type": "recipe",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "charge": 100,
-    "time": "1 h",
-    "book_learn": [ "salt_chemistry", 3 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_lithium_hydroxide", 100 ] ], [ [ "chem_hydrogen_peroxide", 1 ] ] ]
-  },
-  {
-    "result": "chem_lithium_hydroxide",
-    "type": "recipe",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "charge": 100,
-    "time": "1 h",
-    "book_learn": [ "salt_chemistry", 3 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chem_lithium", 1 ] ], [ [ "water_clean", 1 ] ] ]
   }
 ]
