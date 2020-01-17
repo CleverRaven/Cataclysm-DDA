@@ -251,7 +251,7 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume vol )
+static m_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
         return MS_TINY;
@@ -730,13 +730,13 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_array( "scents_tracked" ) ) {
-        for( const std::string &line : jo.get_array( "scents_tracked" ) ) {
+        for( const std::string line : jo.get_array( "scents_tracked" ) ) {
             scents_tracked.emplace( line );
         }
     }
 
     if( jo.has_array( "scents_ignored" ) ) {
-        for( const std::string &line : jo.get_array( "scents_ignored" ) ) {
+        for( const std::string line : jo.get_array( "scents_ignored" ) ) {
             scents_ignored.emplace( line );
         }
     }
@@ -831,7 +831,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "baby_flags" ) ) {
         // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
         baby_flags.clear();
-        for( const std::string &line : jo.get_array( "baby_flags" ) ) {
+        for( const std::string line : jo.get_array( "baby_flags" ) ) {
             baby_flags.push_back( line );
         }
     }
@@ -887,6 +887,7 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
 
 void species_type::load( const JsonObject &jo, const std::string & )
 {
+    optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, "footsteps." );
     footsteps = _( footsteps );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
@@ -1073,7 +1074,7 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string &member
         return;
     }
 
-    for( const JsonValue &entry : jo.get_array( member ) ) {
+    for( const JsonValue entry : jo.get_array( member ) ) {
         if( entry.test_array() ) {
             add_special_attack( entry.get_array(), src );
         } else if( entry.test_object() ) {

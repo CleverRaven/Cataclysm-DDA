@@ -222,12 +222,11 @@ ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
        -Wmissing-declarations \
-      -Wold-style-cast \
-     -Woverloaded-virtual \
-     -Wpedantic")
-    IF(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-      SET(CATA_WARNINGS "${CATA_WARNINGS} -Wsuggest-override")
-    ENDIF(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+       -Wold-style-cast \
+       -Woverloaded-virtual \
+       -Wsuggest-override \
+       -Wno-unknown-warning-option \
+       -Wpedantic")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")

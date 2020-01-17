@@ -59,6 +59,8 @@ struct points_left;
 class faction;
 struct construction;
 
+struct bionic;
+
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -457,7 +459,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_movement_mode( character_movemode mode ) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
@@ -774,6 +776,8 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
+        bool activate_bionic( int b, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
@@ -787,14 +791,16 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
+        /**Returns bionic_id of first remote fueled bionic found*/
+        bionic_id get_remote_fueled_bionic() const;
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
         std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
-        int get_fuel_capacity( itype_id fuel ) const;
+        int get_fuel_capacity( const itype_id &fuel ) const;
         /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( itype_id fuel ) const;
+        int get_total_fuel_capacity( const itype_id &fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
@@ -807,10 +813,72 @@ class Character : public Creature, public visitable<Character>
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         virtual bool deactivate_bionic( int b, bool eff_only = false );
+
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
+
+        /**Has enough anesthetic for surgery*/
+        bool has_enough_anesth( const itype *cbm, player &patient );
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+                                        bool needs_anesthesia );
+        /** Removes a bionic from my_bionics[] */
+        void remove_bionic( const bionic_id &b );
+        /** Adds a bionic to my_bionics[] */
+        void add_bionic( const bionic_id &b );
+        /** Calculate skill for (un)installing bionics */
+        float bionics_adjusted_skill( const skill_id &most_important_skill,
+                                      const skill_id &important_skill,
+                                      const skill_id &least_important_skill,
+                                      int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+                              int skill_level = -1 );
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill, std::string installer_name,
+                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
+        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
+                                      float adjusted_skill, tripoint patient_pos );
+
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                               int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
+                                int pl_skill );
+        /**When a player fails the surgery*/
+        void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
+
+        /**Used by monster to perform surgery*/
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc = false );
+        /**When a monster fails the surgery*/
+        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+                                        float adjusted_skill );
+
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
+        /**Find fuel used by remote powered bionic*/
+        itype_id find_remote_fuel( bool look_only = false );
+        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
+        int consume_remote_fuel( int amount );
+        void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( int b, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
@@ -863,6 +931,14 @@ class Character : public Creature, public visitable<Character>
         virtual bool invoke_item( item *, const std::string & );
 
         /**
+         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
+         * @param obj item to dispose of
+         * @param prompt optional message to display in any menu
+         * @return whether the item was successfully disposed of
+         */
+        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
+
+        /**
          * Has the item enough charges to invoke its use function?
          * Also checks if UPS from this player is used instead of item charges.
          */
@@ -894,6 +970,18 @@ class Character : public Creature, public visitable<Character>
          */
         int item_store_cost( const item &it, const item &container, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
+        /** Calculate (but do not deduct) the number of moves required to wear an item */
+        int item_wear_cost( const item &it ) const;
+
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
+
+        /** Returns the amount of item `type' that is currently worn */
+        int  amount_worn( const itype_id &id ) const;
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -1060,6 +1148,11 @@ class Character : public Creature, public visitable<Character>
          */
         bool can_use( const item &it, const item &context = item() ) const;
         /**
+         * Check character capable of wearing an item.
+         * @param it Thing to be worn
+         */
+        ret_val<bool> can_wear( const item &it ) const;
+        /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
          */
@@ -1171,7 +1264,7 @@ class Character : public Creature, public visitable<Character>
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
-        bool is_immune_field( field_type_id fid ) const override;
+        bool is_immune_field( const field_type_id &fid ) const override;
         /** Returns true is the player is protected from electric shocks */
         bool is_elec_immune() const override;
         /** Returns true if the player is immune to this kind of effect */
@@ -1384,7 +1477,6 @@ class Character : public Creature, public visitable<Character>
         int get_armor_acid( body_part bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, body_part bp ) const override;
-
 
         int get_stim() const;
         void set_stim( int new_stim );
@@ -1727,6 +1819,10 @@ class Character : public Creature, public visitable<Character>
         scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
+
+        int cached_moves;
+        tripoint cached_position;
+        inventory cached_crafting_inventory;
 
     protected:
         /** Amount of time the player has spent in each overmap tile. */

@@ -250,7 +250,7 @@ struct washing_requirements {
     int cleanser;
     int time;
 };
-washing_requirements washing_requirements_for_volume( units::volume );
+washing_requirements washing_requirements_for_volume( const units::volume & );
 
 using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 

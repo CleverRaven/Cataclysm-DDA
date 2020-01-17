@@ -26,18 +26,19 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
-    "id": "riding_saddle",
+    "id": "horse_tack",
     "type": "TOOL",
-    "name": "riding saddle",
-    "description": "A saddle that can be placed on a tamed animal that is capable of being ridden.",
-    "weight": "800 g",
-    "volume": "2 L",
+    "name": "horse tack",
+    "description": "A saddle, bridle, and associated tack that can be placed on a tamed animal that is capable of being ridden.",
+    "weight": "2 kg",
+    "volume": "7 L",
     "price": 0,
     "to_hit": -1,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": [ "leather", "steel" ],
     "symbol": "M",
-    "color": "yellow"
+    "color": "yellow",
+    "flags": [ "TACK" ]
   },
   {
     "id": "EMPbomb_act",
@@ -1626,12 +1627,12 @@
     "type": "TOOL",
     "name": "crucible",
     "description": "This is a small metalworking crucible.  It's used in some metalworking fabrication recipes.",
-    "weight": "14000 g",
+    "weight": "1400 g",
     "volume": "2 L",
     "price": 100000,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": "ceramic",
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1641,7 +1642,7 @@
     "type": "TOOL",
     "name": "clay crucible",
     "description": "This is a primitive metalworking crucible made of clay.  You could use it for metalworking.",
-    "weight": "16422 g",
+    "weight": "1642 g",
     "volume": "2500 ml",
     "price": 60000,
     "to_hit": -2,
@@ -1905,6 +1906,63 @@
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938 }
+    },
+    "flags": [ "TRADER_AVOID", "BOMB" ]
+  },
+  {
+    "id": "dynamite_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "dynamite bomb",
+    "name_plural": "dynamite bombs",
+    "description": "These are several sticks of explosives surrounded by shrapnel stuffed inside a metal container.  The fuse is sticking out through a small hole.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "2730 g",
+    "volume": "2000 ml",
+    "price": 6000,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "paper", "powder" ],
+    "symbol": "*",
+    "looks_like": "fragment_bomb",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } },
+    "use_action": {
+      "target": "dynamite_bomb_act",
+      "msg": "You light the dynamite.",
+      "target_charges": 20,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "dynamite_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "dynamite bomb (lit)",
+    "name_plural": "dynamite bombs (lit)",
+    "description": "The fuse on this dynamite bomb is lit and hissing.  It'll explode any moment now.",
+    "weight": "2730 g",
+    "volume": "2000 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "paper", "powder" ],
+    "symbol": "*",
+    "looks_like": "fragment_bomb_act",
+    "color": "red",
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
@@ -2185,17 +2243,17 @@
     "id": "extinguisher",
     "type": "TOOL",
     "name": "large fire extinguisher",
-    "description": "This is an emergency fire extinguisher containing three gallons of fire retardant foam.  It would be useful for putting out adjacent fires.",
-    "weight": "9071 g",
-    "volume": "11500 ml",
+    "description": "This is an emergency fire extinguisher containing five gallons of fire retardant foam.  It would be useful for putting out adjacent fires.",
+    "weight": "13813 g",
+    "volume": "20000 ml",
     "price": 5000,
     "to_hit": -4,
     "bashing": 16,
     "material": "steel",
     "symbol": ";",
     "color": "red",
-    "initial_charges": 60,
-    "max_charges": 60,
+    "initial_charges": 100,
+    "max_charges": 100,
     "charges_per_use": 1,
     "use_action": "EXTINGUISHER"
   },
@@ -4561,7 +4619,7 @@
       "type": "delayed_transform",
       "transform_age": 33600,
       "not_ready_msg": "The pickles are not done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
+      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
     }
   },
   {
@@ -5099,7 +5157,7 @@
       "type": "delayed_transform",
       "transform_age": 33600,
       "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
+      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
     }
   },
   {
@@ -5393,7 +5451,7 @@
     "name": "small fire extinguisher",
     "description": "This is a hand held fire extinguisher containing a liter of highly compressed CO2 gas.  It would be useful for putting out adjacent fires.",
     "weight": "2267 g",
-    "volume": "1500 ml",
+    "volume": "2000 ml",
     "price": 4000,
     "to_hit": -1,
     "bashing": 4,
@@ -6383,7 +6441,7 @@
       [ "BUTCHER", 11 ],
       [ "FILE", 2 ],
       [ "REAM", 1 ],
-      [ "VICE", 1 ]
+      [ "VISE", 1 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR" ]
   },
@@ -7354,9 +7412,9 @@
     "qualities": [ [ "FILE", 2 ] ]
   },
   {
-    "id": "angular_grinder",
+    "id": "angle_grinder",
     "type": "TOOL",
-    "name": "angular grinder",
+    "name": "angle grinder",
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
     "volume": "1750 ml",
@@ -7381,10 +7439,10 @@
     "magazine_well": 2
   },
   {
-    "id": "hand_vice",
+    "id": "clamp",
     "type": "TOOL",
-    "name": "hand vice",
-    "description": "This small handheld metal vice is useful for keeping things still.",
+    "name": "clamp",
+    "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
     "volume": "500 ml",
     "price": 500,
@@ -7394,7 +7452,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "VICE", 1 ] ]
+    "qualities": [ [ "VISE", 1 ] ]
   },
   {
     "type": "TOOL",
@@ -7437,7 +7495,7 @@
     "name": "acetylene-gas machine",
     "symbol": "&",
     "color": "light_gray",
-    "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
+    "description": "This bulky device takes water and calcium carbide and yields unpressurized acetylene.",
     "weight": "8000 g",
     "volume": "3 L",
     "price": 3200,

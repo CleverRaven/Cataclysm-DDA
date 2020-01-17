@@ -156,7 +156,7 @@ class basecamp
 
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, cata::optional<point> dir = cata::nullopt,
+        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );

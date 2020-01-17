@@ -3,20 +3,7 @@
     "type": "palette",
     "id": "mil_surplus",
     "terrain": {
-      ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-      " ": "t_floor",
-      "#": "t_floor",
-      "@": "t_floor",
-      "^": "t_floor",
-      "%": "t_floor",
-      "&": "t_floor",
-      "h": "t_floor",
-      "A": "t_floor",
-      "B": "t_floor",
-      "C": "t_floor",
-      "D": "t_floor",
-      "R": "t_floor",
-      "S": "t_floor",
+      ".": "t_region_groundcover_urban",
       "~": "t_sidewalk",
       "-": "t_wall_w",
       "|": "t_wall_w",
@@ -37,19 +24,91 @@
       "@": "f_mannequin",
       "L": "f_locker",
       "^": [ "f_bigmirror", "f_bigmirror", "f_bigmirror", "f_bigmirror_b" ],
-      "R": "f_rack",
       "S": "f_stool",
       "A": "f_rack",
       "B": "f_rack",
       "C": "f_rack",
-      "D": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ],
+      "D": "f_rack",
+      "E": "f_rack",
+      "F": "f_rack",
       "*": "f_canvas_wall",
       "8": "f_groundsheet",
       "]": "f_canvas_door",
       "Q": "f_camp_chair",
       "b": "f_brazier",
-      "r": "f_tourist_table",
-      "d": "f_mannequin"
+      "r": "f_tourist_table"
+    },
+    "items": {
+      "@": {
+        "item": { "subtype": "distribution", "entries": [ { "group": "clothing_military" }, { "group": "clothing_military_winter" } ] },
+        "chance": 70
+      },
+      "A": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [
+            { "item": "canteen", "prob": 3 },
+            { "item": "e_tool", "prob": 3 },
+            { "item": "two_way_radio", "prob": 1 },
+            { "item": "mess_kit", "prob": 3 },
+            { "item": "camelbak", "prob": 2 },
+            { "item": "mess_tin", "prob": 2 },
+            { "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ], "prob": 2 }
+          ]
+        },
+        "repeat": [ 1, 3 ],
+        "chance": 70
+      },
+      "B": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [
+            { "item": "ballistic_vest_empty", "prob": 30 },
+            { "item": "esapi_plate", "count": [ 1, 3 ], "prob": 40 },
+            { "item": "esbi_plate", "count": [ 1, 3 ], "prob": 30 }
+          ]
+        },
+        "repeat": [ 1, 3 ],
+        "chance": 70
+      },
+      "C": { "item": "MRE", "chance": 90, "repeat": [ 1, 3 ] },
+      "D": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [
+            { "item": "helmet_army", "prob": 60 },
+            { "item": "tac_helmet", "prob": 10 },
+            { "item": "helmet_liner", "prob": 10 },
+            { "item": "glasses_bal", "prob": 10 },
+            { "item": "mask_gas", "prob": 10 }
+          ]
+        },
+        "repeat": [ 1, 3 ],
+        "chance": 70
+      },
+      "E": { "item": "SUS_field_manual_bookcase", "chance": 60 },
+      "F": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [
+            { "item": "hat_boonie", "prob": 1 },
+            { "item": "webbing_belt", "prob": 1 },
+            { "item": "pants_army", "prob": 1 },
+            { "item": "jacket_army", "prob": 1 },
+            { "item": "winter_pants_army", "prob": 1 },
+            { "item": "winter_jacket_army", "prob": 1 },
+            { "item": "knee_pads", "prob": 1 },
+            { "item": "elbow_pads", "prob": 1 },
+            { "item": "legpouch_large", "prob": 1 },
+            { "item": "gloves_tactical", "prob": 1 },
+            { "item": "molle_pack", "prob": 1 }
+          ]
+        },
+        "repeat": [ 1, 3 ],
+        "chance": 60
+      },
+      "L": { "item": "SUS_janitors_closet", "chance": 60 },
+      "U": { "item": "trash" }
     },
     "toilets": { "&": {  } }
   }

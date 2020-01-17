@@ -40,7 +40,7 @@
     "//": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
     "durability": 10,
     "loudness": 20,
-    "modes": [ [ "DEFAULT", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
   },

@@ -323,7 +323,7 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     if( !can_make( &making, batch_size ) ) {
         std::string buffer = _( "You can no longer make that craft!" );
         buffer += "\n";
-        buffer += making.requirements().list_missing();
+        buffer += making.simple_requirements().list_missing();
         popup( buffer, PF_NONE );
         return false;
     }
@@ -444,7 +444,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     }
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
+    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -478,8 +478,8 @@ bool player::can_make( const recipe *r, int batch_size )
         return false;
     }
 
-    return r->requirements().can_make_with_inventory( crafting_inv, r->get_component_filter(),
-            batch_size );
+    return r->deduped_requirements().can_make_with_inventory(
+               crafting_inv, r->get_component_filter(), batch_size );
 }
 
 bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
@@ -488,53 +488,18 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
         return false;
     }
 
-    const std::vector<std::vector<tool_comp>> &tool_reqs = rec->requirements().get_tools();
-
-    // For tools adjust the reqired charges
-    std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
-    for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
-        std::vector<tool_comp> adjusted_alternatives;
-        for( const tool_comp &alternative : alternatives ) {
-            tool_comp adjusted_alternative = alternative;
-            if( adjusted_alternative.count > 0 ) {
-                adjusted_alternative.count *= batch_size;
-                // Only for the first 5% progress
-                adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
-            }
-            adjusted_alternatives.push_back( adjusted_alternative );
-        }
-        adjusted_tool_reqs.push_back( adjusted_alternatives );
-    }
-
-    const std::vector<std::vector<item_comp>> &comp_reqs = rec->requirements().get_components();
-
-    // For components we need to multiply by batch size to stay even with tools
-    std::vector<std::vector<item_comp>> adjusted_comp_reqs;
-    for( const std::vector<item_comp> &alternatives : comp_reqs ) {
-        std::vector<item_comp> adjusted_alternatives;
-        for( const item_comp &alternative : alternatives ) {
-            item_comp adjusted_alternative = alternative;
-            adjusted_alternative.count *= batch_size;
-            adjusted_alternatives.push_back( adjusted_alternative );
-        }
-        adjusted_comp_reqs.push_back( adjusted_alternatives );
-    }
-
-    // Qualities don't need adjustment
-    const requirement_data start_reqs( adjusted_tool_reqs,
-                                       rec->requirements().get_qualities(),
-                                       adjusted_comp_reqs );
-
-    return start_reqs.can_make_with_inventory( crafting_inventory(),
-            rec->get_component_filter( flags ) );
+    const inventory &inv = crafting_inventory();
+    return rec->deduped_requirements().can_make_with_inventory(
+               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &player::crafting_inventory( bool clear_path )
+const inventory &Character::crafting_inventory( bool clear_path )
 {
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &player::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
+const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
+        bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -549,8 +514,8 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    for( const auto &bio : *my_bionics ) {
-        const auto &bio_data = bio.info();
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
@@ -663,8 +628,7 @@ static item *set_item_inventory( player &p, item &newit )
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
-    for( const tripoint &tile : tiles ) {
+    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
@@ -923,8 +887,8 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
-        for( const std::pair<skill_id, int> &skib : mut.first->craft_skill_bonus ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        for( const std::pair<const skill_id, int> &skib : mut.first->craft_skill_bonus ) {
             if( making.skill_used == skib.first ) {
                 skill_dice += skib.second;
             }
@@ -1040,15 +1004,18 @@ requirement_data item::get_continue_reqs() const
     return requirement_data::continue_requirements( craft_data_->comps_used, components );
 }
 
-void item::inherit_flags( const item &parent )
+void item::inherit_flags( const item &parent, const recipe &making )
 {
-    //If item is crafted from poor-fit components, the result is poorly fitted too
-    if( parent.has_flag( "VARSIZE" ) ) {
-        unset_flag( "FIT" );
-    }
-    //If item is crafted from perfect-fit components, the result is perfectly fitted too
-    if( parent.has_flag( "FIT" ) ) {
-        item_tags.insert( "FIT" );
+    // default behavior is to resize the clothing, which happens elsewhere
+    if( making.has_flag( "NO_RESIZE" ) ) {
+        //If item is crafted from poor-fit components, the result is poorly fitted too
+        if( parent.has_flag( "VARSIZE" ) ) {
+            unset_flag( "FIT" );
+        }
+        //If item is crafted from perfect-fit components, the result is perfectly fitted too
+        if( parent.has_flag( "FIT" ) ) {
+            item_tags.insert( "FIT" );
+        }
     }
     for( const std::string &f : parent.item_tags ) {
         if( json_flag::get( f ).craft_inherit() ) {
@@ -1065,10 +1032,10 @@ void item::inherit_flags( const item &parent )
     }
 }
 
-void item::inherit_flags( const std::list<item> &parents )
+void item::inherit_flags( const std::list<item> &parents, const recipe &making )
 {
     for( const item &parent : parents ) {
-        inherit_flags( parent );
+        inherit_flags( parent, making );
     }
 }
 
@@ -1131,7 +1098,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         if( newit.has_flag( "VARSIZE" ) ) {
             newit.item_tags.insert( "FIT" );
         }
-        food_contained.inherit_flags( used );
+        food_contained.inherit_flags( used, making );
 
         for( const std::string &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
@@ -1306,7 +1273,7 @@ bool player::can_continue_craft( item &craft )
 
     if( !craft.has_tools_to_continue() ) {
 
-        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.requirements().get_tools();
+        const std::vector<std::vector<tool_comp>> &tool_reqs = rec.simple_requirements().get_tools();
         const int batch_size = craft.charges;
 
         std::vector<std::vector<tool_comp>> adjusted_tool_reqs;
@@ -1356,6 +1323,39 @@ bool player::can_continue_craft( item &craft )
     }
 
     return true;
+}
+const requirement_data *player::select_requirements(
+    const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
+    const std::function<bool( const item & )> &filter ) const
+{
+    assert( !alternatives.empty() );
+    if( alternatives.size() == 1 || !is_avatar() ) {
+        return alternatives.front();
+    }
+
+    std::vector<std::string> descriptions;
+
+    uilist menu;
+
+    for( const requirement_data *req : alternatives ) {
+        // Write with a large width and then just re-join the lines, because
+        // uilist does its own wrapping and we want to rely on that.
+        std::vector<std::string> component_lines =
+            req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
+                                             requirement_display_flags::no_unavailable );
+        menu.addentry_desc( "", join( component_lines, "\n" ) );
+    }
+
+    menu.allow_cancel = true;
+    menu.desc_enabled = true;
+    menu.title = _( "Use which selection of components?" );
+    menu.query();
+
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= alternatives.size() ) {
+        return nullptr;
+    }
+
+    return alternatives[menu.ret];
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
@@ -1625,6 +1625,12 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 
     comp_selection<tool_comp> selected;
 
+    auto calc_charges = [&]( const tool_comp & t ) {
+        const int full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
+        const int modified_charges = charges_required_modifier( full_craft_charges );
+        return std::max( modified_charges, 1 );
+    };
+
     bool found_nocharge = false;
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
@@ -1632,8 +1638,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const int count = charges_required_modifier( item::find_type( type )->charge_factor() * it->count *
-                              batch );
+            const int count = calc_charges( *it );
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1675,9 +1680,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            const itype *tmp = item::find_type( map_ha.type );
-            if( tmp->maximum_charges() > 1 ) {
-                const int charge_count = map_ha.count * batch * tmp->charge_factor();
+            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+                const int charge_count = calc_charges( map_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ), charge_count,
                                                     map_inv.charges_of( map_ha.type ) );
@@ -1688,9 +1692,8 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             }
         }
         for( auto &player_ha : player_has ) {
-            const itype *tmp = item::find_type( player_ha.type );
-            if( tmp->maximum_charges() > 1 ) {
-                const int charge_count = player_ha.count * batch * tmp->charge_factor();
+            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+                const int charge_count = calc_charges( player_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ), charge_count,
                                                     charges_of( player_ha.type ) );
@@ -1865,10 +1868,18 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
+
     // refuse to disassemble rotten items
     const item *food = obj.get_food();
     if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
         return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+    }
+
+    // refuse to disassemble items containing monsters/pets
+    std::string monster = obj.get_var( "contained_name" );
+    if( !monster.empty() ) {
+        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+                                            monster );
     }
 
     if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {

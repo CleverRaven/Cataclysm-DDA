@@ -397,9 +397,8 @@ std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 // They must also be passable.
 static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
 {
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
     std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
+    for( const auto &p : closest_tripoints_first( center, radius ) ) {
         if( g->m.impassable( p ) ) {
             continue;
         }
@@ -615,7 +614,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 
     if( obj.has_array( "effects" ) ) {
-        for( const JsonObject &e : obj.get_array( "effects" ) ) {
+        for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
     }
@@ -1188,7 +1187,7 @@ void reveal_map_actor::load( const JsonObject &obj )
     message = obj.get_string( "message" );
     std::string ter;
     ot_match_type ter_match_type;
-    for( const JsonValue &entry : obj.get_array( "terrain" ) ) {
+    for( const JsonValue entry : obj.get_array( "terrain" ) ) {
         if( entry.test_string() ) {
             ter = entry.get_string();
             ter_match_type = ot_match_type::contains;
@@ -2337,7 +2336,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
-    for( const std::string sp : spells ) {
+    for( const std::string &sp : spells ) {
         dump.emplace_back( "SPELL", spell_id( sp ).obj().name.translated() );
     }
 }
@@ -2352,7 +2351,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     uilist spellbook_uilist;
     spellbook_callback sp_cb;
     bool know_it_all = true;
-    for( const std::string sp_id_str : spells ) {
+    for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
         uilist_entry entry( sp_id.obj().name.translated() );
@@ -2876,7 +2875,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
 void repair_item_actor::load( const JsonObject &obj )
 {
     // Mandatory:
-    for( const std::string &line : obj.get_array( "materials" ) ) {
+    for( const std::string line : obj.get_array( "materials" ) ) {
         materials.emplace( line );
     }
 
@@ -3483,7 +3482,7 @@ void heal_actor::load( const JsonObject &obj )
     long_action = obj.get_bool( "long_action", false );
 
     if( obj.has_array( "effects" ) ) {
-        for( const JsonObject &e : obj.get_array( "effects" ) ) {
+        for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
     }
@@ -3790,12 +3789,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         for( int i = 0; i < num_hp_parts; i++ ) {
             int damage = 0;
             const body_part i_bp = player::hp_to_bp( static_cast<hp_part>( i ) );
-            if( !patient.has_effect( effect_bandaged, i_bp ) ) {
+            if( ( !patient.has_effect( effect_bandaged, i_bp ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, i_bp ) && disinfectant_power > 0 ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
+                damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             }
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             if( damage > highest_damage ) {
                 highest_damage = damage;
                 healed = static_cast<hp_part>( i );
@@ -4537,10 +4537,10 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 void sew_advanced_actor::load( const JsonObject &obj )
 {
     // Mandatory:
-    for( const std::string &line : obj.get_array( "materials" ) ) {
+    for( const std::string line : obj.get_array( "materials" ) ) {
         materials.emplace( line );
     }
-    for( const std::string &line : obj.get_array( "clothing_mods" ) ) {
+    for( const std::string line : obj.get_array( "clothing_mods" ) ) {
         clothing_mods.push_back( clothing_mod_id( line ) );
     }
 
@@ -4625,12 +4625,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
     };
-    const auto get_volume_compare_color = [&]( const units::volume before, const units::volume after,
+    const auto get_volume_compare_color = [&]( const units::volume & before,
+                                          const units::volume & after,
     const bool higher_is_better ) {
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
     };
-    const auto format_desc_string = [&]( const std::string label, const int before, const int after,
+    const auto format_desc_string = [&]( const std::string & label, const int before, const int after,
     const bool higher_is_better ) {
         return colorize( string_format( "%s: %d->%d\n", label, before, after ), get_compare_color( before,
                          after, higher_is_better ) );
@@ -4648,8 +4649,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            // @TODO: Fix for UTF-8 strings
-            // @TODO: find other places where this is used and make a global function for all
+            // TODO: Fix for UTF-8 strings
+            // TODO: find other places where this is used and make a global function for all
             static const auto tolower = []( std::string t ) {
                 if( !t.empty() ) {
                     t.front() = std::tolower( t.front() );
