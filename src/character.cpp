@@ -1070,7 +1070,7 @@ bool Character::movement_mode_is( const character_movemode mode ) const
     return move_mode == mode;
 }
 
-void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                             bool permanent, int intensity, bool force, bool deferred )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
@@ -1459,7 +1459,7 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
-int Character::get_fuel_capacity( const itype_id fuel ) const
+int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
     if( !get_value( fuel ).empty() ) {
@@ -1478,7 +1478,7 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
     return capacity - amount_stored;
 }
 
-int Character::get_total_fuel_capacity( const itype_id fuel ) const
+int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 {
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -4040,7 +4040,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @TODO: make this simpler and use time_duration/time_point
+                // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -4604,7 +4604,7 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id fid ) const
+bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
@@ -6449,8 +6449,7 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
-        // Horrible hack warning!
-        // Get rid of this as soon as CUT and STAB are split
+        // HACK: Get rid of this as soon as CUT and STAB are split
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
@@ -7834,7 +7833,7 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( is_npc() ) {
-        // A hack to make NPCs use their Molotovs
+        // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
     return false;

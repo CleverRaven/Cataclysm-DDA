@@ -236,7 +236,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @TODO: Rate fire higher than smoke
+                // TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }
@@ -466,7 +466,7 @@ void npc::assess_danger()
         bool is_too_close = dist <= def_radius;
         const auto test_too_close = [critter, def_radius,
                  &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
-            // Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
+            // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I dont know why.
             // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
@@ -3468,7 +3468,7 @@ void npc::activate_item( int item_index )
     }
 
     if( moves == oldmoves ) {
-        // A hack to prevent debugmsgs when NPCs activate 0 move items
+        // HACK: A hack to prevent debugmsgs when NPCs activate 0 move items
         // while not removing the debugmsgs for other 0 move actions
         moves--;
     }

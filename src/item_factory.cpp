@@ -366,7 +366,7 @@ void Item_factory::finalize_pre( itype &obj )
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
         string_starts_with( obj.get_id(), "manual_" ) ) {
-        // Legacy martial arts books rely on a hack whereby the name of the
+        // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
     }

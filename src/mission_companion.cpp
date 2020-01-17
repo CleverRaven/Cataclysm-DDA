@@ -2086,17 +2086,17 @@ void mission_data::add( const std::string &id, const std::string &name_display,
     add( id, name_display, cata::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
-                               const cata::optional<point> dir, const std::string &text, bool possible )
+                               const cata::optional<point> &dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, true, possible );
 }
 void mission_data::add_start( const std::string &id, const std::string &name_display,
-                              const cata::optional<point> dir, const std::string &text, bool possible )
+                              const cata::optional<point> &dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, false, possible );
 }
 void mission_data::add( const std::string &id, const std::string &name_display,
-                        const cata::optional<point> dir, const std::string &text,
+                        const cata::optional<point> &dir, const std::string &text,
                         bool priority, bool possible )
 {
     mission_entry miss;

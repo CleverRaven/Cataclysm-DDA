@@ -1138,7 +1138,7 @@ const itype_bin &inventory::get_binned_items() const
 
     binned_items.clear();
 
-    // Hack warning
+    // HACK: Hack warning
     inventory *this_nonconst = const_cast<inventory *>( this );
     this_nonconst->visit_items( [ this ]( item * e ) {
         binned_items[ e->typeId() ].push_back( e );

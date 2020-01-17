@@ -224,7 +224,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( field_type_id fid ) const override;
+        bool is_immune_field( const field_type_id &fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -334,7 +334,7 @@ class monster : public Creature
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */

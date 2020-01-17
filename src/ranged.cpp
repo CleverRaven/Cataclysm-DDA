@@ -671,7 +671,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    //TODO: Add wet effect if other things care about that
+    // TODO: Add wet effect if other things care about that
     if( burst ) {
         proj_effects.insert( "BURST" );
     }
@@ -1325,7 +1325,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    // @TODO: this assumes that relevant == null means firing turrets, but that may not
+    // TODO: this assumes that relevant == null means firing turrets, but that may not
     // always be the case. Consider passing a name into this function.
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny );

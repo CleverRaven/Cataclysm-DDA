@@ -181,7 +181,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
-        // @TODO: handle this gracefully (return the money, proper in-character message from npc)
+        // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }

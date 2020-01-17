@@ -155,7 +155,7 @@ class inventory;
 #endif
 
 #if defined(_WIN32)
-#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #   include "platform_win.h"
 #endif
 #   include <tchar.h>
@@ -3879,7 +3879,7 @@ void game::mon_info_update( )
     new_seen_mon.clear();
 
     static int previous_turn = 0;
-    // @TODO: change current_turn to time_point
+    // TODO: change current_turn to time_point
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -4575,7 +4575,7 @@ template shared_ptr_fast<monster> game::shared_from<monster>( const monster & );
 template shared_ptr_fast<npc> game::shared_from<npc>( const npc & );
 
 template<typename T>
-T *game::critter_by_id( const character_id id )
+T *game::critter_by_id( const character_id &id )
 {
     if( id == u.getID() ) {
         // player is always alive, therefore no is-dead check
@@ -4585,10 +4585,10 @@ T *game::critter_by_id( const character_id id )
 }
 
 // monsters don't have ids
-template Character *game::critter_by_id<Character>( character_id );
-template player *game::critter_by_id<player>( character_id );
-template npc *game::critter_by_id<npc>( character_id );
-template Creature *game::critter_by_id<Creature>( character_id );
+template Character *game::critter_by_id<Character>( const character_id & );
+template player *game::critter_by_id<player>( const character_id & );
+template npc *game::critter_by_id<npc>( const character_id & );
+template Creature *game::critter_by_id<Creature>( const character_id & );
 
 static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
 {
@@ -4619,21 +4619,21 @@ monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
     return place_critter_around( id, p, 0 );
 }
 
-monster *game::place_critter_at( const shared_ptr_fast<monster> mon, const tripoint &p )
+monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p )
 {
     return place_critter_around( mon, p, 0 );
 }
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
-    // @TODO: change this into an assert, it must never happen.
+    // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
     return place_critter_around( make_shared_fast<monster>( id ), center, radius );
 }
 
-monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
+monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
                                      const tripoint &center,
                                      const int radius )
 {
@@ -4657,14 +4657,14 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
 {
-    // @TODO: change this into an assert, it must never happen.
+    // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
         return nullptr;
     }
     return place_critter_within( make_shared_fast<monster>( id ), range );
 }
 
-monster *game::place_critter_within( const shared_ptr_fast<monster> mon,
+monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
                                      const tripoint_range &range )
 {
     const cata::optional<tripoint> where = choose_where_to_place_monster( *this, *mon, range );
@@ -8720,7 +8720,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         const trap &tr = m.tr_at( dest_loc );
         const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
                                true ) );
-        // Hack for now, later ledge should stop being a trap
+        // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
             if( !boardable ) {
@@ -9158,7 +9158,7 @@ point game::place_player( const tripoint &dest_loc )
         // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
         // Immobile monsters can't be displaced.
         monster &critter = *mon_ptr;
-        // TODO handling for ridden creatures other than players mount.
+        // TODO: handling for ridden creatures other than players mount.
         if( !critter.has_effect( effect_ridden ) ) {
             if( u.is_mounted() ) {
                 std::vector<tripoint> valid;

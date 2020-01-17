@@ -1369,7 +1369,7 @@ class item : public visitable<item>
         /*@}*/
 
         /**Does this item have the specified fault*/
-        bool has_fault( fault_id fault ) const;
+        bool has_fault( const fault_id &fault ) const;
 
         /**
          * @name Item properties
@@ -1960,13 +1960,13 @@ class item : public visitable<item>
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
-        inline void set_old_owner( const faction_id temp_owner ) {
+        inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
         }
         inline void remove_old_owner() {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id new_owner ) {
+        inline void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );

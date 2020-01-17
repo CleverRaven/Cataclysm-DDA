@@ -4179,7 +4179,7 @@ bool mattack::absorb_meat( monster *z )
     //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
     const int monster_volume = units::to_liter( z->get_volume() );
     const float average_meat_chunk_volume = 0.5;
-    //TODO: dynamically get volume of meat
+    // TODO: dynamically get volume of meat
     const int max_meat_absorbed = monster_volume / 10.0 * average_meat_chunk_volume;
     //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
@@ -5171,7 +5171,7 @@ bool mattack::kamikaze( monster *z )
         charges = actor->ammo_qty;
     }
 
-    // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
+    // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
             z->die( nullptr );
@@ -5249,7 +5249,7 @@ bool mattack::kamikaze( monster *z )
         return false;
     }
 
-    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
+    // HACK: HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
     z->add_effect( effect_countdown, 1_turns * charges + 1_turns );
