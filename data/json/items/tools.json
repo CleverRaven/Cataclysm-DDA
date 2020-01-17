@@ -4069,16 +4069,7 @@
     "ammo": "battery",
     "use_action": "MP3",
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell"
-        ]
-      ]
-    ],
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ],
     "magazine_well": 1
   },
   {
