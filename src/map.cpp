@@ -4098,7 +4098,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     } else if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
         const int max_dist = 2;
-        auto tiles = closest_tripoints_first( max_dist, pos );
+        std::vector<tripoint> tiles = closest_tripoints_first( pos, max_dist );
         tiles.erase( tiles.begin() ); // we already tried this position
         const int max_path_length = 4 * max_dist;
         const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, true, false, false );
@@ -6248,10 +6248,10 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
 
     // The line below can be crazy expensive - we only take the FIRST point of it
     const std::vector<tripoint> line = line_to( f, t, 0, 0 );
-    const std::vector<tripoint> spiral = closest_tripoints_first( 1, f );
+    const std::vector<tripoint> spiral = closest_tripoints_first( f, 1 );
     const std::vector<int> pos_index {1, 2, 4, 6, 8, 7, 5, 3};
 
-    //  All possible constellations (closest_points_first goes clockwise)
+    //  All possible constellations (closest_tripoints_first goes clockwise)
     //  753  531  312  124  246  468  687  875
     //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
     //  642  864  786  578  357  135  213  421
@@ -7741,59 +7741,6 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 }
 
-//this returns points in a spiral pattern starting at center_x/center_y until it hits the radius. clockwise fashion
-//credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
-std::vector<point> closest_points_first( int radius, const point &center )
-{
-    std::vector<point> points;
-    int X = radius * 2 + 1;
-    int Y = radius * 2 + 1;
-    int x = 0;
-    int y = 0;
-    int dx = 0;
-    int dy = -1;
-    int t = std::max( X, Y );
-    int maxI = t * t;
-    for( int i = 0; i < maxI; i++ ) {
-        if( -X / 2 <= x && x <= X / 2 && -Y / 2 <= y && y <= Y / 2 ) {
-            points.push_back( center + point( x, y ) );
-        }
-        if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
-            t = dx;
-            dx = -dy;
-            dy = t;
-        }
-        x += dx;
-        y += dy;
-    }
-    return points;
-}
-
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &center )
-{
-    std::vector<tripoint> points;
-    int X = radius * 2 + 1;
-    int Y = radius * 2 + 1;
-    int x = 0;
-    int y = 0;
-    int dx = 0;
-    int dy = -1;
-    int t = std::max( X, Y );
-    int maxI = t * t;
-    for( int i = 0; i < maxI; i++ ) {
-        if( -X / 2 <= x && x <= X / 2 && -Y / 2 <= y && y <= Y / 2 ) {
-            points.push_back( center + point( x, y ) );
-        }
-        if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
-            t = dx;
-            dx = -dy;
-            dy = t;
-        }
-        x += dx;
-        y += dy;
-    }
-    return points;
-}
 //////////
 ///// coordinate helpers
 

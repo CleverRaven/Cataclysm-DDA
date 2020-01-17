@@ -1208,7 +1208,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
             }
 
         } else {
-            auto adjacent = closest_tripoints_first( range, dst );
+            const std::vector<tripoint> adjacent = closest_tripoints_first( dst, range );
             const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
             [&pc]( const tripoint & pt ) {
                 return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
@@ -2199,7 +2199,7 @@ int time_to_attack( const Character &p, const itype &firing )
 static void cycle_action( item &weap, const tripoint &pos )
 {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, pos );
+    std::vector<tripoint> tiles = closest_tripoints_first( pos, 1 );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !g->m.passable( e );

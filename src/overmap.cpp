@@ -2274,10 +2274,11 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
-        for( const point &nearby_point : closest_points_first(
-                 settings.forest_trail.trailhead_road_distance,
-                 trailhead.xy() ) ) {
-            if( check_ot( "road", ot_match_type::contains, tripoint( nearby_point, 0 ) ) ) {
+        for( const tripoint &nearby_point : closest_tripoints_first(
+                 trailhead,
+                 settings.forest_trail.trailhead_road_distance
+             ) ) {
+            if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
                 close = true;
             }
         }
@@ -2644,9 +2645,10 @@ void overmap::place_swamps()
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint pos( x, y, 0 );
             if( is_ot_match( "river", ter( pos ), ot_match_type::contains ) ) {
-                std::vector<point> buffered_points = closest_points_first( rng(
-                        settings.overmap_forest.river_floodplain_buffer_distance_min,
-                        settings.overmap_forest.river_floodplain_buffer_distance_max ), pos.xy() );
+                std::vector<point> buffered_points = closest_points_first( pos.xy(),
+                                                     rng(
+                                                             settings.overmap_forest.river_floodplain_buffer_distance_min,
+                                                             settings.overmap_forest.river_floodplain_buffer_distance_max ) );
                 for( const point &p : buffered_points )  {
                     if( !inbounds( p ) ) {
                         continue;
@@ -4157,8 +4159,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         std::vector<point> nearest_candidates;
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
-        for( const point &candidate_addr : closest_points_first( 2,
-                custom_overmap_specials.get_origin() ) ) {
+        for( const point &candidate_addr : closest_points_first(
+                 custom_overmap_specials.get_origin(), 2 ) ) {
             if( !overmap_buffer.has( candidate_addr ) ) {
                 int current_distance = square_dist( pos(), candidate_addr );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {

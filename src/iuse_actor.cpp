@@ -397,9 +397,8 @@ std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 // They must also be passable.
 static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
 {
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
     std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
+    for( const auto &p : closest_tripoints_first( center, radius ) ) {
         if( g->m.impassable( p ) ) {
             continue;
         }

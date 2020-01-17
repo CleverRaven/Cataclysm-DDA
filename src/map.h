@@ -1826,9 +1826,6 @@ class map
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
-std::vector<point> closest_points_first( int radius, const point &center );
-// Does not build "piles" - does the same as above functions, except in tripoints
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &center );
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
 class tinymap : public map
 {

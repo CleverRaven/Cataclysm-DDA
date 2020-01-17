@@ -2950,7 +2950,7 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
-    auto adjacent = closest_tripoints_first( PICKUP_RANGE, pos );
+    std::vector<tripoint> adjacent = closest_tripoints_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
     cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,

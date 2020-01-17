@@ -2282,7 +2282,7 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    auto pts = closest_tripoints_first( 1, z->pos() );
+    std::vector<tripoint> pts = closest_tripoints_first( z->pos(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
     for( const tripoint &dest : pts ) {
@@ -2368,7 +2368,7 @@ bool mattack::callblobs( monster *z )
     // and keep the rest near the brain blob for protection.
     tripoint enemy = g->u.pos();
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
+    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2401,7 +2401,7 @@ bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
+    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.

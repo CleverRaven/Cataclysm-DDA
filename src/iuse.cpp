@@ -1178,7 +1178,7 @@ static void spawn_spores( const player &p )
 {
     int spores_spawned = 0;
     fungal_effects fe( *g, g->m );
-    for( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
+    for( const tripoint &dest : closest_tripoints_first( p.pos(), 4 ) ) {
         if( g->m.impassable( dest ) ) {
             continue;
         }
@@ -5376,7 +5376,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIRESTORM: {
                 p->add_msg_if_player( m_bad, _( "Fire rains down around you!" ) );
-                std::vector<tripoint> ps = closest_tripoints_first( 3, p->pos() );
+                std::vector<tripoint> ps = closest_tripoints_first( p->pos(), 3 );
                 for( auto p_it : ps ) {
                     if( !one_in( 3 ) ) {
                         g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
