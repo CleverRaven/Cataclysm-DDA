@@ -801,7 +801,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "spike", 1 ] ],
-      [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 75 ] ],
+      [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 15 ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
@@ -816,7 +816,7 @@
     "book_learn": [ [ "manual_launcher", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "chem_black_powder", 150 ] ], [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 50 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "chem_black_powder", 150 ] ], [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -833,7 +833,7 @@
       [ [ "pipe", 2 ] ],
       [ [ "chem_thermite", 50 ] ],
       [ [ "plastic_chunk", 5 ] ],
-      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 50 ] ]
+      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
     ]
   },
   {
