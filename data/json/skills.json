@@ -17,8 +17,8 @@
   },
   {
     "type": "skill",
-    "ident": "chemistry",
-    "name": "chemicals",
+    "ident": "science",
+    "name": "science",
     "description": "Your skill in mixing compounds together and knowing many scientific processes. Higher levels allow the creation of mutagens.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting"
