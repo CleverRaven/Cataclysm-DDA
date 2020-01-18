@@ -1462,5 +1462,24 @@
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "chem_dnp",
+    "category": "chems",
+    "price": 5000,
+    "name": "DNP",
+    "name_plural": "DNP",
+    "symbol": "=",
+    "color": "yellow",
+    "description": "This is 2,4-Dinitrophenol, a yellow crystaline powder giving off distinct chemical smell, seems to have a strange propensity to stain everything in its vincinity yellow.  Mostly useful for its explosive qualities.",
+    "material": "powder",
+    "//": "1.68g/ccm, WWI era high-explosive, TNT-RE 0.81, metabolic poison/dieting drug, readily sublimates",
+    "volume": "230 ml",
+    "weight": "1 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "container": "bottle_plastic_small",
+    "count": 400
   }
 ]

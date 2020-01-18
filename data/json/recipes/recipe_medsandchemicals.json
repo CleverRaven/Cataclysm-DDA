@@ -1275,5 +1275,59 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "material_rhodonite", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_phenol",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "50 m",
+    "batch_time_factors": [ 85, 3 ],
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
+    "charges": 100,
+    "//": "hydrolysis of acetylsalicylic to salicylic acid followed by thermal decomposition to phenol",
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 120, "LIST" ] ] ],
+    "components": [ [ [ "aspirin", 200 ] ], [ [ "chem_sulphuric_acid", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_phenol",
+    "id_suffix": "by_pyrolysis",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 7,
+    "time": "30 m",
+    "book_learn": [ [ "adv_chemistry", 5 ] ],
+    "charges": 100,
+    "//": "pyrolysis of coal, 600-800C, add/substitute coal chemistry books if they appear, other phenols and cresols can be byproducts",
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forging_standard", 10, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "coal_lump", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_dnp",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": "2 h 30 m",
+    "batch_time_factors": [ 90, 4 ],
+    "charges": 250,
+    "book_learn": [ [ "recipe_labchem", 3 ], [ "textbook_anarch", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "//": "one of the safest explosive producing nitrations, if somewhat slow",
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_phenol", 200 ] ],
+      [ [ "chem_nitric_acid", 2 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ],
+      [ [ "chem_saltpetre", 20 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
   }
 ]
