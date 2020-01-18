@@ -25,7 +25,7 @@ struct ammo_effect {
         int aoe_intensity_max = 0;
         int aoe_radius = 1;
         int aoe_radius_z = 0;
-        int aoe_chance = 1;
+        int aoe_chance = 100;
         int aoe_size = 0;
         explosion_data aoe_explosion_data;
         bool aoe_check_passable = false;
