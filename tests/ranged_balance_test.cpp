@@ -46,7 +46,6 @@ class Threshold
         double _chance;
 };
 
-
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 {
@@ -106,13 +105,12 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
     shooter.inv.clear();
-    for( const std::string article : apparel ) {
+    for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
 }
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
-
 
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )

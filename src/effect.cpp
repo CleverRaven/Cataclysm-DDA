@@ -1208,7 +1208,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.id = efftype_id( jo.get_string( "id" ) );
 
     if( jo.has_member( "name" ) ) {
-        for( const JsonValue &entry : jo.get_array( "name" ) ) {
+        for( const JsonValue entry : jo.get_array( "name" ) ) {
             translation name;
             if( !entry.read( name ) ) {
                 entry.throw_error( "Error reading effect names" );
@@ -1221,14 +1221,14 @@ void load_effect_type( const JsonObject &jo )
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 
     if( jo.has_member( "desc" ) ) {
-        for( const std::string &line : jo.get_array( "desc" ) ) {
+        for( const std::string line : jo.get_array( "desc" ) ) {
             new_etype.desc.push_back( line );
         }
     } else {
         new_etype.desc.push_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        for( const std::string &line : jo.get_array( "reduced_desc" ) ) {
+        for( const std::string line : jo.get_array( "reduced_desc" ) ) {
             new_etype.reduced_desc.push_back( line );
         }
     } else {

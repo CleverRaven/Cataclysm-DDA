@@ -83,7 +83,7 @@ void load_recipe_category( const JsonObject &jsobj )
         const std::string cat_name = get_cat_unprefixed( category );
 
         craft_subcat_list[category].clear();
-        for( const std::string &subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
+        for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
             if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
                 jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
             }
@@ -110,7 +110,7 @@ static void translate_all()
         normalized_names[cat] = _( get_cat_unprefixed( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) ) ;
+            normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) );
         }
     }
 }
@@ -611,6 +611,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Will use rotten ingredients</color>" ) );
+                }
+                const bool too_complex = current[line]->deduped_requirements().is_too_complex();
+                if( available[line].can_craft && too_complex ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "Due to the complex overlapping requirements, this "
+                                               "recipe <color_yellow>may appear to be craftable "
+                                               "when it is not</color>." ) );
                 }
                 if( !available[line].can_craft && available[line].apparently_craftable ) {
                     ypos += fold_and_print(

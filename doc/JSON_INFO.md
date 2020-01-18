@@ -156,6 +156,7 @@ Use the `Home` key to return to the top.
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
+- [Field types](#-field-types-)
 
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
@@ -867,6 +868,40 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ]
 ```
 
+#### Overlapping recipe component requirements
+
+If recipes have requirements which overlap, this makes it more
+difficult for the game to calculate whether it is possible to craft a recipe at
+all.
+
+For example, the survivor telescope recipe has the following requirements
+(amongst others):
+
+```
+1 high-quality lens
+AND
+1 high-quality lens OR 1 small high-quality lens
+```
+
+These overlap because both list the high-quality lens.
+
+A small amount of overlap (such as the above) can be handled, but if you have
+too many component lists which overlap in too many ways, then you may see an
+error during recipe finalization that your recipe is too complex.  In this
+case, the game may not be able to corectly predict whether it can be crafted.
+
+To work around this issue, if you do not wish to simplify the recipe
+requirements, then you can split your recipe into multiple steps.  For
+example, if we wanted to simplify the above survivor telescope recipe we could
+introduce an intermediate item "survivor eyepiece", which requires one of
+either lens, and then the telescope would require a high-quality lens and an
+eyepiece.  Overall, the requirements are the same, but neither recipe has any
+overlap.
+
+For more details, see [this pull
+request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
+[related issue](https://github.com/CleverRaven/Cataclysm-DDA/issues/32311).
+
 ### Constructions
 ```C++
 "description": "Spike Pit",                                         // Description string displayed in the construction menu
@@ -1056,6 +1091,7 @@ Note that even though most statistics yield an integer, you should still use
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
 "weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
 "ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
+"anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and by how much, can use negative value to calm.  (default: empty)
 "can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
@@ -2895,3 +2931,11 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 ## `tiles-new`
 
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
+
+# Field types
+
+  {
+    "type": "field_type", // this is a field type
+    "id": "fd_gum_web", // id of the field
+    "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+  }

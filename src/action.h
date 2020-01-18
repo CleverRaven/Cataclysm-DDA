@@ -225,8 +225,8 @@ enum action_id : int {
     ACTION_QUICKSAVE,
     /** Quickload the game */
     ACTION_QUICKLOAD,
-    /** Quit the game */
-    ACTION_QUIT,
+    /** Commit suicide */
+    ACTION_SUICIDE,
     /**@}*/
 
     // Info Screens

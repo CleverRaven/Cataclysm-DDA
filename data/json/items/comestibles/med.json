@@ -1314,7 +1314,7 @@
     "comestible_type": "MED",
     "name": "antiseptic soaked rag",
     "name_plural": "antiseptic soaked rags",
-    "description": "A rag soaked in antiseptic.  Useful for light wounds, probaby won't help with deep bites.",
+    "description": "A rag soaked in antiseptic.  Useful for light wounds, probably won't help with deep bites.",
     "weight": "80 g",
     "//": "Can't copy-from rag, it breaks the stacking for some reason!",
     "volume": "250 ml",

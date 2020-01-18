@@ -471,7 +471,7 @@
     "id": "mon_dog",
     "type": "MONSTER",
     "name": "Labrador mutt",
-    "description": "This once-average Labrador mixed breed dog has clearly gone feral.  Though it likely still instinctually trusts humans, it's probably far from domestic by now.",
+    "description": "This once-average Labrador mixed breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.",
     "default_faction": "dog",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],

@@ -23,6 +23,7 @@
   },
   {
     "id": "headgear",
+    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": "headgear",
     "description": "Lightweight sports headgear designed to protect the head while sparring.",
@@ -67,6 +68,7 @@
   },
   {
     "id": "tac_fullhelmet",
+    "repairs_like": "helmet_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "tactical full helmet",
@@ -91,6 +93,7 @@
   },
   {
     "id": "tac_helmet",
+    "repairs_like": "helmet_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "tactical helmet",
@@ -137,6 +140,7 @@
   },
   {
     "id": "helmet_ball",
+    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": "baseball helmet",
@@ -182,6 +186,7 @@
   },
   {
     "id": "helmet_bike",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "category": "armor",
     "name": "bike helmet",
@@ -259,6 +264,7 @@
   },
   {
     "id": "helmet_football",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "category": "armor",
     "name": "football helmet",
@@ -371,6 +377,7 @@
   },
   {
     "id": "helmet_liner",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "helmet liner",
     "description": "This goes inside a helmet to help keep your head warm in cold climates.",
@@ -391,6 +398,7 @@
   },
   {
     "id": "helmet_lobster",
+    "repairs_like": "helmet_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "lobster helmet",
@@ -414,6 +422,7 @@
   },
   {
     "id": "helmet_motor",
+    "repairs_like": "helmet_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "motorcycle helmet",
@@ -547,6 +556,7 @@
   },
   {
     "id": "helmet_skid",
+    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": "skid lid",
@@ -616,6 +626,7 @@
   },
   {
     "id": "pickelhaube",
+    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": "pickelhaube",
