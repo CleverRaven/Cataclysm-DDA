@@ -303,6 +303,7 @@
       [ "cookbook_sushi", 15 ],
       [ "survnote", 1 ],
       [ "scots_cookbook", 8 ],
+      [ "offalcooking", 2 ],
       [ "dnd_handbook", 2 ]
     ]
   },
@@ -338,6 +339,7 @@
       [ "howto_computer", 10 ],
       [ "cookbook", 35 ],
       [ "cookbook_italian", 25 ],
+      [ "offalcooking", 10 ],
       [ "manual_electronics", 20 ],
       [ "manual_tailor", 15 ],
       [ "howto_traps", 10 ],
@@ -367,6 +369,7 @@
       [ "recipe_augs", 5 ],
       [ "howto_computer", 10 ],
       [ "cookbook", 35 ],
+      [ "offalcooking", 8 ],
       [ "cookbook_italian", 25 ],
       [ "manual_electronics", 20 ],
       [ "manual_tailor", 15 ],
@@ -548,6 +551,7 @@
       [ "novel_war2", 24 ],
       [ "novel_adventure", 14 ],
       [ "novel_road", 5 ],
+      [ "offalcooking", 22 ],
       [ "novel_buddy", 6 ],
       [ "novel_scifi", 20 ],
       [ "novel_drama", 40 ],
