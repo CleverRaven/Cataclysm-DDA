@@ -32,10 +32,10 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "level": 4, "name": "survival" },
-      { "level": 2, "name": "fabrication" },
-      { "level": 1, "name": "melee" },
-      { "level": 2, "name": "cutting" }
+      { "skill": "survival", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 3 ] } }
     ]
   },
   {
