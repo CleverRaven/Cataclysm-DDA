@@ -17,8 +17,8 @@
         "#     |      +     #sss.",
         "o     |      |a    #pps.",
         "#     +      ||||||###s.",
-        "#||+|||      +  d|v|U*s.",
-        "#O|O|w+      |j t|Q|g#..",
+        "#||+|||      +8  |v|U*s.",
+        "#O|O|w+      |   |Q|g#..",
         "#+|||||4     |||||+###..",
         "#2    +      |QQQY #^...",
         "o     |           no....",
@@ -79,6 +79,9 @@
             [ "bonus_room_3x3_W_8", 50 ],
             [ "bonus_room_3x3_S_8", 50 ]
           ]
+        },
+        "8": {
+          "chunks": [ [ "bathroom_3x2_NW", 50 ], [ "bathroom_3x2_NW2", 50 ], [ "bathroom_3x2_NW3", 20 ], [ "bathroom_3x2_NW4", 10 ] ]
         }
       },
       "place_nested": [
