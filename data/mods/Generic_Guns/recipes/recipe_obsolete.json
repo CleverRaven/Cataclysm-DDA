@@ -1006,12 +1006,12 @@
   },
   {
     "type": "recipe",
-    "result": "bp_shot_bird",
+    "result": "bp_shot_dragon",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bp_shot_dragon",
+    "result": "bp_shot_slug",
     "obsolete": true
   },
   {
@@ -1051,31 +1051,6 @@
   },
   {
     "type": "recipe",
-    "result": "bp_shot_00",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_shot_bird",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_shot_dragon",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_shot_flechette",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_shot_slug",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bp_shot_00_with dowel",
     "obsolete": true
   },
@@ -1096,17 +1071,22 @@
   },
   {
     "type": "recipe",
+    "result": "bp_shot_flechette_with dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bp_shot_scrap_with dowel",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "shot_scrap",
+    "result": "bp_shot_scrap",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bp_shot_scrap",
+    "result": "shot_scrap",
     "obsolete": true
   },
   {

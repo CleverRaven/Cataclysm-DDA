@@ -16,11 +16,23 @@
     "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ] ]
   },
   {
+    "result": "bp_tiny_pistol_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_tiny_pistol_jhp",
+    "components": [ [ [ "chem_black_powder", 2 ] ] ]
+  },
+  {
     "result": "reloaded_tiny_pistol_ball",
     "type": "recipe",
     "copy-from": "reloaded_tiny_pistol_jhp",
     "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "bp_tiny_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_tiny_pistol_ball",
+    "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_pistol_jhp",
@@ -39,12 +51,27 @@
     "components": [ [ [ "gunpowder", 4 ], [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ] ]
   },
   {
+    "result": "bp_pistol_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_jhp",
+    "components": [ [ [ "chem_black_powder", 4 ] ] ]
+  },
+  {
     "result": "reloaded_pistol_ball",
     "type": "recipe",
     "copy-from": "reloaded_pistol_jhp",
     "using": [ [ "req_pistol", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
       [ [ "gunpowder", 4 ], [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ],
+      [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "bp_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_ball",
+    "components": [
+      [ [ "chem_black_powder", 4 ] ],
       [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ]
     ]
   },
@@ -65,12 +92,27 @@
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ] ]
   },
   {
+    "result": "bp_pistol_magnum_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_magnum_jhp",
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+  },
+  {
     "result": "reloaded_pistol_magnum_ball",
     "type": "recipe",
     "copy-from": "reloaded_pistol_magnum_jhp",
     "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
     "components": [
       [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ],
+      [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "bp_pistol_magnum_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_magnum_ball",
+    "components": [
+      [ [ "chem_black_powder", 6 ] ],
       [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ]
     ]
   }

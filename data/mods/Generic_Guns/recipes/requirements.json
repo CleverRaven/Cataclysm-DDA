@@ -56,5 +56,25 @@
         [ "combatnail", 1 ]
       ]
     ]
+  },
+  {
+    "id": "req_junk",
+    "type": "requirement",
+    "//": "Components required for junk ammunition",
+    "components": [
+      [
+        [ "scrap", 1 ],
+        [ "nail", 5 ],
+        [ "bb", 10 ],
+        [ "solder_wire", 5 ],
+        [ "platinum_small", 2 ],
+        [ "gold_small", 2 ],
+        [ "bearing", 2 ],
+        [ "lead", 3 ],
+        [ "silver_small", 3 ],
+        [ "bismuth", 3 ],
+        [ "shrapnel", 2 ]
+      ]
+    ]
   }
 ]
