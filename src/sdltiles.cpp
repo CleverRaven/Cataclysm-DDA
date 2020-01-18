@@ -2867,8 +2867,10 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_MINIMIZED:
                         break;
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
-                        // Needs for main menu redraw
+                        // Main menu redraw
                         reinitialize_framebuffer();
+                        // TODO: redraw all game menus if they are open
+                        needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
