@@ -1054,7 +1054,7 @@
   {
     "id": "novel_spy_rocketsci",
     "type": "BOOK",
-    "name": "Murdered by the Grapevine",
+    "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
     "description": "This is the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
     "copy-from": "paperback_novel"
   },
