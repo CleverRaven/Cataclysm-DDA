@@ -2863,9 +2863,7 @@ static void CheckMessages()
                         break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
-                        break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                        break;
                     case SDL_WINDOWEVENT_MINIMIZED:
                         break;
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
