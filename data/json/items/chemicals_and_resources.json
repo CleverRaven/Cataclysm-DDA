@@ -1472,7 +1472,7 @@
     "name_plural": "DNP",
     "symbol": "=",
     "color": "yellow",
-    "description": "This is 2,4-Dinitrophenol, a yellow crystaline powder giving off distinct chemical smell, seems to have a strange propensity to stain everything in its vincinity yellow.  Mostly useful for its explosive qualities.",
+    "description": "This is 2,4-Dinitrophenol, a yellow crystaline powder giving off distinct chemical smell.  It seems to have a strange propensity to stain everything in its vincinity yellow.  Mostly useful for its explosive qualities.",
     "material": "powder",
     "//": "1.68g/ccm, WWI era high-explosive, TNT-RE 0.81, metabolic poison/dieting drug, readily sublimates",
     "volume": "230 ml",
