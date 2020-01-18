@@ -258,6 +258,11 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 4, 5, 15 );
         test_fast_shooting( shooter, 40, 0.3 );
     }
+    SECTION( "an unskilled archer with an inaccurate bow" ) {
+        arm_shooter( shooter, "shortbow" );
+        test_shooting_scenario( shooter, 4, 5, 18 );
+        test_fast_shooting( shooter, 50, 0.2 );
+    }
     SECTION( "an unskilled shooter with an inaccurate shotgun" ) {
         arm_shooter( shooter, "winchester_1897" );
         test_shooting_scenario( shooter, 4, 6, 17 );
@@ -287,6 +292,11 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 10, 15, 33 );
         test_fast_shooting( shooter, 30, 0.5 );
     }
+    SECTION( "a skilled archer with an accurate bow" ) {
+        arm_shooter( shooter, "recurbow", { "bow_sight_pin" } );
+        test_shooting_scenario( shooter, 12, 18, 40 );
+        test_fast_shooting( shooter, 50, 0.4 );
+    }
     SECTION( "a skilled shooter with an accurate shotgun" ) {
         arm_shooter( shooter, "ksg", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 9, 15, 33 );
@@ -315,6 +325,11 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "sw629", { "pistol_scope" } );
         test_shooting_scenario( shooter, 18, 20, 140 );
         test_fast_shooting( shooter, 20, 0.6 );
+    }
+    SECTION( "an expert archer with an excellent bow" ) {
+        arm_shooter( shooter, "compbow_high", { "bow_scope" } );
+        test_shooting_scenario( shooter, 20, 60, 400 );
+        test_fast_shooting( shooter, 40, 0.6 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
         arm_shooter( shooter, "m1014", { "holo_sight" } );
