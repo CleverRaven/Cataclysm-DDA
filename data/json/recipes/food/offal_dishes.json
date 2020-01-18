@@ -311,7 +311,7 @@
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "salt", 6 ] ],
       [ [ "pepper", 6 ] ],
-      [ [ "worthy_wine", 3, , "LIST" ] ],
+      [ [ "worthy_wine", 3, "LIST" ] ],
       [ [ "garlic_clove", 1 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
     ]
