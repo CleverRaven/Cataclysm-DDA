@@ -379,6 +379,8 @@ static void WinCreate()
 #if !defined(__ANDROID__)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+        fullscreen = true;
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
@@ -2829,7 +2831,7 @@ static void CheckMessages()
         }
     }
 #endif
-    static bool isMinimized;
+
     last_input = input_event();
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -2865,10 +2867,10 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_EXPOSED:
                         break;
                     case SDL_WINDOWEVENT_MINIMIZED:
-                        isMinimized = true;
-                        if( fullscreen ) {
-                            toggle_fullscreen_window();
-                        }
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        // Needs for main menu redraw
+                        reinitialize_framebuffer();
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
@@ -2879,15 +2881,9 @@ static void CheckMessages()
                             SDL_StartTextInput();
                         }
 #endif
-                        isMinimized = false;
-                        if( !fullscreen && get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
-                            toggle_fullscreen_window();
-                        }
                         break;
                     case SDL_WINDOWEVENT_RESIZED:
-                        if( !isMinimized ) {
-                            needupdate = handle_resize( ev.window.data1, ev.window.data2 );
-                        }
+                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                         break;
                     default:
                         break;
