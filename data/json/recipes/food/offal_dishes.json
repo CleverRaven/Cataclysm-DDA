@@ -365,7 +365,10 @@
       [ [ "brain", 4 ] ],
       [ [ "flour", 12 ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
-      [ [ "any_butter", 4 ], [ [ "salt", 6 ] ], [ [ "pepper", 3 ] ], [ [ "milk_standard", 1 ] ] ]
+      [ [ "any_butter", 4 ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "pepper", 3 ] ],
+      [ [ "milk_standard", 1 ] ]
     ]
   }
 ]
