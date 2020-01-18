@@ -177,9 +177,17 @@ Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_B
 Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 
 ## "melee_damage"
-(integer, optional)
+(array of objects, optional)
 
-Amount of bash damage added to die roll on monster melee attack.
+List of damage instances added to die roll on monster melee attack.
+    - `damage_type` valid entries are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric".
+    - `amount` amount of damage.
+    - `armor_penetration` how much of the armor the damage instance ignores.
+    - `armor_multiplier` is a multiplier on `armor_penetration`.
+    - `damage_multiplier` is a multiplier on `amount`.
+```JSON
+    "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],
+```
 
 ## "melee_dice", "melee_dice_sides"
 (integer, optional)

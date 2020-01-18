@@ -71,7 +71,7 @@ const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // Defines the maximum volume that a internal furnace can consume
-const units::volume furnace_max_volume( 3_liter ) ;
+const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {
@@ -242,7 +242,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range(
         our_extra_flags.insert( "COOKED" );
     }
 
-    const requirement_data requirements = rec.requirements();
+    const requirement_data requirements = rec.simple_requirements();
     const requirement_data::alter_item_comp_vector &component_requirements =
         requirements.get_components();
 
@@ -268,7 +268,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range(
         tally_max += this_max;
     }
 
-    for( const std::pair<itype_id, int> &byproduct : rec.byproducts ) {
+    for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
         item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
         nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
@@ -1210,7 +1210,7 @@ bool player::consume_effects( item &food )
             mod_fatigue( nutr );
         }
     }
-    // @TODO: remove this
+    // TODO: remove this
     int capacity = stomach_capacity();
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
@@ -1253,7 +1253,7 @@ bool player::consume_effects( item &food )
 
     // Set up food for ingestion
     const item &contained_food = food.is_container() ? food.get_contained() : food;
-    // @TODO: Move quench values to mL and remove the magic number here
+    // TODO: Move quench values to mL and remove the magic number here
     units::volume water = contained_food.type->comestible->quench * 5_ml;
     food_summary ingested{
         water,
@@ -1362,7 +1362,7 @@ bool player::feed_furnace_with( item &it )
     }
 
     const int consumed_charges =  std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
-    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace ) ;
+    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( energy == 0 ) {
         add_msg_player_or_npc( m_info,

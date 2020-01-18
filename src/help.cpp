@@ -67,9 +67,9 @@ void help::deserialize( JsonIn &jsin )
 std::string help::get_dir_grid()
 {
     static const std::array<action_id, 9> movearray = {{
-            ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-            ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-            ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+            ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
+            ACTION_MOVE_LEFT,  ACTION_PAUSE,  ACTION_MOVE_RIGHT,
+            ACTION_MOVE_BACK_LEFT, ACTION_MOVE_BACK, ACTION_MOVE_BACK_RIGHT
         }
     };
 
@@ -83,9 +83,10 @@ std::string help::get_dir_grid()
 
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
-        for( size_t i = 0; i < keys.size(); i++ ) {
+        for( size_t i = 0; i < 2; i++ ) {
             movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
-                                       string_format( "<color_light_blue>%s</color>", keys[i] ) );
+                                       i < keys.size() ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                                       : "<color_red>?</color>" );
         }
     }
 
@@ -145,7 +146,7 @@ void help::display_help()
     std::string action;
 
     do {
-        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
+        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
         wrefresh( w_help_border );
         draw_menu( w_help );
         catacurses::refresh();
@@ -178,7 +179,14 @@ void help::display_help()
                         return line_proc;
                     } );
 
-                    multipage( w_help, i18n_help_texts );
+                    if( !i18n_help_texts.empty() ) {
+                        scrollable_text( w_help_border, _( " HELP " ),
+                                         std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
+                                                          i18n_help_texts.front(),
+                        []( const std::string & lhs, const std::string & rhs ) {
+                            return lhs + "\n\n" + rhs;
+                        } ) );
+                    }
                     action = "CONFIRM";
                     break;
                 }

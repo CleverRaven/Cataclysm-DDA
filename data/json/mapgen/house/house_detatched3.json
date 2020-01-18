@@ -1,0 +1,103 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "house_detatched3",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "....%...```..%%.p..`....",
+        ".######o#*#o######.`....",
+        ".#766|R     L|t-9#.`....",
+        ".oO Y|R      +---#^`....",
+        ".#1         y|8--#%`....",
+        ".#5      h  s|S-Q#%`....",
+        ".#F234  rr   ||||#%`%...",
+        ".#|JJJ  ||    R|U#$;$$$.",
+        ".# AAA  E|RRT   >#%`..$.",
+        ".o      s|||||+||#.`..$.",
+        ".#y   l H|s@@s  E#!`..$.",
+        ".#x   l H| @@    o!`..$.",
+        ".#x   l H|D    dy#!`..$%",
+        ".###)]#####o######.`..$%",
+        ".$^.````````````````.%$.",
+        ".$.....`..............$.",
+        ".$..X..`..............$.",
+        ".$.....`..............$.",
+        ".$...##*#.............$.",
+        ".$..%#~~#%......%.[...$.",
+        ".$%[.#qq#%%.....[....%$.",
+        ".$%%.####%%%..%..%%.%%$.",
+        ".$$$$$$$$$$$$$$$$$$$$$$.",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "`": "t_concrete",
+        "#": "t_rock_wall",
+        "t": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "-": "t_linoleum_gray",
+        "_": "t_pavement",
+        "$": "t_privacy_fence",
+        ";": "t_privacy_fencegate_c",
+        "~": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        ")": "t_wall_glass",
+        "]": "t_door_glass_c"
+      },
+      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", "(": "f_chair" },
+      "place_item": [ { "item": "television", "repeat": 1, "x": 2, "y": 12 }, { "item": "lawnmower", "repeat": 1, "x": 7, "y": 20 } ],
+      "place_items": [
+        { "chance": 20, "item": "tools_earthworking", "x": 18, "y": 9 },
+        { "chance": 20, "item": "tools_earthworking", "x": 21, "y": 8 },
+        { "chance": 45, "item": "tool_common_stack", "x": 6, "y": 20 },
+        { "chance": 15, "item": "alcohol", "x": 8, "y": [ 8, 9 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched3_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        " |2222222222222223      ",
+        " |...............3      ",
+        " |...............5      ",
+        " |...............3      ",
+        " |...........=...3      ",
+        " |...............3      ",
+        " |...............3      ",
+        " |...............3      ",
+        " |...............3      ",
+        " |..N.......&....3      ",
+        " |...............3      ",
+        " |...............3      ",
+        " |5--------------3      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ....               ",
+        "     ....               ",
+        "     ....               ",
+        "     ....               ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

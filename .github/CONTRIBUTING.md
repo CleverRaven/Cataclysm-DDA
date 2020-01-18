@@ -1,6 +1,6 @@
 # Contribute
 
-**Opening new issue?** Please read [ISSUES.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/ISSUES.md) first.
+**Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
 Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
@@ -18,7 +18,8 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Code Style
 
-Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See [CODE_STYLE](../doc/CODE_STYLE.md) for details.
+Code style is enforced across the codebase by `astyle`.
+See [CODE_STYLE](../doc/CODE_STYLE.md) for details.
 
 ## Translations
 
@@ -232,7 +233,7 @@ You can also set the tracking information at the same time as creating the branc
 
 There is a suite of tests built into the source tree at tests/  
 You should run the test suite after ANY change to the game source.  
-An ordinary invocation of ``make`` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable.  
+An ordinary invocation of ``make`` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable, or via `make check`.
 With no arguments it will run the entire test suite.  
 With ``--help`` it will print a number of invocation options you can use to adjust its operation.
 
@@ -245,7 +246,7 @@ With ``--help`` it will print a number of invocation options you can use to adju
     Ended test at Fri Nov  9 04:37:45 2018
     The test took 41.772 seconds
 
-I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && tests/cata_test``.
+I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && make check``.
 
 ## In-game testing, test environment and the debug menu
 
@@ -254,39 +255,16 @@ Whether you are implementing a new feature or whether you are fixing a bug, it i
 Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to the bottom and press `+` to add a new key binding. Press the letter that corresponds to the *Debug menu* item, then press the key you want to use to bring up the debug menu. To test your changes, create a new world with a new character. Once you are in that world, press the key you just assigned for the debug menu and you should see something like this:
 
 ```
-┌────────────────────────────────────────────┐
-│ Debug Functions - Using these is CHEATING! │
-├────────────────────────────────────────────┤
-│ 1 Wish for an item                         │
-│ 2 Teleport - Short Range                   │
-│ 3 Teleport - Long Range                    │
-│ 4 Reveal map                               │
-│ 5 Spawn NPC                                │
-│ 6 Spawn Monster                            │
-│ 7 Check game state...                      │
-│ 8 Kill NPCs                                │
-│ 9 Mutate                                   │
-│ 0 Spawn a vehicle                          │
-│ a Change all skills                        │
-│ b Learn all melee styles                   │
-│ c Unlock all recipes                       │
-│ d Edit player/NPC                          │
-│ e Spawn Artifact                           │
-│ f Spawn Clairvoyance Artifact              │
-│ g Map editor                               │
-│ h Change weather                           │
-│ i Remove all monsters                      │
-│ j Display hordes                           │
-│ k Test Item Group                          │
-│ l Damage Self                              │
-│ m Show Sound Clustering                    │
-│ n Lua Command                              │
-│ o Display weather                          │
-│ p Change time                              │
-│ q Set automove route                       │
-│ r Show mutation category levels            │
-│ s Cancel                                   │
-└────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────┐
+│ Debug Functions - Using these will cheat not only the game, but yourself. │
+├───────────────────────────────────────────────────────────────────────────┤
+│ i Info                                                                    │
+│ Q Quit to main menu                                                       │
+│ s Spawning…                                                               │
+│ p Player…                                                                 │
+│ t Teleport…                                                               │
+│ m Map…                                                                    │
+└───────────────────────────────────────────────────────────────────────────┘
 ```
 
 With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php).
@@ -312,3 +290,5 @@ Now that `master` has been cleaned up, we can easily pull from `upstream/master`
     $ git pull --ff-only upstream master
     # gets changes from the "upstream" remote for the matching branch, in this case "master"
     $ git checkout new_branch
+
+For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).

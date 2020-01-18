@@ -234,7 +234,7 @@ struct jmapgen_objects {
 
         jmapgen_objects( const point &offset, const point &mapsize );
 
-        bool check_bounds( jmapgen_place place, const JsonObject &jso );
+        bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
         void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
 
@@ -419,24 +419,23 @@ enum room_type {
     room_split
 };
 
-void house_room( room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
-void line( map *m, ter_id type, int x1, int y1, int x2, int y2 );
-void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
-void fill_background( map *m, ter_id type );
+void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
+void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
+void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
-void square( map *m, ter_id type, int x1, int y1, int x2, int y2 );
+void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
 void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
-void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
-void rough_circle( map *m, ter_id type, int x, int y, int rad );
-void rough_circle_furn( map *m, furn_id type, int x, int y, int rad );
-void circle( map *m, ter_id type, double x, double y, double rad );
-void circle( map *m, ter_id type, int x, int y, int rad );
-void circle_furn( map *m, furn_id type, int x, int y, int rad );
+void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
+void rough_circle( map *m, const ter_id &type, int x, int y, int rad );
+void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad );
+void circle( map *m, const ter_id &type, double x, double y, double rad );
+void circle( map *m, const ter_id &type, int x, int y, int rad );
+void circle_furn( map *m, const furn_id &type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
 #endif

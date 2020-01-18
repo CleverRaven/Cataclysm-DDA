@@ -82,6 +82,7 @@
 #include "construction_category.h"
 #include "overmap.h"
 #include "clothing_mod.h"
+#include "ammo_effect.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -190,6 +191,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
+    add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
@@ -353,7 +355,6 @@ void DynamicDataLoader::initialize()
     add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
-    add( "epilogue", &epilogue::load_epilogue );
     add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
@@ -471,6 +472,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     field_types::reset();
+    ammo_effects::reset();
     emit::reset();
     activity_type::reset();
     fault::reset();
@@ -554,6 +556,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
+            { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
@@ -633,6 +636,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
+            { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {
@@ -686,7 +690,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
-            { _( "Scores" ), &score::check_consistency }
+            { _( "Scores" ), &score::check_consistency },
+            { _( "Factions" ), &faction_template::check_consistency },
         }
     };
 

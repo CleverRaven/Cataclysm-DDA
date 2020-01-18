@@ -2,7 +2,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL",
     "type": "talk_topic",
-    "dynamic_line": "I'm my own person, but I'm mostly willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can do some other activites, I can ride horses, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
+    "dynamic_line": "I'm my own person, but I'm mostly willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can do some other activities, I can ride horses, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
     "responses": [
       { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
       { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
@@ -40,7 +40,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_TALK",
     "type": "talk_topic",
-    "dynamic_line": "If we're next to each other, you can just bump into me and we'll start talking, right?  But if I'm farther away, you're going to have to shout a bit (use the 'C'hat command) for me to hear you.  You'll need to see me for us to have a conversation.  Or we can talk by radios if we both have them.\n  When we talk, you can give me instructions about how to fight or when to sleep or whatever.  I'll mostly do them, and you can ask me what my current instructions are.  Sometimes you'll give me two sets of instructions: a normal set, and an override for a specific situation.  I'll tell you which instructions are overriden.  You can set and clear overrides with shouted commands.",
+    "dynamic_line": "If we're next to each other, you can just bump into me and we'll start talking, right?  But if I'm farther away, you're going to have to shout a bit (use the 'C'hat command) for me to hear you.  You'll need to see me for us to have a conversation.  Or we can talk by radios if we both have them.\n  When we talk, you can give me instructions about how to fight or when to sleep or whatever.  I'll mostly do them, and you can ask me what my current instructions are.  Sometimes you'll give me two sets of instructions: a normal set, and an override for a specific situation.  I'll tell you which instructions are overridden.  You can set and clear overrides with shouted commands.",
     "responses": [
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
       { "text": "How do shouted commands work?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" }

@@ -396,7 +396,7 @@
       [ [ "clutter", 1 ] ],
       [ [ "bfeed", 250 ] ],
       [ [ "stomach", 8 ], [ "stomach_large", 4 ], [ "hstomach", 8 ], [ "hstomach_large", 4 ], [ "plant_sac", 2 ] ],
-      [ [ "gasoline", 500 ], [ "diesel", 500 ] ],
+      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "biodiesel", 500 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
