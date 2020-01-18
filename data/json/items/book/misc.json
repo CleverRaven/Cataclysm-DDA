@@ -1047,7 +1047,7 @@
   {
     "id": "novel_spy_comefly",
     "type": "BOOK",
-    "name": "Come Fly the Treacherous Skies",
+    "name": { "str": "Come Fly the Treacherous Skies", "str_pl": "copies of Come Fly the Treacherous Skies" },
     "description": "This tale of intrigue betrays the story of a debonair mechanic driven by a lust for revenge.  As she uncovers a sophisticated network of amateur pilots turned smugglers, the good guys and the bad guys begin to all look the same.",
     "copy-from": "paperback_novel"
   },
