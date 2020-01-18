@@ -11,6 +11,7 @@
 #include "item_group.h"
 #include "output.h"
 #include "json.h"
+#include "text_snippets.h"
 
 // TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
@@ -44,7 +45,7 @@ const harvest_id &harvest_list::id() const
 
 std::string harvest_list::message() const
 {
-    return message_;
+    return SNIPPET.expand( message_ );
 }
 
 bool harvest_list::is_null() const
