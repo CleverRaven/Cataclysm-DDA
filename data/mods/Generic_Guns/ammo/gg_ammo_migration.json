@@ -333,7 +333,15 @@
     "replace": "shot_pyro"
   },
   {
-    "id": [ "bp_shot_00", "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
+    "id": [
+      "bp_shot_scrap",
+      "shot_scrap",
+      "bp_shot_00",
+      "reloaded_shot_00",
+      "reloaded_410shot_000",
+      "20x66_bootleg_shot",
+      "20x66_bootleg_flechette"
+    ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
