@@ -336,7 +336,7 @@
       [ [ "flour", 12 ] ],
       [ [ "onion", 3 ], [ "irradiated_onion", 3 ] ],
       [
-        [ "any_butter", 4 ],
+        [ "any_butter", 4 ] ],
         [ [ "salt", 6 ] ],
         [ [ "mustard", 3 ] ],
         [ [ "sugar_standard", 3 ] ],
