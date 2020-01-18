@@ -241,9 +241,6 @@ static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
@@ -5615,16 +5612,16 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
             amount = 0;
         }
     }
-    if( has_trait( trait_PRED2 ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( "PRED2" ) && skill.is_combat_skill() ) {
         if( one_in( 3 ) ) {
             amount *= 2;
         }
     }
-    if( has_trait( trait_PRED3 ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( "PRED3" ) && skill.is_combat_skill() ) {
         amount *= 2;
     }
 
-    if( has_trait( trait_PRED4 ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) {
         amount *= 3;
     }
 
@@ -5655,7 +5652,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait( trait_PRED4 ) &&
+        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
                 skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
@@ -6675,9 +6672,9 @@ void player::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait( trait_PRED2 ) && one_in( 4 ) ) ||
-              ( has_trait( trait_PRED3 ) && one_in( 2 ) ) ||
-              ( has_trait( trait_PRED4 ) && x_in_y( 2, 3 ) ) ) ) {
+            ( ( has_trait_flag( "PRED2" ) && one_in( 4 ) ) ||
+              ( has_trait_flag( "PRED3" ) && one_in( 2 ) ) ||
+              ( has_trait_flag( "PRED4" ) && x_in_y( 2, 3 ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 15600 ) ) {
                 // They've already passed the roll to avoid rust at
