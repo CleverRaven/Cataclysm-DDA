@@ -27,7 +27,7 @@
     "traits": [ { "trait": "SPIRITUAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "level": 5, "name": "speech" }
+      { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } }
     ]
   },
   {
