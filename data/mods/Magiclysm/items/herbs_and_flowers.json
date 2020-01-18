@@ -3,7 +3,7 @@
   {
     "type": "COMESTIBLE",
     "id": "platonic_flower",
-    "name": { "str": "urflower", "str_pl": "urflowers" },
+    "name": { "str": "philosopher's flower", "str_pl": "philosopher's flowers" },
     "weight": "60 g",
     "color": "pink",
     "comestible_type": "FOOD",
@@ -18,7 +18,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "moonflower",
+    "id": "moonflowers",
     "copy-from": "platonic_flower",
     "name": { "str": "moonflowers", "str_pl": "moonflowers" },
     "color": "cyan",
@@ -35,33 +35,40 @@
     "name": { "str": "kämpuch", "str_pl": "kämpuch" },
     "color": "purple",
     "comestible_type": "FOOD",
-    "description": "A small rod of curled white petals.  Inhaling or ingesting the pollen within will lead to an agonizing if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
-    "volume": "250 ml",
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
+    "description": "A small rod of curled white petals, delicately shielding toxic pollen that will lead to an agonizing, if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
+    "volume": "5 ml"
   },
   {
     "type": "COMESTIBLE",
-    "id": "golden_reed_rhizome",
+    "id": "golden_reed_stalks",
     "copy-from": "platonic_flower",
-    "name": { "str": "golden reed rhizomes", "str_pl": "golden reed rhizomes" },
+    "name": { "str": "golden reed stalks", "str_pl": "golden reed stalks" },
     "color": "yellow",
     "symbol": "%",
     "calories": 800,
     "comestible_type": "FOOD",
-    "description": "Starchy rhizomes from a golden reed.  They have a strong, spiced aroma.",
-    "volume": "250 ml",
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
+    "description": "Stalks cut from a golden reed.  They have a strong, spiced aroma."
   },
   {
     "type": "COMESTIBLE",
     "id": "moly_tuber",
-    "copy-from": "plaonic_flower",
+    "copy-from": "platonic_flower",
     "name": { "str": "moly tuber", "str_pl": "moly tubers" },
     "color": "grey",
     "symbol": "%",
-    "calories": 800,
+    "calories": 70,
     "comestible_type": "FOOD",
-    "description": "The black root of a moly plant, extracted from the ground through great effort.  Will grant .",
-    "volume": "250 ml",
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
+    "description": "The black root of a moly plant, extracted from the ground through great effort.  Rumored to grant protection to those who consume it."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sojourners_flower",
+    "copy-from": "platonic_flower",
+    "name": { "str": "sojourner's flower", "str_pl": "sojourner's flowers" },
+    "color": "red",
+    "symbol": "o",
+    "calories": 10,
+    "comestible_type": "FOOD",
+    "description": "A red puffball flower cut from a sojourner's palm.  When wind wafts between its petals, you can hear the sounds of faraway places."
+    "volume": "10 ml"
   }
