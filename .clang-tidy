@@ -35,6 +35,7 @@ readability-*,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
 -modernize-use-transparent-functors,\
+-modernize-use-trailing-return-type,\
 -performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
 -performance-noexcept-move-constructor,\

@@ -13,6 +13,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_crystallize_mana",
+    "name": { "str": "Scroll of Crystallize Mana", "str_pl": "Scrolls of Crystallize Mana" },
+    "description": "A proper wizard is always prepared, crystallize your mana for the future!",
+    "use_action": { "type": "learn_spell", "spells": [ "crystallize_mana" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_dark_sight",
     "name": { "str": "Scroll of Dark Sight", "str_pl": "Scrolls of Dark Sight" },
     "description": "The darkness holds no secrets for the arcane.  Adjust your sight to see in perfect darkness!",

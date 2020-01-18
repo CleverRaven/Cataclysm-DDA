@@ -87,30 +87,59 @@
     ]
   },
   {
-    "id": "clothing_soldier_set",
+    "id": "clothing_military",
     "type": "item_group",
     "subtype": "collection",
     "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
     "items": [
       { "group": "clothing_soldier_shirt" },
       { "item": "jacket_army" },
-      { "item": "elbow_pads", "prob": 10 },
       { "item": "pants_army" },
       { "item": "webbing_belt" },
-      { "item": "knee_pads", "prob": 85 },
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
       { "item": "boots_combat" },
-      { "item": "helmet_army", "prob": 80 },
-      { "item": "gloves_tactical", "prob": 60 },
-      { "item": "ballistic_vest_esapi", "prob": 90 },
-      { "item": "molle_pack", "prob": 85 },
-      { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "id": "clothing_military_winter",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "item": "winter_jacket_army" },
+      { "item": "winter_pants_army" },
+      { "item": "webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_soldier_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "ballistic_vest_esapi", "prob": 90 },
+      { "item": "molle_pack", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
@@ -127,27 +156,16 @@
     "id": "clothing_soldier_winter_set",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
+    "//": "Winter set of clothes and combat gear worn by soldiers and paramilitary forces.",
     "items": [
-      { "group": "clothing_soldier_shirt" },
-      { "item": "winter_jacket_army" },
+      { "group": "clothing_military_winter" },
       { "item": "elbow_pads", "prob": 10 },
-      { "item": "winter_pants_army" },
-      { "item": "webbing_belt" },
       { "item": "knee_pads", "prob": 85 },
-      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
-      { "item": "boots_combat" },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "item": "ballistic_vest_esapi", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
-      {
-        "distribution": [
-          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
-          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
-        ]
-      },
       {
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },
@@ -1796,12 +1814,9 @@
       [ "winter_gloves_army", 30 ],
       [ "army_top", 30 ],
       [ "kevlar", 10 ],
-      [ "modularvest", 15 ],
-      [ "modularvestkevlar", 18 ],
-      [ "modularvestceramic", 25 ],
-      [ "modularveststeel", 20 ],
-      [ "modularvestsuper", 2 ],
-      [ "modularvesthard", 1 ],
+      [ "modularvest", 25 ],
+      [ "modularvestkevlar", 23 ],
+      [ "modularvestceramic", 30 ],
       [ "vest", 15 ],
       [ "mask_gas", 10 ],
       [ "goggles_nv", 1 ],
@@ -1878,12 +1893,9 @@
     "id": "mil_armor_torso",
     "items": [
       [ "kevlar", 10 ],
-      [ "modularvest", 15 ],
-      [ "modularvestkevlar", 18 ],
-      [ "modularvestceramic", 25 ],
-      [ "modularveststeel", 20 ],
-      [ "modularvestsuper", 2 ],
-      [ "modularvesthard", 1 ],
+      [ "modularvest", 25 ],
+      [ "modularvestkevlar", 23 ],
+      [ "modularvestceramic", 30 ],
       [ "winter_jacket_army", 30 ],
       [ "vest", 15 ],
       [ "tacvest", 10 ],

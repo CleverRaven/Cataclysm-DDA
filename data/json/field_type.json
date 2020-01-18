@@ -73,7 +73,7 @@
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cowebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
     "priority": 2,

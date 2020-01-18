@@ -284,13 +284,11 @@ void mapbuffer::deserialize( JsonIn &jsin )
         std::unique_ptr<submap> sm = std::make_unique<submap>();
         tripoint submap_coordinates;
         jsin.start_object();
-        bool rubpow_update = false;
+        int version = 0;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                if( jsin.get_int() < 22 ) {
-                    rubpow_update = true;
-                }
+                version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
                 int locx = jsin.get_int();
@@ -299,7 +297,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.end_array();
                 submap_coordinates = tripoint( locx, locy, locz );
             } else {
-                sm->load( jsin, submap_member_name, rubpow_update );
+                sm->load( jsin, submap_member_name, version );
             }
         }
 

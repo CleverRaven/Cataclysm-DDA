@@ -273,19 +273,19 @@ static std::string colorized_trap_name_at( const tripoint &point );
 static std::string colorized_ter_name_flags_at( const tripoint &point,
         const std::vector<std::string> &flags = {}, const std::vector<ter_str_id> &ter_whitelist = {} );
 static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
-        units::volume min_visible_volume );
+        const units::volume &min_visible_volume );
 
 static std::string colorized_item_name( const item &item );
 static std::string colorized_item_description( const item &item );
 static item get_top_item_at_point( const tripoint &point,
-                                   units::volume min_visible_volume );
+                                   const units::volume &min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *creature, std::string &pose,
         const std::string &pronoun_sex );
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
         int radius, const tripoint &bounds_center_point, int bounds_radius,
-        const tripoint &camera_pos, units::volume min_visible_volume, bool create_figure_desc,
+        const tripoint &camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded );
 static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
@@ -1178,7 +1178,7 @@ static void spawn_spores( const player &p )
 {
     int spores_spawned = 0;
     fungal_effects fe( *g, g->m );
-    for( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
+    for( const tripoint &dest : closest_tripoints_first( p.pos(), 4 ) ) {
         if( g->m.impassable( dest ) ) {
             continue;
         }
@@ -1210,7 +1210,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
                              _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings…" ),
                              it.tname() );
         p.add_morale( MORALE_MARLOSS, 100, 1000 );
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             if( pr.first != current_color ) {
                 p.add_addiction( pr.second, 50 );
             }
@@ -1285,7 +1285,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
         p.fall_asleep( 10_hours - p.int_cur *
                        1_minutes ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1296,7 +1296,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
                              _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
         /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
         p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1313,7 +1313,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body…" ) );
         p.set_mutation( current_color );
         // Give us addictions to the other two colors, but cure one for current color
-        for( const std::pair<trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             if( pr.first == current_color ) {
                 p.rem_addiction( pr.second );
             } else {
@@ -1665,8 +1665,13 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    auto loc = g->inv_map_splice( []( const item & e ) {
-        return !e.toolmods().empty();
+    item_location loc = g->inv_map_splice( []( const item & e ) {
+        for( const item *it : e.toolmods() ) {
+            if( !it->is_irremovable() ) {
+                return true;
+            }
+        }
+        return false;
     },
     _( "Remove mods from tool?" ), 1,
     _( "You don't have any modified tools." ) );
@@ -1678,8 +1683,9 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
         auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item & e ) {
-            return e.is_toolmod();
+            return e.is_toolmod() && !e.is_irremovable();
         } );
+        add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
         p->i_add_or_drop( *mod );
         loc->contents.erase( mod );
 
@@ -4256,11 +4262,12 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
 
 int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 {
-    if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
+    const bionic_id rem_bid = p->get_remote_fueled_bionic();
+    if( rem_bid.is_empty() ) {  // Cable CBM required
         p->add_msg_if_player(
             _( "You have no cable charging system to plug it in, so you leave it alone." ) );
         return 0;
-    } else if( !p->has_active_bionic( bionic_id( "bio_cable" ) ) ) {  // when OFF it takes no effect
+    } else if( !p->has_active_bionic( rem_bid ) ) {  // when OFF it takes no effect
         p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
     }
 
@@ -4873,7 +4880,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         const auto furn = g->m.furn( pnt );
 
         const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
-                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
+                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() );
         return is_allowed;
     };
 
@@ -4963,7 +4970,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         const auto furn = g->m.furn( pnt );
 
         const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
-                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() ) ;
+                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() );
         return is_allowed;
     };
 
@@ -5375,7 +5382,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIRESTORM: {
                 p->add_msg_if_player( m_bad, _( "Fire rains down around you!" ) );
-                std::vector<tripoint> ps = closest_tripoints_first( 3, p->pos() );
+                std::vector<tripoint> ps = closest_tripoints_first( p->pos(), 3 );
                 for( auto p_it : ps ) {
                     if( !one_in( 3 ) ) {
                         g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
@@ -6808,12 +6815,12 @@ static std::string colorized_item_description( const item &item )
         iteminfo_parts::DESCRIPTION,
         iteminfo_parts::DESCRIPTION_NOTES,
         iteminfo_parts::DESCRIPTION_CONTENTS
-    } ) ;
+    } );
     return item.info( dummy, &query, 1 );
 }
 
 static item get_top_item_at_point( const tripoint &point,
-                                   const units::volume min_visible_volume )
+                                   const units::volume &min_visible_volume )
 {
     map_stack items = g->m.i_at( point );
     // iterate from topmost item down to ground
@@ -6861,7 +6868,7 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
 }
 
 static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
-        const units::volume min_visible_volume )
+        const units::volume &min_visible_volume )
 {
     item_found = false;
     const furn_id furn = g->m.furn( center_point );
@@ -7002,7 +7009,7 @@ struct object_names_collection {
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
         const int radius, const tripoint &bounds_center_point, const int bounds_radius,
-        const tripoint &camera_pos, const units::volume min_visible_volume, bool create_figure_desc,
+        const tripoint &camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded )
 {
@@ -7256,7 +7263,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     bool found_item_aim_point;
     std::string furn_desc = colorized_feature_description_at( aim_point, found_item_aim_point,
-                            0_ml ) ;
+                            0_ml );
     const item item = get_top_item_at_point( aim_point, 0_ml );
     const std::string trap_name = colorized_trap_name_at( aim_point );
     std::string ter_name = colorized_ter_name_flags_at( aim_point, {}, {} );
@@ -8684,8 +8691,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
-                                          r->get_component_filter() );
+                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -8703,7 +8710,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
                     mealtime = meal->time;
                 } else {
-                    mealtime = meal->time * 2 ;
+                    mealtime = meal->time * 2;
                 }
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
@@ -8717,9 +8724,15 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                auto reqs = meal->requirements();
-                for( auto it : reqs.get_components() ) {
-                    p->consume_items( it, 1, is_crafting_component );
+                const auto filter = is_crafting_component;
+                const requirement_data *reqs =
+                    meal->deduped_requirements().select_alternative( *p, filter );
+                if( !reqs ) {
+                    return 0;
+                }
+
+                for( auto it : reqs->get_components() ) {
+                    p->consume_items( it, 1, filter );
                 }
 
                 it->set_var( "RECIPE", meal->ident().str() );
@@ -8813,7 +8826,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
-    const bool has_bio_cable = p->has_bionic( bionic_id( "bio_cable" ) );
+    const bool has_bio_cable = !p->get_remote_fueled_bionic().is_empty();
     const bool has_solar_pack = p->is_wearing( "solarpack" ) || p->is_wearing( "q_solarpack" );
     const bool has_solar_pack_on = p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
@@ -8830,10 +8843,16 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     const std::string dont_have_ups = _( "You don't have any UPS." );
 
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
+        const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
         it->process( p, p->pos(), false );
         p->moves -= 15;
+
+        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
+                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
+            p->find_remote_fuel();
+        }
     };
     if( initial_state == "attach_first" ) {
         if( has_bio_cable ) {
@@ -8937,6 +8956,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         if( choice < 0 ) {
             return 0; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
+            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         } else if( choice == 2 ) { // connect self while other end already connected
@@ -9160,8 +9180,12 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     tripoint target = pos;
-    target.x = p->posx() + 2 * SEEX * ( posp.x - p->posx() );
-    target.y = p->posy() + 2 * SEEY * ( posp.y - p->posy() );
+    target.x = p->posx() + 4 * SEEX * ( posp.x - p->posx() );
+    target.y = p->posy() + 4 * SEEY * ( posp.y - p->posy() );
+    hologram->friendly = -1;
+    hologram->add_effect( effect_docile, 1_hours );
+    hologram->wandf = -30;
+    hologram->set_summon_time( 60_seconds );
     hologram->set_dest( target );
     p->mod_moves( -to_turns<int>( 1_seconds ) );
     return it->type->charges_to_use();
@@ -9328,7 +9352,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
     return 1;
 }
 
-washing_requirements washing_requirements_for_volume( const units::volume vol )
+washing_requirements washing_requirements_for_volume( const units::volume &vol )
 {
     int water = divide_round_up( vol, 125_ml );
     int cleanser = divide_round_up( vol, 1_liter );

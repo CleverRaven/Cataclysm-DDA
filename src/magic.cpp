@@ -324,7 +324,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+    for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
@@ -429,7 +429,7 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, translation alt_msg ) :
+spell::spell( spell_id sp, const translation &alt_msg ) :
     type( sp ),
     alt_message( alt_msg )
 {}
@@ -603,7 +603,17 @@ int spell::energy_cost( const player &p ) const
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 );
-        cost += 10 * hands_encumb;
+        switch( type->energy_source ) {
+            default:
+                cost += 10 * hands_encumb;
+                break;
+            case hp_energy:
+                cost += hands_encumb;
+                break;
+            case stamina_energy:
+                cost += 100 * hands_encumb;
+                break;
+        }
     }
     return cost;
 }
@@ -1038,7 +1048,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @TODO: if only we had a function to enumerate strings and concatenate them...
+    // TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );
@@ -1048,6 +1058,22 @@ std::string spell::enumerate_targets() const
             ret = string_format( _( "%s, %s" ), ret, *iter );
         }
     }
+    return ret;
+}
+
+std::string spell::list_targeted_monster_names() const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_monster_names;
+    for( const mtype_id &mon_id : type->targeted_monster_ids ) {
+        all_valid_monster_names.emplace_back( mon_id->nname() );
+    }
+    //remove repeat names
+    all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
+                                   all_valid_monster_names.end() ), all_valid_monster_names.end() );
+    std::string ret = enumerate_as_string( all_valid_monster_names );
     return ret;
 }
 
@@ -1605,6 +1631,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), targets ) );
 
+    std::string target_ids;
+    target_ids = sp.list_targeted_monster_names();
+    if( !target_ids.empty() ) {
+        fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
+                        _( "Only affects the monsters: %s" ), target_ids );
+    }
+
     if( line <= win_height * 3 / 4 ) {
         line++;
     }
@@ -1681,7 +1714,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     if( found != invlets.end() ) {
         return found->second;
     }
-    for( const std::pair<spell_id, int> &invlet_pair : invlets ) {
+    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
         used_invlets.emplace( invlet_pair.second );
     }
     for( int i = 'a'; i <= 'z'; i++ ) {
@@ -1738,7 +1771,7 @@ int known_magic::select_spell( const player &p )
 
 void known_magic::on_mutation_gain( const trait_id &mid, player &p )
 {
-    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+    for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
         for( int level = 0; level < sp.second; level++ ) {
