@@ -335,15 +335,13 @@
       [ [ "brain", 4 ] ],
       [ [ "flour", 12 ] ],
       [ [ "onion", 3 ], [ "irradiated_onion", 3 ] ],
-      [
-        [ [ "any_butter", 4, "LIST" ] ],
-        [ [ "salt", 6 ] ],
-        [ [ "mustard", 3 ] ],
-        [ [ "sugar_standard", 3, "LIST" ] ],
-        [ [ "worthy_wine", 3, "LIST" ] ],
-        [ [ "batter", 4 ] ],
-        [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
-      ]
+      [ [ "any_butter", 4, "LIST" ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "mustard", 3 ] ],
+      [ [ "sugar_standard", 3, "LIST" ] ],
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "batter", 4 ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
     ]
   },
   {
