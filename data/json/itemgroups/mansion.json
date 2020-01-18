@@ -1167,7 +1167,7 @@
       { "group": "glass_of_wine", "prob": 30 },
       { "group": "book_mag_gen", "prob": 120 },
       { "group": "tobacco_products", "prob": 50 },
-	  [ "novel_pulp", 30 ],
+      [ "novel_pulp", 30 ],
       [ "gum", 30 ],
       { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
