@@ -1036,7 +1036,7 @@
   {
     "id": "novel_spy",
     "type": "BOOK",
-    "name": "spy novel",
+    "name": { "str": "spy novel", "str_pl": "spy novels" },
     "description": "A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!",
     "copy-from": "paperback_novel",
     "intelligence": 5,
@@ -1054,8 +1054,8 @@
   {
     "id": "novel_spy_rocketsci",
     "type": "BOOK",
-    "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
-    "description": "This is the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
+    "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "spy novels" },
+    "description": "This spy novel tells the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
     "copy-from": "paperback_novel"
   },
   {
