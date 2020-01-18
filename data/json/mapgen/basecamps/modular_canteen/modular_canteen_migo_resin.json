@@ -1,13 +1,13 @@
 [
   {
     "type": "palette",
-    "id": "fbmk_wad_palette",
+    "id": "fbmk_migo_resin_palette",
     "terrain": {
-      "d": "t_door_makeshift_c",
+      "d": "t_resin_hole_c",
       "B": "t_grass",
-      "o": "t_wall_wattle_half",
-      "w": "t_wall_wattle",
-      ".": "t_dirtfloor",
+      "o": "t_wall_resin_cage",
+      "w": "t_wall_resin",
+      ".": "t_floor_resin",
       ",": "t_dirtfloor",
       "S": "t_dirtfloor",
       "a": "t_dirtfloor",
@@ -32,7 +32,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_kitchen_room_wad",
+    "nested_mapgen_id": "fbmk_kitchen_room_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -44,19 +44,19 @@
         "       ",
         "       "
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "faction_base_canteen_wad",
+    "update_mapgen_id": "faction_base_canteen_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room_wad" ], "x": 9, "y": 7 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room_migo_resin" ], "x": 9, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_kitchen_room2_wad",
+    "nested_mapgen_id": "fbmk_kitchen_room2_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -68,19 +68,19 @@
         "w.....w",
         "wwwdwww"
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "faction_base_canteen2_wad",
+    "update_mapgen_id": "faction_base_canteen2_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room2_wad" ], "x": 9, "y": 7 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room2_migo_resin" ], "x": 9, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_canteen_smoking_area_wad",
+    "nested_mapgen_id": "fbmk_canteen_smoking_area_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -92,19 +92,19 @@
         ",,,,   ",
         "ww,w   "
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "faction_base_smoking_area_wad",
+    "update_mapgen_id": "faction_base_smoking_area_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_smoking_area_wad" ], "x": 16, "y": 7 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_smoking_area_migo_resin" ], "x": 16, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_canteen_pantry_wad",
+    "nested_mapgen_id": "fbmk_canteen_pantry_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -116,19 +116,19 @@
         "w..... ",
         "wwwwww "
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmk_canteen_pantry_wad",
+    "update_mapgen_id": "fbmk_canteen_pantry_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_pantry_wad" ], "x": 3, "y": 7 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_pantry_migo_resin" ], "x": 3, "y": 7 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_canteen_dining_west_wad",
+    "nested_mapgen_id": "fbmk_canteen_dining_west_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -140,19 +140,19 @@
         "    ww.",
         "     ww"
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmk_canteen_dining_west_wad",
+    "update_mapgen_id": "fbmk_canteen_dining_west_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_west_wad" ], "x": 3, "y": 14 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_west_migo_resin" ], "x": 3, "y": 14 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_canteen_dining_east_wad",
+    "nested_mapgen_id": "fbmk_canteen_dining_east_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -164,19 +164,19 @@
         "..ww   ",
         "oww    "
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmk_canteen_dining_east_wad",
+    "update_mapgen_id": "fbmk_canteen_dining_east_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_east_wad" ], "x": 14, "y": 14 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_east_migo_resin" ], "x": 14, "y": 14 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmk_canteen_dining_center_wad",
+    "nested_mapgen_id": "fbmk_canteen_dining_center_migo_resin",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -188,13 +188,13 @@
         "  .... ",
         "  owdw "
       ],
-      "palettes": [ "fbmk_wad_palette" ]
+      "palettes": [ "fbmk_migo_resin_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmk_canteen_dining_center_wad",
+    "update_mapgen_id": "fbmk_canteen_dining_center_migo_resin",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_center_wad" ], "x": 8, "y": 14 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_center_migo_resin" ], "x": 8, "y": 14 } ] }
   }
 ]
