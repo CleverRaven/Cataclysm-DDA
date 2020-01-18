@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 #include "ammo.h"
+#include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "calendar.h"
@@ -3550,36 +3551,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         dam = 0;
     }
 
-    if( ammo_effects.count( "TRAIL" ) && !one_in( 4 ) ) {
-        add_field( p, fd_smoke, rng( 1, 2 ) );
-    }
-
-    if( ammo_effects.count( "STREAM" ) && !one_in( 3 ) ) {
-        add_field( p, fd_fire, rng( 1, 2 ) );
-    }
-
-    if( ammo_effects.count( "STREAM_GAS_FUNGICIDAL" ) && !one_in( 3 ) ) {
-        add_field( p, fd_fungicidal_gas, rng( 1, 2 ) );
-    }
-
-    if( ammo_effects.count( "STREAM_GAS_INSCENTICIDAL" ) && !one_in( 3 ) ) {
-        add_field( p, fd_insecticidal_gas, rng( 1, 2 ) );
-    }
-
-    if( ammo_effects.count( "STREAM_BIG" ) && !one_in( 4 ) ) {
-        add_field( p, fd_fire, 2 );
-    }
-
-    if( ammo_effects.count( "LIGHTNING" ) ) {
-        add_field( p, fd_electricity, rng( 2, 3 ) );
-    }
-
-    if( ammo_effects.count( "PLASMA" ) && one_in( 2 ) ) {
-        add_field( p, fd_plasma, rng( 1, 2 ) );
-    }
-
-    if( ammo_effects.count( "LASER" ) || ammo_effects.count( "DRAW_LASER_BEAM" ) ) {
-        add_field( p, fd_laser, 2 );
+    for( const ammo_effect &ae : ammo_effects::get_all() ) {
+        if( ammo_effects.count( ae.id.str() ) > 0 ) {
+            if( x_in_y( ae.trail_chance, 100 ) ) {
+                g->m.add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
+            }
+        }
     }
 
     dam = std::max( 0.0f, dam );
