@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_moonflower",
     "name": "Moonflower Bush",
-    "description": "A silver colored vine, whose luminescent flowers will only bloom during night.\n\nAmazingly rare, it grows only in places were heroic deeds took place, or so its believed.",
+    "description": "A silver colored vine, whose luminescent flowers will only bloom during night.\n\nAmazingly rare, it grows only in places were heroic deeds took place, or so it's believed.",
     "symbol": "y",
     "color": "ligt_cyan",
     "looks_like": "f_dandelion",
