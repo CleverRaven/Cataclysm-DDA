@@ -996,6 +996,31 @@
   },
   {
     "type": "recipe",
+    "result": "bp_shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_00",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_dragon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_shot_00",
     "obsolete": true
   },
@@ -1051,27 +1076,27 @@
   },
   {
     "type": "recipe",
-    "result": "bp_shot_00",
+    "result": "bp_shot_00_with dowel",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bp_shot_bird",
+    "result": "bp_shot_bird_with dowel",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bp_shot_dragon",
+    "result": "bp_shot_dragon_with dowel",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bp_shot_slug",
+    "result": "bp_shot_slug_with dowel",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bp_shot_scrap",
+    "result": "bp_shot_scrap_with dowel",
     "obsolete": true
   },
   {
@@ -1612,6 +1637,11 @@
   {
     "type": "recipe",
     "result": "reloaded_762_m87",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_crows_m240",
     "obsolete": true
   }
 ]

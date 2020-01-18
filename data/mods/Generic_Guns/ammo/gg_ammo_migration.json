@@ -333,27 +333,27 @@
     "replace": "shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
+    "id": [ "bp_shot_00", "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
   {
-    "id": [ "reloaded_shot_bird" ],
+    "id": [ "bp_shot_bird", "reloaded_shot_bird" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_fowl"
   },
   {
-    "id": [ "reloaded_shot_slug", "20x66_bootleg_slug" ],
+    "id": [ "bp_shot_bird", "reloaded_shot_slug", "20x66_bootleg_slug" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_foster"
   },
   {
-    "id": [ "reloaded_shot_dragon" ],
+    "id": [ "bp_shot_dragon", "reloaded_shot_dragon" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_flechette" ],
+    "id": [ "bp_shot_flechette", "reloaded_shot_flechette" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_dart"
   }

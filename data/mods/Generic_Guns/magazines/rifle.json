@@ -1,12 +1,16 @@
 [
   {
     "id": "rifle_belt",
-    "copy-from": "belt308",
+    "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": "ammo belt",
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  Holds rifle ammunition.",
     "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle"
+    "ammo_type": "ammo_rifle",
+    "capacity": 500,
+    "count": 100,
+    "default_ammo": "rifle_ball",
+    "linkage": "ammolinkrifle"
   },
   {
     "id": "rifle_mag",
