@@ -45,7 +45,7 @@ const harvest_id &harvest_list::id() const
 
 std::string harvest_list::message() const
 {
-    return SNIPPET.expand( message_ );
+    return SNIPPET.expand( message_.translated() );
 }
 
 bool harvest_list::is_null() const
@@ -83,7 +83,7 @@ const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &s
     }
 
     if( jo.has_string( "message" ) ) {
-        ret.message_ = jo.get_string( "message" );
+        ret.message_ = to_translation( jo.get_string( "message" ) );
     }
 
     for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
