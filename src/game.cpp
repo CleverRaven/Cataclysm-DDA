@@ -3302,8 +3302,7 @@ vehicle* game::get_posessed_vehicle( const tripoint &character_location ) const
     if( g->remoteveh() ) {
         veh = g->remoteveh();
     } else {
-        const optional_vpart_position vp = m.veh_at( character_location );
-        veh = &vp->vehicle();
+        veh = veh_pointer_or_null( m.veh_at( character_location ) );
     }
     return veh;
 }
