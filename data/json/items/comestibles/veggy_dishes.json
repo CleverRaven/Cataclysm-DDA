@@ -107,7 +107,8 @@
     "healthy": 2,
     "description": "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
     "price": 120,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 0
   },
   {
     "type": "COMESTIBLE",

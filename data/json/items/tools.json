@@ -110,27 +110,6 @@
     "qualities": [ [ "PRESSURIZATION", 1 ] ]
   },
   {
-    "id": "UPS_off",
-    "type": "TOOL",
-    "name": "UPS",
-    "name_plural": "UPS's",
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
-    "weight": "680 g",
-    "volume": "2500 ml",
-    "price": 280000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4,
-    "flags": [ "IS_UPS" ]
-  },
-  {
     "id": "acidbomb",
     "type": "TOOL",
     "category": "weapons",
@@ -146,24 +125,6 @@
     "color": "yellow",
     "use_action": "ACIDBOMB_ACT",
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
-  },
-  {
-    "id": "adv_UPS_off",
-    "type": "TOOL",
-    "name": "advanced UPS",
-    "name_plural": "advanced UPS's",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
-    "weight": "453 g",
-    "volume": "2 L",
-    "price": 560000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_green",
-    "ammo": "plutonium",
-    "max_charges": 2500,
-    "flags": [ "IS_UPS" ]
   },
   {
     "id": "advanced_ecig",
@@ -257,54 +218,6 @@
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
     "flags": [ "DURABLE_MELEE" ]
-  },
-  {
-    "id": "water_mill",
-    "type": "TOOL",
-    "name": "water mill",
-    "description": "A small water-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
-    "weight": "120000 g",
-    "volume": "22500 ml",
-    "price": 100000,
-    "to_hit": -5,
-    "bashing": 40,
-    "material": "wood",
-    "symbol": "*",
-    "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
-  },
-  {
-    "id": "wind_mill",
-    "type": "TOOL",
-    "name": "wind mill",
-    "description": "A small wind-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
-    "weight": "120000 g",
-    "volume": "22500 ml",
-    "price": 100000,
-    "to_hit": -5,
-    "bashing": 40,
-    "material": "steel",
-    "symbol": "T",
-    "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
-  },
-  {
-    "id": "atomic_coffeepot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "atomic coffee maker",
-    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
-    "weight": "6102 g",
-    "volume": "1000 ml",
-    "price": 100000,
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "plastic", "aluminum" ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "symbol": ",",
-    "color": "light_green",
-    "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
     "id": "atomic_lamp",
@@ -739,84 +652,6 @@
     }
   },
   {
-    "id": "camera",
-    "type": "TOOL",
-    "name": "camera",
-    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
-    "weight": "907 g",
-    "volume": "250 ml",
-    "price": 20000,
-    "bashing": 1,
-    "material": [ "plastic", "steel" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 5,
-    "use_action": "CAMERA",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
-  },
-  {
-    "id": "camera_pro",
-    "type": "TOOL",
-    "name": "camera pro",
-    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
-    "weight": "2268 g",
-    "volume": "1250 ml",
-    "price": 800000,
-    "bashing": 1,
-    "material": [ "plastic", "steel" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 5,
-    "use_action": "CAMERA",
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
-  },
-  {
-    "id": "can_sealer",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "can sealer",
-    "description": "A hand crank powered cast steel machine designed to automatically seal tin cans.",
-    "weight": "9800 g",
-    "volume": "5 L",
-    "price": 52500,
-    "to_hit": -2,
-    "bashing": 8,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
     "id": "candle",
     "type": "TOOL",
     "name": "candle",
@@ -879,34 +714,6 @@
     "use_action": "CAN_GOO"
   },
   {
-    "id": "sieve_steel",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "sieve",
-    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
-    "volume": "500 ml",
-    "weight": "318 g",
-    "price": 700,
-    "bashing": 2,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray"
-  },
-  {
-    "id": "sieve_primitive",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "wicker sieve",
-    "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
-    "weight": "50 g",
-    "volume": "500 ml",
-    "price": 300,
-    "bashing": 1,
-    "material": [ "paper" ],
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
     "id": "carding_paddles",
     "type": "GENERIC",
     "category": "tools",
@@ -921,160 +728,6 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown"
-  },
-  {
-    "id": "carver_off",
-    "type": "TOOL",
-    "name": "electric carver (off)",
-    "name_plural": "electric carvers (off)",
-    "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
-    "weight": "1106 g",
-    "volume": "1500 ml",
-    "price": 2000,
-    "bashing": 2,
-    "cutting": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 5,
-    "use_action": "CARVER_OFF",
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
-    "id": "carver_on",
-    "copy-from": "carver_off",
-    "type": "TOOL",
-    "name": "electric carver (on)",
-    "name_plural": "electric carvers (on)",
-    "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
-    "cutting": 30,
-    "power_draw": 150000,
-    "charges_per_use": 0,
-    "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "magazine_well": 2
-  },
-  {
-    "id": "cell_phone",
-    "type": "TOOL",
-    "name": "cellphone",
-    "name_plural": "cellphones",
-    "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
-    "weight": "226 g",
-    "volume": "100 ml",
-    "price": 9000,
-    "price_postapoc": 2000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "cell_phone_flashlight",
-      "msg": "You light up the screen.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The cellphone's batteries need more charge.",
-      "type": "transform"
-    },
-    "flags": [ "WATCH", "ALARMCLOCK" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_disposable_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
-  },
-  {
-    "id": "cell_phone_flashlight",
-    "copy-from": "cell_phone",
-    "type": "TOOL",
-    "name": "cellphone - Flashlight",
-    "name_plural": "cellphones - Flashlight",
-    "power_draw": 500,
-    "revert_to": "cell_phone",
-    "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
-  },
-  {
-    "id": "smart_phone",
-    "type": "TOOL",
-    "name": "smartphone",
-    "name_plural": "smartphones",
-    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
-    "weight": "230 g",
-    "volume": "100 ml",
-    "price": 20000,
-    "price_postapoc": 1900,
-    "material": [ "plastic", "aluminum" ],
-    "looks_like": "cell_phone",
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "initial_charges": 110,
-    "max_charges": 120,
-    "charges_per_use": 1,
-    "use_action": [
-      {
-        "target": "smart_phone_flashlight",
-        "msg": "You activate the flashlight app.",
-        "active": true,
-        "need_charges": 5,
-        "need_charges_msg": "The smartphone's charge is too low.",
-        "type": "transform"
-      },
-      "CAMERA",
-      "MP3"
-    ],
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "smartphone_music",
-    "copy-from": "smart_phone",
-    "type": "TOOL",
-    "name": "smartphone - music",
-    "name_plural": "smartphones - music",
-    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "power_draw": 300,
-    "revert_to": "smart_phone",
-    "use_action": "MP3_ON",
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazine_well": 1
-  },
-  {
-    "id": "smart_phone_flashlight",
-    "copy-from": "smart_phone",
-    "type": "TOOL",
-    "name": "smartphone - Flashlight",
-    "name_plural": "smartphones - Flashlight",
-    "power_draw": 1500,
-    "revert_to": "smart_phone",
-    "use_action": {
-      "target": "smart_phone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off flashlight",
-      "type": "transform"
-    },
-    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "chainsaw_off",
@@ -1150,25 +803,6 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "id": "char_purifier",
-    "type": "TOOL",
-    "name": "charcoal water purifier",
-    "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
-    "weight": "1820 g",
-    "volume": "3750 ml",
-    "price": 4000,
-    "to_hit": -3,
-    "bashing": 3,
-    "material": [ "wood", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "initial_charges": 150,
-    "max_charges": 150,
-    "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
     "id": "lifestraw",
     "type": "TOOL",
     "name": "lifestraw",
@@ -1187,43 +821,6 @@
     "max_charges": 4000,
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER"
-  },
-  {
-    "id": "char_smoker",
-    "type": "TOOL",
-    "name": "charcoal smoker",
-    "description": "This is a portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.",
-    "weight": "2600 g",
-    "volume": "5 L",
-    "price": 10000,
-    "to_hit": -2,
-    "bashing": 9,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "charcoal",
-    "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "charcoal_cooker",
-    "type": "TOOL",
-    "name": "charcoal cooker",
-    "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
-    "weight": "405 g",
-    "volume": "1250 ml",
-    "price": 5000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "steel",
-    "symbol": ";",
-    "color": "green",
-    "ammo": "charcoal",
-    "sub": "hotplate",
-    "initial_charges": 50,
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "use_action": "HOTPLATE"
   },
   {
     "id": "chipper",
@@ -1333,79 +930,6 @@
     }
   },
   {
-    "id": "clay_pot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "clay pot",
-    "description": "A crude clay pot with lid used for cooking.",
-    "weight": "480 g",
-    "volume": "2 L",
-    "price": 2500,
-    "bashing": 1,
-    "material": "clay",
-    "symbol": ")",
-    "color": "brown",
-    "container_data": { "contains": "2 L", "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "clay_quern",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "clay quern",
-    "description": "This is a simple hand-powered clay quern for grinding grain.",
-    "weight": "2264 g",
-    "volume": "1500 ml",
-    "price": 3000,
-    "material": "clay",
-    "symbol": ":",
-    "color": "brown"
-  },
-  {
-    "id": "clay_teapot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "clay teapot",
-    "description": "A clay teapot.  Now all you need is tea and water.",
-    "weight": "429 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "to_hit": 1,
-    "bashing": 1,
-    "material": "clay",
-    "symbol": ")",
-    "color": "brown",
-    "container_data": { "contains": "750 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
-  },
-  {
-    "id": "coffeemaker",
-    "type": "TOOL",
-    "name": "coffeemaker",
-    "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
-    "weight": "3100 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "to_hit": -5,
-    "bashing": 2,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 10,
-    "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
     "id": "con_mix",
     "type": "TOOL",
     "name": "concrete mixer",
@@ -1422,28 +946,6 @@
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
-    "id": "control_laptop",
-    "type": "TOOL",
-    "name": "control laptop",
-    "description": "A modified laptop, now capable of transmitting in the ultra high frequencies utilized by robots.  Activate it to command robots from afar.",
-    "weight": "2721 g",
-    "volume": "1 L",
-    "price": 10000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 2,
-    "use_action": "ROBOTCONTROL",
     "magazines": [
       [
         "battery",
@@ -1509,28 +1011,6 @@
       ]
     ],
     "magazine_well": 2
-  },
-  {
-    "id": "cot",
-    "type": "TOOL",
-    "name": "cot",
-    "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
-    "weight": "6164 g",
-    "volume": "2 L",
-    "price": 7500,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "aluminum", "cotton" ],
-    "symbol": ";",
-    "color": "green",
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_cot",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You unfold the cot and place it on the ground."
-    }
   },
   {
     "id": "cow_bell",
@@ -1604,25 +1084,6 @@
     }
   },
   {
-    "id": "crowbar",
-    "type": "TOOL",
-    "name": "crowbar",
-    "description": "This is a hefty prying tool.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
-    "weight": "500 g",
-    "volume": "1 L",
-    "price": 1300,
-    "to_hit": 2,
-    "bashing": 14,
-    "cutting": 1,
-    "material": "steel",
-    "symbol": ";",
-    "color": "dark_gray",
-    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP" ]
-  },
-  {
     "id": "crucible",
     "type": "TOOL",
     "name": "crucible",
@@ -1684,19 +1145,6 @@
     "magazine_well": 1
   },
   {
-    "id": "crude_picklock",
-    "type": "TOOL",
-    "name": "improvised lockpick",
-    "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
-    "weight": "23 g",
-    "volume": 0,
-    "price": 0,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "use_action": { "type": "picklock", "pick_quality": 3 }
-  },
-  {
     "id": "damaged_shelter_kit",
     "type": "TOOL",
     "name": "damaged shelter kit",
@@ -1709,29 +1157,6 @@
     "material": [ "wood", "leather" ],
     "symbol": ";",
     "color": "brown"
-  },
-  {
-    "id": "dehydrator",
-    "type": "TOOL",
-    "name": "food dehydrator",
-    "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
-    "weight": "4200 g",
-    "volume": "4500 ml",
-    "price": 6000,
-    "to_hit": -2,
-    "bashing": 8,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "blue",
-    "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
   },
   {
     "id": "digging_stick",
@@ -1748,20 +1173,6 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "DIG", 1 ] ]
-  },
-  {
-    "id": "directional_antenna",
-    "type": "TOOL",
-    "name": "directional antenna",
-    "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
-    "weight": "454 g",
-    "volume": "500 ml",
-    "price": 800,
-    "to_hit": 1,
-    "material": "aluminum",
-    "symbol": ",",
-    "color": "light_gray",
-    "use_action": "DIRECTIONAL_ANTENNA"
   },
   {
     "id": "distaff_spindle",
@@ -1967,25 +1378,6 @@
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
   {
-    "id": "e_handcuffs",
-    "type": "TOOL",
-    "name": "electronic handcuffs",
-    "name_plural": "electronic handcuffs",
-    "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
-    "weight": "2000 g",
-    "volume": "250 ml",
-    "price": 0,
-    "to_hit": -8,
-    "cutting": 1,
-    "material": [ "plastic", "steel" ],
-    "symbol": ";",
-    "color": "white",
-    "max_charges": 3000,
-    "turns_per_charge": 1,
-    "use_action": "EHANDCUFFS",
-    "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
-  },
-  {
     "id": "e_tool",
     "type": "TOOL",
     "name": "entrenching tool",
@@ -2001,114 +1393,6 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
-  },
-  {
-    "id": "eggs_ferment",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "fermenting eggs jar",
-    "description": "This jar contains a batch of eggs in a pickling solution.  You can seal up the jar once the process is completed.",
-    "weight": "52 g",
-    "volume": "250 ml",
-    "price": 10,
-    "bashing": 8,
-    "material": [ "glass", "egg" ],
-    "symbol": "%",
-    "color": "white",
-    "use_action": {
-      "target": "jar_eggs_pickled",
-      "msg": "You examine the batch and see that the pickling solution has done its job, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 33600,
-      "not_ready_msg": "The eggs are not done yet."
-    }
-  },
-  {
-    "id": "milk_cream_rising",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "rising cream jar",
-    "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
-    "weight": "3461 g",
-    "volume": "3000 ml",
-    "price": 10,
-    "bashing": 8,
-    "material": "glass",
-    "symbol": "%",
-    "looks_like": "jar_sauerkraut_pickled",
-    "color": "white",
-    "use_action": {
-      "target": "milk_cream_jar",
-      "msg": "You examine the batch and see that the cream has risen to the top, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 21600,
-      "not_ready_msg": "The cream has not risen yet."
-    }
-  },
-  {
-    "id": "milk_cream_jar",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "milk cream jar",
-    "looks_like": "jar_sauerkraut_pickled",
-    "description": "This jar contains raw milk separated into cream.  It is sealed until you are ready to use it.",
-    "weight": "3461 g",
-    "volume": "3000 ml",
-    "price": 10,
-    "bashing": 8,
-    "material": "glass",
-    "symbol": "%",
-    "color": "white"
-  },
-  {
-    "id": "butter_churn",
-    "type": "TOOL",
-    "name": "pseudo butter churn",
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
-    "weight": "6464 g",
-    "volume": "9 L",
-    "price": 20000,
-    "to_hit": -2,
-    "bashing": 9,
-    "material": "wood",
-    "qualities": [ [ "CHURN", 1 ] ],
-    "symbol": "H",
-    "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "eink_tablet_pc",
-    "type": "TOOL",
-    "name": "e-ink tablet PC",
-    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "price": 20000,
-    "to_hit": -1,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "blue",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "use_action": "EINKTABLETPC",
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
   },
   {
     "id": "elec_chainsaw_off",
@@ -2156,25 +1440,6 @@
     "magazine_well": 2
   },
   {
-    "id": "elec_hairtrimmer",
-    "type": "TOOL",
-    "name": "electric hair trimmer",
-    "description": "This is a pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 10 batteries per use.",
-    "weight": "138 g",
-    "volume": "250 ml",
-    "price": 3000,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 10,
-    "use_action": "HAIRKIT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ],
-    "magazine_well": 1
-  },
-  {
     "id": "elec_jackhammer",
     "type": "TOOL",
     "name": "electric jackhammer",
@@ -2194,37 +1459,6 @@
     "charges_per_use": 3500,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "electrohack",
-    "type": "TOOL",
-    "category": "tools",
-    "name": "electrohack",
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
-    "weight": "114 g",
-    "volume": "500 ml",
-    "price": 40000,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "green",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
   },
   {
     "id": "etched_skull",
@@ -2620,32 +1854,6 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "flask_yeast",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "sealed yeast culture",
-    "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
-    "weight": "52 g",
-    "volume": "250 ml",
-    "price": 10,
-    "bashing": 8,
-    "material": [ "glass", "powder" ],
-    "symbol": "%",
-    "color": "white",
-    "use_action": {
-      "target": "yeast",
-      "msg": "You open the flask and harvest the culture.",
-      "container": "flask_glass",
-      "target_charges": 10,
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 7200,
-      "not_ready_msg": "The yeast isn't done culturing yet.",
-      "//": "12 hours"
-    },
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "flute",
     "type": "TOOL",
     "category": "tools",
@@ -2673,26 +1881,6 @@
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
       ]
-    }
-  },
-  {
-    "id": "folding_bicycle",
-    "type": "TOOL",
-    "name": "folding bicycle",
-    "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "9071 g",
-    "volume": "21500 ml",
-    "price": 35000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": "aluminum",
-    "symbol": "0",
-    "color": "light_gray",
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "bicycle",
-      "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
-      "moves": 500
     }
   },
   {
@@ -2829,26 +2017,6 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "gasoline_cooker",
-    "type": "TOOL",
-    "name": "gasoline cooker",
-    "description": "This is a simple heater powered by gasoline.  It is designed for cooking food.",
-    "weight": "1944 g",
-    "volume": "1250 ml",
-    "price": 5000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "steel",
-    "symbol": ";",
-    "color": "green",
-    "ammo": "gasoline",
-    "sub": "hotplate",
-    "initial_charges": 500,
-    "max_charges": 500,
-    "charges_per_use": 1,
-    "use_action": "HOTPLATE"
-  },
-  {
     "id": "gasoline_lantern",
     "type": "TOOL",
     "name": "gasoline lantern (off)",
@@ -2888,62 +2056,6 @@
     "revert_to": "gasoline_lantern",
     "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "geiger_off",
-    "type": "TOOL",
-    "name": "geiger counter (off)",
-    "name_plural": "geiger counters (off)",
-    "description": "This is a tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation.  It is currently off.",
-    "weight": "225 g",
-    "volume": "500 ml",
-    "price": 15000,
-    "bashing": 2,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "use_action": "GEIGER",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
-  },
-  {
-    "id": "geiger_on",
-    "copy-from": "geiger_off",
-    "type": "TOOL",
-    "name": "geiger counter (on)",
-    "name_plural": "geiger counters (on)",
-    "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
-    "power_draw": 200,
-    "revert_to": "geiger_off",
-    "use_action": "GEIGER",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
-  },
-  {
-    "id": "generic_folded_vehicle",
-    "type": "TOOL",
-    "name": "seeing this is a bug",
-    "description": "seeing this is a bug",
-    "volume": 0,
-    "price": 0,
-    "symbol": "/",
-    "color": "light_gray",
-    "use_action": "UNFOLD_GENERIC"
   },
   {
     "id": "glowstick",
@@ -3108,38 +2220,6 @@
     "qualities": [ [ "DRILL", 2 ] ]
   },
   {
-    "id": "heatpack",
-    "type": "TOOL",
-    "name": "heat pack",
-    "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  It is usable only once.",
-    "weight": "226 g",
-    "volume": 0,
-    "price": 100,
-    "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "light_gray",
-    "use_action": "HEATPACK"
-  },
-  {
-    "id": "heatpack_used",
-    "type": "TOOL",
-    "category": "other",
-    "name": "used heat pack",
-    "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  This one has been used and is chemically inert, rendering it useless.",
-    "weight": "226 g",
-    "volume": 0,
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
     "id": "hoe",
     "type": "TOOL",
     "name": "hoe",
@@ -3245,30 +2325,6 @@
     "use_action": "SIPHON"
   },
   {
-    "id": "hotplate",
-    "type": "TOOL",
-    "name": "hotplate",
-    "description": "This is a small heating element on a stand, powered by batteries.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
-    "weight": "2835 g",
-    "volume": "1250 ml",
-    "price": 2500,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": "battery",
-    "charges_per_use": 5,
-    "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
     "id": "hygrometer",
     "type": "TOOL",
     "category": "tools",
@@ -3284,25 +2340,6 @@
     "color": "light_blue",
     "use_action": "WEATHER_TOOL",
     "flags": [ "HYGROMETER" ]
-  },
-  {
-    "id": "iceaxe",
-    "type": "TOOL",
-    "name": "ice axe",
-    "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough to pry open closed doors or lift manhole covers.",
-    "weight": "500 g",
-    "volume": "750 ml",
-    "price": 5000,
-    "to_hit": 2,
-    "bashing": 14,
-    "cutting": 3,
-    "material": "steel",
-    "symbol": ";",
-    "color": "dark_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
-    "use_action": "CROWBAR",
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ]
   },
   {
     "id": "jackhammer",
@@ -3323,75 +2360,6 @@
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
-  },
-  {
-    "id": "jar_pickles_pickled",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "sealed jar of pickles",
-    "name_plural": "sealed jars of pickles",
-    "description": "This is a sealed glass jar containing pickles.  Use to open and eat to enjoy.",
-    "weight": "1750 g",
-    "volume": "500 ml",
-    "price": 650,
-    "bashing": 4,
-    "material": [ "glass", "veggy" ],
-    "symbol": "%",
-    "color": "green",
-    "use_action": {
-      "target": "pickle",
-      "msg": "You open the jar, exposing it to the atmosphere.",
-      "container": "jar_glass",
-      "target_charges": 6,
-      "menu_text": "Open jar",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "jar_sauerkraut_pickled",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "sealed jar of sauerkraut",
-    "name_plural": "sealed jars of sauerkraut",
-    "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
-    "weight": "1750 g",
-    "volume": "500 ml",
-    "price": 650,
-    "bashing": 4,
-    "material": [ "glass", "veggy" ],
-    "symbol": "%",
-    "color": "green",
-    "use_action": {
-      "target": "sauerkraut",
-      "msg": "You open the jar, exposing it to the atmosphere.",
-      "container": "jar_glass",
-      "target_charges": 4,
-      "menu_text": "Open jar",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "jar_eggs_pickled",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "sealed jar of eggs",
-    "name_plural": "sealed jars of eggs",
-    "description": "This is a sealed glass jar containing pickled eggs.  Use to open and eat to enjoy.",
-    "weight": "1750 g",
-    "volume": "500 ml",
-    "price": 650,
-    "bashing": 4,
-    "material": [ "glass", "veggy" ],
-    "symbol": "%",
-    "color": "green",
-    "use_action": {
-      "target": "pickled_egg",
-      "msg": "You open the jar, exposing it to the atmosphere.",
-      "container": "jar_glass",
-      "target_charges": 6,
-      "menu_text": "Open jar",
-      "type": "transform"
-    }
   },
   {
     "id": "kevlar_plate",
@@ -3702,25 +2670,6 @@
     "flags": [ "FIRESTARTER" ]
   },
   {
-    "id": "makeshift_crowbar",
-    "type": "TOOL",
-    "name": "makeshift crowbar",
-    "description": "This is a pipe whose ends have been bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers.  You could also wield it to fight with, in a pinch.",
-    "weight": "1250 g",
-    "volume": "1 L",
-    "price": 0,
-    "to_hit": 2,
-    "bashing": 12,
-    "cutting": 1,
-    "material": "steel",
-    "symbol": ";",
-    "color": "dark_gray",
-    "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
-    "use_action": "CROWBAR",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP" ]
-  },
-  {
     "id": "makeshift_funnel",
     "type": "TOOL",
     "name": "makeshift funnel",
@@ -3777,28 +2726,6 @@
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
-    "id": "makeshift_sealer",
-    "type": "TOOL",
-    "name": "makeshift vacuum sealer",
-    "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
-    "weight": "3218 g",
-    "volume": "2 L",
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "white",
-    "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
-  },
-  {
     "id": "matches",
     "type": "TOOL",
     "name": "matchbook",
@@ -3814,32 +2741,6 @@
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
     "flags": [ "FIRESTARTER" ]
-  },
-  {
-    "id": "mess_kit",
-    "type": "TOOL",
-    "name": "mess kit",
-    "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.  This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled Esbit stove.",
-    "weight": "1500 g",
-    "volume": "1 L",
-    "price": 5000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": "battery",
-    "sub": "hotplate",
-    "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
   },
   {
     "id": "metal_funnel",
@@ -3896,32 +2797,6 @@
     "symbol": ",",
     "color": "light_gray",
     "qualities": [ [ "SMOOTH", 2 ] ]
-  },
-  {
-    "id": "mil_mess_kit",
-    "type": "TOOL",
-    "name": "military mess kit",
-    "description": "Military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All parts are made from thin sheet of aluminum / superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled Esbit stove.  Compact, durable and lightweight.",
-    "weight": "900 g",
-    "volume": "1 L",
-    "price": 6000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": "battery",
-    "sub": "hotplate",
-    "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
   },
   {
     "id": "mininuke",
@@ -4066,120 +2941,6 @@
     "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ]
   },
   {
-    "id": "mop",
-    "type": "TOOL",
-    "name": "mop",
-    "description": "This is an unwieldy mop.  Good for cleaning up spills.  Use to mop up any 'mess' you may have made.",
-    "weight": "929 g",
-    "volume": "1750 ml",
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": "wood",
-    "symbol": "/",
-    "color": "light_gray",
-    "techniques": "WBLOCK_1",
-    "use_action": "MOP"
-  },
-  {
-    "id": "brush",
-    "type": "TOOL",
-    "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
-    "description": "This is a simple scrub brush.",
-    "weight": "70 g",
-    "volume": "250 ml",
-    "price": 200,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": "plastic",
-    "symbol": "/",
-    "color": "light_gray"
-  },
-  {
-    "id": "mortar_pestle",
-    "type": "TOOL",
-    "name": "mortar and pestle",
-    "name_plural": "sets of mortar and pestle",
-    "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
-    "weight": "1632 g",
-    "volume": "1 L",
-    "price": 0,
-    "to_hit": -4,
-    "bashing": 3,
-    "material": "stone",
-    "symbol": ":",
-    "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "mp3",
-    "type": "TOOL",
-    "name": "mp3 player (off)",
-    "name_plural": "mp3 players (off)",
-    "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
-    "weight": "140 g",
-    "volume": "50 ml",
-    "price": 3000,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "use_action": "MP3",
-    "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_disposable_cell",
-          "light_minus_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
-  },
-  {
-    "id": "mp3_on",
-    "copy-from": "mp3",
-    "type": "TOOL",
-    "name": "mp3 player (on)",
-    "name_plural": "mp3 players (on)",
-    "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "power_draw": 1000,
-    "revert_to": "mp3",
-    "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
-  },
-  {
-    "id": "multi_cooker",
-    "type": "TOOL",
-    "name": "multi cooker",
-    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
-    "weight": "11339 g",
-    "volume": "3750 ml",
-    "price": 20000,
-    "to_hit": -3,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "ammo": "battery",
-    "power_draw": 1500000,
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
     "id": "multitool",
     "type": "TOOL",
     "name": "multi-tool",
@@ -4277,71 +3038,6 @@
       "move_cost": 1500
     },
     "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "noise_emitter",
-    "type": "TOOL",
-    "name": "noise emitter (off)",
-    "name_plural": "noise emitters (off)",
-    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
-    "weight": "340 g",
-    "volume": "1 L",
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "use_action": "NOISE_EMITTER_OFF",
-    "flags": [ "RADIO_MODABLE" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ]
-  },
-  {
-    "id": "noise_emitter_on",
-    "copy-from": "noise_emitter",
-    "type": "TOOL",
-    "name": "noise emitter (on)",
-    "name_plural": "noise emitters (on)",
-    "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "power_draw": 10000,
-    "revert_to": "noise_emitter",
-    "use_action": "NOISE_EMITTER_ON",
-    "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
-  },
-  {
-    "id": "oil_cooker",
-    "type": "TOOL",
-    "name": "lamp oil cooker",
-    "description": "This is a simple heater powered by lamp oil.  It is designed for cooking food.",
-    "weight": "2264 g",
-    "volume": "1250 ml",
-    "price": 5000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "steel",
-    "symbol": ";",
-    "color": "green",
-    "ammo": "lamp_oil",
-    "sub": "hotplate",
-    "initial_charges": 800,
-    "max_charges": 800,
-    "charges_per_use": 1,
-    "use_action": "HOTPLATE"
   },
   {
     "id": "oil_lamp",
@@ -4472,21 +3168,6 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
-    "id": "pastaextruder",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "pasta extruder",
-    "description": "A pasta extruder run by a hand-crank.  Useful in making pasta.  It comes with various heads to make various kinds of pasta.",
-    "weight": "2628 g",
-    "volume": "1 L",
-    "price": 2000,
-    "to_hit": 2,
-    "bashing": 10,
-    "material": "iron",
-    "symbol": ")",
-    "color": "dark_gray"
-  },
-  {
     "id": "permanent_marker",
     "type": "TOOL",
     "name": "permanent marker",
@@ -4585,42 +3266,6 @@
     "use_action": "PICKAXE",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
-  },
-  {
-    "id": "picklocks",
-    "type": "TOOL",
-    "name": "locksmith kit",
-    "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
-    "weight": "544 g",
-    "volume": 0,
-    "price": 20000,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "use_action": { "type": "picklock", "pick_quality": 5 }
-  },
-  {
-    "id": "pickles_ferment",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "fermenting pickle jar",
-    "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
-    "weight": "52 g",
-    "volume": "250 ml",
-    "price": 10,
-    "bashing": 8,
-    "material": [ "glass", "veggy" ],
-    "symbol": "%",
-    "color": "white",
-    "use_action": {
-      "target": "jar_pickles_pickled",
-      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 33600,
-      "not_ready_msg": "The pickles are not done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
-    }
   },
   {
     "id": "pipe_glass",
@@ -4734,55 +3379,6 @@
     "magazine_well": 1
   },
   {
-    "id": "popcan_stove",
-    "type": "TOOL",
-    "name": "soda can stove kit",
-    "//": "Should be 20 but currently recipes do not utilize this value",
-    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
-    "weight": "45 g",
-    "volume": "750 ml",
-    "price": 250,
-    "bashing": 1,
-    "material": "aluminum",
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "conc_alcohol",
-    "sub": "hotplate",
-    "initial_charges": 500,
-    "max_charges": 500,
-    "charges_per_use": 1,
-    "use_action": "HOTPLATE"
-  },
-  {
-    "id": "portable_game",
-    "type": "TOOL",
-    "name": "handheld game system",
-    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
-    "weight": "200 g",
-    "volume": "500 ml",
-    "price": 12000,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "use_action": "PORTABLE_GAME",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
-  },
-  {
     "id": "portal",
     "type": "TOOL",
     "name": "portal generator",
@@ -4882,63 +3478,6 @@
     "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
   },
   {
-    "id": "pseuso_bio_picklock",
-    "type": "TOOL",
-    "name": "bio lockpick",
-    "description": "this a pseudo item",
-    "volume": 0,
-    "price": 0,
-    "symbol": ";",
-    "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "charges_per_use": 1,
-    "use_action": { "type": "picklock", "pick_quality": 40 }
-  },
-  {
-    "id": "rag",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "rag",
-    "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 0,
-    "material": "cotton",
-    "symbol": ",",
-    "color": "white",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "sponge",
-    "type": "TOOL",
-    "name": "sponge",
-    "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 0,
-    "material": "plastic",
-    "symbol": "s",
-    "color": "yellow",
-    "use_action": "WASH_HARD_ITEMS",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "wash_kit",
-    "type": "TOOL",
-    "name": "washing kit",
-    "description": "A combination kit of a washboard and a sponge or rag.  Everything you need to clean items after the apocalypse.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 0,
-    "material": "plastic",
-    "symbol": "%",
-    "color": "yellow",
-    "use_action": "WASH_ALL_ITEMS",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "reading_light",
     "type": "TOOL",
     "name": "reading light",
@@ -5035,39 +3574,6 @@
     "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
-    "id": "rock_pot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "stone pot",
-    "description": "A large stone, roughly hollowed out into a pot.",
-    "weight": "1500 g",
-    "volume": "2 L",
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": "stone",
-    "symbol": ";",
-    "color": "dark_gray",
-    "container_data": { "contains": "1500 ml", "watertight": true },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "rock_quern",
-    "type": "TOOL",
-    "name": "quern",
-    "description": "This is a simple hand-powered stone quern for grinding grain.",
-    "weight": "3264 g",
-    "volume": "2 L",
-    "price": 0,
-    "to_hit": -4,
-    "bashing": 5,
-    "material": "stone",
-    "symbol": ":",
-    "color": "light_gray"
-  },
-  {
     "id": "rollmat",
     "type": "TOOL",
     "name": "rollmat",
@@ -5136,29 +3642,6 @@
     "material": "paper",
     "symbol": ";",
     "color": "white"
-  },
-  {
-    "id": "sauerkraut_ferment",
-    "type": "GENERIC",
-    "category": "food",
-    "name": "fermenting sauerkraut jar",
-    "description": "This jar contains a batch of sauerkraut set to ferment.  You can seal up the jar once the process is completed.",
-    "weight": "1750 g",
-    "volume": "500 ml",
-    "price": 10,
-    "bashing": 4,
-    "material": [ "glass", "veggy" ],
-    "symbol": "%",
-    "color": "white",
-    "use_action": {
-      "target": "jar_sauerkraut_pickled",
-      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 33600,
-      "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
-      "//": "2 1/3 days, from the suggested recipe of 1 rl week"
-    }
   },
   {
     "id": "saw",
@@ -5289,24 +3772,6 @@
     "initial_charges": 3000,
     "max_charges": 3000,
     "qualities": [ [ "ANESTHESIA", 1 ] ]
-  },
-  {
-    "id": "shavingkit",
-    "type": "TOOL",
-    "name": "shaving kit",
-    "description": "This is a compact and lightweight shaving kit made for travelers.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
-    "weight": "90 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "to_hit": -1,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "white",
-    "ammo": "soap",
-    "initial_charges": 5,
-    "max_charges": 10,
-    "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
   },
   {
     "id": "shelter_kit",
@@ -5649,21 +4114,6 @@
     "use_action": "LADDER"
   },
   {
-    "id": "still",
-    "type": "TOOL",
-    "name": "still",
-    "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
-    "weight": "10000 g",
-    "volume": "10 L",
-    "price": 30000,
-    "to_hit": -6,
-    "bashing": 10,
-    "material": "copper",
-    "symbol": "L",
-    "color": "white",
-    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
-  },
-  {
     "id": "autoclave",
     "type": "TOOL",
     "name": "autoclave",
@@ -5704,41 +4154,6 @@
     "flags": [ "WRITE_MESSAGE" ]
   },
   {
-    "id": "survivor_hairtrimmer",
-    "type": "TOOL",
-    "name": "makeshift haircut kit",
-    "description": "This is a kit with tools for cutting hair.",
-    "weight": "642 g",
-    "volume": "1 L",
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": [ "leather", "glass" ],
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "HAIRKIT"
-  },
-  {
-    "id": "survivor_mess_kit",
-    "type": "TOOL",
-    "name": "survivor mess kit",
-    "description": "A homemade mess kit, containing everything you might need for creating post-apocalyptic cuisine.  Powered by a lamp oil burner, it is composed of simple yet durable tools and materials.",
-    "weight": "2160 g",
-    "volume": "2500 ml",
-    "price": 2000,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "glass" ],
-    "symbol": ";",
-    "color": "brown",
-    "ammo": "lamp_oil",
-    "sub": "hotplate",
-    "max_charges": 800,
-    "charges_per_use": 1,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
-  },
-  {
     "id": "survivor_scope",
     "type": "TOOL",
     "name": "survivor telescope",
@@ -5753,24 +4168,6 @@
     "color": "green",
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "FIRESTARTER", "ZOOM" ]
-  },
-  {
-    "id": "survivor_shavingkit",
-    "type": "TOOL",
-    "name": "makeshift shaving kit",
-    "description": "This is a makeshift shaving kit.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
-    "weight": "540 g",
-    "volume": "750 ml",
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": [ "leather", "glass" ],
-    "symbol": ";",
-    "color": "brown",
-    "ammo": "soap",
-    "max_charges": 10,
-    "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
   },
   {
     "id": "swage",
@@ -5897,23 +4294,6 @@
       "//": "2 days"
     },
     "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "teapot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "teapot",
-    "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
-    "weight": "229 g",
-    "volume": "500 ml",
-    "price": 1000,
-    "to_hit": 2,
-    "bashing": 3,
-    "material": "steel",
-    "symbol": ")",
-    "color": "dark_gray",
-    "container_data": { "contains": "500 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "telepad",
@@ -6686,29 +5066,6 @@
     "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ]
   },
   {
-    "id": "vac_sealer",
-    "type": "TOOL",
-    "name": "vacuum sealer",
-    "description": "This is a portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
-    "weight": "2449 g",
-    "volume": "1250 ml",
-    "price": 2500,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "white",
-    "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
     "id": "vacutainer",
     "type": "CONTAINER",
     "category": "tools",
@@ -6727,66 +5084,6 @@
     "watertight": true,
     "use_action": "BLOOD_DRAW",
     "flags": [ "SPEAR" ]
-  },
-  {
-    "id": "hand_crank_charger",
-    "type": "TOOL",
-    "category": "tools",
-    "name": "hand-crank charger",
-    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 1000,
-    "material": "plastic",
-    "symbol": ":",
-    "color": "light_gray",
-    "ammo": "battery",
-    "use_action": "HAND_CRANK",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell"
-        ]
-      ]
-    ]
-  },
-  {
-    "id": "vibrator",
-    "type": "TOOL",
-    "name": "vibrator",
-    "name_plural": "vibrators",
-    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
-    "weight": "453 g",
-    "volume": "500 ml",
-    "price": 5500,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "charges_per_use": 10,
-    "use_action": "VIBE",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
   },
   {
     "id": "violin",
@@ -6866,70 +5163,6 @@
     "max_charges": 1,
     "charges_per_use": 1,
     "use_action": "VORTEX"
-  },
-  {
-    "id": "waffleiron",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "waffle iron",
-    "description": "A waffle iron.  For making waffles.",
-    "weight": "2628 g",
-    "volume": "1 L",
-    "price": 2000,
-    "to_hit": 2,
-    "bashing": 10,
-    "material": "iron",
-    "symbol": ")",
-    "color": "dark_gray",
-    "qualities": [ [ "COOK", 1 ] ]
-  },
-  {
-    "id": "washboard",
-    "type": "TOOL",
-    "name": "washboard",
-    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
-    "weight": "90 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "to_hit": -1,
-    "material": "wood",
-    "symbol": ";",
-    "color": "white",
-    "use_action": "WASH_SOFT_ITEMS",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "water_purifier",
-    "type": "TOOL",
-    "name": "water purifier",
-    "description": "This is a battery-powered device designed to purify drinking water.  Using this item on a container full of water will purify the contents.  It could be useful for water taken from uncertain sources like a river, as it may be non-potable.",
-    "weight": "1360 g",
-    "volume": "3 L",
-    "price": 10000,
-    "to_hit": -3,
-    "bashing": 2,
-    "material": [ "plastic", "steel" ],
-    "symbol": ";",
-    "color": "light_blue",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
   },
   {
     "id": "weather_reader",
@@ -7120,43 +5353,6 @@
     "flags": [ "SPEAR" ]
   },
   {
-    "type": "GENERIC",
-    "id": "razor_blade",
-    "symbol": ",",
-    "color": "light_cyan",
-    "name": "razor blade",
-    "description": "A double edged razor blade.",
-    "price": 600,
-    "price_postapoc": 100,
-    "material": "steel",
-    "weight": "10 g",
-    "cutting": 1
-  },
-  {
-    "id": "food_processor",
-    "type": "TOOL",
-    "category": "tools",
-    "name": "food processor",
-    "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
-    "weight": "3000 g",
-    "volume": "2 L",
-    "price": 50,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "iron" ],
-    "symbol": "%",
-    "color": "white",
-    "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
-  },
-  {
     "id": "link_sheet",
     "type": "TOOL",
     "category": "spare_parts",
@@ -7204,44 +5400,6 @@
     "color": "light_gray",
     "looks_like": "link_sheet",
     "flags": [ "FRAGILE_MELEE" ]
-  },
-  {
-    "id": "pressure_cooker",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "pressure cooker",
-    "description": "Useful for boiling water when cooking spaghetti and more.  This sealed pot is designed to cook food at higher pressures and temperatures.  Can also be used for pressure sensitive chemical reactions.",
-    "weight": "2200 g",
-    "volume": "2500 ml",
-    "price": 6500,
-    "to_hit": 1,
-    "bashing": 6,
-    "material": "steel",
-    "symbol": ")",
-    "color": "light_gray",
-    "looks_like": "pot_canning",
-    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "hobo_stove",
-    "type": "TOOL",
-    "name": "hobo stove",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": "500 g",
-    "volume": "250 ml",
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "max_charges": 100,
-    "charges_per_use": 25,
-    "use_action": "HOTPLATE"
   },
   {
     "id": "tinderbox",
@@ -7472,22 +5630,6 @@
     "cutting": 6,
     "price": 2000,
     "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ]
-  },
-  {
-    "id": "bathroom_scale",
-    "type": "TOOL",
-    "name": "bathroom scale",
-    "symbol": "■",
-    "color": "light_gray",
-    "description": "This is a small bathroom scale, meant to weigh a person while naked.",
-    "weight": "1200 g",
-    "volume": "1 L",
-    "price": 500,
-    "to_hit": -2,
-    "bashing": 6,
-    "material": "steel",
-    "use_action": { "type": "weigh_self", "max_weight": 150000 },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "acetylene_machine",

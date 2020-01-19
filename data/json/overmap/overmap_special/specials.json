@@ -4132,9 +4132,17 @@
       { "point": [ 0, 1, -7 ], "overmap": "robofachq_aiutl_b0_north" },
       { "point": [ 1, 1, -7 ], "overmap": "robofachq_aiutl_b1_north" },
       { "point": [ 2, 1, -7 ], "overmap": "robofachq_aiutl_b2_north" },
-      { "point": [ 3, 1, -7 ], "overmap": "robofachq_aiutl_b3_north" }
+      { "point": [ 3, 1, -7 ], "overmap": "robofachq_aiutl_b3_north" },
+      { "point": [ 10, 2, 0 ], "overmap": "radio_tower_1_north" },
+      { "point": [ 10, 2, 1 ], "overmap": "radio_tower_roof_1_north" },
+      { "point": [ 10, 2, 2 ], "overmap": "radio_tower_even_stair_only_north" },
+      { "point": [ 10, 2, 3 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 10, 2, 4 ], "overmap": "radio_tower_even_north" },
+      { "point": [ 10, 2, 5 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 10, 2, 6 ], "overmap": "radio_tower_top_north" }
     ],
     "connections": [
+      { "point": [ 10, 1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 10, 2, 0 ] },
       { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] },
       { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }
     ],

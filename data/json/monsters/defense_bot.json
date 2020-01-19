@@ -184,7 +184,7 @@
     "melee_dice_sides": 8,
     "melee_cut": 10,
     "armor_bash": 15,
-    "armor_cut": 10,
+    "armor_cut": 50,
     "vision_night": 5,
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
