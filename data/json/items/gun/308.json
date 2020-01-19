@@ -364,7 +364,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": "M110A1",
-    "description": "A derivative of H&K's G28 with an aluminium upper reciever to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
+    "description": "A derivative of H&K's G28 with an aluminium upper receiver to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
     "weight": "4330 g",
     "volume": "2 L",
     "price": 320000,

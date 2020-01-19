@@ -830,6 +830,21 @@
     "color": "dark_gray"
   },
   {
+    "id": "still",
+    "type": "TOOL",
+    "name": "still",
+    "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
+    "weight": "10000 g",
+    "volume": "10 L",
+    "price": 30000,
+    "to_hit": -6,
+    "bashing": 10,
+    "material": "copper",
+    "symbol": "L",
+    "color": "white",
+    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "survivor_mess_kit",
     "type": "TOOL",
     "name": "survivor mess kit",
