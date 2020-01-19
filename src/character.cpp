@@ -4167,11 +4167,11 @@ void Character::check_needs_extremes()
             g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
+            add_msg_if_player( m_warning, _( "Even your eyes feel dryâ€¦" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your mouth feels so dry…" ) );
+            add_msg_if_player( m_warning, _( "Your mouth feels so dryâ€¦" ) );
         }
     }
 
@@ -4183,7 +4183,7 @@ void Character::check_needs_extremes()
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
+            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleepâ€¦" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
         }
