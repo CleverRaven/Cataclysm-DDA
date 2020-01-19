@@ -2437,6 +2437,29 @@
     "flags": [ "STAB" ]
   },
   {
+    "id": "landmine",
+    "type": "TOOL",
+    "name": "land mine",
+    "description": "This is an military anti-personnel mine that is triggered when stepped upon.",
+    "weight": "2360 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "bury_question": "Bury the land mine?",
+      "bury": { "trap": "tr_landmine_buried", "moves": 275, "practice": 7, "done_message": "You bury the land mine." },
+      "trap": "tr_landmine",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the land mine."
+    }
+  },
+  {
     "id": "large_repairkit",
     "type": "TOOL",
     "name": "gunsmith repair kit",
