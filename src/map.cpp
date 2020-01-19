@@ -602,8 +602,13 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     // If the PC is in the currently moved vehicle, adjust the
     //  view offset.
-    if( g->u.controlling_vehicle && veh_pointer_or_null( veh_at( g->u.pos() ) ) == &veh ) {
-        g->calc_driving_offset( &veh );
+    if( ( g->u.controlling_vehicle || g->remoteveh() ) && g->get_posessed_vehicle( g->u.pos() ) == &veh ) {
+        if( !g->remoteveh() ) {
+            g->calc_driving_offset( &veh );
+        } else {
+            g->calc_driving_offset_for_rc( &veh );
+        }
+
         if( veh.skidding && can_move ) {
             // TODO: Make skid recovery in air hard
             veh.possibly_recover_from_skid();

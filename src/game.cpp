@@ -1259,6 +1259,26 @@ static int veh_lumi( vehicle &veh )
     return LIGHT_RANGE( ( veh_luminance * 3 ) );
 }
 
+void game::calc_driving_offset_for_rc( vehicle *veh )
+{
+    if ( veh == nullptr ) {
+        set_driving_view_offset(point_zero);
+        return;
+    }
+
+    // due to very limited RC range, no need to adjust driving_view_offset to fit maximum of visible area in game window
+    tripoint veh_ref_pos = u.pos();
+    if (g->remoteveh()) {
+        for( const vpart_reference &vp : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            veh_ref_pos = vp.pos();
+            break;
+        }
+    }
+    tripoint offset = veh_ref_pos - u.pos();
+
+    set_driving_view_offset(point(offset.x, offset.y));
+}
+
 void game::calc_driving_offset( vehicle *veh )
 {
     if( veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
@@ -1496,8 +1516,12 @@ bool game::do_turn()
         // or the option has been deactivated,
         // might also happen when someone dives from a moving car.
         // or when using the handbrake.
-        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        calc_driving_offset( veh );
+        vehicle *veh = g->get_posessed_vehicle( g->u.pos() );
+        if (!g->remoteveh()) {
+            g->calc_driving_offset( veh );
+        } else {
+            g->calc_driving_offset_for_rc( veh );
+        }
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working

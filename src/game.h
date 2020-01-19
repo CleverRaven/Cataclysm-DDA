@@ -625,6 +625,8 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset( vehicle *veh = nullptr );
 
+        void calc_driving_offset_for_rc( vehicle *veh );
+
         /**@}*/
 
         void open_gate( const tripoint &p );
