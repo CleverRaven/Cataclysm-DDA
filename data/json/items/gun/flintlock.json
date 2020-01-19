@@ -97,5 +97,15 @@
       [ "stock mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+  },
+  
+  {
+    "id": "longrifle_flintlock",
+    "copy-from": "rifle_flintlock",
+    "type": "GUN",
+    "name": "flintlock rifle",
+    "description": "This rifled flintlock weapon takes an evven longer time to reload than a stnadard musket, but allows for considerably increased accuracy",
+    "relative": {"range": +2, },
+    "proportional": { "dispersion": 0.5, "reload": 2.0 },
   }
 ]
