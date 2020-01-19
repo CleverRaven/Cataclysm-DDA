@@ -224,12 +224,12 @@ time_duration rustRate( int level )
 {
     // for n = [0, 7]
     //
-    // 2^15
+    // 2^16
     // -------
-    // 2^(n-1)
+    // 2^n
 
-    unsigned const n = level < 0 ? 0 : level > 7 ? 7 : level;
-    return time_duration::from_turns( 1 << ( 15 - n + 1 ) );
+    unsigned const n = clamp( 0, level, 7 );
+    return time_duration::from_turns( 1 << ( 16 - n ) );
 }
 } //namespace
 
@@ -239,10 +239,13 @@ bool SkillLevel::isRusting() const
            calendar::turn - _lastPracticed > rustRate( _level );
 }
 
-bool SkillLevel::rust( bool charged_bio_mem )
+bool SkillLevel::rust( bool charged_bio_mem, float character_rate )
 {
+    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     const time_duration delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0_turns || delta % rustRate( _level ) != 0_turns ) {
+
+    if( _level <= 0 || delta <= 0_turns ||
+        delta % ( rustRate( _level ) * character_rate ) != 0_turns ) {
         return false;
     }
 
@@ -250,8 +253,8 @@ bool SkillLevel::rust( bool charged_bio_mem )
         return one_in( 5 );
     }
 
-    _exercise -= _level;
-    const auto &rust_type = get_option<std::string>( "SKILL_RUST" );
+    _exercise -= _level * 30;
+
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * _level * _level ) - 1;
