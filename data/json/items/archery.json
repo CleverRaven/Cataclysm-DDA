@@ -34,7 +34,7 @@
     "ammo_type": "arrow",
     "prop_damage": 1.12,
     "pierce": 3,
-    "dispersion": 100,
+    "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_30" ]
@@ -54,7 +54,7 @@
     "bashing": 4,
     "ammo_type": "arrow",
     "prop_damage": 0.5,
-    "dispersion": 210,
+    "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_10", "NOGIB" ]
@@ -96,7 +96,7 @@
     "bashing": 4,
     "ammo_type": "arrow",
     "prop_damage": 0.7,
-    "dispersion": 180,
+    "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_6" ]
@@ -116,7 +116,7 @@
     "bashing": 4,
     "ammo_type": "arrow",
     "prop_damage": 0.5,
-    "dispersion": 130,
+    "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_35", "NOGIB" ]
@@ -136,7 +136,7 @@
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "arrow",
-    "dispersion": 180,
+    "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "show_stats": true,
@@ -181,7 +181,7 @@
     "prop_damage": 1.25,
     "pierce": 1,
     "range": 2,
-    "dispersion": 70,
+    "dispersion": 75,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_35" ]
@@ -204,7 +204,7 @@
     "prop_damage": 1.12,
     "pierce": 3,
     "range": 2,
-    "dispersion": 65,
+    "dispersion": 75,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_40" ]
@@ -226,7 +226,7 @@
     "ammo_type": "arrow",
     "prop_damage": 0.5,
     "range": 2,
-    "dispersion": 70,
+    "dispersion": 75,
     "loudness": 0,
     "count": 10,
     "effects": [ "RECOVER_45", "NOGIB" ]
