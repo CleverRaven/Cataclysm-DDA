@@ -3460,7 +3460,8 @@
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ]
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "flags": [ "PRED1" ]
   },
   {
     "type": "mutation",
@@ -3484,7 +3485,8 @@
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ]
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "flags": [ "PRED2" ]
   },
   {
     "type": "mutation",
@@ -3511,7 +3513,8 @@
     ],
     "cancels": [ "PACIFIST" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
-    "passive_mods": { "int_mod": -1 }
+    "passive_mods": { "int_mod": -1 },
+    "flags": [ "PRED3" ]
   },
   {
     "type": "mutation",
@@ -3527,7 +3530,8 @@
     "cancels": [ "PACIFIST" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE" ],
-    "passive_mods": { "int_mod": -3 }
+    "passive_mods": { "int_mod": -3 },
+    "flags": [ "PRED4" ]
   },
   {
     "type": "mutation",

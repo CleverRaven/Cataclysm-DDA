@@ -1533,8 +1533,11 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
-    // Get all the items the player has that can be used as detergent
-    std::vector<const item *> detergents = g->u.all_items_with_flag( "DETERGENT" );
+    // Get all the items that can be used as detergent
+    const inventory &inv = g->u.crafting_inventory();
+    std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
+        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+    } );
 
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
