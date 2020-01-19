@@ -724,7 +724,7 @@
   {
     "id": "novel_crime_murdergrape",
     "type": "BOOK",
-    "name": "Murdered by the Grapevine",
+    "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
     "description": "This cheap paperback tells the story of a mob boss done in by mere suspicion.  She never breaks a confidence, never rats out an accomplice, and never turns her back on a friend.  Nonetheless her grip on the reigns of the underworld is eroded by rumor and paranoia.",
     "copy-from": "paperback_novel"
   },
