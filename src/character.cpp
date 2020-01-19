@@ -18,6 +18,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
+#include "enums.h"
 #include "event_bus.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -4154,7 +4155,6 @@ void Character::check_needs_extremes()
                     const translation message = SNIPPET.random_from_category( category ).value_or( translation() );
                     add_msg_if_player( m_warning, message );
                 }
-
             }
         }
     }
@@ -4167,11 +4167,11 @@ void Character::check_needs_extremes()
             g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Even your eyes feel dryâ€¦" ) );
+            add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your mouth feels so dryâ€¦" ) );
+            add_msg_if_player( m_warning, _( "Your mouth feels so dry…" ) );
         }
     }
 
@@ -4183,7 +4183,7 @@ void Character::check_needs_extremes()
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleepâ€¦" ) );
+            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
         }
