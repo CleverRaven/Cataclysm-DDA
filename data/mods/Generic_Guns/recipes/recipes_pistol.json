@@ -70,10 +70,7 @@
     "result": "bp_pistol_ball",
     "type": "recipe",
     "copy-from": "reloaded_pistol_ball",
-    "components": [
-      [ [ "chem_black_powder", 4 ] ],
-      [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ]
-    ]
+    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ] ]
   },
   {
     "result": "reloaded_pistol_magnum_jhp",
@@ -111,9 +108,6 @@
     "result": "bp_pistol_magnum_ball",
     "type": "recipe",
     "copy-from": "reloaded_pistol_magnum_ball",
-    "components": [
-      [ [ "chem_black_powder", 6 ] ],
-      [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ]
-    ]
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ] ]
   }
 ]
