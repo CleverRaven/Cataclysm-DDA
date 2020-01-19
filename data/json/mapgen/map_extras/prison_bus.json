@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_prison_bus",
-    "weight": 100,
     "object": {
       "place_vehicles": [ { "vehicle": "bus_prison", "x": 17, "y": 6, "chance": 100, "rotation": 270 } ],
       "place_monsters": [
