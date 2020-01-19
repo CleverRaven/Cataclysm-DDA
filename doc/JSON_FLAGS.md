@@ -36,9 +36,8 @@
   - [Melee](#melee)
     - [Flags](#flags-5)
   - [Monster Groups](#monster-groups)
-    - [Conditions](#conditions)
-      - [Seasons](#seasons)
-      - [Time of day](#time-of-day)
+    - [Seasons](#seasons)
+    - [Time of day](#time-of-day)
   - [Monsters](#monsters)
     - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
     - [Categories](#categories)
@@ -806,11 +805,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## Monster Groups
 
-### Conditions
+The condition flags limit when monsters can spawn.
 
-Limit when monsters can spawn.
-
-#### Seasons
+### Seasons
 
 Multiple season conditions will be combined together so that any of those conditions become valid time of year spawn times.
 
@@ -819,7 +816,7 @@ Multiple season conditions will be combined together so that any of those condit
 - ```SUMMER```
 - ```WINTER```
 
-#### Time of day
+### Time of day
 
 Multiple time of day conditions will be combined together so that any of those conditions become valid time of day spawn times.
 
