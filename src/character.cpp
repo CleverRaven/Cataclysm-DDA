@@ -17,7 +17,6 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
-#include "enums.h"
 #include "event_bus.h"
 #include "field.h"
 #include "fungal_effects.h"
