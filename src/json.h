@@ -1281,7 +1281,7 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
         return res;
     }
 
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 
@@ -1306,7 +1306,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     }
 
     // otherwise assume it's an array and error if it isn't.
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 

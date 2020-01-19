@@ -289,7 +289,7 @@ class spell
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
-        spell( spell_id sp, translation alt_msg );
+        spell( spell_id sp, const translation &alt_msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
@@ -370,6 +370,9 @@ class spell
         std::string energy_cur_string( const player &p ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
+        // returns the name string of all list of all targeted monster id
+        //if targeted_monster_ids is empty, it returns an empty string
+        std::string list_targeted_monster_names() const;
 
         std::string damage_string() const;
         std::string aoe_string() const;

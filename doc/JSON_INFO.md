@@ -156,6 +156,7 @@ Use the `Home` key to return to the top.
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
+- [Field types](#-field-types-)
 
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
@@ -380,6 +381,7 @@ This section describes each json file and their contents. Each json has their ow
 | occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
 | fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
 | passive_fuel_efficiency     | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
@@ -866,6 +868,40 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ]
 ```
 
+#### Overlapping recipe component requirements
+
+If recipes have requirements which overlap, this makes it more
+difficult for the game to calculate whether it is possible to craft a recipe at
+all.
+
+For example, the survivor telescope recipe has the following requirements
+(amongst others):
+
+```
+1 high-quality lens
+AND
+1 high-quality lens OR 1 small high-quality lens
+```
+
+These overlap because both list the high-quality lens.
+
+A small amount of overlap (such as the above) can be handled, but if you have
+too many component lists which overlap in too many ways, then you may see an
+error during recipe finalization that your recipe is too complex.  In this
+case, the game may not be able to corectly predict whether it can be crafted.
+
+To work around this issue, if you do not wish to simplify the recipe
+requirements, then you can split your recipe into multiple steps.  For
+example, if we wanted to simplify the above survivor telescope recipe we could
+introduce an intermediate item "survivor eyepiece", which requires one of
+either lens, and then the telescope would require a high-quality lens and an
+eyepiece.  Overall, the requirements are the same, but neither recipe has any
+overlap.
+
+For more details, see [this pull
+request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
+[related issue](https://github.com/CleverRaven/Cataclysm-DDA/issues/32311).
+
 ### Constructions
 ```C++
 "description": "Spike Pit",                                         // Description string displayed in the construction menu
@@ -1055,12 +1091,18 @@ Note that even though most statistics yield an integer, you should still use
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
 "weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
 "ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
+"anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and by how much, can use negative value to calm.  (default: empty)
 "can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
 "lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
+"fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
+"fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
+"healing_awake": 1.0, // Healing rate per turn while awake.
+"healing_resting": 0.5, // Healing rate per turn while resting.
 ```
 
 ### Vehicle Groups
@@ -1207,42 +1249,42 @@ See also VEHICLE_JSON.md
     "condition": "leather",       // The condition to check for.
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
-"container" : "null",             // What container (if any) this item should spawn within
+"container": "null",             // What container (if any) this item should spawn within
 "repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
-"color" : "blue",                 // Color of the item symbol.
-"symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
+"color": "blue",                 // Color of the item symbol.
+"symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
-"description" : "Socks. Put 'em on your feet.", // Description of the item
-"phase" : "solid",                // (Optional, default = "solid") What phase it is
-"weight" : "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
-"volume" : "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
-"integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
-"integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"description": "Socks. Put 'em on your feet.", // Description of the item
+"phase": "solid",                // (Optional, default = "solid") What phase it is
+"weight": "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
+"volume": "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"integral_volume": 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
+"integral_weight": 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post" : "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
-"bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
-"to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
-"flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazine_well" : 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
-"magazines" : [                   // Magazines types for each ammo type (if any) which can be used to reload this item
+"price": 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post": "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"material": ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
+"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
+"bashing": -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
+"to_hit": 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags": ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
+"magazine_well": 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
+"magazines": [                   // Magazines types for each ammo type (if any) which can be used to reload this item
     [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
-"explode_in_fire" : true,         // Should the item explode if set on fire
+"explode_in_fire": true,         // Should the item explode if set on fire
 "explosion": {                    // Physical explosion data
-    "power" : 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
-    "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "fire" : true,                // Should the explosion leave fire
+    "power": 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
+    "distance_factor": 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire": true,                // Should the explosion leave fire
     "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
-    "shrapnel" : {
-        "casing_mass" : 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
-        "fragment_mass" : 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
-        "recovery" : 10,          // Percentage chance to drop an item at landing point.
-        "drop" : "nail"           // Which item to drop at landing point.
+    "shrapnel": {
+        "casing_mass": 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass": 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+        "recovery": 10,          // Percentage chance to drop an item at landing point.
+        "drop": "nail"           // Which item to drop at landing point.
     }
 },
 ```
@@ -2894,3 +2936,11 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 ## `tiles-new`
 
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
+
+# Field types
+
+  {
+    "type": "field_type", // this is a field type
+    "id": "fd_gum_web", // id of the field
+    "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+  }

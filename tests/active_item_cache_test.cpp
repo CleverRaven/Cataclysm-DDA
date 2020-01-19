@@ -42,4 +42,3 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
         }
     }
 }
-

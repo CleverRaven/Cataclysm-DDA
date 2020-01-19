@@ -50,7 +50,7 @@ int kill_tracker::npc_kill_count() const
 int kill_tracker::kill_xp() const
 {
     int ret = 0;
-    for( const std::pair<mtype_id, int> &pair : kills ) {
+    for( const std::pair<const mtype_id, int> &pair : kills ) {
         ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
     }
     ret += npc_kills.size() * 10;
@@ -65,7 +65,7 @@ std::string kill_tracker::get_kills_text() const
     std::map<std::tuple<std::string, std::string, nc_color>, int> kill_counts;
 
     // map <name, sym, color> to kill count
-    for( const std::pair<mtype_id, int> &elem : kills ) {
+    for( const std::pair<const mtype_id, int> &elem : kills ) {
         const mtype &m = elem.first.obj();
         auto key = std::make_tuple( m.nname(), m.sym, m.color );
         kill_counts[key] += elem.second;

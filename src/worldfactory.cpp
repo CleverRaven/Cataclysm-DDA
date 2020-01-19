@@ -470,7 +470,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             if( !world_pages[i].empty() ) {
                 nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
-                wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 ) ;
+                wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 );
                 wprintz( w_worlds_header, c_white, "]" );
                 wputch( w_worlds_header, BORDER_COLOR, LINE_OXOX );
             }
@@ -580,7 +580,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, WORLDPTR world )
+int worldfactory::show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
     const std::string action = get_options().show( false, true );
@@ -590,6 +590,10 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, 
 
     } else if( action == "NEXT_TAB" ) {
         return 1;
+
+    } else if( action == "HELP_KEYBINDINGS" ) {
+        draw_worldgen_tabs( win, 1 );
+        catacurses::refresh();
 
     } else if( action == "QUIT" ) {
         return -999;
@@ -1194,6 +1198,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
             mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
             world->world_name = worldname = pick_random_name();
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            draw_worldgen_tabs( win, 2 );
         } else if( action == "QUIT" ) {
             // Cache the current name just in case they say No to the exit query.
             world->world_name = worldname;
@@ -1407,7 +1413,7 @@ void load_world_option( const JsonObject &jo )
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }
-    for( const std::string &line : arr ) {
+    for( const std::string line : arr ) {
         get_options().get_option( line ).setValue( "true" );
     }
 }
@@ -1420,7 +1426,7 @@ void load_external_option( const JsonObject &jo )
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
         auto sinfo = jo.get_string( "info" );
-        opts.add_external( name, "world_default", stype, sinfo, sinfo );
+        opts.add_external( name, "external_options", stype, sinfo, sinfo );
     }
     options_manager::cOpt &opt = opts.get_option( name );
     if( stype == "float" ) {

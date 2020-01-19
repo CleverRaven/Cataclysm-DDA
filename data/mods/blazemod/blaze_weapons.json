@@ -422,8 +422,8 @@
     "durability": 8,
     "ups_charges": 249,
     "valid_mod_locations": [  ],
-    "ammo_effects": [ "BOUNCE", "LIGHTNING", "MOUNTED_GUN" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "ammo_effects": [ "BOUNCE", "LIGHTNING" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "MOUNTED_GUN" ]
   },
   {
     "id": "tiharturret",

@@ -58,7 +58,6 @@ static void clear_game_drag( const ter_id &terrain )
     g->m.shift( point_north );
 }
 
-
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     clear_game_drag( ter_id( "t_pavement" ) );

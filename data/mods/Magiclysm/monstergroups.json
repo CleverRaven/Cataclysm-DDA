@@ -102,5 +102,17 @@
       { "monster": "mon_lizardfolk_shaman", "freq": 10, "cost_multiplier": 30 },
       { "monster": "mon_lizardfolk_chieftan", "freq": 10, "cost_multiplier": 50 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOWER_GOLEM",
+    "default": "mon_plasticgolem",
+    "//": "Cheap golems used to defend the average wizard's tower.",
+    "monsters": [
+      { "monster": "mon_plasticgolem", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_claygolem", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_stonegolem", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_irongolem", "freq": 5, "cost_multiplier": 1 }
+    ]
   }
 ]

@@ -83,7 +83,7 @@ void load_recipe_category( const JsonObject &jsobj )
         const std::string cat_name = get_cat_unprefixed( category );
 
         craft_subcat_list[category].clear();
-        for( const std::string &subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
+        for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
             if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
                 jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
             }
@@ -110,7 +110,7 @@ static void translate_all()
         normalized_names[cat] = _( get_cat_unprefixed( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) ) ;
+            normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) );
         }
     }
 }
@@ -194,13 +194,22 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::vector<const recipe *> current;
 
     struct availability {
-        availability( const recipe *r, int batch_size = 1 ) :
-            can_craft( g->u.can_start_craft( r, recipe_filter_flags::none, batch_size ) ),
-            can_craft_non_rotten( g->u.can_start_craft( r, recipe_filter_flags::no_rotten,
-                                  batch_size ) )
-        {}
+        availability( const recipe *r, int batch_size = 1 ) {
+            const inventory &inv = g->u.crafting_inventory();
+            auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
+            auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+            const deduped_requirement_data &req = r->deduped_requirements();
+            can_craft = req.can_make_with_inventory(
+                            inv, all_items_filter, batch_size, craft_flags::start_only );
+            can_craft_non_rotten = req.can_make_with_inventory(
+                                       inv, no_rotten_filter, batch_size, craft_flags::start_only );
+            const requirement_data &simple_req = r->simple_requirements();
+            apparently_craftable = simple_req.can_make_with_inventory(
+                                       inv, all_items_filter, batch_size, craft_flags::start_only );
+        }
         bool can_craft;
         bool can_craft_non_rotten;
+        bool apparently_craftable;
 
         nc_color selected_color() const {
             return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
@@ -507,7 +516,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             int count = batch ? line + 1 : 1; // batch size
             nc_color col = available[ line ].color();
 
-            const auto &req = current[ line ]->requirements();
+            const auto &req = current[ line ]->simple_requirements();
 
             draw_can_craft_indicator( w_head, 0, *current[line] );
             wrefresh( w_head );
@@ -602,6 +611,19 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Will use rotten ingredients</color>" ) );
+                }
+                const bool too_complex = current[line]->deduped_requirements().is_too_complex();
+                if( available[line].can_craft && too_complex ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "Due to the complex overlapping requirements, this "
+                                               "recipe <color_yellow>may appear to be craftable "
+                                               "when it is not</color>." ) );
+                }
+                if( !available[line].can_craft && available[line].apparently_craftable ) {
+                    ypos += fold_and_print(
+                                w_data, point( xpos, ypos ), pane, col,
+                                _( "<color_red>Cannot be crafted because the same item is needed "
+                                   "for multiple components</color>" ) );
                 }
                 ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
@@ -851,7 +873,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 {
     // current recipe components
     std::vector<std::pair<itype_id, std::string>> related_components;
-    const requirement_data &req = current->requirements();
+    const requirement_data &req = current->simple_requirements();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &a : comp_list ) {
             related_components.push_back( { a.type, item::nname( a.type, 1 ) } );

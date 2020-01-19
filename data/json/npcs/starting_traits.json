@@ -71,7 +71,7 @@
     ]
   },
   {
-    "//": "This group picks out one of the exluding traits.",
+    "//": "This group picks out one of the excluding traits.",
     "type": "trait_group",
     "id": "trait_group_NONADDICTIVE",
     "subtype": "distribution",
@@ -211,7 +211,7 @@
     "type": "trait_group",
     "id": "trait_group_LIAR",
     "subtype": "distribution",
-    "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertises they know.",
+    "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertise they have.",
     "traits": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ]
   },
   {

@@ -1146,7 +1146,7 @@ void overmap::init_layers()
 void overmap::ter_set( const tripoint &p, const oter_id &id )
 {
     if( !inbounds( p ) ) {
-        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return;
     }
 
@@ -1156,7 +1156,7 @@ void overmap::ter_set( const tripoint &p, const oter_id &id )
 const oter_id &overmap::ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        /// @TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
+        /// TODO: Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return ot_null;
     }
 
@@ -1230,7 +1230,7 @@ void overmap::insert_npc( shared_ptr_fast<npc> who )
     g->set_npcs_dirty();
 }
 
-shared_ptr_fast<npc> overmap::erase_npc( const character_id id )
+shared_ptr_fast<npc> overmap::erase_npc( const character_id &id )
 {
     const auto iter = std::find_if( npcs.begin(),
     npcs.end(), [id]( const shared_ptr_fast<npc> &n ) {
@@ -1272,6 +1272,30 @@ bool overmap::has_note( const tripoint &p ) const
     return false;
 }
 
+bool overmap::is_marked_dangerous( const tripoint &p ) const
+{
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( !i.dangerous ) {
+            continue;
+        } else if( p.xy() == i.p ) {
+            return true;
+        }
+        const int radius = i.danger_radius;
+        if( i.danger_radius == 0 && i.p != p.xy() ) {
+            continue;
+        }
+        for( int x = -radius; x <= radius; x++ ) {
+            for( int y = -radius; y <= radius; y++ ) {
+                const tripoint rad_point = tripoint( i.p, p.z ) + point( x, y );
+                if( p.xy() == rad_point.xy() ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 const std::string &overmap::note( const tripoint &p ) const
 {
     static const std::string fallback {};
@@ -1306,6 +1330,17 @@ void overmap::add_note( const tripoint &p, std::string message )
         it->text = std::move( message );
     } else {
         notes.erase( it );
+    }
+}
+
+void overmap::mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous )
+{
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( p.xy() == i.p ) {
+            i.dangerous = is_dangerous;
+            i.danger_radius = radius;
+            return;
+        }
     }
 }
 
@@ -1373,7 +1408,7 @@ void overmap::add_extra( const tripoint &p, const string_id<map_extra> &id )
     if( it == std::end( extras ) ) {
         extras.emplace_back( om_map_extra{ id, p.xy() } );
     } else if( !id.is_null() ) {
-        it->id = id ;
+        it->id = id;
     } else {
         extras.erase( it );
     }
@@ -2032,7 +2067,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
                 const int inc_roll = rng( min_inc_inter, calculated_inter );
                 mg.inc_interest( inc_roll );
-                add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist ) ;
+                add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist );
             } else { // New signal source
                 mg.set_target( p.x, p.y );
                 mg.set_interest( min_capped_inter );
@@ -2052,7 +2087,7 @@ void overmap::populate_connections_out_from_neighbors( const overmap *north, con
             return;
         }
 
-        for( const std::pair<string_id<overmap_connection>, std::vector<tripoint>> &kv :
+        for( const std::pair<const string_id<overmap_connection>, std::vector<tripoint>> &kv :
              adjacent->connections_out ) {
             std::vector<tripoint> &out = connections_out[kv.first];
             const auto adjacent_out = adjacent->connections_out.find( kv.first );
@@ -2239,10 +2274,11 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
-        for( const point &nearby_point : closest_points_first(
-                 settings.forest_trail.trailhead_road_distance,
-                 trailhead.xy() ) ) {
-            if( check_ot( "road", ot_match_type::contains, tripoint( nearby_point, 0 ) ) ) {
+        for( const tripoint &nearby_point : closest_tripoints_first(
+                 trailhead,
+                 settings.forest_trail.trailhead_road_distance
+             ) ) {
+            if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
                 close = true;
             }
         }
@@ -2609,9 +2645,10 @@ void overmap::place_swamps()
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint pos( x, y, 0 );
             if( is_ot_match( "river", ter( pos ), ot_match_type::contains ) ) {
-                std::vector<point> buffered_points = closest_points_first( rng(
-                        settings.overmap_forest.river_floodplain_buffer_distance_min,
-                        settings.overmap_forest.river_floodplain_buffer_distance_max ), pos.xy() );
+                std::vector<point> buffered_points = closest_points_first( pos.xy(),
+                                                     rng(
+                                                             settings.overmap_forest.river_floodplain_buffer_distance_min,
+                                                             settings.overmap_forest.river_floodplain_buffer_distance_max ) );
                 for( const point &p : buffered_points )  {
                     if( !inbounds( p ) ) {
                         continue;
@@ -3169,7 +3206,7 @@ void overmap::build_anthill( const tripoint &p, int s )
         build_tunnel( p, s - rng( 0, 3 ), dir );
     }
 
-    // @TODO: This should follow the tunnel network,
+    // TODO: This should follow the tunnel network,
     // as of now it can pick a tile from an adjacent ant network.
     std::vector<tripoint> queenpoints;
     for( int i = -s; i <= s; i++ ) {
@@ -3576,7 +3613,7 @@ void overmap::chip_rock( const tripoint &p )
 bool overmap::check_ot( const std::string &otype, ot_match_type match_type,
                         const tripoint &p ) const
 {
-    /// @TODO: this check should be done by the caller. Probably.
+    /// TODO: this check should be done by the caller. Probably.
     if( !inbounds( p ) ) {
         return false;
     }
@@ -4122,8 +4159,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         std::vector<point> nearest_candidates;
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
-        for( const point &candidate_addr : closest_points_first( 2,
-                custom_overmap_specials.get_origin() ) ) {
+        for( const point &candidate_addr : closest_points_first(
+                 custom_overmap_specials.get_origin(), 2 ) ) {
             if( !overmap_buffer.has( candidate_addr ) ) {
                 int current_distance = square_dist( pos(), candidate_addr );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
@@ -4416,7 +4453,7 @@ void overmap::for_each_npc( const std::function<void( const npc & )> &callback )
     }
 }
 
-shared_ptr_fast<npc> overmap::find_npc( const character_id id ) const
+shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {

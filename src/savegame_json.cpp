@@ -464,7 +464,7 @@ void Character::load( const JsonObject &data )
     }
 
     JsonObject vits = data.get_object( "vitamin_levels" );
-    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         int lvl = vits.get_int( v.first.str(), 0 );
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
@@ -614,7 +614,7 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    for( const JsonMember &member : data.get_object( "skills" ) ) {
+    for( const JsonMember member : data.get_object( "skills" ) ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
@@ -772,7 +772,7 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }
@@ -855,7 +855,7 @@ void player::store( JsonOut &json ) const
     // faction warnings
     json.member( "faction_warnings" );
     json.start_array();
-    for( const auto elem : warning_record ) {
+    for( const auto &elem : warning_record ) {
         json.start_object();
         json.member( "fac_warning_id", elem.first );
         json.member( "fac_warning_num", elem.second.first );
@@ -1642,8 +1642,8 @@ void npc::load( const JsonObject &data )
         last_updated = calendar::turn;
     }
     complaints.clear();
-    for( const JsonMember &member : data.get_object( "complaints" ) ) {
-        // @TODO: time_point does not have a default constructor, need to read in the map manually
+    for( const JsonMember member : data.get_object( "complaints" ) ) {
+        // TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
         member.read( p );
         complaints.emplace( member.name(), p );
@@ -1750,7 +1750,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
-            for( const JsonMember &member : jo ) {
+            for( const JsonMember member : jo ) {
                 std::string invlets;
                 for( const int i : member.get_array() ) {
                     invlets.push_back( i );
@@ -1819,9 +1819,37 @@ void monster::load( const JsonObject &data )
     if( data.read( "wandz", wander_pos.z ) ) {
         wander_pos.z = position.z;
     }
-    data.read( "tied_item", tied_item );
+    if( data.has_object( "tied_item" ) ) {
+        JsonIn *tied_item_json = data.get_raw( "tied_item" );
+        item newitem;
+        newitem.deserialize( *tied_item_json );
+        tied_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "tack_item" ) ) {
+        JsonIn *tack_item_json = data.get_raw( "tack_item" );
+        item newitem;
+        newitem.deserialize( *tack_item_json );
+        tack_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "armor_item" ) ) {
+        JsonIn *armor_item_json = data.get_raw( "armor_item" );
+        item newitem;
+        newitem.deserialize( *armor_item_json );
+        armor_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "storage_item" ) ) {
+        JsonIn *storage_item_json = data.get_raw( "storage_item" );
+        item newitem;
+        newitem.deserialize( *storage_item_json );
+        storage_item = cata::make_value<item>( newitem );
+    }
+    if( data.has_object( "battery_item" ) ) {
+        JsonIn *battery_item_json = data.get_raw( "battery_item" );
+        item newitem;
+        newitem.deserialize( *battery_item_json );
+        battery_item = cata::make_value<item>( newitem );
+    }
     data.read( "hp", hp );
-    data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
@@ -1845,7 +1873,7 @@ void monster::load( const JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+        for( const JsonMember member : data.get_object( "special_attacks" ) ) {
             JsonObject saobject = member.get_object();
             auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
@@ -1954,8 +1982,21 @@ void monster::store( JsonOut &json ) const
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
-    json.member( "tied_item", tied_item );
-    json.member( "battery_item", battery_item );
+    if( tied_item ) {
+        json.member( "tied_item", *tied_item );
+    }
+    if( tack_item ) {
+        json.member( "tack_item", *tack_item );
+    }
+    if( armor_item ) {
+        json.member( "armor_item", *armor_item );
+    }
+    if( storage_item ) {
+        json.member( "storage_item", *storage_item );
+    }
+    if( battery_item ) {
+        json.member( "battery_item", *battery_item );
+    }
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
@@ -2110,7 +2151,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "snippet_id", snippet_id, io::default_tag() );
+    archive.io( "snip_id", snip_id, snippet_id::NULL_ID() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2189,7 +2230,12 @@ void item::io( Archive &archive )
     item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
-        snippet_id = SNIPPET.migrate_hash_to_id( note );
+        snip_id = SNIPPET.migrate_hash_to_id( note );
+    } else {
+        cata::optional<std::string> snip;
+        if( archive.read( "snippet_id", snip ) && snip ) {
+            snip_id = snippet_id( snip.value() );
+        }
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -2354,6 +2400,10 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
+    // made for fast forwarding time from 0.D to 0.E
+    if( savegame_loading_version < 27 ) {
+        legacy_fast_forward_time();
+    }
 }
 
 void item::serialize( JsonOut &json ) const
@@ -3338,7 +3388,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "type", expansion.second.type );
             json.member( "provides" );
             json.start_array();
-            for( const auto provide : expansion.second.provides ) {
+            for( const auto &provide : expansion.second.provides ) {
                 json.start_object();
                 json.member( "id", provide.first );
                 json.member( "amount", provide.second );
@@ -3347,7 +3397,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_array();
             json.member( "in_progress" );
             json.start_array();
-            for( const auto working : expansion.second.in_progress ) {
+            for( const auto &working : expansion.second.in_progress ) {
                 json.start_object();
                 json.member( "id", working.first );
                 json.member( "amount", working.second );
@@ -3445,11 +3495,11 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    for( const JsonMember &member : data.get_object( "kills" ) ) {
+    for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
     }
 
-    for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+    for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
         npc_kills.push_back( npc_name );
     }
 }
@@ -3724,8 +3774,9 @@ void submap::store( JsonOut &jsout ) const
     }
 }
 
-void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_update )
+void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
+    bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
         last_touched = jsin.get_int();
     } else if( member_name == "temperature" ) {
@@ -3801,10 +3852,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             int rad_strength = jsin.get_int();
             int rad_num = jsin.get_int();
             for( int i = 0; i < rad_num; ++i ) {
-                // A little array trick here, assign to it as a 1D array.
-                // If it's not in bounds we're kinda hosed anyway.
-                set_radiation( { 0, rad_cell }, rad_strength );
-                rad_cell++;
+                if( rad_cell < SEEX * SEEY ) {
+                    set_radiation( { 0 % SEEX, rad_cell / SEEX }, rad_strength );
+                    rad_cell++;
+                }
             }
         }
     } else if( member_name == "furniture" ) {
@@ -3829,6 +3880,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
 
                 if( tmp.is_emissive() ) {
                     update_lum_add( p, tmp );
+                }
+
+                if( savegame_loading_version >= 27 && version < 27 ) {
+                    tmp.legacy_fast_forward_time();
                 }
 
                 tmp.visit_items( [ this, &p ]( item * it ) {
