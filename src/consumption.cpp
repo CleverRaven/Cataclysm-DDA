@@ -430,7 +430,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
 }
 
-time_duration player::vitamin_rate( const vitamin_id &vit ) const
+time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 {
     time_duration res = vit.obj().rate();
 
@@ -466,7 +466,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
-void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
+void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
     for( auto vit : vitamins ) {
         vitamin_mod( vit.first, vit.second, capped );

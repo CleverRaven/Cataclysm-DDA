@@ -122,15 +122,6 @@ enum class rechargeable_cbm {
     other
 };
 
-enum class comfort_level {
-    impossible = -999,
-    uncomfortable = -7,
-    neutral = 0,
-    slightly_comfortable = 3,
-    comfortable = 5,
-    very_comfortable = 10
-};
-
 struct special_attack {
     std::string text;
     damage_instance damage;
@@ -232,29 +223,6 @@ class player : public Character
         int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
-        /** Updates all "biology" by one turn. Should be called once every turn. */
-        void update_body();
-        /** Updates all "biology" as if time between `from` and `to` passed. */
-        void update_body( const time_point &from, const time_point &to );
-        /** Updates the stomach to give accurate hunger messages */
-        void update_stomach( const time_point &from, const time_point &to );
-        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
-        void update_needs( int rate_multiplier );
-        needs_rates calc_needs_rates() const;
-
-        /**
-          * Handles passive regeneration of pain and maybe hp.
-          */
-        void regen( int rate_multiplier );
-        // called once per 24 hours to enforce the minimum of 1 hp healed per day
-        // TODO: Move to Character once heal() is moved
-        void enforce_minimum_healing();
-
-        /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
-        void check_needs_extremes();
-
-        /** Returns if the player has hibernation mutation and is asleep and well fed */
-        bool is_hibernating() const;
 
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
@@ -509,8 +477,6 @@ class player : public Character
         // Mental skills and stats
         /** Returns the player's reading speed */
         int read_speed( bool return_stat_effect = true ) const;
-        /** Returns the player's skill rust rate */
-        int rust_rate( bool return_stat_effect = true ) const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -556,8 +522,6 @@ class player : public Character
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        /** Handles the chance to be infected by random diseases */
-        void get_sick();
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
         /** Returns list of artifacts in player inventory. **/
@@ -630,11 +594,6 @@ class player : public Character
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
-
-        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        time_duration vitamin_rate( const vitamin_id &vit ) const;
-
-        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
 
         /**
          * Sets level of a vitamin or returns false if id given in vit does not exist
@@ -788,8 +747,6 @@ class player : public Character
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_level base_comfort_value( const tripoint &p ) const;
         /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
@@ -1136,9 +1093,6 @@ class player : public Character
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-
-        // TODO: make protected and move into Character
-        void do_skill_rust();
 
         /**
          * Called when a mutation is gained
