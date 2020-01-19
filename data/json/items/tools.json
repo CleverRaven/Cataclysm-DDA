@@ -3268,19 +3268,6 @@
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
   {
-    "id": "picklocks",
-    "type": "TOOL",
-    "name": "locksmith kit",
-    "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
-    "weight": "544 g",
-    "volume": 0,
-    "price": 20000,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "use_action": { "type": "picklock", "pick_quality": 5 }
-  },
-  {
     "id": "pipe_glass",
     "type": "TOOL",
     "name": "glass pipe",
@@ -3489,20 +3476,6 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
-  },
-  {
-    "id": "pseuso_bio_picklock",
-    "type": "TOOL",
-    "name": "bio lockpick",
-    "description": "this a pseudo item",
-    "volume": 0,
-    "price": 0,
-    "symbol": ";",
-    "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "charges_per_use": 1,
-    "use_action": { "type": "picklock", "pick_quality": 40 }
   },
   {
     "id": "reading_light",
