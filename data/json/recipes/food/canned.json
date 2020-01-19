@@ -898,8 +898,7 @@
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "sweet_fruit", 12, "LIST" ] ],
-      [ [ "sugar", 120 ] ]
+      [ [ "sweet_fruit", 12, "LIST" ] ]
     ]
   },
   {
@@ -1326,7 +1325,6 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
