@@ -6305,5 +6305,5 @@
     "material": "steel",
     "use_action": { "type": "weigh_self", "max_weight": 150000 },
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
+  }
 ]
