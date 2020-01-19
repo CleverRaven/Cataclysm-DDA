@@ -3790,6 +3790,8 @@
     "melee_cut": 10,
     "vision_day": 60,
     "vision_night": 60,
+    "armor_bash": 10,
+    "armor_cut": 20,
     "harvest": "exempt",
     "special_attacks": [ [ "FLESH_TENDRIL", 1 ] ],
     "death_function": [ "GAS" ],
