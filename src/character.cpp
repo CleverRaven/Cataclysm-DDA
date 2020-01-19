@@ -4289,17 +4289,17 @@ void Character::check_needs_extremes()
                 std::string message;
                 if( stomach.contains() <= stomach.capacity( *this ) / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food…" );
+                        message = _( "Foodâ€¦" );
                     } else if( get_kcal_percent() < 0.25f ) {
                         message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
                     } else if( get_kcal_percent() < 0.5f ) {
-                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days…" );
+                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in daysâ€¦" );
                     } else if( get_kcal_percent() < 0.8f ) {
-                        message = _( "Your stomach feels so empty…" );
+                        message = _( "Your stomach feels so emptyâ€¦" );
                     }
                 } else {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food…" );
+                        message = _( "Foodâ€¦" );
                     } else if( get_kcal_percent() < 0.25f ) {
                         message = _( "You are EMACIATED!" );
                     } else if( get_kcal_percent() < 0.5f ) {
@@ -4321,11 +4321,11 @@ void Character::check_needs_extremes()
             g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
+            add_msg_if_player( m_warning, _( "Even your eyes feel dryâ€¦" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your mouth feels so dry…" ) );
+            add_msg_if_player( m_warning, _( "Your mouth feels so dryâ€¦" ) );
         }
     }
 
@@ -4337,7 +4337,7 @@ void Character::check_needs_extremes()
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
+            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleepâ€¦" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
         }
