@@ -40,6 +40,20 @@
     "components": [ [ [ "sheet_metal", 3 ] ] ]
   },
   {
+    "result": "reins_tackle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "120 m",
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [
+      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "cordage_superior", 2, "LIST" ] ]
+    ]
+  },
+  {
     "result": "yoke_harness",
     "type": "recipe",
     "category": "CC_OTHER",
