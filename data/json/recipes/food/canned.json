@@ -358,6 +358,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
+    "result_mult": 2,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -365,7 +366,8 @@
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "sweet_fruit", 2, "LIST" ] ]
+      [ [ "sweet_fruit", 2, "LIST" ] ],
+      [ [ "sugar", 10 ] ]
     ]
   },
   {
@@ -680,6 +682,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "24 m",
+    "charges": 1,
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
@@ -694,7 +697,8 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sweet_fruit", 1, "LIST" ] ]
+      [ [ "sweet_fruit", 1, "LIST" ] ],
+      [ [ "sugar", 4 ] ]
     ]
   },
   {
@@ -886,6 +890,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
+    "result_mult": 12,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -893,7 +898,8 @@
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "sweet_fruit", 12, "LIST" ] ]
+      [ [ "sweet_fruit", 12, "LIST" ] ],
+      [ [ "sugar", 60 ] ]
     ]
   },
   {
