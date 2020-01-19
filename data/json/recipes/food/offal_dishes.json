@@ -300,7 +300,7 @@
     "difficulty": 4,
     "time": "55 m",
     "batch_time_factors": [ 83, 5 ],
-    "charges": 4,
+    "charges": 8,
     "book_learn": [ [ "offalcooking", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
