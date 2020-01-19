@@ -1264,5 +1264,24 @@
     "price": 200000,
     "material": "steel",
     "category": "spare_parts"
+  },
+  {
+    "id": "rock_pot",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "stone pot",
+    "description": "A large stone, roughly hollowed out into a pot.",
+    "weight": "1500 g",
+    "volume": "2 L",
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": "stone",
+    "symbol": ";",
+    "color": "dark_gray",
+    "container_data": { "contains": "1500 ml", "watertight": true },
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]
