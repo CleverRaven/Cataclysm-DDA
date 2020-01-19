@@ -2756,7 +2756,7 @@ void Character::do_skill_rust()
                 // this point, but print a message about it now and
                 // then.
                 //
-                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
+                // 13 combat skills, 3600 turns/hr, 1 test/6s, 7800 tests/hr.
                 // This means PRED2/PRED3/PRED4 think of hunting on
                 // average every 8/4/3 hours, enough for immersion
                 // without becoming an annoyance.
@@ -3960,8 +3960,11 @@ void Character::update_body( const time_point &from, const time_point &to )
             }
         }
     }
+    //skill rust was first balanced for 6s/turn
+    if( calendar::once_every( 6_seconds ) ) {
+        do_skill_rust();
+    }
 
-    do_skill_rust();
 }
 
 void Character::update_stomach( const time_point &from, const time_point &to )
