@@ -206,9 +206,6 @@ static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -2746,9 +2743,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait( trait_PRED2 ) && one_in( 4 ) ) ||
-              ( has_trait( trait_PRED3 ) && one_in( 2 ) ) ||
-              ( has_trait( trait_PRED4 ) && x_in_y( 2, 3 ) ) ) ) {
+            ( ( has_trait_flag( "PRED2" ) && one_in( 4 ) ) ||
+              ( has_trait_flag( "PRED3" ) && one_in( 2 ) ) ||
+              ( has_trait_flag( "PRED4" ) && x_in_y( 2, 3 ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 15600 ) ) {
                 // They've already passed the roll to avoid rust at
