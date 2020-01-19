@@ -325,7 +325,7 @@ input_context game::get_player_input( std::string &action )
                 .on_top( true )
                 .show();
             }
-        } while( handle_mouseview( ctxt, action )
+        } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
                  && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
     } else {
