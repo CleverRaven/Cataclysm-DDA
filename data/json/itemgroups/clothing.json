@@ -389,7 +389,7 @@
   {
     "id": "clothing_work_torso",
     "type": "item_group",
-    "//": "Shirts and jackets often worn by technicians and labourers.",
+    "//": "Shirts and jackets often worn by technicians and laborers.",
     "items": [
       {
         "collection": [
@@ -406,7 +406,7 @@
     "id": "clothing_work_set",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Set of clothes worn by technicians and labourers including protective gear",
+    "//": "Set of clothes worn by technicians and laborers including protective gear",
     "items": [
       { "group": "clothing_work_boots" },
       { "group": "clothing_work_glasses", "prob": 60 },
