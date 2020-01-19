@@ -275,63 +275,12 @@ class player : public Character
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
-        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool needs_anesthesia );
-        /** Removes a bionic from my_bionics[] */
-        void remove_bionic( const bionic_id &b );
-        /** Calculate skill for (un)installing bionics */
-        float bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level = -1 );
-        /** Calculate non adjusted skill for (un)installing bionics */
-        int bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill,
-                              int skill_level = -1 );
-        /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
-                                  int skill_level = -1 );
-        /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
-                              int skill_level = -1 );
-        /**Success or failure of installation happens here*/
-        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
-        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
-                                      float adjusted_skill, tripoint patient_pos );
-        /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                                   int skill_level = -1 );
-        /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
-                               int skill_level = -1 );
-        /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
-                                int pl_skill );
-        /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                               float adjusted_skill, bool autodoc = false );
-        /**When a player fails the surgery*/
-        void bionics_uninstall_failure( int difficulty, int success,
-                                        float adjusted_skill );
-        /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
-                                        float adjusted_skill );
-        /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
-        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false ) override;
-        /** Adds a bionic to my_bionics[] */
-        void add_bionic( const bionic_id &b );
         /** Remove all bionics */
         void clear_bionics();
         /** Returns the size of my_bionics[] */
@@ -733,13 +682,6 @@ class player : public Character
             }
             return str + npc_str >= obj.lift_strength();
         }
-
-        /**
-         * Check player capable of wearing an item.
-         * @param it Thing to be worn
-         */
-        ret_val<bool> can_wear( const item &it ) const;
-
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
@@ -769,14 +711,6 @@ class player : public Character
         bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
 
         /**
-         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
-         * @param obj item to dispose of
-         * @param prompt optional message to display in any menu
-         * @return whether the item was successfully disposed of
-         */
-        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
-
-        /**
          * Attempt to mend an item (fix any current faults)
          * @param obj Object to mend
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
@@ -791,19 +725,11 @@ class player : public Character
          */
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
-        /** Calculate (but do not deduct) the number of moves required to wear an item */
-        int item_wear_cost( const item &it ) const;
-
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         cata::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
         cata::optional<std::list<item>::iterator>
         wear( item &to_wear, bool interactive = true );
-        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
-         * If interactive is false, don't alert the player or drain moves on completion.
-         */
-        cata::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
         bool takeoff( item &it, std::list<item> *res = nullptr );
@@ -955,9 +881,6 @@ class player : public Character
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint &om_target );
 
-        /** Returns the amount of item `type' that is currently worn */
-        int  amount_worn( const itype_id &id ) const;
-
         /** Returns the item in the player's inventory with the highest of the specified quality*/
         item &item_with_best_of_quality( const quality_id &qid );
 
@@ -1086,11 +1009,9 @@ class player : public Character
         void complete_disassemble();
         void complete_disassemble( item_location &target, const recipe &dis );
 
-        // yet more crafting.cpp
-        // includes nearby items
-        const inventory &crafting_inventory( bool clear_path );
-        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true );
+        const requirement_data *select_requirements(
+            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::function<bool( const item & )> &filter ) const;
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
@@ -1124,6 +1045,10 @@ class player : public Character
         void clear_destination();
         bool has_distant_destination() const;
 
+        // true if the player is auto moving, or if the player is going to finish
+        // auto moving but the destination is not yet reset, such as in avatar_action::move
+        bool is_auto_moving() const;
+        // true if there are further moves in the auto move route
         bool has_destination() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
@@ -1171,11 +1096,6 @@ class player : public Character
         recipe_id lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
-
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
-        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -1328,9 +1248,6 @@ class player : public Character
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-        inventory cached_crafting_inventory;
-        int cached_moves;
-        tripoint cached_position;
 
     private:
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */

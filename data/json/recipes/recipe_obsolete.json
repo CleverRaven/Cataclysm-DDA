@@ -88,6 +88,11 @@
   },
   {
     "type": "recipe",
+    "result": "royal_jelly",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "scythe_war",
     "obsolete": true
   },
@@ -2231,6 +2236,16 @@
   {
     "type": "recipe",
     "result": "bot_tankbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_vice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crucible",
     "obsolete": true
   }
 ]

@@ -181,7 +181,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
-        // @TODO: handle this gracefully (return the money, proper in-character message from npc)
+        // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }
@@ -454,7 +454,7 @@ void talk_function::bionic_install( npc &p )
 
 void talk_function::bionic_remove( npc &p )
 {
-    bionic_collection all_bio = *g->u.my_bionics;
+    const bionic_collection all_bio = *g->u.my_bionics;
     if( all_bio.empty() ) {
         popup( _( "You don't have any bionics installed…" ) );
         return;
@@ -462,7 +462,7 @@ void talk_function::bionic_remove( npc &p )
 
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
-    for( auto &bio : all_bio ) {
+    for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
             if( bio.id != bionic_id( "bio_power_storage" ) ||
                 bio.id != bionic_id( "bio_power_storage_mkII" ) ) {

@@ -63,6 +63,7 @@
   },
   {
     "id": "welding_mask",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": "welding mask",
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
@@ -738,7 +739,7 @@
     "name": "5-point anchor (on)",
     "name_plural": "5-point anchors (on)",
     "looks_like": "dimensional_anchor",
-    "description": "The harness' shoulder mounted LED glows with a soft green hue.  Theres no further indication of anything happening.",
+    "description": "The harness' shoulder mounted LED glows with a soft green hue.  There's no further indication of anything happening.",
     "turns_per_charge": 100,
     "revert_to": "dimensional_anchor",
     "use_action": {
@@ -1059,6 +1060,7 @@
   },
   {
     "id": "mask_bunker",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "[",
@@ -1090,7 +1092,7 @@
     "category": "armor",
     "name": "heavy survivor mask",
     "description": "A custom-built, steel reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
-    "weight": "858 g",
+    "weight": "1612 g",
     "volume": "1250 ml",
     "price": 24000,
     "to_hit": -3,
@@ -1460,6 +1462,7 @@
     "revert_to": "mask_h20survivor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivor" },
     "covers": [ "MOUTH", "EYES" ],
+    "environmental_protection": 16,
     "encumbrance": 20
   },
   {
@@ -1507,6 +1510,7 @@
     "revert_to": "mask_h20survivorxl",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivorxl" },
     "covers": [ "MOUTH", "EYES" ],
+    "environmental_protection": 16,
     "encumbrance": 20
   },
   {
@@ -1524,6 +1528,7 @@
   },
   {
     "id": "folding_poncho_on",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "symbol": "[",
@@ -1546,6 +1551,7 @@
   {
     "type": "TOOL",
     "id": "emer_blanket",
+    "repairs_like": "miner_hat",
     "symbol": ",",
     "color": "light_gray",
     "name": "folded emergency blanket",
@@ -2194,6 +2200,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "mask_ski",
+    "repairs_like": "miner_hat",
     "name": "ski mask",
     "category": "clothing",
     "weight": "86 g",
@@ -2500,6 +2507,7 @@
   },
   {
     "id": "powered_earmuffs",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "[",
@@ -2690,6 +2698,7 @@
   },
   {
     "id": "helmet_riot",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": "riot helmet",
@@ -2902,6 +2911,7 @@
   },
   {
     "id": "foodperson_mask",
+    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "name": "Foodperson mask",
     "description": "Foodperson, the mascot your stomach deserves!",

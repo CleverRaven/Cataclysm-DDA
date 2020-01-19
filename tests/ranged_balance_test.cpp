@@ -21,7 +21,9 @@
 #include "item_location.h"
 #include "json.h"
 #include "player.h"
+#include "player_helpers.h"
 #include "material.h"
+#include "skill.h"
 #include "type_id.h"
 #include "point.h"
 
@@ -43,7 +45,6 @@ class Threshold
         double _accuracy;
         double _chance;
 };
-
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
@@ -71,14 +72,15 @@ std::ostream &operator<<( std::ostream &stream, const dispersion_sources &source
 }
 
 static void arm_shooter( npc &shooter, const std::string &gun_type,
-                         const std::vector<std::string> &mods = {} )
+                         const std::vector<std::string> &mods = {},
+                         const std::string &ammo_type = "" )
 {
     shooter.remove_weapon();
 
     const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
-    const itype_id ammo_id = gun.ammo_default();
+    const itype_id ammo_id = ammo_type.empty() ? gun.ammo_default() : itype_id( ammo_type );
     if( gun.magazine_integral() ) {
         item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity() ) );
         REQUIRE( gun.is_reloadable_with( ammo_id ) );
@@ -101,18 +103,15 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
-    const tripoint shooter_pos( 60, 60, 0 );
     CHECK( !shooter.in_vehicle );
-    shooter.setpos( shooter_pos );
     shooter.worn.clear();
     shooter.inv.clear();
-    for( const std::string article : apparel ) {
+    for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
 }
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
-
 
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
@@ -246,10 +245,12 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
     }
 }
 
+static constexpr tripoint shooter_pos( 60, 60, 0 );
+
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 7 );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
 
@@ -257,6 +258,16 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "glock_19" );
         test_shooting_scenario( shooter, 4, 5, 15 );
         test_fast_shooting( shooter, 40, 0.3 );
+    }
+    SECTION( "an unskilled archer with an inaccurate bow" ) {
+        arm_shooter( shooter, "shortbow", { "bow_sight_pin" }, "arrow_field_point_fletched" );
+        test_shooting_scenario( shooter, 3, 3, 12 );
+        test_fast_shooting( shooter, 50, 0.2 );
+    }
+    SECTION( "an unskilled archer with an inaccurate crossbow" ) {
+        arm_shooter( shooter, "crossbow", {}, "bolt_makeshift" );
+        test_shooting_scenario( shooter, 4, 6, 17 );
+        test_fast_shooting( shooter, 50, 0.2 );
     }
     SECTION( "an unskilled shooter with an inaccurate shotgun" ) {
         arm_shooter( shooter, "winchester_1897" );
@@ -278,7 +289,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
@@ -286,6 +297,16 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "sw_619", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 10, 15, 33 );
         test_fast_shooting( shooter, 30, 0.5 );
+    }
+    SECTION( "a skilled archer with an accurate bow" ) {
+        arm_shooter( shooter, "recurbow", { "bow_sight" } );
+        test_shooting_scenario( shooter, 8, 10, 32 );
+        test_fast_shooting( shooter, 50, 0.4 );
+    }
+    SECTION( "a skilled archer with an accurate crossbow" ) {
+        arm_shooter( shooter, "compositecrossbow", { "tele_sight" }, "bolt_steel" );
+        test_shooting_scenario( shooter, 9, 13, 33 );
+        test_fast_shooting( shooter, 50, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate shotgun" ) {
         arm_shooter( shooter, "ksg", { "red_dot_sight" } );
@@ -307,7 +328,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 10, 20, 20, 20, 20 );
+    standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
 
@@ -315,6 +336,16 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "sw629", { "pistol_scope" } );
         test_shooting_scenario( shooter, 18, 20, 140 );
         test_fast_shooting( shooter, 20, 0.6 );
+    }
+    SECTION( "an expert archer with an excellent bow" ) {
+        arm_shooter( shooter, "compbow_high", { "bow_scope" }, "arrow_cf" );
+        test_shooting_scenario( shooter, 12, 20, 80 );
+        test_fast_shooting( shooter, 30, 0.6 );
+    }
+    SECTION( "an expert archer with an excellent crossbow" ) {
+        arm_shooter( shooter, "compcrossbow", { "holo_sight" }, "bolt_cf" );
+        test_shooting_scenario( shooter, 12, 20, 100 );
+        test_fast_shooting( shooter, 50, 0.4 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
         arm_shooter( shooter, "m1014", { "holo_sight" } );

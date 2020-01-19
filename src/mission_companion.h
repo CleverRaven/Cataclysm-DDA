@@ -50,12 +50,12 @@ class mission_data
         * @param possible grays the mission key when false and makes it impossible to select
         */
         void add( const std::string &id, const std::string &name_display,
-                  cata::optional<point> dir, const std::string &text,
+                  const cata::optional<point> &dir, const std::string &text,
                   bool priority = false, bool possible = true );
         void add_return( const std::string &id, const std::string &name_display,
-                         cata::optional<point> dir, const std::string &text, bool possible = true );
+                         const cata::optional<point> &dir, const std::string &text, bool possible = true );
         void add_start( const std::string &id, const std::string &name_display,
-                        cata::optional<point> dir, const std::string &text, bool possible = true );
+                        const cata::optional<point> &dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display = "",
                   const std::string &text = "" );
 };
