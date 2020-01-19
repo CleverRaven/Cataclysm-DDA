@@ -2572,7 +2572,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
     const bool overridden = override != vpart_override.end();
     // first memorize the actual vpart
     const optional_vpart_position vp = g->m.veh_at( p );
-    if( vp && ( &vp->vehicle() == g->remoteveh_cache || !invisible[0] ) ) {
+    if( vp && !invisible[0] ) {
         const vehicle &veh = vp->vehicle();
         const int veh_part = vp->part_index();
         // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
