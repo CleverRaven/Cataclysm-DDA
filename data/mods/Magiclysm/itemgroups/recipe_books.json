@@ -14,7 +14,7 @@
   {
     "id": "magic_recipe_advanced",
     "type": "item_group",
-    "//": "Higher tier recipes, many of which can be done with the alchemist rune.  Most school-related recipes require their rune or rune weapon.",
+    "//": "Higher tier recipes, where most school-related recipes require their rune or rune weapon.",
     "items": [ [ "magic_armormaking", 30 ] ]
   }
 ]
