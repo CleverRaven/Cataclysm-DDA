@@ -209,9 +209,7 @@
     "flags": [ "PRED1" ],
     "prereqs": [ "THRESH_YUGGOTH" ],
     "prereqs2": [ "DETACHMENT" ],
-    "threshreq": [
-      "THRESH_YUGGOTH"
-    ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
     "cancels": [ "PACIFIST" ],
     "category": [ "MIGO" ]
   },
