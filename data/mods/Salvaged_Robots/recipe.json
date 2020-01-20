@@ -42,21 +42,42 @@
     "type": "recipe",
     "id_suffix": "from_parts",
     "copy-from": "bot_autoarmor_base",
-    "components": [ [ [ "power_armor_light", 1 ] ], [ [ "power_armor_frame", 1 ] ], [ [ "robopart_ai_core", 1 ] ] ]
+    "components": [
+      [ [ "power_armor_light", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   },
   {
     "result": "bot_autoarmor_basic",
     "type": "recipe",
     "id_suffix": "from_parts",
     "copy-from": "bot_autoarmor_base",
-    "components": [ [ [ "power_armor_basic", 1 ] ], [ [ "power_armor_frame", 1 ] ], [ [ "robopart_ai_core", 1 ] ] ]
+    "components": [
+      [ [ "power_armor_basic", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   },
   {
     "result": "bot_autoarmor_heavy",
     "type": "recipe",
     "id_suffix": "from_parts",
     "copy-from": "bot_autoarmor_base",
-    "components": [ [ [ "power_armor_heavy", 1 ] ], [ [ "power_armor_frame", 1 ] ], [ [ "robopart_ai_core", 1 ] ] ]
+    "components": [
+      [ [ "power_armor_heavy", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   },
   {
     "abstract": "bot_autoarmor_repair",
