@@ -437,7 +437,8 @@
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_nest_dermatik": 10
         }
       },
       "field": {
@@ -459,7 +460,8 @@
           "mx_pond": 20,
           "mx_point_burned_ground": 50,
           "mx_casings": 20,
-          "mx_corpses": 3
+          "mx_corpses": 3,
+          "mx_nest_wasp": 2
         }
       },
       "road": {
@@ -480,7 +482,8 @@
           "mx_roadworks": 100,
           "mx_mayhem": 50,
           "mx_casings": 100,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_prison_bus": 15
         }
       },
       "build": {

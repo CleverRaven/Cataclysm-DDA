@@ -1507,5 +1507,175 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_1",
+    "name": "farm",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_2",
+    "name": "farm",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_3",
+    "name": "farm",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_4",
+    "name": "farm house",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_5",
+    "name": "farm",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_6",
+    "name": "barn",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_7",
+    "name": "farm",
+    "sym": "┬",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_8",
+    "name": "farm",
+    "sym": "┘",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_9",
+    "name": "farm",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_10",
+    "name": "farm",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_11",
+    "name": "farm road",
+    "sym": "│",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_12",
+    "name": "barn",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_second_floor_3",
+    "name": "farm house 2nd floor",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_second_floor_4",
+    "name": "farm house 2nd floor",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_second_floor_5",
+    "name": "barn roof",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_second_floor_6",
+    "name": "barn roof",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_second_floor_12",
+    "name": "barn roof",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   }
 ]
