@@ -53,6 +53,8 @@
     "fire_resist": 18,
     "elec_resist": 2,
     "chip_resist": 10,
+    "repaired_with": "demon_chitin_piece",
+    "salvaged_into": "demon_chitin_piece",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
