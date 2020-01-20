@@ -80,31 +80,6 @@ class vehicle;
 struct w_point;
 struct targeting_data;
 
-// This tries to represent both rating and
-// player's decision to respect said rating
-enum edible_rating {
-    // Edible or we pretend it is
-    EDIBLE,
-    // Not food at all
-    INEDIBLE,
-    // Not food because mutated mouth/system
-    INEDIBLE_MUTATION,
-    // You can eat it, but it will hurt morale
-    ALLERGY,
-    // Smaller allergy penalty
-    ALLERGY_WEAK,
-    // Cannibalism (unless psycho/cannibal)
-    CANNIBALISM,
-    // Rotten or not rotten enough (for saprophages)
-    ROTTEN,
-    // Can provoke vomiting if you already feel nauseous.
-    NAUSEA,
-    // We can eat this, but we'll overeat
-    TOO_FULL,
-    // Some weird stuff that requires a tool we don't have
-    NO_TOOL
-};
-
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -114,13 +89,6 @@ struct ret_val<edible_rating>::default_success : public
 template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
-
-enum class rechargeable_cbm {
-    none = 0,
-    reactor,
-    furnace,
-    other
-};
 
 enum class comfort_level {
     impossible = -999,
@@ -372,7 +340,6 @@ class player : public Character
         bool can_grab_break( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
-
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
@@ -570,85 +537,21 @@ class player : public Character
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
-        /** Check whether player can consume this very item */
-        bool can_consume_as_is( const item &it ) const;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume( item_location loc );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &target );
-        /** Returns allergy type or MORALE_NULL if not allergic for this player */
-        morale_type allergy_type( const item &food ) const;
+
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        /** Used to apply health modifications from food and medication **/
-        void modify_health( const islot_comestible &comest );
-        /** Used to apply stimulation modifications from food and medication **/
-        void modify_stimulation( const islot_comestible &comest );
-        /** Used to apply addiction modifications from food and medication **/
-        void modify_addiction( const islot_comestible &comest );
-
-        /** Can the food be [theoretically] eaten no matter the consequences? */
-        ret_val<edible_rating> can_eat( const item &food ) const;
-        /**
-         * Same as @ref can_eat, but takes consequences into account.
-         * Asks about them if @param interactive is true, refuses otherwise.
-         */
-        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
-
-        // TODO: Move these methods out of the class.
-        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
-        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
-        int get_acquirable_energy( const item &it ) const;
-
-        /** Gets player's minimum hunger and thirst */
-        int stomach_capacity() const;
-
-        /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
-        /**
-         * Returns a reference to the item itself (if it's consumable),
-         * the first of its contents (if it's consumable) or null item otherwise.
-         * WARNING: consumable does not necessarily guarantee the comestible type.
-         */
-        item &get_consumable_from( item &it ) const;
 
         std::pair<std::string, nc_color> get_hunger_description() const override;
 
         std::pair<std::string, nc_color> get_pain_description() const override;
 
-        /** Get calorie & vitamin contents for a comestible, taking into
-         * account player traits */
-        nutrients compute_effective_nutrients( const item & ) const;
-        /** Get range of possible nutrient content, for a particular recipe,
-         * depending on choice of ingredients */
-        std::pair<nutrients, nutrients> compute_nutrient_range(
-            const item &, const recipe_id &,
-            const cata::flat_set<std::string> &extra_flags = {} ) const;
-        /** Same, but across arbitrary recipes */
-        std::pair<nutrients, nutrients> compute_nutrient_range(
-            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
-
-        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        time_duration vitamin_rate( const vitamin_id &vit ) const;
-
-        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
-
-        /**
-         * Sets level of a vitamin or returns false if id given in vit does not exist
-         *
-         * @note status effects are still set for deficiency/excess
-         *
-         * @param[in] vit ID of vitamin to adjust quantity for
-         * @param[in] qty Quantity to set level to
-         * @returns false if given vitamin_id does not exist, otherwise true
-         */
-        bool vitamin_set( const vitamin_id &vit, int qty );
-
-        /** Handles the effects of consuming an item */
-        bool consume_effects( item &food );
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -693,11 +596,6 @@ class player : public Character
          * @param it Thing to be wielded
          */
         ret_val<bool> can_wield( const item &it ) const;
-        /** Check player's capability of consumption overall */
-        bool can_consume( const item &it ) const;
-
-        /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
-        bool can_estimate_rot() const;
 
         bool unwield();
 
@@ -812,7 +710,6 @@ class player : public Character
          *  rates usability lower for non-tools (books, etc.) */
         hint_rating rate_action_use( const item &it ) const;
         hint_rating rate_action_wear( const item &it ) const;
-        hint_rating rate_action_eat( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
@@ -1224,16 +1121,6 @@ class player : public Character
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        /** Determine player's capability of recharging their CBMs. */
-        bool can_feed_reactor_with( const item &it ) const;
-        bool can_feed_furnace_with( const item &it ) const;
-        /**
-         * Recharge CBMs whenever possible.
-         * @return true when recharging was successful.
-         */
-        bool feed_reactor_with( item &it );
-        bool feed_furnace_with( item &it );
-        bool fuel_bionic_with( item &it );
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.
