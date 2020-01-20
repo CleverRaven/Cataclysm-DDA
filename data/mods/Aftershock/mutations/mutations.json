@@ -160,7 +160,7 @@
     "points": 1,
     "description": "You see some new muscles that you aren't sure you've seen on humans before.  Strength + 1",
     "changes_to": [ "MUSCLE_FIBER" ],
-    "category": [ "INSECT", "ELFA", "RAPTOR", "MIGO" ],
+    "category": [ "MIGO" ],
     "passive_mods": { "str_mod": 1 }
   },
   {
@@ -188,8 +188,8 @@
     "type": "mutation",
     "id": "DETACHMENT",
     "name": "Detachment",
-    "//": "Needs flags from the old PRED1 once Candlebury creates them.  Then fix PRED2.",
     "points": 2,
+    "flags": [ "PRED1" ],
     "description": "When were you ever like these creatures, helpless before the changes ravaging this world. ",
     "purifiable": false,
     "changes_to": [ "PRED2" ],
@@ -200,28 +200,20 @@
   },
   {
     "type": "mutation",
-    "id": "PRED2",
-    "name": "Hunter",
+    "id": "ELDRITCH",
+    "name": "Eldritch",
     "points": 3,
-    "description": "Your brain has a lot more in common with a predatory animal than a human, making it easier to control misplaced reactions to the death of your prey.  Additionally, combat skills, which you use to hunt, are easier to learn and maintain.",
+    "description": "You have a sinister aspect to your demeanor, no longer part of this world.  You feel no sorrow at the deaths of humans and your brain now processes combat skills more efficiently as you mentally dissect your opponents.",
     "social_modifiers": { "intimidate": 3 },
     "purifiable": false,
-    "prereqs": [ "CARNIVORE", "THRESH_URSINE", "THRESH_YUGGOTH" ],
-    "prereqs2": [ "PRED1" ],
-    "changes_to": [ "PRED3" ],
+    "flags": [ "PRED1" ],
+    "prereqs": [ "THRESH_YUGGOTH" ],
+    "prereqs2": [ "DETACHMENT" ],
     "threshreq": [
-      "THRESH_BEAST",
-      "THRESH_RAPTOR",
-      "THRESH_CHIMERA",
-      "THRESH_LUPINE",
-      "THRESH_FELINE",
-      "THRESH_URSINE",
-      "THRESH_LIZARD",
-      "THRESH_SPIDER",
       "THRESH_YUGGOTH"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER", "MIGO" ]
+    "category": [ "MIGO" ]
   },
   {
     "type": "mutation",
