@@ -1054,7 +1054,7 @@ bool npc::wear_if_wanted( const item &it )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp) && it.covers( bp ) ) {
+            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
                 splint = true;
                 break;
             }
