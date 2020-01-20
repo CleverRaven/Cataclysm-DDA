@@ -618,14 +618,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
-    trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
-                    h_white, effects );
+    if( !effects.empty() ) {
+        trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
+    }
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    mvwprintz( w, point( column, ++vStart ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
     if( size_bonus > 0 ) {
@@ -635,7 +635,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, lines[i] );
+        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
 
     return vStart;
