@@ -1,5 +1,70 @@
 [
   {
+    "id": "crude_firestarter",
+    "type": "TOOL",
+    "name": "electric firestarter",
+    "description": "This is a crudely made electric firestarter, which can function as an inefficient lighter.",
+    "weight": "14 g",
+    "volume": "250 ml",
+    "price": 100,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 5,
+    "use_action": { "type": "firestarter" },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "flags": [ "FIRESTARTER" ],
+    "magazine_well": 1
+  },
+  {
+    "id": "fire_drill",
+    "type": "TOOL",
+    "name": "fire drill",
+    "description": "This fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
+    "weight": "240 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "wood",
+    "symbol": ",",
+    "color": "brown",
+    "initial_charges": 50,
+    "max_charges": 50,
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "fire_drill_large",
+    "type": "TOOL",
+    "name": "camp fire drill",
+    "description": "This stout fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
+    "weight": "1280 g",
+    "volume": "1250 ml",
+    "price": 0,
+    "material": [ "wood", "stone" ],
+    "symbol": ",",
+    "color": "brown",
+    "initial_charges": 500,
+    "max_charges": 500,
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
     "id": "flint_steel",
     "type": "TOOL",
     "name": "flint and steel",
@@ -17,5 +82,166 @@
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
     "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
+  },
+  {
+    "id": "lighter",
+    "type": "TOOL",
+    "name": "lighter",
+    "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
+    "weight": "14 g",
+    "volume": "14 ml",
+    "price": 100,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "blue",
+    "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter", "moves": 50 },
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "magnifying_glass",
+    "type": "TOOL",
+    "name": "magnifying glass",
+    "name_plural": "magnifying glasses",
+    "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
+    "weight": "400 g",
+    "volume": "250 ml",
+    "price": 600,
+    "to_hit": -1,
+    "material": [ "glass", "plastic" ],
+    "symbol": "o",
+    "color": "green",
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "matches",
+    "type": "TOOL",
+    "name": "matchbook",
+    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches must be carried to use various drugs like cigarettes, or to light things like Molotov cocktails.  You can also use matches to light nearby items on fire.",
+    "weight": "10 g",
+    "volume": 0,
+    "price": 10,
+    "material": "paper",
+    "symbol": ",",
+    "color": "blue",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "ref_lighter",
+    "type": "TOOL",
+    "name": "refillable lighter",
+    "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
+    "weight": "20 g",
+    "volume": "31 ml",
+    "price": 3000,
+    "material": "aluminum",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "gasoline",
+    "initial_charges": 25,
+    "max_charges": 50,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "target": "ref_lighter_on",
+        "msg": "You flick the lighter.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "Nothing happens.",
+        "menu_text": "Light up",
+        "type": "transform"
+      },
+      { "type": "firestarter", "moves": 50 }
+    ],
+    "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "ref_lighter_on",
+    "type": "TOOL",
+    "name": "refillable lighter",
+    "name_plural": "refillable lighters",
+    "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
+    "weight": "20 g",
+    "volume": "31 ml",
+    "price": 3000,
+    "material": "aluminum",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "gasoline",
+    "initial_charges": 25,
+    "max_charges": 50,
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "revert_to": "ref_lighter",
+    "use_action": [
+      { "type": "firestarter", "moves": 40, "moves_slow": 500 },
+      {
+        "target": "ref_lighter",
+        "msg": "You extinguish the lighter.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+  },
+  {
+    "id": "tinderbox",
+    "type": "TOOL",
+    "name": "ember carrier",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  It can nurture a smoldering ember for a long time, to start fires without modern tools.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "use_action": {
+      "target": "tinderbox_on",
+      "msg": "You light the tinder.",
+      "active": true,
+      "need_fire": 1,
+      "need_fire_msg": "You need a lighter or fire to light this.",
+      "need_charges": 1,
+      "need_charges_msg": "The ember carrier is out of tinder.",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "tinderbox_on",
+    "type": "TOOL",
+    "name": "ember carrier (lit)",
+    "name_plural": "ember carriers (lit)",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "turns_per_charge": 600,
+    "revert_to": "tinderbox",
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "tinderbox",
+        "msg": "The ember is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "FIRESTARTER" ]
   }
 ]
