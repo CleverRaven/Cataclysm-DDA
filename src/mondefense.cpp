@@ -54,11 +54,6 @@ void mdefense::zapback( monster &m, Creature *const source,
         }
     }
 
-    if( foe->worn_with_flag( "NONCONDUCTIVE", bp_hand_l ) ||
-        foe->worn_with_flag( "NONCONDUCTIVE", bp_hand_r ) ) {
-        return;
-    }
-
     // Players/NPCs can avoid the shock by using non-conductive weapons
     if( foe != nullptr && !foe->weapon.conductive() ) {
         if( foe->reach_attacking ) {
