@@ -5575,6 +5575,9 @@ int player::adjust_for_focus( int amount ) const
     if( has_trait( trait_SLOWLEARNER ) ) {
         effective_focus -= 15;
     }
+    if( get_option<bool>( "INT_BASED_LEARNING" ) ) {
+        effective_focus += ( get_int_base() - 8 ) * 5;
+    }
     double tmp = amount * ( effective_focus / 100.0 );
     return roll_remainder( tmp );
 }
