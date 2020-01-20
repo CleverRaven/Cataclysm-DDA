@@ -149,6 +149,7 @@ struct field_type {
 
         std::vector<trait_id> immunity_data_traits;
         std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
         time_duration half_life = 0_turns;

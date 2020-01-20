@@ -35,11 +35,11 @@ class profession
         struct itypedec {
             std::string type_id;
             /** Snippet id, @see snippet_library. */
-            std::string snippet_id;
+            snippet_id snip_id;
             // compatible with when this was just a std::string
-            itypedec( const char *t ) : type_id( t ) {
+            itypedec( const std::string &t ) : type_id( t ), snip_id( snippet_id::NULL_ID() ) {
             }
-            itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
+            itypedec( const std::string &t, const snippet_id &d ) : type_id( t ), snip_id( d ) {
             }
         };
         using itypedecvec = std::vector<itypedec>;

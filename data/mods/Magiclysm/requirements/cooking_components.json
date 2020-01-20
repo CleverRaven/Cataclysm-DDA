@@ -1,0 +1,17 @@
+[
+  {
+    "id": "meat_raw_steak",
+    "type": "requirement",
+    "//": "override of vanilla raw steak, includes purified and impure meat",
+    "components": [
+      [
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "human_flesh", 1 ],
+        [ "mutant_human_flesh", 1 ],
+        [ "purified_meat", 1 ],
+        [ "impure_meat", 1 ]
+      ]
+    ]
+  }
+]

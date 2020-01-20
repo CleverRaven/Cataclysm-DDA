@@ -48,8 +48,6 @@ static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_rat_king( "mon_rat_king" );
 static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 tripoint rotate_point( const tripoint &p, int rotations )
@@ -3441,8 +3439,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
         for( auto &p : points ) {
-            std::vector<point> buffered_points = closest_points_first( 1, p );
-            for( const point &bp : buffered_points ) {
+            for( const point &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains_inclusive( bp ) ) {
                     continue;
                 }

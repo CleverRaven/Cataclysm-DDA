@@ -64,5 +64,18 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "pebble", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cauldron_demon_chitin",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 4,
+    "time": "180 m",
+    "book_learn": [ [ "cooking_poison", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "bone_glue", 10 ] ] ]
   }
 ]

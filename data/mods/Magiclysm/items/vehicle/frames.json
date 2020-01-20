@@ -1,0 +1,13 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "fold_orichalcum_frame",
+    "name": "foldable orichalcum frame",
+    "copy-from": "foldframe",
+    "description": "A folding frame made of orichalcum pipes.  Not as light as aluminum, but significantly sturdier.",
+    "weight": "10 kg",
+    "color": "yellow",
+    "material": [ "orichalcum_metal" ],
+    "price": 10000
+  }
+]

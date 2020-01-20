@@ -37,22 +37,22 @@ enum action_id : int {
     ACTION_PAUSE,
     /** Input timeout */
     ACTION_TIMEOUT,
-    /** Move character north */
-    ACTION_MOVE_N,
-    /** Move character north-east */
-    ACTION_MOVE_NE,
-    /** Move character east */
-    ACTION_MOVE_E,
-    /** Move character south-east */
-    ACTION_MOVE_SE,
-    /** Move character south */
-    ACTION_MOVE_S,
-    /** Move character south-west */
-    ACTION_MOVE_SW,
-    /** Move character west */
-    ACTION_MOVE_W,
-    /** Move character north-west */
-    ACTION_MOVE_NW,
+    /** Move towards top of screen / accelerate */
+    ACTION_MOVE_FORTH,
+    /** Move towards top-right of screen / accelerate and steer right */
+    ACTION_MOVE_FORTH_RIGHT,
+    /** Move / steer right */
+    ACTION_MOVE_RIGHT,
+    /** Move towards bottom-right of screen / decelerate and steer right */
+    ACTION_MOVE_BACK_RIGHT,
+    /** Move towards bottom of screen / decelerate */
+    ACTION_MOVE_BACK,
+    /** Move towards bottom-left of screen / decelerate and steer left */
+    ACTION_MOVE_BACK_LEFT,
+    /** Move / steer left */
+    ACTION_MOVE_LEFT,
+    /** Move towards top-left of screen / accelerate and steer left */
+    ACTION_MOVE_FORTH_LEFT,
     /** Descend a staircase */
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
@@ -159,6 +159,8 @@ enum action_id : int {
     ACTION_RELOAD_ITEM,
     /** Attempt to reload wielded weapon, then fall back to the load item select menu */
     ACTION_RELOAD_WEAPON,
+    /** Attempt to reload wielded object*/
+    ACTION_RELOAD_WIELDED,
     /** Open the unload item (e.g. firearms) select menu */
     ACTION_UNLOAD,
     /** Open the mending menu (e.g. when using a sewing kit) */
@@ -223,8 +225,8 @@ enum action_id : int {
     ACTION_QUICKSAVE,
     /** Quickload the game */
     ACTION_QUICKLOAD,
-    /** Quit the game */
-    ACTION_QUIT,
+    /** Commit suicide */
+    ACTION_SUICIDE,
     /**@}*/
 
     // Info Screens
@@ -491,30 +493,37 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
                      const std::string &key_bound_suf, const std::string &key_unbound );
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
+// Return "Press X" or nullopt if not bound
+cata::optional<std::string> press_x_if_bound( action_id act );
 
-// Helper function to convert coordinate delta to a movement direction
+// only has effect in iso mode
+enum class iso_rotate {
+    no, yes
+};
+
+// Helper function to convert coordinate delta to a movement action
 /**
- * Translate coordinate delta into movement direction
+ * Translate coordinate delta into movement action
  *
  * For a given coordinate delta, this function returns the associated user movement action
  * that would generated that delta.  See @ref action_id for the list of available movement
- * commands that may be generated.
+ * commands that may be generated.  This function takes iso mode into account.
  *
  * The only valid values for the coordinates of \p d are -1, 0 and 1
  *
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
  * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
  * 2. If d.z is invalid, it is treated as if it were zero.
- * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_NW
- * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_NW
+ * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_FORTH_LEFT
+ * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_FORTH_LEFT
  *
- * @param[in] d direction, each coordinate should be -1, 0, or 1
+ * @param[in] d coordinate delta, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_direction_from_delta( const tripoint &d );
+action_id get_movement_action_from_delta( const tripoint &d, iso_rotate rot );
 
-// Helper function to convert movement direction to coordinate delta point
-point get_delta_from_movement_direction( action_id act );
+// Helper function to convert movement action to coordinate delta point
+point get_delta_from_movement_action( action_id act, iso_rotate rot );
 
 /**
  * Show the action menu
