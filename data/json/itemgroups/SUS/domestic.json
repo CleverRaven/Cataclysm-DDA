@@ -621,8 +621,21 @@
       { "item": "cotton_ball", "prob": 50 },
       { "item": "bleach", "prob": 15 },
       { "item": "ammonia", "prob": 20 },
+      { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 }
+    ]
+  },
+  {
+    "id": "SUS_bathroom_medicine",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the medicine cabinet.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "aspirin", "prob": 60 },
+      { "item": "codeine", "prob": 20 },
+      { "item": "tramadol", "prob": 5 },
       { "item": "eyedrops", "prob": 15 },
-      { "item": "saline", "prob": 10 },
       { "item": "pepto", "prob": 50 },
       { "item": "inhaler", "prob": 25 },
       { "item": "dayquil", "prob": 30 },
@@ -630,7 +643,11 @@
       { "item": "vitamins", "prob": 30 },
       { "item": "gummy_vitamins", "prob": 10 },
       { "item": "calcium_tablet", "prob": 25 },
-      { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 }
+      { "item": "weak_antibiotic", "prob": 30 },
+      { "item": "antibiotics", "prob": 15 },
+      { "item": "antifungal", "prob": 25 },
+      { "item": "antiparasitic", "prob": 25 },
+      { "item": "pills_sleep", "prob": 10 },
     ]
   },
   {
@@ -643,12 +660,9 @@
       { "item": "hairbrush", "count": [ 1, 2 ], "prob": 90 },
       { "item": "comb_pocket", "count": [ 1, 2 ], "prob": 75 },
       { "item": "scissors", "count": [ 1, 2 ], "prob": 60 },
-      { "item": "razor_blade", "prob": 60 },
       { "item": "curler_hair", "prob": 25 },
       { "item": "hair_dryer", "prob": 60 },
       { "item": "curling_iron", "prob": 20 },
-      { "item": "rag", "prob": 95 },
-      { "item": "rag_bloody", "prob": 5 },
       { "item": "survnote", "prob": 1 },
       { "item": "elec_hairtrimmer", "prob": 30 },
       { "itemgroup": "jewelry_accessories", "prob": 5 }
@@ -665,8 +679,6 @@
       { "item": "brush_toilet", "prob": 75 },
       { "item": "toilet_paper", "prob": 95, "container-item": "wrapper", "charges-min": 1, "charges-max": 1 },
       { "item": "bathroom_scale", "prob": 50 },
-      { "item": "weeks_old_newspaper", "prob": 5 },
-      { "item": "newest_newspaper", "prob": 2 },
       { "item": "survnote", "prob": 1 }
     ]
   },
@@ -674,7 +686,7 @@
     "id": "SUS_bathroom_cabinet",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a bathroom cabinet.",
+    "//2": "This group is for the cabinet under the sink.",
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
@@ -682,26 +694,33 @@
         "distribution": [ { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 }, { "item": "shavingkit", "prob": 50 } ],
         "prob": 75
       },
-      { "item": "aspirin", "prob": 60 },
-      { "item": "codeine", "prob": 20 },
-      { "item": "tramadol", "prob": 5 },
       { "item": "1st_aid", "prob": 15 },
       { "item": "bandages", "prob": 30 },
       { "item": "medical_gauze", "prob": 20 },
       { "item": "disinfectant", "prob": 40 },
       { "item": "chem_hydrogen_peroxide", "prob": 50 },
-      { "item": "weak_antibiotic", "prob": 30 },
-      { "item": "antibiotics", "prob": 15 },
-      { "item": "antifungal", "prob": 25 },
-      { "item": "antiparasitic", "prob": 25 },
-      { "item": "pills_sleep", "prob": 10 },
       { "item": "mirror", "prob": 25 },
-      { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
       { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
       { "item": "toilet_paper", "prob": 80 },
-      { "item": "towel", "count": [ 1, 2 ], "prob": 75 },
-      { "item": "rag", "prob": 95 }
+      { "item": "towel", "count": [ 1, 2 ], "prob": 75 }
+    ]
+  },
+  {
+    "id": "SUS_bathroom_ransacked",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for instances of the room which have been looted already.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rag", "prob": 95, "count": [1, 2] },
+      { "item": "cu_pipe", "prob": 10 },
+      { "item": "bottle_plastic_small", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "splinter", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "glass_shard", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "razor_blade", "prob": 60 },
+      { "item": "rag_bloody", "prob": 5 },
+      { "item": "survnote", "prob": 8 }
     ]
   },
   {
