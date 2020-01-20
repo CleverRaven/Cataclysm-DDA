@@ -1,4 +1,6 @@
 #pragma once
+#ifndef STRING_CONSTS_H
+#define STRING_CONSTS_H
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
@@ -257,3 +259,5 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
+
+#endif // STRING_CONSTS_H
