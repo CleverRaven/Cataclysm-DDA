@@ -244,7 +244,10 @@ bool vehicle::player_in_control( const player &p ) const
 
     const optional_vpart_position vp = g->m.veh_at( p.pos() );
     if( vp && &vp->vehicle() == this &&
-        part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 && p.controlling_vehicle ) {
+        ( ( part_with_feature( vp->part_index(), "CONTROL_ANIMAL", true ) >= 0 &&
+            has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
+          ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) ) &&
+        p.controlling_vehicle ) {
         return true;
     }
 

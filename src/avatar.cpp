@@ -776,6 +776,10 @@ void avatar::do_read( item &book )
             if( has_active_bionic( bio_memory ) ) {
                 min_ex += 2;
             }
+            if( get_option<bool>( "INT_BASED_LEARNING" ) ) {
+                min_ex = adjust_for_focus( min_ex );
+                max_ex = adjust_for_focus( max_ex );
+            }
             if( max_ex < 2 ) {
                 max_ex = 2;
             }

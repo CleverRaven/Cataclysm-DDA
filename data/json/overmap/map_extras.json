@@ -360,5 +360,32 @@
     "name": "Corpses",
     "description": "Some unfortunates from the billions lost in the Cataclysm.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" }
+  },
+  {
+    "id": "mx_nest_wasp",
+    "type": "map_extra",
+    "name": "Wasp Nest",
+    "description": "A wasp nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_wasp" },
+    "sym": "x",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_dermatik",
+    "type": "map_extra",
+    "name": "Dermatik Nest",
+    "description": "A dermatik nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dermatik" },
+    "sym": "x",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_prison_bus",
+    "type": "map_extra",
+    "name": "Prison Bus",
+    "description": "A prison bus.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_bus" }
   }
 ]

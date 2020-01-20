@@ -36,6 +36,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_2story_base_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_2story_second_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "house_2story_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
   },
@@ -294,6 +295,12 @@
     "id": "house_24",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_24_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_24_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_25",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_25_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_25_roof_north" } ]
   },
   {
     "type": "city_building",
