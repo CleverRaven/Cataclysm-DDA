@@ -82,9 +82,7 @@ const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &s
         jo.throw_error( "id was not specified for harvest" );
     }
 
-    if( jo.has_string( "message" ) ) {
-        ret.message_ = to_translation( jo.get_string( "message" ) );
-    }
+    jo.read( "message", ret.message_ );
 
     for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
