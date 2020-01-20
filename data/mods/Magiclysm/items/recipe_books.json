@@ -126,7 +126,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "tailoring",
+    "skill": "tailor",
     "required_level": 6,
     "max_level": 8,
     "intelligence": 10,
