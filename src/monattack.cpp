@@ -2607,6 +2607,9 @@ bool mattack::ranged_pull( monster *z )
             g->draw();
         }
     }
+    // The monster might drag a target that's not on it's z level
+    // So if they leave them on open air, make them fall
+    g->m.creature_on_trap( *target );
     if( seen ) {
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),

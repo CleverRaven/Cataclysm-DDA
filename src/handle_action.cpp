@@ -1546,6 +1546,15 @@ bool game::handle_action()
 #endif
         }
 
+        if( act == ACTION_KEYBINDINGS ) {
+            u.clear_destination();
+            destination_preview.clear();
+            act = ctxt.display_menu( true );
+            if( act == ACTION_NULL ) {
+                return false;
+            }
+        }
+
         if( can_action_change_worldstate( act ) ) {
             user_action_counter += 1;
         }
@@ -1676,6 +1685,7 @@ bool game::handle_action()
                 break; // dummy entries
             case ACTION_ACTIONMENU:
             case ACTION_MAIN_MENU:
+            case ACTION_KEYBINDINGS:
                 break; // handled above
 
             case ACTION_TIMEOUT:
@@ -2263,11 +2273,6 @@ bool game::handle_action()
 
             case ACTION_HELP:
                 get_help().display_help();
-                refresh_all();
-                break;
-
-            case ACTION_KEYBINDINGS:
-                ctxt.display_menu();
                 refresh_all();
                 break;
 

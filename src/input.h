@@ -15,6 +15,8 @@
 
 #include "point.h"
 
+enum action_id : int;
+
 namespace cata
 {
 template<typename T>
@@ -624,8 +626,10 @@ class input_context
         /**
          * Displays the possible actions in the current context and their
          * keybindings.
+         * @param permit_execute_action If `true` the function allows the user to specify an action to execute
+         * @returns action_id of any action the user specified to execute, or ACTION_NULL if none
          */
-        void display_menu();
+        action_id display_menu( bool permit_execute_action = false );
 
         /**
          * Temporary method to retrieve the raw input received, so that input_contexts

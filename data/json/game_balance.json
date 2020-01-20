@@ -194,5 +194,12 @@
     "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING",
+    "info": "INT Based Learning mod. Enables rebalance of practice and reading gains.",
+    "stype": "bool",
+    "value": false
   }
 ]

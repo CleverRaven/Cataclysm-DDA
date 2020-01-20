@@ -226,13 +226,14 @@
     },
     "responses": [
       {
-        "text": "Wait! What??",
+        "text": "Wait!  What??",
         "condition": {
           "and": [
             { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
           ]
-        }
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PLEAD"
       },
       {
         "text": "You do realize that the front door is just open?",
@@ -339,7 +340,7 @@
     "responses": [
       {
         "text": "[ 2 HGC ] Deal!",
-        "condition": { "u_has_item": "RobofacCoin", "count": 2 },
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
           { "u_buy_item": "mask_gas" },
