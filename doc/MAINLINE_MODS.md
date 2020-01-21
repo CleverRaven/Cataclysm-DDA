@@ -52,6 +52,6 @@ Furthermore, mods which are in mainline but are not working correctly for whatev
 
 ## How can mods be rescued from removal?
 
-If the mod otherwise meets inclusion criteria but lacks a maintainer, it's as simple as having someone else step forward as the new maintainer.
+If the mod otherwise meets inclusion criteria but lacks a maintainer (ie. has been declared orphaned), it's as simple as having someone else step forward as the new maintainer.
 
 Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying in mainline.
