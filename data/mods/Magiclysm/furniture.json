@@ -69,7 +69,8 @@
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
   },
-  {    
+  { 
+    "type": "furniture",
     "id": "f_magic_bench",
     "name": "enchanter's workbench",
     "looks_like": "f_table",
