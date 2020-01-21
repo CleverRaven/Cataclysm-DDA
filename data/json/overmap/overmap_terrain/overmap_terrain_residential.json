@@ -40,7 +40,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_roof",
+    "id": "house_wooded",
+    "copy-from": "generic_city_building",
+    "name": "house",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_wooded_roof",
     "name": "house",
     "copy-from": "generic_city_building",
     "color": "light_green",
