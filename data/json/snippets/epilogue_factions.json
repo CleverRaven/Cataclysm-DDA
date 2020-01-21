@@ -3,10 +3,10 @@
     "type": "snippet",
     "category": "epilogue_factions",
     "text": [
-      { "id": "epilogue_faction_default", "text": "       You are forgotten among the billions lost in the cataclysm…" },
+      { "id": "epilogue_faction_default", "text": "    You are forgotten among the billions lost in the cataclysm…" },
       {
         "id": "epilogue_faction_your_followers_0",
-        "text": "       You are forgotten among the billions lost in the cataclysm…"
+        "text": "    You are forgotten among the billions lost in the cataclysm…"
       },
       {
         "id": "epilogue_faction_old_guard_0",

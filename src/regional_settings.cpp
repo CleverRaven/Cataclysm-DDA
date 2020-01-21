@@ -958,7 +958,7 @@ void region_terrain_and_furniture_settings::finalize()
     }
 }
 
-ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
+ter_id region_terrain_and_furniture_settings::resolve( const ter_id &tid ) const
 {
     ter_id result = tid;
     auto region_list = terrain.find( result );
@@ -969,7 +969,7 @@ ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
     return result;
 }
 
-furn_id region_terrain_and_furniture_settings::resolve( const furn_id fid ) const
+furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) const
 {
     furn_id result = fid;
     auto region_list = furniture.find( result );

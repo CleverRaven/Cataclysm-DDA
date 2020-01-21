@@ -2502,17 +2502,17 @@ void finalize_bionics()
     }
 }
 
-void bionic::set_flag( const std::string flag )
+void bionic::set_flag( const std::string &flag )
 {
     bionic_tags.insert( flag );
 }
 
-void bionic::remove_flag( const std::string flag )
+void bionic::remove_flag( const std::string &flag )
 {
     bionic_tags.erase( flag );
 }
 
-bool bionic::has_flag( const std::string flag ) const
+bool bionic::has_flag( const std::string &flag ) const
 {
     return bionic_tags.find( flag ) != bionic_tags.end();
 }

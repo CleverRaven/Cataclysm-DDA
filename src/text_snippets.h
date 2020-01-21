@@ -88,7 +88,7 @@ class snippet_library
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          *
-         * @TODO: make the result stay the same through different game sessions
+         * TODO: make the result stay the same through different game sessions
          */
         cata::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
         /**

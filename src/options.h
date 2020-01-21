@@ -50,6 +50,8 @@ class options_manager
         friend options_manager &get_options();
         options_manager();
 
+        void addOptionToPage( const std::string &name, const std::string &page );
+
     public:
         enum copt_hide_t {
             /** Don't hide this option */
@@ -71,11 +73,6 @@ class options_manager
                 friend class options_manager;
             public:
                 cOpt();
-
-                void setSortPos( const std::string &sPageIn );
-
-                //helper functions
-                int getSortPos() const;
 
                 /**
                  * Option should be hidden in current build.
@@ -158,7 +155,6 @@ class options_manager
                 std::vector<std::string> sPrerequisiteAllowedValues;
 
                 copt_hide_t hide;
-                int iSortPos;
 
                 COPT_VALUE_TYPE eType;
 
@@ -216,7 +212,6 @@ class options_manager
          * current value, which acts as the default for new worlds.
          */
         options_container get_world_defaults() const;
-        std::vector<std::string> getWorldOptPageItems() const;
 
         void set_world_options( options_container *options );
 
@@ -272,10 +267,36 @@ class options_manager
     private:
         options_container options;
         cata::optional<options_container *> world_options;
-        // first is page id, second is untranslated page name
-        std::vector<std::pair<std::string, std::string>> vPages;
-        std::map<int, std::vector<std::string>> mPageItems;
-        int iWorldOptPage;
+
+        /**
+         * A page (or tab) to be displayed in the options UI.
+         * It contains a @ref id that is used to detect what options should go into this
+         * page (see @ref cOpt::getPage).
+         * It also has a name that will be translated and displayed.
+         * And it has items, each item is either nothing (will be represented as empty line
+         * in the UI) or the name of an option.
+         */
+        class Page
+        {
+            public:
+                std::string id_;
+                translation name_;
+
+                std::vector<cata::optional<std::string>> items_;
+
+                void removeRepeatedEmptyLines();
+
+                Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
+        };
+
+        Page general_page_;
+        Page interface_page_;
+        Page graphics_page_;
+        Page debug_page_;
+        Page world_default_page_;
+        Page android_page_;
+
+        std::vector<std::reference_wrapper<Page>> pages_;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small

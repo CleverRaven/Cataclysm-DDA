@@ -683,10 +683,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
         // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
         if( z ) {
-            if( !proj.get_drop().is_null() ) {
+            const item &drop_item = proj.get_drop();
+            if( !drop_item.is_null() ) {
                 z->add_effect( effect_tied, 1_turns, num_bp, true );
-                item drop_item = proj.get_drop();
-                z->tied_item = cata::make_value<item>( proj.get_drop() );
+                z->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
             }
@@ -698,13 +698,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
-    if( proj.proj_effects.count( "FLAME" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
-        } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
-        }
-    } else if( proj.proj_effects.count( "INCENDIARY" ) ) {
+    if( proj.proj_effects.count( "INCENDIARY" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
@@ -918,7 +912,7 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
-void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity

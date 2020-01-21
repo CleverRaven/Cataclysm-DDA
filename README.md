@@ -2,12 +2,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
 [![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
-[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)
 
 # Cataclysm: Dark Days Ahead
 
 Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
-
 
 ## Download
 
@@ -83,6 +81,14 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 **World** on the main menu will generate a fresh world for you. Select **Create World**.
 
-#### I've found a bug / I would like to make a suggestion. What should I do?
+#### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/). If you're not able to, send an email to `kevin.granade@gmail.com`.
+Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [bug report template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=bug_report.md). If you're not able to, send an email to `kevin.granade@gmail.com`.
+
+#### I would like to make a suggestion. What should I do?
+
+Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
+
+You can also submit your suggestions or vote for existing suggestions on [our FeatHub page](https://feathub.com/CleverRaven/Cataclysm-DDA). Most voted suggestions are:
+
+[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)

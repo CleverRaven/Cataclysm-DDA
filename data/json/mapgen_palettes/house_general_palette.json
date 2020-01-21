@@ -115,14 +115,15 @@
         { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
         { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
       ],
-      "m": { "item": "SUS_fridge", "chance": 100 },
-      "n": { "item": "SUS_dishwasher", "chance": 100 },
+      "m": { "item": "SUS_fridge", "chance": 80 },
+      "n": { "item": "SUS_dishwasher", "chance": 70 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
       "q": [
-        { "item": "tools_home", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "tools_home", "chance": 40 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "mechanics", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "tools_survival", "chance": 25, "repeat": [ 1, 2 ] }
+        { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 10 },
+        { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
@@ -149,9 +150,9 @@
       "J": { "item": "kitchen_counters", "chance": 5 },
       "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
       "N": [
-        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] }
+        { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
       ],
       "O": { "item": "SUS_oven", "chance": 100 },
       "P": { "item": "office_paper", "chance": 100 },
@@ -165,7 +166,7 @@
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] }
+        { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
@@ -173,8 +174,8 @@
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
       "4": { "item": "SUS_junk_drawer", "chance": 100 },
       "5": { "item": "SUS_kitchen_sink", "chance": 100 },
-      "6": { "item": "SUS_pantry", "chance": 25, "repeat": [ 1, 2 ] },
-      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 100 }, { "item": "SUS_coffee_cupboard", "chance": 100 } ],
+      "6": { "item": "SUS_pantry", "chance": 25 },
+      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 50 },
         { "item": "SUS_bathroom_cabinet", "chance": 50 },

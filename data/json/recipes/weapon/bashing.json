@@ -31,7 +31,8 @@
         [ "chem_ethanol", 100 ],
         [ "denat_alcohol", 100 ],
         [ "gasoline", 250 ],
-        [ "diesel", 250 ]
+        [ "diesel", 250 ],
+        [ "biodiesel", 250 ]
       ]
     ]
   },

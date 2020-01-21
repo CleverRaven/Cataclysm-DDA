@@ -47,6 +47,7 @@
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
+#include "string_consts.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
@@ -66,153 +67,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
-static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_armor_arms( "bio_armor_arms" );
-static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
-static const bionic_id bio_armor_head( "bio_armor_head" );
-static const bionic_id bio_armor_legs( "bio_armor_legs" );
-static const bionic_id bio_armor_torso( "bio_armor_torso" );
-static const bionic_id bio_carbon( "bio_carbon" );
-static const bionic_id bio_climate( "bio_climate" );
-static const bionic_id bio_earplugs( "bio_earplugs" );
-static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_flashlight( "bio_flashlight" );
-static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_gills( "bio_gills" );
-static const bionic_id bio_heatsink( "bio_heatsink" );
-static const bionic_id bio_laser( "bio_laser" );
-static const bionic_id bio_lighter( "bio_lighter" );
-static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
-static const bionic_id bio_tools( "bio_tools" );
-static const bionic_id bio_ups( "bio_ups" );
 
-static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_alarm_clock( "alarm_clock" );
-static const efftype_id effect_bandaged( "bandaged" );
-static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_blisters( "blisters" );
-static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_cold( "cold" );
-static const efftype_id effect_common_cold( "common_cold" );
-static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_corroding( "corroding" );
-static const efftype_id effect_cough_suppress( "cough_suppress" );
-static const efftype_id effect_recently_coughed( "recently_coughed" );
-static const efftype_id effect_crushed( "crushed" );
-static const efftype_id effect_darkness( "darkness" );
-static const efftype_id effect_deaf( "deaf" );
-static const efftype_id effect_disinfected( "disinfected" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_flu( "flu" );
-static const efftype_id effect_foodpoison( "foodpoison" );
-static const efftype_id effect_frostbite( "frostbite" );
-static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
-static const efftype_id effect_glowing( "glowing" );
-static const efftype_id effect_glowy_led( "glowy_led" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_heavysnare( "heavysnare" );
-static const efftype_id effect_hot( "hot" );
-static const efftype_id effect_hot_speed( "hot_speed" );
-static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_in_pit( "in_pit" );
-static const efftype_id effect_lightsnare( "lightsnare" );
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_mending( "mending" );
-static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_nausea( "nausea" );
-static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_pkill1( "pkill1" );
-static const efftype_id effect_pkill2( "pkill2" );
-static const efftype_id effect_pkill3( "pkill3" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_riding( "riding" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_took_prozac( "took_prozac" );
-static const efftype_id effect_took_xanax( "took_xanax" );
-static const efftype_id effect_webbed( "webbed" );
-static const efftype_id effect_winded( "winded" );
-
-static const species_id ROBOT( "ROBOT" );
-
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_throw( "throw" );
-
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
-static const trait_id trait_ADRENALINE( "ADRENALINE" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_BADBACK( "BADBACK" );
-static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_DEAF( "DEAF" );
-static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
-static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
-static const trait_id trait_DOWN( "DOWN" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
-static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
-static const trait_id trait_ELFA_NV( "ELFA_NV" );
-static const trait_id trait_FEL_NV( "FEL_NV" );
-static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
-static const trait_id trait_GILLS( "GILLS" );
-static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
-static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
-static const trait_id trait_HOARDER( "HOARDER" );
-static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
-static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
-static const trait_id trait_M_SKIN2( "M_SKIN2" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_MEMBRANE( "MEMBRANE" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
-static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
-static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
-static const trait_id trait_NOMAD( "NOMAD" );
-static const trait_id trait_NOMAD2( "NOMAD2" );
-static const trait_id trait_NOMAD3( "NOMAD3" );
-static const trait_id trait_PACKMULE( "PACKMULE" );
-static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PER_SLIME( "PER_SLIME" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
-static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SHELL( "SHELL" );
-static const trait_id trait_SHOUT2( "SHOUT2" );
-static const trait_id trait_SHOUT3( "SHOUT3" );
-static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
-static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
-static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
-static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
-static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
-static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
-static const trait_id trait_VISCOUS( "VISCOUS" );
-static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
-static const trait_id debug_nodmg( "DEBUG_NODMG" );
-
-static const species_id HUMAN( "HUMAN" );
 
 // *INDENT-OFF*
 Character::Character() :
@@ -484,6 +339,8 @@ double Character::aim_cap_from_volume( const item &gun ) const
         aim_cap = std::max( 15.0, aim_cap * 1.25 );
     } else if( gun_skill == "rifle" ) {
         aim_cap = std::max( 7.0, aim_cap - 5.0 );
+    } else if( gun_skill == "archery" ) {
+        aim_cap = std::max( 13.0, aim_cap );
     } else { // Launchers, etc.
         aim_cap = std::max( 10.0, aim_cap );
     }
@@ -1070,7 +927,7 @@ bool Character::movement_mode_is( const character_movemode mode ) const
     return move_mode == mode;
 }
 
-void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                             bool permanent, int intensity, bool force, bool deferred )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
@@ -1459,7 +1316,7 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
-int Character::get_fuel_capacity( const itype_id fuel ) const
+int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
     if( !get_value( fuel ).empty() ) {
@@ -1478,7 +1335,7 @@ int Character::get_fuel_capacity( const itype_id fuel ) const
     return capacity - amount_stored;
 }
 
-int Character::get_total_fuel_capacity( const itype_id fuel ) const
+int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 {
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2277,10 +2134,48 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-ret_val<bool> Character::can_wear( const item &it ) const
+ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
     if( !it.is_armor() ) {
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
+    }
+
+    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
+                                            it.item_tags.count( "wooled" ) ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
+    }
+
+    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
+    }
+
+    if( !it.has_flag( "OVERSIZE" ) && !it.has_flag( "SEMITANGIBLE" ) ) {
+        for( const trait_id &mut : get_mutations() ) {
+            const auto &branch = mut.obj();
+            if( branch.conflicts_with_item( it ) ) {
+                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
+                                                    branch.name(), it.type_name() );
+            }
+        }
+        if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
+            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
+            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
+            ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
+              has_trait( trait_ANTLERS ) ) ) {
+            return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
+                                                ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
+                                                  ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
+        }
+    }
+
+    if( it.has_flag( "RESTRICT_HANDS" ) && !has_two_arms() ) {
+        return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have enough arms to wear that." )
+                                              : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
+    }
+
+    //Everything checked after here should be something that could be solved by changing equipment
+    if( with_equip_change ) {
+        return ret_val<bool>::make_success();
     }
 
     if( it.is_power_armor() ) {
@@ -2322,7 +2217,7 @@ ret_val<bool> Character::can_wear( const item &it ) const
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
-    if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ||
+    if( it.has_flag( "RESTRICT_HANDS" ) && ( worn_with_flag( "RESTRICT_HANDS" ) ||
             weapon.is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
@@ -2363,34 +2258,6 @@ ret_val<bool> Character::can_wear( const item &it ) const
         ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
-    }
-
-    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
-                                            it.item_tags.count( "wooled" ) ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
-    }
-
-    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
-    }
-
-    if( !it.has_flag( "OVERSIZE" ) && !it.has_flag( "SEMITANGIBLE" ) ) {
-        for( const trait_id &mut : get_mutations() ) {
-            const auto &branch = mut.obj();
-            if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
-                                                    branch.name(), it.type_name() );
-            }
-        }
-        if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
-            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
-            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
-            ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
-              has_trait( trait_ANTLERS ) ) ) {
-            return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
-                                                ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
-                                                  ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
-        }
     }
 
     return ret_val<bool>::make_success();
@@ -4040,7 +3907,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // @TODO: make this simpler and use time_duration/time_point
+                // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
@@ -4604,7 +4471,7 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id fid ) const
+bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
@@ -6449,8 +6316,7 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
-        // Horrible hack warning!
-        // Get rid of this as soon as CUT and STAB are split
+        // HACK: Get rid of this as soon as CUT and STAB are split
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
@@ -7834,7 +7700,7 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( is_npc() ) {
-        // A hack to make NPCs use their Molotovs
+        // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
     return false;

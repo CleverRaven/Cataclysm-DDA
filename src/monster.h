@@ -179,8 +179,13 @@ class monster : public Creature
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
+         * will_move_to() checks for impassable terrain etc
+         * can_reach_to() checks for z-level difference.
+         * can_move_to() is a wrapper for both of them.
          */
         bool can_move_to( const tripoint &p ) const;
+        bool can_reach_to( const tripoint &p ) const;
+        bool will_move_to( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -219,7 +224,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( field_type_id fid ) const override;
+        bool is_immune_field( const field_type_id &fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -329,7 +334,7 @@ class monster : public Creature
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */

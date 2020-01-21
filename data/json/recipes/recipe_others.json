@@ -1604,6 +1604,7 @@
         [ "shot_he", 3 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
+        [ "biodiesel", 600 ],
         [ "grenade", 1 ]
       ]
     ]
@@ -2071,19 +2072,6 @@
     "using": [ [ "forging_standard", 7 ], [ "crucible_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 160 ], [ "steel_lump", 40 ], [ "frame", 4 ], [ "hdframe", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "crucible",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "4 h",
-    "autolearn": true,
-    "using": [ [ "forging_standard", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",

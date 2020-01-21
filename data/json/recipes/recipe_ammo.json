@@ -420,7 +420,8 @@
         [ "chem_ethanol", 100, "NO_RECOVER" ],
         [ "denat_alcohol", 100, "NO_RECOVER" ],
         [ "gasoline", 250, "NO_RECOVER" ],
-        [ "diesel", 250, "NO_RECOVER" ]
+        [ "diesel", 250, "NO_RECOVER" ],
+        [ "biodiesel", 250, "NO_RECOVER" ]
       ]
     ]
   },
@@ -739,7 +740,7 @@
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
-      [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
+      [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "bleach", 2 ] ],
       [ [ "oxy_powder", 15 ] ],
@@ -770,7 +771,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2 ], [ "manual_launcher", 2 ] ],
-    "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ] ] ]
+    "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ], [ "biodiesel", 125 ] ] ]
   },
   {
     "type": "recipe",
@@ -786,7 +787,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "spike", 1 ] ],
-      [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 75 ] ],
+      [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 15 ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
@@ -801,7 +802,7 @@
     "book_learn": [ [ "manual_launcher", 5 ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "chem_black_powder", 150 ] ], [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 50 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "chem_black_powder", 150 ] ], [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -818,7 +819,7 @@
       [ [ "pipe", 2 ] ],
       [ [ "chem_thermite", 50 ] ],
       [ [ "plastic_chunk", 5 ] ],
-      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 50 ] ]
+      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
     ]
   },
   {

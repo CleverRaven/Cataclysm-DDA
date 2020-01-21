@@ -226,5 +226,23 @@
     "volume": "1750 ml",
     "bashing": 22,
     "price": 20000
+  },
+  {
+    "id": "ceramic_knife",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "bodyguard knife",
+    "name_plural": "bodyguard knives",
+    "description": "Designed to evade security measures, this knife is a must have for any Cataclysm dinner party.",
+    "weight": "390 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "bashing": 2,
+    "cutting": 15,
+    "material": [ "ceramic", "plastic" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
+    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   }
 ]

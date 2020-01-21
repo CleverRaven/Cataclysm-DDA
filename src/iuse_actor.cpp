@@ -105,10 +105,6 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PRED1( "PRED1" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -397,9 +393,8 @@ std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 // They must also be passable.
 static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
 {
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
     std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
+    for( const auto &p : closest_tripoints_first( center, radius ) ) {
         if( g->m.impassable( p ) ) {
             continue;
         }
@@ -1195,8 +1190,8 @@ void reveal_map_actor::load( const JsonObject &obj )
         } else {
             JsonObject jo = entry.get_object();
             ter = jo.get_string( "om_terrain" );
-            ter_match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
-                             "CONTAINS" ), ot_match_type::contains );
+            ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                             ot_match_type::contains );
         }
         omt_types.push_back( std::make_pair( ter, ter_match_type ) );
     }
@@ -1909,9 +1904,9 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int tolerance_level = 9;
     if( p.has_trait( trait_PSYCHOPATH ) || p.has_trait( trait_SAPIOVORE ) ) {
         tolerance_level = 0;
-    } else if( p.has_trait( trait_PRED4 ) ) {
+    } else if( p.has_trait_flag( "PRED4" ) ) {
         tolerance_level = 5;
-    } else if( p.has_trait( trait_PRED3 ) ) {
+    } else if( p.has_trait_flag( "PRED3" ) ) {
         tolerance_level = 7;
     }
 
@@ -1955,9 +1950,9 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         if( p.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if( p.has_trait( trait_PRED1 ) ) {
+        } else if( p.has_trait_flag( "PRED1" ) ) {
             moraleMalus /= 4;
-        } else if( p.has_trait( trait_PRED2 ) ) {
+        } else if( p.has_trait_flag( "PRED2" ) ) {
             moraleMalus /= 5;
         }
 
@@ -4626,12 +4621,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
     };
-    const auto get_volume_compare_color = [&]( const units::volume before, const units::volume after,
+    const auto get_volume_compare_color = [&]( const units::volume & before,
+                                          const units::volume & after,
     const bool higher_is_better ) {
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
     };
-    const auto format_desc_string = [&]( const std::string label, const int before, const int after,
+    const auto format_desc_string = [&]( const std::string & label, const int before, const int after,
     const bool higher_is_better ) {
         return colorize( string_format( "%s: %d->%d\n", label, before, after ), get_compare_color( before,
                          after, higher_is_better ) );
@@ -4649,8 +4645,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            // @TODO: Fix for UTF-8 strings
-            // @TODO: find other places where this is used and make a global function for all
+            // TODO: Fix for UTF-8 strings
+            // TODO: find other places where this is used and make a global function for all
             static const auto tolower = []( std::string t ) {
                 if( !t.empty() ) {
                     t.front() = std::tolower( t.front() );

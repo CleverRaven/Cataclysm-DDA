@@ -444,7 +444,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     }
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
+    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -628,8 +628,7 @@ static item *set_item_inventory( player &p, item &newit )
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
-    for( const tripoint &tile : tiles ) {
+    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
@@ -1869,10 +1868,18 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
+
     // refuse to disassemble rotten items
     const item *food = obj.get_food();
     if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
         return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+    }
+
+    // refuse to disassemble items containing monsters/pets
+    std::string monster = obj.get_var( "contained_name" );
+    if( !monster.empty() ) {
+        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+                                            monster );
     }
 
     if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {

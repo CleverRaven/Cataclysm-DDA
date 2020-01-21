@@ -366,7 +366,7 @@ void Item_factory::finalize_pre( itype &obj )
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
         string_starts_with( obj.get_id(), "manual_" ) ) {
-        // Legacy martial arts books rely on a hack whereby the name of the
+        // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
     }
@@ -487,7 +487,7 @@ void Item_factory::finalize_item_blacklist()
         }
     }
 
-    for( const std::pair<itype_id, migration> &migrate : migrations ) {
+    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
         if( m_templates.find( migrate.second.replace ) == m_templates.end() ) {
             debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
             continue;
@@ -1899,10 +1899,12 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
 {
     bool strict = src == "dda";
     if( jo.has_array( "ammo_type" ) ) {
-        for( const std::string id : jo.get_array( "ammo_type" ) ) {
+        slot.type.clear();
+        for( const std::string &id : jo.get_array( "ammo_type" ) ) {
             slot.type.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_type" ) ) {
+        slot.type.clear();
         slot.type.insert( ammotype( jo.get_string( "ammo_type" ) ) );
     }
     assign( jo, "capacity", slot.capacity, strict, 0 );

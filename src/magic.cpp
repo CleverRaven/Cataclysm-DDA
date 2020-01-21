@@ -429,7 +429,7 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, translation alt_msg ) :
+spell::spell( spell_id sp, const translation &alt_msg ) :
     type( sp ),
     alt_message( alt_msg )
 {}
@@ -1048,7 +1048,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @TODO: if only we had a function to enumerate strings and concatenate them...
+    // TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );
