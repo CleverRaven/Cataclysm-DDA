@@ -48,7 +48,7 @@ Whenever a stable release occurs, mods which no longer qualify for inclusion wil
 
 While it may be counterintuitive, simply having a mod in the repository increases maintenance burden for the team, even for the people who don't use the mods itself.
 
-Further, mods which are in mainline but are not working correctly for whatever reason reflect poorly on the project on the whole. While it might seem 'easy' to fix a mod, the development team is mostly focused on the core game itself. This is why mod maintainers are necessary.
+Furthermore, mods which are in mainline but are not working correctly for whatever reason reflect poorly on the project on the whole. While it might seem 'easy' to fix a mod, the development team is mostly focused on the core game itself. This is why mod maintainers are necessary.
 
 ## How can mods be rescued from removal?
 
