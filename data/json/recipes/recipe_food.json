@@ -8,6 +8,7 @@
     "difficulty": 6,
     "time": "2 h",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "charges": 12,
@@ -30,6 +31,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
@@ -381,7 +383,7 @@
     "difficulty": 2,
     "time": "9 m",
     "charges": 4,
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 1 ], [ "mag_cooking", 1 ], [ "cookbook_foodfashions", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ],
@@ -2063,6 +2065,7 @@
     "time": "20 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -2145,6 +2148,7 @@
     "time": "20 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
@@ -2286,6 +2290,7 @@
     "time": "1 h 30 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [
@@ -3235,6 +3240,7 @@
     "difficulty": 4,
     "time": "12 m",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -3344,6 +3350,7 @@
     "difficulty": 3,
     "time": "25 m",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -3363,6 +3370,7 @@
     "charges": 4,
     "time": "25 m",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -3381,6 +3389,7 @@
     "charges": 4,
     "time": "25 m",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -3408,6 +3417,7 @@
     "charges": 6,
     "time": "25 m",
     "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -4164,7 +4174,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "18 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 4 ], [ "cookbook_foodfashions", 4] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "fish", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "lye_powder", 5 ] ] ]
@@ -4687,7 +4697,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "1 m",
-    "autolearn": true,
+    "book_learn": [ [ "vinegar_maker", 1 ], [ "winemaking_beginner", 1 ] ],
     "charges": 160,
     "components": [ [ [ "chem_acetic_acid", 1 ] ], [ [ "water_clean", 9 ] ] ]
   },
@@ -4700,6 +4710,7 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
+    "//": "Fermenting book",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -4718,6 +4729,7 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
+    "//": "Fermenting book",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -4737,6 +4749,7 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
+    "//": "Fermenting book",
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -4756,6 +4769,7 @@
     "difficulty": 3,
     "time": "15 m",
     "autolearn": true,
+    "//": "Fermenting book",
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
@@ -4873,7 +4887,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "1 h",
-    "autolearn": true,
+    "//": "Baking book",
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
