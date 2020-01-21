@@ -20,8 +20,8 @@ class computer_session
 
     private:
         computer &comp;
-        // Output window. This class assumes w's dimensions do not change.
-        const catacurses::window w;
+        // Output window. This class assumes win's dimensions do not change.
+        const catacurses::window win;
         const int left;
         const int top;
         const int width;

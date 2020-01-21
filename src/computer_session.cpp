@@ -76,8 +76,8 @@ static catacurses::window init_window()
 }
 
 computer_session::computer_session( computer &comp ) : comp( comp ),
-    w( init_window() ), left( 1 ), top( 1 ), width( getmaxx( w ) - 2 ),
-    height( getmaxy( w ) - 2 )
+    win( init_window() ), left( 1 ), top( 1 ), width( getmaxx( win ) - 2 ),
+    height( getmaxy( win ) - 2 )
 {
 }
 
@@ -1469,14 +1469,14 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
 
 void computer_session::refresh()
 {
-    werase( w );
-    draw_border( w );
+    werase( win );
+    draw_border( win );
     for( size_t i = 0; i < lines.size(); ++i ) {
         nc_color dummy = c_green;
-        print_colored_text( w, point( left + lines[i].first, top + static_cast<int>( i ) ),
+        print_colored_text( win, point( left + lines[i].first, top + static_cast<int>( i ) ),
                             dummy, dummy, lines[i].second );
     }
-    wrefresh( w );
+    wrefresh( win );
 }
 
 template<typename ...Args>
