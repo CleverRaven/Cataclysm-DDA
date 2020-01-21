@@ -65,8 +65,18 @@ static const efftype_id effect_amigara( "amigara" );
 
 static int alerts = 0;
 
+static catacurses::window init_window()
+{
+    const int width = std::min( FULL_SCREEN_WIDTH, TERMX );
+    const int height = std::min( FULL_SCREEN_HEIGHT, TERMY );
+    const int x = ( TERMX - width ) / 2;
+    const int y = ( TERMY - height ) / 2;
+    return catacurses::newwin( height, width, point( x, y ) );
+}
+
 computer_session::computer_session( computer &comp ) : comp( comp ),
-    w_terminal( catacurses::window() ), w_border( catacurses::window() )
+    w( init_window() ), left( 1 ), top( 1 ), width( getmaxx( w ) - 2 ),
+    height( getmaxy( w ) - 2 )
 {
 }
 
@@ -76,26 +86,11 @@ void computer_session::shutdown_terminal()
     // Otherwise, it's persistent across all terms.
     // Decided to go easy on people for now.
     alerts = 0;
-    werase( w_terminal );
-    w_terminal = catacurses::window();
-    werase( w_border );
-    w_border = catacurses::window();
+    reset_terminal();
 }
 
 void computer_session::use()
 {
-    if( !w_border ) {
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                              TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
-    }
-    if( !w_terminal ) {
-        w_terminal = catacurses::newwin( getmaxy( w_border ) - 2, getmaxx( w_border ) - 2,
-                                         point( getbegx( w_border ) + 1, getbegy( w_border ) + 1 ) );
-    }
-    draw_border( w_border );
-    wrefresh( w_border );
-
     // Login
     print_line( _( "Logging into %s…" ), comp.name );
     if( comp.security > 0 ) {
@@ -1326,10 +1321,10 @@ void computer_session::mark_refugee_center()
 }
 
 template<typename ...Args>
-bool computer_session::query_bool( const char *const text, Args &&... args )
+bool computer_session::query_bool( const std::string &text, Args &&... args )
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", formatted_text );
+    print_indented_line( 0, width, "%s (Y/N/Q)", formatted_text );
     char ret;
 #if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1346,19 +1341,18 @@ bool computer_session::query_bool( const char *const text, Args &&... args )
 }
 
 template<typename ...Args>
-bool computer_session::query_any( const char *const text, Args &&... args )
+bool computer_session::query_any( const std::string &text, Args &&... args )
 {
-    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_line( "%s", formatted_text );
+    print_indented_line( 0, width, text, std::forward<Args>( args )... );
     inp_mngr.wait_for_any_key();
     return true;
 }
 
 template<typename ...Args>
-char computer_session::query_ynq( const char *const text, Args &&... args )
+char computer_session::query_ynq( const std::string &text, Args &&... args )
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", formatted_text );
+    print_indented_line( 0, width, "%s (Y/N/Q)", formatted_text );
     char ret;
 #if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1374,34 +1368,59 @@ char computer_session::query_ynq( const char *const text, Args &&... args )
     return ret;
 }
 
-template<typename ...Args>
-void computer_session::print_line( const char *const text, Args &&... args )
+void computer_session::refresh()
 {
-    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_green, formatted_text );
-    print_newline();
-    wrefresh( w_terminal );
+    werase( w );
+    draw_border( w );
+    for( size_t i = 0; i < lines.size(); ++i ) {
+        nc_color dummy = c_green;
+        print_colored_text( w, point( left + lines[i].first, top + static_cast<int>( i ) ),
+                            dummy, dummy, lines[i].second );
+    }
+    wrefresh( w );
 }
 
 template<typename ...Args>
-void computer_session::print_error( const char *const text, Args &&... args )
+void computer_session::print_indented_line( const int indent, const int text_width,
+        const std::string &text, Args &&... args )
 {
+    if( text_width <= 0 || height <= 0 ) {
+        return;
+    }
+    const size_t uheight = static_cast<size_t>( height );
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_red, formatted_text );
-    print_newline();
-    wrefresh( w_terminal );
+    std::vector<std::string> folded = foldstring( formatted_text, text_width );
+    if( folded.size() >= uheight ) {
+        lines.clear();
+    } else if( lines.size() + folded.size() > uheight ) {
+        lines.erase( lines.begin(), lines.begin() + ( lines.size() + folded.size() - uheight ) );
+    }
+    lines.reserve( uheight );
+    for( auto it = folded.size() >= uheight ? folded.end() - uheight : folded.begin();
+         it < folded.end(); ++it ) {
+        lines.emplace_back( indent, *it );
+    }
+    refresh();
 }
 
 template<typename ...Args>
-void computer_session::print_text( const char *const text, Args &&... args )
+void computer_session::print_line( const std::string &text, Args &&... args )
 {
-    const std::string formated_text = string_format( text, std::forward<Args>( args )... );
-    int y = getcury( w_terminal );
-    int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, point( 1, y ), w, c_green, formated_text );
+    print_indented_line( 0, width, text, std::forward<Args>( args )... );
+}
+
+template<typename ...Args>
+void computer_session::print_error( const std::string &text, Args &&... args )
+{
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_indented_line( 0, width, "%s", colorize( formatted_text, c_red ) );
+}
+
+template<typename ...Args>
+void computer_session::print_text( const std::string &text, Args &&... args )
+{
+    print_indented_line( 1, width - 2, text, std::forward<Args>( args )... );
     print_newline();
-    print_newline();
-    wrefresh( w_terminal );
 }
 
 void computer_session::print_gibberish_line()
@@ -1423,19 +1442,24 @@ void computer_session::print_gibberish_line()
                 break;
         }
     }
-    wprintz( w_terminal, c_yellow, gibberish );
-    print_newline();
-    wrefresh( w_terminal );
+    print_indented_line( 0, width, "%s", colorize( gibberish, c_yellow ) );
 }
 
 void computer_session::reset_terminal()
 {
-    werase( w_terminal );
-    wmove( w_terminal, point_zero );
-    wrefresh( w_terminal );
+    lines.clear();
+    refresh();
 }
 
 void computer_session::print_newline()
 {
-    wprintz( w_terminal, c_green, "\n" );
+    if( height <= 0 ) {
+        return;
+    }
+    const size_t uheight = static_cast<size_t>( height );
+    if( lines.size() >= uheight ) {
+        lines.erase( lines.begin(), lines.end() - ( uheight - 1 ) );
+    }
+    lines.emplace_back();
+    refresh();
 }
