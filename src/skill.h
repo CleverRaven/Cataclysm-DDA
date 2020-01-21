@@ -110,7 +110,7 @@ class SkillLevel
 {
         int _level = 0;
         int _exercise = 0;
-        time_point _lastPracticed = calendar::turn_zero;
+        time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
         int _highestLevel = 0;
 
