@@ -331,7 +331,7 @@
     "base_casting_time": 30000,
     "final_casting_time": 6000,
     "casting_time_increment": -2400,
-    "base_energy_cost": 100,
+    "base_energy_cost": 500,
     "max_level": 10,
     "min_range": 3,
     "max_range": 6,
