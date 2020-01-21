@@ -465,10 +465,10 @@
     "type": "BOOK",
     "name": { "str": "Things to do with Milk", "str_pl": "copies of Things to do with Milk" },
     "description": "Whatever you want to do with milk, you will probably find it in this book.",
-    "weight": "454 g",
+    "weight": "478 g",
     "volume": "1 L",
     "price": 1900,
-    "price_postapoc": 27500,
+    "price_postapoc": 20500,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -534,5 +534,20 @@
     "max_level": 4,
     "intelligence": 7,
     "copy-from": "cookbook_liverforkids"
-  }
+  },
+  {
+    "id": "winemaking_beginner",
+    "type": "BOOK",
+    "name": { "str": "Winemaking for Beginners", "str_pl": "copies of Winemaking for Beginners" },
+    "description": "Winemaking, is an art form.  This book teaches you how to crayon within the lines.",
+    "weight": "454 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 31500,
+    "material": [ "paper" ],
+    "copy-from": "vinegar_maker",
+    "required_level": 1,
+    "max_level": 2,
+    "time": "12 m"
+  },
 ]

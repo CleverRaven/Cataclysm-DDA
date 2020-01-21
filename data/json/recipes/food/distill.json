@@ -9,7 +9,7 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": [ [ "cooking", 8 ] ],
-    "book_learn": [ [ "brewing_cookbook", 2 ] ],
+    "book_learn": [ [ "brewing_cookbook", 2 ], [ "winemaking_beginner", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "cheap_wine", 21, "LIST" ], [ "worthy_wine", 15, "LIST" ] ] ]
