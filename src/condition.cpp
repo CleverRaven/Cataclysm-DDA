@@ -894,7 +894,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
     bool found_sub_member = false;
     const auto parse_array = []( const JsonObject & jo, const std::string & type ) {
         std::vector<conditional_t> conditionals;
-        for( const JsonValue &entry : jo.get_array( type ) ) {
+        for( const JsonValue entry : jo.get_array( type ) ) {
             if( entry.test_string() ) {
                 conditional_t<T> type_condition( entry.get_string() );
                 conditionals.emplace_back( type_condition );

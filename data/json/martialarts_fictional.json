@@ -14,7 +14,7 @@
       {
         "id": "buff_biojutsu_static",
         "name": "Biojutsu Stance",
-        "description": "void player::ApplyBiojutsuStatic() {\n    blocks_left += 2;\n    set_hit_bonus( get_hit_bonus() + 1 );\n}\n\n+2 Blocks attemps, +1 Accuracy.",
+        "description": "void player::ApplyBiojutsuStatic() {\n    blocks_left += 2;\n    set_hit_bonus( get_hit_bonus() + 1 );\n}\n\n+2 Blocks attempts, +1 Accuracy.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_blocks": 2,
@@ -142,7 +142,7 @@
       {
         "id": "buff_scorpion_onattack",
         "name": "Scorpion's Intimidation",
-        "description": "Nothing is scarier than an angry scropion.  Your attacks can keep others at bay.\n\n+1 Dodge attempts.\nLasts 1 turn.",
+        "description": "Nothing is scarier than an angry scorpion.  Your attacks can keep others at bay.\n\n+1 Dodge attempts.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -153,7 +153,7 @@
       {
         "id": "buff_scorpion_onmove",
         "name": "Scorpion's Charge",
-        "description": "Rush foward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nStacks 2 times.  Lasts 2 turns.",
+        "description": "Rush forward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nStacks 2 times.  Lasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
@@ -297,7 +297,7 @@
     "type": "technique",
     "id": "tec_biojutsu_strike_melee",
     "name": "Measured Strike (melee)",
-    "messages": [ "You make an efficent strike against %s", "<npcname> makes an efficent strike against %s" ],
+    "messages": [ "You make an efficient strike against %s", "<npcname> makes an efficient strike against %s" ],
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.8 ] ]
   },
@@ -305,7 +305,7 @@
     "type": "technique",
     "id": "tec_biojutsu_strike_unarmed",
     "name": "Measured Strike (unarmed)",
-    "messages": [ "You make an efficent strike against %s", "<npcname> makes an efficent strike against %s" ],
+    "messages": [ "You make an efficient strike against %s", "<npcname> makes an efficient strike against %s" ],
     "unarmed_allowed": true,
     "unarmed_weapons_allowed": false,
     "crit_ok": true,

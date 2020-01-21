@@ -16,6 +16,7 @@
 #include "mapdata.h"
 #include "memorial_logger.h"
 #include "monster.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
@@ -53,6 +54,7 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 
 namespace io
 {
@@ -551,6 +553,14 @@ void Character::activate_mutation( const trait_id &mut )
         mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
+        return;
+    } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
+        int npower;
+        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
+            mod_power_level( units::from_millijoule( npower ) );
+            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            tdata.powered = false;
+        }
         return;
     } else if( !mdata.spawn_item.empty() ) {
         item tmpitem( mdata.spawn_item );

@@ -136,7 +136,7 @@
         "    |||||:||+|:|||||    "
       ],
       "terrain": {
-        ":": [ "t_window_frame", "t_window" ],
+        ":": [ "t_window_frame", "t_window_no_curtains" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
         "6": "t_console_broken"

@@ -241,14 +241,14 @@ struct mission_type {
         std::function<void( mission * )> end = mission_end::standard;
         std::function<void( mission * )> fail = mission_fail::standard;
 
-        std::map<std::string, std::string> dialogue;
+        std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
         std::function<bool( const mission_goal_condition_context & )> goal_condition;
 
         mission_type() = default;
 
-        mission create( character_id npc_id ) const;
+        mission create( const character_id &npc_id ) const;
 
         /**
          * Get the mission_type object of the given id. Returns null if the input is invalid!
@@ -382,7 +382,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_target( const tripoint &p );
-        void set_target_npc_id( character_id npc_id );
+        void set_target_npc_id( const character_id &npc_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -395,7 +395,7 @@ class mission
         /** Handles partial mission completion (kill complete, now report back!). */
         void step_complete( int step );
         /** Checks if the player has completed the matching mission and returns true if they have. */
-        bool is_complete( character_id npc_id ) const;
+        bool is_complete( const character_id &npc_id ) const;
         /** Checks if the player has failed the matching mission and returns true if they have. */
         bool has_failed() const;
         /** Checks if the mission is started, but not failed and not succeeded. */
@@ -403,7 +403,7 @@ class mission
         /** Processes this mission. */
         void process();
         /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
-        void on_talk_with_npc( character_id npc_id );
+        void on_talk_with_npc( const character_id &npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
@@ -412,9 +412,9 @@ class mission
          * Create a new mission of the given type and assign it to the given npc.
          * Returns the new mission.
          */
-        static mission *reserve_new( const mission_type_id &type, character_id npc_id );
+        static mission *reserve_new( const mission_type_id &type, const character_id &npc_id );
         static mission *reserve_random( mission_origin origin, const tripoint &p,
-                                        character_id npc_id );
+                                        const character_id &npc_id );
         /**
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
          * id exists.

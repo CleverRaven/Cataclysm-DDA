@@ -258,7 +258,7 @@ class game
          * Currently only the player character and npcs have ids.
          */
         template<typename T = Creature>
-        T * critter_by_id( character_id id );
+        T * critter_by_id( const character_id &id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -303,12 +303,12 @@ class game
          */
         /** @{ */
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
-        monster *place_critter_at( shared_ptr_fast<monster> mon, const tripoint &p );
+        monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
-        monster *place_critter_around( shared_ptr_fast<monster> mon, const tripoint &center,
+        monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius );
         monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
-        monster *place_critter_within( shared_ptr_fast<monster> mon,
+        monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range &range );
         /** @} */
         /**
@@ -772,6 +772,7 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
+        void reload_wielded();
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
@@ -885,7 +886,7 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void disp_faction_ends();   // Display the faction endings
+        void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */
@@ -1054,6 +1055,9 @@ class game
         tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
         tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+
+        // called on map shifting
+        void shift_destination_preview( const point &delta );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

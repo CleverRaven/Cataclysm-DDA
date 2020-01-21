@@ -9,7 +9,6 @@
 #include "colony_list_test_helpers.h"
 #include "list.h"
 
-
 TEST_CASE( "list basics", "[list]" )
 {
     {
@@ -124,7 +123,6 @@ TEST_CASE( "list basics", "[list]" )
 
             CHECK( std::distance( test_list.rbegin(), r_iterator2 ) == 52 );
         }
-
 
         SECTION( "multiple iteration" ) {
             int count = 0;
@@ -547,7 +545,6 @@ TEST_CASE( "list splice", "[list]" )
             test_list.push_back( i );
             test_list_2.push_front( i );
         }
-
 
         test_list.splice( test_list.begin(), test_list_2 );
 
@@ -1044,7 +1041,6 @@ TEST_CASE( "list reorder", "[list]" )
     SECTION( "single reorder" ) {
         CHECK( *it1 == 25 );
     }
-
 
     it1 = test_list.begin();
     std::advance( it1, 152 );

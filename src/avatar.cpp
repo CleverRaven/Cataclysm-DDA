@@ -323,6 +323,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
+        } else if( elem->is_blind() ) {
+            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
@@ -773,6 +775,10 @@ void avatar::do_read( item &book )
             int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
             if( has_active_bionic( bio_memory ) ) {
                 min_ex += 2;
+            }
+            if( get_option<bool>( "INT_BASED_LEARNING" ) ) {
+                min_ex = adjust_for_focus( min_ex );
+                max_ex = adjust_for_focus( max_ex );
             }
             if( max_ex < 2 ) {
                 max_ex = 2;

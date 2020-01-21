@@ -10,6 +10,7 @@
 #include <typeinfo>
 #include <iostream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <utility>
 
@@ -21,85 +22,22 @@
 #   endif
 #endif
 
-#include "get_version.h"
-#include "path_info.h"
-
-[[noreturn]] static void crash_terminate_handler();
-
 #if defined(_WIN32)
-#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
 #endif
-
 #include <dbghelp.h>
+#endif
+
+#include "debug.h"
+#include "get_version.h"
+#include "path_info.h"
 
 // signal handlers are expected to have C linkage, and only use the
 // common subset of C & C++
 extern "C" {
 
-#define BUF_SIZE 4096
-    static char buf[BUF_SIZE];
-
-#define MODULE_PATH_LEN 512
-    static char mod_path[MODULE_PATH_LEN];
-
-    // on some systems the number of frames to capture have to be less than 63 according to the documentation
-#define BT_CNT 62
-#define MAX_NAME_LEN 512
-    // ( MAX_NAME_LEN - 1 ) because SYMBOL_INFO already contains a TCHAR
-#define SYM_SIZE ( sizeof( SYMBOL_INFO ) + ( MAX_NAME_LEN - 1 ) * sizeof( TCHAR ) )
-    static PVOID bt[BT_CNT];
-    static struct {
-        alignas( SYMBOL_INFO ) char storage[SYM_SIZE];
-    } sym_storage;
-    static SYMBOL_INFO *const sym = reinterpret_cast<SYMBOL_INFO *>( &sym_storage );
-
-    // compose message ourselves to avoid potential dynamical allocation.
-    static void append_str( FILE *const file, char **const beg, const char *const end,
-                            const char *from )
-    {
-        fputs( from, stderr );
-        if( file ) {
-            fputs( from, file );
-        }
-        for( ; *from && *beg + 1 < end; ++from, ++*beg ) {
-            **beg = *from;
-        }
-    }
-
-    static void append_ch( FILE *const file, char **const beg, const char *const end, const char ch )
-    {
-        fputc( ch, stderr );
-        if( file ) {
-            fputc( ch, file );
-        }
-        if( *beg + 1 < end ) {
-            **beg = ch;
-            ++*beg;
-        }
-    }
-
-    static void append_uint( FILE *const file, char **const beg, const char *const end,
-                             const uintmax_t value )
-    {
-        if( value != 0 ) {
-            int cnt = 0;
-            for( uintmax_t tmp = value; tmp; tmp >>= 4, ++cnt ) {
-            }
-            for( ; cnt; --cnt ) {
-                char ch = "0123456789ABCDEF"[( value >> ( cnt * 4 - 4 ) ) & 0xF];
-                append_ch( file, beg, end, ch );
-            }
-        } else {
-            append_ch( file, beg, end, '0' );
-        }
-    }
-
-    static void append_ptr( FILE *const file, char **const beg, const char *const end, void *const p )
-    {
-        append_uint( file, beg, end, uintptr_t( p ) );
-    }
-
+#if defined(_WIN32)
     static void dump_to( const char *file )
     {
         HANDLE handle = CreateFile( file, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
@@ -113,122 +51,7 @@ extern "C" {
                            nullptr, nullptr, nullptr );
         CloseHandle( handle );
     }
-
-    static void log_crash( const char *type, const char *msg )
-    {
-        dump_to( ".core" );
-        const char *crash_log_file = "config/crash.log";
-        char *beg = buf, *end = buf + BUF_SIZE;
-        FILE *file = fopen( crash_log_file, "w" );
-        append_str( file, &beg, end, "CRASH LOG FILE: " );
-        append_str( file, &beg, end, crash_log_file );
-        append_str( file, &beg, end, "\nVERSION: " );
-        append_str( file, &beg, end, getVersionString() );
-        append_str( file, &beg, end, "\nTYPE: " );
-        append_str( file, &beg, end, type );
-        append_str( file, &beg, end, "\nMESSAGE: " );
-        append_str( file, &beg, end, msg );
-        append_str( file, &beg, end, "\nSTACK TRACE:\n" );
-        sym->SizeOfStruct = sizeof( SYMBOL_INFO );
-        sym->MaxNameLen = MAX_NAME_LEN;
-        USHORT num_bt = CaptureStackBackTrace( 0, BT_CNT, bt, nullptr );
-        HANDLE proc = GetCurrentProcess();
-        for( USHORT i = 0; i < num_bt; ++i ) {
-            DWORD64 off;
-            append_str( file, &beg, end, "    " );
-            if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, sym ) ) {
-                append_str( file, &beg, end, sym->Name );
-                append_str( file, &beg, end, "+0x" );
-                append_uint( file, &beg, end, off );
-            }
-            append_str( file, &beg, end, "@0x" );
-            append_ptr( file, &beg, end, bt[i] );
-            DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
-            if( mod_base ) {
-                append_ch( file, &beg, end, '[' );
-                DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
-                                                   MODULE_PATH_LEN );
-                // mod_len == MODULE_NAME_LEN means insufficient buffer
-                if( mod_len > 0 && mod_len < MODULE_PATH_LEN ) {
-                    const char *mod_name = mod_path + mod_len;
-                    for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
-                    }
-                    append_str( file, &beg, end, mod_name );
-                } else {
-                    append_str( file, &beg, end, "0x" );
-                    append_uint( file, &beg, end, mod_base );
-                }
-                append_str( file, &beg, end, "+0x" );
-                append_uint( file, &beg, end, reinterpret_cast<uintptr_t>( bt[i] ) - mod_base );
-                append_ch( file, &beg, end, ']' );
-            }
-            append_ch( file, &beg, end, '\n' );
-        }
-        *beg = '\0';
-#if defined(TILES)
-        if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error", buf, nullptr ) != 0 ) {
-            append_str( file, &beg, end, "Error creating SDL message box: " );
-            append_str( file, &beg, end, SDL_GetError() );
-            append_ch( file, &beg, end, '\n' );
-        }
 #endif
-        if( file ) {
-            fclose( file );
-        }
-    }
-
-    static void signal_handler( int sig )
-    {
-        // TODO: thread-safety?
-        // TODO: make string literals & static variables atomic?
-        signal( sig, SIG_DFL );
-        // undefined behavior according to the standard
-        // but we can get nothing out of it without these
-        const char *msg;
-        switch( sig ) {
-            case SIGSEGV:
-                msg = "SIGSEGV: Segmentation fault";
-                break;
-            case SIGILL:
-                msg = "SIGILL: Illegal instruction";
-                break;
-            case SIGABRT:
-                msg = "SIGABRT: Abnormal termination";
-                break;
-            case SIGFPE:
-                msg = "SIGFPE: Arithmetical error";
-                break;
-            default:
-                return;
-        }
-        log_crash( "Signal", msg );
-        // end of UB
-        std::signal( SIGABRT, SIG_DFL );
-        abort();
-    }
-
-} // extern "C"
-
-void init_crash_handlers()
-{
-    SymInitialize( GetCurrentProcess(), nullptr, TRUE );
-    for( auto sig : {
-             SIGSEGV, SIGILL, SIGABRT, SIGFPE
-         } ) {
-
-        std::signal( sig, signal_handler );
-    }
-    std::set_terminate( crash_terminate_handler );
-}
-
-#else
-// Non-Windows implementation
-
-#include <sstream>
-
-#include "debug.h"
-
-extern "C" {
 
     static void log_crash( const char *type, const char *msg )
     {
@@ -236,6 +59,9 @@ extern "C" {
         // reasons, including the memory allocations and the SDL message box.
         // But it should usually work in practice, unless for example the
         // program segfaults inside malloc.
+#if defined(_WIN32)
+        dump_to( ".core" );
+#endif
         const std::string crash_log_file = PATH_INFO::crash();
         std::ostringstream log_text;
         log_text << "The program has crashed."
@@ -262,7 +88,10 @@ extern "C" {
 
     static void signal_handler( int sig )
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
         signal( sig, SIG_DFL );
+#pragma GCC diagnostic pop
         const char *msg;
         switch( sig ) {
             case SIGSEGV:
@@ -281,24 +110,13 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
         std::signal( SIGABRT, SIG_DFL );
+#pragma GCC diagnostic pop
         abort();
     }
-
 } // extern "C"
-
-void init_crash_handlers()
-{
-    for( auto sig : {
-             SIGSEGV, SIGILL, SIGABRT, SIGFPE
-         } ) {
-
-        std::signal( sig, signal_handler );
-    }
-    std::set_terminate( crash_terminate_handler );
-}
-
-#endif
 
 [[noreturn]] static void crash_terminate_handler()
 {
@@ -315,6 +133,7 @@ void init_crash_handlers()
     } catch( const std::exception &e ) {
         type = typeid( e ).name();
         msg = e.what();
+        // call here to avoid `msg = e.what()` going out of scope
         log_crash( type, msg );
         std::exit( EXIT_FAILURE );
     } catch( ... ) {
@@ -323,6 +142,17 @@ void init_crash_handlers()
     }
     log_crash( type, msg );
     std::exit( EXIT_FAILURE );
+}
+
+void init_crash_handlers()
+{
+    for( auto sig : {
+             SIGSEGV, SIGILL, SIGABRT, SIGFPE
+         } ) {
+
+        std::signal( sig, signal_handler );
+    }
+    std::set_terminate( crash_terminate_handler );
 }
 
 #else // !BACKTRACE

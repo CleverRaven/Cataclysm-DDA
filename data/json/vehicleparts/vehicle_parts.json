@@ -1629,6 +1629,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "reins_tackle",
+    "name": "reins and tackle",
+    "symbol": "W",
+    "color": "light_gray",
+    "broken_symbol": "X",
+    "broken_color": "red",
+    "durability": 80,
+    "description": "A set of leather bindings to control a creature pulling a vehicle, such as a cart.",
+    "bonus": 10,
+    "damage_modifier": 5,
+    "item": "reins_tackle",
+    "folded_volume": 1,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CONTROL_ANIMAL", "FOLDABLE" ],
+    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "controls",
     "name": "controls",
     "symbol": "$",
@@ -2283,7 +2305,7 @@
     "broken_symbol": "x",
     "broken_color": "light_gray",
     "damage_modifier": 10,
-    "description": "A small chemistry station, including a hotplate powered by the vehicle's batteries.  'e'xamine the tile with the chemistry lab to access the water faucet or to heat up food with the hotplate.  If you attempt craft an item that needs one of the chemistry lab's functions, it will automatically be selected as a tool.",
+    "description": "A small chemistry station, including a hotplate and electrolysis setup powered by the vehicle's batteries.  'e'xamine the tile with the chemistry lab to access the water faucet or to heat up food with the hotplate.  If you attempt craft an item that needs one of the chemistry lab's functions, it will automatically be selected as a tool.",
     "durability": 80,
     "size": 200,
     "item": "chemlab",
@@ -2298,6 +2320,7 @@
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] },
+      { "item": "cable", "charges": [ 30, 50 ] },
       { "item": "chemistry_set", "charges": 0, "prob": 50 },
       { "item": "hotplate", "charges": 0, "prob": 50 }
     ],
@@ -3550,13 +3573,14 @@
     "damage_modifier": 80,
     "durability": 320,
     "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a turret mount and 'f'ire the weapon by selecting the tile.",
+    "folded_volume": "2500 ml",
     "item": "turret_mount",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "TURRET_MOUNT" ],
+    "flags": [ "TURRET_MOUNT", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
   },

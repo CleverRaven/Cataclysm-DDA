@@ -395,7 +395,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     }
 
     if( empty ) {
-        // Hack for dirty vehicles that didn't yet get properly removed
+        // HACK: Hack for dirty vehicles that didn't yet get properly removed
         veh_collision fake_coll;
         fake_coll.type = veh_coll_other;
         colls.push_back( fake_coll );
@@ -852,6 +852,20 @@ void vehicle::handle_trap( const tripoint &p, int part )
             }
         }
     }
+}
+
+bool vehicle::has_harnessed_animal() const
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_pet( e );
+            if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void vehicle::autodrive( int x, int y )

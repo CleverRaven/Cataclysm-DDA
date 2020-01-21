@@ -1060,7 +1060,7 @@
     "type": "terrain",
     "id": "t_paper",
     "name": "paper wall",
-    "description": "A huge wall of pulpy mass that has been salvaged from nearby buildings, covered in sticky wasp saliva.  Whatever structure was underneath has been reformed and long gone.  You could smash it down effortlessly.",
+    "description": "A huge wall of pulpy mass, covered in sticky wasp saliva.  You could smash it down effortlessly.",
     "symbol": "#",
     "color": "white",
     "move_cost": 0,

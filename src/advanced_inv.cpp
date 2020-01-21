@@ -142,6 +142,7 @@ void advanced_inventory::save_settings( bool only_panes )
         uistate.adv_inv_area[i] = panes[i].get_area();
         uistate.adv_inv_index[i] = panes[i].index;
         uistate.adv_inv_filter[i] = panes[i].filter;
+        uistate.adv_inv_sort[i] = panes[i].sortby;
     }
 }
 
@@ -260,7 +261,7 @@ void advanced_inventory::init()
     panes[right].window = right_window;
 }
 
-void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
+void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool active )
 {
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
