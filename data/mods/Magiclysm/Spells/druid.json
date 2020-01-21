@@ -272,39 +272,6 @@
     "range_increment": 0.3
   },
   {
-    "type": "ter_furn_transform",
-    "id": "druidic_renewal",
-    "//": "TODO: Update the birch and willow transformations if they ever make those trees behave consistent relative to blackjack oak and pine.",
-    "terrain": [
-      {
-        "result": [ [ "t_tree_blackjack_harvested", 10 ], [ "t_tree_harvested", 90 ] ],
-        "valid_terrain": [ "t_tree_dead" ],
-        "message": "The dead tree regrows."
-      },
-      {
-        "result": "t_tree_pine_harvested",
-        "valid_terrain": [ "t_tree_deadpine" ],
-        "message": "The dead tree regrows."
-      },
-      {
-        "result": "t_tree_hickory_harvested",
-        "valid_terrain": [ "t_tree_hickory_dead" ],
-        "message": "The dead tree regrows."
-      },
-      { "result": "t_tree_birch", "valid_terrain": [ "t_tree_birch_harvested" ], "message": "The dead tree regrows." },
-      {
-        "result": "t_tree_willow",
-        "valid_terrain": [ "t_tree_willow_harvested" ],
-        "message": "The dead tree regrows."
-      },
-      {
-        "result": "t_grass",
-        "valid_terrain": [ "t_grass_dead" ],
-        "message": "Life springs anew from the dead grass."
-      }
-    ]
-  },
-  {
     "id": "druidic_healing",
     "type": "SPELL",
     "name": "Sacrificial Healing",
