@@ -218,6 +218,7 @@
     "spoils_in": "1 days",
     "volume": "250 ml",
     "weight": "180 g",
+    "calories": 875,
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -237,6 +238,7 @@
     "volume": "250 ml",
     "weight": "180 g",
     "charges": 6,
+    "calories": 2900,
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -256,6 +258,7 @@
     "volume": "250 ml",
     "weight": "180 g",
     "charges": 6,
+    "calories": 1860,
     "flags": [ "EATEN_HOT" ]
   }
 ]
