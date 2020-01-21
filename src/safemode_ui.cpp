@@ -272,7 +272,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE, 0 ) );
+            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE,
+                                                get_option<int>( "SAFEMODEPROXIMITY" ) ) );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;

@@ -975,12 +975,13 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
 const std::string display_help_hotkeys =
-    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
+    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
-void input_context::display_menu()
+action_id input_context::display_menu( const bool permit_execute_action )
 {
-    // Shamelessly stolen from help.cpp
+    action_id action_to_execute = ACTION_NULL;
 
+    // Shamelessly stolen from help.cpp
     input_context ctxt( "HELP_KEYBINDINGS" );
     ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
     ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
@@ -989,6 +990,7 @@ void input_context::display_menu()
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
+    ctxt.register_action( "EXECUTE" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
 
@@ -1011,8 +1013,8 @@ void input_context::display_menu()
     bool changed = false;
     // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
-    // current status: adding/removing/showing keybindings
-    enum { s_remove, s_add, s_add_global, s_show } status = s_show;
+    // current status: adding/removing/executing/showing keybindings
+    enum { s_remove, s_add, s_add_global, s_execute, s_show } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
     org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
@@ -1037,6 +1039,9 @@ void input_context::display_menu()
     legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
     legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
     legend += _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
+    if( permit_execute_action ) {
+        legend += _( "Press . to execute action\n" );
+    }
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
@@ -1079,6 +1084,8 @@ void input_context::display_menu()
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
+            } else if( status == s_execute ) {
+                mvwprintz( w_help, point( 2, i + 10 ), c_white, "%c ", invlet );
             } else {
                 mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
@@ -1117,7 +1124,7 @@ void input_context::display_menu()
         }
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
-        // keys, e.g. '+', '-', '=', in order to prevent the user from
+        // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
         if( action == "ADD_LOCAL" || raw_input_char == '+' ) {
             status = s_add;
@@ -1125,6 +1132,8 @@ void input_context::display_menu()
             status = s_add_global;
         } else if( action == "REMOVE" || raw_input_char == '-' ) {
             status = s_remove;
+        } else if( ( action == "EXECUTE" || raw_input_char == '.' ) && permit_execute_action ) {
+            status = s_execute;
         } else if( action == "ANY_INPUT" ) {
             const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
             if( hotkey_index == std::string::npos ) {
@@ -1198,6 +1207,9 @@ void input_context::display_menu()
                     inp_mngr.add_input_for_action( action_id, category_to_access, new_event );
                     changed = true;
                 }
+            } else if( status == s_execute && permit_execute_action ) {
+                action_to_execute = look_up_action( action_id );
+                break;
             }
             status = s_show;
         } else if( action == "DOWN" ) {
@@ -1248,6 +1260,8 @@ void input_context::display_menu()
     }
     werase( w_help );
     wrefresh( w_help );
+
+    return action_to_execute;
 }
 
 input_event input_context::get_raw_input()

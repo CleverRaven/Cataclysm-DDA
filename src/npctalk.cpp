@@ -726,20 +726,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             most_difficult_mission = type.difficulty;
         }
     }
-    if( chatbin.mission_selected != nullptr ) {
-        if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
-            // Don't talk about a mission that is assigned to someone else.
-            chatbin.mission_selected = nullptr;
-        }
-    }
-    if( chatbin.mission_selected == nullptr ) {
-        // if possible, select a mission to talk about
-        if( !chatbin.missions.empty() ) {
-            chatbin.mission_selected = chatbin.missions.front();
-        } else if( !d.missions_assigned.empty() ) {
-            chatbin.mission_selected = d.missions_assigned.front();
-        }
-    }
 
     // Needs
     if( has_effect( effect_npc_suspend ) ) {
@@ -785,6 +771,20 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
+        if( chatbin.mission_selected != nullptr ) {
+            if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
+                // Don't talk about a mission that is assigned to someone else.
+                chatbin.mission_selected = nullptr;
+            }
+        }
+        if( chatbin.mission_selected == nullptr ) {
+            // if possible, select a mission to talk about
+            if( !chatbin.missions.empty() ) {
+                chatbin.mission_selected = chatbin.missions.front();
+            } else if( !d.missions_assigned.empty() ) {
+                chatbin.mission_selected = d.missions_assigned.front();
+            }
+        }
         d_win.print_header( name );
         const talk_topic next = d.opt( d_win, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {

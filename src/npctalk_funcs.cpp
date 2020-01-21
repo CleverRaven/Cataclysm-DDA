@@ -145,6 +145,9 @@ void talk_function::clear_mission( npc &p )
     }
     if( miss->has_follow_up() ) {
         p.add_new_mission( mission::reserve_new( miss->get_follow_up(), p.getID() ) );
+        if( !p.chatbin.mission_selected ) {
+            p.chatbin.mission_selected = p.chatbin.missions.front();
+        }
     }
 }
 

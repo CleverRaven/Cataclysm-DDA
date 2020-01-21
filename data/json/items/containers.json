@@ -1131,7 +1131,7 @@
     "name": "plastic tub",
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "weight": "1360 g",
-    "volume": "4 L",
+    "volume": "4500 ml",
     "price": 10,
     "price_postapoc": 100,
     "material": "plastic",

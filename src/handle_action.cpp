@@ -325,7 +325,7 @@ input_context game::get_player_input( std::string &action )
                 .on_top( true )
                 .show();
             }
-        } while( handle_mouseview( ctxt, action )
+        } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
                  && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
     } else {
@@ -418,9 +418,17 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        int pctr = veh->part_with_feature( part, "CONTROLS", true );
-        if( pctr < 0 ) {
+        static const itype_id fuel_type_animal( "animal" );
+        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
+        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
+        const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
+                                veh->has_harnessed_animal();
+        if( !has_controls && !has_animal_controls ) {
             add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
+            u.controlling_vehicle = false;
+            return;
+        } else if( !has_controls && has_animal_controls && !has_animal ) {
+            add_msg( m_info, _( "You can't drive this vehicle without an animal to pull it." ) );
             u.controlling_vehicle = false;
             return;
         }
@@ -1538,6 +1546,15 @@ bool game::handle_action()
 #endif
         }
 
+        if( act == ACTION_KEYBINDINGS ) {
+            u.clear_destination();
+            destination_preview.clear();
+            act = ctxt.display_menu( true );
+            if( act == ACTION_NULL ) {
+                return false;
+            }
+        }
+
         if( can_action_change_worldstate( act ) ) {
             user_action_counter += 1;
         }
@@ -1668,6 +1685,7 @@ bool game::handle_action()
                 break; // dummy entries
             case ACTION_ACTIONMENU:
             case ACTION_MAIN_MENU:
+            case ACTION_KEYBINDINGS:
                 break; // handled above
 
             case ACTION_TIMEOUT:
@@ -2255,11 +2273,6 @@ bool game::handle_action()
 
             case ACTION_HELP:
                 get_help().display_help();
-                refresh_all();
-                break;
-
-            case ACTION_KEYBINDINGS:
-                ctxt.display_menu();
                 refresh_all();
                 break;
 
