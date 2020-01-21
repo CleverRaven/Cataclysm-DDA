@@ -495,7 +495,7 @@
     "required_level": 1,
     "max_level": 2,
     "intelligence": 5,
-    "time": "45 m"
+    "time": "10 m"
   },
   {
     "id": "cookbook_daintydishes",
@@ -506,7 +506,7 @@
     "price": 3000,
     "price_postapoc": 4700,
     "max_level": 3,
-    "time": "60 m",
+    "time": "12 m",
     "fun": 1,
     "copy-from": "cookbook_liverforkids"
   },
@@ -519,7 +519,7 @@
     "volume": "1100 ml",
     "required_level": 0,
     "max_level": 1,
-    "time": "70 m",
+    "time": "16 m",
     "fun": -1,
     "copy-from": "cookbook_liverforkids"
   },
@@ -549,5 +549,5 @@
     "required_level": 1,
     "max_level": 2,
     "time": "12 m"
-  },
+  }
 ]
