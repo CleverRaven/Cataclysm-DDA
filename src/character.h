@@ -1184,8 +1184,9 @@ class Character : public Creature, public visitable<Character>
         /**
          * Check character capable of wearing an item.
          * @param it Thing to be worn
+         * @param with_equip_change If true returns if it could be worn if things were taken off
          */
-        ret_val<bool> can_wear( const item &it ) const;
+        ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.

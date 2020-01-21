@@ -2134,10 +2134,48 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-ret_val<bool> Character::can_wear( const item &it ) const
+ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
     if( !it.is_armor() ) {
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
+    }
+
+    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
+                                            it.item_tags.count( "wooled" ) ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
+    }
+
+    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
+    }
+
+    if( !it.has_flag( "OVERSIZE" ) && !it.has_flag( "SEMITANGIBLE" ) ) {
+        for( const trait_id &mut : get_mutations() ) {
+            const auto &branch = mut.obj();
+            if( branch.conflicts_with_item( it ) ) {
+                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
+                                                    branch.name(), it.type_name() );
+            }
+        }
+        if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
+            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
+            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
+            ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
+              has_trait( trait_ANTLERS ) ) ) {
+            return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
+                                                ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
+                                                  ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
+        }
+    }
+
+    if( it.has_flag( "RESTRICT_HANDS" ) && !has_two_arms() ) {
+        return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have enough arms to wear that." )
+                                              : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
+    }
+
+    //Everything checked after here should be something that could be solved by changing equipment
+    if( with_equip_change ) {
+        return ret_val<bool>::make_success();
     }
 
     if( it.is_power_armor() ) {
@@ -2179,7 +2217,7 @@ ret_val<bool> Character::can_wear( const item &it ) const
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
-    if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ||
+    if( it.has_flag( "RESTRICT_HANDS" ) && ( worn_with_flag( "RESTRICT_HANDS" ) ||
             weapon.is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
@@ -2220,34 +2258,6 @@ ret_val<bool> Character::can_wear( const item &it ) const
         ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
-    }
-
-    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
-                                            it.item_tags.count( "wooled" ) ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
-    }
-
-    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
-    }
-
-    if( !it.has_flag( "OVERSIZE" ) && !it.has_flag( "SEMITANGIBLE" ) ) {
-        for( const trait_id &mut : get_mutations() ) {
-            const auto &branch = mut.obj();
-            if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
-                                                    branch.name(), it.type_name() );
-            }
-        }
-        if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
-            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
-            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
-            ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
-              has_trait( trait_ANTLERS ) ) ) {
-            return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
-                                                ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
-                                                  ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
-        }
     }
 
     return ret_val<bool>::make_success();
