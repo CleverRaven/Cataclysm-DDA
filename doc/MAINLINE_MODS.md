@@ -40,7 +40,7 @@ Furthermore, there are additional criteria:
 
 ## When do mods get removed?
 
-Mods that have no maintainer or have proven to be consistently some type of maintenance burden are potentially subject to removal. Additionally, mods which had a purpose which is no longer relevant (development mods whose accompanying feature has been finished) will generally be removed once they're no longer deemed necessary.
+Mods that have no maintainer or have proven to be consistently some type of maintenance burden are potentially subject to removal. Additionally, mods which had a purpose which is no longer relevant (development mods whose accompanying feature has been finished) will generally be removed once they're no longer deemed necessary.  If a maintainer can't be reached for comment on a bugfix or review on a PR'd change for about a month, and hasn't left any indication of when they'll be back, developers will assume they've left the project, and the mod is orphaned.
 
 Whenever a stable release occurs, mods which no longer qualify for inclusion will be marked 'obsolete'. This doesn't remove them from the repository, but it does prevent it from being used in new worlds (barring additional effort on the part of the player).
 
