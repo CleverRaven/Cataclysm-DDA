@@ -531,7 +531,7 @@ class inventory_selector
 
     public:
 
-        void update();
+        void update( bool &need_refresh );
 
         /**
          * Select a location

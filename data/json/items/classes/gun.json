@@ -16,7 +16,7 @@
     "name": "base flamethrower",
     "skill": "launcher",
     "ammo": "flammable",
-    "ammo_effects": [ "NO_BOOM", "FLARE" ],
+    "ammo_effects": [ "FLARE" ],
     "reload": 4,
     "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
     "faults": [  ]

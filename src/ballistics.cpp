@@ -73,7 +73,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             g->m.add_item_or_charges( pt, i );
         }
 
-        //TODO: Sound
+        // TODO: Sound
         return;
     }
 

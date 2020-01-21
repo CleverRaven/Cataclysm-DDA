@@ -175,8 +175,8 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
-time_duration player_morale::morale_point::pick_time( const time_duration current_time,
-        const time_duration new_time, bool same_sign ) const
+time_duration player_morale::morale_point::pick_time( const time_duration &current_time,
+        const time_duration &new_time, bool same_sign ) const
 {
     const time_duration remaining_time = current_time - age;
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
@@ -191,7 +191,7 @@ double player_morale::morale_point::get_percent_contribution()
 {
     return percent_contribution;
 }
-void player_morale::morale_point::decay( const time_duration ticks )
+void player_morale::morale_point::decay( const time_duration &ticks )
 {
     if( ticks < 0_turns ) {
         debugmsg( "The function called with negative ticks %d.", to_turns<int>( ticks ) );
@@ -267,7 +267,7 @@ player_morale::player_morale() :
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
-                         const time_duration duration, const time_duration decay_start,
+                         const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
     if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
@@ -439,9 +439,9 @@ int player_morale::get_level() const
     return level;
 }
 
-void player_morale::decay( const time_duration ticks )
+void player_morale::decay( const time_duration &ticks )
 {
-    const auto do_decay = [ ticks ]( morale_point & m ) {
+    const auto do_decay = [ &ticks ]( morale_point & m ) {
         m.decay( ticks );
     };
 

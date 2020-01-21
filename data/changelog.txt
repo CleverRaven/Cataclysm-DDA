@@ -76,7 +76,7 @@ Basecamps: Use normal recipes and fake resources.
 Allow professions to have starting pets.
 Make crafting failure non-absolute.
 Player now burns calories when doing activities.
-Model NPC needs as a behavior tree based on Maslow's heirarchy of needs.
+Model NPC needs as a behavior tree based on Maslow's hierarchy of needs.
 Boats push creatures in water out of the way.
 CBMs for NPCs 2: Active CBMs with AI control.
 Allows trains to move and turn on railroad tiles.
@@ -175,7 +175,7 @@ Running/crouching while swimming will result in faster/slower swim speed.
 Adds refluffed and modified plasma gun.
 Moves allergen handling vitamin absorption to JSON.
 Alternative night vision intensity.
-Adds the possiblitiy to find an evil moose in the kitten finding game.
+Adds the possibility to find an evil moose in the kitten finding game.
 Add "classic literature" and "collector's edition" books.
 Adds Free Merchant currency.
 Joint Servo CBM - movement enhancer CBM.
@@ -1065,7 +1065,7 @@ Adds new vehicle part : a wind turbine.
 Adds Free Merchant currency.
 Adds methanol and ether as a possible Molotov components.
 Add "classic literature" and "collector's edition" books, move choice book spawns to library, and adjust library/mansion book spawns overall.
-Adds the possiblitiy to find an evil moose in the kitten finding game.
+Adds the possibility to find an evil moose in the kitten finding game.
 Adds new furniture flag that restricts vision when in the furniture.
 
 ## Interface:
@@ -1143,7 +1143,7 @@ Vision and targeting changes, 3D-ification.
 Display moves when disposing of items.
 Escapable menu for sorting items in advanced inventory.
 Prevent window minimize on fullscreen borderless when focus lost.
-Rearange main rendering method to place curses cursor on @ at the end.
+Rearrange main rendering method to place curses cursor on @ at the end.
 Add a cache refresh before drawing pixel minimap.
 Add option to select which video display is used.
 Add option to limit lifetime of sidebar messages.
@@ -1295,7 +1295,7 @@ Have vehicles become dark inside when that makes sense.
 Allow toggling display of forest trails on the overmap.
 Added 'center' action for look around mode.
 Vehicle: display engine power and electrical drain/production.
-Bandage/Disinfactant display/compare/apply improvements.
+Bandage/Disinfectant display/compare/apply improvements.
 Allow hiding of recipe categories from crafting menu.
 Player: don't create the reload prompt if there's only one option.
 Better scrolling through requirements list in crafting GUI.

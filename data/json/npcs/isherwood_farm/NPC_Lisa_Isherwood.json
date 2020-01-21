@@ -39,7 +39,7 @@
     "id": "TALK_ISHERWOOD_LISA",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need ot keep on walking, straight off this property.",
+      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
       "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
     },
     "responses": [

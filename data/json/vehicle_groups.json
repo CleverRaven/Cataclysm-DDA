@@ -250,10 +250,11 @@
       [ "military_cargo_truck", 1000 ],
       [ "humvee", 500 ],
       [ "humvee_gl", 250 ],
+      [ "humvee_tow", 125 ],
       [ "apc", 500 ],
       [ "apc-gl", 250 ],
       [ "aapc-mg", 250 ],
-      [ "apc-gl", 125 ]
+      [ "aapc-gl", 125 ]
     ]
   },
   {
@@ -433,6 +434,29 @@
       [ "scooter_electric", 50 ],
       [ "tandem", 300 ],
       [ "tricycle", 50 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "back_alley",
+    "//": "for city block back alleys, must be 3 tiles wide or less",
+    "vehicles": [
+      [ "bicycle", 800 ],
+      [ "autosweeper", 100 ],
+      [ "bicycle_electric", 600 ],
+      [ "bicycle_dirt", 750 ],
+      [ "unicycle", 50 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 50 ],
+      [ "tandem", 300 ],
+      [ "tricycle", 20 ],
+      [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 150 ],
+      [ "motorcycle_enduro", 100 ],
+      [ "superbike", 100 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "golf_cart", 10 ],
+      [ "golf_cart_4seat", 10 ]
     ]
   },
   {

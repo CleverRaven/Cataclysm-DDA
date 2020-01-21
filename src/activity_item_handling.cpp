@@ -219,25 +219,17 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    // Add volume of the bag itself since it is going to be subtracted later in the for-each loop.
-    units::volume remaining_volume = pet.inv.empty() ? 0_ml :
-                                     pet.inv.front().get_storage() + pet.inv.front().volume();
-    units::mass remaining_weight = pet.weight_capacity();
+    units::volume remaining_volume = pet.storage_item->get_storage() - pet.get_carried_volume();
+    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
 
-    for( const auto &it : pet.inv ) {
-        remaining_volume -= it.volume();
-        remaining_weight -= it.weight();
-    }
-
-    for( auto &it : items ) {
-        pet.add_effect( effect_controlled, 5_turns );
+    for( const item &it : items ) {
         if( it.volume() > remaining_volume ) {
-            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
-                     it.display_name(), g->m.name( pet.pos() ) );
+            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
+                     g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else if( it.weight() > remaining_weight ) {
-            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
-                     it.display_name(), g->m.name( pet.pos() ) );
+            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
+                     g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else {
             pet.add_item( it );
@@ -361,23 +353,12 @@ static drop_locations convert_to_locations( const player_activity &act )
         return res;
     }
     for( size_t i = 0; i < act.values.size(); i++ ) {
-        res.emplace_back( act.targets[i], act.values[i] );
-    }
-    return res;
-}
-
-static drop_locations convert_to_locations( const std::list<act_item> &items )
-{
-    drop_locations res;
-
-    for( const act_item &ait : items ) {
-        if( ait.loc && ait.count > 0 ) {
-            if( res.empty() || res.back().first != ait.loc ) {
-                res.emplace_back( ait.loc, ait.count );
-            } else {
-                res.back().second += ait.count;
-            }
+        // locations may have become invalid as items are forcefully dropped
+        // when they exceed the storage volume of the character
+        if( !act.targets[i] || !act.targets[i].get_item() ) {
+            continue;
         }
+        res.emplace_back( act.targets[i], act.values[i] );
     }
     return res;
 }
@@ -394,6 +375,16 @@ static std::list<act_item> convert_to_items( Character &p, const drop_locations 
         if( !filter( loc ) ) {
             continue;
         } else if( !p.is_worn( *loc ) && !p.is_wielding( *loc ) ) {
+            // Special case. After dropping the first few items, the remaining items are already separated.
+            // That means: `drop` already contains references to each of the items in
+            // `p.inv.const_stack`, and `count` will be 1 for each of them.
+            // If we continued without this check, we iterate over `p.inv.const_stack` multiple times,
+            // but each time stopping after visiting the first item.
+            // In the end, we would add references to the same item (the first one in the stack) multiple times.
+            if( count == 1 ) {
+                res.emplace_back( loc, 1, loc.obtain_cost( p, 1 ) );
+                continue;
+            }
             int obtained = 0;
             for( const item &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
                 if( obtained >= count ) {
@@ -517,6 +508,9 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
+        assert( ait.loc );
+        assert( ait.loc.get_item() );
+
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.loc ) ) {
@@ -538,11 +532,9 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();
-    if( !items.empty() ) {
-        for( const drop_location &drop : convert_to_locations( items ) ) {
-            act.targets.push_back( drop.first );
-            act.values.push_back( drop.second );
-        }
+    for( const act_item &ait : items ) {
+        act.targets.push_back( ait.loc );
+        act.values.push_back( ait.count );
     }
     // And cancel if its empty. If its not, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which
@@ -913,7 +905,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, char type )
+static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, char type )
 {
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
     if( !veh ) {
@@ -1042,7 +1034,7 @@ static activity_reason_info find_base_construction(
     player &p,
     const inventory &inv,
     const tripoint &loc,
-    const cata::optional<size_t> part_con_idx,
+    const cata::optional<size_t> &part_con_idx,
     const size_t idx,
     std::set<size_t> &used )
 {
@@ -1585,6 +1577,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
         const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
+    std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
+    if( p.backlog.empty() || p.backlog.front().str_values.empty() ) {
+        return requirement_map;
+    }
     const requirement_data things_to_fetch = requirement_id( p.backlog.front().str_values[0] ).obj();
     const activity_id activity_to_restore = p.backlog.front().id();
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
@@ -1601,7 +1597,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                              p.backlog.front().id() == activity_id( "ACT_VEHICLE_REPAIR" ) ||
                              p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" );
     // where it is, what it is, how much of it, and how much in total is required of that item.
-    std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
     std::vector<std::tuple<tripoint, itype_id, int>> final_map;
     std::vector<tripoint> loot_spots;
     std::vector<tripoint> already_there_spots;
@@ -1852,14 +1847,14 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             }
         }
     }
-    for( const std::tuple<tripoint, itype_id, int> elem : final_map ) {
+    for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
         add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(), std::get<1>( elem ),
                  std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
 }
 
-static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
+static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
                                    const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
                                    activity_id activity_to_restore )
 {
@@ -1967,7 +1962,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
     std::string picked_up;
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    // TODO : vehicle_stack and map_stack into one loop.
+    // TODO: vehicle_stack and map_stack into one loop.
     if( src_veh ) {
         for( auto &veh_elem : src_veh->get_items( src_part ) ) {
             for( auto elem : mental_map_2 ) {
@@ -2168,7 +2163,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             //nothing to sort?
             const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                     false );
-            if( !vp && g->m.i_at( src_loc ).empty( ) ) {
+            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
+                && g->m.i_at( src_loc ).empty() ) {
                 continue;
             }
 
@@ -2291,7 +2287,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 }
 
                 // skip tiles with inaccessible furniture, like filled charcoal kiln
-                if( !g->m.can_put_items_ter_furn( dest_loc ) ) {
+                if( !g->m.can_put_items_ter_furn( dest_loc ) ||
+                    static_cast<int>( g->m.i_at( dest_loc ).size() ) >= MAX_ITEM_IN_SQUARE ) {
                     continue;
                 }
 
@@ -2354,7 +2351,9 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
         return false;
     }
     int moves = chop_moves( p, best_qual );
-    p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual->type->can_have_charges() ) {
+        p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    }
     const ter_id ter = g->m.ter( src_loc );
     if( g->m.has_flag( "TREE", src_loc ) ) {
         p.assign_activity( activity_id( "ACT_CHOP_TREE" ), moves, -1, p.get_item_position( best_qual ) );
@@ -2952,7 +2951,7 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
-    auto adjacent = closest_tripoints_first( PICKUP_RANGE, pos );
+    std::vector<tripoint> adjacent = closest_tripoints_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
     cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,

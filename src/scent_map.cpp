@@ -127,7 +127,7 @@ scenttype_id scent_map::get_type( const tripoint &p ) const
 
 bool scent_map::inbounds( const tripoint &p ) const
 {
-    // This weird long check here is a hack around the fact that scentmap is 2D
+    // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
     const int levz = gm.get_levz();

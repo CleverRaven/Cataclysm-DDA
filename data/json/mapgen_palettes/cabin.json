@@ -20,7 +20,9 @@
       "W": [ [ "t_window_boarded", 2 ], "t_window" ],
       "%": "t_gutter_downspout",
       "q": "t_swater_sh",
-      "Q": "t_water_dp"
+      "Q": "t_water_dp",
+      "H": "t_chickenwire_gate_c",
+      "I": "t_chickenwire_fence"
     },
     "furniture": {
       "a": "f_armchair",
