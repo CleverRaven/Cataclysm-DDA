@@ -4,7 +4,7 @@
     "om_terrain": "house",
     "//": "empty field fake special for mod support houses.",
     "type": "mapgen",
-    "weight": 200,
+    "weight": 10,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
