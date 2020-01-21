@@ -2437,18 +2437,8 @@
   },
   {
     "type": "item_group",
-    "id": "bees",
-    "items": [ [ "bee_sting", 5 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "fungal_sting",
     "items": [ [ "fighter_sting", 5 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "wasps",
-    "items": [ [ "wasp_sting", 5 ] ]
   },
   {
     "type": "item_group",
