@@ -97,7 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_pulp",
-    "name": { "str": "almond pulp" },
+    "name": { "str": "almond pulp", "str_pl": "almond pulp" },
     "looks_like": "granola",
     "weight": "30 g",
     "color": "brown",
