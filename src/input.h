@@ -531,6 +531,10 @@ class input_context
             std::string requested_keys =
                 "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" );
 
+        using input_event_filter = std::function<bool( const input_event & )>;
+        static const input_event_filter disallow_lower_case;
+        static const input_event_filter allow_all_keys;
+
         /**
          * Get a description text for the key/other input method associated
          * with the given action. If there are multiple bound keys, no more
@@ -549,10 +553,7 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               unsigned int max_limit = 0,
-                              std::function<bool( const input_event & )> evt_filter =
-        []( const input_event & ) {
-            return true;
-        } ) const;
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Get a description based on `text`. If a bound key for `action_descriptor`
@@ -570,19 +571,13 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
-                              std::function<bool( const input_event & )> evt_filter =
-        []( const input_event & ) {
-            return true;
-        } ) const;
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Equivalent to get_desc( act, get_action_name( act ), filter )
          **/
         std::string describe_key_and_name( const std::string &action_descriptor,
-                                           std::function<bool( const input_event & )> evt_filter =
-        []( const input_event & ) {
-            return true;
-        } ) const;
+                                           const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Handles input and returns the next action in the queue.
