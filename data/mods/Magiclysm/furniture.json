@@ -88,7 +88,8 @@
         { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "wood_panel", "count": [ 1, 2 ] },
         { "item": "2x4", "count": [ 3, 4 ] }
-      ]
+      ] 
+   },
     "max_volume": "1750 L",
     "bash": {
       "str_min": 35,
@@ -129,7 +130,7 @@
         { "item": "stopcock", "count": [ 1, 5 ] },
         { "item": "flask_glass", "count": [ 1, 3 ] }
       ]
-    }
+    },
     "max_volume": "1750 L",
     "bash": {
       "str_min": 4,
