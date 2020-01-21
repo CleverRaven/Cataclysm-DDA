@@ -1,6 +1,103 @@
 #pragma once
 #ifndef STRING_CONSTS_H
 #define STRING_CONSTS_H
+
+static const activity_id ACT_BURROW("ACT_BURROW");
+static const activity_id ACT_CRAFT("ACT_CRAFT");
+static const activity_id ACT_FILL_LIQUID("ACT_FILL_LIQUID");
+static const activity_id ACT_PICKAXE("ACT_PICKAXE");
+static const activity_id ACT_DROP("ACT_DROP");
+static const activity_id ACT_STASH("ACT_STASH");
+static const activity_id ACT_PULP("ACT_PULP");
+static const activity_id ACT_GAME("ACT_GAME");
+static const activity_id ACT_GENERIC_GAME("ACT_GENERIC_GAME");
+static const activity_id ACT_START_FIRE("ACT_START_FIRE");
+static const activity_id ACT_VIBE("ACT_VIBE");
+static const activity_id ACT_HAND_CRANK("ACT_HAND_CRANK");
+static const activity_id ACT_OXYTORCH("ACT_OXYTORCH");
+static const activity_id ACT_AIM("ACT_AIM");
+static const activity_id ACT_WEAR("ACT_WEAR");
+static const activity_id ACT_MULTIPLE_FISH("ACT_MULTIPLE_FISH");
+static const activity_id ACT_MULTIPLE_CONSTRUCTION("ACT_MULTIPLE_CONSTRUCTION");
+static const activity_id ACT_MULTIPLE_BUTCHER("ACT_MULTIPLE_BUTCHER");
+static const activity_id ACT_MULTIPLE_FARM("ACT_MULTIPLE_FARM");
+static const activity_id ACT_FETCH_REQUIRED("ACT_FETCH_REQUIRED");
+static const activity_id ACT_BUILD("ACT_BUILD");
+static const activity_id ACT_EAT_MENU("ACT_EAT_MENU");
+static const activity_id ACT_VEHICLE_DECONSTRUCTION("ACT_VEHICLE_DECONSTRUCTION");
+static const activity_id ACT_VEHICLE_REPAIR("ACT_VEHICLE_REPAIR");
+static const activity_id ACT_MULTIPLE_CHOP_TREES("ACT_MULTIPLE_CHOP_TREES");
+static const activity_id ACT_CONSUME_FOOD_MENU("ACT_CONSUME_FOOD_MENU");
+static const activity_id ACT_CONSUME_DRINK_MENU("ACT_CONSUME_DRINK_MENU");
+static const activity_id ACT_CONSUME_MEDS_MENU("ACT_CONSUME_MEDS_MENU");
+static const activity_id ACT_MOVE_ITEMS("ACT_MOVE_ITEMS");
+static const activity_id ACT_MOVE_LOOT("ACT_MOVE_LOOT");
+static const activity_id ACT_ADV_INVENTORY("ACT_ADV_INVENTORY");
+static const activity_id ACT_ARMOR_LAYERS("ACT_ARMOR_LAYERS");
+static const activity_id ACT_ATM("ACT_ATM");
+static const activity_id ACT_CRACKING("ACT_CRACKING");
+static const activity_id ACT_FISH("ACT_FISH");
+static const activity_id ACT_REPAIR_ITEM("ACT_REPAIR_ITEM");
+static const activity_id ACT_BUTCHER("ACT_BUTCHER");
+static const activity_id ACT_BUTCHER_FULL("ACT_BUTCHER_FULL");
+static const activity_id ACT_TRAVELLING("ACT_TRAVELLING");
+static const activity_id ACT_AUTODRIVE("ACT_AUTODRIVE");
+static const activity_id ACT_FIELD_DRESS("ACT_FIELD_DRESS");
+static const activity_id ACT_SKIN("ACT_SKIN");
+static const activity_id ACT_QUARTER("ACT_QUARTER");
+static const activity_id ACT_DISMEMBER("ACT_DISMEMBER");
+static const activity_id ACT_DISSECT("ACT_DISSECT");
+static const activity_id ACT_HACKSAW("ACT_HACKSAW");
+static const activity_id ACT_CHOP_TREE("ACT_CHOP_TREE");
+static const activity_id ACT_CHOP_LOGS("ACT_CHOP_LOGS");
+static const activity_id ACT_TIDY_UP("ACT_TIDY_UP");
+static const activity_id ACT_CHOP_PLANKS("ACT_CHOP_PLANKS");
+static const activity_id ACT_JACKHAMMER("ACT_JACKHAMMER");
+static const activity_id ACT_FIND_MOUNT("ACT_FIND_MOUNT");
+static const activity_id ACT_DIG("ACT_DIG");
+static const activity_id ACT_DIG_CHANNEL("ACT_DIG_CHANNEL");
+static const activity_id ACT_FILL_PIT("ACT_FILL_PIT");
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS("ACT_MULTIPLE_CHOP_PLANKS");
+static const activity_id ACT_FERTILIZE_PLOT("ACT_FERTILIZE_PLOT");
+static const activity_id ACT_TRY_SLEEP("ACT_TRY_SLEEP");
+static const activity_id ACT_OPERATION("ACT_OPERATION");
+static const activity_id ACT_ROBOT_CONTROL("ACT_ROBOT_CONTROL");
+static const activity_id ACT_TREE_COMMUNION("ACT_TREE_COMMUNION");
+static const activity_id ACT_READ("ACT_READ");
+static const activity_id ACT_WAIT_STAMINA("ACT_WAIT_STAMINA");
+static const activity_id ACT_STUDY_SPELL("ACT_STUDY_SPELL");
+static const activity_id ACT_PICKUP("ACT_PICKUP");
+static const activity_id ACT_FIRSTAID("ACT_FIRSTAID");
+static const activity_id ACT_FORAGE("ACT_FORAGE");
+static const activity_id ACT_HOTWIRE_CAR("ACT_HOTWIRE_CAR");
+static const activity_id ACT_LONGSALVAGE("ACT_LONGSALVAGE");
+static const activity_id ACT_MAKE_ZLAVE("ACT_MAKE_ZLAVE");
+static const activity_id ACT_RELOAD("ACT_RELOAD");
+static const activity_id ACT_TRAIN("ACT_TRAIN");
+static const activity_id ACT_CHURN("ACT_CHURN");
+static const activity_id ACT_VEHICLE("ACT_VEHICLE");
+static const activity_id ACT_START_ENGINES("ACT_START_ENGINES");
+static const activity_id ACT_OPEN_GATE("ACT_OPEN_GATE");
+static const activity_id ACT_HEATING("ACT_HEATING");
+static const activity_id ACT_MEND_ITEM("ACT_MEND_ITEM");
+static const activity_id ACT_GUNMOD_ADD("ACT_GUNMOD_ADD");
+static const activity_id ACT_TOOLMOD_ADD("ACT_TOOLMOD_ADD");
+static const activity_id ACT_MEDITATE("ACT_MEDITATE");
+static const activity_id ACT_SPELLCASTING("ACT_SPELLCASTING");
+static const activity_id ACT_HACKING("ACT_HACKING");
+static const activity_id ACT_CLEAR_RUBBLE("ACT_CLEAR_RUBBLE");
+static const activity_id ACT_WAIT("ACT_WAIT");
+static const activity_id ACT_WAIT_WEATHER("ACT_WAIT_WEATHER");
+static const activity_id ACT_WAIT_NPC("ACT_WAIT_NPC");
+static const activity_id ACT_SOCIALIZE("ACT_SOCIALIZE");
+static const activity_id ACT_DISASSEMBLE("ACT_DISASSEMBLE");
+static const activity_id ACT_WASH("ACT_WASH");
+static const activity_id ACT_PLAY_WITH_PET("ACT_PLAY_WITH_PET");
+static const activity_id ACT_SHAVE("ACT_SHAVE");
+static const activity_id ACT_HAIRCUT("ACT_HAIRCUT");
+static const activity_id ACT_UNLOAD_MAG("ACT_TRAIN");
+static const activity_id ACT_MIND_SPLICER("ACT_MIND_SPLICER");
+
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
@@ -92,6 +189,7 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
@@ -105,6 +203,7 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_winded( "winded" );
@@ -163,6 +262,7 @@ static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
@@ -226,6 +326,7 @@ static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
@@ -249,15 +350,63 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
+static const std::string trait_flag_CANNIBAL("CANNIBAL");
+static const std::string trait_flag_PSYCHOPATH("PSYCHOPATH");
+static const std::string trait_flag_SAPIOVORE("SAPIOVORE");
+
 static const species_id HUMAN( "HUMAN" );
 static const species_id ROBOT( "ROBOT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+static const skill_id skill_computer( "computer" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_survival( "survival" );
+
+static const std::string flag_AUTODOC( "AUTODOC" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string flag_EATEN_COLD("EATEN_COLD");
+static const std::string flag_FISH_GOOD("FISH_GOOD");
+static const std::string flag_FISH_POOR("FISH_POOR");
+static const std::string flag_FLAT_SURF("FLAT_SURF");
+static const std::string flag_FORAGE_HALLU("FORAGE_HALLU");
+
+static const std::string flag_FORAGE_POISON("FORAGE_POISON");
+static const std::string flag_HIDDEN_HALLU("HIDDEN_HALLU");
+
+static const std::string flag_HIDDEN_POISON("HIDDEN_POISON");
+static const std::string flag_GIBBED("GIBBED");
+static const std::string flag_KITCHEN("KITCHEN");
+static const std::string flag_MAG_DESTROY("MAG_DESTROY");
+static const std::string flag_MESSY("MESSY");
+static const std::string flag_SAFECRACK("SAFECRACK");
+static const std::string flag_SUPPORTS_ROOF("SUPPORTS_ROOF");
+static const std::string flag_FIELD_DRESS_FAILED("FIELD_DRESS_FAILED");
+static const std::string flag_FIELD_DRESS("FIELD_DRESS");
+static const std::string flag_REQUIRES_TINDER("REQUIRES_TINDER");
+static const std::string flag_PULPED("PULPED");
+static const std::string flag_QUARTERED("QUARTERED");
+static const std::string flag_RELOAD_ONE("RELOAD_ONE");
+static const std::string flag_SKINNED("SKINNED");
+static const std::string flag_SPEEDLOADER("SPEEDLOADER");
+static const std::string flag_TREE("TREE");
+
+
+static const quality_id qual_CUT_FINE("CUT_FINE");
+static const quality_id qual_BUTCHER("BUTCHER");
+static const quality_id qual_SAW_W("SAW_W");
+static const quality_id qual_SAW_M("SAW_M");
+
+
+static const zone_type_id zone_type_FARM_PLOT("FARM_PLOT");
 
 #endif // STRING_CONSTS_H
