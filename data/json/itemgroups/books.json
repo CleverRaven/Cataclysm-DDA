@@ -263,6 +263,7 @@
       [ "cookbook_foodfashions", 10 ],
       [ "survnote", 1 ],
       [ "scots_cookbook", 8 ],
+      [ "offalcooking", 2 ],
       [ "dnd_handbook", 2 ]
     ]
   },
@@ -298,6 +299,7 @@
       [ "howto_computer", 10 ],
       [ "cookbook", 35 ],
       [ "cookbook_italian", 25 ],
+      [ "offalcooking", 10 ],
       [ "manual_electronics", 20 ],
       [ "manual_tailor", 15 ],
       [ "howto_traps", 10 ],
@@ -327,6 +329,7 @@
       [ "recipe_augs", 5 ],
       [ "howto_computer", 10 ],
       [ "cookbook", 35 ],
+      [ "offalcooking", 8 ],
       [ "cookbook_italian", 25 ],
       [ "manual_electronics", 20 ],
       [ "manual_tailor", 15 ],
@@ -485,6 +488,7 @@
     "type": "item_group",
     "//": "Those rich mansion people have all sorts of weird books.",
     "items": [
+      [ "offalcooking", 22 ],
       { "group": "novels", "prob": 370 },
       { "group": "literature", "prob": 100 },
       [ "photo_album", 30 ],
