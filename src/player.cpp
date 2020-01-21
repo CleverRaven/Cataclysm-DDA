@@ -6379,7 +6379,8 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY &&// TODO: get rid of fake npcs (pos() check)
+        // TODO: get rid of fake npcs (pos() check)
+        return this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY &&
         round( rl_dist_exact( pos(), critter.pos() ) ) <= range &&
         ( sees( critter ) || sees_with_infrared( critter ) );
     } );
