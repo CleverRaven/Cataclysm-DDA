@@ -755,7 +755,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
         } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
+                for( const tripoint &candidate : closest_tripoints_first( critter.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
                         g->m.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
@@ -778,7 +778,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
+                for( const tripoint &candidate : closest_tripoints_first( p.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
@@ -1876,7 +1876,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( 1, examp ) ) {
+        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
             } else if( g->place_critter_at( montype, p ) ) {
@@ -3723,7 +3723,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp );
     if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );
@@ -4553,14 +4553,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case UNINSTALL_CBM: {
-            bionic_collection installed_bionics = *patient.my_bionics;
+            const bionic_collection &installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
                 popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
                                      _( "<npcname> doesn't have any bionics installed." ) );
                 return;
             }
 
-            for( auto &bio : installed_bionics ) {
+            for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bionic_id( "bio_power_storage" ) ||
                     bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
                     if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
@@ -4921,7 +4921,8 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
 
-                result.inherit_flags( it );
+                recipe rec;
+                result.inherit_flags( it, rec );
                 if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
                     // If the item has "cooks_like" it will be replaced by that item as a component.
                     if( !it.get_comestible()->cooks_like.empty() ) {

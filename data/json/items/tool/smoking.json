@@ -1,0 +1,79 @@
+[
+  {
+    "id": "advanced_ecig",
+    "type": "TOOL",
+    "name": "advanced electronic cigarette",
+    "description": "An advanced version of the electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
+    "category": "drugs",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "to_hit": -1,
+    "material": "steel",
+    "symbol": "!",
+    "color": "white",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "power_draw": 7500,
+    "use_action": "ECIG",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "crackpipe",
+    "type": "TOOL",
+    "name": "crack pipe",
+    "description": "This is a fine glass tube with a bulb with a bowl on one end.  It's used to partake of certain illicit substances.",
+    "weight": "242 g",
+    "volume": "250 ml",
+    "price": 0,
+    "to_hit": -10,
+    "material": "glass",
+    "symbol": ",",
+    "color": "cyan",
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+  },
+  {
+    "id": "pipe_glass",
+    "type": "TOOL",
+    "name": "glass pipe",
+    "description": "This is a hand-blown glass pipe.  It's of the type most commonly used to smoke recreational substances.",
+    "weight": "163 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "to_hit": -10,
+    "bashing": 1,
+    "material": "glass",
+    "symbol": ",",
+    "color": "cyan",
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+  },
+  {
+    "id": "pipe_tobacco",
+    "type": "TOOL",
+    "name": "tobacco pipe",
+    "description": "This is a hand-carved wooden smoking pipe.  It's designed to facilitate consumption of fire cured tobacco leaves.",
+    "weight": "372 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "to_hit": -10,
+    "bashing": 1,
+    "material": "wood",
+    "symbol": ",",
+    "color": "brown",
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+  }
+]

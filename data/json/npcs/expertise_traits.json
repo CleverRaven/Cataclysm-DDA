@@ -71,7 +71,7 @@
     "traits": [ { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture1" }, { "trait": "Exp_Agriculture2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Agriculture_Group",
     "subtype": "distribution",
@@ -149,7 +149,7 @@
     "traits": [ { "trait": "Exp_Biochemistry1" }, { "trait": "Exp_Biochemistry1" }, { "trait": "Exp_Biochemistry2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Biochemistry_Group",
     "subtype": "distribution",
@@ -227,7 +227,7 @@
     "traits": [ { "trait": "Exp_Biology1" }, { "trait": "Exp_Biology1" }, { "trait": "Exp_Biology2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Biology_Group",
     "subtype": "distribution",
@@ -305,7 +305,7 @@
     "traits": [ { "trait": "Exp_Bookkeeping1" }, { "trait": "Exp_Bookkeeping1" }, { "trait": "Exp_Bookkeeping2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Bookkeeping_Group",
     "subtype": "distribution",
@@ -383,7 +383,7 @@
     "traits": [ { "trait": "Exp_Botany1" }, { "trait": "Exp_Botany1" }, { "trait": "Exp_Botany2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Botany_Group",
     "subtype": "distribution",
@@ -461,7 +461,7 @@
     "traits": [ { "trait": "Exp_Chemistry1" }, { "trait": "Exp_Chemistry1" }, { "trait": "Exp_Chemistry2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Chemistry_Group",
     "subtype": "distribution",
@@ -539,7 +539,7 @@
     "traits": [ { "trait": "Exp_Culinary1" }, { "trait": "Exp_Culinary1" }, { "trait": "Exp_Culinary2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Culinary_Group",
     "subtype": "distribution",
@@ -617,7 +617,7 @@
     "traits": [ { "trait": "Exp_Eng_Electrical1" }, { "trait": "Exp_Eng_Electrical1" }, { "trait": "Exp_Eng_Electrical2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Electrical_Group",
     "subtype": "distribution",
@@ -695,7 +695,7 @@
     "traits": [ { "trait": "Exp_Eng_Mechanical1" }, { "trait": "Exp_Eng_Mechanical1" }, { "trait": "Exp_Eng_Mechanical2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Electrical_Group",
     "subtype": "distribution",
@@ -773,7 +773,7 @@
     "traits": [ { "trait": "Exp_Eng_Software1" }, { "trait": "Exp_Eng_Software1" }, { "trait": "Exp_Eng_Software2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Software_Group",
     "subtype": "distribution",
@@ -851,7 +851,7 @@
     "traits": [ { "trait": "Exp_Eng_Structural1" }, { "trait": "Exp_Eng_Structural1" }, { "trait": "Exp_Eng_Structural2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Eng_Structural_Group",
     "subtype": "distribution",
@@ -929,7 +929,7 @@
     "traits": [ { "trait": "Exp_Entomology1" }, { "trait": "Exp_Entomology1" }, { "trait": "Exp_Entomology2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Entomology_Group",
     "subtype": "distribution",
@@ -1007,7 +1007,7 @@
     "traits": [ { "trait": "Exp_Geology1" }, { "trait": "Exp_Geology1" }, { "trait": "Exp_Geology2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Geology_Group",
     "subtype": "distribution",
@@ -1085,7 +1085,7 @@
     "traits": [ { "trait": "Exp_Medicine1" }, { "trait": "Exp_Medicine1" }, { "trait": "Exp_Medicine2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Medicine_Group",
     "subtype": "distribution",
@@ -1163,7 +1163,7 @@
     "traits": [ { "trait": "Exp_Mycology1" }, { "trait": "Exp_Mycology1" }, { "trait": "Exp_Mycology2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Mycology_Group",
     "subtype": "distribution",
@@ -1241,7 +1241,7 @@
     "traits": [ { "trait": "Exp_Physics1" }, { "trait": "Exp_Physics1" }, { "trait": "Exp_Physics2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Physics_Group",
     "subtype": "distribution",
@@ -1319,7 +1319,7 @@
     "traits": [ { "trait": "Exp_Psychology1" }, { "trait": "Exp_Psychology1" }, { "trait": "Exp_Psychology2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Psychology_Group",
     "subtype": "distribution",
@@ -1397,7 +1397,7 @@
     "traits": [ { "trait": "Exp_Sanitation1" }, { "trait": "Exp_Sanitation1" }, { "trait": "Exp_Sanitation2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Sanitation_Group",
     "subtype": "distribution",
@@ -1475,7 +1475,7 @@
     "traits": [ { "trait": "Exp_Teaching1" }, { "trait": "Exp_Teaching1" }, { "trait": "Exp_Teaching2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Teaching_Group",
     "subtype": "distribution",
@@ -1553,7 +1553,7 @@
     "traits": [ { "trait": "Exp_Veterinary1" }, { "trait": "Exp_Veterinary1" }, { "trait": "Exp_Veterinary2" } ]
   },
   {
-    "//": "This trait group guarantees one of the associated traits, distributed in favour of real traits but with a chance of fakes.",
+    "//": "This trait group guarantees one of the associated traits, distributed in favor of real traits but with a chance of fakes.",
     "type": "trait_group",
     "id": "Exp_Veterinary_Group",
     "subtype": "distribution",

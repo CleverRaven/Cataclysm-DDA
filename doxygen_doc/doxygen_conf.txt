@@ -1304,7 +1304,7 @@ SEARCHENGINE           = YES
 
 # When the SERVER_BASED_SEARCH tag is enabled the search engine will be
 # implemented using a web server instead of a web client using Javascript.
-# There are two flavours of web server based search depending on the
+# There are two flavors of web server based search depending on the
 # EXTERNAL_SEARCH setting. When disabled, doxygen will generate a PHP script for
 # searching and an index file used by the script. When EXTERNAL_SEARCH is
 # enabled the indexing and searching needs to be provided by external tools.

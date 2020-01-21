@@ -12,9 +12,9 @@
   },
   {
     "type": "mutation",
-    "id": "AFS_PROF_STRONGMAN",
+    "id": "AFS_BRUTAL_STRENGTH",
     "name": "Brutal Strength",
-    "description": "Genetic defects have made your body incredibly strong.  Strength + 7.",
+    "description": "Genetic tampering made your body incredibly strong.  Strength + 7.",
     "points": 0,
     "valid": false,
     "purifiable": false,

@@ -107,7 +107,8 @@
     "healthy": 2,
     "description": "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
     "price": 120,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 0
   },
   {
     "type": "COMESTIBLE",
@@ -505,7 +506,7 @@
     "description": "This is a delicious sautee of lovely diced onions and sauerkraut.  The smell alone is enough to make your mouth water.",
     "price": 500,
     "material": "veggy",
-    "//": "assumes the saurkraut and onions cook down to half their raw values.  vitamins and calories are the two added together",
+    "//": "assumes the sauerkraut and onions cook down to half their raw values.  vitamins and calories are the two added together",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,

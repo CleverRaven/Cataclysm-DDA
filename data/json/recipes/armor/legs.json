@@ -553,6 +553,7 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {

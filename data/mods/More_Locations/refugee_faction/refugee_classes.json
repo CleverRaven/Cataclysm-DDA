@@ -27,7 +27,8 @@
       [ "BADKNEES", 10 ],
       [ "SLOWRUNNER", 10 ],
       [ "TRIGGERHAPPY", 10 ],
-      [ "FLIMSY", 10 ]
+      [ "FLIMSY", 10 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "worn_override": "refugee_clothing",
     "carry_override": "refugee_gear"
@@ -62,7 +63,8 @@
       [ "FASTHEALER", 10 ],
       [ "QUICK", 10 ],
       [ "FLEET", 10 ],
-      [ "LIGHTSTEP", 10 ]
+      [ "LIGHTSTEP", 10 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "worn_override": "refugee_clothing",
     "carry_override": "refugee_gear"
@@ -97,7 +99,8 @@
       [ "ALBINO", 20 ],
       [ "SLIMY", 20 ],
       [ "FANGS", 20 ],
-      [ "CLAWS", 20 ]
+      [ "CLAWS", 20 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "worn_override": "refugee_clothing",
     "carry_override": "refugee_gear"

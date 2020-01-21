@@ -543,7 +543,7 @@
   {
     "type": "construction",
     "description": "Armor Reinforced Window",
-    "//": "Armo up regular reinforced window",
+    "//": "Armor up regular reinforced window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "30 m",
@@ -864,7 +864,7 @@
   {
     "type": "construction",
     "description": "Make Woodchip Floor",
-    "//": "Adds wood chippings to a shallowed dirt area to prevent plants growing, or for looks.",
+    "//": "Adds wood chippings to a shallow pit to prevent plants growing, or for looks.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
@@ -1538,6 +1538,17 @@
   },
   {
     "type": "construction",
+    "description": "Build Warehouse Shelf",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_warehouse_shelf"
+  },
+  {
+    "type": "construction",
     "description": "Build Coat Rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -1702,6 +1713,22 @@
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bed"
+  },
+  {
+    "type": "construction",
+    "description": "Build Bunk Bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "130 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
+      [ [ "2x4", 14 ] ],
+      [ [ "nail", 30 ] ],
+      [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bunkbed"
   },
   {
     "type": "construction",
@@ -3165,7 +3192,7 @@
       [ [ "cu_pipe", 4 ] ],
       [ [ "cable", 12 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "hand_vice", 1 ] ],
+      [ [ "clamp", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],

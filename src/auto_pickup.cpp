@@ -576,7 +576,7 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
 
 void player_settings::create_rule( const item *it )
 {
-    // @TODO: change it to be a reference
+    // TODO: change it to be a reference
     global_rules.create_rule( map_items, *it );
     character_rules.create_rule( map_items, *it );
 }

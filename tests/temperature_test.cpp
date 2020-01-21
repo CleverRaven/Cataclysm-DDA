@@ -13,7 +13,6 @@
 #include "point.h"
 #include "weather.h"
 
-
 static bool is_nearly( float value, float expected )
 {
     // Rounding errors make the values change around a bit
