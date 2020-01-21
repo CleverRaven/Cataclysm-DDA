@@ -593,7 +593,7 @@
       "base_wind_season_variation": 50
     },
     "overmap_feature_flag_settings": {
-      "clear_blacklist": false ,
+      "clear_blacklist": false,
       "blacklist": [  ],
       "clear_whitelist": true,
       "whitelist": [ "WILDERNESS", "FARM", "BEE", "ANT", "FUNGAL", "BLOB", "SLIME", "TRIFFID", "MI-GO" ]
