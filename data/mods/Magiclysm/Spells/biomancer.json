@@ -199,7 +199,7 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "target_attack",
     "effect_str": "badpoison",
-    "extra_effects": [ { "id": "biomancer_visceral_paralyze" }, { "id": "biomancer_visceral_backlash" } ],
+    "extra_effects": [ { "id": "biomancer_visceral_paralyze" }, { "id": "biomancer_visceral_backlash", "hit_self": true } ],
     "flags": [ "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
