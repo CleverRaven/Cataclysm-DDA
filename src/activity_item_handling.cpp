@@ -2287,7 +2287,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 }
 
                 // skip tiles with inaccessible furniture, like filled charcoal kiln
-                if( !g->m.can_put_items_ter_furn( dest_loc ) ) {
+                if( !g->m.can_put_items_ter_furn( dest_loc ) ||
+                    static_cast<int>( g->m.i_at( dest_loc ).size() ) >= MAX_ITEM_IN_SQUARE ) {
                     continue;
                 }
 
