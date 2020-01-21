@@ -61,7 +61,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "house_wooded_roof",
+    "om_terrain": "house_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
