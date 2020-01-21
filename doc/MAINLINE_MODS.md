@@ -28,7 +28,7 @@ There are three primary categories of mods:
 
 The most crucial criteria for a mod to be in the CleverRaven repository is that it has someone acting as a maintainer. This ensures that there is someone who is keeping an eye out for possible problems with the mod, and helping steer its development so that it continues to develop in accordance with its design purpose.
 
-Further, there are additional criteria:
+Furthermore, there are additional criteria:
 
 *  Content mods need to be providing some kind of curated experience. Either they introduce a set of locations, encounters, equipment, or progression mechanisms that do not fit the style of the core game, or they in some fashion modify the game according to some well-defined concept.
 *  *  Mods which do not qualify as curated experiences: Grab bag mods with no defined purpose (i.e. adding a bunch of random guns), "settings" mods that just turn off a possibly undesired but working feature (acid ants).
