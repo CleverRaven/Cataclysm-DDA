@@ -6736,7 +6736,7 @@
       { "point": [ 2, 8, 3 ], "overmap": "mil_base_3i3_north" },
       { "point": [ 2, 8, 4 ], "overmap": "mil_base_3i4_north" }
     ],
-    "locations": [ "field" ],
+    "locations": [ "wilderness" ],
     "connections": [ { "point": [ 3, -2, 0 ] } ],
     "city_distance": [ 4, -1 ],
     "city_sizes": [ 4, 12 ],
