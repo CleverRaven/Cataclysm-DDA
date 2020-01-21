@@ -5637,7 +5637,7 @@
   },
   {
     "type": "recipe",
-    "result": "sports_drink",
+    "result": "rehydration_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "book_learn": [ [ "textbook_chemistry", 1 ], [ "manual_first_aid", 1 ] ],
