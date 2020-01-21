@@ -2279,7 +2279,7 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-ret_val<bool> Character::can_wear( const item &it, bool with_equip_change /* = false*/ ) const
+ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
     if( !it.is_armor() ) {
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
