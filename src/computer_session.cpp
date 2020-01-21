@@ -338,9 +338,9 @@ void computer_session::action_sample()
                 capa = std::min( sewage.charges, capa );
                 if( elem.contents.empty() ) {
                     elem.put_in( sewage );
-                    elem.contents.front().charges = capa;
+                    elem.contents.legacy_front().charges = capa;
                 } else {
-                    elem.contents.front().charges += capa;
+                    elem.contents.legacy_front().charges += capa;
                 }
                 found_item = true;
                 break;

@@ -401,7 +401,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     for( item &it : result ) {
         clear_faults( it );
         if( it.is_holster() && it.contents.size() == 1 ) {
-            clear_faults( it.contents.front() );
+            clear_faults( it.contents.legacy_front() );
         }
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
