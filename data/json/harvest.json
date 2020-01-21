@@ -394,8 +394,8 @@
     "message": "As you peel away the outer shell, you find veins lining the chitin plates.  Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures.",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
-      { "drop": "mutant_spider_lungs", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "mutant_spider_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -408,8 +408,8 @@
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
       { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "mutant_acidant_lungs", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "mutant_acidant_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "mutant_acidbug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_acidbug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "mutant_fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
     ]
   },
@@ -423,7 +423,7 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "mutant_acidant_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
@@ -436,8 +436,8 @@
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "mutant_acidant_lungs", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "mutant_acidant_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "mutant_acidbug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_acidbug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
