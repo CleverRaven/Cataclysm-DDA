@@ -446,7 +446,7 @@
     "id": "vinegar_maker",
     "type": "BOOK",
     "name": { "str": "The Vinegar Maker's Handbook", "str_pl": "copies of Vinegar Maker's Handbook" },
-    "description": "This book descries in detail all the ways that one can make vinegar.  The number of ways to make vinegar is far beyond what you expected.",
+    "description": "This book describes in detail all the ways that one can make vinegar.  You would have that there wasn't much to making vinegar, but the girth of this book tells you otherwise .",
     "weight": "454 g",
     "volume": "1 L",
     "price": 1900,
