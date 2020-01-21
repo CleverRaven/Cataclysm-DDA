@@ -734,9 +734,22 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
+const input_context::input_event_filter input_context::disallow_lower_case =
+[]( const input_event &evt ) -> bool {
+    return evt.type != CATA_INPUT_KEYBOARD ||
+    // std::lower from <cctype> is undefined outside unsigned char range
+    // and std::lower from <locale> may throw bad_cast for some locales
+    evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+};
+
+const input_context::input_event_filter input_context::allow_all_keys =
+[]( const input_event & ) -> bool {
+    return true;
+};
+
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
-                                     const std::function<bool( const input_event & )> evt_filter ) const
+                                     const input_context::input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -788,7 +801,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const std::string &text,
-                                     const std::function<bool( const input_event & )> evt_filter ) const
+                                     const input_context::input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         // \u00A0 is the non-breaking space
@@ -827,7 +840,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
-        const std::function<bool( const input_event & )> evt_filter ) const
+        const input_context::input_event_filter &evt_filter ) const
 {
     return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
 }
