@@ -1036,7 +1036,7 @@
   {
     "id": "novel_spy",
     "type": "BOOK",
-    "name": { "str": "spy novel", "str_pl": "spy novels" },
+    "name": "spy novel",
     "description": "A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!",
     "copy-from": "paperback_novel",
     "intelligence": 5,
