@@ -333,7 +333,7 @@ bool overmapbuffer::has_note( const tripoint &p )
 bool overmapbuffer::is_marked_dangerous( const tripoint &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
-        return om_loc.om->is_marked_dangerous( p );
+        return om_loc.om->is_marked_dangerous( om_loc.local );
     }
     return false;
 }
