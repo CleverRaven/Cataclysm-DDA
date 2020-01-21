@@ -446,7 +446,7 @@
     "id": "offalcooking",
     "type": "BOOK",
     "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },
-    "description": "Offal Holiday Cooking by Evelyn Turncoat is a book of holiday recipes that utilize organ meats from various animals.  For the true nose to tail cook.",
+    "description": "Offal Holiday Cooking, by Evelyn Turncoat, is a book of holiday recipes that utilize organ meats from various animals.  For the true nose-to-tail cook.",
     "weight": "454 g",
     "volume": "1 L",
     "price": 1900,
