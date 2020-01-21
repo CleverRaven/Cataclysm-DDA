@@ -352,9 +352,6 @@
     "min_aoe": 6,
     "max_aoe": 1,
     "aoe_increment": -0.5,
-    "min_range": 3,
-    "max_range": 6,
-    "range_increment": 0.3
   },
   {
     "type": "ter_furn_transform",
