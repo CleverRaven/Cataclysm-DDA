@@ -854,6 +854,20 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
+bool vehicle::has_harnessed_animal() const
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_pet( e );
+            if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void vehicle::autodrive( int x, int y )
 {
     // for now, autodriving is only possible when pulled by an animal

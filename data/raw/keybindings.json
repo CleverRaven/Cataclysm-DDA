@@ -2381,6 +2381,13 @@
   },
   {
     "type": "keybinding",
+    "id": "EXECUTE",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Execute action keybinding",
+    "bindings": [ { "input_method": "keyboard", "key": "." } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add zone",

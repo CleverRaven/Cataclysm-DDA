@@ -18,7 +18,7 @@ struct shrapnel_data {
     int recovery        = 0;
     itype_id drop       = "null";
 
-    shrapnel_data() {}
+    shrapnel_data() = default;
     shrapnel_data( int casing_mass, float fragment_mass = 0.005, int recovery = 0,
                    itype_id drop = "null" )
         : casing_mass( casing_mass )
@@ -41,7 +41,7 @@ struct explosion_data {
     /** Returns the distance at which the power drops below 1. */
     int safe_range() const;
 
-    explosion_data() {}
+    explosion_data() = default;
     explosion_data( float power, float distance_factor = 0.8f, bool fire = false,
                     shrapnel_data shrapnel = {} )
         : power( power )
