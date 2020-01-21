@@ -243,7 +243,7 @@
     "type": "SPELL",
     "id": "stormshaper_ionization_thunderclap",
     "name": "Ionization Thunderclap",
-    "description": "Adds the actual flashbang effect.  Flashbang effect does not actually respect damage or AoE like the documentation claims, so area of effect is fixed.",
+    "description": "Adds the actual flashbang effect.",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "effect": "flashbang",
     "flags": [ "LOUD" ],
