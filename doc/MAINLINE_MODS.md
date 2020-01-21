@@ -36,7 +36,9 @@ Furthermore, there are additional criteria:
 
 ## What are the responsibilities of a mod maintainer?
 
-`TBD`
+A mod maintainer's role is to curate additions to mods and ensure they fit the concept of the mod.  Maintainers are also responsible for at least acknowledging bug reports related to the mod: while maintainers don't have to personally manage every bugfix, if a bug is reported, the maintainer should be around to comment and help to find someone to fix it.
+
+It's important to understand that if a mod is part of mainline, it is expected that people other than the maintainer are going to contribute to it, as with anything.  On github, mod maintainers should Approve or Request Changes on PRs to the mod.  If the maintainer has approved it, developers with merge permissions will treat that as a request to merge the changes.
 
 ## When do mods get removed?
 
