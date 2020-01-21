@@ -46,5 +46,14 @@
       { "monster": "mon_zombie_crawler", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_brainless", "freq": 25, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "name": "GROUP_ZOMBIE_SCORCHED",
+    "type": "monstergroup",
+    "default": "mon_zombie_scorched",
+    "monsters": [
+      { "monster": "mon_zombie_scorched", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_child_scorched", "freq": 10, "cost_multiplier": 1 }
+    ]
   }
 ]
