@@ -1745,9 +1745,6 @@ class Character : public Creature, public visitable<Character>
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
-        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        time_duration vitamin_rate( const vitamin_id &vit ) const;
-        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
