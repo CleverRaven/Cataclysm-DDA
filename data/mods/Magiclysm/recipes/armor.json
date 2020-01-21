@@ -1,54 +1,94 @@
 [
   {
     "result": "helmet_demonchitin",
-    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "SEW", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "byproducts": [ [ "demon_chitin_piece", 3 ] ],
+    "qualities": [
+      { "id": "CHISEL", "level": 1 },
+      { "id": "SEW", "level": 3 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
     "type": "recipe",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 7,
-    "time": "5 h",
+    "time": "4 h",
     "book_learn": [ [ "magic_armormaking", 6 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 1 ] ] ]
   },
   {
     "result": "armguard_demonchitin",
-    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "SEW", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "byproducts": [ [ "demon_chitin_piece", 8 ] ],
+    "qualities": [
+      { "id": "CHISEL", "level": 1 },
+      { "id": "SEW", "level": 3 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
     "type": "recipe",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 6,
-    "time": "5 h",
+    "time": "2 h",
     "book_learn": [ [ "magic_armormaking", 5 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 2 ] ] ]
   },
   {
     "result": "armor_demonchitin",
-    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "SEW", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "qualities": [
+      { "id": "CHISEL", "level": 1 },
+      { "id": "SEW", "level": 3 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
     "type": "recipe",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 8,
-    "time": "5 h",
+    "time": "4 h",
     "book_learn": [ [ "magic_armormaking", 7 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 72 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 4 ] ], [ [ "demon_chitin_piece", 6 ] ] ]
   },
   {
     "result": "boots_demonchitin",
-    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "SEW", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "qualities": [
+      { "id": "CHISEL", "level": 1 },
+      { "id": "SEW", "level": 3 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
     "type": "recipe",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 5,
-    "time": "5 h",
+    "time": "2 h 40 m",
     "book_learn": [ [ "magic_armormaking", 4 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 2 ] ] ]
+  },
+  {
+    "result": "gauntlets_demonchitin",
+    "qualities": [
+      { "id": "CHISEL", "level": 1 },
+      { "id": "SEW", "level": 3 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_ARMOR",
+    "skill_used": "tailor",
+    "skills_required": [ [ "spellcraft", 6 ] ],
+    "difficulty": 5,
+    "time": "2 h",
+    "book_learn": [ [ "magic_armormaking", 4 ] ],
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 10 ] ] ]
   }
 ]
