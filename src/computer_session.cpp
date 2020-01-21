@@ -34,6 +34,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
@@ -102,19 +103,16 @@ void computer_session::use()
         }
         print_error( "%s", comp.access_denied );
         switch( query_ynq( _( "Bypass security?" ) ) ) {
-            case 'q':
-            case 'Q':
+            case ynq::quit:
                 shutdown_terminal();
                 return;
 
-            case 'n':
-            case 'N':
+            case ynq::no:
                 query_any( _( "Shutting down… press any key." ) );
                 shutdown_terminal();
                 return;
 
-            case 'y':
-            case 'Y':
+            case ynq::yes:
                 if( !hack_attempt( g->u ) ) {
                     if( comp.failures.empty() ) {
                         query_any( _( "Maximum login attempts exceeded.  Press any key…" ) );
@@ -1323,21 +1321,7 @@ void computer_session::mark_refugee_center()
 template<typename ...Args>
 bool computer_session::query_bool( const std::string &text, Args &&... args )
 {
-    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_indented_line( 0, width, "%s (Y/N/Q)", formatted_text );
-    char ret;
-#if defined(__ANDROID__)
-    input_context ctxt( "COMPUTER_YESNO" );
-    ctxt.register_manual_key( 'Y' );
-    ctxt.register_manual_key( 'N' );
-    ctxt.register_manual_key( 'Q' );
-#endif
-    do {
-        // TODO: use input context
-        ret = inp_mngr.get_input_event().get_first_input();
-    } while( ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
-             ret != 'Q' );
-    return ( ret == 'y' || ret == 'Y' );
+    return query_ynq( text, std::forward<Args>( args )... ) == ynq::yes;
 }
 
 template<typename ...Args>
@@ -1349,23 +1333,41 @@ bool computer_session::query_any( const std::string &text, Args &&... args )
 }
 
 template<typename ...Args>
-char computer_session::query_ynq( const std::string &text, Args &&... args )
+computer_session::ynq computer_session::query_ynq( const std::string &text, Args &&... args )
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_indented_line( 0, width, "%s (Y/N/Q)", formatted_text );
-    char ret;
-#if defined(__ANDROID__)
-    input_context ctxt( "COMPUTER_YESNO" );
-    ctxt.register_manual_key( 'Y' );
-    ctxt.register_manual_key( 'N' );
-    ctxt.register_manual_key( 'Q' );
-#endif
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
+    input_context ctxt( "YESNOQUIT" );
+    ctxt.register_action( "YES" );
+    ctxt.register_action( "NO" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    print_indented_line( 0, width, force_uc
+                         //~ 1st: query string, 2nd-4th: keybinding descriptions
+                         ? pgettext( "query_ynq", "%s %s, %s, %s (Case sensitive)" )
+                         //~ 1st: query string, 2nd-4th: keybinding descriptions
+                         : pgettext( "query_ynq", "%s %s, %s, %s" ),
+                         formatted_text,
+                         ctxt.describe_key_and_name( "YES", allow_key ),
+                         ctxt.describe_key_and_name( "NO", allow_key ),
+                         ctxt.describe_key_and_name( "QUIT", allow_key ) );
     do {
-        // TODO: use input context
-        ret = inp_mngr.get_input_event().get_first_input();
-    } while( ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
-             ret != 'Q' );
-    return ret;
+        const std::string action = ctxt.handle_input();
+        if( allow_key( ctxt.get_raw_input() ) ) {
+            if( action == "YES" ) {
+                return ynq::yes;
+            } else if( action == "NO" ) {
+                return ynq::no;
+            } else if( action == "QUIT" ) {
+                return ynq::quit;
+            }
+        }
+        if( action == "HELP_KEYBINDINGS" ) {
+            refresh();
+        }
+    } while( true );
 }
 
 void computer_session::refresh()

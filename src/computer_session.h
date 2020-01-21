@@ -61,8 +61,13 @@ class computer_session
         template<typename ...Args>
         void print_text( const std::string &text, Args &&... args );
         // Prints a line and waits for Y/N/Q
+        enum class ynq {
+            yes,
+            no,
+            quit,
+        };
         template<typename ...Args>
-        char query_ynq( const std::string &text, Args &&... args );
+        ynq query_ynq( const std::string &text, Args &&... args );
         // Same as query_ynq, but returns true for y or Y
         template<typename ...Args>
         bool query_bool( const std::string &text, Args &&... args );
