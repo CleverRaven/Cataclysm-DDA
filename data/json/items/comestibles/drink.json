@@ -862,6 +862,7 @@
     "price": 55,
     "material": "water",
     "volume": "250 ml",
+	"looks_like": "sports_drink",
     "phase": "liquid",
     "fun": -5
   },
