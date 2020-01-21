@@ -22,7 +22,7 @@ There are three primary categories of mods:
 
 *  Content mods, which provide some kind of distinct experience from the core Dark Days Ahead game. This could be a change to lore, a change to a specific part of gameplay.
 *  User Experience (UX) mods, which alter the look and feel of the game interface itself.
-*  Development mods, which aren't "mods" in the typical sense but are instead there to ease the transition between "incomplete feature" and "incomplete feature", when a feature in the core game is sufficiently incomplete that the developers believe it needs to be optional to minimize disruption to players.
+*  Development mods, which aren't "mods" in the typical sense but are instead there to ease the transition between "incomplete feature" and "complete feature", when a feature in the core game is sufficiently incomplete that the developers believe it needs to be optional to minimize disruption to players.
 
 ## What is necessary for a mod to be included in the repository?
 
