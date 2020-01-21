@@ -229,7 +229,7 @@ time_duration rustRate( int level )
     // 2^n
 
     unsigned const n = clamp( 0, level, 7 );
-    return time_duration::from_turns( 1 << ( 16 - n ) );
+    return time_duration::from_turns( 1 << ( 17 - n ) );
 }
 } //namespace
 
@@ -253,7 +253,7 @@ bool SkillLevel::rust( bool charged_bio_mem, float character_rate )
         return one_in( 5 );
     }
 
-    _exercise -= _level * 30;
+    _exercise -= _level;
 
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
