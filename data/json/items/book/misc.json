@@ -1054,7 +1054,7 @@
   {
     "id": "novel_spy_rocketsci",
     "type": "BOOK",
-    "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "spy novels" },
+    "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "copies of Lies, Damn Lies, and Rocket Science" },
     "description": "This spy novel tells the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
     "copy-from": "paperback_novel"
   },
