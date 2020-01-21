@@ -605,7 +605,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "UNIQUE", "FARM" ]
   },
   {
     "type": "overmap_special",
