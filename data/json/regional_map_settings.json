@@ -540,8 +540,6 @@
       "park_radius": 20,
       "park_sigma": 80,
       "house_basement_chance": 5,
-      "basement_hidden_lab_stairs": 1,
-      "basement_bionic": 2,
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
