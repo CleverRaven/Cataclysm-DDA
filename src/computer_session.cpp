@@ -1183,176 +1183,193 @@ void computer_session::activate_random_failure()
     activate_failure( fail.type );
 }
 
+const std::map<computer_failure_type, void( computer_session::* )()>
+computer_session::computer_failure_functions = {
+    { COMPFAIL_ALARM, computer_session::failure_alarm },
+    { COMPFAIL_AMIGARA, computer_session::failure_amigara },
+    { COMPFAIL_DAMAGE, computer_session::failure_damage },
+    { COMPFAIL_DESTROY_BLOOD, computer_session::failure_destroy_blood },
+    { COMPFAIL_DESTROY_DATA, computer_session::failure_destroy_data },
+    { COMPFAIL_MANHACKS, computer_session::failure_manhacks },
+    { COMPFAIL_PUMP_EXPLODE, computer_session::failure_pump_explode },
+    { COMPFAIL_PUMP_LEAK, computer_session::failure_pump_leak },
+    { COMPFAIL_SECUBOTS, computer_session::failure_secubots },
+    { COMPFAIL_SHUTDOWN, computer_session::failure_shutdown },
+};
+
 void computer_session::activate_failure( computer_failure_type fail )
 {
+    const auto it = computer_failure_functions.find( fail );
+    if( it != computer_failure_functions.end() ) {
+        ( this->*( it->second ) )();
+    }
+}
+
+void computer_session::failure_shutdown()
+{
     bool found_tile = false;
-    switch( fail ) {
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( g->m.has_flag( "CONSOLE", p ) ) {
+            g->m.ter_set( p, t_console_broken );
+            add_msg( m_bad, _( "The console shuts down." ) );
+            found_tile = true;
+        }
+    }
+    if( found_tile ) {
+        return;
+    }
+    for( const tripoint &p : g->m.points_on_zlevel() ) {
+        if( g->m.has_flag( "CONSOLE", p ) ) {
+            g->m.ter_set( p, t_console_broken );
+            add_msg( m_bad, _( "The console shuts down." ) );
+        }
+    }
+}
 
-        case COMPFAIL_NULL:
-        // Unknown action.
-        case NUM_COMPUTER_FAILURES:
-            // Suppress compiler warning [-Wswitch]
-            break;
+void computer_session::failure_alarm()
+{
+    g->events().send<event_type::triggers_alarm>( g->u.getID() );
+    sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                   "alarm" );
+    if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+        g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                             g->u.global_sm_location() );
+    }
+}
 
-        case COMPFAIL_SHUTDOWN:
-            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-                if( g->m.has_flag( "CONSOLE", p ) ) {
-                    g->m.ter_set( p, t_console_broken );
-                    add_msg( m_bad, _( "The console shuts down." ) );
-                    found_tile = true;
-                }
+void computer_session::failure_manhacks()
+{
+    int num_robots = rng( 4, 8 );
+    const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
+    for( int i = 0; i < num_robots; i++ ) {
+        if( g->place_critter_within( mon_manhack, range ) ) {
+            add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
+        }
+    }
+}
+
+void computer_session::failure_secubots()
+{
+    int num_robots = 1;
+    const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
+    for( int i = 0; i < num_robots; i++ ) {
+        if( g->place_critter_within( mon_secubot, range ) ) {
+            add_msg( m_warning, _( "Secubots emerge from compartments in the floor." ) );
+        }
+    }
+}
+
+void computer_session::failure_damage()
+{
+    add_msg( m_neutral, _( "The console shocks you." ) );
+    if( g->u.is_elec_immune() ) {
+        add_msg( m_good, _( "You're protected from electric shocks." ) );
+    } else {
+        add_msg( m_bad, _( "Your body is damaged by the electric shock!" ) );
+        g->u.hurtall( rng( 1, 10 ), nullptr );
+    }
+}
+
+void computer_session::failure_pump_explode()
+{
+    add_msg( m_warning, _( "The pump explodes!" ) );
+    for( const tripoint &p : g->m.points_on_zlevel() ) {
+        if( g->m.ter( p ) == t_sewage_pump ) {
+            g->m.make_rubble( p );
+            explosion_handler::explosion( p, 10 );
+        }
+    }
+}
+
+void computer_session::failure_pump_leak()
+{
+    add_msg( m_warning, _( "Sewage leaks!" ) );
+    for( const tripoint &p : g->m.points_on_zlevel() ) {
+        if( g->m.ter( p ) != t_sewage_pump ) {
+            continue;
+        }
+        const int leak_size = rng( 4, 10 );
+        for( int i = 0; i < leak_size; i++ ) {
+            std::vector<tripoint> next_move;
+            if( g->m.passable( p + point_north ) ) {
+                next_move.push_back( p + point_north );
             }
-            if( found_tile ) {
+            if( g->m.passable( p + point_east ) ) {
+                next_move.push_back( p + point_east );
+            }
+            if( g->m.passable( p + point_south ) ) {
+                next_move.push_back( p + point_south );
+            }
+            if( g->m.passable( p + point_west ) ) {
+                next_move.push_back( p + point_west );
+            }
+            if( next_move.empty() ) {
                 break;
             }
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.has_flag( "CONSOLE", p ) ) {
-                    g->m.ter_set( p, t_console_broken );
-                    add_msg( m_bad, _( "The console shuts down." ) );
-                }
-            }
-            break;
-
-        case COMPFAIL_ALARM:
-            g->events().send<event_type::triggers_alarm>( g->u.getID() );
-            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
-                           "alarm" );
-            if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                     g->u.global_sm_location() );
-            }
-            break;
-
-        case COMPFAIL_MANHACKS: {
-            int num_robots = rng( 4, 8 );
-            const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
-            for( int i = 0; i < num_robots; i++ ) {
-                if( g->place_critter_within( mon_manhack, range ) ) {
-                    add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
-                }
-            }
+            g->m.ter_set( random_entry( next_move ), t_sewage );
         }
-        break;
+    }
+}
 
-        case COMPFAIL_SECUBOTS: {
-            int num_robots = 1;
-            const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
-            for( int i = 0; i < num_robots; i++ ) {
-                if( g->place_critter_within( mon_secubot, range ) ) {
-                    add_msg( m_warning, _( "Secubots emerge from compartments in the floor." ) );
-                }
-            }
-        }
-        break;
+void computer_session::failure_amigara()
+{
+    g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
+    g->u.add_effect( effect_amigara, 2_minutes );
+    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                  10,
+                                  0.7, false, 10 );
+    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                  10,
+                                  0.7, false, 10 );
+    comp.remove_option( COMPACT_AMIGARA_START );
+}
 
-        case COMPFAIL_DAMAGE:
-            add_msg( m_neutral, _( "The console shocks you." ) );
-            if( g->u.is_elec_immune() ) {
-                add_msg( m_good, _( "You're protected from electric shocks." ) );
+void computer_session::failure_destroy_blood()
+{
+    print_error( _( "ERROR: Disruptive Spin" ) );
+    for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
+        if( g->m.ter( dest ) == t_centrifuge ) {
+            map_stack items = g->m.i_at( dest );
+            if( items.empty() ) {
+                print_error( _( "ERROR: Please place sample in centrifuge." ) );
+            } else if( items.size() > 1 ) {
+                print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
+            } else if( items.only_item().typeId() != "vacutainer" ) {
+                print_error( _( "ERROR: Please use blood-contained samples." ) );
+            } else if( items.only_item().contents.empty() ) {
+                print_error( _( "ERROR: Blood draw kit, empty." ) );
+            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+                print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
-                add_msg( m_bad, _( "Your body is damaged by the electric shock!" ) );
-                g->u.hurtall( rng( 1, 10 ), nullptr );
+                print_error( _( "ERROR: Blood sample destroyed." ) );
+                g->m.i_clear( dest );
             }
-            break;
+        }
+    }
+    inp_mngr.wait_for_any_key();
+}
 
-        case COMPFAIL_PUMP_EXPLODE:
-            add_msg( m_warning, _( "The pump explodes!" ) );
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_sewage_pump ) {
-                    g->m.make_rubble( p );
-                    explosion_handler::explosion( p, 10 );
-                }
+void computer_session::failure_destroy_data()
+{
+    print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 24 ) ) {
+        if( g->m.ter( p ) == t_floor_blue ) {
+            map_stack items = g->m.i_at( p );
+            if( items.empty() ) {
+                print_error( _( "ERROR: Please place memory bank in scan area." ) );
+            } else if( items.size() > 1 ) {
+                print_error( _( "ERROR: Please only scan one item at a time." ) );
+            } else if( items.only_item().typeId() != "usb_drive" ) {
+                print_error( _( "ERROR: Memory bank destroyed or not present." ) );
+            } else if( items.only_item().contents.empty() ) {
+                print_error( _( "ERROR: Memory bank is empty." ) );
+            } else {
+                print_error( _( "ERROR: Data bank destroyed." ) );
+                g->m.i_clear( p );
             }
-            break;
-
-        case COMPFAIL_PUMP_LEAK:
-            add_msg( m_warning, _( "Sewage leaks!" ) );
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) != t_sewage_pump ) {
-                    continue;
-                }
-                const int leak_size = rng( 4, 10 );
-                for( int i = 0; i < leak_size; i++ ) {
-                    std::vector<tripoint> next_move;
-                    if( g->m.passable( p + point_north ) ) {
-                        next_move.push_back( p + point_north );
-                    }
-                    if( g->m.passable( p + point_east ) ) {
-                        next_move.push_back( p + point_east );
-                    }
-                    if( g->m.passable( p + point_south ) ) {
-                        next_move.push_back( p + point_south );
-                    }
-                    if( g->m.passable( p + point_west ) ) {
-                        next_move.push_back( p + point_west );
-                    }
-                    if( next_move.empty() ) {
-                        break;
-                    }
-                    g->m.ter_set( random_entry( next_move ), t_sewage );
-                }
-            }
-            break;
-
-        case COMPFAIL_AMIGARA:
-            g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
-            g->u.add_effect( effect_amigara, 2_minutes );
-            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
-                                          10,
-                                          0.7, false, 10 );
-            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
-                                          10,
-                                          0.7, false, 10 );
-            comp.remove_option( COMPACT_AMIGARA_START );
-            break;
-
-        case COMPFAIL_DESTROY_BLOOD:
-            print_error( _( "ERROR: Disruptive Spin" ) );
-            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
-                if( g->m.ter( dest ) == t_centrifuge ) {
-                    map_stack items = g->m.i_at( dest );
-                    if( items.empty() ) {
-                        print_error( _( "ERROR: Please place sample in centrifuge." ) );
-                    } else if( items.size() > 1 ) {
-                        print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-                    } else if( items.only_item().typeId() != "vacutainer" ) {
-                        print_error( _( "ERROR: Please use blood-contained samples." ) );
-                    } else if( items.only_item().contents.empty() ) {
-                        print_error( _( "ERROR: Blood draw kit, empty." ) );
-                    } else if( items.only_item().contents.front().typeId() != "blood" ) {
-                        print_error( _( "ERROR: Please only use blood samples." ) );
-                    } else {
-                        print_error( _( "ERROR: Blood sample destroyed." ) );
-                        g->m.i_clear( dest );
-                    }
-                }
-            }
-            inp_mngr.wait_for_any_key();
-            break;
-
-        case COMPFAIL_DESTROY_DATA:
-            print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 24 ) ) {
-                if( g->m.ter( p ) == t_floor_blue ) {
-                    map_stack items = g->m.i_at( p );
-                    if( items.empty() ) {
-                        print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                    } else if( items.size() > 1 ) {
-                        print_error( _( "ERROR: Please only scan one item at a time." ) );
-                    } else if( items.only_item().typeId() != "usb_drive" ) {
-                        print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                    } else if( items.only_item().contents.empty() ) {
-                        print_error( _( "ERROR: Memory bank is empty." ) );
-                    } else {
-                        print_error( _( "ERROR: Data bank destroyed." ) );
-                        g->m.i_clear( p );
-                    }
-                }
-            }
-            inp_mngr.wait_for_any_key();
-            break;
-
-    }// switch (fail)
+        }
+    }
+    inp_mngr.wait_for_any_key();
 }
 
 void computer_session::action_emerg_ref_center()

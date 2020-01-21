@@ -125,6 +125,19 @@ class computer_session
         void action_unlock();
         void action_unlock_disarm();
         static const std::map<computer_action, void( computer_session::* )()> computer_action_functions;
+
+        void failure_alarm();
+        void failure_amigara();
+        void failure_damage();
+        void failure_destroy_blood();
+        void failure_destroy_data();
+        void failure_manhacks();
+        void failure_pump_explode();
+        void failure_pump_leak();
+        void failure_secubots();
+        void failure_shutdown();
+        static const std::map<computer_failure_type, void( computer_session::* )()>
+        computer_failure_functions;
 };
 
 #endif
