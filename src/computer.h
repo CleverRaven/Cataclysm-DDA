@@ -126,6 +126,8 @@ class computer
         int mission_id;
         // Difficulty of simply logging in
         int security;
+        // Number of times security is tripped
+        int alerts;
         // Date of next attempt
         time_point next_attempt = calendar::before_time_starts;
         // Things we can do

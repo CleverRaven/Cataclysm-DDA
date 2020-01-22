@@ -64,8 +64,6 @@ static const species_id HUMAN( "HUMAN" );
 
 static const efftype_id effect_amigara( "amigara" );
 
-static int alerts = 0;
-
 static catacurses::window init_window()
 {
     const int width = std::min( FULL_SCREEN_WIDTH, TERMX );
@@ -83,10 +81,6 @@ computer_session::computer_session( computer &comp ) : comp( comp ),
 
 void computer_session::shutdown_terminal()
 {
-    // So yeah, you can reset the term by logging off.
-    // Otherwise, it's persistent across all terms.
-    // Decided to go easy on people for now.
-    alerts = 0;
     reset_terminal();
 }
 
@@ -156,7 +150,7 @@ void computer_session::use()
         computer_option current = comp.options[sel];
         reset_terminal();
         // Once you trip the security, you have to roll every time you want to do something
-        if( current.security + alerts > 0 ) {
+        if( current.security + comp.alerts > 0 ) {
             print_error( _( "Password required." ) );
             if( query_bool( _( "Hack into system?" ) ) ) {
                 if( !hack_attempt( g->u, current.security ) ) {
@@ -189,8 +183,8 @@ bool computer_session::hack_attempt( player &p, int Security )
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
     // So practical max files from a given terminal = 5, at 10 Computer
-    if( alerts > 0 ) {
-        Security += ( alerts * 2 );
+    if( comp.alerts > 0 ) {
+        Security += ( comp.alerts * 2 );
     }
 
     p.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
@@ -455,7 +449,7 @@ void computer_session::action_research()
 {
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
-    const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
+    const int seed = g->get_levx() + g->get_levy() + g->get_levz() + comp.alerts;
     cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
@@ -465,14 +459,14 @@ void computer_session::action_research()
 
     print_text( "%s", log.value() );
     // One's an anomaly
-    if( alerts == 0 ) {
+    if( comp.alerts == 0 ) {
         query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key…" ) );
-        alerts ++;
+        comp.alerts ++;
     } else {
         // Two's a trend.
         query_any(
             _( "Warning: anomalous archive-access activity detected at this node.  Press any key…" ) );
-        alerts ++;
+        comp.alerts ++;
     }
 }
 
@@ -485,8 +479,8 @@ void computer_session::action_radio_archive()
     print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                 SNIPPET.random_from_category( "radio_archive" ).value_or( translation() ) );
     if( one_in( 3 ) ) {
-        query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key…" ) );
-        alerts ++;
+        query_any( _( "Warning: restricted data access.  Attempt logged.  Press any key…" ) );
+        comp.alerts ++;
     } else {
         query_any( _( "Press any key…" ) );
     }
@@ -501,7 +495,7 @@ void computer_session::action_maps()
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
     comp.remove_option( COMPACT_MAPS );
-    alerts ++;
+    comp.alerts ++;
 }
 
 void computer_session::action_map_sewer()

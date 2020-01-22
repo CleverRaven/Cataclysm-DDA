@@ -20,7 +20,7 @@ computer_option::computer_option( const std::string &N, computer_action A, int S
 }
 
 computer::computer( const std::string &new_name, int new_security )
-    : name( new_name ), mission_id( -1 ), security( new_security ),
+    : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       access_denied( _( "ERROR!  Access denied!" ) )
 {
 }
