@@ -1341,7 +1341,7 @@ void computer_session::failure_destroy_blood()
 void computer_session::failure_destroy_data()
 {
     print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 24 ) ) {
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 2 ) ) {
         if( g->m.ter( p ) == t_floor_blue ) {
             map_stack items = g->m.i_at( p );
             if( items.empty() ) {
