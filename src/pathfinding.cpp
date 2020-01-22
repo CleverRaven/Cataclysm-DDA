@@ -198,7 +198,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
     static const auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
-    if( f.z == t.z ) {
+    if( caches_enabled && f.z == t.z ) {
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
@@ -274,9 +274,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         cur_state = ASL_CLOSED;
-
-        const auto &pf_cache = get_pathfinding_cache_ref( cur.z );
-        const auto cur_special = pf_cache.special[cur.x][cur.y];
+        pf_special cur_special = PF_NORMAL;
+        pathfinding_cache pf_cache;
+        if( caches_enabled ) {
+            pf_cache = get_pathfinding_cache_ref( cur.z );
+            cur_special = pf_cache.special[cur.x][cur.y];
+        }
 
         // 7 3 5
         // 1 . 2
@@ -299,7 +302,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             // Penalize for diagonals or the path will look "unnatural"
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
-            const auto p_special = pf_cache.special[p.x][p.y];
+            pf_special p_special = PF_NORMAL;
+            if( caches_enabled ) {
+                p_special = pf_cache.special[p.x][p.y];
+            }
             // TODO: De-uglify, de-huge-n
             if( !( p_special & non_normal ) ) {
                 // Boring flat dirt - the most common case above the ground

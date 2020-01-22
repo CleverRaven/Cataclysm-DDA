@@ -119,22 +119,24 @@ units::volume map_stack::max_volume() const
 
 // Map class methods.
 
-map::map( int mapsize, bool zlev )
+map::map( int mapsize, bool zlev, bool enable_caches )
 {
     my_MAPSIZE = mapsize;
     zlevels = zlev;
+    caches_enabled = enable_caches;
     if( zlevels ) {
         grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
     } else {
         grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
     }
 
-    for( auto &ptr : caches ) {
-        ptr = std::make_unique<level_cache>();
-    }
-
-    for( auto &ptr : pathfinding_caches ) {
-        ptr = std::make_unique<pathfinding_cache>();
+    if( caches_enabled ) {
+        for( auto &ptr : caches ) {
+            ptr = std::make_unique<level_cache>();
+        }
+        for( auto &ptr : pathfinding_caches ) {
+            ptr = std::make_unique<pathfinding_cache>();
+        }
     }
 
     dbg( D_INFO ) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " z-levels enabled:" << zlevels;
@@ -194,6 +196,9 @@ VehicleList map::get_vehicles()
 
 void map::reset_vehicle_cache( const int zlev )
 {
+    if( !caches_enabled ) {
+        return;
+    }
     clear_vehicle_cache( zlev );
     // Cache all vehicles
     auto &ch = get_cache( zlev );
@@ -205,6 +210,9 @@ void map::reset_vehicle_cache( const int zlev )
 
 void map::add_vehicle_to_cache( vehicle *veh )
 {
+    if( !caches_enabled ) {
+        return;
+    }
     if( veh == nullptr ) {
         debugmsg( "Tried to add null vehicle to cache" );
         return;
@@ -231,6 +239,9 @@ void map::add_vehicle_to_cache( vehicle *veh )
 
 void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
 {
+    if( !caches_enabled ) {
+        return;
+    }
     if( veh == nullptr ) {
         debugmsg( "Tried to add null vehicle to cache" );
         return;
@@ -259,6 +270,9 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
 
 void map::clear_vehicle_cache( const int zlev )
 {
+    if( !caches_enabled ) {
+        return;
+    }
     auto &ch = get_cache( zlev );
     while( !ch.veh_cached_parts.empty() ) {
         const auto part = ch.veh_cached_parts.begin();
@@ -819,6 +833,9 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
 bool map::check_vehicle_zones( const int zlev )
 {
+    if( !caches_enabled ) {
+        return false;
+    }
     for( auto veh : get_cache( zlev ).zone_vehicles ) {
         if( veh->zones_dirty ) {
             return true;
@@ -830,6 +847,9 @@ bool map::check_vehicle_zones( const int zlev )
 std::vector<zone_data *> map::get_vehicle_zones( const int zlev )
 {
     std::vector<zone_data *> veh_zones;
+    if( !caches_enabled ) {
+        return veh_zones;
+    }
     bool rebuild = false;
     for( auto veh : get_cache( zlev ).zone_vehicles ) {
         if( veh->refresh_zones() ) {
@@ -847,6 +867,9 @@ std::vector<zone_data *> map::get_vehicle_zones( const int zlev )
 
 void map::register_vehicle_zone( vehicle *veh, const int zlev )
 {
+    if( !caches_enabled ) {
+        return;
+    }
     auto &ch = get_cache( zlev );
     ch.zone_vehicles.insert( veh );
 }
@@ -914,6 +937,9 @@ optional_vpart_position map::veh_at( const tripoint &p ) const
 
 const vehicle *map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
+    if( !caches_enabled ) {
+        return nullptr;
+    }
     // This function is called A LOT. Move as much out of here as possible.
     const auto &ch = get_cache_ref( p.z );
     if( !ch.veh_in_active_range || !ch.veh_exists_at[p.x][p.y] ) {
@@ -7379,7 +7405,7 @@ bool tinymap::inbounds( const tripoint &p ) const
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
 fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                    const int fake_map_z )
+                    const int fake_map_z ): tinymap( 2, false, false )
 {
     const tripoint tripoint_below_zero( 0, 0, fake_map_z );
 
@@ -7823,8 +7849,8 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 }
 
-tinymap::tinymap( int mapsize, bool zlevels )
-    : map( mapsize, zlevels )
+tinymap::tinymap( int mapsize, bool zlevels, bool enable_caches )
+    : map( mapsize, zlevels, enable_caches )
 {
 }
 
@@ -8255,6 +8281,9 @@ pathfinding_cache &map::get_pathfinding_cache( int zlev ) const
 
 void map::set_pathfinding_cache_dirty( const int zlev )
 {
+    if( !caches_enabled ) {
+        return;
+    }
     if( inbounds_z( zlev ) ) {
         get_pathfinding_cache( zlev ).dirty = true;
     }
@@ -8262,7 +8291,7 @@ void map::set_pathfinding_cache_dirty( const int zlev )
 
 const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
 {
-    if( !inbounds_z( zlev ) ) {
+    if( !caches_enabled || !inbounds_z( zlev ) ) {
         debugmsg( "Tried to get pathfinding cache for out of bounds z-level %d", zlev );
         return *pathfinding_caches[ OVERMAP_DEPTH ];
     }
@@ -8276,6 +8305,9 @@ const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
 
 void map::update_pathfinding_cache( int zlev ) const
 {
+    if( !caches_enabled ) {
+        return;
+    }
     auto &cache = get_pathfinding_cache( zlev );
     if( !cache.dirty ) {
         return;

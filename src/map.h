@@ -214,7 +214,7 @@ class map
 
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = false );
+        map( int mapsize = MAPSIZE, bool zlev = false, bool enable_caches = true );
         map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
@@ -229,18 +229,27 @@ class map
          */
         /*@{*/
         void set_transparency_cache_dirty( const int zlev ) {
+            if( !caches_enabled ) {
+                return;
+            }
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).transparency_cache_dirty = true;
             }
         }
 
         void set_outside_cache_dirty( const int zlev ) {
+            if( !caches_enabled ) {
+                return;
+            }
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).outside_cache_dirty = true;
             }
         }
 
         void set_floor_cache_dirty( const int zlev ) {
+            if( !caches_enabled ) {
+                return;
+            }
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).floor_cache_dirty = true;
             }
@@ -250,6 +259,9 @@ class map
         /*@}*/
 
         void set_memory_seen_cache_dirty( const tripoint &p ) {
+            if( !caches_enabled ) {
+                return;
+            }
             const int offset = p.x + p.y * MAPSIZE_Y;
             if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
                 get_cache( p.z ).map_memory_seen_cache.reset( offset );
@@ -257,6 +269,9 @@ class map
         }
 
         void invalidate_map_cache( const int zlev ) {
+            if( !caches_enabled ) {
+                return;
+            }
             if( inbounds_z( zlev ) ) {
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
@@ -266,11 +281,17 @@ class map
         }
 
         bool check_seen_cache( const tripoint &p ) const {
+            if( !caches_enabled ) {
+                return false;
+            }
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
             return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
         }
         bool check_and_set_seen_cache( const tripoint &p ) const {
+            if( !caches_enabled ) {
+                return false;
+            }
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
             if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
@@ -1755,6 +1776,10 @@ class map
          * Holds caches for visibility, light, transparency and vehicles
          */
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
+        /**
+         * Whether caches need to be checked (useful for fake maps)
+         */
+        bool caches_enabled = true;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
@@ -1831,7 +1856,7 @@ class tinymap : public map
 {
         friend class editmap;
     public:
-        tinymap( int mapsize = 2, bool zlevels = false );
+        tinymap( int mapsize = 2, bool zlevels = false, bool enable_caches = true );
         bool inbounds( const tripoint &p ) const override;
 };
 
