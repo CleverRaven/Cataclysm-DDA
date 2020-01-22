@@ -249,6 +249,7 @@
       [ "brewing_cookbook", 4 ],
       [ "computer_science", 8 ],
       [ "book_icef", 8 ],
+      [ "preserving_juice", 10 ],
       { "group": "magazines", "prob": 580 },
       [ "atomic_survival", 1 ],
       [ "recipe_augs", 4 ],
@@ -310,7 +311,8 @@
       [ "manual_driving", 15 ],
       [ "manual_survival", 20 ],
       [ "dnd_handbook", 2 ],
-      [ "survnote", 3 ]
+      [ "survnote", 3 ],
+      [ "preserving_juice", 10 ],
     ]
   },
   {
@@ -489,6 +491,7 @@
     "//": "Those rich mansion people have all sorts of weird books.",
     "items": [
       [ "offalcooking", 22 ],
+      [ "preserving_juice", 16 ],
       { "group": "novels", "prob": 370 },
       { "group": "literature", "prob": 100 },
       [ "photo_album", 30 ],
