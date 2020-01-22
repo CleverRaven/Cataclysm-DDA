@@ -99,6 +99,9 @@ void computer::set_mission( const int id )
     mission_id = id;
 }
 
+static computer_action computer_action_from_legacy_enum( const int val );
+static computer_failure_type computer_failure_type_from_legacy_enum( const int val );
+
 void computer::load_legacy_data( const std::string &data )
 {
     static const std::set<computer_action> blacklisted_options = {{ COMPACT_OBSOLETE }};
@@ -122,11 +125,11 @@ void computer::load_legacy_data( const std::string &data )
         int tmpsec;
 
         dump >> tmpname >> tmpaction >> tmpsec;
-        if( blacklisted_options.find( static_cast<computer_action>( tmpaction ) )
+        if( blacklisted_options.find( computer_action_from_legacy_enum( tmpaction ) )
             != blacklisted_options.end() ) {
             continue;
         }
-        add_option( string_replace( tmpname, "_", " " ), static_cast<computer_action>( tmpaction ),
+        add_option( string_replace( tmpname, "_", " " ), computer_action_from_legacy_enum( tmpaction ),
                     tmpsec );
     }
 
@@ -136,7 +139,7 @@ void computer::load_legacy_data( const std::string &data )
     for( int n = 0; n < failsize; n++ ) {
         int tmpfail;
         dump >> tmpfail;
-        add_failure( static_cast<computer_failure_type>( tmpfail ) );
+        add_failure( computer_failure_type_from_legacy_enum( tmpfail ) );
     }
 
     std::string tmp_access_denied;
@@ -188,6 +191,87 @@ void computer::remove_option( computer_action const action )
             options.erase( it );
             break;
         }
+    }
+}
+
+static computer_action computer_action_from_legacy_enum( const int val )
+{
+    switch( val ) {
+        // Used to migrate old saves. Do not change the numbers!
+        // *INDENT-OFF*
+        default: return COMPACT_NULL;
+        case 0: return COMPACT_NULL;
+        case 1: return COMPACT_OPEN;
+        case 2: return COMPACT_LOCK;
+        case 3: return COMPACT_UNLOCK;
+        case 4: return COMPACT_TOLL;
+        case 5: return COMPACT_SAMPLE;
+        case 6: return COMPACT_RELEASE;
+        case 7: return COMPACT_RELEASE_BIONICS;
+        case 8: return COMPACT_TERMINATE;
+        case 9: return COMPACT_PORTAL;
+        case 10: return COMPACT_CASCADE;
+        case 11: return COMPACT_RESEARCH;
+        case 12: return COMPACT_MAPS;
+        case 13: return COMPACT_MAP_SEWER;
+        case 14: return COMPACT_MAP_SUBWAY;
+        case 15: return COMPACT_OBSOLETE;
+        case 16: return COMPACT_MISS_DISARM;
+        case 17: return COMPACT_LIST_BIONICS;
+        case 18: return COMPACT_ELEVATOR_ON;
+        case 19: return COMPACT_AMIGARA_LOG;
+        case 20: return COMPACT_AMIGARA_START;
+        case 21: return COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER;
+        case 22: return COMPACT_REPEATER_MOD;
+        case 23: return COMPACT_DOWNLOAD_SOFTWARE;
+        case 24: return COMPACT_BLOOD_ANAL;
+        case 25: return COMPACT_DATA_ANAL;
+        case 26: return COMPACT_DISCONNECT;
+        case 27: return COMPACT_EMERG_MESS;
+        case 28: return COMPACT_EMERG_REF_CENTER;
+        case 29: return COMPACT_TOWER_UNRESPONSIVE;
+        case 30: return COMPACT_SR1_MESS;
+        case 31: return COMPACT_SR2_MESS;
+        case 32: return COMPACT_SR3_MESS;
+        case 33: return COMPACT_SR4_MESS;
+        case 34: return COMPACT_SRCF_1_MESS;
+        case 35: return COMPACT_SRCF_2_MESS;
+        case 36: return COMPACT_SRCF_3_MESS;
+        case 37: return COMPACT_SRCF_SEAL_ORDER;
+        case 38: return COMPACT_SRCF_SEAL;
+        case 39: return COMPACT_SRCF_ELEVATOR;
+        case 40: return COMPACT_OPEN_DISARM;
+        case 41: return COMPACT_UNLOCK_DISARM;
+        case 42: return COMPACT_RELEASE_DISARM;
+        case 43: return COMPACT_IRRADIATOR;
+        case 44: return COMPACT_GEIGER;
+        case 45: return COMPACT_CONVEYOR;
+        case 46: return COMPACT_SHUTTERS;
+        case 47: return COMPACT_EXTRACT_RAD_SOURCE;
+        case 48: return COMPACT_DEACTIVATE_SHOCK_VENT;
+        case 49: return COMPACT_RADIO_ARCHIVE;
+        // *INDENT-ON*
+    }
+}
+
+static computer_failure_type computer_failure_type_from_legacy_enum( const int val )
+{
+    switch( val ) {
+        // Used to migrate old saves. Do not change the numbers!
+        // *INDENT-OFF*
+        default: return COMPFAIL_NULL;
+        case 0: return COMPFAIL_NULL;
+        case 1: return COMPFAIL_SHUTDOWN;
+        case 2: return COMPFAIL_ALARM;
+        case 3: return COMPFAIL_MANHACKS;
+        case 4: return COMPFAIL_SECUBOTS;
+        case 5: return COMPFAIL_DAMAGE;
+        case 6: return COMPFAIL_PUMP_EXPLODE;
+        case 7: return COMPFAIL_PUMP_LEAK;
+        case 8: return COMPFAIL_AMIGARA;
+        case 9: return COMPFAIL_DESTROY_BLOOD;
+        case 10: return COMPFAIL_DESTROY_DATA;
+        // *INDENT-ON*
     }
 }
 
