@@ -73,7 +73,7 @@
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cowebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
     "priority": 2,
@@ -755,7 +755,7 @@
       { "name": "pot smoke", "color": "light_gray" },
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
-    "npc_complain": { "chance": 20, "issue": "weed_smell", "duration": "10 minutes", "speech": "<weed_smell>" },
+    "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" },
     "decay_amount_factor": 5,
     "percent_spread": 200,
     "outdoor_age_speedup": "6 minutes",
@@ -775,7 +775,7 @@
       { "name": "crack smoke", "color": "light_gray" },
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
-    "npc_complain": { "chance": 20, "issue": "crack_smell", "duration": "30 minutes", "speech": "<crack_smell>" },
+    "npc_complain": { "chance": 20, "issue": "crack_smoke", "duration": "30 minutes", "speech": "<crack_smoke>" },
     "decay_amount_factor": 5,
     "percent_spread": 175,
     "outdoor_age_speedup": "8 minutes",
@@ -795,7 +795,7 @@
       { "name": "meth smoke", "color": "light_gray" },
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
-    "npc_complain": { "chance": 20, "issue": "meth_smell", "duration": "30 minutes", "speech": "<meth_smell>" },
+    "npc_complain": { "chance": 20, "issue": "meth_smoke", "duration": "30 minutes", "speech": "<meth_smoke>" },
     "decay_amount_factor": 5,
     "percent_spread": 175,
     "outdoor_age_speedup": "7 minutes",

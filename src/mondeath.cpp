@@ -75,10 +75,6 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PRED1( "PRED1" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_KILLER( "KILLER" );
 
@@ -414,8 +410,8 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
+    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( "PRED3" ) ||
+        g->u.has_trait_flag( "PRED4" ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -434,7 +430,7 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait( trait_PRED1 ) ) || ( g->u.has_trait( trait_PRED2 ) ) ) {
+    } else if( ( g->u.has_trait_flag( "PRED1" ) ) || ( g->u.has_trait_flag( "PRED2" ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -457,9 +453,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait( trait_PRED1 ) ) {
+        } else if( g->u.has_trait_flag( "PRED1" ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait( trait_PRED2 ) ) {
+        } else if( g->u.has_trait_flag( "PRED2" ) ) {
             moraleMalus /= 5;
         }
     }
@@ -633,10 +629,10 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+        for( const std::pair<const std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
                 bool spawned = false;
-                for( const std::pair<std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
+                for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
@@ -671,7 +667,7 @@ void mdeath::broken( monster &z )
         }
     }
 
-    //TODO: make mdeath::splatter work for robots
+    // TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
     } else if( g->u.sees( z.pos() ) ) {

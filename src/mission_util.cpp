@@ -427,7 +427,7 @@ void mission_util::set_reveal_any( const JsonArray &ja,
                                    std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
-    for( const std::string &terrain : ja ) {
+    for( const std::string terrain : ja ) {
         terrains.push_back( terrain );
     }
     const auto mission_func = [ terrains ]( mission * miss ) {

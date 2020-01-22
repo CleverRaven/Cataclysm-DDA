@@ -412,7 +412,7 @@ void load_mapgen( const JsonObject &jo )
         if( ja.test_array() ) {
             point offset;
             for( JsonArray row_items : ja ) {
-                for( const std::string &mapgenid : row_items ) {
+                for( const std::string mapgenid : row_items ) {
                     const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, offset );
                     if( mgfunc ) {
                         oter_mapgen[ mapgenid ].push_back( mgfunc );
@@ -424,7 +424,7 @@ void load_mapgen( const JsonObject &jo )
             }
         } else {
             std::vector<std::string> mapgenid_list;
-            for( const std::string &line : ja ) {
+            for( const std::string line : ja ) {
                 mapgenid_list.push_back( line );
             }
             if( !mapgenid_list.empty() ) {
@@ -590,7 +590,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
 
-    for( const JsonObject &pjo : parray ) {
+    for( const JsonObject pjo : parray ) {
         if( pjo.read( "point", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
         } else if( pjo.read( "set", tmpval ) ) {
@@ -774,7 +774,7 @@ class jmapgen_npc : public jmapgen_piece
                 std::string new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back( new_trait );
             } else if( jsi.has_array( "add_trait" ) ) {
-                for( const std::string &new_trait : jsi.get_array( "add_trait" ) ) {
+                for( const std::string new_trait : jsi.get_array( "add_trait" ) ) {
                     traits.emplace_back( new_trait );
                 }
             }
@@ -1162,7 +1162,7 @@ class jmapgen_monster : public jmapgen_piece
                     return;
                 }
             } else if( jsi.has_array( "monster" ) ) {
-                for( const JsonValue &entry : jsi.get_array( "monster" ) ) {
+                for( const JsonValue entry : jsi.get_array( "monster" ) ) {
                     mtype_id id;
                     int weight = 100;
                     if( entry.test_array() ) {
@@ -1194,7 +1194,7 @@ class jmapgen_monster : public jmapgen_piece
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
             // Instead, apply a multipler to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
-            int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+            int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
             int max_odds = ( 100 + raw_odds ) / 2;
             float density_multiplier = 1;
             if( odds_after_density > max_odds ) {
@@ -1638,7 +1638,7 @@ class jmapgen_zone : public jmapgen_piece
 static void load_weighted_entries( const JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
-    for( const JsonValue &entry : jsi.get_array( json_key ) ) {
+    for( const JsonValue entry : jsi.get_array( json_key ) ) {
         if( entry.test_array() ) {
             JsonArray inner = entry.get_array();
             list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
@@ -1769,7 +1769,7 @@ jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize )
     , mapgensize( mapsize )
 {}
 
-bool jmapgen_objects::check_bounds( const jmapgen_place place, const JsonObject &jso )
+bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject &jso )
 {
     return common_check_bounds( place.x, place.y, mapgensize, jso );
 }
@@ -1879,7 +1879,7 @@ void load_place_mapings_string( const JsonObject &pjo, const std::string &key,
     } else if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
     } else {
-        for( const JsonValue &entry : pjo.get_array( key ) ) {
+        for( const JsonValue entry : pjo.get_array( key ) ) {
             if( entry.test_string() ) {
                 try {
                     vect.push_back( make_shared_fast<PieceType>( entry.get_string() ) );
@@ -1906,7 +1906,7 @@ void load_place_mapings_alternatively( const JsonObject &pjo, const std::string 
         load_place_mapings_string<PieceType>( pjo, key, vect );
     } else {
         auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
-        for( const JsonValue &entry : pjo.get_array( key ) ) {
+        for( const JsonValue entry : pjo.get_array( key ) ) {
             if( entry.test_string() ) {
                 try {
                     alter->alternatives.emplace_back( entry.get_string() );
@@ -1980,7 +1980,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         placing_map &format_placings )
 {
     if( jo.has_object( "mapping" ) ) {
-        for( const JsonMember &member : jo.get_object( "mapping" ) ) {
+        for( const JsonMember member : jo.get_object( "mapping" ) ) {
             const std::string &key = member.name();
             if( key.size() != 1 ) {
                 member.throw_error( "format map key must be 1 character" );
@@ -5836,8 +5836,7 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
     return temp->getID();
 }
 
-void map::apply_faction_ownership( const point &p1, const point &p2,
-                                   const faction_id id )
+void map::apply_faction_ownership( const point &p1, const point &p2, const faction_id &id )
 {
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
@@ -7084,15 +7083,15 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 }
 ///////////////////// part of map
 
-void line( map *m, const ter_id type, int x1, int y1, int x2, int y2 )
+void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 )
 {
     m->draw_line_ter( type, point( x1, y1 ), point( x2, y2 ) );
 }
-void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
+void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 )
 {
     m->draw_line_furn( type, point( x1, y1 ), point( x2, y2 ) );
 }
-void fill_background( map *m, ter_id type )
+void fill_background( map *m, const ter_id &type )
 {
     m->draw_fill_background( type );
 }
@@ -7100,11 +7099,11 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void square( map *m, ter_id type, int x1, int y1, int x2, int y2 )
+void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( type, point( x1, y1 ), point( x2, y2 ) );
 }
-void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
+void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_furn( type, point( x1, y1 ), point( x2, y2 ) );
 }
@@ -7116,23 +7115,23 @@ void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2,
 {
     m->draw_square_ter( f, point( x1, y1 ), point( x2, y2 ) );
 }
-void rough_circle( map *m, ter_id type, int x, int y, int rad )
+void rough_circle( map *m, const ter_id &type, int x, int y, int rad )
 {
     m->draw_rough_circle_ter( type, point( x, y ), rad );
 }
-void rough_circle_furn( map *m, furn_id type, int x, int y, int rad )
+void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad )
 {
     m->draw_rough_circle_furn( type, point( x, y ), rad );
 }
-void circle( map *m, ter_id type, double x, double y, double rad )
+void circle( map *m, const ter_id &type, double x, double y, double rad )
 {
     m->draw_circle_ter( type, rl_vec2d( x, y ), rad );
 }
-void circle( map *m, ter_id type, int x, int y, int rad )
+void circle( map *m, const ter_id &type, int x, int y, int rad )
 {
     m->draw_circle_ter( type, point( x, y ), rad );
 }
-void circle_furn( map *m, furn_id type, int x, int y, int rad )
+void circle_furn( map *m, const furn_id &type, int x, int y, int rad )
 {
     m->draw_circle_furn( type, point( x, y ), rad );
 }

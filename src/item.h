@@ -399,6 +399,8 @@ class item : public visitable<item>
                           bool debug ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+        void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
         void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -1203,7 +1205,7 @@ class item : public visitable<item>
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
-        void set_snippet( const std::string &id );
+        void set_snippet( const snippet_id &id );
 
         bool operator<( const item &other ) const;
         /** List of all @ref components in printable form, empty if this item has
@@ -1367,7 +1369,7 @@ class item : public visitable<item>
         /*@}*/
 
         /**Does this item have the specified fault*/
-        bool has_fault( fault_id fault ) const;
+        bool has_fault( const fault_id &fault ) const;
 
         /**
          * @name Item properties
@@ -1953,17 +1955,18 @@ class item : public visitable<item>
 
         time_duration age() const;
         void set_age( const time_duration &age );
+        void legacy_fast_forward_time();
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
-        inline void set_old_owner( const faction_id temp_owner ) {
+        inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
         }
         inline void remove_old_owner() {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id new_owner ) {
+        inline void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );
@@ -2022,14 +2025,14 @@ class item : public visitable<item>
          *
          * @param parent Item to inherit from
          */
-        void inherit_flags( const item &parent );
+        void inherit_flags( const item &parent, const recipe &making );
 
         /**
          * @brief Inherit applicable flags from the given list of parent items.
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents );
+        void inherit_flags( const std::list<item> &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2143,7 +2146,7 @@ class item : public visitable<item>
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
-        cata::optional<std::string> snippet_id; // Associated dynamic text snippet id.
+        snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.

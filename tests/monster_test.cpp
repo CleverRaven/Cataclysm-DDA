@@ -54,7 +54,6 @@ static int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
-
 struct track {
     char participant;
     int moves;
@@ -128,6 +127,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                                } );
             test_player.mod_moves( -move_cost );
         }
+        g->m.clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
@@ -247,7 +247,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
         std::ofstream data;
         data.open( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) + monster_type );
         for( const auto &stat_pair : turns_at_angle ) {
-            data << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
+            data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }
         data.close();
     }

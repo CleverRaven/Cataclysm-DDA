@@ -9,7 +9,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "GUN_DISPERSION_DIVIDER",
-    "info": "Value that divides total weapon dipsersion. 15 means that weapons became 15 times more acurate than default.",
+    "info": "Value that divides total weapon dispersion. 15 means that weapons became 15 times more accurate than default.",
     "stype": "float",
     "value": 18
   },
@@ -192,6 +192,13 @@
     "type": "EXTERNAL_OPTION",
     "name": "STATS_THROUGH_KILLS",
     "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING",
+    "info": "INT Based Learning mod. Enables rebalance of practice and reading gains.",
     "stype": "bool",
     "value": false
   }
