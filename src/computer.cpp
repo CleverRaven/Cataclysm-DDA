@@ -99,8 +99,8 @@ void computer::set_mission( const int id )
     mission_id = id;
 }
 
-static computer_action computer_action_from_legacy_enum( const int val );
-static computer_failure_type computer_failure_type_from_legacy_enum( const int val );
+static computer_action computer_action_from_legacy_enum( int val );
+static computer_failure_type computer_failure_type_from_legacy_enum( int val );
 
 void computer::load_legacy_data( const std::string &data )
 {
