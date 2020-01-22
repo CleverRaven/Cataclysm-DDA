@@ -576,4 +576,16 @@
     "intelligence": 4,
     "time": "17 m"
   },
+  {
+    "id": "fermenting_book",
+    "type": "BOOK",
+    "name": { "str": "Fermenting Culture", "str_pl": "copies of Fermenting Culture" },
+    "description": "Fermenting as a cooking practice only recently came back into vogue before the Cataclysm.  Here is a book with dozens of recipes, many of which you are unlikely to ever see the ingredients for again.",
+    "copy-from": "vinegar_maker",
+    "skill": "cooking",
+    "required_level": 3,
+    "max_level": 6,
+    "intelligence": 4,
+    "time": "17 m"
+  }
 ]
