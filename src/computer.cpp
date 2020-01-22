@@ -152,105 +152,116 @@ void computer::remove_option( computer_action const action )
     }
 }
 
-static computer_action computer_action_from_string( const std::string &str )
+namespace io
 {
-    static const std::map<std::string, computer_action> actions = {{
-            { "null", COMPACT_NULL },
-            { "open", COMPACT_OPEN },
-            { "open_disarm", COMPACT_OPEN_DISARM },
-            { "lock", COMPACT_LOCK },
-            { "unlock", COMPACT_UNLOCK },
-            { "unlock_disarm", COMPACT_UNLOCK_DISARM },
-            { "toll", COMPACT_TOLL },
-            { "sample", COMPACT_SAMPLE },
-            { "release", COMPACT_RELEASE },
-            { "release_bionics", COMPACT_RELEASE_BIONICS },
-            { "release_disarm", COMPACT_RELEASE_DISARM },
-            { "terminate", COMPACT_TERMINATE },
-            { "portal", COMPACT_PORTAL },
-            { "cascade", COMPACT_CASCADE },
-            { "research", COMPACT_RESEARCH },
-            { "maps", COMPACT_MAPS },
-            { "map_sewer", COMPACT_MAP_SEWER },
-            { "map_subway", COMPACT_MAP_SUBWAY },
-            { "miss_disarm", COMPACT_MISS_DISARM },
-            { "list_bionics", COMPACT_LIST_BIONICS },
-            { "elevator_on", COMPACT_ELEVATOR_ON },
-            { "amigara_log", COMPACT_AMIGARA_LOG },
-            { "amigara_start", COMPACT_AMIGARA_START },
-            { "complete_disable_external_power", COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER },
-            { "repeater_mod", COMPACT_REPEATER_MOD },
-            { "download_software", COMPACT_DOWNLOAD_SOFTWARE },
-            { "blood_anal", COMPACT_BLOOD_ANAL },
-            { "data_anal", COMPACT_DATA_ANAL },
-            { "disconnect", COMPACT_DISCONNECT },
-            { "emerg_mess", COMPACT_EMERG_MESS },
-            { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
-            { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },
-            { "sr1_mess", COMPACT_SR1_MESS },
-            { "sr2_mess", COMPACT_SR2_MESS },
-            { "sr3_mess", COMPACT_SR3_MESS },
-            { "sr4_mess", COMPACT_SR4_MESS },
-            { "srcf_1_mess", COMPACT_SRCF_1_MESS },
-            { "srcf_2_mess", COMPACT_SRCF_2_MESS },
-            { "srcf_3_mess", COMPACT_SRCF_3_MESS },
-            { "srcf_seal_order", COMPACT_SRCF_SEAL_ORDER },
-            { "srcf_seal", COMPACT_SRCF_SEAL },
-            { "srcf_elevator", COMPACT_SRCF_ELEVATOR },
-            { "irradiator", COMPACT_IRRADIATOR },
-            { "geiger", COMPACT_GEIGER },
-            { "conveyor", COMPACT_CONVEYOR },
-            { "shutters", COMPACT_SHUTTERS },
-            { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE },
-            { "deactivate_shock_vent", COMPACT_DEACTIVATE_SHOCK_VENT },
-            { "radio_archive", COMPACT_RADIO_ARCHIVE }
-        }
-    };
-
-    const auto iter = actions.find( str );
-    if( iter != actions.end() ) {
-        return iter->second;
+template<>
+std::string enum_to_string<computer_action>( const computer_action act )
+{
+    switch( act ) {
+        // *INDENT-OFF*
+        case COMPACT_NULL: return "null";
+        case COMPACT_AMIGARA_LOG: return "amigara_log";
+        case COMPACT_AMIGARA_START: return "amigara_start";
+        case COMPACT_BLOOD_ANAL: return "blood_anal";
+        case COMPACT_CASCADE: return "cascade";
+        case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER: return "complete_disable_external_power";
+        case COMPACT_CONVEYOR: return "conveyor";
+        case COMPACT_DATA_ANAL: return "data_anal";
+        case COMPACT_DEACTIVATE_SHOCK_VENT: return "deactivate_shock_vent";
+        case COMPACT_DISCONNECT: return "disconnect";
+        case COMPACT_DOWNLOAD_SOFTWARE: return "download_software";
+        case COMPACT_ELEVATOR_ON: return "elevator_on";
+        case COMPACT_EMERG_MESS: return "emerg_mess";
+        case COMPACT_EMERG_REF_CENTER: return "emerg_ref_center";
+        case COMPACT_EXTRACT_RAD_SOURCE: return "extract_rad_source";
+        case COMPACT_GEIGER: return "geiger";
+        case COMPACT_IRRADIATOR: return "irradiator";
+        case COMPACT_LIST_BIONICS: return "list_bionics";
+        case COMPACT_LOCK: return "lock";
+        case COMPACT_MAP_SEWER: return "map_sewer";
+        case COMPACT_MAP_SUBWAY: return "map_subway";
+        case COMPACT_MAPS: return "maps";
+        case COMPACT_MISS_DISARM: return "miss_disarm";
+        case COMPACT_OBSOLETE: return "obsolete";
+        case COMPACT_OPEN: return "open";
+        case COMPACT_OPEN_DISARM: return "open_disarm";
+        case COMPACT_PORTAL: return "portal";
+        case COMPACT_RADIO_ARCHIVE: return "radio_archive";
+        case COMPACT_RELEASE: return "release";
+        case COMPACT_RELEASE_BIONICS: return "release_bionics";
+        case COMPACT_RELEASE_DISARM: return "release_disarm";
+        case COMPACT_REPEATER_MOD: return "repeater_mod";
+        case COMPACT_RESEARCH: return "research";
+        case COMPACT_SAMPLE: return "sample";
+        case COMPACT_SHUTTERS: return "shutters";
+        case COMPACT_SR1_MESS: return "sr1_mess";
+        case COMPACT_SR2_MESS: return "sr2_mess";
+        case COMPACT_SR3_MESS: return "sr3_mess";
+        case COMPACT_SR4_MESS: return "sr4_mess";
+        case COMPACT_SRCF_1_MESS: return "srcf_1_mess";
+        case COMPACT_SRCF_2_MESS: return "srcf_2_mess";
+        case COMPACT_SRCF_3_MESS: return "srcf_3_mess";
+        case COMPACT_SRCF_ELEVATOR: return "srcf_elevator";
+        case COMPACT_SRCF_SEAL: return "srcf_seal";
+        case COMPACT_SRCF_SEAL_ORDER: return "srcf_seal_order";
+        case COMPACT_TERMINATE: return "terminate";
+        case COMPACT_TOLL: return "toll";
+        case COMPACT_TOWER_UNRESPONSIVE: return "tower_unresponsive";
+        case COMPACT_UNLOCK: return "unlock";
+        case COMPACT_UNLOCK_DISARM: return "unlock_disarm";
+        // *INDENT-OFF*
+        case NUM_COMPUTER_ACTIONS:
+            break;
     }
-
-    debugmsg( "Invalid computer action %s", str );
-    return COMPACT_NULL;
+    debugmsg( "Invalid computer_action" );
+    abort();
 }
 
-static computer_failure_type computer_failure_type_from_string( const std::string &str )
+template<>
+std::string enum_to_string<computer_failure_type>( const computer_failure_type fail )
 {
-    static const std::map<std::string, computer_failure_type> fails = {{
-            { "null", COMPFAIL_NULL },
-            { "shutdown", COMPFAIL_SHUTDOWN },
-            { "alarm", COMPFAIL_ALARM },
-            { "manhacks", COMPFAIL_MANHACKS },
-            { "secubots", COMPFAIL_SECUBOTS },
-            { "damage", COMPFAIL_DAMAGE },
-            { "pump_explode", COMPFAIL_PUMP_EXPLODE },
-            { "pump_leak", COMPFAIL_PUMP_LEAK },
-            { "amigara", COMPFAIL_AMIGARA },
-            { "destroy_blood", COMPFAIL_DESTROY_BLOOD },
-            { "destroy_data", COMPFAIL_DESTROY_DATA }
-        }
-    };
-
-    const auto iter = fails.find( str );
-    if( iter != fails.end() ) {
-        return iter->second;
+    switch( fail ){
+        // *INDENT-OFF*
+        case COMPFAIL_NULL: return "null";
+        case COMPFAIL_ALARM: return "alarm";
+        case COMPFAIL_AMIGARA: return "amigara";
+        case COMPFAIL_DAMAGE: return "damage";
+        case COMPFAIL_DESTROY_BLOOD: return "destroy_blood";
+        case COMPFAIL_DESTROY_DATA: return "destroy_data";
+        case COMPFAIL_MANHACKS: return "manhacks";
+        case COMPFAIL_PUMP_EXPLODE: return "pump_explode";
+        case COMPFAIL_PUMP_LEAK: return "pump_leak";
+        case COMPFAIL_SECUBOTS: return "secubots";
+        case COMPFAIL_SHUTDOWN: return "shutdown";
+        // *INDENT-ON*
+        case NUM_COMPUTER_FAILURES:
+            break;
     }
-
-    debugmsg( "Invalid computer failure %s", str );
-    return COMPFAIL_NULL;
+    debugmsg( "Invalid computer_failure_type" );
+    abort();
 }
+} // namespace io
+
+template<>
+struct enum_traits<computer_action> {
+    static constexpr computer_action last = NUM_COMPUTER_ACTIONS;
+};
+
+template<>
+struct enum_traits<computer_failure_type> {
+    static constexpr computer_failure_type last = NUM_COMPUTER_FAILURES;
+};
+
 computer_option computer_option::from_json( const JsonObject &jo )
 {
-    std::string name = jo.get_string( "name" );
-    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
-    int sec = jo.get_int( "security", 0 );
+    const std::string name = jo.get_string( "name" );
+    const computer_action action = jo.get_enum_value<computer_action>( "action" );
+    const int sec = jo.get_int( "security", 0 );
     return computer_option( name, action, sec );
 }
 
 computer_failure computer_failure::from_json( const JsonObject &jo )
 {
-    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
+    const computer_failure_type type = jo.get_enum_value<computer_failure_type>( "action" );
     return computer_failure( type );
 }
