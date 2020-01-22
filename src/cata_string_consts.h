@@ -267,7 +267,6 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-\
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_webbed( "webbed" );
@@ -629,6 +628,5 @@ static const std::string comesttype_DRINK( "DRINK" );
 
 static const matype_id style_none( "style_none" );
 static const matype_id style_kicks( "style_kicks" );
-
 
 #endif // STRING_CONSTS_H
