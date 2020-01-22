@@ -615,7 +615,8 @@
     "//2": "This group is for a bathroom sink.",
     "subtype": "collection",
     "entries": [
-      { "collection": [ { "item": "soap", "count": [ 1, 4 ] }, { "item": "soap_holder" } ], "prob": 75 },
+      { "item": "soap", "count": [ 1, 4 ], "prob": 75 },
+      { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
       { "item": "cotton_ball", "prob": 50 },
       { "item": "bleach", "prob": 15 },
@@ -717,23 +718,6 @@
       { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
       { "item": "toilet_paper", "prob": 80 },
       { "item": "towel", "count": [ 1, 2 ], "prob": 75 }
-    ]
-  },
-  {
-    "id": "SUS_bathroom_ransacked",
-    "type": "item_group",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for instances of the room which have been looted already.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "rag", "prob": 95, "count": [ 1, 2 ] },
-      { "item": "cu_pipe", "prob": 10 },
-      { "item": "bottle_plastic_small", "prob": 50, "count": [ 1, 3 ] },
-      { "item": "splinter", "prob": 30, "count": [ 1, 3 ] },
-      { "item": "glass_shard", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "razor_blade", "prob": 60 },
-      { "item": "rag_bloody", "prob": 5 },
-      { "item": "survnote", "prob": 8 }
     ]
   },
   {
