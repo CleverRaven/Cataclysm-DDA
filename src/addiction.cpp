@@ -11,9 +11,7 @@
 #include "translations.h"
 #include "calendar.h"
 #include "enums.h"
-
-static const efftype_id effect_hallu( "hallu" );
-static const efftype_id effect_shakes( "shakes" );
+#include "cata_string_consts.h"
 
 namespace io
 {

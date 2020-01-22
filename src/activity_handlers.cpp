@@ -495,7 +495,8 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             act.targets.pop_back();
             return;
         }
-        if( !( corpse_item.has_flag( flag_FIELD_DRESS ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
+        if( !( corpse_item.has_flag( flag_FIELD_DRESS ) ||
+               corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
                                  corpse.nname() );
             act.targets.pop_back();
@@ -506,7 +507,8 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
                           !corpse.in_species( ZOMBIE ) );
-    if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) || u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
+    if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) ||
+                       u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
                        u.has_trait_flag( trait_flag_SAPIOVORE ) ) ) {
 
         if( u.is_player() ) {
@@ -544,7 +546,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
 int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int factor = u.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER);
+    const int factor = u.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
 
     int time_to_cut = 0;
     switch( corpse.size ) {
@@ -945,7 +947,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             monster_weight_remaining -= monster_weight * 0.85;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
-            if( ( corpse_item->has_flag( flag_FIELD_DRESS ) || corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) &&
+            if( ( corpse_item->has_flag( flag_FIELD_DRESS ) ||
+                  corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) &&
                 !corpse_item->has_flag( flag_QUARTERED ) ) {
                 monster_weight_remaining -= monster_weight / 4;
             } else if( corpse_item->has_flag( flag_QUARTERED ) ) {
