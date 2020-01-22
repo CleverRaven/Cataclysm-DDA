@@ -1253,7 +1253,17 @@
     "symbol": "#",
     "color": "light_green",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "NOCOLLIDE", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "NOCOLLIDE",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "SHORT"
+    ],
     "examine_action": "shrub_wildveggies",
     "bash": {
       "str_min": 4,
