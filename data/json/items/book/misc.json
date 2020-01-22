@@ -668,8 +668,7 @@
     "weight": "244 g",
     "volume": "500 ml",
     "price": 650,
-    "time": "20 m",
-    "fun": 2
+    "time": "20 m"
   },
   {
     "id": "novel_coa",
@@ -824,8 +823,7 @@
     "type": "BOOK",
     "name": "romance novel",
     "description": "Drama and mild smut.",
-    "copy-from": "paperback_novel",
-    "fun": 2
+    "copy-from": "paperback_novel"
   },
   {
     "id": "novel_samurai",
