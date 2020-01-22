@@ -7,6 +7,8 @@
 
 #include "calendar.h"
 
+class JsonIn;
+class JsonOut;
 class JsonObject;
 
 // Don't change those! They must stay in this specific order!
@@ -88,16 +90,23 @@ struct computer_option {
 
     computer_option();
     computer_option( const std::string &N, computer_action A, int S );
-
+    // Save to/load from saves
+    void serialize( JsonOut &jout ) const;
+    void deserialize( JsonIn &jin );
+    // Load from data files
     static computer_option from_json( const JsonObject &jo );
 };
 
 struct computer_failure {
     computer_failure_type type;
 
+    computer_failure();
     computer_failure( computer_failure_type t ) : type( t ) {
     }
-
+    // Save to/load from saves
+    void serialize( JsonOut &jout ) const;
+    void deserialize( JsonIn &jin );
+    // Load from data files
     static computer_failure from_json( const JsonObject &jo );
 };
 
@@ -115,8 +124,9 @@ class computer
         void set_access_denied_msg( const std::string &new_msg );
         void set_mission( int id );
         // Save/load
-        std::string save_data() const;
-        void load_data( const std::string &data );
+        void load_legacy_data( const std::string &data );
+        void serialize( JsonOut &jout ) const;
+        void deserialize( JsonIn &jin );
 
         friend class computer_session;
     private:

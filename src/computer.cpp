@@ -19,6 +19,43 @@ computer_option::computer_option( const std::string &N, computer_action A, int S
 {
 }
 
+void computer_option::serialize( JsonOut &jout ) const
+{
+    jout.start_object();
+    jout.member( "name", name );
+    jout.member( "action" );
+    jout.write_as_string( action );
+    jout.member( "security", security );
+    jout.end_object();
+}
+
+void computer_option::deserialize( JsonIn &jin )
+{
+    const JsonObject jo = jin.get_object();
+    name = jo.get_string( "name" );
+    action = jo.get_enum_value<computer_action>( "action" );
+    security = jo.get_int( "security" );
+}
+
+computer_failure::computer_failure()
+    : type( COMPFAIL_NULL )
+{
+}
+
+void computer_failure::serialize( JsonOut &jout ) const
+{
+    jout.start_object();
+    jout.member( "action" );
+    jout.write_as_string( type );
+    jout.end_object();
+}
+
+void computer_failure::deserialize( JsonIn &jin )
+{
+    const JsonObject jo = jin.get_object();
+    type = jo.get_enum_value<computer_failure_type>( "action" );
+}
+
 computer::computer( const std::string &new_name, int new_security )
     : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       next_attempt( calendar::before_time_starts ),
@@ -62,36 +99,7 @@ void computer::set_mission( const int id )
     mission_id = id;
 }
 
-std::string computer::save_data() const
-{
-    std::ostringstream data;
-
-    data.imbue( std::locale::classic() );
-
-    data
-            << string_replace( name, " ", "_" ) << ' '
-            << security << ' '
-            << mission_id << ' '
-            << options.size() << ' ';
-
-    for( auto &elem : options ) {
-        data
-                << string_replace( elem.name, " ", "_" ) << ' '
-                << static_cast<int>( elem.action ) << ' '
-                << elem.security << ' ';
-    }
-
-    data << failures.size() << ' ';
-    for( auto &elem : failures ) {
-        data << static_cast<int>( elem.type ) << ' ';
-    }
-
-    data << string_replace( access_denied, " ", "_" ) << ' ';
-
-    return data.str();
-}
-
-void computer::load_data( const std::string &data )
+void computer::load_legacy_data( const std::string &data )
 {
     static const std::set<computer_action> blacklisted_options = {{ COMPACT_OBSOLETE }};
     options.clear();
@@ -139,6 +147,37 @@ void computer::load_data( const std::string &data )
     // load old saves.
     if( !tmp_access_denied.empty() ) {
         access_denied = string_replace( tmp_access_denied, "_", " " );
+    }
+}
+
+void computer::serialize( JsonOut &jout ) const
+{
+    jout.start_object();
+    jout.member( "name", name );
+    jout.member( "mission", mission_id );
+    jout.member( "security", security );
+    jout.member( "alerts", alerts );
+    jout.member( "next_attempt", next_attempt );
+    jout.member( "options", options );
+    jout.member( "failures", failures );
+    jout.member( "access_denied", access_denied );
+    jout.end_object();
+}
+
+void computer::deserialize( JsonIn &jin )
+{
+    if( jin.test_string() ) {
+        load_legacy_data( jin.get_string() );
+    } else {
+        const JsonObject jo = jin.get_object();
+        jo.read( "name", name );
+        jo.read( "mission", mission_id );
+        jo.read( "security", security );
+        jo.read( "alerts", alerts );
+        jo.read( "next_attempt", next_attempt );
+        jo.read( "options", options );
+        jo.read( "failures", failures );
+        jo.read( "access_denied", access_denied );
     }
 }
 
