@@ -175,6 +175,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "radio_tower_even_stair_only",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "         :R,,,,R        ",
+        "          ,    ,        ",
+        "          ,    ,        ",
+        "         Xaaaa ,        ",
+        "         Xa<>a ,:       ",
+        "         XRaaa,R        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "radio_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",

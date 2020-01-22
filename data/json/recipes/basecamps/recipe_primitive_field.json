@@ -1110,7 +1110,7 @@
   {
     "type": "recipe",
     "result": "faction_base_blacksmith_9",
-    "description": "Next we need to add some basic tools and vices to the workshop.",
+    "description": "Next we need to add some basic tools and vises to the workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",

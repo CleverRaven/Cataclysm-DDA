@@ -12,6 +12,7 @@ add_library(
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
     StringLiteralIterator.cpp
+    TestFilenameCheck.cpp
     TextStyleCheck.cpp
     TranslatorCommentsCheck.cpp
     UseNamedPointConstantsCheck.cpp
