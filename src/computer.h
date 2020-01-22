@@ -35,7 +35,6 @@ enum computer_action {
     COMPACT_MAP_SUBWAY,
     COMPACT_MAPS,
     COMPACT_MISS_DISARM,
-    COMPACT_OBSOLETE, // No longer used
     COMPACT_OPEN,
     COMPACT_OPEN_DISARM,
     COMPACT_PORTAL,

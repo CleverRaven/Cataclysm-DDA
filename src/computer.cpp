@@ -104,7 +104,6 @@ static computer_failure_type computer_failure_type_from_legacy_enum( const int v
 
 void computer::load_legacy_data( const std::string &data )
 {
-    static const std::set<computer_action> blacklisted_options = {{ COMPACT_OBSOLETE }};
     options.clear();
     failures.clear();
 
@@ -125,8 +124,10 @@ void computer::load_legacy_data( const std::string &data )
         int tmpsec;
 
         dump >> tmpname >> tmpaction >> tmpsec;
-        if( blacklisted_options.find( computer_action_from_legacy_enum( tmpaction ) )
-            != blacklisted_options.end() ) {
+        // Legacy missle launch option that got removed before `computer_action` was
+        // refactored to be saved and loaded as string ids. Do not change this number:
+        // `computer_action` now has different underlying values from back then!
+        if( tmpaction == 15 ) {
             continue;
         }
         add_option( string_replace( tmpname, "_", " " ), computer_action_from_legacy_enum( tmpaction ),
@@ -215,7 +216,7 @@ static computer_action computer_action_from_legacy_enum( const int val )
         case 12: return COMPACT_MAPS;
         case 13: return COMPACT_MAP_SEWER;
         case 14: return COMPACT_MAP_SUBWAY;
-        case 15: return COMPACT_OBSOLETE;
+        // options with action enum 15 are removed in load_legacy_data()
         case 16: return COMPACT_MISS_DISARM;
         case 17: return COMPACT_LIST_BIONICS;
         case 18: return COMPACT_ELEVATOR_ON;
@@ -305,7 +306,6 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_MAP_SUBWAY: return "map_subway";
         case COMPACT_MAPS: return "maps";
         case COMPACT_MISS_DISARM: return "miss_disarm";
-        case COMPACT_OBSOLETE: return "obsolete";
         case COMPACT_OPEN: return "open";
         case COMPACT_OPEN_DISARM: return "open_disarm";
         case COMPACT_PORTAL: return "portal";
