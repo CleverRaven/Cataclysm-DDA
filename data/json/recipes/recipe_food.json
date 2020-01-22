@@ -5646,7 +5646,8 @@
     "charges": 8,
     "autolearn": false,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ]
+    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
+    "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
   },
   {
     "result": "oatmeal",
