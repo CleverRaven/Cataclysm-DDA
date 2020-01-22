@@ -563,5 +563,17 @@
     "name": { "str": "Can Sealer Instructions", "str_pl": "copies of Can Sealer Instructions" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
     "copy-from": "mag_cooking"
-  }
+  },
+  {
+    "id": "baking_book",
+    "type": "BOOK",
+    "name": { "str": "The Baker's Companion", "str_pl": "copies of The Baker's Companion" },
+    "description": "This book promises to teach you the ways of baking.  From cakes to souffles.",
+    "copy-from": "vinegar_maker",
+    "skill": "cooking",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 4,
+    "time": "17 m"
+  },
 ]
