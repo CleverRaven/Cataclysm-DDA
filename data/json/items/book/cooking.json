@@ -549,5 +549,19 @@
     "required_level": 1,
     "max_level": 2,
     "time": "12 m"
+  },
+  {
+    "id": "manual_canning",
+    "type": "BOOK",
+    "name": { "str": "Canning Pot Instructions", "str_pl": "copies of Canning Pot Instructions" },
+    "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
+    "copy-from": "mag_cooking"
+  },
+  {
+    "id": "manual_sealing",
+    "type": "BOOK",
+    "name": { "str": "Can Sealer Instructions", "str_pl": "copies of Can Sealer Instructions" },
+    "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
+    "copy-from": "mag_cooking"
   }
 ]
