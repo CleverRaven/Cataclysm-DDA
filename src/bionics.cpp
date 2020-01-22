@@ -1244,7 +1244,7 @@ void Character::process_bionic( int b )
     } else if( bio.id == bio_hydraulics ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
-                       ( std::string )bio_hydraulics );
+                       static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
             std::forward_list<int> bleeding_bp_parts;
