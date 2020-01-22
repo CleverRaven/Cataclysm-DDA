@@ -28,8 +28,6 @@ class computer_session
         const int height;
         std::vector<std::pair<int, std::string>> lines;
 
-        /** Shutdown (free w_terminal, etc.) */
-        void shutdown_terminal();
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
         bool hack_attempt( player &p, int Security = -1 );

@@ -79,11 +79,6 @@ computer_session::computer_session( computer &comp ) : comp( comp ),
 {
 }
 
-void computer_session::shutdown_terminal()
-{
-    reset_terminal();
-}
-
 void computer_session::use()
 {
     // Login
@@ -98,23 +93,23 @@ void computer_session::use()
         print_error( "%s", comp.access_denied );
         switch( query_ynq( _( "Bypass security?" ) ) ) {
             case ynq::quit:
-                shutdown_terminal();
+                reset_terminal();
                 return;
 
             case ynq::no:
                 query_any( _( "Shutting down… press any key." ) );
-                shutdown_terminal();
+                reset_terminal();
                 return;
 
             case ynq::yes:
                 if( !hack_attempt( g->u ) ) {
                     if( comp.failures.empty() ) {
                         query_any( _( "Maximum login attempts exceeded.  Press any key…" ) );
-                        shutdown_terminal();
+                        reset_terminal();
                         return;
                     }
                     activate_random_failure();
-                    shutdown_terminal();
+                    reset_terminal();
                     return;
                 } else { // Successful hack attempt
                     comp.security = 0;
@@ -155,7 +150,7 @@ void computer_session::use()
             if( query_bool( _( "Hack into system?" ) ) ) {
                 if( !hack_attempt( g->u, current.security ) ) {
                     activate_random_failure();
-                    shutdown_terminal();
+                    reset_terminal();
                     return;
                 } else {
                     // Successfully hacked function
@@ -170,7 +165,7 @@ void computer_session::use()
         // Done processing a selected option.
     }
 
-    shutdown_terminal(); // This should have been done by now, but just in case.
+    reset_terminal(); // This should have been done by now, but just in case.
 }
 
 bool computer_session::hack_attempt( player &p, int Security )
