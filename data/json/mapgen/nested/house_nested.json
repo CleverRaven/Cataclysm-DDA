@@ -1563,7 +1563,10 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "t": { "item": "SUS_toilet", "chance": 80 }
       }
     },
@@ -1585,7 +1588,10 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "t": { "item": "SUS_toilet", "chance": 80 },
         "~": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] }
       },
@@ -1609,7 +1615,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "liquids": { "T": { "liquid": "water", "amount": [ 0, 50 ] } },
       "items": {
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "t": { "item": "SUS_toilet", "chance": 80 }
       }
     },
@@ -1632,7 +1641,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 50, "repeat": [ 1, 2 ] }
       },
       "place_monsters": [ { "monster": "GROUP_PEST", "chance": 50, "x": 2, "y": 2 } ]
@@ -1654,8 +1666,11 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
-        "j": { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "J": { "item": "SUS_hair_drawer", "chance": 50, "repeat": [ 1, 2 ] },
         "V": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -1677,7 +1692,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 20, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -1700,7 +1718,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 40, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_monsters": [ { "monster": "GROUP_BLOB", "chance": 70, "x": 2, "y": 2 } ]
@@ -1754,7 +1775,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 50, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_item": [ { "chance": 100, "item": "spiral_stone", "x": 3, "y": 2 } ],
@@ -1778,7 +1802,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 20, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -1800,7 +1827,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 20, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -1822,7 +1852,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 40, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_monsters": [ { "monster": "GROUP_PEST", "chance": 50, "x": 1, "y": 1 } ]
@@ -1845,7 +1878,10 @@
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
         "J": { "item": "SUS_hair_drawer", "chance": 40, "repeat": [ 1, 2 ] },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_item": [
@@ -1872,7 +1908,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-       "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       },
       "place_loot": [ { "group": "SUS_hair_drawer", "x": 2, "y": 2, "chance": 30, "repeat": [ 1, 2 ] } ]
     }
@@ -1893,7 +1932,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-       "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "group": "SUS_hair_drawer", "x": 2, "y": 2, "chance": 30, "repeat": [ 1, 2 ] } ]
@@ -1916,12 +1958,16 @@
       "liquids": { "T": { "liquid": "chem_ethanol", "amount": [ 10, 30 ] } },
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       },
       "place_loot": [
         { "group": "SUS_hair_drawer", "x": 2, "y": 2, "chance": 50, "repeat": [ 1, 2 ] },
         { "chance": 100, "item": "corpse_generic_male", "x": 2, "y": 2 },
         { "chance": 100, "group": "male_underwear_bottom", "x": 2, "y": 2 },
+        { "chance": 50, "item": "shoestore_accessories", "x": 2, "y": 2 },
         { "chance": 50, "group": "pants_male", "x": 2, "y": 2 },
         { "chance": 50, "group": "clothing_work_torso", "x": 2, "y": 2 },
         { "chance": 50, "group": "shoestore_shoes", "x": 2, "y": 2 }
@@ -1945,7 +1991,10 @@
       "liquids": { "T": { "liquid": "water", "amount": [ 0, 50 ] } },
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "~": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_monsters": [ { "monster": "GROUP_BLOB", "chance": 50, "x": 1, "y": 1 } ],
@@ -1967,7 +2016,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -1986,7 +2038,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       },
       "place_monster": [ { "monster": "mon_sludge_crawler", "chance": 25, "x": 1, "y": 1 } ]
     }
@@ -2006,7 +2061,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       },
       "place_items": [
         { "chance": 100, "item": "corpse_female", "x": 1, "y": 1 },
@@ -2034,7 +2092,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
@@ -2053,7 +2114,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_PEST", "chance": 50, "x": 2, "y": 1 } ]
     }
@@ -2073,7 +2137,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-        "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_BLOB", "chance": 70, "x": 2, "y": 1 } ]
     }
@@ -2094,7 +2161,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-       "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] },
         "J": { "item": "SUS_hair_drawer", "chance": 20, "repeat": [ 1, 2 ] }
       }
@@ -2116,7 +2186,10 @@
       "palettes": [ "house_w_nest_palette" ],
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-       "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 40, "repeat": [ 1, 2 ] },
         "J": { "item": "SUS_hair_drawer", "chance": 20, "repeat": [ 1, 2 ] }
       }
@@ -2139,7 +2212,10 @@
       "liquids": { "T": { "liquid": "water", "amount": [ 0, 30 ] } },
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-       "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "J": { "item": "SUS_hair_drawer", "chance": 40, "repeat": [ 1, 2 ] }
       },
@@ -2168,7 +2244,10 @@
       "liquids": { "T": { "liquid": "water", "amount": [ 0, 50 ] } },
       "items": {
         "t": { "item": "SUS_toilet", "chance": 80 },
-       "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }, ],
+        "j": [
+          { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
         "V": { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "J": { "item": "SUS_hair_drawer", "chance": 40, "repeat": [ 1, 2 ] }
       },
