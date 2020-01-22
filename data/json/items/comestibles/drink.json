@@ -858,7 +858,7 @@
     "symbol": "~",
     "quench": 60,
     "calories": 12,
-    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but it tastes awful.",
+    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but it tastes kind of strange.",
     "price": 55,
     "material": "water",
     "volume": "250 ml",
