@@ -1151,8 +1151,9 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    if( loc->ammo_data()->ammo->prop_damage ) {
-                        const float ammo_mult = *loc->ammo_data()->ammo->prop_damage;
+                    if( loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult != 1.0f ) {
+                        const float ammo_mult =
+                            loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult;
 
                         return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
                                               get_damage_string( basic_damage, true ),
