@@ -23,6 +23,15 @@
   },
   {
     "type": "profession",
+    "ident": "afs_cryosleep_survivor",
+    "name": "Cryosleep Survivor",
+    "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
+    "points": 2,
+    "traits": [ "AFS_CRYOADAPTATION" ],
+    "items": { "both": [ "jumpsuit", "boots_winter", "under_armor", "under_armor_shorts", "gloves_wool" ] }
+  },
+  {
+    "type": "profession",
     "ident": "afs_atomic_pitchman",
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
