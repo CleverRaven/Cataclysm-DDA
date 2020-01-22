@@ -25,24 +25,6 @@ computer::computer( const std::string &new_name, int new_security )
 {
 }
 
-computer::computer( const computer &rhs )
-{
-    *this = rhs;
-}
-
-computer::~computer() = default;
-
-computer &computer::operator=( const computer &rhs )
-{
-    security = rhs.security;
-    name = rhs.name;
-    access_denied = rhs.access_denied;
-    mission_id = rhs.mission_id;
-    options = rhs.options;
-    failures = rhs.failures;
-    return *this;
-}
-
 void computer::set_security( int Security )
 {
     security = Security;

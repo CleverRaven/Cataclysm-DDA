@@ -105,10 +105,7 @@ class computer
 {
     public:
         computer( const std::string &new_name, int new_security );
-        computer( const computer &rhs );
-        ~computer();
 
-        computer &operator=( const computer &rhs );
         // Initialization
         void set_security( int Security );
         void add_option( const computer_option &opt );
@@ -137,8 +134,6 @@ class computer
         // Can be customized to for example warn the player of potentially lethal
         // consequences like secubots spawning.
         std::string access_denied;
-        // Misc research notes from json
-        static std::vector<std::string> lab_notes;
 
         void remove_option( computer_action action );
 };
