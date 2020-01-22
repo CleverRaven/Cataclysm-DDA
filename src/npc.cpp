@@ -95,6 +95,7 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_mending( "mending" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -1053,7 +1054,7 @@ bool npc::wear_if_wanted( const item &it )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && it.covers( bp ) ) {
+            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
                 splint = true;
                 break;
             }
@@ -1062,6 +1063,10 @@ bool npc::wear_if_wanted( const item &it )
 
     if( splint ) {
         return !!wear_item( it, false );
+    }
+
+    if( !can_wear( it, true ).success() ) {
+        return false;
     }
 
     const int it_encumber = it.get_encumber( *this );

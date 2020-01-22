@@ -1687,13 +1687,9 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
-    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-
-    const auto allow_key = [force_uc]( const input_event & evt ) {
-        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
-               // std::lower is undefined outside unsigned char range
-               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-    };
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
 
     const auto &action = query_popup()
                          .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )

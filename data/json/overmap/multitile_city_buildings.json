@@ -7,9 +7,9 @@
   },
   {
     "type": "city_building",
-    "id": "house",
+    "id": "house_wooded",
     "locations": [ "land" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_roof_north" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_wooded_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_roof_north" } ]
   },
   {
     "type": "city_building",
