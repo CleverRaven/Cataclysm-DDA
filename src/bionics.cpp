@@ -217,8 +217,10 @@ bool Character::activate_bionic( int b, bool eff_only )
     static item bio_gun( weapon );
 
     // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.typeId() == ( std::string )bio_claws_weapon && bio.id == bio_claws_weapon ) ||
-        ( weapon.typeId() == ( std::string )bio_blade_weapon && bio.id == bio_blade_weapon ) ) {
+    if( ( weapon.typeId() == static_cast<std::string>( bio_claws_weapon ) &&
+          bio.id == bio_claws_weapon ) ||
+        ( weapon.typeId() == static_cast<std::string>( bio_blade_weapon ) &&
+          bio.id == bio_blade_weapon ) ) {
         return deactivate_bionic( b );
     }
 
@@ -326,7 +328,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     } else if( bio.id == bio_resonator ) {
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
-                       ( std::string )bio_resonator );
+                       static_cast<std::string>( bio_resonator ) );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
             // Multibash effect, so that doors &c will fall
@@ -512,7 +514,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
-                       ( std::string )bio_hydraulics );
+                       static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_water_extractor ) {
         bool extracted = false;
         for( item &it : g->m.i_at( pos() ) ) {
