@@ -8,7 +8,8 @@
   {
     "type": "overmap_terrain",
     "id": "public_works_NE_roof",
-    "copy-from": "public_works_NE"
+    "copy-from": "public_works_NE_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
@@ -19,7 +20,8 @@
   {
     "type": "overmap_terrain",
     "id": "public_works_NW_roof",
-    "copy-from": "public_works_NW"
+    "copy-from": "public_works_NW_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +32,8 @@
   {
     "type": "overmap_terrain",
     "id": "public_works_SW_roof",
-    "copy-from": "public_works_SW"
+    "copy-from": "public_works_SW_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
@@ -41,7 +44,8 @@
   {
     "type": "overmap_terrain",
     "id": "public_works_SE_roof",
-    "copy-from": "public_works_SE"
+    "copy-from": "public_works_SE_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
@@ -133,18 +137,14 @@
   {
     "type": "overmap_terrain",
     "id": "lumberyard_0_0",
-    "name": "lumberyard",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "copy-from": "lumberyard_0_0",
+    "sym": "\u00D7",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_0_1",
-    "copy-from": "lumberyard_0_0",
-    "sym": "\u00D7",
-    "color": "brown"
+    "copy-from": "lumberyard_0_0"
   },
   {
     "type": "overmap_terrain",
@@ -159,22 +159,30 @@
   {
     "type": "overmap_terrain",
     "id": "lumberyard_0_0_roof",
-    "copy-from": "lumberyard_0_0"
+    "copy-from": "lumberyard_0_0_roof",
+    "sym": "\u00D7",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_0_1_roof",
-    "copy-from": "lumberyard_0_0"
+    "copy-from": "lumberyard_0_1_roof",
+    "sym": "\u00D7",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_1_0_roof",
-    "copy-from": "lumberyard_0_0"
+    "copy-from": "lumberyard_1_0_roof",
+    "sym": "\u00D7",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_1_1_roof",
-    "copy-from": "lumberyard_0_0"
+    "copy-from": "lumberyard_1_1_roof",
+    "sym": "\u00D7",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -201,22 +209,30 @@
   {
     "type": "overmap_terrain",
     "id": "lumbermill_0_0_roof",
-    "copy-from": "lumbermill_0_0"
+    "copy-from": "lumbermill_0_0_roof",
+    "sym": "\u00D6",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_0_1_roof",
-    "copy-from": "lumbermill_0_0"
+    "copy-from": "lumbermill_0_1_roof",
+    "sym": "\u00D6",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_1_0_roof",
-    "copy-from": "lumbermill_0_0"
+    "copy-from": "lumbermill_1_0_roof",
+    "sym": "\u00D6",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_1_1_roof",
-    "copy-from": "lumbermill_0_0"
+    "copy-from": "lumbermill_1_1_roof",
+    "sym": "\u00D6",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",

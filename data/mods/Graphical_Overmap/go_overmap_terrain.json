@@ -37,7 +37,9 @@
   {
     "type": "overmap_terrain",
     "id": "s_garage_roof",
-    "copy-from": "s_garage"
+    "copy-from": "s_garage_roof",
+    "sym": "\u00E6",
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -49,7 +51,9 @@
   {
     "type": "overmap_terrain",
     "id": "s_garage_roof_1",
-    "copy-from": "s_garage_1"
+    "copy-from": "s_garage_roof_1",
+    "sym": "\u00E6",
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -61,7 +65,9 @@
   {
     "type": "overmap_terrain",
     "id": "s_garage_roof_2",
-    "copy-from": "s_garage_2"
+    "copy-from": "s_garage_roof_2",
+    "sym": "\u00E6",
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -159,7 +165,8 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_lake_roof",
-    "copy-from": "cabin_lake"
+    "copy-from": "cabin_lake_roof",
+    "sym": "\u00E8"
   },
   {
     "type": "overmap_terrain",
@@ -170,7 +177,8 @@
   {
     "type": "overmap_terrain",
     "id": "lake_cabin_boathouse_roof",
-    "copy-from": "lake_cabin_boathouse"
+    "copy-from": "lake_cabin_boathouse_roof",
+    "sym": "\u00E8"
   },
   {
     "type": "overmap_terrain",
@@ -199,7 +207,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof",
-    "copy-from": "cabin"
+    "copy-from": "cabin_roof",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -211,7 +221,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_1",
-    "copy-from": "cabin_1"
+    "copy-from": "cabin_roof_1",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -235,7 +247,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_3",
-    "copy-from": "cabin_3"
+    "copy-from": "cabin_roof_3",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -247,7 +261,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_4",
-    "copy-from": "cabin_4"
+    "copy-from": "cabin_roof_4",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -259,7 +275,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_5",
-    "copy-from": "cabin_5"
+    "copy-from": "cabin_roof_5",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -271,7 +289,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_6",
-    "copy-from": "cabin_6"
+    "copy-from": "cabin_roof_6",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -283,7 +303,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_7",
-    "copy-from": "cabin_7"
+    "copy-from": "cabin_roof_7",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -295,7 +317,9 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_roof_lapin",
-    "copy-from": "cabin_lapin"
+    "copy-from": "cabin_roof_lapin",
+    "sym": "\u00E2",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -510,7 +534,8 @@
   {
     "type": "overmap_terrain",
     "id": "hunter_shack_roof",
-    "copy-from": "hunter_shack"
+    "copy-from": "hunter_shack_roof",
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
@@ -521,7 +546,8 @@
   {
     "type": "overmap_terrain",
     "id": "hunter_shack_roof_1",
-    "copy-from": "hunter_shack_1"
+    "copy-from": "hunter_shack_roof_1",
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
@@ -554,7 +580,9 @@
   {
     "type": "overmap_terrain",
     "id": "campground_roof",
-    "copy-from": "campground_1a"
+    "copy-from": "campground_roof",
+    "sym": "\u00C5",
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -737,47 +765,56 @@
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_1_roof",
-    "copy-from": "irradiator_1_1"
+    "copy-from": "irradiator_1_1_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_2_roof",
-    "copy-from": "irradiator_1_2"
+    "copy-from": "irradiator_1_2_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_3_roof",
-    "copy-from": "irradiator_1_3"
+    "copy-from": "irradiator_1_3_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_4_roof",
-    "copy-from": "irradiator_1_4"
+    "copy-from": "irradiator_1_4_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_5_roof",
-    "copy-from": "irradiator_1_5"
+    "copy-from": "irradiator_1_5_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_6_roof",
-    "copy-from": "irradiator_1_6"
+    "copy-from": "irradiator_1_6_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_7_roof",
-    "copy-from": "irradiator_1_7"
+    "copy-from": "irradiator_1_7_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_8_roof",
-    "copy-from": "irradiator_1_8"
+    "copy-from": "irradiator_1_8_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_9_roof",
-    "copy-from": "irradiator_1_9"
+    "copy-from": "irradiator_1_9_roof",
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
