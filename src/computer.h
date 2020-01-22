@@ -113,15 +113,17 @@ class computer
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
         void set_access_denied_msg( const std::string &new_msg );
+        void set_mission( int id );
         // Save/load
         std::string save_data() const;
         void load_data( const std::string &data );
 
-        std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
-        int mission_id; // Linked to a mission?
-
         friend class computer_session;
     private:
+        // "Jon's Computer", "Lab 6E77-B Terminal Omega"
+        std::string name;
+        // Linked to a mission?
+        int mission_id;
         // Difficulty of simply logging in
         int security;
         // Date of next attempt

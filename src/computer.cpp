@@ -56,6 +56,11 @@ void computer::set_access_denied_msg( const std::string &new_msg )
     access_denied = new_msg;
 }
 
+void computer::set_mission( const int id )
+{
+    mission_id = id;
+}
+
 std::string computer::save_data() const
 {
     std::ostringstream data;
