@@ -93,7 +93,7 @@ std::string computer::save_data() const
 
 void computer::load_data( const std::string &data )
 {
-    static const std::set<std::string> blacklisted_options = {{ "Launch_Missile" }};
+    static const std::set<computer_action> blacklisted_options = {{ COMPACT_OBSOLETE }};
     options.clear();
     failures.clear();
 
@@ -114,7 +114,8 @@ void computer::load_data( const std::string &data )
         int tmpsec;
 
         dump >> tmpname >> tmpaction >> tmpsec;
-        if( blacklisted_options.find( tmpname ) != blacklisted_options.end() ) {
+        if( blacklisted_options.find( static_cast<computer_action>( tmpaction ) )
+            != blacklisted_options.end() ) {
             continue;
         }
         add_option( string_replace( tmpname, "_", " " ), static_cast<computer_action>( tmpaction ),
