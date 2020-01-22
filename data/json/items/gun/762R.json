@@ -8,7 +8,13 @@
     "weight": "4100 g",
     "price": 23000,
     "price_postapoc": 3000,
-    "relative": { "volume": -2, "range": -6, "ranged_damage": -3, "dispersion": 60, "barrel_length": -2 }
+    "relative": {
+      "volume": -2,
+      "range": -6,
+      "ranged_damage": { "damage_type": "stab", "amount": -3 },
+      "dispersion": 60,
+      "barrel_length": -2
+    }
   },
   {
     "id": "mosin44_ebr",
