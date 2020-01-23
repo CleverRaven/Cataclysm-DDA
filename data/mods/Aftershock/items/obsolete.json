@@ -18,17 +18,6 @@
     "fun": -5
   },
   {
-    "type": "mutation",
-    "id": "AFS_PROF_SKIIER",
-    "name": "Alpine Conditioning",
-    "description": "Time spent in high altitudes and low temperatures have adapted you to them, and you're slightly better at resisting the cold.",
-    "bodytemp_modifiers": [ 50, 100 ],
-    "points": 0,
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
     "id": "afs_blatant_half_life_reference",
     "type": "ARMOR",
     "name": "hazardous environment suit",
