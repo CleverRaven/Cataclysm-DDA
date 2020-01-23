@@ -1590,6 +1590,7 @@ void basecamp::job_assignment_ui()
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+    validate_assignees();
     while( true ) {
         werase( w_jobs );
         // create a list of npcs stationed at this camp
@@ -1626,7 +1627,7 @@ void basecamp::job_assignment_ui()
                     // get the current NPCs job
                     job_description = npc_job_name( cur_npc->get_job() );
                 } else {
-                    job_description = _( "No particular job" );
+                    debugmsg( "npc %s is assigned to work at the camp but has no role", cur_npc->name );
                 }
                 mvwprintz( w_jobs, point( 46, 3 ), c_light_gray, job_description );
             } else {
