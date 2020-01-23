@@ -13,7 +13,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "sight_dispersion": 11,
+    "sight_dispersion": 15,
     "aim_speed": 5,
     "min_skills": [ [ "archery", 2 ] ]
   },
@@ -31,8 +31,8 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "sight_dispersion": 22,
-    "aim_speed": 7
+    "sight_dispersion": 25,
+    "aim_speed": 8
   },
   {
     "id": "bow_scope",
@@ -48,7 +48,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "sight_dispersion": 1,
+    "sight_dispersion": 10,
     "aim_speed": 2,
     "min_skills": [ [ "archery", 3 ] ],
     "flags": [ "ZOOM" ]

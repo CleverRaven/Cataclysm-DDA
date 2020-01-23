@@ -160,9 +160,9 @@ struct bionic {
             return *id;
         }
 
-        void set_flag( std::string flag );
-        void remove_flag( std::string flag );
-        bool has_flag( std::string flag ) const;
+        void set_flag( const std::string &flag );
+        void remove_flag( const std::string &flag );
+        bool has_flag( const std::string &flag ) const;
 
         int get_quality( const quality_id &quality ) const;
 

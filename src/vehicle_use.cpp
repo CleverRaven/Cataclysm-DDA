@@ -940,7 +940,7 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
-        // @TODO: start_moves is in moves, but it's an integer, convert it to some time class
+        // TODO: start_moves is in moves, but it's an integer, convert it to some time class
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );
@@ -1533,8 +1533,11 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
-    // Get all the items the player has that can be used as detergent
-    std::vector<const item *> detergents = g->u.all_items_with_flag( "DETERGENT" );
+    // Get all the items that can be used as detergent
+    const inventory &inv = g->u.crafting_inventory();
+    std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
+        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+    } );
 
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
@@ -2054,7 +2057,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_WELDER: {
             if( veh_tool( "welder" ) ) {
-                // Evil hack incoming
+                // HACK: Evil hack incoming
                 auto &act = g->u.activity;
                 if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
                     // Magic: first tell activity the item doesn't really exist

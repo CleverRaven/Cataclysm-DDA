@@ -595,7 +595,7 @@ void vpart_info::check()
             part.fuel_type = "null";
         } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
                    ( !base_item_type.container || !base_item_type.container->watertight ) ) {
-            // Tanks are allowed to specify non-fuel "fuel",
+            // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );

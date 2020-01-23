@@ -869,22 +869,22 @@ class map
         point random_outdoor_tile();
         // mapgen
 
-        void draw_line_ter( ter_id type, const point &p1, const point &p2 );
-        void draw_line_furn( furn_id type, const point &p1, const point &p2 );
-        void draw_fill_background( ter_id type );
+        void draw_line_ter( const ter_id &type, const point &p1, const point &p2 );
+        void draw_line_furn( const furn_id &type, const point &p1, const point &p2 );
+        void draw_fill_background( const ter_id &type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
-        void draw_square_ter( ter_id type, const point &p1, const point &p2 );
-        void draw_square_furn( furn_id type, const point &p1, const point &p2 );
+        void draw_square_ter( const ter_id &type, const point &p1, const point &p2 );
+        void draw_square_furn( const furn_id &type, const point &p1, const point &p2 );
         void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 );
         void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
                               const point &p2 );
-        void draw_rough_circle_ter( ter_id type, const point &p, int rad );
-        void draw_rough_circle_furn( furn_id type, const point &p, int rad );
-        void draw_circle_ter( ter_id type, const rl_vec2d &p, double rad );
-        void draw_circle_ter( ter_id type, const point &p, int rad );
-        void draw_circle_furn( furn_id type, const point &p, int rad );
+        void draw_rough_circle_ter( const ter_id &type, const point &p, int rad );
+        void draw_rough_circle_furn( const furn_id &type, const point &p, int rad );
+        void draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad );
+        void draw_circle_ter( const ter_id &type, const point &p, int rad );
+        void draw_circle_furn( const furn_id &type, const point &p, int rad );
 
         void add_corpse( const tripoint &p );
 
@@ -1076,7 +1076,7 @@ class map
                                            int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_charges( const tripoint &origin, int range, itype_id type,
+        std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
         /*@}*/
@@ -1178,24 +1178,24 @@ class map
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns `-1_turns`.
          */
-        time_duration get_field_age( const tripoint &p, field_type_id type ) const;
+        time_duration get_field_age( const tripoint &p, const field_type_id &type ) const;
         /**
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        int get_field_intensity( const tripoint &p, field_type_id type ) const;
+        int get_field_intensity( const tripoint &p, const field_type_id &type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration mod_field_age( const tripoint &p, field_type_id type,
+        time_duration mod_field_age( const tripoint &p, const field_type_id &type,
                                      const time_duration &offset );
         /**
          * Increment/decrement intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int mod_field_intensity( const tripoint &p, field_type_id type, int offset );
+        int mod_field_intensity( const tripoint &p, const field_type_id &type, int offset );
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1205,7 +1205,7 @@ class map
          * if false, the existing age is ignored and overridden.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration set_field_age( const tripoint &p, field_type_id type,
+        time_duration set_field_age( const tripoint &p, const field_type_id &type,
                                      const time_duration &age, bool isoffset = false );
         /**
          * Set intensity of field entry at point, creating if not present,
@@ -1217,31 +1217,31 @@ class map
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_intensity( const tripoint &p, field_type_id type, int new_intensity,
+        int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
                                  bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, field_type_id type );
+        field_entry *get_field( const tripoint &p, const field_type_id &type );
         bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, field_type_id type, int intensity = INT_MAX,
+        bool add_field( const tripoint &p, const field_type_id &type, int intensity = INT_MAX,
                         const time_duration &age = 0_turns );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
-        void remove_field( const tripoint &p, field_type_id field_to_remove );
+        void remove_field( const tripoint &p, const field_type_id &field_to_remove );
 
         // Splatters of various kind
-        void add_splatter( field_type_id type, const tripoint &where, int intensity = 1 );
-        void add_splatter_trail( field_type_id type, const tripoint &from, const tripoint &to );
-        void add_splash( field_type_id type, const tripoint &center, int radius, int intensity );
+        void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );
+        void add_splatter_trail( const field_type_id &type, const tripoint &from, const tripoint &to );
+        void add_splash( const field_type_id &type, const tripoint &center, int radius, int intensity );
 
-        void propagate_field( const tripoint &center, field_type_id type,
+        void propagate_field( const tripoint &center, const field_type_id &type,
                               int amount, int max_intensity = 0 );
 
         /**
@@ -1332,7 +1332,7 @@ class map
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type,
                                 bool force = false );
-        void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
+        void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
                         const std::string &name = "NONE" ) const;
@@ -1826,9 +1826,6 @@ class map
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
-std::vector<point> closest_points_first( int radius, const point &center );
-// Does not build "piles" - does the same as above functions, except in tripoints
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &center );
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
 class tinymap : public map
 {

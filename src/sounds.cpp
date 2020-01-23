@@ -43,6 +43,7 @@
 #include "type_id.h"
 #include "point.h"
 #include "string_id.h"
+#include "safemode_ui.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -431,7 +432,8 @@ void sounds::process_sound_markers( player *p )
 
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
+            if( !p->activity.is_distraction_ignored( distraction_type::noise ) &&
+                !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }

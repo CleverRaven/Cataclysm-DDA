@@ -181,7 +181,7 @@
   {
     "type": "item_group",
     "id": "mags_smg_common",
-    "//": "Factory specification smg magazines commonly owned by citizens.",
+    "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
       [ "360_200_mag", 5 ],
       [ "a180mag", 10 ],
@@ -205,7 +205,7 @@
   {
     "type": "item_group",
     "id": "mags_smg_rare",
-    "//": "Aftermarket or otherwise uncomon SMG magazines excluding milspec.",
+    "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
       [ "360_400_mag", 5 ],
       [ "calicomag", 15 ],

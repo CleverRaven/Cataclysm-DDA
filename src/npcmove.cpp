@@ -236,7 +236,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @TODO: Rate fire higher than smoke
+                // TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }
@@ -466,7 +466,7 @@ void npc::assess_danger()
         bool is_too_close = dist <= def_radius;
         const auto test_too_close = [critter, def_radius,
                  &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
-            // Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
+            // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I dont know why.
             // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
@@ -973,8 +973,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             int best_sleepy = sleep_spot( pos() );
             tripoint best_spot = pos();
-            const auto points = closest_tripoints_first( 6, pos() );
-            for( const tripoint &p : points ) {
+            for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -2444,7 +2443,7 @@ void npc::avoid_friendly_fire()
     center.y = round( center.y / friend_count );
     center.z = round( center.z / friend_count );
 
-    auto candidates = closest_tripoints_first( 1, pos() );
+    std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint & l, const tripoint & r ) {
@@ -2558,7 +2557,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
 
     // We need to path to adjacent tile, not the exact one
     // Let's pick the closest one to us that is passable
-    auto candidates = closest_tripoints_first( 1, p );
+    std::vector<tripoint> candidates = closest_tripoints_first( p, 1 );
     std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint & l,
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
@@ -2627,7 +2626,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
-    for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
+    for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : g->m.i_at( p ) ) {
                 if( one_in( 100 ) && ( it.typeId() == object ) ) {
@@ -2728,7 +2727,7 @@ void npc::find_item()
         }
     };
 
-    for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
+    for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( no_pickup, p ) ) {
@@ -3468,7 +3467,7 @@ void npc::activate_item( int item_index )
     }
 
     if( moves == oldmoves ) {
-        // A hack to prevent debugmsgs when NPCs activate 0 move items
+        // HACK: A hack to prevent debugmsgs when NPCs activate 0 move items
         // while not removing the debugmsgs for other 0 move actions
         moves--;
     }

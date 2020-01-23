@@ -58,6 +58,6 @@ struct dealt_projectile_attack {
 };
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
-int aoe_size( const std::set<std::string> &tags );
+int max_aoe_size( const std::set<std::string> &tags );
 
 #endif

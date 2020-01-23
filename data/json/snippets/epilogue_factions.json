@@ -3,10 +3,10 @@
     "type": "snippet",
     "category": "epilogue_factions",
     "text": [
-      { "id": "epilogue_faction_default", "text": "       You are forgotten among the billions lost in the cataclysm…" },
+      { "id": "epilogue_faction_default", "text": "    You are forgotten among the billions lost in the cataclysm…" },
       {
         "id": "epilogue_faction_your_followers_0",
-        "text": "       You are forgotten among the billions lost in the cataclysm…"
+        "text": "    You are forgotten among the billions lost in the cataclysm…"
       },
       {
         "id": "epilogue_faction_old_guard_0",
@@ -14,7 +14,7 @@
       },
       {
         "id": "epilogue_faction_old_guard_150",
-        "text": "    The steadfastness of individual survivors after the cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years past, little materialized from the hopes of rebuilding civilization…"
+        "text": "    The steadfastness of individual survivors after the cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
       },
       {
         "id": "epilogue_faction_free_merchants_0",

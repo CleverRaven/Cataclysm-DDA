@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_swamp_gas",
     "name": "swamp gas",
-    "description": "This is a pool of murkey water, it occassionaly bubbles, releasing a mildly toxic gas.",
+    "description": "This is a pool of murky water, it occasionally bubbles, releasing a mildly toxic gas.",
     "looks_like": "t_water_sh",
     "symbol": "~",
     "color": "blue",
