@@ -407,10 +407,11 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "60 m",
+    "time": 500,
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "result": "cargo_aisle",
