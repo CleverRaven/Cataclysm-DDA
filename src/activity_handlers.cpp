@@ -693,7 +693,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                                     const std::function<int()> &roll_butchery, butcher_type action,
                                     const std::function<double()> &roll_drops )
 {
-    p.add_msg_if_player( m_neutral, _( mt.harvest->message() ) );
+    p.add_msg_if_player( m_neutral, mt.harvest->message() );
     int monster_weight = to_gram( mt.weight );
     monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( "QUARTERED" ) ) {
