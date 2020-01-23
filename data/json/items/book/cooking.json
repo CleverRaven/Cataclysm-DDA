@@ -503,7 +503,7 @@
     "id": "reference_explosives",
     "type": "BOOK",
     "name": { "str": "Preparatory Manual of Explosives", "str_pl": "copies of Preparatory Manual of Explosives" },
-    "description": "A quite extensive compendium of energetic compounds, their properties and preparation formulas.  Covers the expected explosives, initiators and propellants, but also includes chapters on basic laboraty equipment and procedure, safety practices, and even precursor synthesis.",
+    "description": "An extensive compendium of energetic compounds, their properties and syntheses.  Covers the expected explosives, initiators and propellants, but also includes chapters on basic laboratory equipment and procedure, safety practices, and even precursor synthesis.",
     "weight": "900 g",
     "volume": "1250 ml",
     "price": 5000,
