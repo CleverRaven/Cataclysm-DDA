@@ -52,8 +52,7 @@
     "id": "antibiotics",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antibiotics",
-    "name_plural": "antibiotics",
+    "name": { "str": "antibiotics", "str_pl": "antibiotics" },
     "description": "A strong antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -63,13 +62,13 @@
     "symbol": "!",
     "color": "white",
     "use_action": "ANTIBIOTIC",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "antifungal",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antifungal drug",
+    "name": { "str": "antifungal drug" },
     "description": "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -80,7 +79,7 @@
     "symbol": "!",
     "color": "white",
     "use_action": "ANTIFUNGAL",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "antiparasitic",

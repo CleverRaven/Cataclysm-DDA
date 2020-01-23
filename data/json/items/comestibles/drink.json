@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_cider",
-    "name": "apple cider",
-    "name_plural": "apple cider",
+    "name": { "str": "apple cider", "str_pl": "apple cider" },
     "weight": "263 g",
     "color": "brown",
     "spoils_in": "6 days",
