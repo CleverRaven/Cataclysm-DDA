@@ -1565,15 +1565,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     return activity_reason_info::fail( NO_ZONE );
 }
 
-static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
-        player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
+static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc, player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
 {
-<<<<<<< HEAD
     if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
-=======
-    if( p.is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( &p );
->>>>>>> allow NPCs at camp to use camp storage for activities
         if( guy->is_assigned_to_camp() &&
             mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
             std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
@@ -2587,6 +2581,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
         for( const tripoint &elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
+        std::cout << "no components - form nearby loot " << std::endl;
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_zone_spots, combined_spots );
 
         if( ( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
@@ -2653,8 +2648,12 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                            reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ||
                            reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR;
         // is it even worth fetching anything if there isnt enough nearby?
+        for( const auto elem : loot_zone_spots ){
+            std::cout << "elem in loot zone = " << std::to_string( elem.x ) << " " << std::to_string( elem.y ) << std::endl;
+        }
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
+            std::cout << "requirements arent nearby " << std::endl;
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
