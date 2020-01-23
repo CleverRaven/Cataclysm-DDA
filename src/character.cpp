@@ -7831,13 +7831,13 @@ int Character::heartrate_bpm() const
         //Tweaking x*x multiplier will accordingly change effect accumulation
         stim_modifer = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
     }
-    heartbeat *= 1 + stim_modifer;
+    heartbeat += average_heartbeat * stim_modifer;
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( ADD_CIG ) + 1 ) ) {
-            heartbeat *= 1.4;
+            heartbeat += average_heartbeat * 0.4;
         } else {
-            heartbeat *= 1.1;
+            heartbeat += average_heartbeat * 0.1;
         }
     }
     //health effect that can make things better or worse is applied in the end.
@@ -7845,14 +7845,14 @@ int Character::heartrate_bpm() const
     const int healthy = get_max_healthy();
     //a bit arbitary formula that can use some love
     float healthy_modifier = -0.05f * round( healthy / 20.0f );
-    heartbeat *= 1 + healthy_modifier;
+    heartbeat += average_heartbeat * healthy_modifier;
     //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
     const int cur_pain = get_perceived_pain();
     float pain_modifier = 0;
     if( cur_pain > 5 ) {
         pain_modifier = 0.02 * ( cur_pain - 5 );
     }
-    heartbeat *= 1 + pain_modifier;
+    heartbeat += average_heartbeat * pain_modifier;
     //if BPM raised at least by 20% for a player with ADRENALINE, it adds 20% of avg to result
     if( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
         heartbeat += average_heartbeat * 0.2;
@@ -7861,13 +7861,14 @@ int Character::heartrate_bpm() const
     //Morale effects might need more consideration
     const int morale_level = get_morale_level();
     if( morale_level >= 20 ) {
-        heartbeat *= 1.1;
+        heartbeat += average_heartbeat * 0.1;
     }
     if( morale_level <= -20 ) {
-        heartbeat *= 1.2;
+        heartbeat += average_heartbeat * 0.2;
     }
     //add fear?
     //A single clamp in the end should be enough
-    heartbeat = clamp( heartbeat, average_heartbeat, 250 );
+    const int max_heartbeat = average_heartbeat * 3.5;
+    heartbeat = clamp( heartbeat, average_heartbeat, max_heartbeat );
     return heartbeat;
 }
