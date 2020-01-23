@@ -16,6 +16,7 @@
         [ "gunpowder", 216 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
+        [ "biodiesel", 600 ],
         [ "chem_rdx", 1 ],
         [ "chem_hmtd", 2 ],
         [ "chem_anfo", 5 ]
@@ -78,6 +79,7 @@
         [ "lamp_oil", 150 ],
         [ "gasoline", 200 ],
         [ "diesel", 200 ],
+        [ "biodiesel", 200 ],
         [ "napalm", 100 ]
       ],
       [
@@ -109,6 +111,7 @@
         [ "lamp_oil", 600 ],
         [ "gasoline", 1000 ],
         [ "diesel", 1000 ],
+        [ "biodiesel", 1000 ],
         [ "napalm", 400 ]
       ],
       [
@@ -137,6 +140,7 @@
         [ "gunpowder", 72 ],
         [ "gasoline", 200 ],
         [ "diesel", 200 ],
+        [ "biodiesel", 200 ],
         [ "chem_rdx", 1 ],
         [ "chem_hmtd", 2 ],
         [ "chem_anfo", 5 ]

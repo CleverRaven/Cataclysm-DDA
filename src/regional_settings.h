@@ -222,8 +222,8 @@ struct region_terrain_and_furniture_settings {
     std::map<furn_id, weighted_int_list<furn_id>> furniture;
 
     void finalize();
-    ter_id resolve( ter_id ) const;
-    furn_id resolve( furn_id ) const;
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
     region_terrain_and_furniture_settings() = default;
 };
 

@@ -2240,7 +2240,18 @@
   },
   {
     "type": "recipe",
+    "result": "soap_flakes",
+    "id_suffix": "fast_cut",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "hand_vice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crucible",
     "obsolete": true
   }
 ]

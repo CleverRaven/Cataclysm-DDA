@@ -54,7 +54,6 @@ static int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
-
 struct track {
     char participant;
     int moves;
@@ -248,7 +247,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
         std::ofstream data;
         data.open( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) + monster_type );
         for( const auto &stat_pair : turns_at_angle ) {
-            data << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
+            data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }
         data.close();
     }

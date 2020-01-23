@@ -15,7 +15,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
@@ -38,7 +38,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "a": { "item": "unisex_coat_rack", "chance": 100, "repeat": [ 1, 2 ] },
@@ -62,7 +62,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
@@ -85,7 +85,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
@@ -108,7 +108,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
       }
@@ -130,7 +130,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -151,7 +153,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -172,7 +176,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -193,7 +199,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "a": { "item": "unisex_coat_rack", "chance": 100, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
@@ -216,7 +222,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -237,7 +245,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -258,7 +268,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -279,7 +291,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
       }
@@ -301,7 +313,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -322,7 +336,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -343,7 +359,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -364,7 +382,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
         "a": { "item": "unisex_coat_rack", "chance": 100, "repeat": [ 1, 2 ] },
         "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
@@ -387,7 +405,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -408,7 +428,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -429,7 +451,9 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": { "item": { "subtype": "distribution", "entries": [ { "group": "dresser_male" }, { "group": "dresser_female" } ] } },
+        "O": {
+          "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
+        },
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] }
       }
     }
@@ -450,7 +474,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
       }
@@ -472,7 +496,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
       }
@@ -494,7 +518,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
       }
@@ -516,7 +540,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "dresser_male", "chance": 50 }, { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
       }
@@ -539,7 +563,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
@@ -563,7 +587,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
@@ -587,7 +611,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
@@ -611,7 +635,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
@@ -635,7 +659,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "a": { "item": "unisex_coat_rack", "chance": 100, "repeat": [ 1, 2 ] },
@@ -660,7 +684,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "a": { "item": "unisex_coat_rack", "chance": 100, "repeat": [ 1, 2 ] },
@@ -685,7 +709,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] },
@@ -710,7 +734,7 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
-        "O": [ { "item": "SUS_dresser_male", "chance": 50 }, { "item": "SUS_dresser_female", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
         "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] },

@@ -37,6 +37,7 @@ struct path_type {
     bool only_road = false;
     bool only_water = false;
     bool amphibious = false;
+    bool avoid_danger = false;
 };
 
 struct radio_tower_reference {
@@ -146,9 +147,11 @@ class overmapbuffer
          * Uses global overmap terrain coordinates.
          */
         bool has_note( const tripoint &p );
+        bool is_marked_dangerous( const tripoint &p );
         const std::string &note( const tripoint &p );
         void add_note( const tripoint &, const std::string &message );
         void delete_note( const tripoint &p );
+        void mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous );
         bool has_extra( const tripoint &p );
         const string_id<map_extra> &extra( const tripoint &p );
         void add_extra( const tripoint &p, const string_id<map_extra> &id );

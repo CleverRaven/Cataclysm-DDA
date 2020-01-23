@@ -370,7 +370,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, starts,
                                               ends );
             if( mon.has_member( "conditions" ) ) {
-                for( const std::string &line : mon.get_array( "conditions" ) ) {
+                for( const std::string line : mon.get_array( "conditions" ) ) {
                     new_mon_group.conditions.push_back( line );
                 }
             }

@@ -2575,7 +2575,7 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
+      [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
       [ [ "dry_rice", 1 ] ],
       [
         [ "veggy_any", 1, "LIST" ],
@@ -4882,7 +4882,12 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
+      [
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "edible_tallow_lard", 1, "LIST" ],
+        [ "any_butter", 1, "LIST" ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -5629,6 +5634,20 @@
       [ [ "cinnamon", 1 ] ],
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "rehydration_drink",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "book_learn": [ [ "textbook_firstaid", 1 ], [ "manual_survival", 1 ], [ "manual_first_aid", 1 ] ],
+    "skill_used": "cooking",
+    "time": "3 m",
+    "charges": 8,
+    "autolearn": false,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
+    "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
   },
   {
     "result": "oatmeal",

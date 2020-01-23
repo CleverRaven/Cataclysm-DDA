@@ -29,6 +29,7 @@ MAKE_NULL_ID( emit, "null" )
 MAKE_NULL_ID( anatomy, "null_anatomy" )
 MAKE_NULL_ID( martialart, "style_none" )
 MAKE_NULL_ID( recipe, "null" )
+MAKE_NULL_ID( translation, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
@@ -43,6 +44,7 @@ MAKE_NULL_ID2( oter_type_t, "", 0 )
 MAKE_NULL_ID2( ter_t, "t_null", 0 )
 MAKE_NULL_ID2( trap, "tr_null" )
 MAKE_NULL_ID2( construction_category, "NULL", 0 )
+MAKE_NULL_ID2( ammo_effect, "AE_NULL", 0 )
 MAKE_NULL_ID2( field_type, "fd_null", 0 )
 MAKE_NULL_ID2( furn_t, "f_null", 0 )
 MAKE_NULL_ID2( MonsterGroup, "GROUP_NULL" )

@@ -36,7 +36,9 @@
       "laser_pack",
       "12mm",
       "rebar_rail",
-      "steel_rail"
+      "steel_rail",
+      "plasma_gun",
+      "emp_gun"
     ]
   }
 ]

@@ -364,7 +364,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            // @TODO: revisit this and make it simpler
+            // TODO: revisit this and make it simpler
             upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
@@ -618,14 +618,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
-    trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
-                    h_white, effects );
+    if( !effects.empty() ) {
+        trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
+    }
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    mvwprintz( w, point( column, ++vStart ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
     if( size_bonus > 0 ) {
@@ -635,7 +635,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, lines[i] );
+        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
 
     return vStart;
@@ -1075,6 +1075,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
                 if( effective_anger < 20 ) {
                     effective_morale -= 5;
+                }
+            }
+        }
+
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
                 }
             }
         }
@@ -1731,7 +1739,7 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
@@ -2315,7 +2323,8 @@ void monster::drop_items_on_death()
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
-            if( it->is_armor() || it->is_pet_armor() ) {
+            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
+                // handle wearable guns as a special case
                 it->item_tags.insert( "FILTHY" );
             }
         }

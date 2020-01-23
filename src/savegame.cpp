@@ -219,11 +219,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            for( const JsonMember &member : data.get_object( "kills" ) ) {
+            for( const JsonMember member : data.get_object( "kills" ) ) {
                 kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -312,7 +312,7 @@ std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    for( const std::string &line : jo.get_array( "terrains" ) ) {
+    for( const std::string line : jo.get_array( "terrains" ) ) {
         obsolete_terrains.emplace( line );
     }
 }
@@ -1175,6 +1175,8 @@ void overmap::unserialize_view( std::istream &fin )
                     jsin.read( tmp.p.x );
                     jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
+                    jsin.read( tmp.dangerous );
+                    jsin.read( tmp.danger_radius );
                     jsin.end_array();
 
                     layer[z].notes.push_back( tmp );
@@ -1263,6 +1265,8 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.p.x );
             json.write( i.p.y );
             json.write( i.text );
+            json.write( i.dangerous );
+            json.write( i.danger_radius );
             json.end_array();
             fout << std::endl;
         }
@@ -1724,7 +1728,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        // @TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        // TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );
