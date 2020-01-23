@@ -25,7 +25,7 @@ The core tenet of dark days ahead is if it works in reality, it works in the gam
 * [Key Features](#key-features)
 * [Depth](#depth)
 * [Reward System](#reward-system)
-* [Meaningfulness](#meaningfullness)
+* [Meaningfulness](#meaningfulness)
 * [Collectibles, Easter Eggs & Unlockables](#collectibles)
 * [World](#world)
 
