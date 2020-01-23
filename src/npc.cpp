@@ -1329,7 +1329,11 @@ void npc::mutiny()
     // feel for you, but also reduces their respect for you.
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
+    g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
+    remove_job();
+    chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
         my_fac->known_by_u = true;
@@ -1986,13 +1990,50 @@ bool npc::is_leader() const
     return attitude == NPCATT_LEAD;
 }
 
+bool npc::within_boundaries_of_camp() const
+{
+    const int x = global_omt_location().x;
+    const int y = global_omt_location().y;
+    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
+        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) );
+            if( bcp ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool npc::is_assigned_to_camp() const
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().xy() );
+    if( has_companion_mission() || !has_job() ) {
+        return false;
+    }
+    cata::optional<basecamp *> bcp = cata::nullopt;
+    const int x = global_omt_location().x;
+    const int y = global_omt_location().y;
+    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
+        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+            bcp = overmap_buffer.find_camp( point( x2, y2 ) );
+            if( bcp ) {
+                break;
+            }
+        }
+        if( bcp ) {
+            break;
+        }
+    }
     if( !bcp ) {
         return false;
     }
-    return !has_companion_mission() && mission == NPC_MISSION_ASSIGNED_CAMP;
+    std::vector<npc_ptr> assigned_npcs = ( *bcp )->get_npcs_assigned();
+    for( const npc_ptr guy : assigned_npcs ) {
+        if( guy->getID() == getID() ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool npc::is_enemy() const
@@ -2560,6 +2601,7 @@ std::string npc_job_id( npc_job job )
         { NPCJOB_HUSBANDRY, "NPCJOB_HUSBANDRY" },
         { NPCJOB_HUNTING, "NPCJOB_HUNTING" },
         { NPCJOB_FORAGING, "NPCJOB_FORAGING" },
+        { NPCJOB_NOJOB, "NPCJOB_NOJOB "},
     };
     const auto &iter = npc_job_ids.find( job );
     if( iter == npc_job_ids.end() ) {
@@ -2573,7 +2615,7 @@ std::string npc_job_id( npc_job job )
 std::vector<std::string> all_jobs()
 {
     std::vector<std::string> ret;
-    for( int i = 0; i < NPCJOB_END; i++ ) {
+    for( int i = 0; i < NPCJOB_NOJOB; i++ ) {
         ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
     }
     return ret;
@@ -2606,6 +2648,8 @@ std::string npc_job_name( npc_job job )
             return _( "Hunting and fishing - Currently only fishing is enabled" );
         case NPCJOB_FORAGING:
             return _( "Gathering edibles - Currently only a placeholder" );
+        case NPCJOB_NOJOB:
+            return _( "Not working" );
         default:
             break;
     }
@@ -3171,12 +3215,12 @@ void npc::set_job( npc_job new_job )
 
 bool npc::has_job() const
 {
-    return job != NPCJOB_NULL;
+    return job != NPCJOB_NOJOB;
 }
 
 void npc::remove_job()
 {
-    job = NPCJOB_NULL;
+    job = NPCJOB_NOJOB;
 }
 
 npc_attitude npc::get_attitude() const

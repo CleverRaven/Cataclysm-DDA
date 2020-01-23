@@ -836,9 +836,9 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
-        if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
+        if( is_assigned_to_camp() ) {
             bool found_job = false;
-            if( has_job() && calendar::once_every( 30_minutes ) ) {
+            if( has_job() && job != NPCJOB_NULL && calendar::once_every( 10_minutes ) ) {
                 if( job_duties.find( job ) != job_duties.end() ) {
                     const std::vector<activity_id> jobs_to_rotate = job_duties[job];
                     if( !jobs_to_rotate.empty() ) {

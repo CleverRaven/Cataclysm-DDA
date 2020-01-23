@@ -318,6 +318,7 @@ class basecamp
 
         void combat_mission_return( const std::string &miss );
         void validate_assignees();
+        void add_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;

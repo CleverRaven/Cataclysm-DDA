@@ -129,6 +129,7 @@ enum npc_job : int {
     NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
     NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
     NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission ) currently placeholder
+    NPCJOB_NOJOB, // not working
     NPCJOB_END
 };
 
@@ -160,8 +161,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
-    NPC_MISSION_TRAVELLING,
-    NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
+    NPC_MISSION_TRAVELLING
 };
 
 struct npc_companion_mission {
@@ -878,6 +878,7 @@ class npc : public player
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
+        bool within_boundaries_of_camp() const;
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
@@ -1228,7 +1229,7 @@ class npc : public player
 
     private:
         npc_attitude attitude; // What we want to do to the player
-        npc_job job = NPCJOB_NULL; // what is our job at camp
+        npc_job job = NPCJOB_NOJOB; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**

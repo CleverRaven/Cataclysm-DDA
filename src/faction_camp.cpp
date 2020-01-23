@@ -1642,10 +1642,9 @@ void basecamp::job_assignment_ui()
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
-
     // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
+    validate_assignees();
     while( true ) {
         werase( w_jobs );
         // create a list of npcs stationed at this camp
@@ -1678,13 +1677,15 @@ void basecamp::job_assignment_ui()
             }
             if( selection < stationed_npcs.size() ) {
                 std::string job_description;
-                if( cur_npc && cur_npc->has_job() ) {
-                    // get the current NPCs job
-                    job_description = npc_job_name( cur_npc->get_job() );
-                } else {
-                    job_description = _( "No particular job" );
+                if( cur_npc ) {
+                    if( cur_npc->has_job() ) {
+                        // get the current NPCs job
+                        job_description = npc_job_name( cur_npc->get_job() );
+                    } else {
+                        debugmsg( "npc %s is assigned to work at the camp but has no role", cur_npc->name );
+                    }
+                    mvwprintz( w_jobs, point( 46, 3 ), c_light_gray, job_description );
                 }
-                mvwprintz( w_jobs, point( 46, 3 ), c_light_gray, job_description );
             } else {
                 mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
             }

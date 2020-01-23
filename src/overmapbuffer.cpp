@@ -1035,8 +1035,14 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
 cata::optional<basecamp *> overmapbuffer::find_camp( const point &p )
 {
     for( auto &it : overmaps ) {
-        if( cata::optional<basecamp *> camp = it.second->find_camp( p ) ) {
-            return camp;
+        const int x = p.x;
+        const int y = p.y;
+        for( int x2 = x - 3; x2 < x + 3; x2++ ) {
+            for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+                if( cata::optional<basecamp *> camp = it.second->find_camp( point( x2, y2 ) ) ) {
+                    return camp;
+                }
+            }
         }
     }
     return cata::nullopt;
