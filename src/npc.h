@@ -1109,6 +1109,8 @@ class npc : public player
         void move_away_from( const tripoint &p, bool no_bash_atk = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
+        // workers at camp relaxing/wandering
+        void worker_downtime();
         // Same as if the player pressed '.'
         void move_pause();
 
@@ -1267,13 +1269,15 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
         cata::optional<tripoint> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+        tripoint wander_pos =
+            no_goal_point; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
