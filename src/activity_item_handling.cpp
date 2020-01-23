@@ -1568,7 +1568,12 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
         player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
 {
+<<<<<<< HEAD
     if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
+=======
+    if( p.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &p );
+>>>>>>> allow NPCs at camp to use camp storage for activities
         if( guy->is_assigned_to_camp() &&
             mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
             std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
