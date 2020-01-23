@@ -461,11 +461,10 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 3 ] ],
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 12 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
-      [ [ "pipe", 3 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "pipe", 3 ] ]
     ]
   },
   {
