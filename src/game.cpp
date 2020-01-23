@@ -838,6 +838,7 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
+    place_starting_vehicle( u.starting_vehicle );
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -846,6 +847,70 @@ bool game::start_game()
 
     g->events().send<event_type::game_start>( u.getID() );
     return true;
+}
+
+void game::place_starting_vehicle( cata::optional<vproto_id> starting_vehicle )
+{
+    if( !starting_vehicle ) {
+        return;
+    }
+    vehicle veh( *starting_vehicle );
+    std::vector<std::string> omt_search_types;
+    if( veh.can_float() ) {
+        omt_search_types.push_back( "river" );
+        omt_search_types.push_back( "lake" );
+    }
+    if( veh.max_ground_velocity() > 0 ) {
+        omt_search_types.push_back( "road" );
+        omt_search_types.push_back( "field" );
+    }
+    if( omt_search_types.empty() ) {
+        return;
+    }
+    find_location_for_starting_vehicle( *starting_vehicle, omt_search_types );
+
+}
+
+void game::find_location_for_starting_vehicle( vproto_id id,
+        const std::vector<std::string> &omt_search_types )
+{
+    for( const std::string &search_type : omt_search_types ) {
+        omt_find_params find_params;
+        find_params.must_see = false;
+        find_params.cant_see = false;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        for( int count = 0; count < 10; ++count ) {
+            // find nearest road
+            find_params.min_distance = count * 2;
+            find_params.search_range = 10 + count * 2;
+            // if player spawns underground, park their car on the surface.
+            tripoint omt_origin = u.global_omt_location();
+            omt_origin.z = 0;
+            std::vector<tripoint> goals = overmap_buffer.find_all( omt_origin, find_params );
+            for( const tripoint &goal : goals ) {
+                if( goal != overmap::invalid_tripoint ) {
+                    // try place vehicle there.
+                    tinymap target_map;
+                    target_map.load( omt_to_sm_copy( goal ), false );
+                    tripoint origin = target_map.getlocal( sm_to_ms_copy( omt_to_sm_copy( goal ) ) ) + point(
+                                          SEEX, SEEY );
+                    vehicle *veh = target_map.add_vehicle( id, origin, rng( -90, 90 ), rng( 50, 80 ),
+                                                           0,
+                                                           false );
+                    if( veh ) {
+                        tripoint abs_local = g->m.getlocal( target_map.getabs( origin ) );
+                        tripoint p_m = ms_to_sm_remain( abs_local );
+                        veh->sm_pos = p_m;
+                        veh->pos = abs_local.xy();
+                        overmap_buffer.add_vehicle( veh );
+                        target_map.save();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    debugmsg( "could not place starting vehicle" );
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
