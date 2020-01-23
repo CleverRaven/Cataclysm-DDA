@@ -33,6 +33,7 @@
   {
     "type": "recipe",
     "result": "bot_manhack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "components": [
       [ [ "broken_manhack", 1 ] ],
@@ -46,9 +47,10 @@
   {
     "type": "recipe",
     "result": "bot_grenade_hack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_grenade_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_grenade_hack", 1 ] ],
       [ [ "grenade", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -59,9 +61,10 @@
   {
     "type": "recipe",
     "result": "bot_gasbomb_hack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_gasbomb_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_gasbomb_hack", 1 ] ],
       [ [ "gasbomb", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -72,9 +75,10 @@
   {
     "type": "recipe",
     "result": "bot_flashbang_hack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_flashbang_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_flashbang_hack", 1 ] ],
       [ [ "flashbang", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -85,10 +89,11 @@
   {
     "type": "recipe",
     "result": "bot_EMP_hack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_EMP_hack", 1 ] ],
-      [ [ "EMPbomb", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_EMP_hack", 1 ] ],
+      [ [ "grenade_emp", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -98,9 +103,10 @@
   {
     "type": "recipe",
     "result": "bot_c4_hack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_c4_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_c4_hack", 1 ] ],
       [ [ "c4", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -111,6 +117,7 @@
   {
     "type": "recipe",
     "result": "bot_mininuke_hack",
+    "id_suffix": "from_scrap",
     "copy-from": "bot_hack_base",
     "difficulty": 7,
     "time": "35 m",
@@ -118,7 +125,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 8 ] ],
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_mininuke_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_mininuke_hack", 1 ] ],
       [ [ "mininuke", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -134,7 +141,7 @@
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 2 ], [ "computer", 2 ] ],
     "difficulty": 2,
-    "time": 10000,
+    "time": "10 m",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
