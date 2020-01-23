@@ -8,7 +8,6 @@
   {
     "type": "overmap_terrain",
     "id": "lake_surface",
-    "copy-from": "generic_water",
     "copy-from": "lake_surface",
     "sym": "\u00F7"
   }
