@@ -188,7 +188,7 @@
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
-    "id": "stormshaper_summon_wisps",
+    "id": "summon_wisps",
     "type": "SPELL",
     "name": "Ignus Fatuus",
     "description": "Summons ghostly foxfire worked from living marsh vapor, to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
