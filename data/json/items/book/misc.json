@@ -703,14 +703,8 @@
     "id": "novel_crime",
     "type": "BOOK",
     "name": "crime novel",
+    "copy-from": "paperback_novel",
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
-    "weight": "227 g",
-    "volume": "750 ml",
-    "price": 850,
-    "price_postapoc": 1900,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
     "intelligence": 6,
     "time": "20 m",
     "chapters": 24,
@@ -787,7 +781,8 @@
     "weight": "227 g",
     "intelligence": 7,
     "time": "18 m",
-    "chapters": 28
+    "chapters": 28,
+    "fun": 1
   },
   {
     "id": "novel_mystery",
@@ -850,18 +845,11 @@
     "id": "novel_satire",
     "type": "BOOK",
     "name": "satire novel",
+    "copy-from": "paperback_novel",
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
     "weight": "520 g",
-    "volume": "750 ml",
-    "price": 850,
-    "price_postapoc": 1900,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
     "intelligence": 7,
-    "time": "36 m",
-    "chapters": 28,
-    "fun": 2
+    "relative": { "price": 100, "time": 21, "chapters": 12 }
   },
   {
     "id": "novel_scifi",
