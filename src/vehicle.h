@@ -1112,7 +1112,7 @@ class vehicle
         int total_wind_epower_w() const;
         // Total power currently being produced by all water wheels.
         int total_water_wheel_epower_w() const;
-        // Total power drain accross all vehicle accessories.
+        // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
         int net_battery_charge_rate_w() const;
@@ -1534,6 +1534,7 @@ class vehicle
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;
+        bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;

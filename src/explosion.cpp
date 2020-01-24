@@ -442,9 +442,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                                   total_hits ),
                         impact_count, damage_description );
                 } else {
-                    add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
-                                       "The %s is hit by %s bomb fragments, %s.", total_hits ),
-                             critter->disp_name(), impact_count, damage_description );
+                    add_msg( ngettext( "%s is hit by %s bomb fragment, %s.",
+                                       "%s is hit by %s bomb fragments, %s.", total_hits ),
+                             critter->disp_name( false, true ), impact_count, damage_description );
                 }
             }
         }

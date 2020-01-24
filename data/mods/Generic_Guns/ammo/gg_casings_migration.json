@@ -1,0 +1,61 @@
+[
+  {
+    "id": [ "40x46mm_m118_casing", "40x46mm_m199_casing", "40x53mm_m169_casing" ],
+    "type": "MIGRATION",
+    "replace": "grenade_casing"
+  },
+  {
+    "id": [ "3006_casing", "357mag_casing", "44_casing", "454_casing", "460_casing", "46mm_casing", "500_casing" ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_casing"
+  },
+  {
+    "id": [
+      "10mm_casing",
+      "357sig_casing",
+      "38_casing",
+      "380_casing",
+      "38super_casing",
+      "40_casing",
+      "45_casing",
+      "45colt_casing",
+      "57mm_casing",
+      "5x50_hull",
+      "762_25_casing",
+      "9mm_casing",
+      "9x18mm_casing"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_casing"
+  },
+  {
+    "id": [ "410shot_hull", "shot_hull" ],
+    "type": "MIGRATION",
+    "replace": "shot_casing"
+  },
+  {
+    "id": [ "22_casing", "32_casing" ],
+    "type": "MIGRATION",
+    "replace": "pistol_tiny_casing"
+  },
+  {
+    "id": [
+      "223_casing",
+      "270win_casing",
+      "300blk_casing",
+      "4570_casing",
+      "545_casing",
+      "762_51_casing",
+      "762_casing",
+      "762R_casing",
+      "300_casing"
+    ],
+    "type": "MIGRATION",
+    "replace": "rifle_casing"
+  },
+  {
+    "id": [ "50_casing", "700nx_casing" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_casing"
+  }
+]

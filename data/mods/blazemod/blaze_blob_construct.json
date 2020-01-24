@@ -29,7 +29,7 @@
     "name": "mass of blob feed",
     "description": "",
     "symbol": "O",
-    "color": [ "light_green" ],
+    "color": "light_green",
     "move_cost": 0,
     "bash": {
       "str_min": 1,
@@ -47,7 +47,7 @@
     "name": "mound of blob feed",
     "description": "",
     "symbol": "O",
-    "color": [ "light_green" ],
+    "color": "light_green",
     "move_cost": 0,
     "bash": {
       "str_min": 1,

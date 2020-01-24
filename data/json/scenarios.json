@@ -491,5 +491,16 @@
     "start_name": "Shady Basement",
     "allowed_locs": [ "basement_bionic" ],
     "professions": [ "cyberjunkie", "faulty_bionic", "cykotic", "razorgirl", "bionic_installer" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "overrun",
+    "name": "Overrun",
+    "points": 0,
+    "description": "When your base got overrun by the dead, your last order was to retreat to the armory.  During all the chaos you got separated from your squad and you are now stuck in the warehose all alone.  You are not sure if anyone made it to the armory, or you are the last man alive.",
+    "start_name": "Military Base Warehouse",
+    "allowed_locs": [ "mil_base_2g" ],
+    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]
