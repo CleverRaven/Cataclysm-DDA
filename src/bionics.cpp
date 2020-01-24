@@ -905,11 +905,15 @@ bool Character::burn_fuel( int b, bool start )
                             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
-                        const int unconsumed = consume_remote_fuel( 1 );
-                        if( unconsumed == 0 ) {
+                        int to_consume = 1;
+                        if( get_power_level() >= get_max_power_level() ) {
+                            to_consume = 0;
+                        }
+                        const int unconsumed = consume_remote_fuel( to_consume );
+                        if( unconsumed == 0 && to_consume == 1 ) {
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                             current_fuel_stock -= 1;
-                        } else {
+                        } else if( to_consume == 1 ) {
                             current_fuel_stock = 0;
                         }
                         set_value( "rem_" + fuel, std::to_string( current_fuel_stock ) );
