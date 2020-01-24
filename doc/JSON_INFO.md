@@ -541,7 +541,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 
 | Identifier        | Description
 |---                |---
-| `monster`         | Unique ID. The monster's id, equivalent to `name` in other object types.
+| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
 | `freq`            | Chance of occurrence, x/1000.
 | `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
