@@ -9434,7 +9434,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     };
     int available_water = std::max(
                               crafting_inv.charges_of( "water", INT_MAX, is_liquid ),
-                              crafting_inv.charges_of( "clean_water", INT_MAX, is_liquid )
+                              crafting_inv.charges_of( "water_clean", INT_MAX, is_liquid )
                           );
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
