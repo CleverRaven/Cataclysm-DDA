@@ -49,17 +49,17 @@
   {
     "type": "overmap_terrain",
     "id": "campus_admin_0_0_3",
-    "copy-from": "campus_admin_0_0_3"
+    "copy-from": "campus_admin_0_0_0"
   },
   {
     "type": "overmap_terrain",
     "id": "campus_admin_0_1_3",
-    "copy-from": "campus_admin_0_0_3"
+    "copy-from": "campus_admin_0_0_0"
   },
   {
     "type": "overmap_terrain",
     "id": "campus_admin_0_2_3",
-    "copy-from": "campus_admin_0_0_3"
+    "copy-from": "campus_admin_0_0_0"
   },
   {
     "type": "overmap_terrain",
@@ -376,17 +376,17 @@
   {
     "type": "overmap_terrain",
     "id": "campus_health_0_0_3",
-    "copy-from": "campus_health_0_0_3"
+    "copy-from": "campus_health_0_0_0"
   },
   {
     "type": "overmap_terrain",
     "id": "campus_health_0_1_3",
-    "copy-from": "campus_health_0_0_3"
+    "copy-from": "campus_health_0_0_0"
   },
   {
     "type": "overmap_terrain",
     "id": "campus_health_0_2_3",
-    "copy-from": "campus_health_0_0_3"
+    "copy-from": "campus_health_0_0_0"
   },
   {
     "type": "overmap_terrain",
@@ -453,17 +453,17 @@
   {
     "type": "overmap_terrain",
     "id": "campus_lecture_0_0_3",
-    "copy-from": "campus_lecture_0_0_3"
+    "copy-from": "campus_lecture_0_0_0"
   },
   {
     "type": "overmap_terrain",
     "id": "campus_lecture_0_1_3",
-    "copy-from": "campus_lecture_0_0_3"
+    "copy-from": "campus_lecture_0_0_0"
   },
   {
     "type": "overmap_terrain",
     "id": "campus_lecture_0_2_3",
-    "copy-from": "campus_lecture_0_0_3"
+    "copy-from": "campus_lecture_0_0_0"
   },
   {
     "type": "overmap_terrain",

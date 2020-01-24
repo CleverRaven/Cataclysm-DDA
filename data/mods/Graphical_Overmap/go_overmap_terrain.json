@@ -71,6 +71,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_garage_upper_roof_2",
+    "copy-from": "s_garage_upper_roof_2",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "boat_rental",
     "copy-from": "boat_rental",
     "sym": "\u00E7"

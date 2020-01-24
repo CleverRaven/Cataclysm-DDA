@@ -1409,16 +1409,14 @@
   {
     "type": "overmap_terrain",
     "id": "hdwr_large_SW",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "copy-from": "hdwr_large_SW",
+    "sym": "\u00C1",
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
     "id": "hdwr_large_NW",
-    "copy-from": "hdwr_large_SW",
+    "copy-from": "hdwr_large_NW",
     "sym": "\u00C1",
     "color": "light_green"
   },

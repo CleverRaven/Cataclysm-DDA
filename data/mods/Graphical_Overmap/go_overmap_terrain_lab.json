@@ -502,12 +502,13 @@
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2A2",
-    "copy-from": "lab_surface_brick_block2A2"
+    "copy-from": "lab_surface_brick_block2A2",
+    "sym": "\u00AE"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2B2",
-    "copy-from": "lab_surface_brick_block2B2"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
@@ -517,62 +518,62 @@
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2D2",
-    "copy-from": "lab_surface_brick_block2D2"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2E2",
-    "copy-from": "lab_surface_brick_block2E2"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2A3",
-    "copy-from": "lab_surface_brick_block2A3"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2B3",
-    "copy-from": "lab_surface_brick_block2B3"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2C3",
-    "copy-from": "lab_surface_brick_block2C3"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2D3",
-    "copy-from": "lab_surface_brick_block2D3"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2E3",
-    "copy-from": "lab_surface_brick_block2E3"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2A4",
-    "copy-from": "lab_surface_brick_block2A4"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2B4",
-    "copy-from": "lab_surface_brick_block2B4"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2C4",
-    "copy-from": "lab_surface_brick_block2C4"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2D4",
-    "copy-from": "lab_surface_brick_block2D4"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2E4",
-    "copy-from": "lab_surface_brick_block2E4"
+    "copy-from": "lab_surface_brick_block2A2"
   },
   {
     "type": "overmap_terrain",
@@ -627,12 +628,13 @@
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3A2",
-    "copy-from": "lab_surface_brick_block3A2"
+    "copy-from": "lab_surface_brick_block3A2",
+    "sym": "\u00AE"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3B2",
-    "copy-from": "lab_surface_brick_block3B2"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
@@ -642,62 +644,62 @@
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3D2",
-    "copy-from": "lab_surface_brick_block3D2"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3E2",
-    "copy-from": "lab_surface_brick_block3E2"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3A3",
-    "copy-from": "lab_surface_brick_block3A3"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3B3",
-    "copy-from": "lab_surface_brick_block3B3"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3C3",
-    "copy-from": "lab_surface_brick_block3C3"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3D3",
-    "copy-from": "lab_surface_brick_block3D3"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3E3",
-    "copy-from": "lab_surface_brick_block3E3"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3A4",
-    "copy-from": "lab_surface_brick_block3A4"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3B4",
-    "copy-from": "lab_surface_brick_block3B4"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3C4",
-    "copy-from": "lab_surface_brick_block3C4"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3D4",
-    "copy-from": "lab_surface_brick_block3D4"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3E4",
-    "copy-from": "lab_surface_brick_block3E4"
+    "copy-from": "lab_surface_brick_block3A2"
   },
   {
     "type": "overmap_terrain",
@@ -752,12 +754,13 @@
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4A2",
-    "copy-from": "lab_surface_brick_block4A2"
+    "copy-from": "lab_surface_brick_block4A2",
+    "sym": "\u00AE"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4B2",
-    "copy-from": "lab_surface_brick_block4B2"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
@@ -767,62 +770,62 @@
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4D2",
-    "copy-from": "lab_surface_brick_block4D2"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4E2",
-    "copy-from": "lab_surface_brick_block4E2"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4A3",
-    "copy-from": "lab_surface_brick_block4A3"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4B3",
-    "copy-from": "lab_surface_brick_block4B3"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4C3",
-    "copy-from": "lab_surface_brick_block4C3"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4D3",
-    "copy-from": "lab_surface_brick_block4D3"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4E3",
-    "copy-from": "lab_surface_brick_block4E3"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4A4",
-    "copy-from": "lab_surface_brick_block4A4"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4B4",
-    "copy-from": "lab_surface_brick_block4B4"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4C4",
-    "copy-from": "lab_surface_brick_block4C4"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4D4",
-    "copy-from": "lab_surface_brick_block4D4"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4E4",
-    "copy-from": "lab_surface_brick_block4E4"
+    "copy-from": "lab_surface_brick_block4A2"
   },
   {
     "type": "overmap_terrain",

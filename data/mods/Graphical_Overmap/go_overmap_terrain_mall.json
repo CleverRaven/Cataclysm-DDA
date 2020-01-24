@@ -397,9 +397,7 @@
   {
     "type": "overmap_terrain",
     "id": "mall_upper_roof_34",
-    "copy-from": "generic_mall",
-    "sym": "M",
-    "color": "i_red"
+    "copy-from": "mall_a_34"
   },
   {
     "type": "overmap_terrain",
