@@ -4128,29 +4128,33 @@ void Character::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
-                std::string message;
+                std::string category;
                 if( stomach.contains() <= stomach.capacity( *this ) / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food…" );
+                        category = "starving";
                     } else if( get_kcal_percent() < 0.25f ) {
-                        message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
+                        category = "emaciated";
                     } else if( get_kcal_percent() < 0.5f ) {
-                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days…" );
+                        category = "malnutrition";
                     } else if( get_kcal_percent() < 0.8f ) {
-                        message = _( "Your stomach feels so empty…" );
+                        category = "low_cal";
                     }
                 } else {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food…" );
+                        category = "empty_starving";
                     } else if( get_kcal_percent() < 0.25f ) {
-                        message = _( "You are EMACIATED!" );
+                        category = "empty_emaciated";
                     } else if( get_kcal_percent() < 0.5f ) {
-                        message = _( "You feel weak due to malnutrition." );
+                        category = "empty_malnutrition";
                     } else if( get_kcal_percent() < 0.8f ) {
-                        message = _( "You feel that your body needs more nutritious food." );
+                        category = "empty_low_cal";
                     }
                 }
-                add_msg_if_player( m_warning, message );
+                if( !category.empty() ) {
+                    const translation message = SNIPPET.random_from_category( category ).value_or( translation() );
+                    add_msg_if_player( m_warning, message );
+                }
+
             }
         }
     }
