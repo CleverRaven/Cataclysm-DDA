@@ -391,5 +391,11 @@
     "ident": "lighthouse_ground",
     "name": "Lighthouse Island",
     "target": "lighthouse_ground"
+  },
+  {
+    "type": "start_location",
+    "ident": "mil_base_2g",
+    "name": "Military Base Warehouse",
+    "target": "mil_base_2g"
   }
 ]

@@ -95,6 +95,7 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_mending( "mending" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -220,7 +221,7 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
     } else if( jsobj.has_array( "mission_offered" ) ) {
-        for( const std::string &line : jsobj.get_array( "mission_offered" ) ) {
+        for( const std::string line : jsobj.get_array( "mission_offered" ) ) {
             guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
@@ -483,9 +484,9 @@ faction *npc::get_faction() const
 static item random_item_from( const npc_class_id &type, const std::string &what,
                               const std::string &fallback )
 {
-    auto result = item_group::item_from( type.str() + "_" + what );
+    auto result = item_group::item_from( type.str() + "_" + what, calendar::turn );
     if( result.is_null() ) {
-        result = item_group::item_from( fallback );
+        result = item_group::item_from( fallback, calendar::turn );
     }
     return result;
 }
@@ -734,7 +735,7 @@ void npc::place_on_map()
         return;
     }
 
-    for( const tripoint &p : closest_tripoints_first( SEEX + 1, pos() ) ) {
+    for( const tripoint &p : closest_tripoints_first( pos(), SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
             return;
@@ -781,7 +782,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        weapon = item_group::item_from( type->weapon_override );
+        weapon = item_group::item_from( type->weapon_override, calendar::turn );
         return;
     }
 
@@ -1009,7 +1010,7 @@ void npc::do_npc_read()
             }
             start_read( chosen, pl );
         } else {
-            for( const auto elem : fail_reasons ) {
+            for( const auto &elem : fail_reasons ) {
                 say( elem );
             }
         }
@@ -1053,7 +1054,7 @@ bool npc::wear_if_wanted( const item &it )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && it.covers( bp ) ) {
+            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
                 splint = true;
                 break;
             }
@@ -1062,6 +1063,10 @@ bool npc::wear_if_wanted( const item &it )
 
     if( splint ) {
         return !!wear_item( it, false );
+    }
+
+    if( !can_wear( it, true ).success() ) {
+        return false;
     }
 
     const int it_encumber = it.get_encumber( *this );
@@ -1168,8 +1173,8 @@ bool npc::wield( item &it )
             assert( !maybe_holster.contents.empty() );
             const size_t old_size = maybe_holster.contents.size();
             invoke_item( &maybe_holster );
-            // @TODO: change invoke_item to somehow report this change
-            // @HACK: test whether wielding the item from the holster has been done.
+            // TODO: change invoke_item to somehow report this change
+            // HACK: test whether wielding the item from the holster has been done.
             // (Wielding may be prevented by various reasons: see player::wield_contained)
             if( old_size != maybe_holster.contents.size() ) {
                 return true;
@@ -1683,7 +1688,7 @@ void npc::shop_restock()
     int count = 0;
     bool last_item = false;
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
-        item tmpit = item_group::item_from( from, 0 );
+        item tmpit = item_group::item_from( from, calendar::turn );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             tmpit.set_owner( *this );
             ret.push_back( tmpit );
@@ -2174,7 +2179,7 @@ bool npc::is_active() const
 
 int npc::follow_distance() const
 {
-    // If the player is standing on stairs, follow closely
+    // HACK: If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
     if( is_walking_with() &&
         ( g->m.has_flag( TFLAG_GOES_DOWN, g->u.pos() ) ||

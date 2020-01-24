@@ -287,8 +287,8 @@ std::string action_ident( action_id act )
             return "quicksave";
         case ACTION_QUICKLOAD:
             return "quickload";
-        case ACTION_QUIT:
-            return "quit";
+        case ACTION_SUICIDE:
+            return "SUICIDE";
         case ACTION_PL_INFO:
             return "player_data";
         case ACTION_MAP:
@@ -362,7 +362,7 @@ std::string action_ident( action_id act )
         case ACTION_MAIN_MENU:
             return "main_menu";
         case ACTION_KEYBINDINGS:
-            return "open_keybindings";
+            return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:
             return "open_options";
         case ACTION_AUTOPICKUP:
@@ -404,7 +404,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
         case ACTION_QUICKLOAD:
-        case ACTION_QUIT:
+        case ACTION_SUICIDE:
         // Info Screens
         case ACTION_PL_INFO:
         case ACTION_MAP:
@@ -500,6 +500,15 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
+}
+cata::optional<std::string> press_x_if_bound( action_id act )
+{
+    input_context ctxt = get_default_mode_input_context();
+    std::string description = action_ident( act );
+    if( ctxt.keys_bound_to( description ).empty() ) {
+        return cata::nullopt;
+    }
+    return press_x( act );
 }
 
 action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
@@ -777,8 +786,8 @@ action_id handle_action_menu()
             if( hotkey_for_action( ACTION_QUICKLOAD ) > -1 ) {
                 REGISTER_ACTION( ACTION_QUICKLOAD );
             }
-            if( hotkey_for_action( ACTION_QUIT ) > -1 ) {
-                REGISTER_ACTION( ACTION_QUIT );
+            if( hotkey_for_action( ACTION_SUICIDE ) > -1 ) {
+                REGISTER_ACTION( ACTION_SUICIDE );
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {

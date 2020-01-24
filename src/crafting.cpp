@@ -66,15 +66,11 @@
 #include "iuse.h"
 #include "point.h"
 #include "weather.h"
+#include "cata_string_consts.h"
 
 class basecamp;
 
-static const efftype_id effect_contacts( "contacts" );
-
 void drop_or_handle( const item &newit, player &p );
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_BURROW( "BURROW" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -102,18 +98,18 @@ float player::lighting_craft_speed_multiplier( const recipe &rec ) const
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
-    bool rec_blind = rec.has_flag( "BLIND_HARD" ) || rec.has_flag( "BLIND_EASY" );
+    bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
     if( darkness > 0 && !rec_blind ) {
         return 0.0f; // it's dark and this recipe can't be crafted in the dark
     }
-    if( rec.has_flag( "BLIND_EASY" ) ) {
+    if( rec.has_flag( flag_BLIND_EASY ) ) {
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
         return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
     }
-    if( rec.has_flag( "BLIND_HARD" ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
@@ -444,7 +440,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     }
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
+    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -493,12 +489,13 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &player::crafting_inventory( bool clear_path )
+const inventory &Character::crafting_inventory( bool clear_path )
 {
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &player::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
+const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
+        bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -627,8 +624,7 @@ static item *set_item_inventory( player &p, item &newit )
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
-    for( const tripoint &tile : tiles ) {
+    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
@@ -790,7 +786,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         return;
     }
 
-    assign_activity( activity_id( "ACT_CRAFT" ) );
+    assign_activity( ACT_CRAFT );
     activity.targets.push_back( craft_in_world );
     activity.values.push_back( command.is_long() );
 
@@ -887,8 +883,8 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
-        for( const std::pair<skill_id, int> &skib : mut.first->craft_skill_bonus ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        for( const std::pair<const skill_id, int> &skib : mut.first->craft_skill_bonus ) {
             if( making.skill_used == skib.first ) {
                 skill_dice += skib.second;
             }
@@ -1004,15 +1000,18 @@ requirement_data item::get_continue_reqs() const
     return requirement_data::continue_requirements( craft_data_->comps_used, components );
 }
 
-void item::inherit_flags( const item &parent )
+void item::inherit_flags( const item &parent, const recipe &making )
 {
-    //If item is crafted from poor-fit components, the result is poorly fitted too
-    if( parent.has_flag( "VARSIZE" ) ) {
-        unset_flag( "FIT" );
-    }
-    //If item is crafted from perfect-fit components, the result is perfectly fitted too
-    if( parent.has_flag( "FIT" ) ) {
-        item_tags.insert( "FIT" );
+    // default behavior is to resize the clothing, which happens elsewhere
+    if( making.has_flag( flag_NO_RESIZE ) ) {
+        //If item is crafted from poor-fit components, the result is poorly fitted too
+        if( parent.has_flag( flag_VARSIZE ) ) {
+            unset_flag( flag_FIT );
+        }
+        //If item is crafted from perfect-fit components, the result is perfectly fitted too
+        if( parent.has_flag( flag_FIT ) ) {
+            item_tags.insert( flag_FIT );
+        }
     }
     for( const std::string &f : parent.item_tags ) {
         if( json_flag::get( f ).craft_inherit() ) {
@@ -1024,15 +1023,15 @@ void item::inherit_flags( const item &parent )
             set_flag( f );
         }
     }
-    if( parent.has_flag( "HIDDEN_POISON" ) ) {
+    if( parent.has_flag( flag_HIDDEN_POISON ) ) {
         poison = parent.poison;
     }
 }
 
-void item::inherit_flags( const std::list<item> &parents )
+void item::inherit_flags( const std::list<item> &parents, const recipe &making )
 {
     for( const item &parent : parents ) {
-        inherit_flags( parent );
+        inherit_flags( parent, making );
     }
 }
 
@@ -1092,10 +1091,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
         }
 
         //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-        if( newit.has_flag( "VARSIZE" ) ) {
-            newit.item_tags.insert( "FIT" );
+        if( newit.has_flag( flag_VARSIZE ) ) {
+            newit.item_tags.insert( flag_FIT );
         }
-        food_contained.inherit_flags( used );
+        food_contained.inherit_flags( used, making );
 
         for( const std::string &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
@@ -1110,7 +1109,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             // which would either lose this information or merge it somehow.
             set_components( food_contained.components, used, batch_size, newit_counter );
             newit_counter++;
-        } else if( food_contained.is_food() && !food_contained.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
@@ -1119,13 +1118,13 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
                 // If this recipe is cooked, components are no longer raw.
                 if( should_heat ) {
-                    comp.set_flag_recursive( "COOKED" );
+                    comp.set_flag_recursive( flag_COOKED );
                 }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
-                    byproduct.set_flag( "BYPRODUCT" );
+                    byproduct.set_flag( flag_BYPRODUCT );
                     used.push_back( byproduct );
                 }
             }
@@ -1857,7 +1856,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 {
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
-    if( !r || obj.has_flag( "ETHEREAL_ITEM" ) ) {
+    if( !r || obj.has_flag( flag_ETHEREAL_ITEM ) ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
 
@@ -1865,13 +1864,21 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
+
     // refuse to disassemble rotten items
     const item *food = obj.get_food();
     if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
         return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
-    if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
+    // refuse to disassemble items containing monsters/pets
+    std::string monster = obj.get_var( "contained_name" );
+    if( !monster.empty() ) {
+        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+                                            monster );
+    }
+
+    if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
         // Create a new item to get the default charges
         int qty = r.create_result().charges;
         if( obj.charges < qty ) {
@@ -1986,8 +1993,8 @@ bool player::disassemble( item_location target, bool interactive )
         }
     }
 
-    if( activity.id() != activity_id( "ACT_DISASSEMBLE" ) ) {
-        assign_activity( activity_id( "ACT_DISASSEMBLE" ), r.time );
+    if( activity.id() != ACT_DISASSEMBLE ) {
+        assign_activity( ACT_DISASSEMBLE, r.time );
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
@@ -2003,7 +2010,7 @@ bool player::disassemble( item_location target, bool interactive )
 void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( activity_id( "ACT_DISASSEMBLE" ), 0 );
+    assign_activity( ACT_DISASSEMBLE, 0 );
 
     bool found_any = false;
     for( item &it : g->m.i_at( pos() ) ) {
@@ -2129,14 +2136,14 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
     std::list<item> components = dis_item.components;
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
-        const bool uncraft_liquids_contained = dis.has_flag( "UNCRAFT_LIQUIDS_CONTAINED" );
+        const bool uncraft_liquids_contained = dis.has_flag( flag_UNCRAFT_LIQUIDS_CONTAINED );
         for( const auto &altercomps : dis_requirements.get_components() ) {
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
             item newit( comp.type, calendar::turn );
             // Counted-by-charge items that can be disassembled individually
             // have their component count multiplied by the number of charges.
-            if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
+            if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
             const bool is_liquid = newit.made_of( LIQUID );
@@ -2161,7 +2168,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
-            if( newit.is_magazine() && dis.has_flag( "FULL_MAGAZINE" ) ) {
+            if( newit.is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {
                 newit.ammo_set( newit.ammo_default(), newit.ammo_capacity() );
             }
 
@@ -2196,8 +2203,8 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)
-        if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
-            act_item.item_tags.insert( "FIT" );
+        if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
+            act_item.item_tags.insert( flag_FIT );
         }
 
         if( filthy ) {
@@ -2268,7 +2275,7 @@ void remove_ammo( item &dis_item, player &p )
         iter = dis_item.contents.erase( iter );
     }
 
-    if( dis_item.has_flag( "NO_UNLOAD" ) ) {
+    if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;
     }
     if( dis_item.is_gun() && dis_item.ammo_current() != "null" ) {

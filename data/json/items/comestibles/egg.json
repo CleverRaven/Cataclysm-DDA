@@ -116,7 +116,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ant_egg",
-    "name": "ant egg",
+    "name": { "str": "ant egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "%",

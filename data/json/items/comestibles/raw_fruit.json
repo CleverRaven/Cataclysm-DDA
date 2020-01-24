@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple",
-    "name": "apple",
+    "name": { "str": "apple" },
     "weight": "182 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",

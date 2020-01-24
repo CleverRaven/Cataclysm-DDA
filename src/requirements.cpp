@@ -73,7 +73,7 @@ void quality::load( const JsonObject &jo, const std::string & )
 
     for( JsonArray levels : jo.get_array( "usages" ) ) {
         const int level = levels.get_int( 0 );
-        for( const std::string &line : levels.get_array( 1 ) ) {
+        for( const std::string line : levels.get_array( 1 ) ) {
             usages.emplace_back( level, line );
         }
     }
@@ -208,10 +208,10 @@ void item_comp::load( const JsonValue &value )
 template<typename T>
 void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs )
 {
-    for( const JsonValue &entry : jsarr ) {
+    for( const JsonValue entry : jsarr ) {
         if( entry.test_array() ) {
             std::vector<T> choices;
-            for( const JsonValue &subentry : entry.get_array() ) {
+            for( const JsonValue subentry : entry.get_array() ) {
                 choices.push_back( T() );
                 choices.back().load( subentry );
             }
@@ -823,6 +823,42 @@ void requirement_data::blacklist_item( const std::string &id )
     blacklisted |= apply_blacklist( components, id );
 }
 
+template <typename T>
+static void apply_replacement( std::vector<std::vector<T>> &vec, const std::string &id,
+                               const std::string &replacement )
+{
+    // If the target and replacement are both present, remove the target.
+    // If only the target is present, replace it.
+    for( auto &opts : vec ) {
+        typename std::vector<T>::iterator target = opts.end();
+        typename std::vector<T>::iterator replacement_target = opts.end();
+        for( typename std::vector<T>::iterator iter = opts.begin(); iter != opts.end(); ++iter ) {
+            if( iter->type == id ) {
+                target = iter;
+            } else if( iter->type == replacement ) {
+                replacement_target = iter;
+            }
+        }
+        // No target to replace, do nothing.
+        if( target == opts.end() ) {
+            continue;
+        }
+        // Target but no replacement, replace.
+        if( replacement_target == opts.end() ) {
+            target->type = replacement;
+            continue;
+        }
+        // Both target and replacement, remove the target entry and leave the existing replacement.
+        opts.erase( target );
+    }
+}
+
+void requirement_data::replace_item( const itype_id &id, const itype_id &replacement )
+{
+    apply_replacement( tools, id, replacement );
+    apply_replacement( components, id, replacement );
+}
+
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
 {
     return tools;
@@ -1255,16 +1291,13 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         static constexpr size_t max_alternatives = 100;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
-                      "The recipe %s should be simplified.", context.str() );
-            abort();
+                      "The recipe %s should be simplified.  See the Recipe section in "
+                      "doc/JSON_INFO.md for more details.", context.str() );
+            is_too_complex_ = true;
+            alternatives_ = { in };
+            return;
         }
     }
-
-    // Use this to find demanding recipes without aborting entirely
-    //if( alternatives_.size() > 50 ) {
-    //    debugmsg( "Recipe %s has %zu alternatives, which is quite high.",
-    //              context.str(), alternatives_.size() );
-    //}
 }
 
 bool deduped_requirement_data::can_make_with_inventory(

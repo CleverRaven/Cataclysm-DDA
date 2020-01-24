@@ -252,7 +252,7 @@
     "name": "waxed floor",
     "description": "Hardwood flooring that has been treated with chemicals to improve slip resistance and sliding, commonly for recreational sports.",
     "symbol": ".",
-    "color": [ "light_red" ],
+    "color": "light_red",
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
@@ -550,7 +550,7 @@
     "name": "painted waxed floor",
     "description": "This section of wax flooring has been painted.",
     "symbol": ".",
-    "color": [ "yellow" ],
+    "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
     "bash": {
@@ -622,7 +622,7 @@
     "name": "painted waxed floor",
     "description": "This section of wax flooring has been painted.",
     "symbol": ".",
-    "color": [ "yellow" ],
+    "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
     "bash": {
@@ -756,6 +756,27 @@
       "sound_fail": "splosh!",
       "ter_set": "t_water_dp",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_paper",
+    "name": "paper floor",
+    "description": "Floor made of pulpy mass, covered in sticky wasp saliva.",
+    "symbol": ".",
+    "looks_like": "t_dirt",
+    "color": "white",
+    "move_cost": 2,
+    "roof": "t_roof_paper",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_dirt"
     }
   }
 ]
