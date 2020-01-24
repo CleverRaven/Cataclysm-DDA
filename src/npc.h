@@ -1276,7 +1276,7 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        tripoint wander_pos =
+        tripoint wander_pos = no_goal_point;
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
