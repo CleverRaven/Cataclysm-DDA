@@ -86,6 +86,4 @@
     },
     "responses": [ { "text": "I can't talk right now.", "topic": "TALK_DONE" } ]
   }
-  
 ]
-
