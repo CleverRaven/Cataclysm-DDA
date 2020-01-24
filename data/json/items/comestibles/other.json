@@ -380,7 +380,7 @@
     "price": 90,
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "flags": ["SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "soy_nuts"
   },
   {
