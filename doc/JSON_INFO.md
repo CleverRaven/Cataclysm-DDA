@@ -19,6 +19,7 @@ Use the `Home` key to return to the top.
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Item Groups](#item-groups)
+    + [Item Category](#item-category)
     + [Materials](#materials)
     + [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
@@ -464,6 +465,26 @@ The syntax listed here is still valid.
         ["blueberries", 3]
     ],
     "groups":[]
+}
+```
+
+### Item Category
+
+When you sort your inventory by category, these are the categories that are displayed.
+
+| Identifier | Description
+|---         |---
+| id         | Unique ID. Must be one continuous word, use underscores if necessary
+| name       | The name of the category. This is what shows up in-game when you open the inventory.
+| zone       | The corresponding loot_zone (see loot_zones.json)
+| sort_rank  | Used to sort categories when displaying.  Lower values are shown first
+
+```C++
+{
+    "id":"ammo",
+    "name": "AMMO",
+    "zone": "LOOT_AMMO",
+    "sort_rank": -21
 }
 ```
 
