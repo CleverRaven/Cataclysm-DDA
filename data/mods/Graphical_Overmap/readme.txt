@@ -1,4 +1,4 @@
-Last updated 2020-1-3
+Last updated 2020-1-23
 Up to date as of Build #10230 (Military Base location (PR #37024))
 
 Installation:
