@@ -224,10 +224,14 @@
     "max_charges": 1500,
     "encumbrance": 2,
     "covers": [ "LEG_EITHER" ],
+<<<<<<< HEAD
     "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS", "NO_RELOAD", "NO_UNLOAD" ],
     "magazines": [
       [ "battery", [ "high_density_integral_battery" ] ]
     ]
+=======
+    "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ]
+>>>>>>> 2adef42dd049d1797cfc11c45774fccfa435e8d3
   },
   {
     "id": "adv_UPS_off",
