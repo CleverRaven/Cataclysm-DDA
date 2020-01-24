@@ -1277,7 +1277,6 @@ class npc : public player
          */
         tripoint goal;
         tripoint wander_pos =
-            no_goal_point; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
