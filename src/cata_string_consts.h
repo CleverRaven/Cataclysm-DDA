@@ -95,7 +95,7 @@ static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
-static const activity_id ACT_UNLOAD_MAG( "ACT_TRAIN" );
+static const activity_id ACT_UNLOAD_MAG( "ACT_UNLOAD_MAG" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
