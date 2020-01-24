@@ -1149,7 +1149,7 @@ void computer_session::action_deactivate_shock_vent()
     if( has_vent ) {
         print_error( _( "Short circuit detected!" ) );
         print_error( _( "Short circuit rerouted." ) );
-        print_error( _( "Fuse reseted." ) );
+        print_error( _( "Fuse reset." ) );
         print_error( _( "Ground re-enabled." ) );
     } else {
         print_line( _( "Internal power lines status: 85%% OFFLINE.  Reason: DAMAGED." ) );

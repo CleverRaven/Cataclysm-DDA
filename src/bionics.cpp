@@ -2633,7 +2633,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
     if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
         has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
-                           _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+                           _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
     if( has_effect( effect_narcosis ) ) {
