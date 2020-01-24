@@ -230,7 +230,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
-    "dynamic_line": "Jesse and her family live up at the horse farm. Her husband, Carlos, may have some jobs for you.",
+    "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },

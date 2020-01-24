@@ -21,13 +21,13 @@ The source can either be downloaded as [an archive](https://github.com/CleverRav
 
 ### Arch Linux
 
-Ncurses and tiles version avaliable in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
+Ncurses and tiles version available in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
 
 `sudo pacman -S cataclysm-dda`
 
 ### Fedora
 
-Ncurses and tiles version avaliable in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
+Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
 
 `sudo dnf install cataclysm-dda`
 
