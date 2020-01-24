@@ -1859,10 +1859,10 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
-    if( jo.has_int( "time" ) ) {
-        slot.install_time = jo.get_int( "time" );
-    } else if( jo.has_string( "time" ) ) {
-        slot.install_time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+    if( jo.has_int( "install_time" ) ) {
+        slot.install_time = jo.get_int( "install_time" );
+    } else if( jo.has_string( "install_time" ) ) {
+        slot.install_time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "install_time" ),
                                            time_duration::units ) );
     }
 
