@@ -690,7 +690,7 @@ void computer_session::action_download_software()
         g->u.moves -= 30;
         item software( miss->get_item_id(), 0 );
         software.mission_id = comp.mission_id;
-        usb->contents.clear();
+        usb->contents.clear_items();
         usb->put_in( software );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -711,10 +711,10 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.front();
+                const item &blood = items.only_item().contents.legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -728,7 +728,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", 0 );
-                            usb->contents.clear();
+                            usb->contents.clear_items();
                             usb->put_in( software );
                             print_line( _( "Software downloaded." ) );
                         } else {
@@ -1315,7 +1315,7 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
