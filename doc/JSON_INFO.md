@@ -475,9 +475,9 @@ When you sort your inventory by category, these are the categories that are disp
 | Identifier | Description
 |---         |---
 | id         | Unique ID. Must be one continuous word, use underscores if necessary
-| name      | The name of the category. This is what shows up in-game when you open the inventory.
-| zone     | The corresponding loot_zone (see loot_zones.json)
-| sort_rank     | Used to sort categories when displaying.  Lower values are shown first
+| name       | The name of the category. This is what shows up in-game when you open the inventory.
+| zone       | The corresponding loot_zone (see loot_zones.json)
+| sort_rank  | Used to sort categories when displaying.  Lower values are shown first
 
 ```C++
 {
