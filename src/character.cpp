@@ -2456,7 +2456,7 @@ float Character::rust_rate() const
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
-    /** @EFFECT_INT reduces skill rust */
+    /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
     float ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
                     get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 1.0 : 1.0 - 0.1 * ( intel - 8 ) );
 
@@ -2466,8 +2466,7 @@ float Character::rust_rate() const
         ret = 0;
     }
 
-    // return_stat_effect actually matters here
-    return ( ret );
+    return ret;
 }
 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
