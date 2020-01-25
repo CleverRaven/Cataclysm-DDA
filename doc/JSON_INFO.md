@@ -1265,7 +1265,7 @@ See also VEHICLE_JSON.md
 "price": 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_post": "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  Cannot be negative?
+"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.
 "bashing": 0,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  Cannot be negative?
 "to_hit": 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
 "flags": ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
