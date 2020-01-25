@@ -13,8 +13,8 @@
     "id": "pistol_jhp",
     "type": "AMMO",
     "copy-from": "pistol_ball",
-    "name": "pistol ammo, jhp",
-    "name-plural": "pistol ammo, jhp",
+    "name": "pistol ammo, JHP",
+    "name-plural": "pistol ammo, JHP",
     "description": "Modern ubiquitous medium pistol ammo, popularized by usage in two wars and almost a century of post-war defensive and duty usage.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
     "relative": { "damage": 3, "pierce": -6 }
   },
@@ -31,8 +31,8 @@
     "id": "reloaded_pistol_jhp",
     "type": "AMMO",
     "copy-from": "pistol_jhp",
-    "name": "pistol ammo, jhp (reloaded)",
-    "name-plural": "pistol ammo, jhp (reloaded)",
+    "name": "pistol ammo, JHP (reloaded)",
+    "name-plural": "pistol ammo, JHP (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] }
   },
@@ -50,8 +50,8 @@
     "id": "bp_pistol_jhp",
     "copy-from": "pistol_jhp",
     "type": "AMMO",
-    "name": "pistol ammo, jhp (black powder)",
-    "name-plural": "pistol ammo, jhp (black powder)",
+    "name": "pistol ammo, JHP (black powder)",
+    "name-plural": "pistol ammo, JHP (black powder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

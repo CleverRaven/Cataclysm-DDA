@@ -24,10 +24,10 @@
   },
   {
     "id": "rifle_sniper_mag",
-    "copy-from": "hk417mag_10rd",
+    "copy-from": "m2010mag",
     "type": "MAGAZINE",
     "name": "compact rifle magazine",
-    "description": "A short 10 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
+    "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
     "delete": { "ammo_type": "308" },
     "ammo_type": "ammo_rifle"
   }
