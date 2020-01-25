@@ -6,6 +6,6 @@
     "description": "Adds dinosaurs.",
     "category": "creatures",
     "dependencies": [ "dda" ],
-    "obsolete": false
+    "obsolete": true
   }
 ]

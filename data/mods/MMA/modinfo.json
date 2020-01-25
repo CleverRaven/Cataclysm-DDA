@@ -6,6 +6,7 @@
     "authors": [ "Photoloss" ],
     "description": "A collection of fictional, mythologically inspired or otherwise unrealistic martial arts.",
     "category": "misc_additions",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]
