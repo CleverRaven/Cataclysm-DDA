@@ -1,0 +1,112 @@
+[
+  {
+    "type": "snippet",
+    "category": "mutant_meat_desc",
+    "text": [
+      {
+        "id": "mutant_meat_1",
+        "text": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts."
+      },
+      {
+        "id": "mutant_meat_2",
+        "text": "Meat from a heavily mutated animal.  Although it came from muscle tissue, it has a curious swirling grain pattern, and at the center of each grain is a knot of hard, cartilaginous tissue.  It smells offputting."
+      },
+      {
+        "id": "mutant_meat_3",
+        "text": "Meat from a heavily mutated animal.  This is from muscle, but in the fascial tissue between the muscles, thick spiny hairs have grown.  Foul smelling, cream-colored fluid gushes out whenever a hair pulls loose."
+      },
+      {
+        "id": "mutant_meat_4",
+        "text": "Meat from a heavily mutated animal.  Although this came from muscle, it has a thick cordlike texture and smells like leather and bread mold."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_meat_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_meat_1",
+        "text": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you got all the bits of hair and bone out…"
+      },
+      {
+        "id": "cooked_mutant_meat_2",
+        "text": "This is a cooked chunk of meat from a mutated animal.  You thought you'd cleared out all the gross parts, but while cooking, a fluid-filled sac inside burst and covered it in some kind of thick grease."
+      },
+      {
+        "id": "cooked_mutant_meat_3",
+        "text": "This is a cooked chunk of meat from a mutated animal.  The surface is peppered with divets from the pieces you had to dig out to make it seem edible."
+      },
+      {
+        "id": "cooked_mutant_meat_4",
+        "text": "This is a cooked chunk of meat from a mutated animal.  Heat caused the muscles to twist and move as if they were alive, and now it has writhed itself into a dense knot."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "bug_organs_desc",
+    "text": [
+      {
+        "id": "bug_organs_1",
+        "text": "These organs came from a giant mutant bug, and you really aren't sure what to make of them.  There are things you've never seen in any anatomy book, with spines and hair and other unidentified parts protruding off seemingly at random."
+      },
+      {
+        "id": "bug_organs_2",
+        "text": "These organs came from a giant mutant bug.  They have a sickly green color, and one of them ripped when you were removing it, revealing an inner surface that looks like row upon row of human fingers, nails and all."
+      },
+      {
+        "id": "bug_organs_3",
+        "text": "This is a huge, thick, fleshy sac you removed from a giant mutant bug.  THe surface is covered in smooth, soft skin, and beneath it is a coiled, twisted mess of cordlike tissue."
+      },
+      {
+        "id": "bug_organs_4",
+        "text": "This is a long, corded organ you removed from a giant mutant bug.  It ran from the head to the abdomen and has long tendrils coming off it, not unlike a spinal cord."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mutant_lung_desc",
+    "text": [
+      {
+        "id": "mutant_lung_1",
+        "text": "You're pretty sure this is lung tissue.  It looks like a lung from a larger mammal, like a dog, but instead of a few distinct lobes, it has dozens of lobes arranged in sheets.  Strange spindles and gnarled tumescences dot the surface."
+      },
+      {
+        "id": "mutant_lung_2",
+        "text": "You're pretty sure this is lung tissue.  It has a vaguely wing-like shape, with a series of nodules around what would be the trailing edge of the 'wing'.  A cluster of quills in each corner of the organ held it to the bug's carapace like clasps."
+      },
+      {
+        "id": "mutant_lung_3",
+        "text": "You're pretty sure this is lung tissue.  "
+      },
+      {
+        "id": "mutant_lung_4",
+        "text": "You're pretty sure this is lung tissue.  "
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "acid_organs_desc",
+    "text": [
+      {
+        "id": "acid_organs_1",
+        "text": "These strange assorted bug organs give off a sour smell, similar to vinegar but worse.  There's no way of telling what purpose they served in the bug: they resemble no organs from any anatomy you've seen."
+      },
+      {
+        "id": "acid_organs_2",
+        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
+      },
+      {
+        "id": "acid_organs_3",
+        "text": "This organ meat, retrieved from a mutated creature, looks like a series of small mammalian hearts arranged in series on a long fleshy tube.  At the end of the chain is a large fleshy sac resembling a stomach."
+      },
+      {
+        "id": "acid_organs_4",
+        "text": "You took this organ meat out of a heavily mutated creature.  Nearly every piece of it is covered in a shell-like carapace, with thin quills sticking out."
+      }
+    ]
+  },
+]
