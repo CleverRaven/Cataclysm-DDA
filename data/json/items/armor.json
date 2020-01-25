@@ -4854,6 +4854,7 @@
   },
   {
     "id": "pants_army",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": "army pants",
     "name_plural": "army pants",
