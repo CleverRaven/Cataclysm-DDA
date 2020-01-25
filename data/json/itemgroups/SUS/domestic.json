@@ -638,7 +638,7 @@
           { "item": "codeine", "prob": 30 },
           { "item": "tramadol", "prob": 10 }
         ],
-        "prob": 50
+        "prob": 95
       },
       { "item": "eyedrops", "prob": 15 },
       { "item": "pepto", "prob": 50 },
