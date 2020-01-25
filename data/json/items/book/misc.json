@@ -19,6 +19,26 @@
     "fun": 2
   },
   {
+    "abstract": "paperback_occult",
+    "type": "BOOK",
+    "name": "template for mass produced books on esoteric subjects",
+    "description": "An ordinary paperback book.  Or is it?  Is that a glimmer of higher truth?",
+    "weight": "371 g",
+    "volume": "700 ml",
+    "price": 750,
+    "price_postapoc": 2900,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "dark_gray",
+    "flags": [ "TINDER", "FLAMMABLE" ],
+    "intelligence": 5,
+    "time": "30 m",
+    "chapters": 30,
+    "//": "TODO for this item fun should be conditional",
+    "fun": 1
+  },
+  {
     "abstract": "holybook_abstract",
     "type": "BOOK",
     "name": "holybook abstract",
@@ -29,11 +49,10 @@
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
-    "flags": [ "TINDER", "FLAMMABLE" ],
+    "flags": [ "INSPIRATIONAL", "TINDER", "FLAMMABLE" ],
     "intelligence": 8,
     "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "fun": 1
   },
   {
     "id": "ZSG",
@@ -256,15 +275,7 @@
     "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
     "weight": "368 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "cyan",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_bible1",
@@ -273,15 +284,7 @@
     "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
     "weight": "368 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_bible2",
@@ -290,15 +293,7 @@
     "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
     "weight": "428 g",
     "volume": "1250 ml",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_bible3",
@@ -307,15 +302,7 @@
     "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
     "weight": "368 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_granth",
@@ -324,15 +311,7 @@
     "description": "A single-volume copy of the central religious texts of Sikhism.",
     "weight": "590 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_hadith",
@@ -341,15 +320,7 @@
     "description": "A Muslim religious text containing an account of the sayings and actions of the prophet Muhammad.",
     "weight": "398 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_kallisti",
@@ -358,15 +329,7 @@
     "description": "A book that embodies the main beliefs of Discordianism.  It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
     "weight": "292 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 2323,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_kojiki",
@@ -375,15 +338,7 @@
     "description": "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
     "weight": "368 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_mormon",
@@ -392,15 +347,7 @@
     "description": "The sacred text of the Latter Day Saint movement of Christianity, originally published in 1830 by Joseph Smith.",
     "weight": "368 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_pastafarian",
@@ -412,15 +359,7 @@
     "description": "A book that embodies the main beliefs of the Church of the Flying Spaghetti Monster.  It seems to involve a lot of pirates and some sort of invisible drunken monster made of pasta.",
     "weight": "292 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_quran",
@@ -429,15 +368,7 @@
     "description": "An English translation of the Muslim book of holy scriptures, with explanatory notes and commentaries to aid in understanding.",
     "weight": "412 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_scientology",
@@ -446,15 +377,7 @@
     "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
     "weight": "486 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_slack",
@@ -463,15 +386,7 @@
     "description": "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
     "weight": "292 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_sutras",
@@ -480,15 +395,7 @@
     "description": "A collection of discourses attributed to the Buddha and his close disciples.",
     "weight": "496 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_talmud",
@@ -497,15 +404,7 @@
     "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
     "weight": "460 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_tanakh",
@@ -514,15 +413,7 @@
     "description": "A single-volume book containing the complete canon of the Jewish Bible.",
     "weight": "512 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_tripitaka",
@@ -531,15 +422,7 @@
     "description": "A collection of sacred Buddhist writings describing their canons of scriptures.",
     "weight": "513 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_upanishads",
@@ -548,15 +431,7 @@
     "description": "A collection of sacred Hindu writings regarding the nature of reality and describing the character and form of human salvation.",
     "weight": "482 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_vedas",
@@ -565,15 +440,7 @@
     "description": "A single volume containing all four Vedas, which are the oldest scriptures of Hinduism.",
     "weight": "540 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "id": "mag_comic",
@@ -1527,15 +1394,7 @@
     "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
     "weight": "292 g",
     "volume": "750 ml",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "copy-from": "holybook_abstract"
   },
   {
     "type": "BOOK",
@@ -1747,5 +1606,33 @@
     "time": "28 m",
     "chapters": 40,
     "fun": 4
+  },
+  {
+    "id": "occult_economicon",
+    "type": "BOOK",
+    "name": { "str": "The Economicon of Dobbs", "str_pl": "copies of The Economicon" },
+    "description": "These are the prescriptures Pile 18 Disk sg30 File 14.  \"Look, small brain of pink earth inside my null-grasping, and she/he receives Logos; and it lay with the Wor.\"",
+    "copy-from": "paperback_occult",
+    "weight": "120 g",
+    "volume": "300 ml",
+    "time": "10 m",
+    "relative": { "price": -251, "chapters": -26, "fun": 1 }
+  },
+  {
+    "id": "occult_bobliographon",
+    "type": "BOOK",
+    "name": { "str": "The Bobliographon", "str_pl": "copies of The Bobliographon" },
+    "description": "The back cover of this cheaply published paperback reads: \"These newly-released SubGenius revelations will SHOCK those who think they know Bob!  Unpredictables are not alone and possess amazing hidden powers of their own!  In a world without slack, a yeti lust revival saunters about.  WARNING: Do not fail to pay full price for this book; JHVH-1's wrath knows some bounds.\"",
+    "copy-from": "paperback_occult",
+    "time": "12 m",
+    "relative": { "fun": 1 }
+  },
+  {
+    "id": "occult_glimpses",
+    "type": "BOOK",
+    "name": { "str": "Glimpses of Solomon in Yellow", "str_pl": "copies of Solomon in Yellow" },
+    "description": "This paperback is titled \"Glimpses of Solomon in Yellow; The Initiation Rites of the Starry Wisdom Covenant, by Dr. Enoch Craven.\"  It describes not just the investiture of new adherents, but the history and beliefs of the Church of Starry Wisdom.  Someone has defaced the sparse citations section by scrawling \"PUPPETS OF ROME!\" over its few pages.  The book does not provide any biography for Dr. Craven, let alone academic credentials.",
+    "copy-from": "paperback_occult",
+    "relative": { "weight": 186, "price": 250, "chapters": 10 }
   }
 ]
