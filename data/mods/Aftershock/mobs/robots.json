@@ -196,7 +196,7 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "bloodhound drone" },
-    "description": "An automated seeker drone designed to harry and harrass while maintaining visual contact for other pursuers, a small spiked quadcopter robot with a high powered spotlight.",
+    "description": "A small spiked quadcopter robot equipped with a high-power spotlight.  This automated seeker drone was originally designed harry and harrass fugitives while maintaining visual contact for other pursuers.",
     "diff": 2,
     "default_faction": "science",
     "speed": 190,
