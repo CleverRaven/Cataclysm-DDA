@@ -293,7 +293,7 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },

@@ -37,7 +37,7 @@
   },
   {
     "id": "pistol_revolver",
-    "copy-from": "ruger_lcr_38",
+    "copy-from": "model_10_revolver",
     "type": "GUN",
     "name": "police revolver",
     "ammo": "ammo_pistol",
