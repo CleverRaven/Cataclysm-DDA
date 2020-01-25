@@ -589,7 +589,7 @@
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
       [ "flyer", 120 ],
-      { "item": "paper", "prob": 500, "charges-min": 1, "charges-max": 15 },
+      { "item": "paper", "prob": 500, "charges-min": 1 },
       [ "wrapper", 150 ],
       [ "phonebook", 110 ],
       [ "box_small", 400 ],
