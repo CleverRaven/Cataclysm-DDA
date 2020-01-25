@@ -33,6 +33,7 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 struct itype;
 
@@ -812,9 +813,9 @@ int inventory::leak_level( const std::string &flag ) const
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.has_flag( flag ) ) {
-                if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
+                if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
                     ret += elem_stack_iter.volume() / units::legacy_volume_factor;
-                } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage() > 0 ) {
+                } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
                     ret += elem_stack_iter.damage_level( 4 );
                 }
             }
@@ -881,8 +882,8 @@ void inventory::rust_iron_items()
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
-                !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
-                !elem_stack_iter.has_flag( "WATERPROOF" ) &&
+                !elem_stack_iter.has_flag( flag_WATERPROOF_GUN ) &&
+                !elem_stack_iter.has_flag( flag_WATERPROOF ) &&
                 elem_stack_iter.damage() < elem_stack_iter.max_damage() / 2 &&
                 //Passivation layer prevents further rusting
                 one_in( 500 ) &&

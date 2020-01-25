@@ -33,6 +33,7 @@
 #include "string_id.h"
 #include "point.h"
 #include "weather.h"
+#include "cata_string_consts.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -42,15 +43,6 @@
                       ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
-
-static const skill_id skill_barter( "barter" );
-
-static const mongroup_id GROUP_NETHER = mongroup_id( "GROUP_NETHER" );
-static const mongroup_id GROUP_ROBOT = mongroup_id( "GROUP_ROBOT" );
-static const mongroup_id GROUP_SPIDER = mongroup_id( "GROUP_SPIDER" );
-static const mongroup_id GROUP_TRIFFID = mongroup_id( "GROUP_TRIFFID" );
-static const mongroup_id GROUP_VANILLA = mongroup_id( "GROUP_VANILLA" );
-static const mongroup_id GROUP_ZOMBIE = mongroup_id( "GROUP_ZOMBIE" );
 
 std::string caravan_category_name( caravan_category cat );
 std::vector<itype_id> caravan_items( caravan_category cat );

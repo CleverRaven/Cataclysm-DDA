@@ -26,9 +26,7 @@
 #include "enums.h"
 #include "item.h"
 #include "point.h"
-
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_rifle( "rifle" );
+#include "cata_string_consts.h"
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {

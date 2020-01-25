@@ -843,12 +843,12 @@ bool player::eat( item &food, bool force )
                 bool has_table_nearby = false;
                 bool has_chair_nearby = false;
                 for( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
+                    if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
                         ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ||
                                                  g->m.veh_at( pt )->vehicle().has_part( "FLAT_SURF" ) ) ) ) {
                         has_table_nearby = true;
                     }
-                    if( g->m.has_flag_furn( "CAN_SIT", pt ) || g->m.has_flag( "CAN_SIT", pt ) ||
+                    if( g->m.has_flag_furn( flag_CAN_SIT, pt ) || g->m.has_flag( flag_CAN_SIT, pt ) ||
                         ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "SEAT" ) ) ) ) {
                         has_chair_nearby = true;
                     }

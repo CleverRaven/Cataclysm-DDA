@@ -5,6 +5,7 @@
 #include "cata_variant.h"
 #include "json.h"
 #include "stringmaker.h"
+#include "cata_string_consts.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
 {

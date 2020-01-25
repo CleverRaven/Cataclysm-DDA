@@ -15,6 +15,7 @@
 #include "pimpl.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 static void clear_bionics( player &p )
 {
@@ -102,14 +103,14 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     INFO( "no power capacity at first" );
     CHECK( !dummy.has_max_power() );
 
-    dummy.add_bionic( bionic_id( "bio_power_storage" ) );
+    dummy.add_bionic( bio_power_storage );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_advreactor" ) {
-        give_and_activate( dummy, bionic_id( "bio_advreactor" ) );
+        give_and_activate( dummy, bio_advreactor );
 
         static const std::list<std::string> always = {
             "plut_cell",  // solid
@@ -129,7 +130,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     }
 
     SECTION( "bio_batteries" ) {
-        give_and_activate( dummy, bionic_id( "bio_batteries" ) );
+        give_and_activate( dummy, bio_batteries );
 
         static const std::list<std::string> always = {
             "battery" // old-school
