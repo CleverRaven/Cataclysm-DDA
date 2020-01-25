@@ -4132,8 +4132,11 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area() ) *
-                               to_kilogram( total_mass() );
+    const float fraction_without_traction = 1.0f - wheel_traction_area / wheel_area();
+    if( fraction_without_traction == 0 ) {
+        return 1.0f;
+    }
+    const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
