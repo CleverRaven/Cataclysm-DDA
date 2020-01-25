@@ -644,7 +644,7 @@
       { "item": "pepto", "prob": 70 },
       { "item": "inhaler", "prob": 25 },
       { "item": "pills_sleep", "prob": 10 },
-      { "distribution": [ { "item": "nyquil", "prob": 60 }, { "item": "dayquil", "prob": 20 } ], "prob": 30 },
+      { "distribution": [ { "item": "nyquil", "prob": 60 }, { "item": "dayquil", "prob": 20 } ], "prob": 50 },
       {
         "distribution": [
           { "item": "vitamins", "prob": 60 },
