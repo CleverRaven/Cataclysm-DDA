@@ -2458,7 +2458,7 @@ float Character::rust_rate() const
     int intel = get_int();
     /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
     float ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
-                    get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 1.0 : 1.0 - 0.1 * ( intel - 8 ) );
+                    get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 1.0 : 1.0 + 0.1 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
