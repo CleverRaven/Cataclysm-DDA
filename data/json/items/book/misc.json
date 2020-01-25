@@ -726,6 +726,14 @@
     "copy-from": "paperback_novel"
   },
   {
+    "id": "novel_crime_midnight",
+    "type": "BOOK",
+    "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
+    "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
+    "copy-from": "paperback_novel",
+    "relative": { "time": 5, "chapters": -8 }
+  },
+  {
     "id": "novel_drama",
     "type": "BOOK",
     "name": "drama novel",
@@ -1060,6 +1068,29 @@
     "time": "20 m",
     "chapters": 28,
     "fun": 4
+  },
+  {
+    "id": "novel_swash_blkfreight",
+    "type": "BOOK",
+    "name": { "str": "The Black Freighter", "str_pl": "copies of The Black Freighter" },
+    "description": "",
+    "copy-from": "paperback_novel",
+    "relative": { "fun": 2, "chapters": -7 }
+  },
+  {
+    "id": "novel_swash_searovers",
+    "type": "BOOK",
+    "name": { "str": "Captain Gosgold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
+    "description": "",
+    "copy-from": "paperback_novel",
+    "relative": { "weight": 186, "price": 250, "time": -3, "chapters": 8 }
+  },
+  {
+    "id": "novel_swash_buccaneer",
+    "type": "BOOK",
+    "name": { "str": "The Code of the Buccaneer", "str_pl": "copies of The Buccaneer" },
+    "description": "",
+    "copy-from": "paperback_novel"
   },
   {
     "id": "novel_thriller",
