@@ -1537,8 +1537,8 @@ static void empty_buckets( player &p )
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( const item &in : it.contents.all_items() ) {
-            drop_or_handle( in, p );
+        for( const item *in : it.contents.all_items_ptr() ) {
+            drop_or_handle( *in, p );
         }
 
         it.contents.clear_items();

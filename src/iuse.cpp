@@ -8422,9 +8422,9 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( Cycle_time <= 0 ) {
             it->active = false;
             it->erase_var( "CYCLETIME" );
-            for( item &bio : it->contents.all_items() ) {
-                if( bio.is_bionic() && !bio.has_flag( "NO_PACKED" ) ) {
-                    bio.unset_flag( "NO_STERILE" );
+            for( item *bio : it->contents.all_items_ptr() ) {
+                if( bio->is_bionic() && !bio->has_flag( "NO_PACKED" ) ) {
+                    bio->unset_flag( "NO_STERILE" );
                 }
             }
         } else {

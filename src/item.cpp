@@ -7108,10 +7108,10 @@ item *item::get_usable_item( const std::string &use_name )
         return this;
     }
 
-    for( item &elem : contents.all_items() ) {
-        const use_function *fun = elem.get_use( use_name );
+    for( item *elem : contents.all_items_ptr() ) {
+        const use_function *fun = elem->get_use( use_name );
         if( fun != nullptr ) {
-            return &elem;
+            return elem;
         }
     }
 
