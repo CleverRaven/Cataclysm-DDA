@@ -257,7 +257,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": '6 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "lens", 3 ] ],
