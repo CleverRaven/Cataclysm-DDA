@@ -21,7 +21,6 @@
 #include "pldata.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
@@ -101,23 +100,23 @@ TEST_CASE( "starting_items" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
-        trait_ANTIFRUIT,
-        trait_ANTIJUNK,
-        trait_ANTIWHEAT,
-        //trait_ARM_TENTACLES,
-        //trait_BEAK,
-        trait_CANNIBAL,
-        //trait_CARNIVORE,
-        //trait_HERBIVORE,
-        //trait_HOOVES,
-        trait_LACTOSE,
-        //trait_LEG_TENTACLES,
-        trait_MEATARIAN,
-        //trait_RAP_TALONS,
-        //trait_TAIL_FLUFFY,
-        //trait_TAIL_LONG,
-        trait_VEGETARIAN,
-        trait_WOOLALLERGY
+        trait_id( "ANTIFRUIT" ),
+        trait_id( "ANTIJUNK" ),
+        trait_id( "ANTIWHEAT" ),
+        //trait_id( "ARM_TENTACLES" ),
+        //trait_id( "BEAK" ),
+        trait_id( "CANNIBAL" ),
+        //trait_id( "CARNIVORE" ),
+        //trait_id( "HERBIVORE" ),
+        //trait_id( "HOOVES" ),
+        trait_id( "LACTOSE" ),
+        //trait_id( "LEG_TENTACLES" ),
+        trait_id( "MEATARIAN" ),
+        //trait_id( "RAP_TALONS" ),
+        //trait_id( "TAIL_FLUFFY" ),
+        //trait_id( "TAIL_LONG" ),
+        trait_id( "VEGETARIAN" ),
+        trait_id( "WOOLALLERGY" )
     };
     // Prof/scen combinations that need to be checked.
     std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;

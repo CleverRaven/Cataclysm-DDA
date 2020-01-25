@@ -28,7 +28,13 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+const efftype_id effect_gave_quest_item( "gave_quest_item" );
+const efftype_id effect_currently_busy( "currently_busy" );
+const efftype_id effect_infection( "infection" );
+const efftype_id effect_infected( "infected" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
 static npc &create_test_talker()
 {
@@ -45,9 +51,9 @@ static npc &create_test_talker()
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
-    model_npc->remove_effect( effect_sleep );
+    model_npc->remove_effect( efftype_id( "sleep" ) );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc->set_mutation( trait_WEB_WEAVER );
+    model_npc->set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return *model_npc;
 }
@@ -154,14 +160,16 @@ TEST_CASE( "npc_talk_skills", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    g->u.set_skill_level( skill_driving, 8 );
+    const skill_id skill( "driving" );
+
+    g->u.set_skill_level( skill, 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a driving test response." );
 
-    g->u.set_skill_level( skill_driving, 6 );
+    g->u.set_skill_level( skill, 6 );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -184,7 +192,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     gen_response_lines( d, 1 );
 
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.toggle_trait( trait_ELFA_EARS );
+    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -195,7 +203,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
     CHECK( d.responses[3].text == "This is a wearing test response." );
-    talker_npc.toggle_trait( trait_ELFA_EARS );
+    talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
     gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -203,17 +211,17 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[3].text == "This is a wearing test response." );
     CHECK( d.responses[4].text == "This is a npc trait test response." );
     CHECK( d.responses[5].text == "This is a npc short trait test response." );
-    g->u.toggle_trait( trait_ELFA_EARS );
-    talker_npc.toggle_trait( trait_ELFA_EARS );
-    g->u.toggle_trait( trait_PSYCHOPATH );
-    talker_npc.toggle_trait( trait_SAPIOVORE );
+    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
+    talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
+    g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
+    talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a wearing test response." );
     CHECK( d.responses[2].text == "This is a trait flags test response." );
     CHECK( d.responses[3].text == "This is a npc trait flags test response." );
-    g->u.toggle_trait( trait_PSYCHOPATH );
-    talker_npc.toggle_trait( trait_SAPIOVORE );
+    g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
+    talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
 }
 
 TEST_CASE( "npc_talk_effect", "[npc_talk]" )
@@ -481,7 +489,7 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.toggle_trait( trait_ELFA_EARS );
+    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an or trait test response." );
@@ -492,7 +500,7 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    g->u.toggle_trait( trait_ELFA_EARS );
+    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
     d.add_topic( "TALK_TEST_AND" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -834,8 +842,8 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
     d.add_topic( "TALK_TEST_BIONICS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.add_bionic( bio_ads );
-    talker_npc.add_bionic( bio_power_storage );
+    g->u.add_bionic( bionic_id( "bio_ads" ) );
+    talker_npc.add_bionic( bionic_id( "bio_power_storage" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
