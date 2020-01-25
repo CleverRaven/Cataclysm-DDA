@@ -303,6 +303,19 @@ std::list<const item *> item_contents::all_items_ptr() const
     return all_items_internal;
 }
 
+std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+{
+    std::list<item *> all_items_internal;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( pk_type ) ) {
+            std::list<item *> contained_items = pocket.all_items_top( pk_type );
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
 units::volume item_contents::item_size_modifier() const
 {
     units::volume total_vol = 0_ml;

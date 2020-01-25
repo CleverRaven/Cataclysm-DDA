@@ -135,6 +135,17 @@ std::list<const item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_
     return all_items_top;
 }
 
+std::list<item *> item_pocket::all_items_top( item_pocket::pocket_type pk_type )
+{
+    std::list<item *> all_items_top;
+    if( is_type( pk_type ) ) {
+        for( item &it : contents ) {
+            all_items_top.push_back( &it );
+        }
+    }
+    return all_items_top;
+}
+
 item &item_pocket::back()
 {
     return contents.back();

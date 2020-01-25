@@ -50,6 +50,9 @@ class item_contents
         std::list<item *> all_items_ptr();
         std::list<const item *> all_items_ptr() const;
 
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type =
+                                             item_pocket::pocket_type::CONTAINER );
+
         // total size the parent item needs to be modified based on rigidity of pockets
         units::volume item_size_modifier() const;
         units::volume total_container_capacity() const;

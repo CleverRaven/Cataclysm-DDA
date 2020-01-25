@@ -72,6 +72,9 @@ class item_pocket
         std::list<item *> all_items_ptr( pocket_type pk_type );
         std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
 
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type =
+                                             item_pocket::pocket_type::CONTAINER );
+
         item &back();
         const item &back() const;
         item &front();
