@@ -651,7 +651,7 @@
           { "item": "gummy_vitamins", "prob": 20 },
           { "item": "calcium_tablet", "prob": 10 }
         ],
-        "prob": 40
+        "prob": 80
       },
       {
         "distribution": [ { "item": "weak_antibiotics", "prob": 40 }, { "item": "antibiotics", "prob": 10 } ],
