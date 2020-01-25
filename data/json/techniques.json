@@ -1347,7 +1347,10 @@
     "type": "technique",
     "id": "tec_taekwondo_strong",
     "name": "Spinning Back Kick",
-    "messages": [ "You spin and back-kick %s, right in the center of gravity", "<npcname> spins and back-kicks %s, right in the center of gravity" ],
+    "messages": [
+      "You spin and back-kick %s, right in the center of gravity",
+      "<npcname> spins and back-kicks %s, right in the center of gravity"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
