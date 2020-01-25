@@ -635,7 +635,6 @@
       {
         "distribution": [
           { "item": "aspirin", "prob": 160 },
-          { "item": "aspirin", "prob": 40 },
           { "item": "codeine", "prob": 30 },
           { "item": "tramadol", "prob": 10 }
         ],
