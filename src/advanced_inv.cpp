@@ -261,7 +261,7 @@ void advanced_inventory::init()
     panes[right].window = right_window;
 }
 
-void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
+void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool active )
 {
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;

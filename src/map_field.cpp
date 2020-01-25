@@ -2033,7 +2033,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
     }
 }
 
-void map::propagate_field( const tripoint &center, const field_type_id type, int amount,
+void map::propagate_field( const tripoint &center, const field_type_id &type, int amount,
                            int max_intensity )
 {
     using gas_blast = std::pair<float, tripoint>;

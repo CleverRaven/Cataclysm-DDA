@@ -863,7 +863,7 @@ void complete_construction( player *p )
 
     award_xp( *p );
     // Friendly NPCs gain exp from assisting or watching...
-    // TODO NPCs watching other NPCs do stuff and learning from it
+    // TODO: NPCs watching other NPCs do stuff and learning from it
     if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
@@ -1104,7 +1104,7 @@ void construct::done_deconstruct( const tripoint &p )
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
         g->m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
-        // Hack alert.
+        // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
         // mysteriously appearing for a sign later built here, remove the
@@ -1119,7 +1119,7 @@ void construct::done_deconstruct( const tripoint &p )
         if( t.deconstruct.deconstruct_above ) {
             const tripoint top = p + tripoint_above;
             if( g->m.has_furn( top ) ) {
-                add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
+                add_msg( _( "That %s can not be disassembled, since there is furniture above it." ), t.name() );
                 return;
             }
             done_deconstruct( top );

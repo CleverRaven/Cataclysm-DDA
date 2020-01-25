@@ -1643,7 +1643,7 @@ void npc::load( const JsonObject &data )
     }
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
-        // @TODO: time_point does not have a default constructor, need to read in the map manually
+        // TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
         member.read( p );
         complaints.emplace( member.name(), p );
@@ -2151,7 +2151,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "snippet_id", snippet_id, io::default_tag() );
+    archive.io( "snip_id", snip_id, snippet_id::NULL_ID() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2230,7 +2230,12 @@ void item::io( Archive &archive )
     item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
-        snippet_id = SNIPPET.migrate_hash_to_id( note );
+        snip_id = SNIPPET.migrate_hash_to_id( note );
+    } else {
+        cata::optional<std::string> snip;
+        if( archive.read( "snippet_id", snip ) && snip ) {
+            snip_id = snippet_id( snip.value() );
+        }
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -3752,13 +3757,13 @@ void submap::store( JsonOut &jsout ) const
     if( legacy_computer ) {
         // it's possible that no access to computers has been made and legacy_computer
         // is not cleared
-        jsout.member( "computers", legacy_computer->save_data() );
+        jsout.member( "computers", *legacy_computer );
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
         for( auto &elem : computers ) {
             jsout.write( elem.first );
-            jsout.write( elem.second.save_data() );
+            jsout.write( elem.second );
         }
         jsout.end_array();
     }
@@ -4026,16 +4031,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                std::string computer_data = jsin.get_string();
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
-                new_comp_it->second.load_data( computer_data );
+                jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            std::string computer_data = jsin.get_string();
             legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-            legacy_computer->load_data( computer_data );
+            jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();

@@ -568,7 +568,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
-    // @ todo NPC will need to respond to talking noise eventually
+    // TODO: NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
@@ -726,20 +726,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             most_difficult_mission = type.difficulty;
         }
     }
-    if( chatbin.mission_selected != nullptr ) {
-        if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
-            // Don't talk about a mission that is assigned to someone else.
-            chatbin.mission_selected = nullptr;
-        }
-    }
-    if( chatbin.mission_selected == nullptr ) {
-        // if possible, select a mission to talk about
-        if( !chatbin.missions.empty() ) {
-            chatbin.mission_selected = chatbin.missions.front();
-        } else if( !d.missions_assigned.empty() ) {
-            chatbin.mission_selected = d.missions_assigned.front();
-        }
-    }
 
     // Needs
     if( has_effect( effect_npc_suspend ) ) {
@@ -785,6 +771,20 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
+        if( chatbin.mission_selected != nullptr ) {
+            if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
+                // Don't talk about a mission that is assigned to someone else.
+                chatbin.mission_selected = nullptr;
+            }
+        }
+        if( chatbin.mission_selected == nullptr ) {
+            // if possible, select a mission to talk about
+            if( !chatbin.missions.empty() ) {
+                chatbin.mission_selected = chatbin.missions.front();
+            } else if( !d.missions_assigned.empty() ) {
+                chatbin.mission_selected = d.missions_assigned.front();
+            }
+        }
         d_win.print_header( name );
         const talk_topic next = d.opt( d_win, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
@@ -2263,7 +2263,7 @@ void talk_effect_fun_t::set_npc_gets_item( bool to_use )
     };
 }
 
-void talk_effect_fun_t::set_add_mission( const std::string mission_id )
+void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
 {
     function = [mission_id]( const dialogue & d ) {
         npc &p = *d.beta;
@@ -3267,7 +3267,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             taken = true;
         }
 
-        // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        // HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
         if( !taken && !given.is_gun() && p.wear_if_wanted( given ) ) {
             taken = true;
         }

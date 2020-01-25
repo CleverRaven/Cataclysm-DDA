@@ -121,10 +121,32 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
-    input_context ctxt = get_default_mode_input_context();
-    // register QUIT action so it catches q/Q/etc instead of just Q
+    input_context ctxt;
     if( uquit == QUIT_WATCH ) {
-        ctxt.register_action( "QUIT" );
+        ctxt = input_context( "DEFAULTMODE" );
+        ctxt.set_iso( true );
+        // The list of allowed actions in death-cam mode in game::handle_action
+        // *INDENT-OFF*
+        for( const action_id id : {
+            ACTION_TOGGLE_MAP_MEMORY,
+            ACTION_CENTER,
+            ACTION_SHIFT_N,
+            ACTION_SHIFT_NE,
+            ACTION_SHIFT_E,
+            ACTION_SHIFT_SE,
+            ACTION_SHIFT_S,
+            ACTION_SHIFT_SW,
+            ACTION_SHIFT_W,
+            ACTION_SHIFT_NW,
+            ACTION_LOOK,
+            ACTION_KEYBINDINGS,
+        } ) {
+            ctxt.register_action( action_ident( id ) );
+        }
+        // *INDENT-ON*
+        ctxt.register_action( "QUIT", _( "Accept your fate" ) );
+    } else {
+        ctxt = get_default_mode_input_context();
     }
 
     m.update_visibility_cache( u.posz() );
@@ -182,12 +204,7 @@ input_context game::get_player_input( std::string &action )
 
         ctxt.set_timeout( 125 );
         bool initial_draw = true;
-        // Force at least one animation frame if the player is dead.
-        while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
-            if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
-                break;
-            }
-
+        do {
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -303,15 +320,13 @@ input_context game::get_player_input( std::string &action )
             g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
-
                 query_popup()
                 .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true )
                 .show();
-
-                break;
             }
-        }
+        } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
+                 && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
     } else {
         ctxt.set_timeout( 125 );
@@ -403,9 +418,17 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        int pctr = veh->part_with_feature( part, "CONTROLS", true );
-        if( pctr < 0 ) {
+        static const itype_id fuel_type_animal( "animal" );
+        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
+        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
+        const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
+                                veh->has_harnessed_animal();
+        if( !has_controls && !has_animal_controls ) {
             add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
+            u.controlling_vehicle = false;
+            return;
+        } else if( !has_controls && has_animal_controls && !has_animal ) {
+            add_msg( m_info, _( "You can't drive this vehicle without an animal to pull it." ) );
             u.controlling_vehicle = false;
             return;
         }
@@ -1162,7 +1185,7 @@ static void read()
 
     if( loc ) {
         // calling obtain() invalidates the item pointer
-        // @TODO: find a way to do this without an int index
+        // TODO: find a way to do this without an int index
         u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
@@ -1478,7 +1501,6 @@ bool game::handle_action()
     // of location clicked.
     cata::optional<tripoint> mouse_target;
 
-    // quit prompt check (ACTION_QUIT only grabs 'Q')
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
         return false;
@@ -1487,7 +1509,16 @@ bool game::handle_action()
     if( act == ACTION_NULL ) {
         act = look_up_action( action );
 
+        if( act == ACTION_KEYBINDINGS ) {
+            // already handled by input context
+            refresh_all();
+            return false;
+        }
+
         if( act == ACTION_MAIN_MENU ) {
+            if( uquit == QUIT_WATCH ) {
+                return false;
+            }
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
             destination_preview.clear();
@@ -1498,6 +1529,9 @@ bool game::handle_action()
         }
 
         if( act == ACTION_ACTIONMENU ) {
+            if( uquit == QUIT_WATCH ) {
+                return false;
+            }
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
             destination_preview.clear();
@@ -1510,6 +1544,15 @@ bool game::handle_action()
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
 #endif
+        }
+
+        if( act == ACTION_KEYBINDINGS ) {
+            u.clear_destination();
+            destination_preview.clear();
+            act = ctxt.display_menu( true );
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( can_action_change_worldstate( act ) ) {
@@ -1583,11 +1626,10 @@ bool game::handle_action()
     gamemode->pre_action( act );
 
     int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
-    int soffsetr = 0 - soffset;
 
     int before_action_moves = u.moves;
 
-    // These actions are allowed while deathcam is active.
+    // These actions are allowed while deathcam is active. Registered in game::get_player_input
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
             case ACTION_TOGGLE_MAP_MEMORY:
@@ -1600,43 +1642,34 @@ bool game::handle_action()
                 break;
 
             case ACTION_SHIFT_N:
-                u.view_offset.y += soffsetr;
-                break;
-
             case ACTION_SHIFT_NE:
-                u.view_offset.x += soffset;
-                u.view_offset.y += soffsetr;
-                break;
-
             case ACTION_SHIFT_E:
-                u.view_offset.x += soffset;
-                break;
-
             case ACTION_SHIFT_SE:
-                u.view_offset.x += soffset;
-                u.view_offset.y += soffset;
-                break;
-
             case ACTION_SHIFT_S:
-                u.view_offset.y += soffset;
-                break;
-
             case ACTION_SHIFT_SW:
-                u.view_offset.x += soffsetr;
-                u.view_offset.y += soffset;
-                break;
-
             case ACTION_SHIFT_W:
-                u.view_offset.x += soffsetr;
-                break;
-
-            case ACTION_SHIFT_NW:
-                u.view_offset.x += soffsetr;
-                u.view_offset.y += soffsetr;
-                break;
+            case ACTION_SHIFT_NW: {
+                static const std::map<action_id, std::pair<point, point>> shift_delta = {
+                    { ACTION_SHIFT_N, { point_north, point_north_east } },
+                    { ACTION_SHIFT_NE, { point_north_east, point_east } },
+                    { ACTION_SHIFT_E, { point_east, point_south_east } },
+                    { ACTION_SHIFT_SE, { point_south_east, point_south } },
+                    { ACTION_SHIFT_S, { point_south, point_south_west } },
+                    { ACTION_SHIFT_SW, { point_south_west, point_west } },
+                    { ACTION_SHIFT_W, { point_west, point_north_west } },
+                    { ACTION_SHIFT_NW, { point_north_west, point_north } },
+                };
+                u.view_offset += use_tiles && tile_iso ?
+                                 shift_delta.at( act ).second * soffset : shift_delta.at( act ).first * soffset;
+            }
+            break;
 
             case ACTION_LOOK:
                 look_around();
+                break;
+
+            case ACTION_KEYBINDINGS:
+                // already handled by input context
                 break;
 
             default:
@@ -1652,6 +1685,7 @@ bool game::handle_action()
                 break; // dummy entries
             case ACTION_ACTIONMENU:
             case ACTION_MAIN_MENU:
+            case ACTION_KEYBINDINGS:
                 break; // handled above
 
             case ACTION_TIMEOUT:
@@ -2168,7 +2202,7 @@ bool game::handle_action()
                 }
                 break;
 
-            case ACTION_QUIT:
+            case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
                         u.moves = 0;
@@ -2239,11 +2273,6 @@ bool game::handle_action()
 
             case ACTION_HELP:
                 get_help().display_help();
-                refresh_all();
-                break;
-
-            case ACTION_KEYBINDINGS:
-                ctxt.display_menu();
                 refresh_all();
                 break;
 

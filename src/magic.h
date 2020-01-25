@@ -289,7 +289,7 @@ class spell
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
-        spell( spell_id sp, translation alt_msg );
+        spell( spell_id sp, const translation &alt_msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;

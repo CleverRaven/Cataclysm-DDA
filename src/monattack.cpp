@@ -2282,7 +2282,7 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    auto pts = closest_tripoints_first( 1, z->pos() );
+    std::vector<tripoint> pts = closest_tripoints_first( z->pos(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
     for( const tripoint &dest : pts ) {
@@ -2368,7 +2368,7 @@ bool mattack::callblobs( monster *z )
     // and keep the rest near the brain blob for protection.
     tripoint enemy = g->u.pos();
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
+    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2401,7 +2401,7 @@ bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
+    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -2607,6 +2607,9 @@ bool mattack::ranged_pull( monster *z )
             g->draw();
         }
     }
+    // The monster might drag a target that's not on it's z level
+    // So if they leave them on open air, make them fall
+    g->m.creature_on_trap( *target );
     if( seen ) {
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
@@ -2815,7 +2818,7 @@ bool mattack::stare( monster *z )
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
             g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ) );
+            add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
         if( g->u.sees( *z ) ) {
@@ -4179,7 +4182,7 @@ bool mattack::absorb_meat( monster *z )
     //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
     const int monster_volume = units::to_liter( z->get_volume() );
     const float average_meat_chunk_volume = 0.5;
-    //TODO: dynamically get volume of meat
+    // TODO: dynamically get volume of meat
     const int max_meat_absorbed = monster_volume / 10.0 * average_meat_chunk_volume;
     //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
@@ -4834,8 +4837,9 @@ bool mattack::evolve_kill_strike( monster *z )
     const std::string target_name = target->disp_name();
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
-    int damage_dealt = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng( 10, 20 ),
-                                            rng( 5, 15 ) ) ).total_damage();
+    damage.add( damage_instance( DT_STAB, dice( z->type->melee_dice, z->type->melee_sides ), rng( 5,
+                                 15 ), 1.0, 0.5 ) );
+    int damage_dealt = target->deal_damage( z, bp_torso, damage ).total_damage();
     if( damage_dealt > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,
@@ -5171,7 +5175,7 @@ bool mattack::kamikaze( monster *z )
         charges = actor->ammo_qty;
     }
 
-    // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
+    // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
             z->die( nullptr );
@@ -5249,7 +5253,7 @@ bool mattack::kamikaze( monster *z )
         return false;
     }
 
-    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
+    // HACK: HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
     z->add_effect( effect_countdown, 1_turns * charges + 1_turns );

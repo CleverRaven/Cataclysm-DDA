@@ -64,6 +64,17 @@ void faction_template::load( const JsonObject &jsobj )
     npc_factions::all_templates.emplace_back( fac );
 }
 
+void faction_template::check_consistency()
+{
+    for( const faction_template &fac : npc_factions::all_templates ) {
+        for( const auto &epi : fac.epilogue_data ) {
+            if( !std::get<2>( epi ).is_valid() ) {
+                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+            }
+        }
+    }
+}
+
 void faction_template::reset()
 {
     npc_factions::all_templates.clear();
@@ -104,7 +115,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               jao.get_string( "id", "epilogue_faction_default" ) );
+                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
     }
 }
 
@@ -117,16 +128,15 @@ std::string faction::describe() const
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, std::string> &epilogue_entry : epilogue_data ) {
+    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
         if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            const std::string id = std::get<2>( epilogue_entry );
-            ret.emplace_back( SNIPPET.get_snippet_by_id( id ).value_or( translation() ).translated() );
+            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
         }
     }
     return ret;
 }
 
-void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+void faction::add_to_membership( const character_id &guy_id, const std::string &guy_name,
                                  const bool known )
 {
     members[guy_id] = std::make_pair( guy_name, known );
@@ -537,7 +547,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
     bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
-    // TODO NPCS on mission contactable same as travelling
+    // TODO: NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;

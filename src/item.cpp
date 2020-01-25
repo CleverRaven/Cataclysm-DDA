@@ -246,7 +246,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( !type->snippet_category.empty() ) {
-        snippet_id = SNIPPET.random_id_from_category( type->snippet_category );
+        snip_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
     if( current_phase == PNULL ) {
@@ -2607,9 +2607,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
-        const cata::optional<translation> snippet = snippet_id.has_value()
-                ? SNIPPET.get_snippet_by_id( snippet_id.value() )
-                : cata::nullopt;
+        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
             // Just use the dynamic description
             info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
@@ -4119,7 +4117,7 @@ std::string item::display_name( unsigned int quantity ) const
         amt = " (" + ammotext + ")";
     }
 
-    // This is a hack to prevent possible crashing when displaying maps as items during character creation
+    // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
@@ -4521,7 +4519,7 @@ void item::unset_flags()
     item_tags.clear();
 }
 
-bool item::has_fault( const fault_id fault ) const
+bool item::has_fault( const fault_id &fault ) const
 {
     return faults.count( fault );
 }
@@ -5044,7 +5042,7 @@ int item::get_encumber_when_containing(
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    //TODO: Should probably have sizing affect coverage
+    // TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p, encumber != 0 );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
@@ -8000,21 +7998,16 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     return destroy;
 }
 
-void item::set_snippet( const std::string &id )
+void item::set_snippet( const snippet_id &id )
 {
     if( is_null() ) {
         return;
     }
-    if( type->snippet_category.empty() ) {
-        debugmsg( "can not set description for item %s without snippet category", typeId().c_str() );
+    if( !id.is_valid() ) {
+        debugmsg( "there's no snippet with id %s", id.str() );
         return;
     }
-    if( !SNIPPET.get_snippet_by_id( id ).has_value() ) {
-        debugmsg( "snippet id %s is not contained in snippet category %s", id,
-                  type->snippet_category );
-        return;
-    }
-    snippet_id = id;
+    snip_id = id;
 }
 
 const item_category &item::get_category() const

@@ -16,7 +16,7 @@
     "id": "BIOLUM1",
     "name": "Weak Photophore",
     "points": 1,
-    "description": "A photophore has grown from your head, you can make it glow soflty.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
+    "description": "A photophore has grown from your head, you can make it glow softly.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
     "active": true,
     "cost": 1,
     "time": 810000,
@@ -3460,7 +3460,8 @@
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ]
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "flags": [ "PRED1" ]
   },
   {
     "type": "mutation",
@@ -3484,7 +3485,8 @@
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ]
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "flags": [ "PRED2" ]
   },
   {
     "type": "mutation",
@@ -3511,7 +3513,8 @@
     ],
     "cancels": [ "PACIFIST" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
-    "passive_mods": { "int_mod": -1 }
+    "passive_mods": { "int_mod": -1 },
+    "flags": [ "PRED3" ]
   },
   {
     "type": "mutation",
@@ -3527,7 +3530,8 @@
     "cancels": [ "PACIFIST" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE" ],
-    "passive_mods": { "int_mod": -3 }
+    "passive_mods": { "int_mod": -3 },
+    "flags": [ "PRED4" ]
   },
   {
     "type": "mutation",
@@ -6134,7 +6138,7 @@
     "id": "PROF_MED",
     "name": "MD",
     "points": 0,
-    "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
+    "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hospital computer systems would recognize the PC as a valid user and grant access.",
     "description": "You were just through with the administrative formalities for your residency when the Cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
     "valid": false,
     "purifiable": false,
@@ -6521,7 +6525,7 @@
     "id": "WAYFARER",
     "name": "Wayfarer",
     "points": -8,
-    "description": "Whether from personal choice or childhood trauma, travelling with vehicles is off-limits to you, even if your life depended on it.",
+    "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
     "valid": false
   }

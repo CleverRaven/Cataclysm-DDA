@@ -19,6 +19,7 @@ Use the `Home` key to return to the top.
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Item Groups](#item-groups)
+    + [Item Category](#item-category)
     + [Materials](#materials)
     + [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
@@ -464,6 +465,26 @@ The syntax listed here is still valid.
         ["blueberries", 3]
     ],
     "groups":[]
+}
+```
+
+### Item Category
+
+When you sort your inventory by category, these are the categories that are displayed.
+
+| Identifier | Description
+|---         |---
+| id         | Unique ID. Must be one continuous word, use underscores if necessary
+| name       | The name of the category. This is what shows up in-game when you open the inventory.
+| zone       | The corresponding loot_zone (see loot_zones.json)
+| sort_rank  | Used to sort categories when displaying.  Lower values are shown first
+
+```C++
+{
+    "id":"ammo",
+    "name": "AMMO",
+    "zone": "LOOT_AMMO",
+    "sort_rank": -21
 }
 ```
 
@@ -1098,6 +1119,11 @@ Note that even though most statistics yield an integer, you should still use
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
 "lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
+"fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
+"fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
+"healing_awake": 1.0, // Healing rate per turn while awake.
+"healing_resting": 0.5, // Healing rate per turn while resting.
 ```
 
 ### Vehicle Groups

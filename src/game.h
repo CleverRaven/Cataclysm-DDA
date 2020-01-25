@@ -258,7 +258,7 @@ class game
          * Currently only the player character and npcs have ids.
          */
         template<typename T = Creature>
-        T * critter_by_id( character_id id );
+        T * critter_by_id( const character_id &id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -303,12 +303,12 @@ class game
          */
         /** @{ */
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
-        monster *place_critter_at( shared_ptr_fast<monster> mon, const tripoint &p );
+        monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
-        monster *place_critter_around( shared_ptr_fast<monster> mon, const tripoint &center,
+        monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius );
         monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
-        monster *place_critter_within( shared_ptr_fast<monster> mon,
+        monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range &range );
         /** @} */
         /**
