@@ -19,6 +19,23 @@
     "fun": 2
   },
   {
+    "abstract": "holybook_abstract",
+    "type": "BOOK",
+    "name": "holybook abstract",
+    "description": "theoretically this isn't a book at all",
+    "price": 550,
+    "price_postapoc": 550,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "dark_gray",
+    "flags": [ "TINDER", "FLAMMABLE" ],
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": 1,
+    "flags": [ "INSPIRATIONAL" ]
+  },
+  {
     "id": "ZSG",
     "type": "BOOK",
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
@@ -1073,23 +1090,24 @@
     "id": "novel_swash_blkfreight",
     "type": "BOOK",
     "name": { "str": "The Black Freighter", "str_pl": "copies of The Black Freighter" },
-    "description": "",
+    "description": "Who watches the watchmen?  Pirate Jenny, that's who!",
     "copy-from": "paperback_novel",
-    "relative": { "fun": 2, "chapters": -7 }
+    "relative": { "fun": 2, "chapters": -8 }
   },
   {
     "id": "novel_swash_searovers",
     "type": "BOOK",
     "name": { "str": "Captain Gosgold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
-    "description": "",
+    "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosgold.  The British consider him an outlaw, but in America he is a patriot.",
     "copy-from": "paperback_novel",
-    "relative": { "weight": 186, "price": 250, "time": -3, "chapters": 8 }
+    "time": "12 m",
+    "relative": { "weight": 186, "price": 250, "chapters": 8 }
   },
   {
     "id": "novel_swash_buccaneer",
     "type": "BOOK",
     "name": { "str": "The Code of the Buccaneer", "str_pl": "copies of The Buccaneer" },
-    "description": "",
+    "description": "The cover of this paperback pirate story shows a shirtless man and a near shirtless woman.  Clearly it is not a dress code.",
     "copy-from": "paperback_novel"
   },
   {
