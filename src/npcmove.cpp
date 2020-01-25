@@ -2470,7 +2470,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 
 void npc::worker_downtime()
 {
-    // are we already in a chair?
+    // are we already in a chair
     if( g->m.has_flag_furn( "CAN_SIT", pos() ) ) {
         // just chill here
         move_pause();
