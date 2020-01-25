@@ -488,7 +488,7 @@
     "name": "acidic lungs",
     "name_plural": "acidic lungs",
 	"snippet_category": "acid_lung_desc",
-    "description": "These lungs give off a sour smell, similar to vinegar but worse.  Otherwise, they are not unlike the lungs of a small mammal, but with a curious spiralling pattern of wrinkles running through them.",
+    "description": "These lungs give off a sour smell, similar to vinegar but worse.",
     "looks_like": "lung",
     "cooks_like": "lung_cooked",
     "spoils_in": "1 day 12 hours",

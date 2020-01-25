@@ -76,14 +76,6 @@
       {
         "id": "mutant_lung_2",
         "text": "You're pretty sure this is lung tissue.  It has a vaguely wing-like shape, with a series of nodules around what would be the trailing edge of the 'wing'.  A cluster of quills in each corner of the organ held it to the bug's carapace like clasps."
-      },
-      {
-        "id": "mutant_lung_3",
-        "text": "You're pretty sure this is lung tissue.  "
-      },
-      {
-        "id": "mutant_lung_4",
-        "text": "You're pretty sure this is lung tissue.  "
       }
     ]
   },
@@ -109,4 +101,46 @@
       }
     ]
   },
+  {
+    "type": "snippet",
+    "category": "acid_lung_desc",
+    "text": [
+      {
+        "id": "acid_lung_1",
+        "text": "These lungs give off a sour smell, similar to vinegar but worse.  Otherwise, they are not unlike the lungs of a small mammal, but with a curious spiralling pattern of wrinkles running through them."
+      },
+      {
+        "id": "acid_lung_2",
+        "text": "These lungs give off a sour smell, similar to vinegar but worse.  Otherwise, they are not unlike the lungs of a large bird, but dotted with thickly gnarled horns of cartilage."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "chitin_desc",
+    "text": [
+      {
+        "id": "chitin_1",
+        "text": "A piece of an insect's exoskeleton.  It is light and very durable."
+      },
+      {
+        "id": "chitin_2",
+        "text": "A piece of an insect's exoskeleton.  It is light and very durable."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "endochitin_desc",
+    "text": [
+      {
+        "id": "endochitin_1",
+        "text": "A piece of an insect's endoskeleton."
+      },
+      {
+        "id": "endochitin_2",
+        "text": "A piece of an insect's endoskeleton."
+      }
+    ]
+  }
 ]
