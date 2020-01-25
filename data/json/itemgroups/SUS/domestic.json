@@ -659,7 +659,7 @@
       },
       {
         "distribution": [ { "item": "antifungal", "prob": 60 }, { "item": "antiparasitic", "prob": 20 } ],
-        "prob": 25
+        "prob": 5
       }
     ]
   },
