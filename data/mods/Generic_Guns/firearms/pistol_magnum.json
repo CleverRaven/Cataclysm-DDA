@@ -23,7 +23,7 @@
     "copy-from": "henry_big_boy",
     "type": "GUN",
     "name": "handmade magnum carbine",
-    "ammo_type": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commerical magnum pistol magazines, and locks with a rudimentary lever action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
     "weight": "2114 g",
     "volume": "2 L",
