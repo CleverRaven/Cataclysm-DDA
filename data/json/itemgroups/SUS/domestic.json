@@ -634,33 +634,32 @@
     "entries": [
       {
         "distribution": [
-          { "item": "aspirin", "prob": 60 },
-          { "item": "aspirin", "prob": 40 },
+          { "item": "aspirin", "prob": 160 },
           { "item": "codeine", "prob": 30 },
           { "item": "tramadol", "prob": 10 }
         ],
-        "prob": 50
+        "prob": 95
       },
       { "item": "eyedrops", "prob": 15 },
-      { "item": "pepto", "prob": 50 },
+      { "item": "pepto", "prob": 70 },
       { "item": "inhaler", "prob": 25 },
       { "item": "pills_sleep", "prob": 10 },
-      { "distribution": [ { "item": "nyquil", "prob": 60 }, { "item": "dayquil", "prob": 20 } ], "prob": 30 },
+      { "distribution": [ { "item": "nyquil", "prob": 60 }, { "item": "dayquil", "prob": 20 } ], "prob": 50 },
       {
         "distribution": [
           { "item": "vitamins", "prob": 60 },
           { "item": "gummy_vitamins", "prob": 20 },
           { "item": "calcium_tablet", "prob": 10 }
         ],
-        "prob": 40
+        "prob": 80
       },
       {
         "distribution": [ { "item": "weak_antibiotics", "prob": 40 }, { "item": "antibiotics", "prob": 10 } ],
-        "prob": 30
+        "prob": 10
       },
       {
         "distribution": [ { "item": "antifungal", "prob": 60 }, { "item": "antiparasitic", "prob": 20 } ],
-        "prob": 25
+        "prob": 5
       }
     ]
   },
@@ -699,7 +698,7 @@
     "id": "SUS_bathroom_cabinet",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for the cabinet under the sink.",
+    "//2": "This group is for a bathroom cabinet under the sink.",
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
@@ -709,7 +708,7 @@
       },
       {
         "distribution": [ { "item": "bandages", "prob": 60 }, { "item": "medical_gauze", "prob": 20 }, { "item": "1st_aid", "prob": 10 } ],
-        "prob": 40
+        "prob": 20
       },
       { "item": "disinfectant", "prob": 40 },
       { "item": "chem_hydrogen_peroxide", "prob": 50 },
