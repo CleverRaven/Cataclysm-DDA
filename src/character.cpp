@@ -4146,6 +4146,7 @@ void Character::check_needs_extremes()
                     const translation message = SNIPPET.random_from_category( category ).value_or( translation() );
                     add_msg_if_player( m_warning, message );
                 }
+
             }
         }
     }
