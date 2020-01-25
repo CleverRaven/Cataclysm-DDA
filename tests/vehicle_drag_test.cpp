@@ -103,11 +103,13 @@ static bool test_drag(
     if( veh_ptr == nullptr ) {
         return false;
     }
+
     const double c_air = veh_ptr->coeff_air_drag();
     const double c_rolling = veh_ptr->coeff_rolling_drag();
     const double c_water = veh_ptr->coeff_water_drag();
     const int safe_v = veh_ptr->safe_ground_velocity( false );
     const int max_v = veh_ptr->max_ground_velocity( false );
+
     const auto d_in_bounds = [&]( const double expected, double value ) {
         double expected_high = expected * 1.05;
         double expected_low = expected * 0.95;
