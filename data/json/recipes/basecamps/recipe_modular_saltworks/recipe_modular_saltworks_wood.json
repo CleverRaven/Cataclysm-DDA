@@ -32,7 +32,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery0_wood_southwest",
-    "description": "We could take advantage of the the designation of this area to build a wooden brewery.",
+    "description": "We could take advantage of the designation of this area to build a wooden brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
