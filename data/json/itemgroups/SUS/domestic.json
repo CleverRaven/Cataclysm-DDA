@@ -698,7 +698,7 @@
     "id": "SUS_bathroom_cabinet",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for the cabinet under the sink.",
+    "//2": "This group is for a bathroom cabinet under the sink.",
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
