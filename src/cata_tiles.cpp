@@ -2179,7 +2179,9 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // do something to get other terrain orientation values
         }
         const std::string &tname = t.id().str();
-        if( g->m.check_seen_cache( p ) ) {
+        const auto &cached_tile = g->u.get_memorized_tile( g->m.getabs( p ) );
+        if( g->m.check_seen_cache( p ) || ( cached_tile.tile == tname &&
+                                            cached_tile.subtile != subtile ) ) {
             g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
