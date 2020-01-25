@@ -32,7 +32,7 @@
     "looks_like": "story_book",
     "color": "dark_gray",
     "flags": [ "TINDER", "FLAMMABLE" ],
-    "intelligence": 5,
+    "intelligence": 6,
     "time": "30 m",
     "chapters": 30,
     "//": "TODO for this item fun should be conditional",
