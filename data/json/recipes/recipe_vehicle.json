@@ -46,6 +46,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "tailor",
     "difficulty": 3,
+    "autolearn": true,
     "time": "120 m",
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
