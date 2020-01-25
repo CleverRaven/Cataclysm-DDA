@@ -188,7 +188,7 @@
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] }
       ],
-      "j": [ { "item": "SUS_bathroom_sink", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "j": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "harddrugs", "chance": 1 } ],
       "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
       "i": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
