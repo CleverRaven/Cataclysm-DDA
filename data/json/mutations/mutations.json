@@ -736,7 +736,7 @@
   {
     "type": "mutation",
     "id": "BADKNEES",
-    "name": "Bad Knees",
+    "name": { "str": "Bad Knees" },
     "points": -1,
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
@@ -855,7 +855,7 @@
   {
     "type": "mutation",
     "id": "BADTEMPER",
-    "name": "Bad Temper",
+    "name": { "str": "Bad Temper" },
     "points": -2,
     "description": "Things just keep getting you down.  You tend to be unhappy, and it takes some doing to cheer you up.",
     "starting_trait": true,
@@ -2225,7 +2225,7 @@
   {
     "type": "mutation",
     "id": "BARK",
-    "name": "Bark",
+    "name": { "str": "Bark" },
     "points": 5,
     "visibility": 10,
     "ugliness": 3,
@@ -4326,7 +4326,7 @@
   {
     "type": "mutation",
     "id": "WINGS_BAT",
-    "name": "Bat Wings",
+    "name": { "str": "Bat Wings" },
     "points": -1,
     "visibility": 9,
     "ugliness": 4,
@@ -4407,7 +4407,7 @@
   {
     "type": "mutation",
     "id": "DEFORMED2",
-    "name": "Badly Deformed",
+    "name": { "str": "Badly Deformed" },
     "points": -3,
     "visibility": 7,
     "ugliness": 7,
