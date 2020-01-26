@@ -9550,14 +9550,14 @@ int iuse::gobag_personal( player *p, item *it, bool, const tripoint & )
     return gobag( p, it, true );
 }
 
-int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
+int iuse::melatonin_tablet( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
-    if( p->has_effect( effect_magnesium_supplements ) ) {
+    if( p->has_effect( effect_melatonin_supplements ) ) {
         p->add_msg_if_player( m_warning,
                               _( "Simply taking more magnesium won't help.  You have to go to sleep for it to work." ) );
     }
-    p->add_effect( effect_magnesium_supplements, 16_hours );
+    p->add_effect( effect_melatonin_supplements, 16_hours );
     return it->type->charges_to_use();
 }
 
