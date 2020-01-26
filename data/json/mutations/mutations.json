@@ -1890,7 +1890,7 @@
   {
     "type": "mutation",
     "id": "DOWN",
-    "name": "Down",
+    "name": { "str": "Down" },
     "points": 0,
     "visibility": 4,
     "ugliness": 1,
@@ -1966,7 +1966,7 @@
   {
     "type": "mutation",
     "id": "FELINE_FUR",
-    "name": "Sleek Fur",
+    "name": { "str": "Sleek Fur" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
@@ -3817,7 +3817,7 @@
   {
     "type": "mutation",
     "id": "FAT",
-    "name": "Fat Deposits",
+    "name": { "str": "Fat Deposits" },
     "points": -1,
     "visibility": 1,
     "ugliness": 1,
@@ -4764,7 +4764,7 @@
   {
     "type": "mutation",
     "id": "ROT2",
-    "name": "Deterioration",
+    "name": { "str": "Deterioration" },
     "points": -8,
     "bodytemp_modifiers": [ -750, -750 ],
     "description": "Your body is very slowly wasting away.",
@@ -4777,7 +4777,7 @@
   {
     "type": "mutation",
     "id": "ROT3",
-    "name": "Disintegration",
+    "name": { "str": "Disintegration" },
     "points": -10,
     "bodytemp_modifiers": [ -1500, -1500 ],
     "description": "Your body is slowly wasting away!",
@@ -5013,7 +5013,7 @@
   {
     "type": "mutation",
     "id": "RADIOACTIVE3",
-    "name": "Severe Radioactivity",
+    "name": { "str": "Severe Radioactivity" },
     "points": -6,
     "bodytemp_modifiers": [ 1500, 1500 ],
     "description": "Your body has become radioactive!  You continuously emit heavy levels of radiation, making your surroundings unlivable.",
