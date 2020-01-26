@@ -201,7 +201,7 @@ class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_functio
          * index to the above, adjusted to allow for rarity
          * random selector list for the nested vector above, as per individual mapgen_function_::weight value
          */
-        std::map<int, int> weights_;
+        std::map<int, std::shared_ptr<mapgen_function>> weights_;
 
         int add( const std::shared_ptr<mapgen_function> ptr ) {
             assert( ptr );
@@ -222,23 +222,18 @@ std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> 
 void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
     for( auto &omw : oter_mapgen ) {
-        int funcnum = 0;
         int wtotal = 0;
         omw.second.weights_.clear();
         for( auto fit = omw.second.begin(); fit != omw.second.end(); ++fit ) {
-            //
             int weight = ( *fit )->weight;
             if( weight < 1 ) {
-                dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
-                              wtotal;
-                ++funcnum;
+                dbg( D_INFO ) << "wcalc " << omw.first << ": (rej(1), " << weight << ") = " << wtotal;
                 continue; // rejected!
             }
             ( *fit )->setup();
             wtotal += weight;
-            omw.second.weights_[ wtotal ] = funcnum;
-            dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): +" << weight << " = " << wtotal;
-            ++funcnum;
+            omw.second.weights_[ wtotal ] = *fit;
+            dbg( D_INFO ) << "wcalc " << omw.first << ": +" << weight << " = " << wtotal;
         }
     }
     // Not really calculate weights, but let's keep it here for now
@@ -297,9 +292,7 @@ static mapgen_function *get_mapgen_function( const std::string &key,
     if( roll > rlast ) {
         return nullptr;
     }
-    const int fidx = vector.weights_.lower_bound( roll )->second;
-    assert( static_cast<size_t>( fidx ) < vector.size() );
-    const std::shared_ptr<mapgen_function> &ptr = vector[fidx];
+    const std::shared_ptr<mapgen_function> &ptr = vector.weights_.lower_bound( roll )->second;
     assert( ptr );
     return ptr.get();
 }
