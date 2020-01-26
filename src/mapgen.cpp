@@ -233,6 +233,11 @@ class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_functio
             }
             // @TODO clear: clear();
         }
+        void check_consistency( const std::string &key ) {
+            for( auto &mapgen_function_ptr : *this ) {
+                mapgen_function_ptr->check( key );
+            }
+        }
 };
 /*
  * stores function ref and/or required data
@@ -266,9 +271,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 void check_mapgen_definitions()
 {
     for( auto &oter_definition : oter_mapgen ) {
-        for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr->check( oter_definition.first );
-        }
+        oter_definition.second.check_consistency( oter_definition.first );
     }
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
