@@ -15,7 +15,7 @@
 #include "player_activity.h"
 #include "type_id.h"
 #include "point.h"
-
+#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 
 int get_remaining_charges( const std::string &tool_id )
@@ -53,8 +53,8 @@ void clear_character( player &dummy )
         dummy.unset_mutation( tr );
     }
     // Prevent spilling, but don't cause encumbrance
-    if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
-        dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
+    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
+        dummy.set_mutation( trait_DEBUG_STORAGE );
     }
 
     dummy.clear_morale();

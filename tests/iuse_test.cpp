@@ -15,6 +15,7 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 static player &get_sanitized_player( )
 {
@@ -37,7 +38,7 @@ TEST_CASE( "use_eyedrops" )
 
     REQUIRE( test_item.charges == 5 );
 
-    dummy.add_env_effect( efftype_id( "boomered" ), bp_eyes, 3, 12_turns );
+    dummy.add_env_effect( effect_boomered, bp_eyes, 3, 12_turns );
 
     item_location loc = item_location( dummy, &test_item );
     REQUIRE( loc );
@@ -49,7 +50,7 @@ TEST_CASE( "use_eyedrops" )
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
     REQUIRE( test_item.charges == 4 );
-    REQUIRE( !dummy.has_effect( efftype_id( "boomered" ) ) );
+    REQUIRE( !dummy.has_effect( effect_boomered ) );
 
     dummy.consume( loc );
     dummy.consume( loc );

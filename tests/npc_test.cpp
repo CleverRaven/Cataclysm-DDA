@@ -29,7 +29,7 @@
 #include "type_id.h"
 #include "point.h"
 #include "memory_fast.h"
-
+#include "cata_string_consts.h"
 #include "player_helpers.h"
 
 class Creature;
@@ -65,9 +65,9 @@ static npc create_model()
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
     model_npc.set_fatigue( 0 );
-    model_npc.remove_effect( efftype_id( "sleep" ) );
+    model_npc.remove_effect( effect_sleep );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
+    model_npc.set_mutation( trait_WEB_WEAVER );
 
     return model_npc;
 }
@@ -113,7 +113,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
         npc test_npc = create_model();
-        test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
+        test_npc.add_effect( effect_sleep, 6_hours );
         test_npc.set_fatigue( 1000 );
         const auto five_min_ticks = 6_hours / 5_minutes;
         /*
@@ -227,8 +227,6 @@ constexpr char setup[height][width + 1] = {
 
 static void check_npc_movement( const tripoint &origin )
 {
-    const efftype_id effect_bouldering( "bouldering" );
-
     INFO( "Should not crash from infinite recursion" );
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {

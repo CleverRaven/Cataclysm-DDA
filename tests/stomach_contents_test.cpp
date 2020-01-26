@@ -215,7 +215,6 @@ TEST_CASE( "hunger" )
     reset_time();
     clear_stomach( dummy );
     dummy.initialize_stomach_contents();
-    dummy.clear_effects();
 
     if( print_tests ) {
         printf( "\n\n" );
