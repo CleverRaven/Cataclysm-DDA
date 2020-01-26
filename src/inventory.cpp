@@ -588,11 +588,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( kiln );
         }
         if( chempart ) {
-            item hotplate( "hotplate", 0 );
-            hotplate.charges = veh->fuel_left( "battery", true );
-            hotplate.item_tags.insert( "PSEUDO" );
-            add_item( hotplate );
-
             item chemistry_set( "chemistry_set", 0 );
             chemistry_set.charges = veh->fuel_left( "battery", true );
             chemistry_set.item_tags.insert( "PSEUDO" );
