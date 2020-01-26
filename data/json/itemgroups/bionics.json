@@ -102,7 +102,7 @@
     "subtype": "distribution",
     "items": [
       [ "bio_power_storage", 40 ],
-	  [ "bio_batteries", 25 ],
+      [ "bio_batteries", 25 ],
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 15 ],
       [ "bio_tattoo_led", 25 ],
