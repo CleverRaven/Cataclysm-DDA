@@ -121,11 +121,11 @@
     "text": [
       {
         "id": "chitin_1",
-        "text": "A piece of an insect's exoskeleton.  It is light and very durable."
+        "text": "A piece of a bug's exoskeleton, but mutated.  The inner side is lined with veins and strange hooked protruberances."
       },
       {
         "id": "chitin_2",
-        "text": "A piece of an insect's exoskeleton.  It is light and very durable."
+        "text": "A piece of a bug's exoskeleton.  Stringy lines of nervous tissue and blood vessels still cling to the inner surface."
       }
     ]
   },
@@ -135,11 +135,11 @@
     "text": [
       {
         "id": "endochitin_1",
-        "text": "A piece of an insect's endoskeleton."
+        "text": "A piece of rigid, tube-shaped chitin from the inside of a giant bug.  It seemed to be performing some kind of support role.  You're quite sure normal insects don't have these."
       },
       {
         "id": "endochitin_2",
-        "text": "A piece of an insect's endoskeleton."
+        "text": "A long, flexible rod of chitin from inside a giant mutant bug.  It is laced with blood vessels and chitinous nodules."
       }
     ]
   }

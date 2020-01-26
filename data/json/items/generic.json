@@ -333,9 +333,9 @@
     "material": "chitin",
     "flags": [ "NO_SALVAGE" ],
     "weight": "89 g",
-    "volume": "250 ml",
+    "volume": "300 ml",
     "bashing": 1,
-    "to_hit": -2
+    "to_hit": 0
   },
   {
     "type": "GENERIC",
