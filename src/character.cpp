@@ -4184,7 +4184,7 @@ void Character::check_needs_extremes()
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep" ) );
+            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
         }
