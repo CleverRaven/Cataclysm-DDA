@@ -1216,7 +1216,6 @@ int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) co
     // Thousands of watts over millions of seconds can happen, so 32-bit int
     // insufficient.
     int64_t energy_j = power_w * to_seconds<int64_t>( d );
-    int energy_j = power_w * to_seconds<int>( d );
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
