@@ -7315,3 +7315,8 @@ int register_mapgen_function( const std::string &key )
     }
     return -1;
 }
+
+bool has_mapgen_for( const std::string &key )
+{
+    return oter_mapgen.count( key ) != 0;
+}

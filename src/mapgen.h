@@ -385,6 +385,10 @@ void reset_mapgens();
  */
 // @TODO this should go away. It is only used for old build-in mapgen. Mapgen should be done via JSON.
 int register_mapgen_function( const std::string &key );
+/**
+ * Check that @p key is present in @ref oter_mapgen.
+ */
+bool has_mapgen_for( const std::string &key );
 /*
  * stores function ref and/or required data
  */
