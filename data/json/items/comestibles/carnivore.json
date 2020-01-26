@@ -489,8 +489,6 @@
     "name_plural": "acidic lungs",
     "snippet_category": "acid_lung_desc",
     "description": "These lungs give off a sour smell, similar to vinegar but worse.",
-    "looks_like": "lung",
-    "cooks_like": "lung_cooked",
     "spoils_in": "1 day 12 hours",
     "proportional": { "price": 0.1, "calories": 0.25 },
     "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }

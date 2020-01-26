@@ -334,8 +334,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "89 g",
     "volume": "300 ml",
-    "bashing": 1,
-    "to_hit": 0
+    "bashing": 1
   },
   {
     "type": "GENERIC",
@@ -349,8 +348,8 @@
     "price": 0,
     "material": "flesh",
     "flags": [ "NO_SALVAGE" ],
-    "weight": "1 g",
-    "volume": "150 ml",
+    "weight": "50 g",
+    "volume": "250 ml",
     "to_hit": -4
   },
   {
