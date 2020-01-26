@@ -245,6 +245,18 @@ class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_functio
             assert( *ptr );
             return ptr->get();
         }
+        void setup() {
+            weights_.clear();
+            for( const std::shared_ptr<mapgen_function> &ptr : *this ) {
+                const int weight = ptr->weight;
+                if( weight < 1 ) {
+                    continue; // rejected!
+                }
+                weights_.add( ptr, weight );
+                ptr->setup();
+            }
+            // @TODO clear: clear();
+        }
 };
 /*
  * stores function ref and/or required data
@@ -259,16 +271,7 @@ std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> 
 void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
     for( auto &omw : oter_mapgen ) {
-        omw.second.weights_.clear();
-        for( const std::shared_ptr<mapgen_function> &ptr : omw.second ) {
-            const int weight = ptr->weight;
-            if( weight < 1 ) {
-                continue; // rejected!
-            }
-            omw.second.weights_.add( ptr, weight );
-            ptr->setup();
-        }
-        // @TODO clear: omw.second.clear();
+        omw.second.setup();
     }
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
