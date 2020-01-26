@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Fewer_Farms",
+    "name": "Fewer Farms",
+    "authors": [ "wapcaplet" ],
+    "description": "Reduces the farm density.",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]

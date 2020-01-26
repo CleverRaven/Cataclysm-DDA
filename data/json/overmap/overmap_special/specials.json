@@ -100,7 +100,7 @@
     "locations": [ "forest" ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -384,7 +384,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "flags": [ "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -407,7 +408,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -431,7 +432,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -466,7 +467,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -489,7 +490,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -512,7 +513,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -544,7 +545,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -572,7 +573,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -601,7 +602,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "FARM" ]
   },
   {
     "type": "overmap_special",
