@@ -496,7 +496,7 @@
     "type": "COMESTIBLE",
     "id": "arm",
     "category": "other",
-    "name": "mutated arm",
+    "name": { "str": "mutated arm" },
     "weight": "3767 g",
     "color": "brown",
     "spoils_in": "2 days",

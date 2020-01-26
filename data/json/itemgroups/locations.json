@@ -155,8 +155,7 @@
     "id": "waitingroom",
     "items": [
       { "group": "magazines", "prob": 2000 },
-      [ "child_book", 30 ],
-      [ "manual_dodge_kid", 5 ],
+      { "group": "kids_books", "prob": 35 },
       [ "recipe_augs", 20 ],
       [ "decoy_anarch", 50 ],
       [ "months_old_newspaper", 20 ],
@@ -220,18 +219,14 @@
     "items": [
       [ "corpse", 10 ],
       [ "bag_body_bag", 10 ],
-      [ "child_book", 5 ],
+      { "group": "kids_books", "prob": 40 },
       [ "stethoscope", 20 ],
-      [ "tall_tales", 10 ],
-      [ "story_book", 5 ],
       [ "novel_pulp", 16 ],
-      [ "fairy_tales", 10 ],
       [ "atomic_light", 1 ],
       [ "months_old_newspaper", 4 ],
       [ "weeks_old_newspaper", 5 ],
       [ "newest_newspaper", 6 ],
       { "group": "book_mag_gen", "prob": 99 },
-      [ "mag_comic", 10 ],
       [ "mag_porn", 5 ],
       [ "hairpin", 5 ],
       [ "purse", 30 ],
@@ -575,14 +570,10 @@
       [ "ZSG", 10 ],
       [ "glassblowing_book", 15 ],
       [ "textbook_chemistry", 15 ],
-      [ "child_book", 15 ],
-      [ "manual_dodge_kid", 5 ],
+      { "group": "novels", "prob": 75 },
+      { "group": "literature", "prob": 20 },
       { "group": "religious_books", "prob": 10 },
-      [ "novel_thriller", 15 ],
-      [ "novel_sports", 15 ],
-      [ "novel_war", 15 ],
-      [ "novel_western", 15 ],
-      [ "novel_experimental", 15 ],
+      { "group": "kids_books", "prob": 20 },
       [ "recipe_elfa", 15 ],
       [ "recipe_bows", 15 ],
       [ "manual_stabbing", 20 ],
@@ -1651,17 +1642,14 @@
       [ "file", 30 ],
       [ "photo_album", 5 ],
       { "group": "magazines", "prob": 255 },
-      [ "novel_romance", 30 ],
-      [ "novel_drama", 40 ],
-      [ "novel_mystery", 25 ],
+      { "group": "novels", "prob": 125 },
+      { "group": "literature", "prob": 20 },
       [ "ZSG", 5 ],
       [ "manual_mechanics", 35 ],
       [ "manual_fabrication", 12 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],
       [ "manual_computers", 20 ],
-      [ "novel_western", 16 ],
-      [ "novel_pulp", 16 ],
       [ "tailor_portfolio", 1 ],
       [ "recipe_alpha", 1 ],
       [ "recipe_serum", 4 ],
@@ -1782,37 +1770,11 @@
       [ "101_carpentry", 10 ],
       [ "manual_driving", 20 ],
       [ "textbook_speech", 12 ],
-      [ "novel_romance", 30 ],
-      [ "novel_spy", 28 ],
-      [ "novel_satire", 15 ],
-      [ "novel_sports", 22 ],
-      [ "novel_samurai", 22 ],
-      [ "novel_swash", 14 ],
-      [ "novel_western", 22 ],
-      [ "novel_war", 18 ],
-      [ "novel_war2", 18 ],
+      { "group": "novels", "prob": 439 },
+      { "group": "kids_books", "prob": 50 },
+      { "group": "literature", "prob": 60 },
       [ "atomic_survival", 1 ],
-      [ "novel_adventure", 14 ],
-      [ "novel_experimental", 1 ],
-      [ "novel_road", 10 ],
-      [ "novel_buddy", 12 ],
-      [ "novel_thriller", 18 ],
-      [ "novel_coa", 10 ],
-      [ "novel_coa2", 10 ],
-      [ "novel_crime", 20 ],
-      [ "novel_crime2", 20 ],
-      [ "novel_scifi", 20 ],
-      [ "novel_drama", 40 ],
-      [ "novel_mystery", 25 ],
-      [ "novel_fantasy", 20 ],
-      [ "novel_erotic", 4 ],
-      [ "poetry_book", 10 ],
       [ "jewelry_book", 8 ],
-      [ "philosophy_book", 2 ],
-      [ "essay_book", 6 ],
-      [ "plays_book", 8 ],
-      [ "novel_horror", 18 ],
-      [ "novel_tragedy", 8 ],
       [ "ZSG", 2 ],
       [ "cookies", 50 ],
       [ "backpack", 38 ],
@@ -2152,6 +2114,7 @@
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
       [ "milk_UHT", 10 ],
+      { "item": "melatonin_tablet", "count": 20, "prob": 20 },
       [ "can_spam", 30 ],
       [ "can_tuna", 35 ],
       [ "can_salmon", 25 ],
@@ -2204,8 +2167,7 @@
       [ "backpack_tactical_large", 3 ],
       [ "slingpack", 8 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
-      [ "novel_scifi", 20 ],
-      [ "novel_drama", 40 ],
+      { "group": "novels", "prob": 60 },
       { "group": "magazines", "prob": 35 },
       [ "manual_dodge", 2 ],
       [ "manual_first_aid", 40 ],
@@ -2215,7 +2177,7 @@
       [ "manual_bashing", 1 ],
       [ "recipe_bows", 4 ],
       [ "recipe_arrows", 4 ],
-      [ "child_book", 1 ],
+      { "group": "kids_books", "prob": 5 },
       [ "many_years_old_newspaper", 3 ],
       [ "years_old_newspaper", 3 ],
       [ "one_year_old_newspaper", 3 ],
@@ -2290,6 +2252,150 @@
       [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ]
+    ]
+  },
+  {
+    "id": "mil_base_ash",
+    "type": "item_group",
+    "//": "Remains of bodies burned in the corpse pits.",
+    "items": [ [ "ash", 35 ] ]
+  },
+  {
+    "id": "mil_base_bodybag",
+    "type": "item_group",
+    "//": "A corpse of a civilian or a soldier that died on the base, put in a bodybag.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "group": "mil_base_corpse_soldier", "prob": 100 }, { "group": "everyday_corpse", "prob": 120 } ] },
+      { "item": "bag_body_bag" }
+    ]
+  },
+  {
+    "id": "mil_base_corpse_soldier",
+    "type": "item_group",
+    "//": "Soldier corpse with clothes, without gear.",
+    "subtype": "collection",
+    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] }, { "item": "corpse_generic_human" } ]
+  },
+  {
+    "id": "mil_base_clothes_corpse_soldier",
+    "type": "item_group",
+    "//": "Soldier clothes, without gear.",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "item": "jacket_army", "prob": 50 },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "pants_army", "prob": 75 },
+      { "item": "webbing_belt", "prob": 50 },
+      { "item": "knee_pads", "prob": 10 },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ], "prob": 90 },
+      { "item": "boots_combat", "prob": 50 },
+      { "item": "helmet_army", "prob": 10 },
+      { "item": "gloves_tactical", "prob": 10 },
+      { "item": "ballistic_vest_esapi", "prob": 10 },
+      { "group": "clothing_tactical_leg", "prob": 5 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "mil_base_casing_hmg",
+    "type": "item_group",
+    "//": "HMG casing and linkage fired in a machine gun nest.",
+    "subtype": "collection",
+    "entries": [ { "item": "ammolink50" }, { "item": "50_casing" } ]
+  },
+  {
+    "id": "mil_base_hmg",
+    "type": "item_group",
+    "//": "M2 browning in a machine gun nest.",
+    "subtype": "distribution",
+    "entries": [ { "item": "m2browning", "charges-min": 0, "charges-max": 100 } ]
+  },
+  {
+    "id": "mil_base_bed_hospital",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "rag_bloody", "prob": 100 } ]
+  },
+  {
+    "id": "mil_base_table_hospital",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "bandages", "prob": 25 }, { "item": "rag_bloody", "prob": 100 } ]
+  },
+  {
+    "id": "mil_base_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "book_military", "prob": 50 }, { "group": "novels", "prob": 150 } ]
+  },
+  {
+    "id": "mil_base_coats",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "distribution": [ { "item": "trenchcoat", "prob": 80 }, { "item": "trenchcoat_leather", "prob": 60 } ], "prob": 40 },
+      {
+        "distribution": [ { "item": "coat_rain", "prob": 80 }, { "item": "peacoat", "prob": 50 }, { "item": "greatcoat", "prob": 35 } ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "item": "jacket_army", "prob": 80 }, { "item": "winter_jacket_army", "prob": 20 } ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "id": "mil_base_iv",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "blood", "prob": 100 },
+      { "item": "saline", "prob": 80, "container-item": "bag_iv" },
+      { "item": "bag_iv", "prob": 50 }
+    ]
+  },
+  {
+    "id": "mil_base_mess_hall",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plastic_fork" }, { "item": "mess_tray" } ]
+  },
+  {
+    "id": "mil_base_tent_civilian",
+    "type": "item_group",
+    "//": "Personal items left behind by civilians in their tents.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sleeping_bag", "prob": 100 },
+      { "item": "blanket", "prob": 100 },
+      { "group": "default_zombie_items_bags", "prob": 80, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "mil_base_tent_medical_thrash",
+    "type": "item_group",
+    "//": "Pile of thrash next to the medical tents.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bottle_plastic_small", "prob": 20 },
+      { "item": "box_small", "prob": 40 },
+      { "item": "box_medium", "prob": 100 },
+      { "item": "box_large", "prob": 100 },
+      { "item": "bag_iv", "prob": 60 },
+      { "item": "bag_body_bag", "prob": 40 },
+      { "item": "syringe", "prob": 30 },
+      { "item": "rag_bloody", "prob": 60 },
+      { "item": "coat_lab", "prob": 20 },
+      { "item": "blanket", "prob": 20 },
+      { "item": "sheet", "prob": 20 }
     ]
   }
 ]

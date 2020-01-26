@@ -1278,7 +1278,7 @@
     "name": "milking machine",
     "description": "A machine used in the dairy industry to milk cows.",
     "symbol": "%",
-    "color": [ "light_gray" ],
+    "color": "light_gray",
     "move_cost": 1,
     "bash": {
       "str_min": 10,
@@ -1308,7 +1308,7 @@
     "name": "bulk tank",
     "description": "A heavy, high capacity tank.",
     "symbol": "O",
-    "color": [ "light_gray" ],
+    "color": "light_gray",
     "move_cost": 0,
     "coverage": 85,
     "bash": {
@@ -1343,7 +1343,7 @@
     "name": "root cellar",
     "symbol": "=",
     "description": "A cellar dug into the earth for storing food in a cool environment.",
-    "color": [ "green" ],
+    "color": "green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
@@ -1405,7 +1405,7 @@
     "name": "pine lean-to",
     "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": ";",
-    "color": [ "brown" ],
+    "color": "brown",
     "move_cost": 2,
     "bash": {
       "str_min": 4,
@@ -1427,7 +1427,7 @@
     "name": "tarp lean-to",
     "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": ";",
-    "color": [ "light_blue" ],
+    "color": "light_blue",
     "move_cost": 2,
     "bash": {
       "str_min": 6,

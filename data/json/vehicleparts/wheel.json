@@ -40,7 +40,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
-    "description": "Connection where wheels can be connected on. This particular one is fit for normal car wheels.",
+    "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt", 1 ] ] },
@@ -69,7 +69,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
-    "description": "Connection where wheels can be connected on. This particular one is fit for large car wheels.",
+    "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_bolt", 1 ] ] },

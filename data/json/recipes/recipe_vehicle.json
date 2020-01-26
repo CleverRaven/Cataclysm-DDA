@@ -46,6 +46,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "tailor",
     "difficulty": 3,
+    "autolearn": true,
     "time": "120 m",
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
@@ -407,11 +408,10 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "5 s",
-    "reversible": true,
+    "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
   },
   {
     "result": "cargo_aisle",

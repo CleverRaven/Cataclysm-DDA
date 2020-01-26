@@ -1655,7 +1655,7 @@ bool npc::recharge_cbm()
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
                 for( const itype_id &fid : bid->fuel_opts ) {
-                    return it.typeId() == fid;
+                    return it.typeId() == fid || ( !it.is_container_empty() && it.contents.front().typeId() == fid );
                 }
                 return false;
             };
