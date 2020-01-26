@@ -219,7 +219,7 @@ void mapgen_function_builtin::generate( mapgendata &mgd )
 ///// all sorts of ways to apply our hellish reality to a grid-o-squares
 
 /*
- * ptr storage.
+ * stores function ref and/or required data
  */
 std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
@@ -227,6 +227,7 @@ std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> 
 
 /*
  * index to the above, adjusted to allow for rarity
+ * random selector list for the nested vector above, as per individual mapgen_function_::weight value
  */
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
