@@ -277,11 +277,11 @@ class mapgen_factory
         }
         // @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
         mapgen_function *pick( const std::string &key, const int hardcoded_weight = 0 ) const {
-            const auto fmapit = mapgens_.find( key );
-            if( fmapit == mapgens_.end() ) {
+            const auto iter = mapgens_.find( key );
+            if( iter == mapgens_.end() ) {
                 return nullptr;
             }
-            return fmapit->second.pick( hardcoded_weight );
+            return iter->second.pick( hardcoded_weight );
         }
         void erase( const std::string &key, const size_t index ) {
             mapgens_[key].erase( index );
