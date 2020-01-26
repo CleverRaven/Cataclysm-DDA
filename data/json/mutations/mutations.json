@@ -1920,7 +1920,7 @@
   {
     "type": "mutation",
     "id": "FUR",
-    "name": "Furry",
+    "name": { "str": "Furry" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
@@ -1936,7 +1936,7 @@
   {
     "type": "mutation",
     "id": "URSINE_FUR",
-    "name": "Shaggy Fur",
+    "name": { "str": "Shaggy Fur" },
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
@@ -2090,7 +2090,7 @@
   {
     "type": "mutation",
     "id": "CHITIN_FUR",
-    "name": "Hairy Chitin",
+    "name": { "str": "Hairy Chitin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -4751,7 +4751,7 @@
   {
     "type": "mutation",
     "id": "ROT1",
-    "name": "Weakening",
+    "name": { "str": "Weakening" },
     "points": -2,
     "bodytemp_modifiers": [ -250, -250 ],
     "description": "You feel as though you are slowly weakening and your body heals slower.",
@@ -5002,7 +5002,7 @@
   {
     "type": "mutation",
     "id": "RADIOACTIVE2",
-    "name": "Radioactivity",
+    "name": { "str": "Radioactivity" },
     "points": -4,
     "bodytemp_modifiers": [ 750, 750 ],
     "description": "Your body has become radioactive!  You continuously emit moderate levels of radiation, which contaminates the world around you.",
