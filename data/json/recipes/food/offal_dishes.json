@@ -176,7 +176,7 @@
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 83, 5 ],
-    "book_learn": [ [ "cookbook", 3 ], [ "family_cookbook", 3 ], , [ "cookbook_liverforkids", 1 ] ],
+    "book_learn": [ [ "cookbook", 3 ], [ "family_cookbook", 3 ], [ "cookbook_liverforkids", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 75, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
     "components": [
