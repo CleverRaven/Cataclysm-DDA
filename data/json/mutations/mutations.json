@@ -1875,7 +1875,7 @@
   {
     "type": "mutation",
     "id": "FEATHERS",
-    "name": "Feathers",
+    "name": { "str": "Feathers" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
@@ -1951,7 +1951,7 @@
   {
     "type": "mutation",
     "id": "LUPINE_FUR",
-    "name": "Gray Fur",
+    "name": { "str": "Gray Fur" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
@@ -2106,7 +2106,7 @@
   {
     "type": "mutation",
     "id": "CHITIN_FUR2",
-    "name": "Furred Chitin",
+    "name": { "str": "Furred Chitin" },
     "points": 4,
     "visibility": 10,
     "ugliness": 4,
@@ -2122,7 +2122,7 @@
   {
     "type": "mutation",
     "id": "CHITIN_FUR3",
-    "name": "Furred Plate",
+    "name": { "str": "Furred Plate" },
     "points": 5,
     "visibility": 10,
     "ugliness": 4,
@@ -5662,7 +5662,7 @@
   {
     "type": "mutation",
     "id": "SHELL2",
-    "name": "Roomy Shell",
+    "name": { "str": "Roomy Shell" },
     "points": -1,
     "visibility": 10,
     "ugliness": 3,
