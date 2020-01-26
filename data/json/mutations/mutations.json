@@ -1905,7 +1905,7 @@
   {
     "type": "mutation",
     "id": "LIGHTFUR",
-    "name": "Lightly Furred",
+    "name": { "str": "Lightly Furred" },
     "points": 1,
     "visibility": 6,
     "ugliness": 2,
@@ -4992,7 +4992,7 @@
   {
     "type": "mutation",
     "id": "RADIOACTIVE1",
-    "name": "Minor Radioactivity",
+    "name": { "str": "Minor Radioactivity" },
     "points": -2,
     "bodytemp_modifiers": [ 250, 250 ],
     "description": "Your body has become radioactive!  You continuously emit low levels of radiation, which slowly contaminates the world around you.",
