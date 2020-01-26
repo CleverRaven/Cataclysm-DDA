@@ -265,8 +265,8 @@ class mapgen_factory
             }
         }
         void check_consistency() {
-            for( std::pair<const std::string, mapgen_basic_container> &oter_definition : mapgens_ ) {
-                oter_definition.second.check_consistency( oter_definition.first );
+            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+                omw.second.check_consistency( omw.first );
             }
         }
         bool has( const std::string &key ) const {
