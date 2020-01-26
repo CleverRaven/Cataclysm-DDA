@@ -3,1509 +3,1509 @@
     "type": "overmap_terrain",
     "id": "urban_1_1",
     "copy-from": "urban_1_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_1_2",
     "copy-from": "urban_1_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_1_3",
     "copy-from": "urban_1_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_1_4",
     "copy-from": "urban_1_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_1_6",
     "copy-from": "urban_1_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_2_1",
     "copy-from": "urban_2_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_2_2",
     "copy-from": "urban_2_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_2_3",
     "copy-from": "urban_2_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_2_4",
     "copy-from": "urban_2_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_2_5",
     "copy-from": "urban_2_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_2_6",
     "copy-from": "urban_2_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_3_1",
     "copy-from": "urban_3_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_3_2",
     "copy-from": "urban_3_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_3_3",
     "copy-from": "urban_3_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_3_4",
     "copy-from": "urban_3_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_3_5",
     "copy-from": "urban_3_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_3_6",
     "copy-from": "urban_3_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_1",
     "copy-from": "urban_4_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_2",
     "copy-from": "urban_4_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_3",
     "copy-from": "urban_4_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_4",
     "copy-from": "urban_4_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_5",
     "copy-from": "urban_4_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_6",
     "copy-from": "urban_4_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_7",
     "copy-from": "urban_4_7",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_4_8",
     "copy-from": "urban_4_8",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_5_1",
     "copy-from": "urban_5_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_5_2",
     "copy-from": "urban_5_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_5_3",
     "copy-from": "urban_5_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_5_4",
     "copy-from": "urban_5_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_5_5",
     "copy-from": "urban_5_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_5_6",
     "copy-from": "urban_5_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_6_1",
     "copy-from": "urban_6_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_6_2",
     "copy-from": "urban_6_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_6_3",
     "copy-from": "urban_6_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_6_4",
     "copy-from": "urban_6_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_6_5",
     "copy-from": "urban_6_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_6_6",
     "copy-from": "urban_6_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_7_1",
     "copy-from": "urban_7_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_7_2",
     "copy-from": "urban_7_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_7_3",
     "copy-from": "urban_7_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_7_4",
     "copy-from": "urban_7_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_7_5",
     "copy-from": "urban_7_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_7_6",
     "copy-from": "urban_7_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_8_1",
     "copy-from": "urban_8_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_8_2",
     "copy-from": "urban_8_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_8_3",
     "copy-from": "urban_8_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_8_4",
     "copy-from": "urban_8_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_8_6",
     "copy-from": "urban_8_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_9_1",
     "copy-from": "urban_9_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_9_2",
     "copy-from": "urban_9_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_9_3",
     "copy-from": "urban_9_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_9_4",
     "copy-from": "urban_9_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_9_5",
     "copy-from": "urban_9_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_9_6",
     "copy-from": "urban_9_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_10_1",
     "copy-from": "urban_10_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_10_2",
     "copy-from": "urban_10_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_10_3",
     "copy-from": "urban_10_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_10_4",
     "copy-from": "urban_10_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_10_5",
     "copy-from": "urban_10_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_10_6",
     "copy-from": "urban_10_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_11_1",
     "copy-from": "urban_11_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_11_2",
     "copy-from": "urban_11_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_11_3",
     "copy-from": "urban_11_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_11_4",
     "copy-from": "urban_11_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_11_5",
     "copy-from": "urban_11_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_11_6",
     "copy-from": "urban_11_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_12_1",
     "copy-from": "urban_12_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_12_2",
     "copy-from": "urban_12_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_12_3",
     "copy-from": "urban_12_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_12_4",
     "copy-from": "urban_12_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_12_5",
     "copy-from": "urban_12_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_12_6",
     "copy-from": "urban_12_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_1",
     "copy-from": "urban_13_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_2",
     "copy-from": "urban_13_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_3",
     "copy-from": "urban_13_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_4",
     "copy-from": "urban_13_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_5",
     "copy-from": "urban_13_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_6",
     "copy-from": "urban_13_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_7",
     "copy-from": "urban_13_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_8",
     "copy-from": "urban_13_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_9",
     "copy-from": "urban_13_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_10",
     "copy-from": "urban_13_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_11",
     "copy-from": "urban_13_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_13_12",
     "copy-from": "urban_13_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_1",
     "copy-from": "urban_14_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_2",
     "copy-from": "urban_14_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_3",
     "copy-from": "urban_14_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_4",
     "copy-from": "urban_14_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_5",
     "copy-from": "urban_14_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_6",
     "copy-from": "urban_14_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_7",
     "copy-from": "urban_14_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_8",
     "copy-from": "urban_14_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_9",
     "copy-from": "urban_14_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_10",
     "copy-from": "urban_14_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_11",
     "copy-from": "urban_14_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_12",
     "copy-from": "urban_14_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_13",
     "copy-from": "urban_14_13",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_14_14",
     "copy-from": "urban_14_14",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_15_1",
     "copy-from": "urban_15_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_15_2",
     "copy-from": "urban_15_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_15_3",
     "copy-from": "urban_15_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_15_4",
     "copy-from": "urban_15_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_15_5",
     "copy-from": "urban_15_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_15_6",
     "copy-from": "urban_15_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_16_1",
     "copy-from": "urban_16_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_16_2",
     "copy-from": "urban_16_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_16_3",
     "copy-from": "urban_16_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_16_4",
     "copy-from": "urban_16_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_17_1",
     "copy-from": "urban_17_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_17_2",
     "copy-from": "urban_17_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_17_3",
     "copy-from": "urban_17_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_17_4",
     "copy-from": "urban_17_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_1",
     "copy-from": "urban_18_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_2",
     "copy-from": "urban_18_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_3",
     "copy-from": "urban_18_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_4",
     "copy-from": "urban_18_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_5",
     "copy-from": "urban_18_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_6",
     "copy-from": "urban_18_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_7",
     "copy-from": "urban_18_7",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_8",
     "copy-from": "urban_18_8",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_9",
     "copy-from": "urban_18_9",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_18_10",
     "copy-from": "urban_18_10",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_1",
     "copy-from": "urban_19_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_2",
     "copy-from": "urban_19_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_3",
     "copy-from": "urban_19_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_4",
     "copy-from": "urban_19_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_5",
     "copy-from": "urban_19_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_6",
     "copy-from": "urban_19_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_7",
     "copy-from": "urban_19_7",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_8",
     "copy-from": "urban_19_8",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_9",
     "copy-from": "urban_19_9",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_10",
     "copy-from": "urban_19_10",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_11",
     "copy-from": "urban_19_11",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_19_12",
     "copy-from": "urban_19_12",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_1",
     "copy-from": "urban_20_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_2",
     "copy-from": "urban_20_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_3",
     "copy-from": "urban_20_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_4",
     "copy-from": "urban_20_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_5",
     "copy-from": "urban_20_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_6",
     "copy-from": "urban_20_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_7",
     "copy-from": "urban_20_7",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_20_8",
     "copy-from": "urban_20_8",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_21_1",
     "copy-from": "urban_21_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_21_2",
     "copy-from": "urban_21_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_21_3",
     "copy-from": "urban_21_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_21_4",
     "copy-from": "urban_21_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_22_1",
     "copy-from": "urban_22_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_22_2",
     "copy-from": "urban_22_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_22_3",
     "copy-from": "urban_22_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_22_4",
     "copy-from": "urban_22_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_1",
     "copy-from": "urban_23_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_2",
     "copy-from": "urban_23_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_3",
     "copy-from": "urban_23_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_4",
     "copy-from": "urban_23_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_5",
     "copy-from": "urban_23_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_6",
     "copy-from": "urban_23_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_7",
     "copy-from": "urban_23_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_8",
     "copy-from": "urban_23_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_9",
     "copy-from": "urban_23_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_10",
     "copy-from": "urban_23_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_23_11",
     "copy-from": "urban_23_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_1",
     "copy-from": "urban_24_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_2",
     "copy-from": "urban_24_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_3",
     "copy-from": "urban_24_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_4",
     "copy-from": "urban_24_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_5",
     "copy-from": "urban_24_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_6",
     "copy-from": "urban_24_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_7",
     "copy-from": "urban_24_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_8",
     "copy-from": "urban_24_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_9",
     "copy-from": "urban_24_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_10",
     "copy-from": "urban_24_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_11",
     "copy-from": "urban_24_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_12",
     "copy-from": "urban_24_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_24_14",
     "copy-from": "urban_24_14",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_1",
     "copy-from": "urban_25_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_2",
     "copy-from": "urban_25_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_3",
     "copy-from": "urban_25_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_4",
     "copy-from": "urban_25_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_5",
     "copy-from": "urban_25_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_6",
     "copy-from": "urban_25_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_7",
     "copy-from": "urban_25_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_8",
     "copy-from": "urban_25_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_9",
     "copy-from": "urban_25_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_10",
     "copy-from": "urban_25_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_25_12",
     "copy-from": "urban_25_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_1",
     "copy-from": "urban_26_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_2",
     "copy-from": "urban_26_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_3",
     "copy-from": "urban_26_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_4",
     "copy-from": "urban_26_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_5",
     "copy-from": "urban_26_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_6",
     "copy-from": "urban_26_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_7",
     "copy-from": "urban_26_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_8",
     "copy-from": "urban_26_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_9",
     "copy-from": "urban_26_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_10",
     "copy-from": "urban_26_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_11",
     "copy-from": "urban_26_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_26_12",
     "copy-from": "urban_26_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_1",
     "copy-from": "urban_27_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_2",
     "copy-from": "urban_27_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_3",
     "copy-from": "urban_27_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_4",
     "copy-from": "urban_27_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_5",
     "copy-from": "urban_27_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_6",
     "copy-from": "urban_27_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_7",
     "copy-from": "urban_27_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_8",
     "copy-from": "urban_27_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_9",
     "copy-from": "urban_27_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_10",
     "copy-from": "urban_27_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_11",
     "copy-from": "urban_27_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_12",
     "copy-from": "urban_27_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_27_13",
     "copy-from": "urban_27_13",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_1",
     "copy-from": "urban_28_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_2",
     "copy-from": "urban_28_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_3",
     "copy-from": "urban_28_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_4",
     "copy-from": "urban_28_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_5",
     "copy-from": "urban_28_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_6",
     "copy-from": "urban_28_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_7",
     "copy-from": "urban_28_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_8",
     "copy-from": "urban_28_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_9",
     "copy-from": "urban_28_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_10",
     "copy-from": "urban_28_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_28_11",
     "copy-from": "urban_28_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_1",
     "copy-from": "urban_29_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_2",
     "copy-from": "urban_29_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_3",
     "copy-from": "urban_29_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_4",
     "copy-from": "urban_29_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_5",
     "copy-from": "urban_29_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_6",
     "copy-from": "urban_29_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_7",
     "copy-from": "urban_29_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_8",
     "copy-from": "urban_29_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_9",
     "copy-from": "urban_29_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_29_10",
     "copy-from": "urban_29_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_1",
     "copy-from": "urban_30_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
@@ -1517,1398 +1517,1398 @@
     "type": "overmap_terrain",
     "id": "urban_30_3",
     "copy-from": "urban_30_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_4",
     "copy-from": "urban_30_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_5",
     "copy-from": "urban_30_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_6",
     "copy-from": "urban_30_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_7",
     "copy-from": "urban_30_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_8",
     "copy-from": "urban_30_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_9",
     "copy-from": "urban_30_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_30_10",
     "copy-from": "urban_30_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_1",
     "copy-from": "urban_31_1",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_2",
     "copy-from": "urban_31_2",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_3",
     "copy-from": "urban_31_3",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_4",
     "copy-from": "urban_31_4",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_5",
     "copy-from": "urban_31_5",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_6",
     "copy-from": "urban_31_6",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_7",
     "copy-from": "urban_31_7",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_8",
     "copy-from": "urban_31_8",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_9",
     "copy-from": "urban_31_9",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_10",
     "copy-from": "urban_31_10",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_11",
     "copy-from": "urban_31_11",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_12",
     "copy-from": "urban_31_12",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_13",
     "copy-from": "urban_31_13",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_15",
     "copy-from": "urban_31_15",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_16",
     "copy-from": "urban_31_16",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_17",
     "copy-from": "urban_31_17",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_31_19",
     "copy-from": "urban_31_19",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_1",
     "copy-from": "urban_32_1",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_2",
     "copy-from": "urban_32_2",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_3",
     "copy-from": "urban_32_3",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_4",
     "copy-from": "urban_32_4",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_5",
     "copy-from": "urban_32_5",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_6",
     "copy-from": "urban_32_6",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_7",
     "copy-from": "urban_32_7",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_8",
     "copy-from": "urban_32_8",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_9",
     "copy-from": "urban_32_9",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_10",
     "copy-from": "urban_32_10",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_11",
     "copy-from": "urban_32_11",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_12",
     "copy-from": "urban_32_12",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_13",
     "copy-from": "urban_32_13",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_14",
     "copy-from": "urban_32_14",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_15",
     "copy-from": "urban_32_15",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_16",
     "copy-from": "urban_32_16",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_17",
     "copy-from": "urban_32_17",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_18",
     "copy-from": "urban_32_18",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_19",
     "copy-from": "urban_32_19",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_20",
     "copy-from": "urban_32_20",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_32_21",
     "copy-from": "urban_32_21",
-    "sym": "Æ"
+    "sym": "\u00C6"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_1",
     "copy-from": "urban_33_1",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_2",
     "copy-from": "urban_33_2",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_3",
     "copy-from": "urban_33_3",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_4",
     "copy-from": "urban_33_4",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_5",
     "copy-from": "urban_33_5",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_6",
     "copy-from": "urban_33_6",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_7",
     "copy-from": "urban_33_7",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_8",
     "copy-from": "urban_33_8",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_9",
     "copy-from": "urban_33_9",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_10",
     "copy-from": "urban_33_10",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_11",
     "copy-from": "urban_33_11",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_12",
     "copy-from": "urban_33_12",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_13",
     "copy-from": "urban_33_13",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_14",
     "copy-from": "urban_33_14",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_15",
     "copy-from": "urban_33_15",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_16",
     "copy-from": "urban_33_16",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_17",
     "copy-from": "urban_33_17",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_18",
     "copy-from": "urban_33_18",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_19",
     "copy-from": "urban_33_19",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_20",
     "copy-from": "urban_33_20",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_21",
     "copy-from": "urban_33_21",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_22",
     "copy-from": "urban_33_22",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_23",
     "copy-from": "urban_33_23",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_24",
     "copy-from": "urban_33_24",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_25",
     "copy-from": "urban_33_25",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_26",
     "copy-from": "urban_33_26",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_27",
     "copy-from": "urban_33_27",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_28",
     "copy-from": "urban_33_28",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_29",
     "copy-from": "urban_33_29",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_30",
     "copy-from": "urban_33_30",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_31",
     "copy-from": "urban_33_31",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_32",
     "copy-from": "urban_33_32",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_34",
     "copy-from": "urban_33_34",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_35",
     "copy-from": "urban_33_35",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_33_36",
     "copy-from": "urban_33_36",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_1",
     "copy-from": "urban_34_1",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_2",
     "copy-from": "urban_34_2",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_3",
     "copy-from": "urban_34_3",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_4",
     "copy-from": "urban_34_4",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_5",
     "copy-from": "urban_34_5",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_6",
     "copy-from": "urban_34_6",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_7",
     "copy-from": "urban_34_7",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_8",
     "copy-from": "urban_34_8",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_9",
     "copy-from": "urban_34_9",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_10",
     "copy-from": "urban_34_10",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_11",
     "copy-from": "urban_34_11",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_12",
     "copy-from": "urban_34_12",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_13",
     "copy-from": "urban_34_13",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_14",
     "copy-from": "urban_34_14",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_15",
     "copy-from": "urban_34_15",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_16",
     "copy-from": "urban_34_16",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_17",
     "copy-from": "urban_34_17",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_34_19",
     "copy-from": "urban_34_19",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_1",
     "copy-from": "urban_35_1",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_2",
     "copy-from": "urban_35_2",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_3",
     "copy-from": "urban_35_3",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_4",
     "copy-from": "urban_35_4",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_5",
     "copy-from": "urban_35_5",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_6",
     "copy-from": "urban_35_6",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_7",
     "copy-from": "urban_35_7",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_8",
     "copy-from": "urban_35_8",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_9",
     "copy-from": "urban_35_9",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_10",
     "copy-from": "urban_35_10",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_11",
     "copy-from": "urban_35_11",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_12",
     "copy-from": "urban_35_12",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_13",
     "copy-from": "urban_35_13",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_14",
     "copy-from": "urban_35_14",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_15",
     "copy-from": "urban_35_15",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_16",
     "copy-from": "urban_35_16",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_17",
     "copy-from": "urban_35_17",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_18",
     "copy-from": "urban_35_18",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_19",
     "copy-from": "urban_35_19",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_20",
     "copy-from": "urban_35_20",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_21",
     "copy-from": "urban_35_21",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_22",
     "copy-from": "urban_35_22",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_35_23",
     "copy-from": "urban_35_23",
-    "sym": "Á"
+    "sym": "\u00C1"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_1",
     "copy-from": "urban_36_1",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_2",
     "copy-from": "urban_36_2",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_3",
     "copy-from": "urban_36_3",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_4",
     "copy-from": "urban_36_4",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_5",
     "copy-from": "urban_36_5",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_6",
     "copy-from": "urban_36_6",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_7",
     "copy-from": "urban_36_7",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_8",
     "copy-from": "urban_36_8",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_9",
     "copy-from": "urban_36_9",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_10",
     "copy-from": "urban_36_10",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_11",
     "copy-from": "urban_36_11",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_12",
     "copy-from": "urban_36_12",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_13",
     "copy-from": "urban_36_13",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_14",
     "copy-from": "urban_36_14",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_15",
     "copy-from": "urban_36_15",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_16",
     "copy-from": "urban_36_16",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_17",
     "copy-from": "urban_36_17",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_18",
     "copy-from": "urban_36_18",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_19",
     "copy-from": "urban_36_19",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_20",
     "copy-from": "urban_36_20",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_21",
     "copy-from": "urban_36_21",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_22",
     "copy-from": "urban_36_22",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_23",
     "copy-from": "urban_36_23",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_24",
     "copy-from": "urban_36_24",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_25",
     "copy-from": "urban_36_25",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_26",
     "copy-from": "urban_36_26",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_27",
     "copy-from": "urban_36_27",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_28",
     "copy-from": "urban_36_28",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_29",
     "copy-from": "urban_36_29",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_30",
     "copy-from": "urban_36_30",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_31",
     "copy-from": "urban_36_31",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_36_32",
     "copy-from": "urban_36_32",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_1",
     "copy-from": "urban_37_1",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_2",
     "copy-from": "urban_37_2",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_3",
     "copy-from": "urban_37_3",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_4",
     "copy-from": "urban_37_4",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_5",
     "copy-from": "urban_37_5",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_6",
     "copy-from": "urban_37_6",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_7",
     "copy-from": "urban_37_7",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_8",
     "copy-from": "urban_37_8",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_9",
     "copy-from": "urban_37_9",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_10",
     "copy-from": "urban_37_10",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_11",
     "copy-from": "urban_37_11",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_12",
     "copy-from": "urban_37_12",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_13",
     "copy-from": "urban_37_13",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_14",
     "copy-from": "urban_37_14",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_15",
     "copy-from": "urban_37_15",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_16",
     "copy-from": "urban_37_16",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_17",
     "copy-from": "urban_37_17",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_18",
     "copy-from": "urban_37_18",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_19",
     "copy-from": "urban_37_19",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_20",
     "copy-from": "urban_37_20",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_21",
     "copy-from": "urban_37_21",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_22",
     "copy-from": "urban_37_22",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_23",
     "copy-from": "urban_37_23",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_24",
     "copy-from": "urban_37_24",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_25",
     "copy-from": "urban_37_25",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_26",
     "copy-from": "urban_37_26",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_27",
     "copy-from": "urban_37_27",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_28",
     "copy-from": "urban_37_28",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_29",
     "copy-from": "urban_37_29",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_30",
     "copy-from": "urban_37_30",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_31",
     "copy-from": "urban_37_31",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_32",
     "copy-from": "urban_37_32",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_33",
     "copy-from": "urban_37_33",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_34",
     "copy-from": "urban_37_34",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_35",
     "copy-from": "urban_37_35",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_37_36",
     "copy-from": "urban_37_36",
-    "sym": "å",
+    "sym": "\u00E5",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_1",
     "copy-from": "urban_38_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_2",
     "copy-from": "urban_38_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_3",
     "copy-from": "urban_38_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_4",
     "copy-from": "urban_38_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_5",
     "copy-from": "urban_38_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_6",
     "copy-from": "urban_38_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_7",
     "copy-from": "urban_38_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_8",
     "copy-from": "urban_38_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_9",
     "copy-from": "urban_38_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_10",
     "copy-from": "urban_38_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_11",
     "copy-from": "urban_38_11",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_38_12",
     "copy-from": "urban_38_12",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_1",
     "copy-from": "urban_39_1",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_2",
     "copy-from": "urban_39_2",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_3",
     "copy-from": "urban_39_3",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_4",
     "copy-from": "urban_39_4",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_5",
     "copy-from": "urban_39_5",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_6",
     "copy-from": "urban_39_6",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_7",
     "copy-from": "urban_39_7",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_8",
     "copy-from": "urban_39_8",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_9",
     "copy-from": "urban_39_9",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_39_10",
     "copy-from": "urban_39_10",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_40_1",
     "copy-from": "urban_40_1",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_40_2",
     "copy-from": "urban_40_2",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_40_3",
     "copy-from": "urban_40_3",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_40_4",
     "copy-from": "urban_40_4",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_40_5",
     "copy-from": "urban_40_5",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_40_6",
     "copy-from": "urban_40_6",
-    "sym": "à",
+    "sym": "\u00E0",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_1",
     "copy-from": "urban_41_1",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_2",
     "copy-from": "urban_41_2",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_3",
     "copy-from": "urban_41_3",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_4",
     "copy-from": "urban_41_4",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_5",
     "copy-from": "urban_41_5",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_6",
     "copy-from": "urban_41_6",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_7",
     "copy-from": "urban_41_7",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   },
   {
     "type": "overmap_terrain",
     "id": "urban_41_8",
     "copy-from": "urban_41_8",
-    "sym": "ÿ"
+    "sym": "\u00FF"
   }
 ]

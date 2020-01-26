@@ -129,7 +129,7 @@ class advanced_inventory
 
         static std::string get_sortname( advanced_inv_sortby sortby );
         bool move_all_items( bool nested_call = false );
-        void print_items( advanced_inventory_pane &pane, bool active );
+        void print_items( const advanced_inventory_pane &pane, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
         // Returns the x coordinate where the header started. The header is

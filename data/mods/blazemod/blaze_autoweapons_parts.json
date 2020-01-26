@@ -74,7 +74,7 @@
     "id": "acr",
     "copy-from": "turret_blaze",
     "type": "vehicle_part",
-    "name": "Bushmaster ACR turret",
+    "name": "Remington ACR turret",
     "item": "acr",
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
@@ -83,7 +83,7 @@
     "id": "acrnc",
     "copy-from": "turret_blaze",
     "type": "vehicle_part",
-    "name": "automated Bushmaster ACR",
+    "name": "automated Remington ACR",
     "item": "acr",
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }

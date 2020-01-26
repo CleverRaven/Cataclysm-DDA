@@ -24,8 +24,10 @@ class time_duration;
 enum class farm_ops;
 class item;
 class map;
-class recipe;
 class mission_data;
+class recipe;
+class requirements_data;
+class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -144,6 +146,7 @@ class basecamp
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name();
+        void abandon_camp();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
         void add_expansion( const std::string &bldg, const tripoint &new_pos,
                             const point &dir );
@@ -153,7 +156,7 @@ class basecamp
 
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, cata::optional<point> dir = cata::nullopt,
+        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
@@ -192,8 +195,6 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        void consume_components( const recipe &making, int batch_size = false );
-        void consume_components( map &target_map, const recipe &making, int batch_size );
         std::string get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
@@ -322,7 +323,11 @@ class basecamp
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         void load_data( const std::string &data );
+
+        static constexpr int inv_range = 20;
     private:
+        friend class basecamp_action_components;
+
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
@@ -339,9 +344,25 @@ class basecamp
         std::set<itype_id> fuel_types;
         std::vector<basecamp_fuel> fuels;
         std::vector<basecamp_resource> resources;
-        static const int range = 20;
         inventory _inv;
         bool by_radio;
+};
+
+class basecamp_action_components
+{
+    public:
+        basecamp_action_components( const recipe &making, int batch_size, basecamp & );
+
+        // Returns true iff all necessary components were successfully chosen
+        bool choose_components();
+        void consume_components();
+    private:
+        const recipe &making_;
+        int batch_size_;
+        basecamp &base_;
+        std::vector<comp_selection<item_comp>> item_selections_;
+        std::vector<comp_selection<tool_comp>> tool_selections_;
+        std::unique_ptr<tinymap> map_; // Used for by-radio crafting
 };
 
 #endif

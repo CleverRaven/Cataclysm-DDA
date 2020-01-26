@@ -129,6 +129,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         init_selection = true;
     }
 
+    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -137,7 +138,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
-            inv_s.update();
+            inv_s.update( need_refresh );
             inv_s.select_position( init_pair );
             init_selection = false;
         }
@@ -183,11 +184,12 @@ void game_menus::inv::common( avatar &you )
 
     int res = 0;
 
+    bool need_refresh = true;
     do {
         you.inv.restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.update();
+        inv_s.update( need_refresh );
 
         const item_location &location = inv_s.execute();
 
@@ -580,7 +582,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
     protected:
-        int get_order( const item_location &loc, const time_duration time ) const {
+        int get_order( const item_location &loc, const time_duration &time ) const {
             if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 0;
             } else if( get_consumable_item( loc ).rotten() ) {
@@ -1521,7 +1523,8 @@ static item_location autodoc_internal( player &u, player &patient,
             }
 
             if( !b_filter.empty() ) {
-                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+                // Legacy
+                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );
             } else {
                 hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
             }
@@ -1540,7 +1543,7 @@ static item_location autodoc_internal( player &u, player &patient,
 
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
-
+    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -1549,7 +1552,7 @@ static item_location autodoc_internal( player &u, player &patient,
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
-            inv_s.update();
+            inv_s.update( need_refresh );
             inv_s.select_position( init_pair );
             init_selection = false;
         }
@@ -1578,11 +1581,11 @@ class bionic_install_preset: public inventory_selector_preset
         bionic_install_preset( player &pl, player &patient ) :
             p( pl ), pa( patient ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_failure_chance( loc ) ;
+                return get_failure_chance( loc );
             }, _( "FAILURE CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_operation_duration( loc ) ;
+                return get_operation_duration( loc );
             }, _( "OPERATION DURATION" ) );
 
             append_cell( [this]( const item_location & loc ) {
@@ -1604,7 +1607,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
             } else if( it->has_flag( "NO_STERILE" ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) ;
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {
@@ -1681,11 +1684,13 @@ class bionic_install_preset: public inventory_selector_preset
                                                 duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                return it.has_flag( "ANESTHESIA" ); // legacy
+                // Legacy
+                return it.has_flag( "ANESTHESIA" );
             } );
 
             if( !b_filter.empty() ) {
-                return  _( "kit available" );// legacy
+                // Legacy
+                return  _( "kit available" );
             } else {
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
             }
@@ -1764,10 +1769,11 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             player &installer = p;
             const int assist_bonus = installer.get_effect_int( effect_assisted );
 
+            // Override player's skills with surgeon skill
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
-                                       20 );//override player's skills with surgeon skill
+                                       20 );
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
                 g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
@@ -1947,6 +1953,7 @@ static item_location autoclave_internal( player &u,
 
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
+    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -1955,7 +1962,7 @@ static item_location autoclave_internal( player &u,
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
-            inv_s.update();
+            inv_s.update( need_refresh );
             inv_s.select_position( init_pair );
             init_selection = false;
         }

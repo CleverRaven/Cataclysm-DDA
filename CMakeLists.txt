@@ -15,10 +15,12 @@ option(TILES        "Build graphical tileset version."   "OFF")
 option(CURSES       "Build curses version."   "ON")
 option(SOUND        "Support for in-game sounds & music."   "OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"   "ON")
+option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."   "ON")
 option(LANGUAGES    "Compile localization files for specified languages."   "")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
+option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -220,12 +222,11 @@ ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
        -Wmissing-declarations \
-      -Wold-style-cast \
-     -Woverloaded-virtual \
-     -Wpedantic")
-    IF(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-      SET(CATA_WARNINGS "${CATA_WARNINGS} -Wsuggest-override")
-    ENDIF(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+       -Wold-style-cast \
+       -Woverloaded-virtual \
+       -Wsuggest-override \
+       -Wno-unknown-warning-option \
+       -Wpedantic")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
@@ -322,6 +323,9 @@ ENDIF(SOUND)
 
 IF(BACKTRACE)
     ADD_DEFINITIONS(-DBACKTRACE)
+    IF(LIBBACKTRACE)
+      ADD_DEFINITIONS(-DLIBBACKTRACE)
+    ENDIF(LIBBACKTRACE)
 ENDIF(BACKTRACE)
 
 # Ok. Now create build and install recipes
@@ -354,6 +358,9 @@ if (NOT MSVC)
     add_subdirectory(src/chkjson)
 endif()
 add_subdirectory(tests)
+if (JSON_FORMAT)
+    add_subdirectory(tools/format)
+endif()
 if (CATA_CLANG_TIDY_PLUGIN)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()

@@ -41,7 +41,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const holiday current_holiday = holiday::new_year;
+static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -199,7 +199,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine++, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
+    center_print( w_open, iLine, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
@@ -242,7 +242,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
 
 std::string main_menu::handle_input_timeout( input_context &ctxt )
 {
-    std::string action = ctxt.handle_input( 125 );
+    std::string action = ctxt.handle_input( 1000 );
 
     if( action == "TIMEOUT" ) {
         init_windows();
@@ -664,7 +664,6 @@ bool main_menu::opening_screen()
                         get_options().show( true );
                         // The language may have changed- gracefully handle this.
                         init_strings();
-                        print_menu( w_open, sel1, menu_offset );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
                         ctxt_default.display_menu();

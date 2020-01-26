@@ -47,7 +47,7 @@ static weather_result weather_data_internal( weather_type const type )
      * light modifier, sound attenuation, warn player?
      * Note light modifier assumes baseline of default_daylight_level() at 60
      */
-    // @todo but it actually isn't 60, it's 100. Fix this comment or fix the value
+    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value
     static const std::array<weather_datum, NUM_WEATHER_TYPES> data {{
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta, c_magenta_red,

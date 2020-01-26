@@ -671,7 +671,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    //TODO: Add wet effect if other things care about that
+    // TODO: Add wet effect if other things care about that
     if( burst ) {
         proj_effects.insert( "BURST" );
     }
@@ -1189,10 +1189,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
         }
     }
 
-    targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
-        return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
-    } ), targets.end() );
-
     if( targets.empty() ) {
         idx = -1;
 
@@ -1208,7 +1204,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
             }
 
         } else {
-            auto adjacent = closest_tripoints_first( range, dst );
+            const std::vector<tripoint> adjacent = closest_tripoints_first( dst, range );
             const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
             [&pc]( const tripoint & pt ) {
                 return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
@@ -1325,7 +1321,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    // @TODO this assumes that relevant == null means firing turrets, but that may not
+    // TODO: this assumes that relevant == null means firing turrets, but that may not
     // always be the case. Consider passing a name into this function.
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny );
@@ -1628,17 +1624,17 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            if( !relevant ) {
+            if( !relevant || !relevant->is_gun() ) {
                 // skip this action
             } else if( on_mode_change ) {
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
-                ammo = relevant->gun_current_mode().target->ammo_data();
-                range = relevant->gun_current_mode().target->gun_range( &pc );
                 if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
                     relevant->gun_cycle_mode();
                 }
+                ammo = relevant->gun_current_mode().target->ammo_data();
+                range = relevant->gun_current_mode().target->gun_range( &pc );
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( !relevant ) {
@@ -2199,7 +2195,7 @@ int time_to_attack( const Character &p, const itype &firing )
 static void cycle_action( item &weap, const tripoint &pos )
 {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, pos );
+    std::vector<tripoint> tiles = closest_tripoints_first( pos, 1 );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !g->m.passable( e );

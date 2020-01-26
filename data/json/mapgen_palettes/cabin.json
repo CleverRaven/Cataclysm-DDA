@@ -20,7 +20,9 @@
       "W": [ [ "t_window_boarded", 2 ], "t_window" ],
       "%": "t_gutter_downspout",
       "q": "t_swater_sh",
-      "Q": "t_water_dp"
+      "Q": "t_water_dp",
+      "H": "t_chickenwire_gate_c",
+      "I": "t_chickenwire_fence"
     },
     "furniture": {
       "a": "f_armchair",
@@ -63,8 +65,8 @@
       "B": { "item": "bed", "chance": 60 },
       "d": [ { "item": "livingroom", "chance": 40 }, { "item": "office", "chance": 40 } ],
       "D": [
-        { "item": "dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
-        { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 4 ] }
+        { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
+        { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 4 ] }
       ],
       "F": { "item": "fridge", "chance": 35, "repeat": [ 1, 14 ] },
       "h": { "item": "shower", "chance": 20 },

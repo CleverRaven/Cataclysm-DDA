@@ -181,7 +181,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         void rotate( int turns );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, bool rubpow_update );
+        void load( JsonIn &jsin, const std::string &member_name, int version );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -259,11 +259,11 @@ struct maptile {
             return sm->fld[x][y];
         }
 
-        field_entry *find_field( const field_type_id field_to_find ) {
+        field_entry *find_field( const field_type_id &field_to_find ) {
             return sm->fld[x][y].find_field( field_to_find );
         }
 
-        bool add_field( const field_type_id field_to_add, const int new_intensity,
+        bool add_field( const field_type_id &field_to_add, const int new_intensity,
                         const time_duration &new_age ) {
             const bool ret = sm->fld[x][y].add_field( field_to_add, new_intensity, new_age );
             if( ret ) {

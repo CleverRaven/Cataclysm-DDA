@@ -221,6 +221,14 @@ void overmapbuffer::delete_note( const tripoint &p )
     }
 }
 
+void overmapbuffer::mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous )
+{
+    if( has_note( p ) ) {
+        overmap_with_local_coords om_loc = get_om_global( p );
+        om_loc.om->mark_note_dangerous( om_loc.local, radius, is_dangerous );
+    }
+}
+
 void overmapbuffer::add_extra( const tripoint &p, const string_id<map_extra> &id )
 {
     overmap_with_local_coords om_loc = get_om_global( p );
@@ -318,6 +326,14 @@ bool overmapbuffer::has_note( const tripoint &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->has_note( om_loc.local );
+    }
+    return false;
+}
+
+bool overmapbuffer::is_marked_dangerous( const tripoint &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->is_marked_dangerous( om_loc.local );
     }
     return false;
 }
@@ -666,8 +682,14 @@ bool overmapbuffer::reveal( const tripoint &center, int radius,
     return result;
 }
 
+std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest )
+{
+    path_type ptype;
+    return get_npc_path( src, dest, ptype );
+}
+
 std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest,
-        bool road_only, bool do_boat )
+        path_type &ptype )
 {
     std::vector<tripoint> path;
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
@@ -692,17 +714,21 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         int res = 0;
         const oter_id oter = get_ter_at( cur.pos );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        if( road_only && ( !is_ot_match( "road", oter, ot_match_type::type ) &&
-                           !is_ot_match( "bridge", oter, ot_match_type::type ) &&
-                           !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
+        tripoint convert_result = base + tripoint( cur.pos, 0 );
+        if( ptype.avoid_danger && is_marked_dangerous( convert_result ) ) {
             return pf::rejected;
         }
-        if( do_boat && ( !is_river_or_lake( oter ) ||
-                         is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
+        if( ptype.only_road && ( !is_ot_match( "road", oter, ot_match_type::type ) &&
+                                 !is_ot_match( "bridge", oter, ot_match_type::type ) &&
+                                 !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
+            return pf::rejected;
+        }
+        if( ptype.only_water && ( !is_river_or_lake( oter ) ||
+                                  is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
         if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
-            is_ot_match( "open_air", oter, ot_match_type::type ) || ( !do_boat && oter->is_lake() ) ) {
+            is_ot_match( "open_air", oter, ot_match_type::type ) ) {
             return pf::rejected;
         } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
             travel_cost = 10;
@@ -713,7 +739,11 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
                    is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
             travel_cost = 1;
         } else if( is_river_or_lake( oter ) ) {
-            travel_cost = do_boat ? 1 : 20;
+            if( ptype.amphibious || ptype.only_water ) {
+                travel_cost = 1;
+            } else {
+                return pf::rejected;
+            }
         }
         res += travel_cost;
         res += manhattan_dist( finish, cur.pos );
@@ -1083,11 +1113,11 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p, 0 ), radius );
 }
 
-std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs()
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs( int range )
 {
     std::vector<shared_ptr_fast<npc>> available;
     // TODO: this is an arbitrary radius, replace with something sane.
-    for( const auto &guy : get_npcs_near_player( 100 ) ) {
+    for( const auto &guy : get_npcs_near_player( range ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
         }
@@ -1100,7 +1130,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint &
                                int radius )
 {
     std::vector<shared_ptr_fast<npc>> result;
-    for( auto &it : get_overmaps_near( p, radius ) ) {
+    for( auto &it : get_overmaps_near( p.xy(), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();

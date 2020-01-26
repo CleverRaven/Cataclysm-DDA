@@ -411,7 +411,7 @@
     "type": "GUN",
     "name": "Luty SMG: 9x19mm",
     "name_plural": "Luty SMGs: 9x19mm",
-    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN magazines, or alternatively custom-made makeshift ones.",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3274 g",
     "volume": "1750 ml",
@@ -442,7 +442,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
+    "magazines": [ [ "9mm", [ "survivor9mm_mag", "stenmag" ] ] ]
   },
   {
     "id": "sten",

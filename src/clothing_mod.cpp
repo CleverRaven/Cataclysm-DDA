@@ -64,14 +64,14 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "destroy_prompt", destroy_prompt );
     optional( jo, was_loaded, "restricted", restricted, false );
 
-    for( const JsonObject &mv_jo : jo.get_array( "mod_value" ) ) {
+    for( const JsonObject mv_jo : jo.get_array( "mod_value" ) ) {
         mod_value mv;
         std::string temp_str;
         mandatory( mv_jo, was_loaded, "type", temp_str );
         mv.type = io::string_to_enum<clothing_mod_type>( temp_str );
         mandatory( mv_jo, was_loaded, "value", mv.value );
         optional( mv_jo, was_loaded, "round_up", mv.round_up );
-        for( const JsonValue &entry : mv_jo.get_array( "proportion" ) ) {
+        for( const JsonValue entry : mv_jo.get_array( "proportion" ) ) {
             const std::string &str = entry.get_string();
             if( str == "thickness" ) {
                 mv.thickness_propotion = true;

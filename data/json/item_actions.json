@@ -56,6 +56,11 @@
   },
   {
     "type": "item_action",
+    "id": "MELATONIN_TABLET",
+    "name": "Take a melatonin tablet"
+  },
+  {
+    "type": "item_action",
     "id": "PACK_CBM",
     "name": "Pack CBM in pouch"
   },
@@ -1038,6 +1043,11 @@
     "type": "item_action",
     "id": "reveal_map",
     "name": "Read"
+  },
+  {
+    "type": "item_action",
+    "id": "change_scent",
+    "name": "Mask scent"
   },
   {
     "type": "item_action",

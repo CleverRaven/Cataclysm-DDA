@@ -504,7 +504,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display Help",
+    "name": "Display keybindings menu",
     "bindings": [ { "input_method": "keyboard", "key": "?" } ]
   },
   {
@@ -730,6 +730,13 @@
     "category": "OVERMAP_NOTES",
     "name": "Edit Note",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_DANGER",
+    "category": "OVERMAP_NOTES",
+    "name": "Mark as Dangerous",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
   },
   {
     "type": "keybinding",
@@ -1682,9 +1689,15 @@
   },
   {
     "type": "keybinding",
-    "name": "Reload Wielded Item",
+    "name": "Reload Weapons",
     "category": "DEFAULTMODE",
     "id": "reload_weapon"
+  },
+  {
+    "type": "keybinding",
+    "name": "Reload Wielded Item",
+    "category": "DEFAULTMODE",
+    "id": "reload_wielded"
   },
   {
     "type": "keybinding",
@@ -1843,7 +1856,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "quit",
+    "id": "SUICIDE",
     "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
   },
   {
@@ -2120,13 +2133,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Keybindings",
-    "category": "DEFAULTMODE",
-    "id": "open_keybindings",
-    "bindings": [ { "input_method": "keyboard", "key": "?" } ]
-  },
-  {
-    "type": "keybinding",
     "name": "Options",
     "category": "DEFAULTMODE",
     "id": "open_options"
@@ -2372,6 +2378,13 @@
     "category": "HELP_KEYBINDINGS",
     "name": "Add global keybinding",
     "bindings": [ { "input_method": "keyboard", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXECUTE",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Execute action keybinding",
+    "bindings": [ { "input_method": "keyboard", "key": "." } ]
   },
   {
     "type": "keybinding",
@@ -2781,6 +2794,31 @@
     "bindings": [
       { "input_method": "keyboard", "key": "N" },
       { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YESNOQUIT",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNOQUIT",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "YESNOQUIT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard", "key": "Q" },
+      { "input_method": "keyboard", "key": "q" },
       { "input_method": "keyboard", "key": "ESC" }
     ]
   },
