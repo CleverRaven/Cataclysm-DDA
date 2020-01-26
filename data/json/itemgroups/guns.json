@@ -289,8 +289,7 @@
       { "item": "rifle_22", "prob": 60 },
       { "item": "rifle_3006", "prob": 30 },
       { "item": "rifle_9mm", "prob": 60 },
-      { "item": "surv_carbine_223", "prob": 120, "charges-min": 0, "charges-max": 5 },
-      { "item": "survivor_special_700", "prob": 20 }
+      { "item": "surv_carbine_223", "prob": 120, "charges-min": 0, "charges-max": 5 }
     ]
   },
   {
