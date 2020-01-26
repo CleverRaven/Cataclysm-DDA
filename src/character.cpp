@@ -4169,6 +4169,7 @@ void Character::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
+            add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
