@@ -3951,8 +3951,8 @@ void Character::update_needs( int rate_multiplier )
                     // Sleeping on a bed, bionic         = 6x rest_modifier
                     // Sleeping on a comfy bed, bionic   = 9x rest_modifier
                     float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
-                    // Magnesium supplements also add a flat bonus to recovery speed
-                    if( has_effect( effect_magnesium_supplements ) ) {
+                    // Melatonin supplements also add a flat bonus to recovery speed
+                    if( has_effect( effect_melatonin_supplements ) ) {
                         rest_modifier += 1;
                     }
 
