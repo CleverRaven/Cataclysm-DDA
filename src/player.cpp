@@ -392,7 +392,7 @@ void player::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() && !has_trait( trait_DEBUG_STORAGE ) ) {
+    if( weight_carried() > weight_capacity() && !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
     }
     mod_speed_bonus( -carry_penalty );
@@ -709,7 +709,7 @@ nc_color player::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
         return c_magenta;
     }
     if( underwater ) {
@@ -1299,7 +1299,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if( has_active_bionic( bio_ods ) && get_power_level() > 5_kJ ) {
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -1794,7 +1794,7 @@ int player::impact( const int force, const tripoint &p )
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
     // Shock Absorber CBM heavily reduces damage
-    const bool shock_absorbers = has_active_bionic( bio_shock_absorber );
+    const bool shock_absorbers = has_active_bionic( bionic_id( "bio_shock_absorber" ) );
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
@@ -1951,7 +1951,7 @@ void player::knock_back_to( const tripoint &to )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.has_flag( flag_LIQUID, to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
+    if( g->m.has_flag( "LIQUID", to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
             avatar_action::swim( g->m, g->u, to );
         }
@@ -2423,7 +2423,7 @@ needs_rates player::calc_needs_rates() const
         rates.recovery = 0;
     }
 
-    if( has_activity( ACT_TREE_COMMUNION ) ) {
+    if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
         // Much of the body's needs are taken care of by the trees.
         // Hair Roots dont provide any bodily needs.
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
@@ -2642,7 +2642,7 @@ bool player::is_hibernating() const
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
     return has_effect( effect_sleep ) && get_kcal_percent() > 0.8f &&
-           get_thirst() <= 80 && has_active_mutation( trait_HIBERNATE );
+           get_thirst() <= 80 && has_active_mutation( trait_id( "HIBERNATE" ) );
 }
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
@@ -3096,12 +3096,12 @@ void player::process_items()
     }
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
-        if( w.has_flag( flag_USE_UPS ) &&
+        if( w.has_flag( "USE_UPS" ) &&
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
         if( w.active ) {
-            if( cloak == nullptr && w.has_flag( flag_ACTIVE_CLOAKING ) ) {
+            if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
                 cloak = &w;
             }
             // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
@@ -3124,7 +3124,7 @@ void player::process_items()
     if( update_required ) {
         reset_encumbrance();
     }
-    if( has_active_bionic( bio_ups ) ) {
+    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
@@ -3753,11 +3753,11 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                       : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 // Speedloaders require an empty target.
-                if( !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
+                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
-            if( can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+            if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -3834,11 +3834,11 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
             return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ),
                                                 it.tname() );
         } else {
@@ -3873,25 +3873,25 @@ bool player::unwield()
 
 // ids of martial art styles that are available with the bio_cqb bionic.
 static const std::vector<matype_id> bio_cqb_styles{ {
-        style_aikido,
-        style_biojutsu,
-        style_boxing,
-        style_capoeira,
-        style_crane,
-        style_dragon,
-        style_judo,
-        style_karate,
-        style_krav_maga,
-        style_leopard,
-        style_muay_thai,
-        style_ninjutsu,
-        style_pankration,
-        style_snake,
-        style_taekwondo,
-        style_tai_chi,
-        style_tiger,
-        style_wingchun,
-        style_zui_quan
+        matype_id{ "style_aikido" },
+        matype_id{ "style_biojutsu" },
+        matype_id{ "style_boxing" },
+        matype_id{ "style_capoeira" },
+        matype_id{ "style_crane" },
+        matype_id{ "style_dragon" },
+        matype_id{ "style_judo" },
+        matype_id{ "style_karate" },
+        matype_id{ "style_krav_maga" },
+        matype_id{ "style_leopard" },
+        matype_id{ "style_muay_thai" },
+        matype_id{ "style_ninjutsu" },
+        matype_id{ "style_pankration" },
+        matype_id{ "style_snake" },
+        matype_id{ "style_taekwondo" },
+        matype_id{ "style_tai_chi" },
+        matype_id{ "style_tiger" },
+        matype_id{ "style_wingchun" },
+        matype_id{ "style_zui_quan" }
     }};
 
 bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
@@ -4127,7 +4127,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         }
 
         const mending_method &method = opt.method;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( method.time ) );
+        assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( method.id );
         activity.targets.push_back( std::move( obj ) );
@@ -4378,7 +4378,7 @@ bool player::unload( item &it )
     std::vector<item *> opts( 1, &it );
 
     for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
@@ -4428,7 +4428,7 @@ bool player::unload( item &it )
     } );
 
     if( target->is_magazine() ) {
-        player_activity unload_mag_act( ACT_UNLOAD_MAG );
+        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
         g->u.assign_activity( unload_mag_act );
         g->u.activity.targets.emplace_back( item_location( *this, target ) );
 
@@ -4855,7 +4855,7 @@ void player::gunmod_add( item &gun, item &mod )
     const int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
     const int moves = to_moves<int>( time_duration::from_turns( turns ) );
 
-    assign_activity( ACT_GUNMOD_ADD, moves, -1, get_item_position( &gun ), tool );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -4880,7 +4880,7 @@ void player::toolmod_add( item_location tool, item_location mod )
         return; // player canceled installation
     }
 
-    assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
+    assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
     activity.targets.emplace_back( std::move( tool ) );
     activity.targets.emplace_back( std::move( mod ) );
 }
@@ -5139,7 +5139,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
     }
-    assign_activity( ACT_TRY_SLEEP, to_moves<int>( dur ) );
+    assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
 comfort_level player::base_comfort_value( const tripoint &p ) const
@@ -5904,8 +5904,8 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
-    if( has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK ) ||
-        has_trait( trait_SMALL ) ) {
+    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
+        has_trait( trait_id( "SMALL" ) ) ) {
         return MS_SMALL;
     } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
         return MS_LARGE;
@@ -5996,6 +5996,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
 
 bool player::sees( const tripoint &t, bool, int ) const
 {
+    static const bionic_id str_bio_night( "bio_night" );
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
                    Creature::sees( t );
@@ -6005,7 +6006,7 @@ bool player::sees( const tripoint &t, bool, int ) const
     }
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range( 1 ) &&
-        has_active_bionic( bio_night ) ) {
+        has_active_bionic( str_bio_night ) ) {
         can_see = false;
     }
     if( can_see && wanted_range > unimpaired_range() ) {
