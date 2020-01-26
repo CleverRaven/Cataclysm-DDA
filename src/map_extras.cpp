@@ -2880,9 +2880,6 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "autonote", autonote, false );
 }
 
-extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
 extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
         update_mapgen;
 
