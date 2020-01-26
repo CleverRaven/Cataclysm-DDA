@@ -566,7 +566,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 5,
-    "max_volume": "20 L",
+    "max_volume": "200 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,

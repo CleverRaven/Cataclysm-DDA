@@ -139,6 +139,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
     }
 
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );

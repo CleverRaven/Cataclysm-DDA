@@ -461,6 +461,24 @@
     "time": "10 m"
   },
   {
+    "id": "offalcooking",
+    "type": "BOOK",
+    "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },
+    "description": "Offal Holiday Cooking, by Evelyn Turncoat, is a book of holiday recipes that utilize organ meats from various animals.  For the true nose-to-tail cook.",
+    "weight": "454 g",
+    "volume": "1 L",
+    "price": 1900,
+    "price_postapoc": 43500,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "cooking",
+    "required_level": 1,
+    "max_level": 3,
+    "intelligence": 4,
+    "time": "10 m"
+  },
+  {
     "id": "dairy_book",
     "type": "BOOK",
     "name": { "str": "Things to do with Milk", "str_pl": "copies of Things to do with Milk" },
@@ -473,10 +491,10 @@
     "symbol": "?",
     "color": "white",
     "skill": "cooking",
-    "required_level": 1,
-    "max_level": 4,
+    "required_level": 2,
+    "max_level": 5,
     "intelligence": 4,
-    "time": "17 m"
+    "time": "14 m"
   },
   {
     "id": "cookbook_liverforkids",

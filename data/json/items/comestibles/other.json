@@ -153,7 +153,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yeast",
-    "name": "yeast",
+    "name": { "str": "yeast", "str_pl": "yeast" },
     "weight": "11 g",
     "color": "white",
     "container": "bag_plastic",
@@ -172,7 +172,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_bone",
-    "name": "bone meal",
+    "name": { "str": "bone meal", "str_pl": "bone meal" },
     "weight": "112 g",
     "color": "white",
     "comestible_type": "FOOD",
@@ -188,7 +188,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_bone_tainted",
-    "name": "tainted bone meal",
+    "name": { "str": "tainted bone meal", "str_pl": "tainted bone meal" },
     "weight": "112 g",
     "color": "white",
     "use_action": "POISON",

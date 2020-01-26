@@ -1343,7 +1343,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
                     break;
                 case 3:
                     add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
-                                           _( "<npcname> streches their back." ) );
+                                           _( "<npcname> stretches their back." ) );
                     break;
                 case 4:
                     add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),

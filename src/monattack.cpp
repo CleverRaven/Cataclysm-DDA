@@ -2818,7 +2818,7 @@ bool mattack::stare( monster *z )
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
             g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ) );
+            add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
         if( g->u.sees( *z ) ) {
@@ -4837,8 +4837,9 @@ bool mattack::evolve_kill_strike( monster *z )
     const std::string target_name = target->disp_name();
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
-    int damage_dealt = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng( 10, 20 ),
-                                            rng( 5, 15 ) ) ).total_damage();
+    damage.add( damage_instance( DT_STAB, dice( z->type->melee_dice, z->type->melee_sides ), rng( 5,
+                                 15 ), 1.0, 0.5 ) );
+    int damage_dealt = target->deal_damage( z, bp_torso, damage ).total_damage();
     if( damage_dealt > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,

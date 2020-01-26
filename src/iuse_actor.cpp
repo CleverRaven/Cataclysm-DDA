@@ -1190,8 +1190,8 @@ void reveal_map_actor::load( const JsonObject &obj )
         } else {
             JsonObject jo = entry.get_object();
             ter = jo.get_string( "om_terrain" );
-            ter_match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
-                             "CONTAINS" ), ot_match_type::contains );
+            ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                             ot_match_type::contains );
         }
         omt_types.push_back( std::make_pair( ter, ter_match_type ) );
     }
