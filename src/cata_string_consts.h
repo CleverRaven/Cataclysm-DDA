@@ -217,7 +217,6 @@ static const bionic_id str_bio_night( "bio_night" );
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 
-
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
