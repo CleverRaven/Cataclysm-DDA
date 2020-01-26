@@ -218,10 +218,19 @@ void mapgen_function_builtin::generate( mapgendata &mgd )
 ///// mapgen_function class.
 ///// all sorts of ways to apply our hellish reality to a grid-o-squares
 
+class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_function>>
+{
+    public:
+        int add( const std::shared_ptr<mapgen_function> ptr ) {
+            assert( ptr );
+            push_back( ptr );
+            return size() - 1;
+        }
+};
 /*
  * stores function ref and/or required data
  */
-std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
+std::map<std::string, mapgen_basic_container> oter_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
@@ -293,10 +302,7 @@ void check_mapgen_definitions()
 static int register_mapgen_function( const std::string &key,
                                      const std::shared_ptr<mapgen_function> ptr )
 {
-    assert( ptr );
-    std::vector<std::shared_ptr<mapgen_function>> &vector = oter_mapgen[key];
-    vector.push_back( ptr );
-    return vector.size() - 1;
+    return oter_mapgen[key].add( ptr );
 }
 
 // @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
