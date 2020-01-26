@@ -5865,7 +5865,7 @@
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chili_pepper", 2 ] ] ]
   },
-   {
+  {
     "type": "recipe",
     "result": "sausage_wasteland",
     "category": "CC_FOOD",
