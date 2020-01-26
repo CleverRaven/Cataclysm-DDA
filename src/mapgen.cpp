@@ -289,6 +289,31 @@ void check_mapgen_definitions()
     }
 }
 
+// @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
+static mapgen_function *get_mapgen_function( const std::string &key,
+        const int hardcoded_weight = 0 )
+{
+    const auto fmapit = oter_mapgen.find( key );
+    if( fmapit == oter_mapgen.end() ) {
+        return nullptr;
+    }
+    const std::vector<std::shared_ptr<mapgen_function>> &vector = fmapit->second;
+    // Creating the entry in the map is only done when an entry in the vector is about to be made,
+    // so the map should not contain empty vectors.
+    assert( !vector.empty() );
+    const auto weightit = oter_mapgen_weights.find( key );
+    const int rlast = weightit->second.rbegin()->first;
+    const int roll = rng( 1, rlast + hardcoded_weight );
+    if( roll > rlast ) {
+        return nullptr;
+    }
+    const int fidx = weightit->second.lower_bound( roll )->second;
+    assert( static_cast<size_t>( fidx ) < vector.size() );
+    const std::shared_ptr<mapgen_function> &ptr = vector[fidx];
+    assert( ptr );
+    return ptr.get();
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
 ///// 1 - init():
@@ -3494,18 +3519,8 @@ void map::draw_lab( mapgendata &dat )
 
             //A lab area with only one entrance
             if( boarders == 1 ) {
-                const std::string function_key = "lab_1side"; // terrain_type->get_mapgen_id();
-                const auto fmapit = oter_mapgen.find( function_key );
-
-                if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-                    std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                                function_key );
-                    const int rlast = weightit->second.rbegin()->first;
-                    const int roll = rng( 1, rlast );
-
-                    const int fidx = weightit->second.lower_bound( roll )->second;
-
-                    fmapit->second[fidx]->generate( dat );
+                if( const auto ptr = get_mapgen_function( "lab_1side" ) ) {
+                    ptr->generate( dat );
                     if( tw == 2 ) {
                         rotate( 2 );
                     }
@@ -3521,75 +3536,57 @@ void map::draw_lab( mapgendata &dat )
                 maybe_insert_stairs( dat.above(), t_stairs_up );
                 maybe_insert_stairs( terrain_type, t_stairs_down );
             } else {
-                const std::string function_key = "lab_4side";
-                const auto fmapit = oter_mapgen.find( function_key );
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
-                bool use_hardcoded_4side_map = false;
+                if( const auto ptr = get_mapgen_function( "lab_4side", hardcoded_4side_map_weight ) ) {
+                    ptr->generate( dat );
+                    // If the map template hasn't handled borders, handle them in code.
+                    // Rotated maps cannot handle borders and have to be caught in code.
+                    // We determine if a border isn't handled by checking the east-facing
+                    // border space where the door normally is -- it should be a wall or door.
+                    tripoint east_border( 23, 11, abs_sub.z );
+                    if( !has_flag_ter( "WALL", east_border ) &&
+                        !has_flag_ter( "DOOR", east_border ) ) {
+                        // TODO: create a ter_reset function that does ter_set,
+                        // furn_set, and i_clear?
+                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
+                                         t_concrete_wall;
+                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
+                                         t_concrete_wall;
+                        for( int i = 0; i < SEEX * 2; i++ ) {
+                            ter_set( point( 23, i ), rw_type );
+                            furn_set( point( 23, i ), f_null );
+                            i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-                if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-                    std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                                function_key );
-                    const int rlast = weightit->second.rbegin()->first;
-                    const int roll = rng( 1, rlast + hardcoded_4side_map_weight );
+                            ter_set( point( i, 23 ), bw_type );
+                            furn_set( point( i, 23 ), f_null );
+                            i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
-                    if( roll <= rlast ) {
-                        const int fidx = weightit->second.lower_bound( roll )->second;
-                        fmapit->second[fidx]->generate( dat );
-
-                        // If the map template hasn't handled borders, handle them in code.
-                        // Rotated maps cannot handle borders and have to be caught in code.
-                        // We determine if a border isn't handled by checking the east-facing
-                        // border space where the door normally is -- it should be a wall or door.
-                        tripoint east_border( 23, 11, abs_sub.z );
-                        if( !has_flag_ter( "WALL", east_border ) &&
-                            !has_flag_ter( "DOOR", east_border ) ) {
-                            // TODO: create a ter_reset function that does ter_set,
-                            // furn_set, and i_clear?
-                            ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                            ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                            ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                             t_concrete_wall;
-                            ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                             t_concrete_wall;
-                            for( int i = 0; i < SEEX * 2; i++ ) {
-                                ter_set( point( 23, i ), rw_type );
-                                furn_set( point( 23, i ), f_null );
-                                i_clear( tripoint( 23, i, get_abs_sub().z ) );
-
-                                ter_set( point( i, 23 ), bw_type );
-                                furn_set( point( i, 23 ), f_null );
-                                i_clear( tripoint( i, 23, get_abs_sub().z ) );
-
-                                if( lw == 2 ) {
-                                    ter_set( point( 0, i ), lw_type );
-                                    furn_set( point( 0, i ), f_null );
-                                    i_clear( tripoint( 0, i, get_abs_sub().z ) );
-                                }
-                                if( tw == 2 ) {
-                                    ter_set( point( i, 0 ), tw_type );
-                                    furn_set( point( i, 0 ), f_null );
-                                    i_clear( tripoint( i, 0, get_abs_sub().z ) );
-                                }
+                            if( lw == 2 ) {
+                                ter_set( point( 0, i ), lw_type );
+                                furn_set( point( 0, i ), f_null );
+                                i_clear( tripoint( 0, i, get_abs_sub().z ) );
                             }
-                            if( rw != 2 ) {
-                                ter_set( point( 23, 11 ), t_door_metal_c );
-                                ter_set( point( 23, 12 ), t_door_metal_c );
-                            }
-                            if( bw != 2 ) {
-                                ter_set( point( 11, 23 ), t_door_metal_c );
-                                ter_set( point( 12, 23 ), t_door_metal_c );
+                            if( tw == 2 ) {
+                                ter_set( point( i, 0 ), tw_type );
+                                furn_set( point( i, 0 ), f_null );
+                                i_clear( tripoint( i, 0, get_abs_sub().z ) );
                             }
                         }
+                        if( rw != 2 ) {
+                            ter_set( point( 23, 11 ), t_door_metal_c );
+                            ter_set( point( 23, 12 ), t_door_metal_c );
+                        }
+                        if( bw != 2 ) {
+                            ter_set( point( 11, 23 ), t_door_metal_c );
+                            ter_set( point( 12, 23 ), t_door_metal_c );
+                        }
+                    }
 
-                        maybe_insert_stairs( dat.above(), t_stairs_up );
-                        maybe_insert_stairs( terrain_type, t_stairs_down );
-                    } else { // then weighted roll was in the hardcoded section
-                        use_hardcoded_4side_map = true;
-                    } // end json maps
+                    maybe_insert_stairs( dat.above(), t_stairs_up );
+                    maybe_insert_stairs( terrain_type, t_stairs_down );
                 } else { // then no json maps for lab_4side were found
-                    use_hardcoded_4side_map = true;
-                } // end if no lab_4side was found.
-                if( use_hardcoded_4side_map ) {
                     switch( rng( 1, 3 ) ) {
                         case 1:
                             // Cross shaped
@@ -4084,69 +4081,51 @@ void map::draw_lab( mapgendata &dat )
         bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
         lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
 
-        const std::string function_key = "lab_finale_1level";
-        const auto fmapit = oter_mapgen.find( function_key );
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
-        bool use_hardcoded_finale_map = false;
+        if( const auto ptr = get_mapgen_function( "lab_finale_1level", hardcoded_finale_map_weight ) ) {
+            ptr->generate( dat );
 
-        if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-            std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                        function_key );
-            const int rlast = weightit->second.rbegin()->first;
-            const int roll = rng( 1, rlast + hardcoded_finale_map_weight );
+            // If the map template hasn't handled borders, handle them in code.
+            // Rotated maps cannot handle borders and have to be caught in code.
+            // We determine if a border isn't handled by checking the east-facing
+            // border space where the door normally is -- it should be a wall or door.
+            tripoint east_border( 23, 11, abs_sub.z );
+            if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
+                // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
+                for( int i = 0; i < SEEX * 2; i++ ) {
+                    ter_set( point( 23, i ), rw_type );
+                    furn_set( point( 23, i ), f_null );
+                    i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-            if( roll <= rlast ) {
-                const int fidx = weightit->second.lower_bound( roll )->second;
-                fmapit->second[fidx]->generate( dat );
+                    ter_set( point( i, 23 ), bw_type );
+                    furn_set( point( i, 23 ), f_null );
+                    i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
-                // If the map template hasn't handled borders, handle them in code.
-                // Rotated maps cannot handle borders and have to be caught in code.
-                // We determine if a border isn't handled by checking the east-facing
-                // border space where the door normally is -- it should be a wall or door.
-                tripoint east_border( 23, 11, abs_sub.z );
-                if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
-                    // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                    ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                    ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                    ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    for( int i = 0; i < SEEX * 2; i++ ) {
-                        ter_set( point( 23, i ), rw_type );
-                        furn_set( point( 23, i ), f_null );
-                        i_clear( tripoint( 23, i, get_abs_sub().z ) );
-
-                        ter_set( point( i, 23 ), bw_type );
-                        furn_set( point( i, 23 ), f_null );
-                        i_clear( tripoint( i, 23, get_abs_sub().z ) );
-
-                        if( lw == 2 ) {
-                            ter_set( point( 0, i ), lw_type );
-                            furn_set( point( 0, i ), f_null );
-                            i_clear( tripoint( 0, i, get_abs_sub().z ) );
-                        }
-                        if( tw == 2 ) {
-                            ter_set( point( i, 0 ), tw_type );
-                            furn_set( point( i, 0 ), f_null );
-                            i_clear( tripoint( i, 0, get_abs_sub().z ) );
-                        }
+                    if( lw == 2 ) {
+                        ter_set( point( 0, i ), lw_type );
+                        furn_set( point( 0, i ), f_null );
+                        i_clear( tripoint( 0, i, get_abs_sub().z ) );
                     }
-                    if( rw != 2 ) {
-                        ter_set( point( 23, 11 ), t_door_metal_c );
-                        ter_set( point( 23, 12 ), t_door_metal_c );
-                    }
-                    if( bw != 2 ) {
-                        ter_set( point( 11, 23 ), t_door_metal_c );
-                        ter_set( point( 12, 23 ), t_door_metal_c );
+                    if( tw == 2 ) {
+                        ter_set( point( i, 0 ), tw_type );
+                        furn_set( point( i, 0 ), f_null );
+                        i_clear( tripoint( i, 0, get_abs_sub().z ) );
                     }
                 }
-            } else { // then weighted roll was in the hardcoded section
-                use_hardcoded_finale_map = true;
-            } // end json maps
+                if( rw != 2 ) {
+                    ter_set( point( 23, 11 ), t_door_metal_c );
+                    ter_set( point( 23, 12 ), t_door_metal_c );
+                }
+                if( bw != 2 ) {
+                    ter_set( point( 11, 23 ), t_door_metal_c );
+                    ter_set( point( 12, 23 ), t_door_metal_c );
+                }
+            }
         } else { // then no json maps for lab_finale_1level were found
-            use_hardcoded_finale_map = true;
-        } // end if no lab_4side was found.
-
-        if( use_hardcoded_finale_map ) {
             // Start by setting up a large, empty room.
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
@@ -7320,14 +7299,8 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 {
-    const auto fmapit = oter_mapgen.find( mapgen_id );
-    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                    mapgen_id );
-        const int rlast = weightit->second.rbegin()->first;
-        const int roll = rng( 1, rlast );
-        const int fidx = weightit->second.lower_bound( roll )->second;
-        fmapit->second[fidx]->generate( dat );
+    if( const auto ptr = get_mapgen_function( mapgen_id ) ) {
+        ptr->generate( dat );
         return true;
     }
     return false;
