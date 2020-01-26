@@ -223,7 +223,7 @@ void game::item_action_menu()
     }
     item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
     if( u.has_active_bionic( bio_claws ) ) {
-        pseudos.push_back( &bio_claws_item);
+        pseudos.push_back( &bio_claws_item );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
