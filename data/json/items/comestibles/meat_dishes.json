@@ -363,7 +363,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bologna",
-    "name": "bologna",
+    "name": { "str": "bologna", "str_pl": "bologna" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "brat %s", "str_pl": "brat %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "bleak %s", "str_pl": "bleak %s" } }
@@ -660,7 +660,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_herring",
-    "name": "pickled herring",
+    "name": { "str": "pickled herring", "str_pl": "pickled herring" },
     "weight": "232 g",
     "color": "white",
     "spoils_in": "4 days",

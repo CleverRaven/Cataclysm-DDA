@@ -226,8 +226,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ammonia",
-    "name": "ammonia",
-    "name_plural": "ammonia",
+    "name": { "str": "ammonia", "str_pl": "ammonia" },
     "weight": "124 g",
     "color": "white",
     "use_action": "BLECH",
@@ -1129,7 +1128,7 @@
     "id": "detergent",
     "category": "chems",
     "price": 1000,
-    "name": "detergent",
+    "name": { "str": "detergent", "str_pl": "detergent" },
     "symbol": "=",
     "color": "white",
     "description": "A popular pre-Cataclysm washing powder.",

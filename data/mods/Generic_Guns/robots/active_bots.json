@@ -1,0 +1,151 @@
+[
+  {
+    "id": "mon_turret",
+    "copy-from": "mon_turret",
+    "type": "MONSTER",
+    "name": "improvised SMG turret",
+    "default_faction": "defense_bot",
+    "starting_ammo": { "pistol_ball": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "pistol_smg",
+        "ammo_type": "pistol_ball",
+        "fake_skills": [ [ "gun", 5 ], [ "smg", 5 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 400,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 20,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  },
+  {
+    "id": "mon_turret_bmg",
+    "copy-from": "mon_turret_bmg",
+    "type": "MONSTER",
+    "name": "CROWS II, heavy machinegun",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a heavy machinegun.",
+    "default_faction": "military",
+    "starting_ammo": { "rifle_huge_ball": 400 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "rifle_huge_hmg",
+        "ammo_type": "rifle_huge_ball",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 40, "AUTO" ], [ 41, 110, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  },
+  {
+    "id": "mon_crows_m240",
+    "copy-from": "mon_turret_rifle",
+    "type": "MONSTER",
+    "default_faction": "military"
+  },
+  {
+    "id": "mon_turret_rifle",
+    "copy-from": "mon_turret_rifle",
+    "type": "MONSTER",
+    "name": "CROWS II, light machinegun",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a light machine gun.",
+    "default_faction": "military",
+    "starting_ammo": { "rifle_ball": 1000 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "rifle_lmg",
+        "ammo_type": "rifle_ball",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 60, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  },
+  {
+    "id": "mon_secubot",
+    "copy-from": "mon_secubot",
+    "type": "MONSTER",
+    "name": { "str": "autonomous rifle TALON UGV" },
+    "description": "A TALON unmanned ground vehicle equipped with a standard assault rifle.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
+    "starting_ammo": { "rifle_ball": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "rifle_assault",
+        "ammo_type": "556",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  },
+  {
+    "id": "mon_talon_m202a1",
+    "copy-from": "mon_talon_m202a1",
+    "type": "MONSTER",
+    "name": { "str": "autonomous launcher TALON UGV" },
+    "description": "A TALON unmanned ground vehicle equipped with a revolver grenade launcher.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
+    "default_faction": "defense_bot",
+    "starting_ammo": { "grenade_ammo_hedp": 6 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "grenade_revolver",
+        "ammo_type": "grenade_ammo_hedp",
+        "fake_skills": [ [ "gun", 8 ], [ "launcher", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 20, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  }
+]

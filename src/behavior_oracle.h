@@ -21,9 +21,9 @@ enum status_t : char;
  */
 class oracle_t
 {
-    public:
-        status_t return_running() const;
 };
+
+status_t return_running( const oracle_t * );
 
 class character_oracle_t : public oracle_t
 {

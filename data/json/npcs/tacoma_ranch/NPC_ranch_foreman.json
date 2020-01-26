@@ -464,7 +464,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_8",
     "type": "mission_definition",
-    "name": "Gather 2 Motors",
+    "name": "Gather 2 Electric Motors",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -594,7 +594,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_11",
     "type": "mission_definition",
-    "name": "Find 2 Electric Welders",
+    "name": "Find 2 Arc Welders",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -747,7 +747,7 @@
         {
           "om_terrain": "ranch_camp_61",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
-          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 90, "x": 14, "y": 4 } ]
+          "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 90, "x": 16, "y": 5 } ]
         }
       ]
     }
