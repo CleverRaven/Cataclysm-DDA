@@ -225,7 +225,7 @@
     "encumbrance": 2,
     "covers": [ "LEG_EITHER" ],
     "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS", "NO_RELOAD", "NO_UNLOAD" ],
-    "magazines": []
+    "magazines": [  ]
   },
   {
     "id": "adv_UPS_off",
