@@ -486,7 +486,7 @@ When you sort your inventory by category, these are the categories that are disp
     "name": "AMMO",
     "zone": "LOOT_AMMO",
     "sort_rank": -21,
-    "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
+    "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
 }
 ```
 
