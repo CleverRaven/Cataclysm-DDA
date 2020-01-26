@@ -390,14 +390,6 @@ int register_mapgen_function( const std::string &key );
  */
 bool has_mapgen_for( const std::string &key );
 /*
- * stores function ref and/or required data
- */
-extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-/*
- * random selector list for the nested vector above, as per individual mapgen_function_::weight value
- */
-extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
-/*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
 void calculate_mapgen_weights(); // throws
