@@ -425,7 +425,6 @@ static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_BEE( "BEE" );
