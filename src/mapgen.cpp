@@ -228,6 +228,23 @@ class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_functio
             push_back( ptr );
             return size() - 1;
         }
+        /**
+         * Pick a mapgen function randomly.
+         * @p hardcoded_weight Weight for an additional entry. If that entry is chosen,
+         * a null pointer is returned. If unsure, just use 0 for it.
+         */
+        mapgen_function *pick( const int hardcoded_weight ) const {
+            if( hardcoded_weight > 0 &&
+                rng( 1, weights_.get_weight() + hardcoded_weight ) > weights_.get_weight() ) {
+                return nullptr;
+            }
+            const std::shared_ptr<mapgen_function> *const ptr = weights_.pick();
+            if( !ptr ) {
+                return nullptr;
+            }
+            assert( *ptr );
+            return ptr->get();
+        }
 };
 /*
  * stores function ref and/or required data
@@ -300,18 +317,7 @@ static mapgen_function *get_mapgen_function( const std::string &key,
     if( fmapit == oter_mapgen.end() ) {
         return nullptr;
     }
-    const weighted_int_list<std::shared_ptr<mapgen_function>> &weights = fmapit->second.weights_;
-    if( hardcoded_weight > 0 ) {
-        if( rng( 1, weights.get_weight() + hardcoded_weight ) > weights.get_weight() ) {
-            return nullptr;
-        }
-    }
-    const std::shared_ptr<mapgen_function> *ptr = weights.pick();
-    if( !ptr ) {
-        return nullptr;
-    }
-    assert( *ptr );
-    return ptr->get();
+    return fmapit->second.pick( hardcoded_weight );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
