@@ -4908,12 +4908,11 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p, bool 
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            vehicle &veh = vp->vehicle();
             const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
-                vehicle_stack items = veh.get_items( carg->part_index() );
-                for( auto &items_it : items ) {
+                const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
+                for( const item &items_it : items ) {
                     if( items_it.has_flag( "SLEEP_AID" ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -4951,8 +4950,8 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p, bool 
             comfort -= g->m.move_cost( p );
         }
 
-        auto items = g->m.i_at( p );
-        for( auto &items_it : items ) {
+        const map_stack items = g->m.i_at( p );
+        for( const item &items_it : items ) {
             if( items_it.has_flag( "SLEEP_AID" ) ) {
                 // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
