@@ -594,7 +594,6 @@
     "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
-    "intelligence": 4,
     "time": "17 m"
   },
   {
@@ -606,7 +605,6 @@
     "skill": "cooking",
     "required_level": 3,
     "max_level": 6,
-    "intelligence": 4,
     "time": "17 m"
   }
 ]
