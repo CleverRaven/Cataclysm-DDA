@@ -628,6 +628,12 @@
     "type": "harvest",
     "entries": [
       {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
         "drop": "bionics_sci",
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
@@ -664,7 +670,7 @@
     "type": "harvest",
     "entries": [
       {
-        "drop": "bio_power_storage",
+        "drop": "bio_power_storage_mkII",
         "type": "bionic",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]

@@ -598,7 +598,7 @@
   {
     "type": "palette",
     "id": "lab_loot_bionic_vault",
-    "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] } },
+    "mapping": { "r": { "items": [ { "item": "bionics_vault", "chance": 50 }, { "item": "bionics", "chance": 10 } ] } },
     "terrain": { "r": "t_thconc_floor" },
     "computers": {
       "6": {
