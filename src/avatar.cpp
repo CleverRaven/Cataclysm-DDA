@@ -1551,6 +1551,8 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
+    g->refresh_all();
+
     return invoke_item( used, method, pt );
 }
 
