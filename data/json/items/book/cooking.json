@@ -562,8 +562,11 @@
     "volume": "1 L",
     "price": 4000,
     "price_postapoc": 31500,
+    "bashing": 2,
     "material": [ "paper" ],
-    "copy-from": "vinegar_maker",
+    "symbol": "?",
+    "color": "blue",
+    "skill": "cooking",
     "required_level": 1,
     "max_level": 2,
     "time": "12 m"
