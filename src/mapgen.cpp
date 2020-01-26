@@ -232,6 +232,11 @@ class mapgen_basic_container
             assert( *ptr );
             return ptr->get();
         }
+        /**
+         * Calls @ref mapgen_function::setup and sets up the internal weighted list using
+         * the **current** value of @ref mapgen_function::weight. This value may have
+         * changed since it was first added, so this is needed to recalculate the weighted list.
+         */
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
                 const int weight = ptr->weight;
@@ -256,6 +261,7 @@ class mapgen_factory
     private:
         std::map<std::string, mapgen_basic_container> mapgens_;
 
+        /// Collect all the possible and expected keys that may get used with @ref pick.
         static std::set<std::string> get_usages() {
             std::set<std::string> result;
             for( const oter_t &elem : overmap_terrains::get_all() ) {
@@ -279,6 +285,7 @@ class mapgen_factory
         void reset() {
             mapgens_.clear();
         }
+        /// @see mapgen_basic_container::setup
         void setup() {
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
@@ -295,13 +302,19 @@ class mapgen_factory
                 }
             }
         }
+        /**
+         * Checks whether we have an entry for the given key.
+         * Note that the entry itself may not contain any valid mapgen instance
+         * (could all have been removed via @ref erase).
+         */
         bool has( const std::string &key ) const {
             return mapgens_.count( key ) != 0;
         }
+        /// @see mapgen_basic_container::add
         int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
             return mapgens_[key].add( ptr );
         }
-        // @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
+        /// @see mapgen_basic_container::pick
         mapgen_function *pick( const std::string &key, const int hardcoded_weight = 0 ) const {
             const auto iter = mapgens_.find( key );
             if( iter == mapgens_.end() ) {
@@ -309,6 +322,7 @@ class mapgen_factory
             }
             return iter->second.pick( hardcoded_weight );
         }
+        /// @see mapgen_basic_container::erase
         void erase( const std::string &key, const size_t index ) {
             mapgens_[key].erase( index );
         }
