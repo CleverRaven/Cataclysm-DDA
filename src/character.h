@@ -262,6 +262,15 @@ class Character : public Creature, public visitable<Character>
 
         const std::string &symbol() const override;
 
+        enum class comfort_level {
+            impossible = -999,
+            uncomfortable = -7,
+            neutral = 0,
+            slightly_comfortable = 3,
+            comfortable = 5,
+            very_comfortable = 10
+        };
+
         enum stat {
             STRENGTH,
             DEXTERITY,
@@ -418,14 +427,39 @@ class Character : public Creature, public visitable<Character>
          */
         std::string get_miss_reason();
 
+        /**
+          * Handles passive regeneration of pain and maybe hp.
+          */
+        void regen( int rate_multiplier );
+        // called once per 24 hours to enforce the minimum of 1 hp healed per day
+        // TODO: Move to Character once heal() is moved
+        void enforce_minimum_healing();
+
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );
-
+        /** Updates all "biology" by one turn. Should be called once every turn. */
+        void update_body();
+        /** Updates all "biology" as if time between `from` and `to` passed. */
+        void update_body( const time_point &from, const time_point &to );
+        /** Updates the stomach to give accurate hunger messages */
+        void update_stomach( const time_point &from, const time_point &to );
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
+        void update_needs( int rate_multiplier );
+        needs_rates calc_needs_rates() const;
+        /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
+        void check_needs_extremes();
+        /** Handles the chance to be infected by random diseases */
+        void get_sick();
+        /** Returns if the player has hibernation mutation and is asleep and well fed */
+        bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp();
 
         /** Equalizes heat between body parts */
         void temp_equalizer( body_part bp1, body_part bp2 );
+
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_level base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
@@ -700,6 +734,7 @@ class Character : public Creature, public visitable<Character>
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
+        void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
 
@@ -1260,6 +1295,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
+        /** Returns the player's skill rust rate */
+        int rust_rate( bool return_stat_effect = true ) const;
+
         // --------------- Other Stuff ---------------
 
         /** return the calendar::turn the character expired */
@@ -1646,6 +1684,10 @@ class Character : public Creature, public visitable<Character>
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        time_duration vitamin_rate( const vitamin_id &vit ) const;
+
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequen
@@ -1703,9 +1745,6 @@ class Character : public Creature, public visitable<Character>
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
-        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
-        time_duration vitamin_rate( const vitamin_id &vit ) const;
-        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;

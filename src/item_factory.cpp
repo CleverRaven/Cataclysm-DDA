@@ -803,7 +803,7 @@ void Item_factory::init()
     add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
-    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
+    add_iuse( "MELATONIN_TABLET", &iuse::melatonin_tablet );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<bandolier_actor>() );

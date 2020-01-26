@@ -1229,11 +1229,13 @@ int vehicle::part_epower_w( const int index ) const
 int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) const
 {
     // Integrate constant epower (watts) over time to get units of battery energy
-    int energy_j = power_w * to_seconds<int>( d );
+    // Thousands of watts over millions of seconds can happen, so 32-bit int
+    // insufficient.
+    int64_t energy_j = power_w * to_seconds<int64_t>( d );
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
-    energy_bat += x_in_y( abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
+    energy_bat += x_in_y( std::abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
     return energy_bat;
 }
 
@@ -4132,8 +4134,11 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area() ) *
-                               to_kilogram( total_mass() );
+    const float fraction_without_traction = 1.0f - wheel_traction_area / wheel_area();
+    if( fraction_without_traction == 0 ) {
+        return 1.0f;
+    }
+    const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );

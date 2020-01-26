@@ -1,0 +1,67 @@
+[
+  {
+    "id": "mounted_bigun",
+    "copy-from": "mounted_bigun",
+    "type": "vehicle_part",
+    "name": "mounted tactical shotgun",
+    "item": "shot_tactical",
+    "breaks_into": [ { "item": "shot_tactical", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_browning",
+    "copy-from": "mounted_browning",
+    "type": "vehicle_part",
+    "name": "mounted heavy machinegun",
+    "item": "rifle_huge_hmg",
+    "breaks_into": [ { "item": "rifle_huge_hmg", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_rm298",
+    "copy-from": "mounted_browning",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "mounted_m1918",
+    "copy-from": "mounted_m1918",
+    "type": "vehicle_part",
+    "name": "mounted assault rifle",
+    "item": "rifle_assault",
+    "breaks_into": [ { "item": "rifle_assault", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_m240",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part",
+    "name": "mounted light machine gun",
+    "item": "rifle_lmg",
+    "breaks_into": [ { "item": "rifle_lmg", "prob": 50 } ]
+  },
+  {
+    "id": "m249",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "mounted_m134",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "mounted_m60",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "mounted_rm614",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "mounted_mk19",
+    "copy-from": "mounted_mk19",
+    "type": "vehicle_part",
+    "name": "mounted automatic grenade launcher",
+    "item": "grenade_hmg",
+    "breaks_into": [ { "item": "grenade_hmg", "prob": 50 } ]
+  }
+]

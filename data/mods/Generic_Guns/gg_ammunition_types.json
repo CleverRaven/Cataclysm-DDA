@@ -1,32 +1,65 @@
 [
   {
-    "id": "44",
-    "name": "revolver ammo",
-    "default": "44magnum",
-    "type": "ammunition_type"
+    "type": "ammunition_type",
+    "id": "ammo_black_powder",
+    "//": "a combination flintlock and cap and ball type ammo.  Just roll with it.",
+    "name": "standard pistol ammo",
+    "default": "black_powder_ball"
   },
   {
-    "id": "9mm",
-    "name": "pistol ammo",
-    "default": "9mm",
-    "type": "ammunition_type"
+    "type": "ammunition_type",
+    "id": "ammo_pistol_tiny",
+    "//": "ammo smaller than .380ACP",
+    "name": "tiny pistol ammo",
+    "default": "tiny_pistol_jhp"
   },
   {
-    "id": "223",
-    "name": "light rifle ammo",
-    "default": "223",
-    "type": "ammunition_type"
+    "type": "ammunition_type",
+    "id": "ammo_pistol",
+    "//": ".380 to .357sig",
+    "name": "standard pistol ammo",
+    "default": "pistol_ball"
   },
   {
-    "id": "308",
+    "type": "ammunition_type",
+    "id": "ammo_pistol_magnum",
+    "//": ".357mag and up.",
+    "name": "magnum pistol ammo",
+    "default": "pistol_magnum_ball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammo_rifle",
+    "//": "any rifle ammo less powerful than .375 H&H.",
     "name": "rifle ammo",
-    "default": "308",
-    "type": "ammunition_type"
+    "default": "rifle_ball"
   },
   {
-    "id": "50",
-    "name": "heavy rifle ammo",
-    "default": "50bmg",
-    "type": "ammunition_type"
+    "type": "ammunition_type",
+    "id": "ammo_rifle_huge",
+    "//": "ammo from .375 H&H to .50BMG. Migrate anything stronger to as-yet unimplemented light cannon ammo",
+    "name": "huge rifle ammo",
+    "default": "rifle_huge_ball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammo_grenade",
+    "//": "20mm or greater ammo containing explosive material, usually 40mm.",
+    "name": "grenade ammo",
+    "default": "grenade_ammo_hedp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammo_rocket",
+    "//": "any rocket, missile, or rocket-like ordinance, like recoilless ammo",
+    "name": "rocket ammo",
+    "default": "rocket_hedp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammo_shot",
+    "//": "any ammunition for smoothbore projectiles, typically using wads and plastic hulls.",
+    "name": "shotgun ammo",
+    "default": "shot_buck"
   }
 ]
