@@ -459,7 +459,7 @@ class Character : public Creature, public visitable<Character>
         void temp_equalizer( body_part bp1, body_part bp2 );
 
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_level base_comfort_value( const tripoint &p ) const;
+        comfort_level base_comfort_value( const tripoint &p, bool message = false ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;

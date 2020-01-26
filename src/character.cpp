@@ -4878,7 +4878,7 @@ void Character::temp_equalizer( body_part bp1, body_part bp2 )
     temp_cur[bp1] += diff;
 }
 
-Character::comfort_level Character::base_comfort_value( const tripoint &p ) const
+Character::comfort_level Character::base_comfort_value( const tripoint &p, bool message ) const
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
     // As in the latter also checks for fatigue and other variables while this function
@@ -4917,7 +4917,10 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p ) cons
                     if( items_it.has_flag( "SLEEP_AID" ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                        if( message ) {
+                            add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                        }
+
                         break; // prevents using more than 1 sleep aid
                     }
                 }
@@ -4953,7 +4956,9 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p ) cons
             if( items_it.has_flag( "SLEEP_AID" ) ) {
                 // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                if( message ) {
+                    add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                }
                 break; // prevents using more than 1 sleep aid
             }
         }

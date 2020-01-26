@@ -4466,7 +4466,7 @@ void player::try_to_sleep( const time_duration &dur )
 int player::sleep_spot( const tripoint &p ) const
 {
     const int current_stim = get_stim();
-    comfort_level base_level = base_comfort_value( p );
+    comfort_level base_level = base_comfort_value( p, true );
     int sleepy = static_cast<int>( base_level );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
