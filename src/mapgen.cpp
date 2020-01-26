@@ -197,6 +197,12 @@ void mapgen_function_builtin::generate( mapgendata &mgd )
 class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_function>>
 {
     public:
+        /**
+         * index to the above, adjusted to allow for rarity
+         * random selector list for the nested vector above, as per individual mapgen_function_::weight value
+         */
+        std::map<int, int> weights_;
+
         int add( const std::shared_ptr<mapgen_function> ptr ) {
             assert( ptr );
             push_back( ptr );
@@ -211,21 +217,14 @@ std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> 
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
 /*
- * index to the above, adjusted to allow for rarity
- * random selector list for the nested vector above, as per individual mapgen_function_::weight value
- */
-std::map<std::string, std::map<int, int> > oter_mapgen_weights;
-
-/*
- * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
+ * setup mapgen_basic_container::weights_ which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
-    oter_mapgen_weights.clear();
     for( auto &omw : oter_mapgen ) {
         int funcnum = 0;
         int wtotal = 0;
-        oter_mapgen_weights[ omw.first ] = std::map<int, int>();
+        omw.second.weights_.clear();
         for( auto fit = omw.second.begin(); fit != omw.second.end(); ++fit ) {
             //
             int weight = ( *fit )->weight;
@@ -237,7 +236,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
             }
             ( *fit )->setup();
             wtotal += weight;
-            oter_mapgen_weights[ omw.first ][ wtotal ] = funcnum;
+            omw.second.weights_[ wtotal ] = funcnum;
             dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): +" << weight << " = " << wtotal;
             ++funcnum;
         }
@@ -289,17 +288,16 @@ static mapgen_function *get_mapgen_function( const std::string &key,
     if( fmapit == oter_mapgen.end() ) {
         return nullptr;
     }
-    const std::vector<std::shared_ptr<mapgen_function>> &vector = fmapit->second;
+    const mapgen_basic_container &vector = fmapit->second;
     // Creating the entry in the map is only done when an entry in the vector is about to be made,
     // so the map should not contain empty vectors.
     assert( !vector.empty() );
-    const auto weightit = oter_mapgen_weights.find( key );
-    const int rlast = weightit->second.rbegin()->first;
+    const int rlast = vector.weights_.rbegin()->first;
     const int roll = rng( 1, rlast + hardcoded_weight );
     if( roll > rlast ) {
         return nullptr;
     }
-    const int fidx = weightit->second.lower_bound( roll )->second;
+    const int fidx = vector.weights_.lower_bound( roll )->second;
     assert( static_cast<size_t>( fidx ) < vector.size() );
     const std::shared_ptr<mapgen_function> &ptr = vector[fidx];
     assert( ptr );
