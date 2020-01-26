@@ -218,15 +218,25 @@ void mapgen_function_builtin::generate( mapgendata &mgd )
 ///// mapgen_function class.
 ///// all sorts of ways to apply our hellish reality to a grid-o-squares
 
-class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_function>>
+class mapgen_basic_container
 {
-    public:
+    private:
+        std::vector<std::shared_ptr<mapgen_function>> mapgens_;
         weighted_int_list<std::shared_ptr<mapgen_function>> weights_;
 
+    public:
         int add( const std::shared_ptr<mapgen_function> ptr ) {
             assert( ptr );
-            push_back( ptr );
-            return size() - 1;
+            mapgens_.push_back( ptr );
+            return mapgens_.size() - 1;
+        }
+        void erase( const size_t index ) {
+            if( index > mapgens_.size() ) {
+                return;
+            }
+            assert( mapgens_[index] );
+            // Can't actually erase it as this might invalid the index stored elsewhere
+            mapgens_[index]->weight = 0;
         }
         /**
          * Pick a mapgen function randomly.
@@ -246,8 +256,7 @@ class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_functio
             return ptr->get();
         }
         void setup() {
-            weights_.clear();
-            for( const std::shared_ptr<mapgen_function> &ptr : *this ) {
+            for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
                 const int weight = ptr->weight;
                 if( weight < 1 ) {
                     continue; // rejected!
@@ -255,10 +264,11 @@ class mapgen_basic_container : public std::vector<std::shared_ptr<mapgen_functio
                 weights_.add( ptr, weight );
                 ptr->setup();
             }
-            // @TODO clear: clear();
+            // Not needed anymore, pointers are now stored in weights_ (or not used at all)
+            mapgens_.clear();
         }
         void check_consistency( const std::string &key ) {
-            for( auto &mapgen_function_ptr : *this ) {
+            for( auto &mapgen_function_ptr : mapgens_ ) {
                 mapgen_function_ptr->check( key );
             }
         }
@@ -365,7 +375,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
             if( jio.has_string( "name" ) ) {
                 const std::string mgname = jio.get_string( "name" );
                 if( mgname == id_base ) {
-                    oter_mapgen[id_base][ default_idx ]->weight = 0;
+                    oter_mapgen[id_base].erase( default_idx );
                 }
             }
         }
