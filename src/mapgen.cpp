@@ -249,10 +249,50 @@ class mapgen_basic_container
             }
         }
 };
+
+class mapgen_factory
+{
+    private:
+        std::map<std::string, mapgen_basic_container> mapgens_;
+
+    public:
+        void reset() {
+            mapgens_.clear();
+        }
+        void setup() {
+            for( auto &omw : mapgens_ ) {
+                omw.second.setup();
+            }
+        }
+        void check_consistency() {
+            for( auto &oter_definition : mapgens_ ) {
+                oter_definition.second.check_consistency( oter_definition.first );
+            }
+        }
+        bool has( const std::string &key ) const {
+            return mapgens_.count( key ) != 0;
+        }
+        int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
+            return mapgens_[key].add( ptr );
+        }
+        // @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
+        mapgen_function *pick( const std::string &key, const int hardcoded_weight = 0 ) const {
+            const auto fmapit = mapgens_.find( key );
+            if( fmapit == mapgens_.end() ) {
+                return nullptr;
+            }
+            return fmapit->second.pick( hardcoded_weight );
+        }
+        void erase( const std::string &key, const size_t index ) {
+            mapgens_[key].erase( index );
+        }
+};
+
+static mapgen_factory oter_mapgen;
+
 /*
  * stores function ref and/or required data
  */
-std::map<std::string, mapgen_basic_container> oter_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
@@ -261,9 +301,7 @@ std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> 
  */
 void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
-    for( auto &omw : oter_mapgen ) {
-        omw.second.setup();
-    }
+    oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
         for( std::unique_ptr<mapgen_function_json_nested> &ptr : pr.second ) {
@@ -280,9 +318,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 
 void check_mapgen_definitions()
 {
-    for( auto &oter_definition : oter_mapgen ) {
-        oter_definition.second.check_consistency( oter_definition.first );
-    }
+    oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
             mapgen_function_ptr->check( oter_definition.first );
@@ -293,23 +329,6 @@ void check_mapgen_definitions()
             mapgen_function_ptr->check( oter_definition.first );
         }
     }
-}
-
-static int register_mapgen_function( const std::string &key,
-                                     const std::shared_ptr<mapgen_function> ptr )
-{
-    return oter_mapgen[key].add( ptr );
-}
-
-// @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
-static mapgen_function *get_mapgen_function( const std::string &key,
-        const int hardcoded_weight = 0 )
-{
-    const auto fmapit = oter_mapgen.find( key );
-    if( fmapit == oter_mapgen.end() ) {
-        return nullptr;
-    }
-    return fmapit->second.pick( hardcoded_weight );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -351,7 +370,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
             if( jio.has_string( "name" ) ) {
                 const std::string mgname = jio.get_string( "name" );
                 if( mgname == id_base ) {
-                    oter_mapgen[id_base].erase( default_idx );
+                    oter_mapgen.erase( id_base, default_idx );
                 }
             }
         }
@@ -362,14 +381,14 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
     if( mgtype == "builtin" ) {
         if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-            register_mapgen_function( id_base, ret );
+            oter_mapgen.add( id_base, ret );
         } else {
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
         const std::string jstr = jio.get_object( "object" ).str();
         ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
-        register_mapgen_function( id_base, ret );
+        oter_mapgen.add( id_base, ret );
     } else {
         jio.throw_error( "invalid value: must be \"builtin\" or \"json\")", "method" );
     }
@@ -426,7 +445,7 @@ void load_mapgen( const JsonObject &jo )
                 for( const std::string mapgenid : row_items ) {
                     const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, offset );
                     if( mgfunc ) {
-                        register_mapgen_function( mapgenid, mgfunc );
+                        oter_mapgen.add( mapgenid, mgfunc );
                     }
                     offset.x++;
                 }
@@ -443,7 +462,7 @@ void load_mapgen( const JsonObject &jo )
                 const auto mgfunc = load_mapgen_function( jo, mapgenid, -1 );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
-                        register_mapgen_function( i, mgfunc );
+                        oter_mapgen.add( i, mgfunc );
                     }
                 }
             }
@@ -462,7 +481,7 @@ void load_mapgen( const JsonObject &jo )
 
 void reset_mapgens()
 {
-    oter_mapgen.clear();
+    oter_mapgen.reset();
     nested_mapgen.clear();
     update_mapgen.clear();
 }
@@ -3517,7 +3536,7 @@ void map::draw_lab( mapgendata &dat )
 
             //A lab area with only one entrance
             if( boarders == 1 ) {
-                if( const auto ptr = get_mapgen_function( "lab_1side" ) ) {
+                if( const auto ptr = oter_mapgen.pick( "lab_1side" ) ) {
                     ptr->generate( dat );
                     if( tw == 2 ) {
                         rotate( 2 );
@@ -3535,7 +3554,7 @@ void map::draw_lab( mapgendata &dat )
                 maybe_insert_stairs( terrain_type, t_stairs_down );
             } else {
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
-                if( const auto ptr = get_mapgen_function( "lab_4side", hardcoded_4side_map_weight ) ) {
+                if( const auto ptr = oter_mapgen.pick( "lab_4side", hardcoded_4side_map_weight ) ) {
                     ptr->generate( dat );
                     // If the map template hasn't handled borders, handle them in code.
                     // Rotated maps cannot handle borders and have to be caught in code.
@@ -4080,7 +4099,7 @@ void map::draw_lab( mapgendata &dat )
         lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
-        if( const auto ptr = get_mapgen_function( "lab_finale_1level", hardcoded_finale_map_weight ) ) {
+        if( const auto ptr = oter_mapgen.pick( "lab_finale_1level", hardcoded_finale_map_weight ) ) {
             ptr->generate( dat );
 
             // If the map template hasn't handled borders, handle them in code.
@@ -7297,7 +7316,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 {
-    if( const auto ptr = get_mapgen_function( mapgen_id ) ) {
+    if( const auto ptr = oter_mapgen.pick( mapgen_id ) ) {
         ptr->generate( dat );
         return true;
     }
@@ -7307,12 +7326,12 @@ bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 int register_mapgen_function( const std::string &key )
 {
     if( const auto ptr = get_mapgen_cfunction( key ) ) {
-        return register_mapgen_function( key, std::make_shared<mapgen_function_builtin>( ptr ) );
+        return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
     }
     return -1;
 }
 
 bool has_mapgen_for( const std::string &key )
 {
-    return oter_mapgen.count( key ) != 0;
+    return oter_mapgen.has( key );
 }
