@@ -260,12 +260,12 @@ class mapgen_factory
             mapgens_.clear();
         }
         void setup() {
-            for( auto &omw : mapgens_ ) {
+            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
             }
         }
         void check_consistency() {
-            for( auto &oter_definition : mapgens_ ) {
+            for( std::pair<const std::string, mapgen_basic_container> &oter_definition : mapgens_ ) {
                 oter_definition.second.check_consistency( oter_definition.first );
             }
         }
