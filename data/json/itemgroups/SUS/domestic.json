@@ -650,7 +650,7 @@
         "prob": 80
       },
       {
-        "distribution": [ { "item": "weak_antibiotics", "prob": 40 }, { "item": "antibiotics", "prob": 10 } ],
+        "distribution": [ { "item": "weak_antibiotic", "prob": 40 }, { "item": "antibiotics", "prob": 10 } ],
         "prob": 10
       },
       { "distribution": [ { "item": "antifungal", "prob": 60 }, { "item": "antiparasitic", "prob": 20 } ], "prob": 5 }

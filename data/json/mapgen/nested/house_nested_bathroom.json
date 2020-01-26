@@ -20,9 +20,9 @@
           { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "t": { "item": "SUS_toilet", "chance": 80 }
-      }
-    },
-    "place_loot": [ { "group": "SUS_hair_drawer", "x": 2, "y": 2, "chance": 30, "repeat": [ 1, 2 ] } ]
+      },
+      "place_loot": [ { "group": "SUS_hair_drawer", "x": 2, "y": 2, "chance": 30, "repeat": [ 1, 2 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -72,9 +72,9 @@
           { "item": "SUS_bathroom_medicine", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "t": { "item": "SUS_toilet", "chance": 80 }
-      }
-    },
-    "place_monsters": [ { "monster": "GROUP_BLOB", "chance": 70, "x": 2, "y": 2 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_BLOB", "chance": 70, "x": 2, "y": 2 } ]
+    }
   },
   {
     "type": "mapgen",
