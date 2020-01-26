@@ -482,9 +482,9 @@ When you sort your inventory by category, these are the categories that are disp
 
 ```C++
 {
-    "id":"ammo",
-    "name": "AMMO",
-    "zone": "LOOT_AMMO",
+    "id":"armor",
+    "name": "ARMOR",
+    "zone": "LOOT_ARMOR",
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
 }
