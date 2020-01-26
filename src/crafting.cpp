@@ -908,6 +908,11 @@ double player::crafting_success_roll( const recipe &making ) const
     const double skill_roll = dice( skill_dice, skill_sides );
     const double diff_roll = dice( diff_dice, diff_sides );
 
+    if( diff_roll == 0 ) {
+        // Automatic success
+        return 2;
+    }
+
     return skill_roll / diff_roll;
 }
 

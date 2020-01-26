@@ -2114,6 +2114,7 @@
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
       [ "milk_UHT", 10 ],
+      { "item": "melatonin_tablet", "count": 20, "prob": 20 },
       [ "can_spam", 30 ],
       [ "can_tuna", 35 ],
       [ "can_salmon", 25 ],

@@ -103,6 +103,7 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
+
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
@@ -308,7 +309,7 @@ static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_magnesium_supplements( "magnesium" );
+static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
