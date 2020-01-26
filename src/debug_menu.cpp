@@ -85,6 +85,7 @@
 #include "units.h"
 #include "weather_gen.h"
 #include "monstergenerator.h"
+#include "cata_string_consts.h"
 
 class vehicle;
 
@@ -93,7 +94,6 @@ class vehicle;
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-static const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -1314,7 +1314,7 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                if( critter.type->id != mon_generator ) {
                     critter.die( nullptr );
                 }
             }

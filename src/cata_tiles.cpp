@@ -62,6 +62,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "game_constants.h"
+#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -82,7 +83,6 @@ static const std::array<std::string, 8> multitile_keys = {{
 
 extern int fontwidth;
 extern int fontheight;
-static const efftype_id effect_ridden( "ridden" );
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
