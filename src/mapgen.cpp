@@ -310,36 +310,21 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
         }
         jio.allow_omitted_members();
         return nullptr; // nothing
-    } else if( jio.has_string( "method" ) ) {
-        const std::string mgtype = jio.get_string( "method" );
-        if( mgtype == "builtin" ) { // c-function
-            if( jio.has_string( "name" ) ) {
-                const std::string mgname = jio.get_string( "name" );
-                if( const auto ptr = get_mapgen_cfunction( mgname ) ) {
-                    ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-                    oter_mapgen[id_base].push_back( ret );
-                } else {
-                    debugmsg( "oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(),
-                              mgname );
-                }
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
-            }
-        } else if( mgtype == "json" ) {
-            if( jio.has_object( "object" ) ) {
-                JsonObject jo = jio.get_object( "object" );
-                std::string jstr = jo.str();
-                ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
-                oter_mapgen[id_base].push_back( ret );
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
-            }
+    }
+    const std::string mgtype = jio.get_string( "method" );
+    if( mgtype == "builtin" ) {
+        if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+            ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
+            oter_mapgen[id_base].push_back( ret );
         } else {
-            debugmsg( "oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+            jio.throw_error( "function does not exist", "name" );
         }
+    } else if( mgtype == "json" ) {
+        const std::string jstr = jio.get_object( "object" ).str();
+        ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
+        oter_mapgen[id_base].push_back( ret );
     } else {
-        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\" or \"json\").",
-                  id_base.c_str() );
+        jio.throw_error( "invalid value: must be \"builtin\" or \"json\")", "method" );
     }
     return ret;
 }
