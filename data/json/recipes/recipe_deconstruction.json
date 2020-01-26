@@ -413,12 +413,6 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
   },
   {
-    "result": "battletorch_done",
-    "type": "uncraft",
-    "time": "2 m",
-    "components": [ [ [ "bat", 1 ] ], [ [ "nomex", 5 ] ] ]
-  },
-  {
     "result": "bindle",
     "type": "uncraft",
     "time": "6 s",
