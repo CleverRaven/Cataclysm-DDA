@@ -172,7 +172,7 @@
   {
     "type": "mutation",
     "id": "EASYSLEEPER",
-    "name": "Accomplished Sleeper",
+    "name": { "str": "Accomplished Sleeper" },
     "points": 1,
     "description": "You have always been able to fall asleep easily, even when sleeping in less than ideal circumstances.",
     "changes_to": [ "EASYSLEEPER2" ],
@@ -903,7 +903,7 @@
     "starting_trait": true,
     "prereqs": [ "BADHEARING" ],
     "cancels": [ "GOODHEARING" ],
-    "hearing_modifier": 0
+    "hearing_modifier": 0.0
   },
   {
     "type": "mutation",
@@ -3727,7 +3727,7 @@
     "valid": false,
     "types": [ "EARS" ],
     "category": [ "MOUSE", "RAT" ],
-    "hearing_modifier": 2
+    "hearing_modifier": 2.0
   },
   {
     "type": "mutation",
@@ -4197,7 +4197,7 @@
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.05,
-    "dodge_modifier": 1,
+    "dodge_modifier": 1.0,
     "weight_capacity_modifier": 0.8
   },
   {
@@ -4213,9 +4213,9 @@
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.3,
-    "dodge_modifier": 2,
+    "dodge_modifier": 2.0,
     "weight_capacity_modifier": 0.5,
-    "noise_modifier": 0
+    "noise_modifier": 0.0
   },
   {
     "type": "mutation",
@@ -4231,9 +4231,9 @@
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.25,
-    "dodge_modifier": 2,
+    "dodge_modifier": 2.0,
     "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0
+    "noise_modifier": 0.0
   },
   {
     "type": "mutation",
@@ -5701,7 +5701,7 @@
     ],
     "restricts_gear": [ "FOOT_L", "FOOT_R" ],
     "movecost_modifier": 1.2,
-    "noise_modifier": 0
+    "noise_modifier": 0.0
   },
   {
     "type": "mutation",
@@ -5953,7 +5953,7 @@
   {
     "type": "mutation",
     "id": "ACIDPROOF",
-    "name": "Acidproof",
+    "name": { "str": "Acidproof" },
     "points": 3,
     "description": "Your mutated flesh is immune to the damaging effects of acid.",
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
@@ -5962,7 +5962,7 @@
   {
     "type": "mutation",
     "id": "ACIDBLOOD",
-    "name": "Acid Blood",
+    "name": { "str": "Acid Blood" },
     "points": 4,
     "description": "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
     "prereqs": [ "ACIDPROOF" ],
