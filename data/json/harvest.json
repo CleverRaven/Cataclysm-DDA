@@ -409,7 +409,7 @@
   {
     "id": "arachnid_tainted",
     "type": "harvest",
-    "message": "As you peel away the outer shell, you find veins lining the chitin plates.  Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures.",
+	"snippet_category": "arachnid_tainted_harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
@@ -421,7 +421,7 @@
   {
     "id": "acidant_queen",
     "type": "harvest",
-    "message": "You laboriously dissect the colossal insect.  Steaming puddles of acid spill from its outer shell as you pull it back.  Inside is a complex, still-squirming mess of strange appendages and organs that definitely bear no resemblance to a natural ant.",
+	"snippet_category": "acidant_queen_harvest",
     "entries": [
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
       { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
@@ -434,7 +434,7 @@
   {
     "id": "arachnid",
     "type": "harvest",
-    "message": "There's a thin membrane, much like skin, spread over the chitin of this creature.  Beneath the chitin, the meat is covered in thick, bristly hair hiding a chaotic bramble of half-formed, mutated organs.",
+	"snippet_category": "arachnid_harvest",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
@@ -448,7 +448,7 @@
   {
     "id": "arachnid_acid",
     "type": "harvest",
-    "message": "Steaming acid burbles from the creature's chitin as you peel it back.  Inside is a tangled mess of organs and tissues that do not appear to belong.",
+	"snippet_category": "arachnid_acid_harvest",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },

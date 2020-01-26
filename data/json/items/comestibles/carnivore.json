@@ -288,7 +288,7 @@
     "copy-from": "offal",
     "name": "mutant organs",
     "name_plural": "mutant organs",
-	"snippet_category": "bug_organs_desc"
+	"snippet_category": "bug_organs_desc",
     "description": "These organs came from a giant mutant bug.",
     "looks_like": "offal",
     "cooks_like": "offal_cooked",
@@ -301,7 +301,7 @@
     "copy-from": "mutant_bug_organs",
     "name": "acidic organs",
     "name_plural": "acidic organs",
-	"snippet_category": "acid_organs_desc"
+	"snippet_category": "acid_organs_desc",
     "description": "These strange assorted bug organs give off a sour smell, similar to vinegar but worse.  There's no way of telling what purpose they served in the bug: they resemble no organs from any anatomy book you've seen.",
     "looks_like": "offal",
     "cooks_like": "offal_cooked",
@@ -687,7 +687,7 @@
     "copy-from": "fat",
     "name": "chunk of mutant fat",
     "name_plural": "chunks of mutant fat",
-    "description": "Freshly butchered fat from a heavily mutated animal.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
+    "description": "Freshly butchered fat from a heavily mutated animal.  It smells, if anything, even more disgusting than the rest of the mutant.  There are little puddles of undentified oils dripping from it.",
     "looks_like": "fat",
     "proportional": { "price": 0.2 },
     "vitamins": [ [ "mutant_toxin", 360 ] ]

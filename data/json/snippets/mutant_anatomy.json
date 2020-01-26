@@ -142,5 +142,61 @@
         "text": "A long, flexible rod of chitin from inside a giant mutant bug.  It is laced with blood vessels and chitinous nodules."
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "arachnid_tainted_harvest",
+    "text": [
+      {
+        "id": "arachnid_tainted_1",
+        "text": "As you peel away the outer shell, you find veins lining the chitin plates.  Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures."
+      },
+      {
+        "id": "arachnid_tainted_2",
+        "text": "With the creature dead, its carapace comes away surprisingly easily. You find a collection of hooked spines beneath that seem to have been clasping it on somehow.  The meat inside givse off a horrifying stench, and seems to be covered in thin damp hair, like a newborn animal gone horribly wrong."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "acidant_queen_harvest",
+    "text": [
+      {
+        "id": "acidant_queen_1",
+        "text": "You laboriously dissect the colossal insect.  Steaming puddles of acid spill from its outer shell as you pull it back.  Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to a natural ant."
+      },
+      {
+        "id": "acidant_queen_2",
+        "text": "You laboriously dissect the colossal insect.  Thick, ropey cords of tissue beneath its chitin protect an inner layer of strange organs, resembling those of a bird rather than an insect.  Several times, you nearly burn yourself piercing a concealed gland full of acid."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "arachnid_harvest",
+    "text": [
+      {
+        "id": "arachnid_1",
+        "text": "There's a thin membrane, much like skin, spread over the chitin of this creature.  Beneath the chitin, the meat is covered in thick, bristly hair hiding a chaotic bramble of half-formed, mutated organs."
+      },
+      {
+        "id": "arachnid_2",
+        "text": "Under the carapace of this mutant is a bristly, velcro like material concealing an anatomy that seems almost like a small mammal given a shell and twisted into the shape of an insect."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "arachnid_acid_harvest",
+    "text": [
+      {
+        "id": "arachnid_acid_1",
+        "text": "Steaming acid burbles from the creature's chitin as you peel it back.  Inside is a tangled mess of organs and tissues that do not appear to entirely natural."
+      },
+      {
+        "id": "arachnid_acid_2",
+        "text": "Several acid glands rupture as you peel back the carapace, sending streams of steaming caustic fluids spraying around.  Inside the creature you find lungs, hearts, and intestings more like a mammal than a giant bug."
+      }
+    ]
   }
 ]

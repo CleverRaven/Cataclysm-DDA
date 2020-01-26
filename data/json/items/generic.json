@@ -339,6 +339,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "mutant_bug_hydrogen_sacs",
+    "category": "spare_parts",
+    "symbol": "o",
+    "color": "light_gray",
+    "name": "cluster of gas sacs",
+    "name_plural": "clusters of gas sacs",
+    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
+    "price": 0,
+    "material": "flesh",
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "1 g",
+    "volume": "150 ml",
+    "to_hit": -4
+  },
+  {
+    "type": "GENERIC",
     "id": "ceramicdisks",
     "category": "spare_parts",
     "symbol": ",",
