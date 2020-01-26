@@ -8,7 +8,8 @@
 #include "map.h"
 #include "messages.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_teleglow( "teleglow" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
@@ -97,6 +98,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     if( c_is_u ) {
         g->update_map( *p );
     }
-    critter.remove_effect( effect_grabbed );
+    critter.remove_effect( efftype_id( "grabbed" ) );
     return true;
 }

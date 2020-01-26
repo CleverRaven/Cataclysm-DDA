@@ -8,7 +8,6 @@
 #include "game.h"
 #include "itype.h"
 #include "vitamin.h"
-#include "cata_string_consts.h"
 
 void nutrients::min_in_place( const nutrients &r )
 {
@@ -150,16 +149,16 @@ void stomach_contents::deserialize( JsonIn &json )
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
     float max_mod = 1;
-    if( owner.has_trait( trait_GIZZARD ) ) {
+    if( owner.has_trait( trait_id( "GIZZARD" ) ) ) {
         max_mod *= 0.9;
     }
-    if( owner.has_active_mutation( trait_HIBERNATE ) ) {
+    if( owner.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
         max_mod *= 3;
     }
-    if( owner.has_active_mutation( trait_GOURMAND ) ) {
+    if( owner.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
         max_mod *= 2;
     }
-    if( owner.has_trait( trait_SLIMESPAWNER ) ) {
+    if( owner.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
         max_mod *= 3;
     }
     return max_volume * max_mod;

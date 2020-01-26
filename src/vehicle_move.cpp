@@ -34,7 +34,15 @@
 #include "enums.h"
 #include "int_id.h"
 #include "monster.h"
-#include "cata_string_consts.h"
+
+static const std::string part_location_structure( "structure" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_animal( "animal" );
+
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const skill_id skill_driving( "driving" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
