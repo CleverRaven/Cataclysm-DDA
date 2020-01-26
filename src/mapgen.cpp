@@ -15,6 +15,7 @@
 #include <cmath>
 
 #include "clzones.h"
+#include "generic_factory.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -255,6 +256,25 @@ class mapgen_factory
     private:
         std::map<std::string, mapgen_basic_container> mapgens_;
 
+        static std::set<std::string> get_usages() {
+            std::set<std::string> result;
+            for( const oter_t &elem : overmap_terrains::get_all() ) {
+                result.insert( elem.get_mapgen_id() );
+                result.insert( elem.id.str() );
+            }
+            // Why do I have to repeat the MapExtras here? Wouldn't "MapExtras::factory" be enough?
+            for( const map_extra &elem : MapExtras::mapExtraFactory().get_all() ) {
+                if( elem.generator_method == map_extra_method::mapgen ) {
+                    result.insert( elem.generator_id );
+                }
+            }
+            // Used in C++ code only, see calls to `oter_mapgen.pick()` below
+            result.insert( "lab_1side" );
+            result.insert( "lab_4side" );
+            result.insert( "lab_finale_1level" );
+            return result;
+        }
+
     public:
         void reset() {
             mapgens_.clear();
@@ -265,8 +285,14 @@ class mapgen_factory
             }
         }
         void check_consistency() {
+            // Cache all strings that may get looked up here so we don't have to go through
+            // all the sources for them upon each loop.
+            const std::set<std::string> usages = get_usages();
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.check_consistency( omw.first );
+                if( usages.count( omw.first ) == 0 ) {
+                    debugmsg( "Mapgen %s is not used by anything!", omw.first );
+                }
             }
         }
         bool has( const std::string &key ) const {
@@ -3536,6 +3562,7 @@ void map::draw_lab( mapgendata &dat )
 
             //A lab area with only one entrance
             if( boarders == 1 ) {
+                // If you remove the usage of "lab_1side" here, remove it from mapgen_factory::get_usages above as well.
                 if( const auto ptr = oter_mapgen.pick( "lab_1side" ) ) {
                     ptr->generate( dat );
                     if( tw == 2 ) {
@@ -3554,6 +3581,7 @@ void map::draw_lab( mapgendata &dat )
                 maybe_insert_stairs( terrain_type, t_stairs_down );
             } else {
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
+                // If you remove the usage of "lab_4side" here, remove it from mapgen_factory::get_usages above as well.
                 if( const auto ptr = oter_mapgen.pick( "lab_4side", hardcoded_4side_map_weight ) ) {
                     ptr->generate( dat );
                     // If the map template hasn't handled borders, handle them in code.
@@ -4099,6 +4127,7 @@ void map::draw_lab( mapgendata &dat )
         lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
+        // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
         if( const auto ptr = oter_mapgen.pick( "lab_finale_1level", hardcoded_finale_map_weight ) ) {
             ptr->generate( dat );
 
