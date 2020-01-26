@@ -290,6 +290,15 @@ void check_mapgen_definitions()
     }
 }
 
+static int register_mapgen_function( const std::string &key,
+                                     const std::shared_ptr<mapgen_function> ptr )
+{
+    assert( ptr );
+    std::vector<std::shared_ptr<mapgen_function>> &vector = oter_mapgen[key];
+    vector.push_back( ptr );
+    return vector.size() - 1;
+}
+
 // @p hardcoded_weight Weight for an additional entry. If that entry is chosen, a null pointer is returned.
 static mapgen_function *get_mapgen_function( const std::string &key,
         const int hardcoded_weight = 0 )
@@ -365,14 +374,14 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
     if( mgtype == "builtin" ) {
         if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-            oter_mapgen[id_base].push_back( ret );
+            register_mapgen_function( id_base, ret );
         } else {
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
         const std::string jstr = jio.get_object( "object" ).str();
         ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
-        oter_mapgen[id_base].push_back( ret );
+        register_mapgen_function( id_base, ret );
     } else {
         jio.throw_error( "invalid value: must be \"builtin\" or \"json\")", "method" );
     }
@@ -429,7 +438,7 @@ void load_mapgen( const JsonObject &jo )
                 for( const std::string mapgenid : row_items ) {
                     const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, offset );
                     if( mgfunc ) {
-                        oter_mapgen[ mapgenid ].push_back( mgfunc );
+                        register_mapgen_function( mapgenid, mgfunc );
                     }
                     offset.x++;
                 }
@@ -446,7 +455,7 @@ void load_mapgen( const JsonObject &jo )
                 const auto mgfunc = load_mapgen_function( jo, mapgenid, -1 );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
-                        oter_mapgen[ i ].push_back( mgfunc );
+                        register_mapgen_function( i, mgfunc );
                     }
                 }
             }
@@ -7310,9 +7319,7 @@ bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 int register_mapgen_function( const std::string &key )
 {
     if( const auto ptr = get_mapgen_cfunction( key ) ) {
-        std::vector<std::shared_ptr<mapgen_function>> &vector = oter_mapgen[key];
-        vector.push_back( std::make_shared<mapgen_function_builtin>( ptr ) );
-        return vector.size() - 1;
+        return register_mapgen_function( key, std::make_shared<mapgen_function_builtin>( ptr ) );
     }
     return -1;
 }
