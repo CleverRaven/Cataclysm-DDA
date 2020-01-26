@@ -634,7 +634,14 @@
       [ "e_scrap", 55 ],
       [ "amplifier", 25 ],
       [ "smart_lamp", 5 ],
-      [ "reading_light", 10 ]
+      [ "reading_light", 10 ],
+      [ "carver_off", 5 ],
+      [ "coffeemaker", 5 ],
+      [ "dehydrator", 5 ],
+      [ "food_processor", 5 ],
+      [ "hotplate", 5 ],
+      [ "multi_cooker", 5 ],
+      [ "vac_sealer", 5 ]
     ]
   },
   {
@@ -660,12 +667,15 @@
       [ "bag_plastic", 150 ],
       [ "plastic_shopping_bag", 200 ],
       [ "jug_plastic", 120 ],
+      [ "jerrycan", 15 ],
       [ "bottle_plastic", 150 ],
       [ "bottle_plastic_small", 150 ],
       [ "cup_plastic", 100 ],
       [ "bowl_plastic", 100 ],
       [ "plastic_chunk", 150 ],
-      [ "bag_body_bag", 10 ]
+      [ "plastic_plate", 50 ],
+      [ "tumbler_plastic", 50 ],
+      [ "plastic_bowl_kids", 25 ]
     ]
   },
   {
@@ -701,17 +711,20 @@
       [ "toaster", 30 ],
       [ "stethoscope", 2 ],
       { "item": "spray_can", "prob": 45, "charges-min": 1, "charges-max": 3 },
-      [ "flask_hip", 25 ],
       { "item": "aluminum_foil", "prob": 40, "charges-min": 1, "charges-max": 10 },
       [ "golf_club", 3 ],
-      [ "canister_empty", 45 ],
       [ "antenna", 30 ],
       [ "bat_metal", 2 ],
-      [ "can_drink", 65 ],
-      [ "can_drink_unsealed", 65 ],
+      [ "can_drink", 130 ],
+      [ "can_drink_unsealed", 130 ],
       [ "keg", 15 ],
-      [ "tongs", 3 ],
-      [ "material_aluminium_ingot", 25 ]
+      [ "material_aluminium_ingot", 25 ],
+      [ "xlframe", 10 ],
+      [ "survival_kit_box", 1 ],
+      [ "wearable_light", 5 ],
+      [ "rebreather", 1 ],
+      [ "small_scuba_tank", 1 ],
+      [ "pilot_light", 30 ]
     ]
   },
   {
@@ -721,9 +734,17 @@
       [ "cu_pipe", 45 ],
       { "item": "cable", "prob": 50, "charges-min": 1, "charges-max": 20 },
       [ "pot_copper", 30 ],
+      [ "pot_makeshift_copper", 15 ],
+      [ "copper_pan", 15 ],
       { "item": "copper", "prob": 40, "charges-min": 1, "charges-max": 20 },
       [ "copper_ear", 25 ],
-      [ "copper_bracelet", 25 ]
+      [ "copper_bracelet", 25 ],
+      [ "copper_necklace", 25 ],
+      [ "copper_ring", 25 ],
+      [ "copper_hairpin", 25 ],
+      [ "copper_locket", 25 ],
+      [ "jumper_cable", 10 ],
+      [ "jumper_cable_heavy", 10 ]
     ]
   },
   {
@@ -743,7 +764,9 @@
       [ "manhole_cover", 20 ],
       [ "hairpin", 120 ],
       [ "pan", 90 ],
-      [ "cow_bell", 20 ]
+      [ "cow_bell", 20 ],
+      [ "flask_hip", 25 ],
+      [ "iron_pot", 20 ]
     ]
   },
   {
@@ -779,12 +802,17 @@
       [ "pipe", 40 ],
       [ "muffler", 30 ],
       [ "pot", 30 ],
+      [ "pot_canning", 10 ],
+      [ "stock_pot", 10 ],
+      [ "steel_pan", 10 ],
       [ "teapot", 25 ],
+      [ "kettle", 25 ],
       [ "fishing_hook_basic", 35 ],
       [ "spike", 30 ],
       [ "wire_barbed", 25 ],
       [ "wire", 40 ],
       [ "sheet_metal", 25 ],
+      [ "sheet_metal_small", 40 ],
       [ "frame", 20 ],
       [ "basket", 25 ],
       [ "wrench", 10 ],
@@ -798,7 +826,11 @@
       [ "fork", 35 ],
       [ "knife_butter", 35 ],
       [ "knife_steak", 35 ],
-      [ "tourist_table", 10 ]
+      [ "tourist_table", 10 ],
+      [ "canister_empty", 45 ],
+      [ "tongs", 10 ],
+      [ "pressure_cooker", 10 ],
+      [ "sieve_steel", 10 ]
     ]
   },
   {
