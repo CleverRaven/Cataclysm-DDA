@@ -7305,3 +7305,13 @@ bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
     }
     return false;
 }
+
+int register_mapgen_function( const std::string &key )
+{
+    if( const auto ptr = get_mapgen_cfunction( key ) ) {
+        std::vector<std::shared_ptr<mapgen_function>> &vector = oter_mapgen[key];
+        vector.push_back( std::make_shared<mapgen_function_builtin>( ptr ) );
+        return vector.size() - 1;
+    }
+    return -1;
+}
