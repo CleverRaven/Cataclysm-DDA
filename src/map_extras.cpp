@@ -2895,13 +2895,6 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::mapgen: {
-            /*
-            const auto fmapit = oter_mapgen.find( generator_id );
-            const oter_id extra_oter( generator_id );
-            if( ( fmapit == oter_mapgen.end() || !fmapit->second.empty() ) && !extra_oter.is_valid() ) {
-                debugmsg( "invalid mapgen function (%s) defined for map extra (%s)", generator_id, id.str() );
-            }
-            */
             break;
         }
         case map_extra_method::update_mapgen: {
