@@ -72,25 +72,9 @@
 #include "player_activity.h"
 #include "player.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 class basecamp;
-
-static const skill_id skill_speech( "speech" );
-
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_under_op( "under_operation" );
-static const efftype_id effect_riding( "riding" );
-
-static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
-
-static const itype_id fuel_type_animal( "animal" );
-
-static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
-static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -802,12 +786,12 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } while( !d.done );
     g->refresh_all();
 
-    if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
+    if( g->u.activity.id() == ACT_AIM && !g->u.has_weapon() ) {
         g->u.cancel_activity();
         // don't query certain activities that are started from dialogue
-    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
-               g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
-               g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
+    } else if( g->u.activity.id() == ACT_TRAIN ||
+               g->u.activity.id() == ACT_WAIT_NPC ||
+               g->u.activity.id() == ACT_SOCIALIZE ||
                g->u.activity.index == getID().get_value() ) {
         return;
     }
@@ -895,7 +879,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
         }
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
@@ -1188,7 +1172,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN &&
             g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
             const skill_id skillt( backlog.name );
@@ -1340,10 +1324,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u_mods.lie;
 
             //come on, who would suspect a robot of lying?
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 20;
             }
             break;
@@ -1352,13 +1336,13 @@ int talk_trial::calc_chance( const dialogue &d ) const
                       p.op_of_u.trust * 2 + p.op_of_u.value;
             chance += u_mods.persuade;
 
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
+            if( u.has_bionic( bio_deformity ) ) {
                 chance -= 50;
             }
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance -= 20;
             }
             break;
@@ -1367,16 +1351,16 @@ int talk_trial::calc_chance( const dialogue &d ) const
                       p.personality.bravery * 2;
             chance += u_mods.intimidate;
 
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_armor_eyes" ) ) ) {
+            if( u.has_bionic( bio_armor_eyes ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
+            if( u.has_bionic( bio_deformity ) ) {
                 chance += 20;
             }
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance += 20;
             }
             break;
@@ -2290,8 +2274,6 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
         }
 
         const mtype_id mtype( monster_type_id );
-        const efftype_id effect_pet( "pet" );
-        const efftype_id effect_pacified( "pacified" );
 
         for( int i = 0; i < count; i++ ) {
             monster *const mon_ptr = g->place_critter_around( mtype, u.pos(), 3 );

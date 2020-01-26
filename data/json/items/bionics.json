@@ -940,7 +940,7 @@
     "type": "BIONIC_ITEM",
     "name": "Uncanny Dodge CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 11
@@ -1157,6 +1157,15 @@
     "description": "This malfunctioning bionic causes fatigue by altering the unfortunate user's brain chemistry.",
     "weight": "100 g",
     "difficulty": 11
+  },
+  {
+    "id": "bio_synaptic_regen",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Synaptic Regeneration System CBM",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery.",
+    "price": 10000,
+    "difficulty": 8
   },
   {
     "id": "bio_spasm",

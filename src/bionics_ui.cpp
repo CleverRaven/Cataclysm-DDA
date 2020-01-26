@@ -12,6 +12,7 @@
 #include "translations.h"
 #include "options.h"
 #include "string_id.h"
+#include "cata_string_consts.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -66,7 +67,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel );
-            if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -80,7 +81,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
-                if( tmp_rem_fuel.has_flag( "PERPETUAL" ) ) {
+                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
                     fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
@@ -139,6 +140,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
     }
 
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );
@@ -170,7 +172,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.push_back( _( "(incapacitated)" ) );
     }
-    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && ( !bio.info().fuel_opts.empty() ||
+    if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
         properties.push_back( _( "(fuel saving ON)" ) );
     }

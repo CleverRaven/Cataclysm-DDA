@@ -50,21 +50,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_secubot( "mon_secubot" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_crows_m240( "mon_crows_m240" );
-
-static const skill_id skill_computer( "computer" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
-static const species_id HUMAN( "HUMAN" );
-
-static const efftype_id effect_amigara( "amigara" );
-
-static int alerts = 0;
+#include "cata_string_consts.h"
 
 static catacurses::window init_window()
 {
@@ -81,15 +67,6 @@ computer_session::computer_session( computer &comp ) : comp( comp ),
 {
 }
 
-void computer_session::shutdown_terminal()
-{
-    // So yeah, you can reset the term by logging off.
-    // Otherwise, it's persistent across all terms.
-    // Decided to go easy on people for now.
-    alerts = 0;
-    reset_terminal();
-}
-
 void computer_session::use()
 {
     // Login
@@ -104,23 +81,23 @@ void computer_session::use()
         print_error( "%s", comp.access_denied );
         switch( query_ynq( _( "Bypass security?" ) ) ) {
             case ynq::quit:
-                shutdown_terminal();
+                reset_terminal();
                 return;
 
             case ynq::no:
                 query_any( _( "Shutting down… press any key." ) );
-                shutdown_terminal();
+                reset_terminal();
                 return;
 
             case ynq::yes:
                 if( !hack_attempt( g->u ) ) {
                     if( comp.failures.empty() ) {
                         query_any( _( "Maximum login attempts exceeded.  Press any key…" ) );
-                        shutdown_terminal();
+                        reset_terminal();
                         return;
                     }
                     activate_random_failure();
-                    shutdown_terminal();
+                    reset_terminal();
                     return;
                 } else { // Successful hack attempt
                     comp.security = 0;
@@ -156,12 +133,12 @@ void computer_session::use()
         computer_option current = comp.options[sel];
         reset_terminal();
         // Once you trip the security, you have to roll every time you want to do something
-        if( current.security + alerts > 0 ) {
+        if( current.security + comp.alerts > 0 ) {
             print_error( _( "Password required." ) );
             if( query_bool( _( "Hack into system?" ) ) ) {
                 if( !hack_attempt( g->u, current.security ) ) {
                     activate_random_failure();
-                    shutdown_terminal();
+                    reset_terminal();
                     return;
                 } else {
                     // Successfully hacked function
@@ -176,7 +153,7 @@ void computer_session::use()
         // Done processing a selected option.
     }
 
-    shutdown_terminal(); // This should have been done by now, but just in case.
+    reset_terminal(); // This should have been done by now, but just in case.
 }
 
 bool computer_session::hack_attempt( player &p, int Security )
@@ -189,8 +166,8 @@ bool computer_session::hack_attempt( player &p, int Security )
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
     // So practical max files from a given terminal = 5, at 10 Computer
-    if( alerts > 0 ) {
-        Security += ( alerts * 2 );
+    if( comp.alerts > 0 ) {
+        Security += ( comp.alerts * 2 );
     }
 
     p.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
@@ -455,7 +432,7 @@ void computer_session::action_research()
 {
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
-    const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
+    const int seed = g->get_levx() + g->get_levy() + g->get_levz() + comp.alerts;
     cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
@@ -465,14 +442,14 @@ void computer_session::action_research()
 
     print_text( "%s", log.value() );
     // One's an anomaly
-    if( alerts == 0 ) {
+    if( comp.alerts == 0 ) {
         query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key…" ) );
-        alerts ++;
+        comp.alerts ++;
     } else {
         // Two's a trend.
         query_any(
             _( "Warning: anomalous archive-access activity detected at this node.  Press any key…" ) );
-        alerts ++;
+        comp.alerts ++;
     }
 }
 
@@ -485,8 +462,8 @@ void computer_session::action_radio_archive()
     print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                 SNIPPET.random_from_category( "radio_archive" ).value_or( translation() ) );
     if( one_in( 3 ) ) {
-        query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key…" ) );
-        alerts ++;
+        query_any( _( "Warning: restricted data access.  Attempt logged.  Press any key…" ) );
+        comp.alerts ++;
     } else {
         query_any( _( "Press any key…" ) );
     }
@@ -501,7 +478,7 @@ void computer_session::action_maps()
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
     comp.remove_option( COMPACT_MAPS );
-    alerts ++;
+    comp.alerts ++;
 }
 
 void computer_session::action_map_sewer()
@@ -1160,7 +1137,7 @@ void computer_session::action_deactivate_shock_vent()
     if( has_vent ) {
         print_error( _( "Short circuit detected!" ) );
         print_error( _( "Short circuit rerouted." ) );
-        print_error( _( "Fuse reseted." ) );
+        print_error( _( "Fuse reset." ) );
         print_error( _( "Ground re-enabled." ) );
     } else {
         print_line( _( "Internal power lines status: 85%% OFFLINE.  Reason: DAMAGED." ) );
@@ -1209,7 +1186,7 @@ void computer_session::failure_shutdown()
 {
     bool found_tile = false;
     for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.has_flag( "CONSOLE", p ) ) {
+        if( g->m.has_flag( flag_CONSOLE, p ) ) {
             g->m.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
@@ -1219,7 +1196,7 @@ void computer_session::failure_shutdown()
         return;
     }
     for( const tripoint &p : g->m.points_on_zlevel() ) {
-        if( g->m.has_flag( "CONSOLE", p ) ) {
+        if( g->m.has_flag( flag_CONSOLE, p ) ) {
             g->m.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
         }
@@ -1352,7 +1329,7 @@ void computer_session::failure_destroy_blood()
 void computer_session::failure_destroy_data()
 {
     print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 24 ) ) {
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 2 ) ) {
         if( g->m.ter( p ) == t_floor_blue ) {
             map_stack items = g->m.i_at( p );
             if( items.empty() ) {

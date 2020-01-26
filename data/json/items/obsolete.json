@@ -351,6 +351,13 @@
     "relative": { "reload": 4 }
   },
   {
+    "type": "effect_type",
+    "id": "magnesium",
+    "name": [ "Magnesium Supplements" ],
+    "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
+    "rating": "good"
+  },
+  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -1283,5 +1290,30 @@
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "survivor_special_700",
+    "copy-from": "remington_700",
+    "type": "GUN",
+    "name": "Special 700",
+    "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
+    "price": 100000,
+    "clip_size": 1,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "blackpowder_tolerance": 60,
+    "relative": { "durability": -3 },
+    "proportional": { "reload": 4 }
   }
 ]

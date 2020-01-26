@@ -1,0 +1,45 @@
+[
+  {
+    "id": "grenade_blooper",
+    "copy-from": "m79",
+    "type": "GUN",
+    "name": "grenade launcher",
+    "ammo": "ammo_grenade",
+    "description": "An older single shot grenade launcher, looking something like a sawn off shotgun.  Though it's mostly been replaced by underbarrel launchers, dedicated models like this have seen use by law enforcement and riot personnel.  Still deadly against hard or soft targets, depending on what cartridges are available.",
+    "clip_size": 1
+  },
+  {
+    "id": "grenade_hmg",
+    "copy-from": "mark19",
+    "type": "GUN",
+    "name": "automatic grenade launcher",
+    "ammo": "ammo_grenade",
+    "description": "This large, clumsy looking launcher looks like the offspring of a machine gun and a mortar; its bore is huge, and its action is just as massive.  A huge belt of grenade cartridges loads into its tray, allowing several grenades to be launched in rapid succession.  If one grenade fired from this isn't enough to solve your problems, surely a dozen more are.  This must be mounted on a frame to be fired, and reloading is a bit slow.",
+    "magazines": [ [ "ammo_grenade", [ "grenade_belt" ] ] ]
+  },
+  {
+    "id": "grenade_pistol",
+    "copy-from": "m320",
+    "type": "GUN",
+    "name": "grenade pistol",
+    "//": "more like granadepistole",
+    "ammo": "ammo_grenade",
+    "description": "A stubby single shot pistol with a large bore barrel, suitable for launching grenades or flares.  This is a slightly more convenient way to transport a grenade launcher than mounted to one's rifle, a practice more common among special forces.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets.  This could be attached to a suitable rifle, if so desired.",
+    "clip_size": 1,
+    "use_action": {
+      "menu_text": "Deploy as attachment",
+      "type": "transform",
+      "target": "grenade_under",
+      "msg": "You make the launcher ready for attachment."
+    }
+  },
+  {
+    "id": "grenade_revolver",
+    "copy-from": "mgl",
+    "type": "GUN",
+    "name": "revolver grenade launcher",
+    "ammo": "ammo_grenade",
+    "description": "Looking something like a large revolver from a cartoon this launcher is capable of firing six grenades in rapid succession.  Its huge cylinder is wound by a clock spring, which hastens firing, but slows reloading, as it must be re-wound.  Needless to say, six well placed shots is an incredible amount of firepower, depending on the cartridges loaded.",
+    "clip_size": 6
+  }
+]
