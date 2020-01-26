@@ -234,5 +234,5 @@ std::string mtype::get_footsteps() const
     for( const species_id &s : species ) {
         return s.obj().get_footsteps();
     }
-    return "footsteps.";
+    return _( "footsteps." );
 }
