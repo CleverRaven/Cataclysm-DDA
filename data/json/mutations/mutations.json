@@ -1272,7 +1272,7 @@
   {
     "type": "mutation",
     "id": "ALBINO",
-    "name": "Albino",
+    "name": { "str": "Albino" },
     "points": -1,
     "description": "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and sunglasses when going out in the sun.",
     "starting_trait": true,
@@ -3519,7 +3519,7 @@
   {
     "type": "mutation",
     "id": "PRED4",
-    "name": "Apex Predator",
+    "name": { "str": "Apex Predator" },
     "points": 2,
     "description": "Your mind and brain have adapted to your new place in the world: as one on top of the food chain.  You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
     "social_modifiers": { "intimidate": 5 },
@@ -5739,7 +5739,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FISH",
-    "name": "Aquatic",
+    "name": { "str": "Aquatic" },
     "points": 1,
     "description": "Ninety percent of the planet, and it's yours to explore.  And colonize.  And enjoy.  What was that about a surface?",
     "valid": false,
@@ -5820,7 +5820,7 @@
   {
     "type": "mutation",
     "id": "THRESH_SLIME",
-    "name": "Aqueous",
+    "name": { "str": "Aqueous" },
     "points": 1,
     "description": "What was that old advertisement, 'paint the planet'?  That might be a good long-term goal, but for now…",
     "valid": false,
@@ -6004,7 +6004,7 @@
   {
     "type": "mutation",
     "id": "WATERSLEEP",
-    "name": "Aqueous Repose",
+    "name": { "str": "Aqueous Repose" },
     "points": 1,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
     "prereqs": [ "SEESLEEP" ],
