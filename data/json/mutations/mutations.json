@@ -844,7 +844,7 @@
   {
     "type": "mutation",
     "id": "BADBACK",
-    "name": "Bad Back",
+    "name": { "str": "Bad Back" },
     "points": -3,
     "description": "You simply cannot carry as much as people with a similar strength could.  Your maximum weight carried is reduced by 35%.",
     "starting_trait": true,
@@ -1480,7 +1480,7 @@
   {
     "type": "mutation",
     "id": "BIRD_EYE",
-    "name": "Avian Eyes",
+    "name": { "str": "Avian Eyes" },
     "points": 5,
     "visibility": 1,
     "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
@@ -2824,7 +2824,7 @@
   {
     "type": "mutation",
     "id": "ALCMET",
-    "name": "Alcohol Metabolism",
+    "name": { "str": "Alcohol Metabolism" },
     "points": 2,
     "description": "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
     "prereqs": [ "TOLERANCE" ],
@@ -5749,7 +5749,7 @@
   {
     "type": "mutation",
     "id": "THRESH_BEAST",
-    "name": "Beast",
+    "name": { "str": "Beast" },
     "points": 1,
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
@@ -5779,7 +5779,7 @@
   {
     "type": "mutation",
     "id": "THRESH_URSINE",
-    "name": "Bear",
+    "name": { "str": "Bear" },
     "points": 1,
     "description": "So the humans died, what's the worry?  Now they won't ruin the woods.",
     "cancels": [ "CARNIVORE" ],
@@ -6226,7 +6226,7 @@
   {
     "type": "mutation",
     "id": "PROF_AUTODOC",
-    "name": "Autodoc Specialist",
+    "name": { "str": "Autodoc Specialist" },
     "points": 0,
     "description": "You're trained in proper operation of the Autodoc, an advanced machine used for surgical procedures.  Operations involving it will be moderately more likely to succeed.",
     "valid": false,
