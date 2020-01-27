@@ -111,7 +111,8 @@
       [ "survnote", 1 ],
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
-      [ "tourist_table", 30 ]
+      [ "tourist_table", 30 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {
@@ -160,7 +161,8 @@
       [ "slingshot", 10 ],
       [ "wristrocket", 5 ],
       [ "powered_earmuffs", 80 ],
-      [ "bandolier_wrist", 100 ]
+      [ "bandolier_wrist", 100 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {
