@@ -4467,7 +4467,7 @@ int player::sleep_spot( const tripoint &p ) const
 {
     const int current_stim = get_stim();
     const comfort_response_t comfort_info = base_comfort_value( p );
-    if( !comfort_info.aid->is_null() ) {
+    if( comfort_info.aid != nullptr ) {
         add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
     }
 

@@ -4887,7 +4887,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     int comfort = 0;
 
     comfort_response_t comfort_response;
-    comfort_response.aid = &item( "null" );
+
     bool plantsleep = has_trait( trait_CHLOROMORPH );
     bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
     bool websleep = has_trait( trait_WEB_WALKER );
@@ -4949,7 +4949,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort -= g->m.move_cost( p );
         }
 
-        if( comfort_response.aid->is_null() ) {
+        if( comfort_response.aid == nullptr ) {
             const map_stack items = g->m.i_at( p );
             for( const item &items_it : items ) {
                 if( items_it.has_flag( "SLEEP_AID" ) ) {
