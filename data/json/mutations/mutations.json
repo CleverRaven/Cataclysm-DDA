@@ -670,7 +670,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_FENCING",
-    "name": "Competitive Fencer",
+    "name": { "str": "Competitive Fencer" },
     "points": 0,
     "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
     "starting_trait": false,
@@ -2759,7 +2759,7 @@
   {
     "type": "mutation",
     "id": "COMPOUND_EYES",
-    "name": "Compound Eyes",
+    "name": { "str": "Compound Eyes" },
     "points": 2,
     "visibility": 9,
     "ugliness": 5,
@@ -3030,7 +3030,7 @@
   {
     "type": "mutation",
     "id": "HORNS_CURLED",
-    "name": "Curled Horns",
+    "name": { "str": "Curled Horns" },
     "points": -3,
     "visibility": 8,
     "ugliness": 2,
@@ -4238,7 +4238,7 @@
   {
     "type": "mutation",
     "id": "CRAFTY",
-    "name": "Crafty",
+    "name": { "str": "Crafty" },
     "points": 4,
     "description": "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
     "valid": false,
@@ -5352,7 +5352,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD3",
-    "name": "Cold Blooded",
+    "name": { "str": "Cold Blooded" },
     "points": -3,
     "mixed_effect": true,
     "description": "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat about half as much as before.",
