@@ -291,18 +291,6 @@
     "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
   },
   {
-    "id": "mutant_acidbug_organs",
-    "type": "COMESTIBLE",
-    "copy-from": "mutant_bug_organs",
-    "name": { "str": "acidic organs", "str_pl": "acidic organs" },
-    "snippet_category": "acid_organs_desc",
-    "description": "These strange assorted bug organs give off a sour smell, similar to vinegar but worse.  There's no way of telling what purpose they served in the bug: they resemble no organs from any anatomy book you've seen.",
-    "looks_like": "offal",
-    "spoils_in": "1 day 12 hours",
-    "proportional": { "price": 0.1, "calories": 0.25 },
-    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
-  },
-  {
     "id": "offal_pickled",
     "copy-from": "offal",
     "type": "COMESTIBLE",
@@ -470,17 +458,6 @@
     "looks_like": "lung",
     "cooks_like": "lung_cooked",
     "proportional": { "price": 0.1, "calories": 0.65 },
-    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
-  },
-  {
-    "id": "mutant_acidbug_lungs",
-    "type": "COMESTIBLE",
-    "copy-from": "mutant_bug_lungs",
-    "name": { "str": "acidic mutant lungs", "str_pl": "acidic mutant lungs" },
-    "snippet_category": "acid_lung_desc",
-    "description": "These lungs give off a sour smell, similar to vinegar but worse.",
-    "spoils_in": "1 day 12 hours",
-    "proportional": { "price": 0.1, "calories": 0.25 },
     "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
   },
   {

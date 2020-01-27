@@ -62,7 +62,15 @@
       {
         "id": "bug_organs_4",
         "text": "This is a long, corded organ you removed from a giant mutant bug.  It ran from the head to the abdomen and has long tendrils coming off it, not unlike a spinal cord."
-      }
+      },
+      {
+        "id": "bug_organs_5",
+        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
+      },
+      {
+        "id": "bug_organs_6",
+        "text": "This organ meat, retrieved from a mutated creature, looks like a series of small mammalian hearts arranged in series on a long fleshy tube.  At the end of the chain is a large fleshy sac resembling a stomach."
+      },
     ]
   },
   {
@@ -76,42 +84,6 @@
       {
         "id": "mutant_lung_2",
         "text": "You're pretty sure this is lung tissue.  It has a vaguely wing-like shape, with a series of nodules around what would be the trailing edge of the 'wing'.  A cluster of quills in each corner of the organ held it to the bug's carapace like clasps."
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "acid_organs_desc",
-    "text": [
-      {
-        "id": "acid_organs_1",
-        "text": "These strange assorted bug organs give off a sour smell, similar to vinegar but worse.  There's no way of telling what purpose they served in the bug: they resemble no organs from any anatomy you've seen."
-      },
-      {
-        "id": "acid_organs_2",
-        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
-      },
-      {
-        "id": "acid_organs_3",
-        "text": "This organ meat, retrieved from a mutated creature, looks like a series of small mammalian hearts arranged in series on a long fleshy tube.  At the end of the chain is a large fleshy sac resembling a stomach."
-      },
-      {
-        "id": "acid_organs_4",
-        "text": "You took this organ meat out of a heavily mutated creature.  Nearly every piece of it is covered in a shell-like carapace, with thin quills sticking out."
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "acid_lung_desc",
-    "text": [
-      {
-        "id": "acid_lung_1",
-        "text": "These lungs give off a sour smell, similar to vinegar but worse.  Otherwise, they are not unlike the lungs of a small mammal, but with a curious spiralling pattern of wrinkles running through them."
-      },
-      {
-        "id": "acid_lung_2",
-        "text": "These lungs give off a sour smell, similar to vinegar but worse.  Otherwise, they are not unlike the lungs of a large bird, but dotted with thickly gnarled horns of cartilage."
       }
     ]
   },
