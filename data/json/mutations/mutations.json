@@ -377,7 +377,7 @@
   {
     "type": "mutation",
     "id": "DRUNKEN",
-    "name": "Drunken Master",
+    "name": { "str": "Drunken Master" },
     "points": 1,
     "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
     "starting_trait": true,
@@ -2948,7 +2948,7 @@
   {
     "type": "mutation",
     "id": "EATDEAD",
-    "name": "Eater Of The Dead",
+    "name": { "str": "Eater Of The Dead" },
     "points": 4,
     "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
     "prereqs": [ "EATPOISON" ],
@@ -3990,7 +3990,7 @@
   {
     "type": "mutation",
     "id": "DEX_UP_3",
-    "name": "Extremely Dextrous",
+    "name": { "str": "Extremely Dextrous" },
     "points": 3,
     "description": "You are nimble and quick.  Dexterity + 4",
     "prereqs": [ "DEX_UP_2" ],
@@ -4120,7 +4120,7 @@
   {
     "type": "mutation",
     "id": "PER_UP_3",
-    "name": "Extremely Perceptive",
+    "name": { "str": "Extremely Perceptive" },
     "points": 3,
     "description": "Your senses are much keener.  Perception + 4",
     "prereqs": [ "PER_UP_2" ],
@@ -4171,7 +4171,7 @@
   {
     "type": "mutation",
     "id": "PER_SLIME_OK",
-    "name": "Distributed Senses",
+    "name": { "str": "Distributed Senses" },
     "points": 7,
     "visibility": 10,
     "ugliness": 10,
@@ -5151,7 +5151,7 @@
   {
     "type": "mutation",
     "id": "PONDEROUS3",
-    "name": "Extremely Ponderous",
+    "name": { "str": "Extremely Ponderous" },
     "points": -6,
     "description": "Your muscles are very slow to move.  You move 30% slower.",
     "types": [ "RUNNING" ],
@@ -5366,7 +5366,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD4",
-    "name": "Ectothermic",
+    "name": { "str": "Ectothermic" },
     "points": 0,
     "mixed_effect": true,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
@@ -6236,7 +6236,7 @@
   {
     "type": "mutation",
     "id": "PROF_DICEMASTER",
-    "name": "Dungeon Master",
+    "name": { "str": "Dungeon Master" },
     "points": 0,
     "description": "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly.  You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
     "reading_speed_multiplier": 0.9,
