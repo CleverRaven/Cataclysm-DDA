@@ -409,7 +409,7 @@
   {
     "id": "arachnid_tainted",
     "type": "harvest",
-    "snippet_category": "arachnid_tainted_harvest",
+    "message": "<arachnid_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
@@ -421,7 +421,7 @@
   {
     "id": "acidant_queen",
     "type": "harvest",
-    "snippet_category": "acidant_queen_harvest",
+    "message": "You laboriously dissect the colossal insect.  <acidant_harvest>",
     "entries": [
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
       { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
@@ -434,7 +434,7 @@
   {
     "id": "arachnid",
     "type": "harvest",
-    "snippet_category": "arachnid_harvest",
+    "message": "<arachnid_harvest>",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
@@ -448,7 +448,7 @@
   {
     "id": "arachnid_acid",
     "type": "harvest",
-    "snippet_category": "arachnid_acid_harvest",
+    "message": "<acidant_harvest>",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
@@ -477,7 +477,7 @@
   {
     "id": "arachnid_wasp",
     "type": "harvest",
-    "message": "There's a faintly hairy, skin-like membrane, covered in blood vessels, beneath the chitin of this creature. Inside it is a bundle of bubble-like tissue sacs that appear to be floating, which doesn't fit with what you know about real wasps.",
+    "message": "There's a faintly hairy, skin-like membrane, covered in blood vessels, beneath the chitin of this creature.  Inside it is a bundle of bubble-like tissue sacs that appear to be floating, which doesn't fit with what you know about real wasps.",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
