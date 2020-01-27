@@ -368,7 +368,7 @@
   {
     "type": "mutation",
     "id": "DEFT",
-    "name": "Deft",
+    "name": { "str": "Deft" },
     "points": 1,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
@@ -2627,7 +2627,7 @@
   {
     "type": "mutation",
     "id": "DISIMMUNE",
-    "name": "Disease Immune",
+    "name": { "str": "Disease Immune" },
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
@@ -3969,7 +3969,7 @@
   {
     "type": "mutation",
     "id": "DEX_UP",
-    "name": "Dextrous",
+    "name": { "str": "Dextrous" },
     "points": 1,
     "description": "You are a little nimbler.  Dexterity + 1",
     "changes_to": [ "DEX_UP_2", "DEX_ALPHA" ],
@@ -5920,7 +5920,7 @@
   {
     "type": "mutation",
     "id": "THRESH_MOUSE",
-    "name": "Diminutive",
+    "name": { "str": "Diminutive" },
     "points": 1,
     "description": "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
     "valid": false,
