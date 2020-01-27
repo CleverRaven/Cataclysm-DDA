@@ -266,58 +266,42 @@
     }
   },
   {
-  "type": "terrain",
-  "id": "t_dirtfloor",
-  "name": "dirt floor",
-  "description": "Floor consisting of finely mixed earth that has been tamped down, with a wooden ceiling above it.",
-  "symbol": ".",
-  "color": "brown",
-  "move_cost": 2,
-  "roof": "t_shingle_flat_roof",
-  "flags": [
-    "TRANSPARENT",
-    "FLAMMABLE_HARD",
-    "SUPPORTS_ROOF",
-    "COLLAPSES",
-    "INDOORS",
-    "FLAT",
-    "DIGGABLE"
-  ],
-  "bash": {
-    "sound": "SMASH!",
-    "ter_set": "t_null",
-    "str_min": 50,
-    "str_max": 400,
-    "str_min_supported": 100,
-    "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
-   }
+    "type": "terrain",
+    "id": "t_dirtfloor",
+    "name": "dirt floor",
+    "description": "Floor consisting of finely mixed earth that has been tamped down, with a wooden ceiling above it.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_shingle_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
   },
   {
-  "type": "terrain",
-  "id": "t_dirtfloor_thatchroof",
-  "name": "dirt floor",
-  "description": "Floor consisting of finely mixed earth that has been tamped down, with thatched roof above it.",
-  "symbol": ".",
-  "color": "brown",
-  "move_cost": 2,
-  "roof": "t_thatch_roof",
-  "flags": [
-    "TRANSPARENT",
-    "FLAMMABLE_ASH",
-    "SUPPORTS_ROOF",
-    "COLLAPSES",
-    "INDOORS",
-    "FLAT",
-    "DIGGABLE"
-  ],
-  "bash": {
-    "sound": "SMASH!",
-    "ter_set": "t_null",
-    "str_min": 50,
-    "str_max": 400,
-    "str_min_supported": 100,
-    "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "charges": [ 5, 10 ] } ]
-   }
+    "type": "terrain",
+    "id": "t_dirtfloor_thatchroof",
+    "name": "dirt floor",
+    "description": "Floor consisting of finely mixed earth that has been tamped down, with thatched roof above it.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_thatch_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "charges": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",

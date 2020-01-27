@@ -1216,25 +1216,16 @@
     "post_terrain": "t_floor_primitive"
   },
   {
-  "type": "construction",
-  "description": "Build Roof Over Dirt Floor",
-  "category": "CONSTRUCT",
-  "required_skills": [
-    [ "fabrication", 3 ]
-  ],
-  "time": "60 m",
-  "qualities": [
-    [ { "id": "HAMMER", "level": 2 } ],
-    [ { "id": "SAW_W", "level": 2 } ]
-  ],
-  "components": [
-    [ [ "wood_panel", 1 ] ],
-    [ [ "2x4", 8 ] ],
-    [ [ "nail", 20 ] ]
-  ],
-  "pre_note": "Must be supported on at least two sides.",
-  "pre_special": "check_support",
-  "post_terrain": "t_dirtfloor"
+    "type": "construction",
+    "description": "Build Roof Over Dirt Floor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_dirtfloor"
   },
   {
     "type": "construction",
