@@ -4,7 +4,7 @@
     "ident": "Fewer_Farms",
     "name": "Fewer Farms",
     "authors": [ "wapcaplet" ],
-    "description": "Reduces the farm density.",
+    "description": "Reduces farm density and increases their distance from cities.",
     "category": "buildings",
     "dependencies": [ "dda" ]
   }
