@@ -3336,7 +3336,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     }
     // if you ( or NPC ) are finishing someone elses started construction...
     const construction &built = pc->id.obj();
-    if( !p->meets_skill_requirements( built ) ) {
+    if( !p->has_trait( trait_DEBUG_HS ) && !p->meets_skill_requirements( built ) ) {
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {
