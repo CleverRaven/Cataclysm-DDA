@@ -498,7 +498,7 @@
         { "item": "manual_melee", "x": 54, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_stabbing", "x": 53, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_gun", "x": 52, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "manual_shotgun", "x": 51, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "manual_traps_mil", "x": 51, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_rifle", "x": 50, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mag_fieldrepair", "x": 49, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boltcutters", "x": 55, "y": 59, "chance": 75, "repeat": [ 10, 25 ] },
