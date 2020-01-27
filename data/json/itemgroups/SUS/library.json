@@ -175,7 +175,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "manual_stabbing", "count": [ 1, 3 ], "prob": 80 },
-      { "item": "manual_rifle", "count": [ 1, 3 ], "prob": 80 }
+      { "item": "manual_rifle", "count": [ 1, 3 ], "prob": 80 },
+      { "item": "manual_traps_mil", "count": [ 1, 3 ], "prob": 80 }
     ]
   },
   {
