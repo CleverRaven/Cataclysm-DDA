@@ -91,7 +91,7 @@ static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
-static const activity_id ACT_UNLOAD_MAG( "ACT_TRAIN" );
+static const activity_id ACT_UNLOAD_MAG( "ACT_UNLOAD_MAG" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
