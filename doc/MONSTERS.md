@@ -330,6 +330,10 @@ The upgraded monster's type is taken from the specified group. The cost in these
 (string, optional)
 The upgraded monster's type.
 
+### "age_grow"
+(int, optional)
+Number of days needed for monster to change into another monster.
+
 ## "reproduction"
 (dictionary, optional)
 The monster's reproduction cycle, if any. Supports:

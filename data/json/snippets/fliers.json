@@ -53,11 +53,11 @@
       },
       {
         "id": "flier_13",
-        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Avoid crowds.  Looters and rioters may turn violent against unarmed civilians.  Seek protection from police and military forces if travelling in groups.\""
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Avoid crowds.  Looters and rioters may turn violent against unarmed civilians.  Seek protection from police and military forces if traveling in groups.\""
       },
       {
         "id": "flier_14",
-        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Travel in groups and avoid crowds.  This is believed to be a biological agent that causes violent behaviour: do not attempt to engage looters or rioters.\""
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Travel in groups and avoid crowds.  This is believed to be a biological agent that causes violent behavior: do not attempt to engage looters or rioters.\""
       },
       {
         "id": "flier_15",
@@ -125,7 +125,7 @@
       },
       {
         "id": "flier_31",
-        "text": "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: \"BOIL WATER ADVISORY.  An unidentified agent has contaminated local groundwater.  It is highly infectious and can cause erratic and violent behaviour.  Boil all water, and isolate any loved ones showing concerning symptoms.  Visit www.cdc.gov/cdda-advisory for more information.\""
+        "text": "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: \"BOIL WATER ADVISORY.  An unidentified agent has contaminated local groundwater.  It is highly infectious and can cause erratic and violent behavior.  Boil all water, and isolate any loved ones showing concerning symptoms.  Visit www.cdc.gov/cdda-advisory for more information.\""
       },
       {
         "id": "flier_32",

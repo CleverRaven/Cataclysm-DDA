@@ -37,6 +37,7 @@
 #include "colony.h"
 #include "item_stack.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -45,9 +46,6 @@ static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
 const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
-
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_haslight( "haslight" );
 
 std::string four_quadrants::to_string() const
 {
@@ -446,7 +444,7 @@ void map::generate_lightmap( const int zlev )
         }
     }
 
-    if( g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
+    if( g->u.has_active_bionic( bio_night ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
             if( rl_dist( p, g->u.pos() ) < 2 ) {
                 lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );

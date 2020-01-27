@@ -51,6 +51,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -169,8 +170,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
-            if( !scen.has_flag( "CHALLENGE" ) &&
-                ( !scen.has_flag( "CITY_START" ) || cities_enabled ) ) {
+            if( !scen.has_flag( flag_CHALLENGE ) &&
+                ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
                 scenarios.emplace_back( &scen );
             }
         }
@@ -480,10 +481,10 @@ bool avatar::create( character_type type, const std::string &tempname )
         hp_cur[i] = hp_max[i];
     }
 
-    if( has_trait( trait_id( "SMELLY" ) ) ) {
+    if( has_trait( trait_SMELLY ) ) {
         scent = 800;
     }
-    if( has_trait( trait_id( "WEAKSCENT" ) ) ) {
+    if( has_trait( trait_WEAKSCENT ) ) {
         scent = 300;
     }
 
@@ -498,19 +499,19 @@ bool avatar::create( character_type type, const std::string &tempname )
     // setup staring bank money
     cash = rng( -200000, 200000 );
 
-    if( has_trait( trait_id( "XS" ) ) ) {
+    if( has_trait( trait_XS ) ) {
         set_stored_kcal( 10000 );
-        toggle_trait( trait_id( "XS" ) );
+        toggle_trait( trait_XS );
     }
-    if( has_trait( trait_id( "XXXL" ) ) ) {
+    if( has_trait( trait_XXXL ) ) {
         set_stored_kcal( 125000 );
-        toggle_trait( trait_id( "XXXL" ) );
+        toggle_trait( trait_XXXL );
     }
 
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !r.has_flag( "SECRET" ) && !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
+        if( !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }
@@ -520,7 +521,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( "WET" ) ) {
+        if( it.has_flag( flag_WET ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }

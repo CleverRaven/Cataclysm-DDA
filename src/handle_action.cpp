@@ -66,19 +66,9 @@
 #include "units.h"
 #include "string_id.h"
 #include "item.h"
+#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const efftype_id effect_alarm_clock( "alarm_clock" );
-static const efftype_id effect_laserlocked( "laserlocked" );
-static const efftype_id effect_relax_gas( "relax_gas" );
-
-static const bionic_id bio_remote( "bio_remote" );
-
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_SHELL2( "SHELL2" );
-
-static const skill_id skill_melee( "melee" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -510,7 +500,7 @@ static void open()
     if( !didit ) {
         const ter_str_id tid = m.ter( openp ).id();
 
-        if( m.has_flag( "LOCKED", openp ) ) {
+        if( m.has_flag( flag_LOCKED, openp ) ) {
             add_msg( m_info, _( "The door is locked!" ) );
             return;
         } else if( tid.obj().close ) {
@@ -693,7 +683,7 @@ static void smash()
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
-            u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+            u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
             u.activity.placement = g->m.getabs( smashp );
             return; // don't smash terrain if we've smashed a corpse
         }
@@ -887,11 +877,11 @@ static void wait()
         // Waiting
         activity_id actType;
         if( as_m.ret == 11 ) {
-            actType = activity_id( "ACT_WAIT_WEATHER" );
+            actType = ACT_WAIT_WEATHER;
         } else if( as_m.ret == 12 ) {
-            actType = activity_id( "ACT_WAIT_STAMINA" );
+            actType = ACT_WAIT_STAMINA;
         } else {
-            actType = activity_id( "ACT_WAIT" );
+            actType = ACT_WAIT;
         }
 
         player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
@@ -1121,31 +1111,31 @@ static void loot()
             add_msg( _( "Never mind." ) );
             break;
         case SortLoot:
-            u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+            u.assign_activity( ACT_MOVE_LOOT );
             break;
         case FertilizePlots:
-            u.assign_activity( activity_id( "ACT_FERTILIZE_PLOT" ) );
+            u.assign_activity( ACT_FERTILIZE_PLOT );
             break;
         case ConstructPlots:
-            u.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+            u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
             break;
         case MultiFarmPlots:
-            u.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+            u.assign_activity( ACT_MULTIPLE_FARM );
             break;
         case Multichoptrees:
-            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+            u.assign_activity( ACT_MULTIPLE_CHOP_TREES );
             break;
         case Multichopplanks:
-            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+            u.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
             break;
         case Multideconvehicle:
-            u.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+            u.assign_activity( ACT_VEHICLE_DECONSTRUCTION );
             break;
         case Multirepairvehicle:
-            u.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+            u.assign_activity( ACT_VEHICLE_REPAIR );
             break;
         case MultiButchery:
-            u.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+            u.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1290,7 +1280,7 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
+            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
                 !w.contents.empty() && w.contents.front().is_gun() ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
@@ -1317,8 +1307,8 @@ static void fire()
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
         avatar_action::fire( g->u, g->m, u.weapon );
-    } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
-        int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+    } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -1330,7 +1320,7 @@ static void fire()
         } else {
             reach_attack( range, u );
         }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( flag_REACH_ATTACK ) ) {
         int range = u.weapon.gun_current_mode().qty;
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
@@ -1403,7 +1393,8 @@ static void cast_spell()
 
     spell &sp = *u.magic.get_spells()[spell_index];
 
-    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !u.weapon.has_flag( "MAGIC_FOCUS" ) ) {
+    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
+        !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
         return;
     }
@@ -1413,12 +1404,12 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( quality_id( "CUT" ) ) ) {
+    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
         add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }
 
-    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time( u ) );
+    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( u ) );
     // [0] this is used as a spell level override for items casting spells
     cast_spell.values.emplace_back( -1 );
     // [1] if this value is 1, the spell never fails
@@ -2024,7 +2015,7 @@ bool game::handle_action()
                 if( u.is_armed() ) {
                     if( u.weapon.is_gun() && !u.weapon.is_gunmod() && u.weapon.gun_all_modes().size() > 1 ) {
                         u.weapon.gun_cycle_mode();
-                    } else if( u.weapon.has_flag( "RELOAD_ONE" ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
+                    } else if( u.weapon.has_flag( flag_RELOAD_ONE ) || u.weapon.has_flag( flag_RELOAD_AND_SHOOT ) ) {
                         item::reload_option opt = u.select_ammo( u.weapon, false );
                         if( !opt ) {
                             break;
@@ -2135,7 +2126,7 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
-                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                } else if( u.has_trait( trait_WAYFARER ) ) {
                     add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else {
                     control_vehicle();
@@ -2181,7 +2172,7 @@ bool game::handle_action()
                     }
                     set_safe_mode( SAFE_MODE_ON );
                 } else if( u.has_effect( effect_laserlocked ) ) {
-                    if( u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                    if( u.has_trait( trait_PROF_CHURL ) ) {
                         add_msg( m_warning, _( "You make the sign of the cross." ) );
                     } else {
                         add_msg( m_info, _( "Ignoring laser targeting!" ) );

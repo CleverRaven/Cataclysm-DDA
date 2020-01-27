@@ -26,9 +26,7 @@
 #include "enums.h"
 #include "item.h"
 #include "point.h"
-
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_rifle( "rifle" );
+#include "cata_string_consts.h"
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -46,6 +44,16 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     const player *const foe = dynamic_cast<player *>( source );
+
+    // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
+    if( foe != nullptr ) {
+        for( const item &i : foe->worn ) {
+            if( ( i.covers( bp_hand_l ) || i.covers( bp_hand_r ) ) &&
+                !i.conductive() && i.get_coverage() >= 95 ) {
+                return;
+            }
+        }
+    }
 
     // Players/NPCs can avoid the shock by using non-conductive weapons
     if( foe != nullptr && !foe->weapon.conductive() ) {

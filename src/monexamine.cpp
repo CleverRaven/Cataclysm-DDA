@@ -36,20 +36,7 @@
 #include "type_id.h"
 #include "pimpl.h"
 #include "point.h"
-
-static const species_id ZOMBIE( "ZOMBIE" );
-
-static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_has_bag( "has_bag" );
-static const efftype_id effect_milked( "milked" );
-static const efftype_id effect_monster_armor( "monster_armor" );
-static const efftype_id effect_paid( "paid" );
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_saddled( "monster_saddled" );
-static const skill_id skill_survival( "survival" );
+#include "cata_string_consts.h"
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -621,7 +608,7 @@ void monexamine::remove_armor( monster &z )
 void monexamine::play_with( monster &z )
 {
     std::string pet_name = z.get_name();
-    g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
+    g->u.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
     g->u.activity.str_values.push_back( pet_name );
 }
 

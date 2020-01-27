@@ -1,0 +1,23 @@
+[
+  {
+    "id": "shot_mag",
+    "copy-from": "saiga10mag",
+    "type": "MAGAZINE",
+    "name": "shotgun box magazine",
+    "capacity": 8,
+    "material": "plastic",
+    "reliability": 6,
+    "description": "An 8 round box magazine for tactical shotguns.  Shotshells tend to not work well in box magazines due to their plastic hulls and the compression from the magazine spring.",
+    "delete": { "ammo_type": "shot" },
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "shot_speedloader",
+    "copy-from": "shot_speedloader6",
+    "name": "shotgun speedloader",
+    "type": "MAGAZINE",
+    "description": "A shotshell 'speedloader', a long plastic tube with a prominent plastic follower.  You can feed 6 shotshells into an appropriately modified shotgun by pushing the follower against the shotgun's loading port.  Bulky, but sees use in competition occasionally.",
+    "delete": { "ammo_type": "shot" },
+    "ammo_type": "ammo_shot"
+  }
+]
