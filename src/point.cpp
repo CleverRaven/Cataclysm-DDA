@@ -40,36 +40,42 @@ point clamp_inclusive( const point &p, const rectangle &r )
 
 std::vector<tripoint> closest_tripoints_first( const tripoint &center, size_t radius )
 {
-    std::vector<tripoint> points;
-    int X = radius * 2 + 1;
-    int Y = radius * 2 + 1;
-    int x = 0;
-    int y = 0;
-    int dx = 0;
-    int dy = -1;
-    int t = std::max( X, Y );
-    int maxI = t * t;
-    for( int i = 0; i < maxI; i++ ) {
-        if( -X / 2 <= x && x <= X / 2 && -Y / 2 <= y && y <= Y / 2 ) {
-            points.push_back( center + point( x, y ) );
-        }
-        if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
-            t = dx;
-            dx = -dy;
-            dy = t;
-        }
-        x += dx;
-        y += dy;
+    const std::vector<point> points = closest_points_first( center.xy(), radius );
+
+    std::vector<tripoint> result;
+    result.reserve( points.size() );
+
+    for( const point &p : points ) {
+        result.emplace_back( p, center.z );
     }
-    return points;
+
+    return result;
 }
 
 std::vector<point> closest_points_first( const point &center, size_t radius )
 {
-    const std::vector<tripoint> tripoints = closest_tripoints_first( tripoint( center, 0 ), radius );
-    std::vector<point> points;
-    for( const tripoint &p : tripoints ) {
-        points.push_back( p.xy() );
+    const int edge = radius * 2 + 1;
+    const int n = edge * edge;
+
+    int x = 0;
+    int y = 0;
+    int dx = 0;
+    int dy = -1;
+
+    std::vector<point> result;
+    result.reserve( n );
+
+    for( int i = 0; i < n; i++ ) {
+        result.push_back( center + point{ x, y } );
+
+        if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
+            std::swap( dx, dy );
+            dx = -dx;
+        }
+
+        x += dx;
+        y += dy;
     }
-    return points;
+
+    return result;
 }
