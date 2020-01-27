@@ -418,7 +418,7 @@
   {
     "type": "mutation",
     "id": "LOVES_BOOKS",
-    "name": "Bookworm",
+    "name": { "str": "Bookworm" },
     "points": 1,
     "description": "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
     "starting_trait": true,
@@ -586,7 +586,7 @@
   {
     "type": "mutation",
     "id": "CANNIBAL",
-    "name": "Cannibal",
+    "name": { "str": "Cannibal" },
     "points": 1,
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
@@ -2959,7 +2959,7 @@
   {
     "type": "mutation",
     "id": "BURROW",
-    "name": "Burrowing",
+    "name": { "str": "Burrowing" },
     "points": 10,
     "valid": false,
     "purifiable": false,
@@ -4294,7 +4294,7 @@
   {
     "type": "mutation",
     "id": "EYEBULGE",
-    "name": "Bulging Eyes",
+    "name": { "str": "Bulging Eyes" },
     "points": 0,
     "visibility": 8,
     "ugliness": 4,
@@ -4338,7 +4338,7 @@
   {
     "type": "mutation",
     "id": "WINGS_BUTTERFLY",
-    "name": "Butterfly Wings",
+    "name": { "str": "Butterfly Wings" },
     "points": -1,
     "visibility": 10,
     "ugliness": -2,
@@ -4432,7 +4432,7 @@
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
-    "name": "Beautiful",
+    "name": { "str": "Beautiful" },
     "points": 2,
     "visibility": 4,
     "ugliness": -4,
@@ -4479,7 +4479,7 @@
   {
     "type": "mutation",
     "id": "MINOTAUR",
-    "name": "Bovine Snout",
+    "name": { "str": "Bovine Snout" },
     "points": -4,
     "visibility": 5,
     "ugliness": 6,
@@ -4874,7 +4874,7 @@
   {
     "type": "mutation",
     "id": "PAWS_LARGE",
-    "name": "Broad Paws",
+    "name": { "str": "Broad Paws" },
     "points": -4,
     "visibility": 4,
     "ugliness": 3,
@@ -5790,7 +5790,7 @@
   {
     "type": "mutation",
     "id": "THRESH_CATTLE",
-    "name": "Bovine",
+    "name": { "str": "Bovine" },
     "points": 1,
     "description": "Civilization collapsed?  Great!  You and your kin will never have to worry about a slaughterhouse again.",
     "valid": false,
@@ -6465,7 +6465,7 @@
   {
     "type": "mutation",
     "id": "BEE",
-    "name": "Bee",
+    "name": { "str": "Bee" },
     "points": 0,
     "valid": false,
     "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",

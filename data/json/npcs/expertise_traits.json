@@ -12,7 +12,7 @@
     "type": "mutation",
     "id": "Exp_Agriculture0Fake1",
     "//": "A fake! This survivor will pretend to know about this subject but doesn't.",
-    "name": "Agriculture Training",
+    "name": { "str": "Agriculture Training" },
     "points": 0,
     "description": "This survivor has some formal training in agriculture, but not much experience.",
     "valid": false,
