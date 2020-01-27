@@ -4956,7 +4956,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
-
                     break; // prevents using more than 1 sleep aid
                 }
             }
