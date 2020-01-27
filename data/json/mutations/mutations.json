@@ -4901,7 +4901,7 @@
   {
     "type": "mutation",
     "id": "BEAK",
-    "name": "Beak",
+    "name": { "str": "Beak" },
     "points": -3,
     "visibility": 8,
     "ugliness": 4,
@@ -6086,7 +6086,7 @@
   {
     "type": "mutation",
     "id": "PROF_CYBERCOP",
-    "name": "Bionic Officer",
+    "name": { "str": "Bionic Officer" },
     "points": 0,
     "description": "You are a cybernetically-resurrected law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
     "valid": false,
