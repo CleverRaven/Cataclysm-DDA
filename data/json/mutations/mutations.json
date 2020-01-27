@@ -6034,7 +6034,7 @@
   {
     "type": "mutation",
     "id": "ELECTRORECEPTORS",
-    "name": "Electroreceptors",
+    "name": { "str": "Electroreceptors" },
     "points": 2,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
