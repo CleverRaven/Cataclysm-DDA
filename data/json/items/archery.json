@@ -423,7 +423,7 @@
     "id": "compbow_low",
     "copy-from": "compbow",
     "type": "GUN",
-    "name": "compound bow (low)",
+    "name": { "str": "compound bow (low)" },
     "name_plural": "compound bows (low)",
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "min_strength": 4,

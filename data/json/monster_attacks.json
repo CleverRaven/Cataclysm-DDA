@@ -69,7 +69,7 @@
     "id": "acid_spray",
     "type": "GUN",
     "copy-from": "fake_item",
-    "name": "acid dart volley",
+    "name": { "str": "acid dart volley" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
     "modes": [ [ "DEFAULT", "auto", 3 ] ],
