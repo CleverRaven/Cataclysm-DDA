@@ -193,7 +193,7 @@
     "id": "l_lmg_223",
     "copy-from": "l_base_223",
     "type": "GUN",
-    "name": "L523-LMG",
+    "name": { "str": "L523-LMG" },
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates ACOG scope, a heavy-duty barrel, foregrip, bipod and as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
     "price": 620000,
     "durability": 9,
