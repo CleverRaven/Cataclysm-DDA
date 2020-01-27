@@ -1217,6 +1217,18 @@
   },
   {
     "type": "construction",
+    "description": "Build Roof Over Dirt Floor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_dirtfloor"
+  },
+  {
+    "type": "construction",
     "description": "Build Rope & Pulley System",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
@@ -2322,6 +2334,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_down_OK",
     "post_special": "done_dig_stair"
   },
   {
