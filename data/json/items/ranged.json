@@ -143,7 +143,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
-    "name": "bullet crossbow",
+    "name": { "str": "bullet crossbow" },
     "description": "A modified version of the classic crossbow which utilizes stones as projectiles instead of the traditional quarrel.  Primarily intended for hunting small game, stronger people can reload it much faster.",
     "price": 20000,
     "material": [ "wood", "iron" ],

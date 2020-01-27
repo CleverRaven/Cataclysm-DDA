@@ -98,7 +98,7 @@
     "abstract": "pistol_revolver_cap_ball",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": "cap & ball revolver",
+    "name": { "str": "cap & ball revolver" },
     "reload": 150,
     "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
@@ -117,7 +117,7 @@
     "abstract": "rifle_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base rifle",
+    "name": { "str": "base rifle" },
     "skill": "rifle",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -168,13 +168,13 @@
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "fully automatic rifle"
+    "name": { "str": "fully automatic rifle" }
   },
   {
     "abstract": "shotgun_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base shotgun",
+    "name": { "str": "base shotgun" },
     "skill": "shotgun",
     "ammo": "shot",
     "valid_mod_locations": [
@@ -227,7 +227,7 @@
     "abstract": "smg_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base SMG",
+    "name": { "str": "base SMG" },
     "skill": "smg"
   }
 ]

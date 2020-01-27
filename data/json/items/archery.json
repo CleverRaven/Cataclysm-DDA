@@ -404,7 +404,7 @@
     "id": "compbow_high",
     "copy-from": "compbow",
     "type": "GUN",
-    "name": "compound bow (high)",
+    "name": { "str": "compound bow (high)" },
     "name_plural": "compound bows (high)",
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
     "min_strength": 8,

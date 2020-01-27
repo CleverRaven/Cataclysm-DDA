@@ -589,7 +589,7 @@
     "copy-from": "pistol_base",
     "//": "Tilelist whitelist for pistols.",
     "type": "GUN",
-    "name": "Glock 17",
+    "name": { "str": "Glock 17" },
     "description": "Designed for all shooters, the Glock 17 is marketed towards law-enforcement and military.",
     "weight": "630 g",
     "volume": "500 ml",
