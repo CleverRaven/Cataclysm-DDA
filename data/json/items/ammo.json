@@ -811,7 +811,7 @@
     "id": "charcoal",
     "category": "spare_parts",
     "price": 200,
-    "name": "charcoal",
+    "name": { "str": "charcoal", "str_pl": "charcoal" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A flammable carbon-based material produced by slowly burning wood.  Utilized in recipes requiring a pure, hot flame.  Can also be used in filters to remove contaminants out of air and water.",
