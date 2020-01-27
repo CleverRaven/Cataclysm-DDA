@@ -34,6 +34,7 @@
 #include "player.h"
 #include "vpart_position.h"
 #include "faction.h"
+#include "cata_string_consts.h"
 
 zone_manager::zone_manager()
 {
@@ -151,11 +152,11 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
-        return dynamic_cast<const plot_options *>( &options ) != nullptr ;
+        return dynamic_cast<const plot_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
-        return dynamic_cast<const blueprint_options *>( &options ) != nullptr ;
+        return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
-        return dynamic_cast<const loot_options *>( &options ) != nullptr ;
+        return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types
@@ -561,7 +562,7 @@ void zone_manager::cache_vzones()
         const std::string &type_hash = elem->get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        // @todo looks very similar to the above cache_data - maybe merge it?
+        // TODO: looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
         for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
@@ -783,7 +784,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
-    if( it.has_flag( "FIREWOOD" ) ) {
+    if( it.has_flag( flag_FIREWOOD ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }

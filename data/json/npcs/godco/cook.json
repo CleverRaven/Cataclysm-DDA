@@ -1,0 +1,267 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_cook",
+    "name_unique": "Simon Weaver",
+    "gender": "male",
+    "name_suffix": "cook",
+    "class": "NC_godco_cook",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_cook_1",
+    "mission_offered": "MISSION_GODCO_COOK_FOOD_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_cook",
+    "name": "cook",
+    "job_description": "I cook for my community.",
+    "common": false,
+    "bonus_str": { "rng": [ -1, 2 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -1, 2 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_cook_worn",
+    "carry_override": "GODCO_cook_carried",
+    "weapon_override": "GODCO_cook_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "cooking", "bonus": { "rng": [ 2, 4 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_cook_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boots" },
+      { "item": "briefs" },
+      { "item": "socks" },
+      { "item": "sweatshirt" },
+      { "item": "pants" },
+      { "item": "jacket_chef" },
+      { "item": "leather_pouch" },
+      { "item": "hat_boonie", "prob": 66 },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_cook_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "matches" }, { "group": "snacks", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_cook_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_steak" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_godco_cook"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_cook",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey there.", "Hello.", "How are you?", "Welcome!", "How's the weather?" ],
+      "no": "Welcome!  You seem new, how can I help you?"
+    },
+    "responses": [
+      {
+        "text": "Who are you?",
+        "effect": { "u_add_var": "u_met_godco_cook", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_cook", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_cook_firstmeet"
+      },
+      {
+        "text": "What is this place?",
+        "condition": { "u_has_var": "u_met_godco_cook", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_cook_place"
+      },
+      {
+        "text": "What's your story?",
+        "condition": { "u_has_var": "u_met_godco_cook", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_cook_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": { "u_has_var": "u_met_godco_cook", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_cook_ask_mood"
+      },
+      {
+        "text": "Can I do anything for you?",
+        "condition": { "u_has_var": "u_met_godco_cook", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_firstmeet",
+    "dynamic_line": "Shouldn't I be the one to ask that question?  I am Simon, I work here as a cook.  Who are you?",
+    "responses": [
+      { "text": "I am an unfortunate who really needs something to eat.", "topic": "TALK_GODCO_cook_ask_food" },
+      { "text": "I am just a fellow survivor.", "topic": "TALK_GODCO_cook_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_place",
+    "dynamic_line": "This is New England Church Community.  A self-sufficient group formed by churchgoers.  We try to help fellow survivors as much as we can.  Enjoy your stay here!",
+    "responses": [
+      { "text": "Can you give me something to eat then?", "topic": "TALK_GODCO_cook_ask_food" },
+      { "text": "What can I buy here?", "topic": "TALK_GODCO_cook_ask_goods" },
+      { "text": "Oh, okay.", "topic": "TALK_GODCO_cook_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_food",
+    "dynamic_line": "Sorry, it has been a very long time since we offered free meals.  You should try joining our community if you want rations.  I wish you luck.",
+    "responses": [
+      { "text": "I can pay.", "topic": "TALK_GODCO_cook_ask_food_bribe" },
+      { "text": "Please, I need the food for my family.", "topic": "TALK_GODCO_cook_ask_food_family" },
+      { "text": "How do I join the community?", "topic": "TALK_GODCO_cook_ask_membership" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_food_bribe",
+    "dynamic_line": "You can't buy edibles here.  We currently have a shortage of them, and we can't afford to give away any more.  Your money is worthless anyway.",
+    "responses": [
+      { "text": "It was worth a try.", "topic": "TALK_GODCO_cook_1" },
+      { "text": "Why is my money worthless?", "topic": "TALK_GODCO_cook_currency" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_food_family",
+    "dynamic_line": "Look, I have a family too.  I know how hard it is for you, but I've already told you, rules are rules.",
+    "responses": [ { "text": "At least I tried.", "topic": "TALK_GODCO_cook_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_membership",
+    "dynamic_line": {
+      "days_since_cataclysm": 20,
+      "yes": "You have to ask our leader, Helena, first.  She's the one who makes those decisions.  But as I said, your chances are low, like everyone else's.  The newest member joined just a long time ago.",
+      "no": "You have to ask our leader, Helena, first.  She's the one who makes those decisions.  But as I said, your chances are low, like everyone else's.  If you had found our community earlier, you could have had a higher chance to join.  The newest member joined just a few days ago."
+    },
+    "responses": [ { "text": "At least I tried.", "topic": "TALK_GODCO_cook_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_goods",
+    "dynamic_line": "From me?  Nothing.  But we have a tailor, herbalist and a hunter.  Go see their products yourself, maybe you find something you need.  Keep in mind that we don't use regular dollars here.",
+    "responses": [
+      { "text": "I'll take a look.", "topic": "TALK_GODCO_cook_1" },
+      { "text": "What do you use as money?", "topic": "TALK_GODCO_cook_currency" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_past",
+    "dynamic_line": "You know, I used to work as a cook in a homeless shelter.  Coincidentally, that's how I met the community.  They used to go there many times to help the residents and preach from the Bible.  I am sure this is why my family and I could join.  Also, working in the shelter taught me to cook on a very low budget.  It's an even more useful skill today.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_GODCO_cook_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_ask_mood",
+    "dynamic_line": "Could be better, could be worse.  But I'm not complaining.  I have everything I need here: my family, a nice job and roof over my head.  I wish God was as forgiving to others as to me.",
+    "responses": [ { "text": "It's good to hear that.", "topic": "TALK_GODCO_cook_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_cook_currency",
+    "dynamic_line": "We use religious icons as our currency.  These were made before <the_cataclysm>, and the name of our community is written on the back.  It's a lot more handy than old-world dollars, those are basicly just firestarters here.",
+    "responses": [
+      { "text": "Oh, okay.", "topic": "TALK_GODCO_cook_1" },
+      { "text": "What can I buy here?", "topic": "TALK_GODCO_cook_ask_goods" }
+    ]
+  },
+  {
+    "id": "MISSION_GODCO_COOK_FOOD_1",
+    "type": "mission_definition",
+    "name": "Picky Meals",
+    "description": "Find 100 salt.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "salt",
+    "count": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_COOK_FOOD_2",
+    "dialogue": {
+      "describe": "I need a supply of salt.",
+      "offer": "I know this doesn't sound important, but I am running low on salt.  We don't just need it as a seasoning, it's also vital for food preservation.  Could you find about 20 pounds of salt for me?",
+      "accepted": "Don't forget to tell me when you have them.",
+      "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
+      "advice": "There's a lot of places to look.  They are common in house kitchens, restaurants or grocery stores.",
+      "inquire": "How is the search going?  Have you found 'em?",
+      "success": "I really apreciate your help.  Don't worry, you won't leave empty-handed.",
+      "success_lie": "Thanks for trying…  I guess.",
+      "failure": "Don't worry about it, it's not that important."
+    },
+    "end": { "effect": [ { "u_buy_item": "icon", "count": 2 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_COOK_FOOD_2",
+    "type": "mission_definition",
+    "name": "Pickled Meals",
+    "description": "Find 5 glass jars.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "jar_glass",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_COOK_FOOD_3",
+    "dialogue": {
+      "describe": "I need several glass jars.",
+      "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars.  I could get by with 5 for now.",
+      "accepted": "Thanks for accepting this task.  It'll take a load off my shoulders.  I finally won't have to worry about this problem anymore.",
+      "rejected": "Just let me know if you change your mind.",
+      "advice": "Glass jars are not that hard to find.  I'd look for them in residental areas.",
+      "inquire": "Have you found the jars?",
+      "success": "Thank you for your help.  Here's your reward.  I have one more task to do.",
+      "success_lie": "Thanks for trying…  I guess.",
+      "failure": "It's not a big deal, it isn't that urgent."
+    },
+    "end": { "effect": [ { "u_buy_item": "icon", "count": 5 } ] }
+  },
+  {
+    "id": "MISSION_GODCO_COOK_FOOD_3",
+    "type": "mission_definition",
+    "name": "Prickled Meals",
+    "description": "Find a butcher knife.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "item": "knife_butcher",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need something sharper.",
+      "offer": "I don't have any butcher knives in here.  It's difficult to cut anything hard without it.  It's good to have one, even though I won't use it that often.  Could you get me one?",
+      "accepted": "Thank you for accepting.  I can't cut anything with this dull knife.",
+      "rejected": "I guess I have to cut them with my steak knife.",
+      "advice": "Butcher knives are not that rare to find.  They are commonly found in kitchens.",
+      "inquire": "Do you have that knife now?",
+      "success": "I am grateful for the help you've done.",
+      "success_lie": "Thanks for trying…  I guess.",
+      "failure": "Don't worry about it, it's not that important."
+    },
+    "end": { "effect": [ { "u_buy_item": "icon", "count": 3 } ] }
+  }
+]

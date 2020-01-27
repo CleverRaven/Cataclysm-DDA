@@ -16,6 +16,22 @@
     "price": 40000
   },
   {
+    "id": "reins_tackle",
+    "type": "GENERIC",
+    "name": { "str": "rein and tackle", "str_pl": "reins and tackles" },
+    "category": "veh_parts",
+    "description": "A set of leather bindings to control a mountable creature.",
+    "weight": "500 g",
+    "volume": "1200 ml",
+    "price": 30000,
+    "bashing": 1,
+    "to_hit": -2,
+    "material": [ "leather" ],
+    "symbol": "W",
+    "color": "light_gray",
+    "looks_like": "rope_6"
+  },
+  {
     "type": "GENERIC",
     "id": "vehicle_dashboard",
     "name": "dashboard",

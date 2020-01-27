@@ -189,6 +189,9 @@ struct mutation_branch {
         // Multiplier for map memory capacity, defaulting to 1.
         float map_memory_capacity_multiplier = 1.0f;
 
+        // Multiplier for reading speed, defaulting to 1.
+        float reading_speed_multiplier = 1.0f;
+
         // Multiplier for skill rust, defaulting to 1.
         float skill_rust_multiplier = 1.0f;
 
@@ -200,6 +203,9 @@ struct mutation_branch {
 
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
+
+        /**Map of angered species and there intensity*/
+        std::map<species_id, int> anger_relations;
 
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;

@@ -1427,9 +1427,9 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Thirst:" ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
@@ -1452,17 +1452,17 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Thirst:" ) );
     mvwprintz( w, point( 30, 0 ), thirst_pair.second, thirst_pair.first );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 8, 1 ), rest_pair.second, rest_pair.first );
-    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Hunger:" ) );
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
-    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Sound:" ) );
+    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Sound :" ) );
     if( !u.is_deaf() ) {
         mvwprintz( w, point( 30, 2 ), c_yellow, to_string( u.volume ) );
     } else {
@@ -1620,7 +1620,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // speed
-    if( !u.in_vehicle ) {
+    if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );

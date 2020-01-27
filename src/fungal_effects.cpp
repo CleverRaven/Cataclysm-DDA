@@ -28,14 +28,7 @@
 #include "debug.h"
 #include "point.h"
 #include "string_formatter.h"
-
-static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-static const mtype_id mon_spore( "mon_spore" );
-
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_spores( "spores" );
-
-static const species_id FUNGUS( "FUNGUS" );
+#include "cata_string_consts.h"
 
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )
@@ -61,8 +54,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
 
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
-        if( pl.has_trait( trait_id( "TAIL_CATTLE" ) ) &&
-            one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_id( "melee" ) ) ) ) {
+        if( pl.has_trait( trait_TAIL_CATTLE ) &&
+            one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_melee ) ) ) {
             pl.add_msg_if_player(
                 _( "The spores land on you, but you quickly swat them off with your tail!" ) );
             return;
@@ -84,7 +77,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             if( origin_mon != nullptr ) {
                 spore->make_ally( *origin_mon );
             } else if( origin != nullptr && origin->is_player() &&
-                       gm.u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
+                       gm.u.has_trait( trait_THRESH_MYCUS ) ) {
                 spore->friendly = 1000;
             }
         }
@@ -109,7 +102,7 @@ void fungal_effects::marlossify( const tripoint &p )
         return;
     }
     for( int i = 0; i < 25; i++ ) {
-        bool is_fungi = m.has_flag_ter( "FUNGUS", p );
+        bool is_fungi = m.has_flag_ter( flag_FUNGUS, p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -121,12 +114,12 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 {
     bool converted = false;
     // Terrain conversion
-    if( m.has_flag_ter( "DIGGABLE", p ) ) {
+    if( m.has_flag_ter( flag_DIGGABLE, p ) ) {
         if( x_in_y( growth * 10, 100 ) ) {
             m.ter_set( p, t_fungus );
             converted = true;
         }
-    } else if( m.has_flag( "FLAT", p ) ) {
+    } else if( m.has_flag( flag_FLAT, p ) ) {
         if( m.has_flag( TFLAG_INDOORS, p ) ) {
             if( x_in_y( growth * 10, 500 ) ) {
                 m.ter_set( p, t_fungus_floor_in );
@@ -143,7 +136,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
                 converted = true;
             }
         }
-    } else if( m.has_flag( "SHRUB", p ) ) {
+    } else if( m.has_flag( flag_SHRUB, p ) ) {
         if( x_in_y( growth * 10, 200 ) ) {
             m.ter_set( p, t_shrub_fungal );
             converted = true;
@@ -151,12 +144,12 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             m.ter_set( p, t_marloss );
             converted = true;
         }
-    } else if( m.has_flag( "THIN_OBSTACLE", p ) ) {
+    } else if( m.has_flag( flag_THIN_OBSTACLE, p ) ) {
         if( x_in_y( growth * 10, 150 ) ) {
             m.ter_set( p, t_fungus_mound );
             converted = true;
         }
-    } else if( m.has_flag( "YOUNG", p ) ) {
+    } else if( m.has_flag( flag_YOUNG, p ) ) {
         if( x_in_y( growth * 10, 500 ) ) {
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
@@ -172,7 +165,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
             converted = true;
         }
-    } else if( m.has_flag( "TREE", p ) ) {
+    } else if( m.has_flag( flag_TREE, p ) ) {
         if( one_in( 10 ) ) {
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
@@ -188,7 +181,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
             converted = true;
         }
-    } else if( m.has_flag( "WALL", p ) && m.has_flag( "FLAMMABLE", p ) ) {
+    } else if( m.has_flag( flag_WALL, p ) && m.has_flag( flag_FLAMMABLE, p ) ) {
         if( x_in_y( growth * 10, 5000 ) ) {
             m.ter_set( p, t_fungus_wall );
             converted = true;
@@ -196,15 +189,15 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
     }
     // Furniture conversion
     if( converted ) {
-        if( m.has_flag( "FLOWER", p ) ) {
+        if( m.has_flag( flag_FLOWER, p ) ) {
             m.furn_set( p, f_flower_fungal );
-        } else if( m.has_flag( "ORGANIC", p ) ) {
+        } else if( m.has_flag( flag_ORGANIC, p ) ) {
             if( m.furn( p ).obj().movecost == -10 ) {
                 m.furn_set( p, f_fungal_mass );
             } else {
                 m.furn_set( p, f_fungal_clump );
             }
-        } else if( m.has_flag( "PLANT", p ) ) {
+        } else if( m.has_flag( flag_PLANT, p ) ) {
             // Replace the (already existing) seed
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = m.i_at( p );
@@ -228,12 +221,12 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( tmp == p ) {
             continue;
         }
-        if( m.has_flag( "FUNGUS", tmp ) ) {
+        if( m.has_flag( flag_FUNGUS, tmp ) ) {
             growth += 1;
         }
     }
 
-    if( !m.has_flag_ter( "FUNGUS", p ) ) {
+    if( !m.has_flag_ter( flag_FUNGUS, p ) ) {
         spread_fungus_one_tile( p, growth );
     } else {
         // Everything is already fungus
@@ -242,7 +235,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         }
         for( const tripoint &dest : g->m.points_in_radius( p, 1 ) ) {
             // One spread on average
-            if( !m.has_flag( "FUNGUS", dest ) && one_in( 9 - growth ) ) {
+            if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified
                 spread_fungus_one_tile( dest, 10 );
             }

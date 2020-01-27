@@ -31,8 +31,7 @@
 #include "type_id.h"
 #include "point.h"
 #include "weather.h"
-
-static const mtype_id mon_zombie( "mon_zombie" );
+#include "cata_string_consts.h"
 
 static std::vector<translation> tut_text;
 
@@ -78,12 +77,12 @@ bool tutorial_game::init()
     starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( trait_id( "QUICK" ) );
+    g->u.toggle_trait( trait_QUICK );
     item lighter( "lighter", 0 );
     lighter.invlet = 'e';
     g->u.inv.add_item( lighter, true, false );
-    g->u.set_skill_level( skill_id( "gun" ), 5 );
-    g->u.set_skill_level( skill_id( "melee" ), 5 );
+    g->u.set_skill_level( skill_gun, 5 );
+    g->u.set_skill_level( skill_melee, 5 );
     g->load_map( omt_to_sm_copy( lp ) );
     g->u.setx( 2 );
     g->u.sety( 4 );

@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_cider",
-    "name": "apple cider",
-    "name_plural": "apple cider",
+    "name": { "str": "apple cider", "str_pl": "apple cider" },
     "weight": "263 g",
     "color": "brown",
     "spoils_in": "6 days",
@@ -26,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_milk",
-    "name": "almond milk",
+    "name": { "str": "almond milk" },
     "weight": "258 g",
     "color": "white",
     "spoils_in": "3 days",
@@ -846,6 +845,25 @@
     "flags": [ "EATEN_COLD" ],
     "fun": -1,
     "vitamins": [ [ "vitC", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rehydration_drink",
+    "name": "rehydration drink",
+    "weight": "257 g",
+    "color": "light_cyan",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 60,
+    "calories": 12,
+    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but it tastes kind of strange.",
+    "price": 55,
+    "material": "water",
+    "volume": "250 ml",
+    "looks_like": "sports_drink",
+    "phase": "liquid",
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",

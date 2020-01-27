@@ -85,6 +85,7 @@
 #include "units.h"
 #include "weather_gen.h"
 #include "monstergenerator.h"
+#include "cata_string_consts.h"
 
 class vehicle;
 
@@ -93,7 +94,6 @@ class vehicle;
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-static const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -1314,7 +1314,7 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                if( critter.type->id != mon_generator ) {
                     critter.die( nullptr );
                 }
             }
@@ -1420,7 +1420,7 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
             break;
         case DEBUG_CHANGE_TIME: {
-            auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
+            auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
@@ -1558,7 +1558,7 @@ void debug()
             break;
         case DEBUG_PRINT_FACTION_INFO: {
             int count = 0;
-            for( const auto elem : g->faction_manager_ptr->all() ) {
+            for( const auto &elem : g->faction_manager_ptr->all() ) {
                 std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
                           std::endl;
                 std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
@@ -1579,7 +1579,7 @@ void debug()
                 }
                 std::cout << guy.disp_name() << "knows : ";
                 int counter = 1;
-                for( const spell_id sp : spells ) {
+                for( const spell_id &sp : spells ) {
                     std::cout << sp->name.translated() << " ";
                     if( counter < static_cast<int>( spells.size() ) ) {
                         std::cout << "and ";

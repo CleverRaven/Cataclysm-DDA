@@ -62,6 +62,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "game_constants.h"
+#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -82,7 +83,6 @@ static const std::array<std::string, 8> multitile_keys = {{
 
 extern int fontwidth;
 extern int fontheight;
-static const efftype_id effect_ridden( "ridden" );
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -3124,7 +3124,7 @@ void cata_tiles::draw_explosion_frame()
         draw_from_id_string( exp_name, exp_pos + point( i, i ),
                              subtile, rotation++, LL_LIT, nv_goggles_activated );
         draw_from_id_string( exp_name, exp_pos + point( i, -i ),
-                             subtile, rotation++, LL_LIT, nv_goggles_activated );
+                             subtile, rotation, LL_LIT, nv_goggles_activated );
 
         subtile = edge;
         for( int j = 1 - i; j < 0 + i; j++ ) {

@@ -543,7 +543,7 @@
   {
     "type": "construction",
     "description": "Armor Reinforced Window",
-    "//": "Armo up regular reinforced window",
+    "//": "Armor up regular reinforced window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "30 m",
@@ -854,7 +854,7 @@
     "//": "Fills a deep pit with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 40,
+    "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
     "pre_special": "check_empty",
@@ -864,10 +864,10 @@
   {
     "type": "construction",
     "description": "Make Woodchip Floor",
-    "//": "Adds wood chippings to a shallowed dirt area to prevent plants growing, or for looks.",
+    "//": "Adds wood chippings to a shallow pit to prevent plants growing, or for looks.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 40,
+    "time": "40 m",
     "components": [ [ [ "splinter", 50 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_woodchips"
@@ -910,7 +910,7 @@
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": 100,
+    "time": "100 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
     "pre_special": "check_empty",
@@ -1538,6 +1538,17 @@
   },
   {
     "type": "construction",
+    "description": "Build Warehouse Shelf",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_warehouse_shelf"
+  },
+  {
+    "type": "construction",
     "description": "Build Coat Rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -1705,10 +1716,26 @@
   },
   {
     "type": "construction",
+    "description": "Build Bunk Bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "130 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
+      [ [ "2x4", 14 ] ],
+      [ [ "nail", 30 ] ],
+      [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bunkbed"
+  },
+  {
+    "type": "construction",
     "description": "Build Bed Frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": 55,
+    "time": "55 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
@@ -1719,7 +1746,7 @@
     "description": "Add Mattress to Bed Frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 5,
+    "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
@@ -1987,6 +2014,17 @@
     "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_alarm",
     "post_terrain": "t_window_bars_alarm"
+  },
+  {
+    "type": "construction",
+    "description": "Install Bars Onto Window",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "pre_terrain": "t_window_bars",
+    "post_terrain": "t_window_bars_curtains"
   },
   {
     "type": "construction",
@@ -2945,7 +2983,7 @@
     "description": "Hang Hanging Meathook",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": 15,
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
     "pre_special": "check_support",
@@ -3012,7 +3050,7 @@
     "//": "Step 1: start wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": 120,
+    "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [
       [ [ "adobe_brick", 10 ] ],
@@ -3029,7 +3067,7 @@
     "//": "Step 2: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": 120,
+    "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [
       [ [ "adobe_brick", 10 ] ],
@@ -3154,7 +3192,7 @@
       [ [ "cu_pipe", 4 ] ],
       [ [ "cable", 12 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "hand_vice", 1 ] ],
+      [ [ "clamp", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],

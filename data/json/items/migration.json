@@ -945,6 +945,11 @@
     "replace": "40x53mm_m1001"
   },
   {
+    "id": "magnesium_tablet",
+    "type": "MIGRATION",
+    "replace": "melatonin_tablet"
+  },
+  {
     "id": "40mm_frag",
     "type": "MIGRATION",
     "replace": "40x46mm_m433"
@@ -958,5 +963,25 @@
     "id": "40mm_teargas",
     "type": "MIGRATION",
     "replace": "40x46mm_m651"
+  },
+  {
+    "id": "riding_saddle",
+    "type": "MIGRATION",
+    "replace": "horse_tack"
+  },
+  {
+    "id": "ballistic_vest",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "hand_vice",
+    "type": "MIGRATION",
+    "replace": "clamp"
+  },
+  {
+    "id": "angular_grinder",
+    "type": "MIGRATION",
+    "replace": "angle_grinder"
   }
 ]

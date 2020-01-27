@@ -183,7 +183,7 @@
     "id": "hair_dryer",
     "name": "hair dryer",
     "type": "GENERIC",
-    "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a funtioning power grid, it is a motorized paper weight.",
+    "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
     "symbol": "(",
     "color": "black",
     "price": 2100,
