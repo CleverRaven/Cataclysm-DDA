@@ -3565,7 +3565,7 @@
   {
     "type": "mutation",
     "id": "WINGS_BIRD",
-    "name": "Bird Wings",
+    "name": { "str": "Bird Wings" },
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
@@ -5729,7 +5729,7 @@
   {
     "type": "mutation",
     "id": "THRESH_BIRD",
-    "name": "Bird",
+    "name": { "str": "Bird" },
     "points": 1,
     "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
     "valid": false,
@@ -6186,7 +6186,7 @@
   {
     "type": "mutation",
     "id": "PROF_MA_BLACK",
-    "name": "Black Belt",
+    "name": { "str": "Black Belt" },
     "points": 0,
     "description": "You were competitive at national levels, and had considered teaching your art.  Defending against the entire town may still be a challenge, though.",
     "initial_ma_styles": [
