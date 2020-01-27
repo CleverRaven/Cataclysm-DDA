@@ -1100,7 +1100,7 @@
   {
     "type": "mutation",
     "id": "CHEMIMBALANCE",
-    "name": "Chemical Imbalance",
+    "name": { "str": "Chemical Imbalance" },
     "points": -2,
     "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
     "starting_trait": true,
@@ -1373,7 +1373,7 @@
   {
     "type": "mutation",
     "id": "CEPH_EYES",
-    "name": "Cephalopod Eyes",
+    "name": { "str": "Cephalopod Eyes" },
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
@@ -1683,7 +1683,7 @@
   {
     "type": "mutation",
     "id": "GILLS_CEPH",
-    "name": "Cephalopod Gills",
+    "name": { "str": "Cephalopod Gills" },
     "points": 2,
     "visibility": 4,
     "ugliness": 4,
@@ -3161,7 +3161,7 @@
   {
     "type": "mutation",
     "id": "TAIL_CATTLE",
-    "name": "Cattle Tail",
+    "name": { "str": "Cattle Tail" },
     "points": -1,
     "visibility": 6,
     "ugliness": 2,
@@ -3382,7 +3382,7 @@
   {
     "type": "mutation",
     "id": "CENOBITE",
-    "name": "Cenobite",
+    "name": { "str": "Cenobite" },
     "points": 6,
     "visibility": 4,
     "ugliness": 10,
@@ -5117,7 +5117,7 @@
   {
     "type": "mutation",
     "id": "CARNIVORE",
-    "name": "Carnivore",
+    "name": { "str": "Carnivore" },
     "points": -4,
     "description": "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
@@ -5840,7 +5840,7 @@
   {
     "type": "mutation",
     "id": "THRESH_CEPHALOPOD",
-    "name": "Cephalopod",
+    "name": { "str": "Cephalopod" },
     "points": 1,
     "description": "Strange aeons, true, but Death seems to be slacking and you are doing just fine.",
     "valid": false,
@@ -5900,7 +5900,7 @@
   {
     "type": "mutation",
     "id": "THRESH_CHIMERA",
-    "name": "Chaos",
+    "name": { "str": "Chaos" },
     "points": 1,
     "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.",
     "valid": false,
@@ -6258,7 +6258,7 @@
   {
     "type": "mutation",
     "id": "NPC_RUM",
-    "name": "Carries Rum",
+    "name": { "str": "Carries Rum" },
     "points": 0,
     "description": "This Bartender now carries rum!",
     "player_display": false,
@@ -6268,7 +6268,7 @@
   {
     "type": "mutation",
     "id": "NPC_WHISKEY",
-    "name": "Carries Whiskey",
+    "name": { "str": "Carries Whiskey" },
     "points": 0,
     "description": "This Bartender now carries whiskey!",
     "player_display": false,
