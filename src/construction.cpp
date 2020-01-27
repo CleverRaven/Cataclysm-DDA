@@ -169,7 +169,8 @@ static void load_available_constructions( std::vector<std::string> &available,
         return;
     }
     for( auto &it : constructions ) {
-        if( it.on_display && ( !hide_unconstructable || can_construct( it ) ) ) {
+        if( it.on_display && ( !hide_unconstructable ||
+                               ( can_construct( it ) && player_can_build( g->u, g->u.crafting_inventory(), it ) ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.description ) {
