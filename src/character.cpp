@@ -3956,7 +3956,7 @@ void Character::update_needs( int rate_multiplier )
                         rest_modifier += 1;
                     }
 
-                    comfort_level comfort = base_comfort_value( pos() );
+                    const comfort_level comfort = base_comfort_value( pos() ).level;
 
                     if( comfort >= comfort_level::very_comfortable ) {
                         rest_modifier *= 3;
@@ -4878,7 +4878,7 @@ void Character::temp_equalizer( body_part bp1, body_part bp2 )
     temp_cur[bp1] += diff;
 }
 
-Character::comfort_level Character::base_comfort_value( const tripoint &p, bool message ) const
+Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
     // As in the latter also checks for fatigue and other variables while this function
@@ -4886,6 +4886,8 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p, bool 
     // as arachnids who sleep in webs will find most places comfortable for instance.
     int comfort = 0;
 
+    comfort_response_t comfort_response;
+    comfort_response.aid = &item( "null" );
     bool plantsleep = has_trait( trait_CHLOROMORPH );
     bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
     bool websleep = has_trait( trait_WEB_WALKER );
@@ -4916,10 +4918,7 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p, bool 
                     if( items_it.has_flag( "SLEEP_AID" ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        if( message ) {
-                            add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
-                        }
-
+                        comfort_response.aid = &items_it;
                         break; // prevents using more than 1 sleep aid
                     }
                 }
@@ -4950,18 +4949,18 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p, bool 
             comfort -= g->m.move_cost( p );
         }
 
-        const map_stack items = g->m.i_at( p );
-        for( const item &items_it : items ) {
-            if( items_it.has_flag( "SLEEP_AID" ) ) {
-                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                if( message ) {
-                    add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+        if( comfort_response.aid->is_null() ) {
+            const map_stack items = g->m.i_at( p );
+            for( const item &items_it : items ) {
+                if( items_it.has_flag( "SLEEP_AID" ) ) {
+                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                    comfort_response.aid = &items_it;
+
+                    break; // prevents using more than 1 sleep aid
                 }
-                break; // prevents using more than 1 sleep aid
             }
         }
-
         if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
@@ -4997,16 +4996,17 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p, bool 
     }
 
     if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
-        return comfort_level::very_comfortable;
+        comfort_response.level = comfort_level::very_comfortable;
     } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
-        return comfort_level::comfortable;
+        comfort_response.level = comfort_level::comfortable;
     } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
-        return comfort_level::slightly_comfortable;
+        comfort_response.level = comfort_level::slightly_comfortable;
     } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
-        return comfort_level::neutral;
+        comfort_response.level = comfort_level::neutral;
     } else {
-        return comfort_level::uncomfortable;
+        comfort_response.level = comfort_level::uncomfortable;
     }
+    return comfort_response;
 }
 
 int Character::blood_loss( body_part bp ) const
