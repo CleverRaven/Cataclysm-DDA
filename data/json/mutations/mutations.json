@@ -44,7 +44,7 @@
   {
     "type": "mutation",
     "id": "GOODHEARING",
-    "name": "Good Hearing",
+    "name": { "str": "Good Hearing" },
     "points": 1,
     "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
     "starting_trait": true,
@@ -55,7 +55,7 @@
   {
     "type": "mutation",
     "id": "FEYHEARING",
-    "name": "Fey Hearing",
+    "name": { "str": "Fey Hearing" },
     "points": 2,
     "description": "Your not sure the shape of your ears are helping, but regardless you have become very sensitive to sounds.",
     "prereqs": [ "GOODHEARING" ],
@@ -885,7 +885,7 @@
   {
     "type": "mutation",
     "id": "BADHEARING",
-    "name": "Poor Hearing",
+    "name": { "str": "Poor Hearing" },
     "points": -2,
     "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
     "starting_trait": true,
@@ -897,7 +897,7 @@
   {
     "type": "mutation",
     "id": "DEAF",
-    "name": "Deaf",
+    "name": { "str": "Deaf" },
     "points": -4,
     "description": "You're not able to hear anything, and as such you're not able to talk to NPCs.",
     "starting_trait": true,
@@ -3659,7 +3659,7 @@
   {
     "type": "mutation",
     "id": "CANINE_EARS",
-    "name": "Canine Ears",
+    "name": { "str": "Canine Ears" },
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
@@ -3672,7 +3672,7 @@
   {
     "type": "mutation",
     "id": "LUPINE_EARS",
-    "name": "Lupine Ears",
+    "name": { "str": "Lupine Ears" },
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
@@ -3684,7 +3684,7 @@
   {
     "type": "mutation",
     "id": "FELINE_EARS",
-    "name": "Feline Ears",
+    "name": { "str": "Feline Ears" },
     "points": 1,
     "visibility": 4,
     "description": "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
@@ -3695,7 +3695,7 @@
   {
     "type": "mutation",
     "id": "URSINE_EARS",
-    "name": "Ursine Ears",
+    "name": { "str": "Ursine Ears" },
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
@@ -3719,7 +3719,7 @@
   {
     "type": "mutation",
     "id": "MOUSE_EARS",
-    "name": "Rodent Ears",
+    "name": { "str": "Rodent Ears" },
     "points": 1,
     "visibility": 8,
     "ugliness": 1,
