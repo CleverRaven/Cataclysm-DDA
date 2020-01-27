@@ -626,7 +626,7 @@
   {
     "id": "FACIAL_HAIR_3DAYSTUBBLE",
     "type": "mutation",
-    "name": "Facial hair: 3-day stubble",
+    "name": { "str": "Facial hair: 3-day stubble" },
     "description": "You have a short trimmed moustache and beard imitating a 3-day stubble.",
     "points": 0,
     "valid": false,

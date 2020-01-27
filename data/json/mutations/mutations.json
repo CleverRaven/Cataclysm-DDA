@@ -469,7 +469,7 @@
   {
     "type": "mutation",
     "id": "DISRESISTANT",
-    "name": "Disease Resistant",
+    "name": { "str": "Disease Resistant" },
     "points": 1,
     "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
     "starting_trait": true,
@@ -1161,7 +1161,7 @@
   {
     "type": "mutation",
     "id": "CLUMSY",
-    "name": "Clumsy",
+    "name": { "str": "Clumsy" },
     "points": -1,
     "description": "You make more noise while walking.  You're also more likely to set off traps.",
     "starting_trait": true,
@@ -3398,7 +3398,7 @@
   {
     "type": "mutation",
     "id": "NOPAIN",
-    "name": "Deadened",
+    "name": { "str": "Deadened" },
     "points": 2,
     "description": "Nothing hurts any more.  Those bites tickle and the wounds itch a bit, but that's it.",
     "valid": false,
@@ -3930,7 +3930,7 @@
   {
     "type": "mutation",
     "id": "STR_UP_3",
-    "name": "Extremely Strong",
+    "name": { "str": "Extremely Strong" },
     "points": 4,
     "visibility": 1,
     "description": "Your muscles are much stronger.  Strength + 4",
@@ -4044,7 +4044,7 @@
   {
     "type": "mutation",
     "id": "INT_UP_3",
-    "name": "Extremely Smart",
+    "name": { "str": "Extremely Smart" },
     "points": 3,
     "visibility": 1,
     "ugliness": 1,
@@ -4082,7 +4082,7 @@
   {
     "type": "mutation",
     "id": "INT_SLIME",
-    "name": "Distributed Neurology",
+    "name": { "str": "Distributed Neurology" },
     "points": 4,
     "visibility": 10,
     "ugliness": 10,
@@ -4394,7 +4394,7 @@
   {
     "type": "mutation",
     "id": "DEFORMED",
-    "name": "Deformed",
+    "name": { "str": "Deformed" },
     "points": -2,
     "visibility": 4,
     "ugliness": 4,
@@ -4709,7 +4709,7 @@
   {
     "type": "mutation",
     "id": "THIRST3",
-    "name": "Extremely Thirsty",
+    "name": { "str": "Extremely Thirsty" },
     "points": -5,
     "description": "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
     "cancels": [ "NO_THIRST" ],
