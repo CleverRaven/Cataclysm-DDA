@@ -72,7 +72,7 @@
     "id": "mosin91_30_ebr",
     "copy-from": "mosin91_30",
     "type": "GUN",
-    "name": "Mosin-Nagant 1891/30-EBR",
+    "name": { "str": "Mosin-Nagant 1891/30-EBR" },
     "name_plural": "Mosin-Nagant 1891/30-EBR",
     "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling yet offering support for modern accessories.",
     "weight": "4230 g",

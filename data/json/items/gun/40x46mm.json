@@ -53,7 +53,7 @@
     "copy-from": "launcher_base",
     "//": "Tileset whitelist for launchers.",
     "type": "GUN",
-    "name": "M79 launcher",
+    "name": { "str": "M79 launcher" },
     "description": "A widely-used grenade launcher that first saw use by American forces in the Vietnam war.  Though mostly replaced by more modern launchers, the M79 still sees use with many units worldwide.",
     "weight": "2930 g",
     "volume": "1 L",
