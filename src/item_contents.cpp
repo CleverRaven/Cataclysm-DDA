@@ -41,12 +41,12 @@ void item_contents::combine( const item_contents &rhs )
 {
     for( const item_pocket &pocket : rhs.contents ) {
         if( !pocket.is_valid() || pocket.saved_type() == item_pocket::pocket_type::LEGACY_CONTAINER ) {
-            for( const item it : pocket.all_items() ) {
-                insert_legacy( it );
+            for( const item *it : pocket.all_items_top() ) {
+                insert_legacy( *it );
             }
         } else {
-            for( const item it : pocket.all_items() ) {
-                const ret_val<bool> inserted = insert_item( it, pocket.saved_type() );
+            for( const item *it : pocket.all_items_top() ) {
+                const ret_val<bool> inserted = insert_item( *it, pocket.saved_type() );
                 if( !inserted.success() ) {
                     debugmsg( "error: tried to put an item into a pocket that can't fit it while loading. err: %s",
                               inserted.str() );
@@ -308,7 +308,7 @@ std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type
     std::list<item *> all_items_internal;
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pk_type ) ) {
-            std::list<item *> contained_items = pocket.all_items_top( pk_type );
+            std::list<item *> contained_items = pocket.all_items_top();
             all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
                                        contained_items.end() );
         }

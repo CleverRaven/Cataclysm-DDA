@@ -153,11 +153,13 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    json.start_object();
+    if( !contents.empty() ) {
+        json.start_object();
 
-    json.member( "contents", contents );
+        json.member( "contents", contents );
 
-    json.end_object();
+        json.end_object();
+    }
 }
 
 void item_contents::deserialize( JsonIn &jsin )
@@ -169,8 +171,9 @@ void item_contents::deserialize( JsonIn &jsin )
 void item_pocket::serialize( JsonOut &json ) const
 {
     json.start_object();
-
-    json.member( "contents", contents );
+    if( !contents.empty() ) {
+        json.member( "contents", contents );
+    }
     json.member( "pocket_type", data->type );
 
     json.end_object();
@@ -2426,8 +2429,9 @@ void item::serialize( JsonOut &json ) const
 {
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
-
-    json.member( "contents", contents );
+    if( !contents.empty() ) {
+        json.member( "contents", contents );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

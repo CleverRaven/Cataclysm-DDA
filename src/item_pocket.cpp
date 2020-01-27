@@ -135,13 +135,20 @@ std::list<const item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_
     return all_items_top;
 }
 
-std::list<item *> item_pocket::all_items_top( item_pocket::pocket_type pk_type )
+std::list<item *> item_pocket::all_items_top()
 {
     std::list<item *> all_items_top;
-    if( is_type( pk_type ) ) {
-        for( item &it : contents ) {
-            all_items_top.push_back( &it );
-        }
+    for( item &it : contents ) {
+        all_items_top.push_back( &it );
+    }
+    return all_items_top;
+}
+
+std::list<const item *> item_pocket::all_items_top() const
+{
+    std::list<const item *> all_items_top;
+    for( const item &it : contents ) {
+        all_items_top.push_back( &it );
     }
     return all_items_top;
 }
