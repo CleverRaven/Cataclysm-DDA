@@ -57,7 +57,7 @@
     "abstract": "pistol_backup",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": "backup pistol",
+    "name": { "str": "backup pistol" },
     "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
     "valid_mod_locations": [
       [ "accessories", 2 ],

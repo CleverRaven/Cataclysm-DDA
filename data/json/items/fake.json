@@ -88,7 +88,7 @@
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",
-    "name": "acid spit gun",
+    "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
     "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
