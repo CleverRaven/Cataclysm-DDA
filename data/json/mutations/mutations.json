@@ -6338,7 +6338,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
-    "name": "Debug Night Vision",
+    "name": { "str": "Debug Night Vision" },
     "points": 99,
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",
@@ -6347,7 +6347,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_CLOAK",
-    "name": "Debug Invisibility",
+    "name": { "str": "Debug Invisibility" },
     "points": 99,
     "valid": false,
     "description": "If you see this, you'd best be debugging something.",
@@ -6356,7 +6356,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_LS",
-    "name": "Debug Life Support",
+    "name": { "str": "Debug Life Support" },
     "points": 99,
     "valid": false,
     "description": "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
@@ -6365,7 +6365,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NOSCENT",
-    "name": "Debug Deodorizer",
+    "name": { "str": "Debug Deodorizer" },
     "points": 99,
     "valid": false,
     "description": "Smell that bug?  Smell's certainly not coming from you!",
@@ -6374,7 +6374,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_SILENT",
-    "name": "Debug Silent Walk",
+    "name": { "str": "Debug Silent Walk" },
     "points": 99,
     "valid": false,
     "description": "Be vewwy vewwy quiet.  We're hunting bugs.",
@@ -6383,7 +6383,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NOTEMP",
-    "name": "Debug HVAC",
+    "name": { "str": "Debug HVAC" },
     "points": 99,
     "valid": false,
     "description": "Temperature and weather won't bug you.",
@@ -6392,7 +6392,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NODMG",
-    "name": "Debug Invincibility",
+    "name": { "str": "Debug Invincibility" },
     "points": 99,
     "valid": false,
     "description": "Bug repellent forcefield.",
@@ -6401,7 +6401,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_HS",
-    "name": "Debug Hammerspace",
+    "name": { "str": "Debug Hammerspace" },
     "points": 99,
     "valid": false,
     "description": "Crafting and construction requirements bugger off with this one.  Apply with care.",
@@ -6410,7 +6410,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_MIND_CONTROL",
-    "name": "Debug Mind Control",
+    "name": { "str": "Debug Mind Control" },
     "points": 99,
     "valid": false,
     "description": "Mind the bugs, would you kindly?",
@@ -6419,7 +6419,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_STORAGE",
-    "name": "Debug Carrying Capacity",
+    "name": { "str": "Debug Carrying Capacity" },
     "points": 99,
     "valid": false,
     "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
@@ -6428,7 +6428,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_BIONICS",
-    "name": "Debug Bionic Installation",
+    "name": { "str": "Debug Bionic Installation" },
     "points": 99,
     "valid": false,
     "description": "Lets you instantly install torsion ratchets for your eight legs.",
@@ -6437,7 +6437,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_BIONIC_POWER",
-    "name": "Debug Bionic Power",
+    "name": { "str": "Debug Bionic Power" },
     "points": 99,
     "valid": false,
     "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
@@ -6447,7 +6447,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_BIONIC_POWERGEN",
-    "name": "Debug Bionic Powergen",
+    "name": { "str": "Debug Bionic Powergen" },
     "points": 99,
     "valid": false,
     "description": "Activate to increase power by an amount you specify (can be repeated).",
