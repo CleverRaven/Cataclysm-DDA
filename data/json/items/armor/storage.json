@@ -639,6 +639,25 @@
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
+    "id": "plastic_shopping_bag",
+    "type": "ARMOR",
+    "name": "plastic shopping bag",
+    "description": "A bag used to carry groceries home.",
+    "weight": "2 g",
+    "volume": "250 ml",
+    "price": 1,
+    "to_hit": -2,
+    "material": "plastic",
+    "symbol": "[",
+    "color": "white",
+    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "coverage": 4,
+    "encumbrance": 60,
+    "storage": "5 L",
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "purse",
     "repairs_like": "backpack",
     "type": "ARMOR",
