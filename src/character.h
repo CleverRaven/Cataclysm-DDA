@@ -460,7 +460,7 @@ class Character : public Creature, public visitable<Character>
 
         struct comfort_response_t {
             comfort_level level;
-            const item *aid;
+            const item *aid = nullptr;
         };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
         comfort_response_t base_comfort_value( const tripoint &p ) const;
