@@ -5908,9 +5908,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 1 ] ] ],
-    "components": [
-      [ "sausage_wasteland_raw", 1 ],
-    ]
+    "components": [ [ "sausage_wasteland_raw", 1 ] ]
   },
   {
     "type": "recipe",
