@@ -542,7 +542,7 @@
   {
     "id": "FACIAL_HAIR_NONE",
     "type": "mutation",
-    "name": "Facial hair: none",
+    "name": { "str": "Facial hair: none" },
     "description": "You have no hair on your face, it is shaven or simply untouched by the presence of hair.",
     "points": 0,
     "valid": false,
@@ -578,7 +578,7 @@
   {
     "id": "FACIAL_HAIR_ROYALE",
     "type": "mutation",
-    "name": "Facial hair: royale beard",
+    "name": { "str": "Facial hair: royale beard" },
     "description": "You have a moustache and a short beard forming a patch under your lips.",
     "points": 0,
     "valid": false,
@@ -602,7 +602,7 @@
   {
     "id": "FACIAL_HAIR_SHORTBOXED",
     "type": "mutation",
-    "name": "Facial hair: short boxed beard",
+    "name": { "str": "Facial hair: short boxed beard" },
     "description": "You have a moustache and a short beard with trimmed sides.  Thin patches connect them both, forming a 'box' around the lips, thus the name.",
     "points": 0,
     "valid": false,
@@ -698,7 +698,7 @@
   {
     "id": "FACIAL_HAIR_CHIN_CURTAIN",
     "type": "mutation",
-    "name": "Facial hair: chin curtain",
+    "name": { "str": "Facial hair: chin curtain" },
     "description": "You have a full beard without a moustache, restricted to the chin, sometimes called a 'lion's mane'. Much like Abraham Lincoln's beard.",
     "points": 0,
     "valid": false,
@@ -734,7 +734,7 @@
   {
     "id": "FACIAL_HAIR_HANDLEBAR",
     "type": "mutation",
-    "name": "Facial hair: handlebar moustache",
+    "name": { "str": "Facial hair: handlebar moustache" },
     "description": "You have a moustache with long flared out ends.",
     "points": 0,
     "valid": false,
@@ -758,7 +758,7 @@
   {
     "id": "FACIAL_HAIR_PENCIL",
     "type": "mutation",
-    "name": "Facial hair: pencil moustache",
+    "name": { "str": "Facial hair: pencil moustache" },
     "description": "You have a very thin moustache just above the line of the upper lip.",
     "points": 0,
     "valid": false,
@@ -770,7 +770,7 @@
   {
     "id": "FACIAL_HAIR_SHENANDOAH",
     "type": "mutation",
-    "name": "Facial hair: shenandoah",
+    "name": { "str": "Facial hair: shenandoah" },
     "description": "Long full beard with no moustache, popular among Amish community, often with two pointed ends.",
     "points": 0,
     "valid": false,
@@ -782,7 +782,7 @@
   {
     "id": "FACIAL_HAIR_SIDEBURNS",
     "type": "mutation",
-    "name": "Facial hair: sideburns",
+    "name": { "str": "Facial hair: sideburns" },
     "description": "You have patches of hair in front of your ears, that normally would connect your hair with the beard, but they are here by themselves.",
     "points": 0,
     "valid": false,
@@ -794,7 +794,7 @@
   {
     "id": "FACIAL_HAIR_SOUL_PATCH",
     "type": "mutation",
-    "name": "Facial hair: soul patch",
+    "name": { "str": "Facial hair: soul patch" },
     "description": "You have a little bit of hair in the dip under your lower lip, and no other facial hair whatsoever.",
     "points": 0,
     "valid": false,
@@ -806,7 +806,7 @@
   {
     "id": "FACIAL_HAIR_TOOTHBRUSH",
     "type": "mutation",
-    "name": "Facial hair: toothbrush moustache",
+    "name": { "str": "Facial hair: toothbrush moustache" },
     "description": "Charlie Chaplin used to have this short patch of hair just under the nose, but then that other guy used it as a characteristic, and it became unwelcomed.",
     "points": 0,
     "valid": false,
@@ -830,7 +830,7 @@
   {
     "id": "FACIAL_HAIR_WALRUS",
     "type": "mutation",
-    "name": "Facial hair: walrus",
+    "name": { "str": "Facial hair: walrus" },
     "description": "You have long thick moustache, overshadowing you lips, that somewhat resembles facial hair of a walrus.",
     "points": 0,
     "valid": false,
