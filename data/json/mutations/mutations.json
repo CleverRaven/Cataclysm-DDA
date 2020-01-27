@@ -865,7 +865,7 @@
   {
     "type": "mutation",
     "id": "DISORGANIZED",
-    "name": "Disorganized",
+    "name": { "str": "Disorganized" },
     "points": -3,
     "description": "You are terrible at organizing and storing your possessions.  You can carry 40% less volume.",
     "starting_trait": true,
@@ -3434,7 +3434,7 @@
   {
     "type": "mutation",
     "id": "MORE_PAIN3",
-    "name": "Extreme Hyperalgesia",
+    "name": { "str": "Extreme Hyperalgesia" },
     "points": -5,
     "description": "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
     "prereqs": [ "MORE_PAIN2" ],
@@ -3443,7 +3443,7 @@
   {
     "type": "mutation",
     "id": "PRED1",
-    "name": "Culler",
+    "name": { "str": "Culler" },
     "points": 2,
     "description": "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by the deaths of others: their own weakness invited these fates upon them.",
     "purifiable": false,
@@ -4672,7 +4672,7 @@
   {
     "type": "mutation",
     "id": "HUNGER3",
-    "name": "Extreme Metabolism",
+    "name": { "str": "Extreme Metabolism" },
     "points": -2,
     "description": "You consume three times as much food as the average human to maintain your truly superhuman endurance.",
     "prereqs": [ "HUNGER2" ],
