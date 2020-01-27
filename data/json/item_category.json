@@ -37,7 +37,7 @@
   {
     "id": "clothing",
     "type": "ITEM_CATEGORY",
-    "name": "CLOTHING",
+    "name": { "str": "CLOTHING" },
     "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
     "zone": "LOOT_CLOTHING",
     "sort_rank": -18
@@ -149,7 +149,7 @@
   {
     "id": "armor",
     "type": "ITEM_CATEGORY",
-    "name": "ARMOR",
+    "name": { "str": "ARMOR" },
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
     "zone": "LOOT_ARMOR",
     "sort_rank": 20
