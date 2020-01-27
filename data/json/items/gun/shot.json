@@ -441,7 +441,7 @@
     "id": "shotgun_d",
     "copy-from": "shotgun_s",
     "type": "GUN",
-    "name": "double barrel shotgun",
+    "name": { "str": "double barrel shotgun" },
     "description": "An old shotgun, possibly antique.  It is little more than a pair of barrels, a wood stock, and a hammer to strike the cartridges.",
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],

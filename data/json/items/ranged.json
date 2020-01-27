@@ -97,7 +97,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "brown",
-    "name": "slingshot",
+    "name": { "str": "slingshot" },
     "description": "A wooden slingshot, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 500,
     "material": "wood",
