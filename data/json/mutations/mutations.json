@@ -1385,7 +1385,7 @@
   {
     "type": "mutation",
     "id": "CEPH_VISION",
-    "name": "Cephalopod Vision",
+    "name": { "str": "Cephalopod Vision" },
     "points": 3,
     "description": "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "CEPH_EYES" ],
@@ -1994,7 +1994,7 @@
   {
     "type": "mutation",
     "id": "CHITIN",
-    "name": "Chitinous Skin",
+    "name": { "str": "Chitinous Skin" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
@@ -2020,7 +2020,7 @@
   {
     "type": "mutation",
     "id": "CHITIN2",
-    "name": "Chitinous Armor",
+    "name": { "str": "Chitinous Armor" },
     "points": 2,
     "visibility": 6,
     "ugliness": 3,
@@ -2049,7 +2049,7 @@
   {
     "type": "mutation",
     "id": "CHITIN3",
-    "name": "Chitinous Plate",
+    "name": { "str": "Chitinous Plate" },
     "points": 2,
     "visibility": 8,
     "ugliness": 5,
@@ -2450,7 +2450,7 @@
   {
     "type": "mutation",
     "id": "CLAWS",
-    "name": "Claws",
+    "name": { "str": "Claws" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
@@ -5294,7 +5294,7 @@
   {
     "type": "mutation",
     "id": "CHLOROMORPH",
-    "name": "Chloromorphosis",
+    "name": { "str": "Chloromorphosis" },
     "points": 10,
     "visibility": 7,
     "ugliness": 1,
@@ -6248,7 +6248,7 @@
   {
     "type": "mutation",
     "id": "NPC_BRANDY",
-    "name": "Carries Brandy",
+    "name": { "str": "Carries Brandy" },
     "points": 0,
     "description": "This Bartender now carries brandy!",
     "player_display": false,
