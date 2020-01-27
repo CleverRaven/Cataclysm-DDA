@@ -1288,40 +1288,71 @@ void advanced_inventory::display()
                 // Make sure advanced inventory is reopened after activity completion.
                 do_return_entry();
 
-                if( destarea == AIM_INVENTORY ) {
-                    g->u.assign_activity( ACT_PICKUP );
-                    g->u.activity.coords.push_back( g->u.pos() );
-                } else if( destarea == AIM_WORN ) {
-                    g->u.assign_activity( ACT_WEAR );
-                } else {
-                    // Vehicle and map destinations are handled similarly.
-                    g->u.assign_activity( ACT_MOVE_ITEMS );
-                    // store whether the destination is a vehicle
-                    g->u.activity.values.push_back( to_vehicle );
-                    // Stash the destination
-                    g->u.activity.coords.push_back( squares[destarea].off );
-                }
-
-                if( by_charges ) {
-                    if( from_vehicle ) {
-                        g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                            sitem->items.front() );
+                if( destarea == AIM_INVENTORY || destarea == AIM_WORN ) {
+                    if( destarea == AIM_INVENTORY ) {
+                        g->u.assign_activity( ACT_PICKUP );
+                        g->u.activity.coords.push_back( g->u.pos() );
                     } else {
-                        g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
+                        g->u.assign_activity( ACT_WEAR );
                     }
-                    g->u.activity.values.push_back( amount_to_move );
-                } else {
-                    for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
-                         it != sitem->items.end(); ++it ) {
+
+                    if( by_charges ) {
                         if( from_vehicle ) {
                             g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                                *it );
+                                                                sitem->items.front() );
                         } else {
-                            g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), *it );
+                            g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
                         }
-                        g->u.activity.values.push_back( 0 );
-                        --amount_to_move;
+                        g->u.activity.values.push_back( amount_to_move );
+                    } else {
+                        for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+                             it != sitem->items.end(); ++it ) {
+                            if( from_vehicle ) {
+                                g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
+                                                                    *it );
+                            } else {
+                                g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), *it );
+                            }
+                            g->u.activity.values.push_back( 0 );
+                            --amount_to_move;
+                        }
                     }
+                } else {
+                    // Vehicle and map destinations are handled similarly.
+                    // Stash the destination
+                    const tripoint relative_destination = squares[destarea].off;
+
+                    // Find target items and quantities thereof for the new activity
+                    std::vector<item_location> target_items;
+                    std::vector<int> quantities;
+                    if( by_charges ) {
+                        if( from_vehicle ) {
+                            target_items.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
+                                                       sitem->items.front() );
+                        } else {
+                            target_items.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
+                        }
+                        quantities.push_back( amount_to_move );
+                    } else {
+                        for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+                             it != sitem->items.end(); ++it ) {
+                            if( from_vehicle ) {
+                                target_items.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
+                                                           *it );
+                            } else {
+                                target_items.emplace_back( map_cursor( squares[srcarea].pos ), *it );
+                            }
+                            quantities.push_back( 0 );
+                            --amount_to_move;
+                        }
+                    }
+
+                    g->u.assign_activity( player_activity( move_items_activity_actor(
+                            target_items,
+                            quantities,
+                            to_vehicle,
+                            relative_destination
+                                                           ) ) );
                 }
 
                 // exit so that the activity can be carried out

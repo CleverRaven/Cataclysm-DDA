@@ -5,6 +5,7 @@
 #include <functional>
 #include <utility>
 
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
@@ -80,10 +81,13 @@ void activity_type::check_consistency()
         if( pair.second.verb_.empty() ) {
             debugmsg( "%s doesn't have a verb", pair.first.c_str() );
         }
-        if( pair.second.based_on_ == based_on_type::NEITHER &&
-            activity_handlers::do_turn_functions.find( pair.second.id_ ) ==
-            activity_handlers::do_turn_functions.end() ) {
-            debugmsg( "%s needs a do_turn function if it's not based on time or speed.",
+        const bool has_actor = activity_actors::deserialize_functions.find( pair.second.id_ ) !=
+                               activity_actors::deserialize_functions.end();
+        const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
+                                   activity_handlers::do_turn_functions.end();
+
+        if( pair.second.based_on_ == based_on_type::NEITHER && !( has_turn_func || has_actor ) ) {
+            debugmsg( "%s needs a do_turn function or activity actor if it's not based on time or speed.",
                       pair.second.id_.c_str() );
         }
     }

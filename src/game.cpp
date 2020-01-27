@@ -10349,28 +10349,37 @@ void game::vertical_move( int movez, bool force )
 
 void game::start_hauling( const tripoint &pos )
 {
-    u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-    // Whether the destination is inside a vehicle (not supported)
-    u.activity.values.push_back( 0 );
-    // Destination relative to the player
-    u.activity.coords.push_back( tripoint_zero );
+    // Find target items and quantities thereof for the new activity
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
+
     map_stack items = m.i_at( pos );
-    if( items.empty() ) {
-        u.stop_hauling();
-        return;
-    }
     for( item &it : items ) {
-        //liquid not allowed
+        // Liquid cannot be picked up
         if( it.made_of_from_type( LIQUID ) ) {
             continue;
         }
-        u.activity.targets.emplace_back( map_cursor( pos ), &it );
+        target_items.emplace_back( map_cursor( pos ), &it );
         // Quantity of 0 means move all
-        u.activity.values.push_back( 0 );
+        quantities.push_back( 0 );
     }
-    if( u.activity.targets.empty() ) {
-        u.stop_hauling();
+
+    if( target_items.empty() ) {
+        // Nothing to haul
+        return;
     }
+
+    // Whether the destination is inside a vehicle (not supported)
+    const bool to_vehicle = false;
+    // Destination relative to the player
+    const tripoint relative_destination = tripoint_zero;
+
+    u.assign_activity( player_activity( move_items_activity_actor(
+                                            target_items,
+                                            quantities,
+                                            to_vehicle,
+                                            relative_destination
+                                        ) ) );
 }
 
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
