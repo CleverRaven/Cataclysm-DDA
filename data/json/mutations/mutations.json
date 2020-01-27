@@ -4197,7 +4197,7 @@
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.05,
-    "dodge_modifier": 1.0,
+    "dodge_modifier": 1,
     "weight_capacity_modifier": 0.8
   },
   {
@@ -4213,7 +4213,7 @@
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.3,
-    "dodge_modifier": 2.0,
+    "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
     "noise_modifier": 0.0
   },
@@ -4231,7 +4231,7 @@
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.25,
-    "dodge_modifier": 2.0,
+    "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
     "noise_modifier": 0.0
   },
