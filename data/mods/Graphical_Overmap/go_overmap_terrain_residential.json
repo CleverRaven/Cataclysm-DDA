@@ -1424,5 +1424,40 @@
     "copy-from": "house_detatched10_roof",
     "sym": "\u00E0",
     "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack1",
+    "copy-from": "house_crack1",
+    "sym": "\u00E0",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack1_roof",
+    "copy-from": "house_crack1_roof",
+    "sym": "\u00E0",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack2",
+    "copy-from": "house_crack2",
+    "sym": "\u00E0",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack3",
+    "copy-from": "house_crack3",
+    "sym": "\u00E0",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack3_roof",
+    "copy-from": "house_crack3_roof",
+    "sym": "\u00E0",
+    "color": "light_gray"
   }
 ]
