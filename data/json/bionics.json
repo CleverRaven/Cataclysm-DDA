@@ -141,6 +141,9 @@
     "name": "Cable Charger System",
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "is_remote_fueled": true,
+    "time": 1,
+    "fuel_efficiency": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
@@ -858,6 +861,17 @@
     "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_synaptic_regen",
+    "type": "bionic",
+    "name": "Synaptic Regeneration System",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "TORSO", 1 ] ],
+    "act_cost": 0,
+    "react_cost": "1 kJ",
+    "time": 100
   },
   {
     "id": "bio_shock",

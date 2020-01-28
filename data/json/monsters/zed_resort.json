@@ -13,7 +13,7 @@
     "id": "mon_zombie_resort_bouncer",
     "type": "MONSTER",
     "name": "bouncer zombie",
-    "description": "This zombie looks beefed and dressed in remainings of security uniform.",
+    "description": "This zombie looks beefed and is dressed in the tattered remnants of a security uniform.",
     "copy-from": "mon_zombie_tough",
     "looks_like": "mon_zombie_tough",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },

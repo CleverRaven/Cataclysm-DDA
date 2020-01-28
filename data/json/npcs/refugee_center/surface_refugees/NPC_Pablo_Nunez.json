@@ -183,7 +183,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Situation",
-    "dynamic_line": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counsellor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane.",
+    "dynamic_line": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counselor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane.",
     "responses": [
       {
         "text": "Why not move to the Tacoma Commune?",
@@ -207,7 +207,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Tacoma2",
-    "dynamic_line": "This is amazing news!  Thank you so much!  I've talked to some of the traders who have been there and I really think I can help, mostly with the manual labour but also with the bookkeeping end.  It sounds so much better than this place.  Thanks, my friend!  We'll get packing, and see if we can get a place on the next caravan out.  It'll be a little while I'm sure, but at least our child won't be born in captivity."
+    "dynamic_line": "This is amazing news!  Thank you so much!  I've talked to some of the traders who have been there and I really think I can help, mostly with the manual labor but also with the bookkeeping end.  It sounds so much better than this place.  Thanks, my friend!  We'll get packing, and see if we can get a place on the next caravan out.  It'll be a little while I'm sure, but at least our child won't be born in captivity."
   },
   {
     "type": "talk_topic",

@@ -204,7 +204,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_sugar",
-    "name": "fruit slice",
+    "name": { "str": "fruit slice" },
     "weight": "42 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
@@ -225,8 +225,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_canned",
-    "name": "canned fruit",
-    "name_plural": "canned fruit",
+    "name": { "str": "canned fruit", "str_pl": "canned fruit" },
     "weight": "170 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",

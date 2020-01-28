@@ -55,7 +55,7 @@
     "difficulty": 6,
     "charges": 1,
     "time": "30 m",
-    "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ] ],
+    "book_learn": [ [ "mag_glam", 5 ], [ "cookbook_liverforkids", 5, "Buttery Duck Bites" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
@@ -75,7 +75,7 @@
     "difficulty": 2,
     "time": "30 m",
     "batch_time_factors": [ 83, 5 ],
-    "book_learn": [ [ "scots_cookbook", 2 ], [ "family_cookbook", 0 ], [ "cookbook", 0 ] ],
+    "book_learn": [ [ "scots_cookbook", 2 ], [ "cookbook", 0 ], [ "cookbook_liverforkids", 1, "Candied Onions and Giblets" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "liver", 8 ] ], [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ] ]
@@ -290,5 +290,82 @@
     ],
     "charges": 8,
     "autolearn": true
+  },
+  {
+    "type": "recipe",
+    "result": "lung_provence",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "55 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 8,
+    "book_learn": [ [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "lung", 4 ] ],
+      [ [ "flour", 4 ] ],
+      [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "pepper", 6 ] ],
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "garlic_clove", 1 ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tÖttchen",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "35 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 8,
+    "book_learn": [ [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "lung", 4 ] ],
+      [ [ "kidney", 4 ] ],
+      [ [ "brain", 4 ] ],
+      [ [ "onion", 3 ], [ "irradiated_onion", 3 ] ],
+      [ [ "any_butter", 4, "LIST" ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "mustard", 3 ] ],
+      [ [ "sugar_standard", 3, "LIST" ] ],
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "batter", 4, "LIST" ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "scrambledeggsandbrain",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "35 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 3,
+    "book_learn": [ [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 3, "LIST" ] ],
+      [ [ "garlic_clove", 2 ] ],
+      [ [ "brain", 4 ] ],
+      [ [ "batter", 4, "LIST" ] ],
+      [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
+      [ [ "any_butter", 4, "LIST" ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "pepper", 3 ] ],
+      [ [ "milk_standard", 1, "LIST" ] ]
+    ]
   }
 ]

@@ -249,8 +249,8 @@
   },
   {
     "type": "tool_quality",
-    "id": "VICE",
-    "name": "vicing"
+    "id": "VISE",
+    "name": "clamping"
   },
   {
     "type": "tool_quality",

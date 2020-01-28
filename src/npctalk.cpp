@@ -72,25 +72,9 @@
 #include "player_activity.h"
 #include "player.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 class basecamp;
-
-static const skill_id skill_speech( "speech" );
-
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_under_op( "under_operation" );
-static const efftype_id effect_riding( "riding" );
-
-static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
-
-static const itype_id fuel_type_animal( "animal" );
-
-static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
-static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -568,7 +552,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
-    // @ todo NPC will need to respond to talking noise eventually
+    // TODO: NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
@@ -726,20 +710,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             most_difficult_mission = type.difficulty;
         }
     }
-    if( chatbin.mission_selected != nullptr ) {
-        if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
-            // Don't talk about a mission that is assigned to someone else.
-            chatbin.mission_selected = nullptr;
-        }
-    }
-    if( chatbin.mission_selected == nullptr ) {
-        // if possible, select a mission to talk about
-        if( !chatbin.missions.empty() ) {
-            chatbin.mission_selected = chatbin.missions.front();
-        } else if( !d.missions_assigned.empty() ) {
-            chatbin.mission_selected = d.missions_assigned.front();
-        }
-    }
 
     // Needs
     if( has_effect( effect_npc_suspend ) ) {
@@ -785,6 +755,20 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
+        if( chatbin.mission_selected != nullptr ) {
+            if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
+                // Don't talk about a mission that is assigned to someone else.
+                chatbin.mission_selected = nullptr;
+            }
+        }
+        if( chatbin.mission_selected == nullptr ) {
+            // if possible, select a mission to talk about
+            if( !chatbin.missions.empty() ) {
+                chatbin.mission_selected = chatbin.missions.front();
+            } else if( !d.missions_assigned.empty() ) {
+                chatbin.mission_selected = d.missions_assigned.front();
+            }
+        }
         d_win.print_header( name );
         const talk_topic next = d.opt( d_win, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
@@ -802,12 +786,12 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } while( !d.done );
     g->refresh_all();
 
-    if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
+    if( g->u.activity.id() == ACT_AIM && !g->u.has_weapon() ) {
         g->u.cancel_activity();
         // don't query certain activities that are started from dialogue
-    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
-               g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
-               g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
+    } else if( g->u.activity.id() == ACT_TRAIN ||
+               g->u.activity.id() == ACT_WAIT_NPC ||
+               g->u.activity.id() == ACT_SOCIALIZE ||
                g->u.activity.index == getID().get_value() ) {
         return;
     }
@@ -895,7 +879,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
         }
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
@@ -1188,7 +1172,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN &&
             g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
             const skill_id skillt( backlog.name );
@@ -1340,10 +1324,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u_mods.lie;
 
             //come on, who would suspect a robot of lying?
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 20;
             }
             break;
@@ -1352,13 +1336,13 @@ int talk_trial::calc_chance( const dialogue &d ) const
                       p.op_of_u.trust * 2 + p.op_of_u.value;
             chance += u_mods.persuade;
 
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
+            if( u.has_bionic( bio_deformity ) ) {
                 chance -= 50;
             }
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance -= 20;
             }
             break;
@@ -1367,16 +1351,16 @@ int talk_trial::calc_chance( const dialogue &d ) const
                       p.personality.bravery * 2;
             chance += u_mods.intimidate;
 
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_armor_eyes" ) ) ) {
+            if( u.has_bionic( bio_armor_eyes ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
+            if( u.has_bionic( bio_deformity ) ) {
                 chance += 20;
             }
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance += 20;
             }
             break;
@@ -2194,7 +2178,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( jo.get_string( member ) );
     } else if( jo.has_array( member ) ) {
-        for( const std::string &line : jo.get_array( member ) ) {
+        for( const std::string line : jo.get_array( member ) ) {
             update_ids.emplace_back( line );
         }
     }
@@ -2203,7 +2187,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         mission_target_params update_params = target_params;
         update_params.guy = d.beta;
         const tripoint omt_pos = mission_util::get_om_terrain_pos( update_params );
-        for( const std::string mapgen_update_id : update_ids ) {
+        for( const std::string &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.beta->chatbin.mission_selected );
         }
     };
@@ -2263,7 +2247,7 @@ void talk_effect_fun_t::set_npc_gets_item( bool to_use )
     };
 }
 
-void talk_effect_fun_t::set_add_mission( const std::string mission_id )
+void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
 {
     function = [mission_id]( const dialogue & d ) {
         npc &p = *d.beta;
@@ -2290,8 +2274,6 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
         }
 
         const mtype_id mtype( monster_type_id );
-        const efftype_id effect_pet( "pet" );
-        const efftype_id effect_pacified( "pacified" );
 
         for( int i = 0; i < count; i++ ) {
             monster *const mon_ptr = g->place_critter_around( mtype, u.pos(), 3 );
@@ -2677,7 +2659,7 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         JsonObject sub_effect = jo.get_object( member_name );
         parse_sub_effect( sub_effect );
     } else if( jo.has_array( member_name ) ) {
-        for( const JsonValue &entry : jo.get_array( member_name ) ) {
+        for( const JsonValue entry : jo.get_array( member_name ) ) {
             if( entry.test_string() ) {
                 const std::string type = entry.get_string();
                 parse_string_effect( type, jo );
@@ -2755,13 +2737,13 @@ json_talk_repeat_response::json_talk_repeat_response( const JsonObject &jo )
     if( jo.has_string( "for_item" ) ) {
         for_item.emplace_back( jo.get_string( "for_item" ) );
     } else if( jo.has_array( "for_item" ) ) {
-        for( const std::string &line : jo.get_array( "for_item" ) ) {
+        for( const std::string line : jo.get_array( "for_item" ) ) {
             for_item.emplace_back( line );
         }
     } else if( jo.has_string( "for_category" ) ) {
         for_category.emplace_back( jo.get_string( "for_category" ) );
     } else if( jo.has_array( "for_category" ) ) {
-        for( const std::string &line : jo.get_array( "for_category" ) ) {
+        for( const std::string line : jo.get_array( "for_category" ) ) {
             for_category.emplace_back( line );
         }
     } else {
@@ -2869,7 +2851,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
     if( jo.has_member( "and" ) ) {
         std::vector<dynamic_line_t> lines;
-        for( const JsonValue &entry : jo.get_array( "and" ) ) {
+        for( const JsonValue entry : jo.get_array( "and" ) ) {
             if( entry.test_string() ) {
                 lines.emplace_back( entry.get_string() );
             } else if( entry.test_array() ) {
@@ -2904,7 +2886,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
         }
         std::vector<std::string> relevant_genders;
-        for( const std::string &gender : jo.get_array( "relevant_genders" ) ) {
+        for( const std::string gender : jo.get_array( "relevant_genders" ) ) {
             relevant_genders.push_back( gender );
             if( gender != "npc" && gender != "u" ) {
                 jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
@@ -2953,7 +2935,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 dynamic_line_t::dynamic_line_t( JsonArray ja )
 {
     std::vector<dynamic_line_t> lines;
-    for( const JsonValue &entry : ja ) {
+    for( const JsonValue entry : ja ) {
         if( entry.test_string() ) {
             lines.emplace_back( entry.get_string() );
         } else if( entry.test_array() ) {
@@ -3267,7 +3249,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             taken = true;
         }
 
-        // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        // HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
         if( !taken && !given.is_gun() && p.wear_if_wanted( given ) ) {
             taken = true;
         }

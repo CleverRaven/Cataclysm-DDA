@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_type",
+    "id": "mana_fatigue",
+    "name": [ "Mana Fatigue" ],
+    "desc": [ "You are exhausted from channeling a lot of mana." ],
+    "apply_message": "Channeling so much mana is making you tired",
+    "remove_message": "The burden of mana fatigue has faded",
+    "rating": "bad",
+    "base_mods": { "fatigue_amount": [ 1 ], "fatigue_min": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
@@ -222,5 +232,54 @@
     "remove_message": "Your fear dissipates.",
     "rating": "bad",
     "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_visceral_side_effects",
+    "name": [ "Visceral Overexertion" ],
+    "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],
+    "rating": "bad",
+    "max_duration": "1 m",
+    "base_mods": {
+      "fatigue_min": [ 1 ],
+      "fatigue_chance": [ 5 ],
+      "health_min": [ -3 ],
+      "health_chance": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 4 ],
+      "vomit_chance": [ 20 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "bio_weave",
+    "name": [ "Coagulant Weave" ],
+    "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
+    "remove_message": "The tension running through your flesh fades.",
+    "blocks_effects": [ "bleed", "bite" ],
+    "rating": "good",
+    "max_duration": "5 m",
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_chance": [ 12 ],
+      "thirst_min": [ 1 ],
+      "thirst_chance": [ 12 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 4 ],
+      "stamina_min": [ 40 ],
+      "stamina_chance": [ 2 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_dart_venom",
+    "//": "Basically just paralyze poison set to work in a manner useful for spells.",
+    "name": [ "Biomantic Venom" ],
+    "desc": [ "You feel sluggish and weak, from magically-induced poisoning." ],
+    "rating": "bad",
+    "max_intensity": 20,
+    "int_dur_factor": "30 s",
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] },
+    "scaling_mods": { "str_mod": [ -0.07 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] }
   }
 ]

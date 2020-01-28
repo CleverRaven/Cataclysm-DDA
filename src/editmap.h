@@ -66,7 +66,7 @@ class editmap
         void mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uilist &fmenu, field &field, field_type_id idx );
+        void update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
         int width;
