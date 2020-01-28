@@ -239,12 +239,12 @@ bool SkillLevel::isRusting() const
            calendar::turn - _lastPracticed > rustRate( _level );
 }
 
-bool SkillLevel::rust( bool charged_bio_mem, float character_rate )
+bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-
+    const float char_rate = character_rate / 100.0;
     if( _level <= 0 || delta <= 0_turns ||
-        delta % ( rustRate( _level ) * character_rate ) != 0_turns ) {
+        delta % ( rustRate( _level ) * char_rate ) != 0_turns ) {
         return false;
     }
 

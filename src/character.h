@@ -1296,7 +1296,7 @@ class Character : public Creature, public visitable<Character>
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         /** Returns the player's skill rust rate */
-        float rust_rate() const;
+        int rust_rate() const;
 
         // --------------- Other Stuff ---------------
 

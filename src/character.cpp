@@ -2448,7 +2448,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-float Character::rust_rate() const
+int Character::rust_rate() const
 {
     if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
         return 0;
@@ -2457,8 +2457,8 @@ float Character::rust_rate() const
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
     /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
-    float ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
-                    get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 1.0 : 1.0 + 0.1 * ( intel - 8 ) );
+    int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
+                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 100 : 100 + 10 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
