@@ -316,11 +316,10 @@
   {
     "id": "firecracker_pack",
     "type": "TOOL",
-    "name": "pack of firecrackers",
-    "name_plural": "packs of firecrackers",
+    "name": { "str": "pack of firecrackers", "str_pl": "packs of firecrackers" },
     "description": "This is a pack of 25 firecrackers with a starter fuse.  Use this item to light the fuse.  Of course, you will need a lighter or some matches to do so.  Shortly after you light the fuse they will begin to explode, so throw them quickly!",
     "weight": "75 g",
-    "volume": 0,
+    "volume": "50 ml",
     "price": 100,
     "to_hit": -3,
     "bashing": 1,
