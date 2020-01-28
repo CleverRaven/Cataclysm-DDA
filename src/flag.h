@@ -35,6 +35,14 @@ class json_flag
             return craft_inherit_;
         }
 
+        /** Requires this flag to be installed on vehicle */
+        std::string requires_flag() const {
+            return requires_flag_;
+        }
+        std::string remove_message() const {
+            return cant_remove_;
+        }
+
         /** The flag's modifier on the fun value of comestibles */
         int taste_mod() const {
             return taste_mod_;
@@ -51,6 +59,8 @@ class json_flag
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;
+        std::string requires_flag_;
+        std::string cant_remove_;
         int taste_mod_ = 0;
 
         json_flag( const std::string &id = std::string() ) : id_( id ) {}
