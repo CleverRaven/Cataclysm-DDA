@@ -1412,7 +1412,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
 
     std::set<std::string> flags_that_require;
     for( auto &elem : parts_here ) {
-        for( const std::string flag : part_info( elem ).get_flags() ) {
+        for( const std::string &flag : part_info( elem ).get_flags() ) {
             if( json_flag::get( flag ).requires_flag() != "" ) {
                 flags_that_require.insert( flag );
             }
