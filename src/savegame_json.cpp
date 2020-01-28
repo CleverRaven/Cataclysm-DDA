@@ -25,6 +25,7 @@
 #include <vector>
 #include <bitset>
 
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "assign.h"
 #include "avatar.h"
@@ -273,6 +274,16 @@ void player_activity::deserialize( JsonIn &jsin )
 
     if( type.is_null() ) {
         return;
+    }
+
+    const bool has_actor = activity_actors::deserialize_functions.find( type ) !=
+                           activity_actors::deserialize_functions.end();
+
+    // Handle migration of pre-activity_actor activities
+    // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
+    // this may cause inconvenience but should avoid any lasting damage to npcs
+    if( has_actor && !data.has_member( "actor" ) ) {
+        type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 
     if( !data.read( "position", tmppos ) ) {

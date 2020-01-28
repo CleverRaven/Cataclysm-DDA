@@ -830,5 +830,14 @@
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
+  },
+  {
+    "id": "ACT_MIGRATION_CANCEL",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "canceling activity serialized with legacy code",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
   }
 ]

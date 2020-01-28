@@ -1,10 +1,12 @@
 #include "activity_actor.h"
 
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
+#include "avatar.h"
 #include "character.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
+#include "npc.h"
 #include "pickup.h"
 #include "point.h"
 
@@ -97,11 +99,45 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
     return actor.clone();
 }
 
+void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Stop the activity
+    act.set_to_null();
+
+    // Ensure that neither avatars nor npcs end up in an invalid state
+    if( who.is_npc() ) {
+        npc &npc_who = dynamic_cast<npc &>( who );
+        npc_who.revert_after_activity();
+    } else {
+        avatar &avatar_who = dynamic_cast<avatar &>( who );
+        avatar_who.clear_destination();
+        avatar_who.backlog.clear();
+    }
+}
+
+void migration_cancel_activity_actor::finish( player_activity &, Character & )
+{
+    // Do nothing
+}
+
+void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
+{
+    // This will probably never be called, but write null to avoid invalid json in
+    // the case that it is
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonIn & )
+{
+    return migration_cancel_activity_actor().clone();
+}
+
 namespace activity_actors
 {
 
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
 };
 
