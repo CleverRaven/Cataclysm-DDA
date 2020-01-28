@@ -589,7 +589,7 @@
     "id": "baking_book",
     "type": "BOOK",
     "name": { "str": "The Baker's Companion", "str_pl": "copies of The Baker's Companion" },
-    "description": "This book promises to teach you the ways of baking.  From cakes to souffles.",
+    "description": "This book promises to teach you the ways of baking, from cakes to souffles.",
     "weight": "1587 g",
     "volume": "1500 ml",
     "price": 4950,
