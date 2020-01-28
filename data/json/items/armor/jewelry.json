@@ -186,6 +186,19 @@
     "color": "yellow"
   },
   {
+    "id": "barrette",
+    "type": "ARMOR",
+    "name": "barrette",
+    "description": "A barrette with lots of ornaments.",
+    "weight": "5 g",
+    "volume": 0,
+    "price": 800,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "pink",
+    "flags": [ "FANCY" ]
+  },
+  {
     "id": "blue_topaz_dental_grill",
     "type": "ARMOR",
     "name": { "str": "blue topaz dental grill" },
