@@ -7,7 +7,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "2 h",
-    "book_learn": [ [ "baking_book", 2 ] ],
+    "book_learn": [ [ "cookbook_daintydishes", 6 ], [ "baking_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "charges": 12,
