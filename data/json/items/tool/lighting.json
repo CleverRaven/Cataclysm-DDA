@@ -555,7 +555,7 @@
     "name": { "str": "reading light", "str_pl": "reading lights" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
-    "volume": "0 ml",
+    "volume": "100 ml",
     "price": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
