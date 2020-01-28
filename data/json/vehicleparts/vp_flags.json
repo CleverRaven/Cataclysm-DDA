@@ -161,7 +161,7 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "requires_flag": "TURRET",
-    "cant_remove": "Remove attached mounted weapon first."
+    "cant_remove": "Remove attached turret controls first."
   },
   {
     "id": "WHEEL",
@@ -200,7 +200,7 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "requires_flag": "WHEEL_MOUNT_HEAVY",
-    "cant_remove": "Remove wheels first!"
+    "cant_remove": "Remove attached wheel first."
   },
   {
     "id": "NEEDS_BATTERY_MOUNT",

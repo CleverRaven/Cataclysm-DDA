@@ -1406,7 +1406,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
-    // Find all the flags on parts in this file that require other flags
+    // Find all the flags on parts in this tile that require other flags
     const point pt = parts[p].mount;
     std::vector<int> parts_here = parts_at_relative( pt, false );
 
