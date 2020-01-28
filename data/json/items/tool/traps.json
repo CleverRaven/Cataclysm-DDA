@@ -113,8 +113,7 @@
   {
     "id": "caltrops",
     "type": "TOOL",
-    "name": "loose caltrops",
-    "name_plural": "loose caltrops",
+    "name": { "str": "loose caltrops", "str_pl": "loose caltrops" },
     "description": "These are small metal objects covered with many sharp points.  If an unsuspecting victim steps on one, they'll get a spine through the foot.",
     "weight": "264 g",
     "volume": "250 ml",
@@ -136,8 +135,7 @@
   {
     "id": "caltrops_glass",
     "type": "TOOL",
-    "name": "loose glass caltrops",
-    "name_plural": "loose glass caltrops",
+    "name": { "str": "loose glass caltrops", "str_pl": "loose glass caltrops" },
     "description": "These are glass shards glued together to expose their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
     "weight": "264 g",
     "volume": "500 ml",

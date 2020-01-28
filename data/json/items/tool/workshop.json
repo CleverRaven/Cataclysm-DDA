@@ -797,8 +797,7 @@
   {
     "id": "toolbox",
     "type": "TOOL",
-    "name": "toolbox",
-    "name_plural": "toolboxes",
+    "name": { "str": "toolbox", "str_pl": "toolboxes" },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.",
     "weight": "3522 g",
     "volume": "2500 ml",

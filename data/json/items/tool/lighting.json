@@ -185,8 +185,7 @@
   {
     "id": "flashlight",
     "type": "TOOL",
-    "name": "flashlight (off)",
-    "name_plural": "flashlights (off)",
+    "name": { "str": "flashlight (off)", "str_pl": "flashlights (off)" },
     "description": "This is a typical household flashlight with a plastic handle.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -365,8 +364,7 @@
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
-    "name": "heavy duty flashlight (off)",
-    "name_plural": "heavy duty flashlights (off)",
+    "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "weight": "650 g",
     "volume": "750 ml",
@@ -520,8 +518,7 @@
   {
     "id": "oxylamp",
     "type": "TOOL",
-    "name": "acetylene lamp (off)",
-    "name_plural": "acetylene lamps (off)",
+    "name": { "str": "acetylene lamp (off)", "str_pl": "acetylene lamps (off)" },
     "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
     "weight": "800 g",
     "volume": "500 ml",
@@ -555,11 +552,10 @@
   {
     "id": "reading_light",
     "type": "TOOL",
-    "name": "reading light",
-    "name_plural": "reading lights",
+    "name": { "str": "reading light", "str_pl": "reading lights" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
-    "volume": 0,
+    "volume": "100 ml",
     "price": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -646,8 +642,7 @@
   {
     "id": "torch",
     "type": "TOOL",
-    "name": "torch",
-    "name_plural": "torches",
+    "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
     "weight": "831 g",
     "volume": "750 ml",
