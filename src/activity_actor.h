@@ -14,6 +14,8 @@ class player_activity;
 class activity_actor
 {
     public:
+        virtual ~activity_actor() = default;
+
         /**
          * Should return the activity id of the corresponding activity
          */
