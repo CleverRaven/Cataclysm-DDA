@@ -2182,10 +2182,13 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // do something to get other terrain orientation values
         }
         const std::string &tname = t.id().str();
-        const auto &cached_tile = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( g->m.check_seen_cache( p ) || ( cached_tile.subtile != subtile &&
-                                            cached_tile.tile == tname ) ) {
+        if( g->m.check_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
+        } else {
+            const auto &cached_tile = g->u.get_memorized_tile( g->m.getabs( p ) );
+            if( cached_tile.subtile != subtile && cached_tile.tile == tname ) {
+                g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
+            }
         }
         // draw the actual terrain if there's no override
         if( !neighborhood_overridden ) {
