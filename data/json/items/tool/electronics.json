@@ -524,8 +524,7 @@
   {
     "id": "vibrator",
     "type": "TOOL",
-    "name": "vibrator",
-    "name_plural": "vibrators",
+    "name": { "str": "vibrator", "str_pl": "vibrators" },
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
     "weight": "453 g",
     "volume": "500 ml",
