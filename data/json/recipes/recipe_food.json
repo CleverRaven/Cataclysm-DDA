@@ -4687,7 +4687,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "1 m",
-    "book_learn": [ [ "vinegar_maker", 1 ], [ "winemaking_beginner", 1 ] ],
+    "autolearn": true,
     "charges": 160,
     "components": [ [ [ "chem_acetic_acid", 1 ] ], [ [ "water_clean", 9 ] ] ]
   },
