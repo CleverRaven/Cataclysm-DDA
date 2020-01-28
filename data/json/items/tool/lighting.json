@@ -185,7 +185,7 @@
   {
     "id": "flashlight",
     "type": "TOOL",
-    "name": { "str": "flashlights (off)", "str_pl": "flashlights (off)" },
+    "name": { "str": "flashlight (off)", "str_pl": "flashlights (off)" },
     "description": "This is a typical household flashlight with a plastic handle.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
