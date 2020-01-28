@@ -4717,7 +4717,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "book_learn": [ [ "fermenting_book", 4 ] ],
+    "book_learn": [ [ "fermenting_book", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
