@@ -574,7 +574,7 @@
   {
     "id": "manual_canning",
     "type": "BOOK",
-    "name": { "str": "Canning Pot Instructions", "str_pl": "copies of Canning Pot Instructions" },
+    "name": { "str": "You Can Can at Home", "str_pl": "copies of You Can Can at Home" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
     "copy-from": "mag_cooking"
   },
