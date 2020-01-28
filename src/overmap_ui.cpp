@@ -1236,7 +1236,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                                                colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
                                                colorize( oter.get_name(), oter.get_color() ),
                                                colorize( oter.id.str(), c_white ) );
-            pmenu.addentry( oter.id.id(), true, 0, entry_text );
+            pmenu.addentry( oter.id.id().to_i(), true, 0, entry_text );
         }
     } else {
         pmenu.title = _( "Select special to place:" );

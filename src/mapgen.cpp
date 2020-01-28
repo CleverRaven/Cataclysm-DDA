@@ -624,7 +624,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
                         set_mapgen_defer( pjo, "id", "no such terrain" );
                         return;
                     }
-                    tmp_i.val = tid.id();
+                    tmp_i.val = tid.id().to_i();
                 }
                 break;
                 case JMAPGEN_SETMAP_FURN: {
@@ -634,7 +634,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
                         set_mapgen_defer( pjo, "id", "no such furniture" );
                         return;
                     }
-                    tmp_i.val = fid.id();
+                    tmp_i.val = fid.id().to_i();
                 }
                 break;
                 case JMAPGEN_SETMAP_TRAP: {
@@ -4517,8 +4517,11 @@ void map::draw_temple( mapgendata &dat )
                     int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
                     std::vector<point> path; // Path, from end to start
                     while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
+                        static const std::vector<ter_id> terrains = {
+                            t_floor_red, t_floor_green, t_floor_blue,
+                        };
                         path.push_back( point( x, y ) );
-                        ter_set( point( x, y ), ter_id( rng( t_floor_red, t_floor_blue ) ) );
+                        ter_set( point( x, y ), random_entry( terrains ) );
                         if( y == SEEY * 2 - 2 ) {
                             if( x < SEEX - 1 ) {
                                 x++;
@@ -4570,7 +4573,11 @@ void map::draw_temple( mapgendata &dat )
                         for( int j = 2; j <= SEEY * 2 - 2; j++ ) {
                             mtrap_set( this, i, j, tr_temple_toggle );
                             if( ter( point( i, j ) ) == t_rock_floor ) {
-                                ter_set( point( i, j ), ter_id( rng( t_rock_red, t_floor_blue ) ) );
+                                static const std::vector<ter_id> terrains = {
+                                    t_rock_red, t_rock_green, t_rock_blue,
+                                    t_floor_red, t_floor_green, t_floor_blue,
+                                };
+                                ter_set( point( i, j ), random_entry( terrains ) );
                             }
                         }
                     }
