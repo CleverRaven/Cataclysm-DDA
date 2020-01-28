@@ -997,6 +997,20 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "pearl_collar",
+    "type": "ARMOR",
+    "name": "pearl collar",
+    "description": "A collar made from round and lustrous pearls, its former owner must be a wealthy individual.",
+    "weight": "30 g",
+    "volume": "300 ml",
+    "price": 590000,
+    "price_postapoc": 2000,
+    "material": [ "stone" ],
+    "symbol": "[",
+    "color": "white",
+    "flags": [ "SUPER_FANCY" ]
+  },
+  {
     "id": "platinum_watch",
     "type": "ARMOR",
     "name": "platinum watch",
