@@ -326,8 +326,7 @@
   {
     "id": "mp3",
     "type": "TOOL",
-    "name": "mp3 player (off)",
-    "name_plural": "mp3 players (off)",
+    "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
     "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
     "weight": "140 g",
     "volume": "50 ml",
