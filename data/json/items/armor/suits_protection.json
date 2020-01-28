@@ -375,6 +375,27 @@
     "flags": [ "VARSIZE", "OUTER" ]
   },
   {
+    "id": "chainmail_hauberk",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "chainmail hauberk",
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "weight": "14430 g",
+    "volume": "2750 ml",
+    "price": 35988,
+    "to_hit": -1,
+    "material": [ "iron", "cotton" ],
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 95,
+    "encumbrance": 20,
+    "warmth": 30,
+    "material_thickness": 6,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",

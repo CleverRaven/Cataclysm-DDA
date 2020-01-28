@@ -186,6 +186,19 @@
     "color": "yellow"
   },
   {
+    "id": "barrette",
+    "type": "ARMOR",
+    "name": "barrette",
+    "description": "A barrette with lots of ornaments.",
+    "weight": "5 g",
+    "volume": 0,
+    "price": 800,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "pink",
+    "flags": [ "FANCY" ]
+  },
+  {
     "id": "blue_topaz_dental_grill",
     "type": "ARMOR",
     "name": { "str": "blue topaz dental grill" },
@@ -995,6 +1008,20 @@
     "symbol": "[",
     "color": "green",
     "flags": [ "FANCY" ]
+  },
+  {
+    "id": "pearl_collar",
+    "type": "ARMOR",
+    "name": "pearl collar",
+    "description": "A collar made from round and lustrous pearls, its former owner must be a wealthy individual.",
+    "weight": "30 g",
+    "volume": "300 ml",
+    "price": 590000,
+    "price_postapoc": 2000,
+    "material": [ "stone" ],
+    "symbol": "[",
+    "color": "white",
+    "flags": [ "SUPER_FANCY" ]
   },
   {
     "id": "platinum_watch",
