@@ -1195,7 +1195,7 @@ int player::read_speed( bool return_stat_effect ) const
         ret = to_moves<int>( 1_seconds );
     }
     // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret / 10;
+    return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
 }
 
 int player::talk_skill() const
