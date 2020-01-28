@@ -1178,26 +1178,6 @@ void player::search_surroundings()
     }
 }
 
-int player::read_speed( bool return_stat_effect ) const
-{
-    // Stat window shows stat effects on based on current stat
-    const int intel = get_int();
-    /** @EFFECT_INT increases reading speed */
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
-
-    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
-    }
-
-    ret *= mutation_value( "reading_speed_multiplier" );
-
-    if( ret < to_moves<int>( 1_seconds ) ) {
-        ret = to_moves<int>( 1_seconds );
-    }
-    // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret / 10;
-}
-
 int player::talk_skill() const
 {
     /** @EFFECT_INT slightly increases talking skill */

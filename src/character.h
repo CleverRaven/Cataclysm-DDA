@@ -1298,6 +1298,10 @@ class Character : public Creature, public visitable<Character>
         /** Returns the player's skill rust rate */
         int rust_rate( bool return_stat_effect = true ) const;
 
+        // Mental skills and stats
+        /** Returns the player's reading speed */
+        int read_speed( bool return_stat_effect = true ) const;
+
         // --------------- Other Stuff ---------------
 
         /** return the calendar::turn the character expired */
