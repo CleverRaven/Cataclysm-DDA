@@ -252,8 +252,7 @@
   {
     "id": "geiger_off",
     "type": "TOOL",
-    "name": "geiger counter (off)",
-    "name_plural": "geiger counters (off)",
+    "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
     "description": "This is a tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation.  It is currently off.",
     "weight": "225 g",
     "volume": "500 ml",
