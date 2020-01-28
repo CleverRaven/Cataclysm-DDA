@@ -8,5 +8,10 @@
     "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.",
     "category": "monster_exclude",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false }
   }
 ]
