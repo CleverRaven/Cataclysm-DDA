@@ -243,7 +243,7 @@
     "difficulty": 3,
     "time": "8 m",
     "batch_time_factors": [ 50, 4 ],
-    "book_learn": [ [ "vinegar_maker", 1 ], [ "winemaking_beginner", 1 ] ],
+    "book_learn": [ [ "vinegar_maker", 1 ], [ "winemaking_beginner", 3 ] ],
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [
