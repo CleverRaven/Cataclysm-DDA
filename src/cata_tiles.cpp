@@ -1294,6 +1294,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                              formatted_text( text, catacurses::red, NORTH ) );
                 }
             }
+            if( !p.invisible[0] ) {
+                g->m.check_and_set_seen_cache( p.pos );
+            }
         }
     }
     // tile overrides are already drawn in the previous code
