@@ -930,6 +930,45 @@ bool advanced_inventory::move_all_items( bool nested_call )
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             g->u.assign_activity( ACT_PICKUP );
             g->u.activity.coords.push_back( g->u.pos() );
+
+            item_stack::iterator stack_begin, stack_end;
+            if( panes[src].in_vehicle() ) {
+                vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
+                stack_begin = targets.begin();
+                stack_end = targets.end();
+            } else {
+                map_stack targets = g->m.i_at( sarea.pos );
+                stack_begin = targets.begin();
+                stack_end = targets.end();
+            }
+
+            // If moving to inventory or worn, silently filter buckets
+            // Moving them would cause tons of annoying prompts or spills
+            const bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
+                                        dpane.get_area() == AIM_WORN;
+            bool filtered_any_bucket = false;
+            // Push item_locations and item counts for all items at placement
+            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
+                if( spane.is_filtered( *it ) ) {
+                    continue;
+                }
+                if( filter_buckets && it->is_bucket_nonempty() ) {
+                    filtered_any_bucket = true;
+                    continue;
+                }
+                if( spane.in_vehicle() ) {
+                    g->u.activity.targets.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                } else {
+                    g->u.activity.targets.emplace_back( map_cursor( sarea.pos ), &*it );
+                }
+                // quantity of 0 means move all
+                g->u.activity.values.push_back( 0 );
+            }
+
+            if( filtered_any_bucket ) {
+                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
+            }
+
         } else {
             // Vehicle and map destinations are handled the same.
             // Check first if the destination area still have enough room for moving all.
@@ -938,51 +977,58 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 return false;
             }
 
-            g->u.assign_activity( ACT_MOVE_ITEMS );
-            // store whether the destination is a vehicle
-            g->u.activity.values.push_back( dpane.in_vehicle() );
             // Stash the destination
-            g->u.activity.coords.push_back( darea.off );
-        }
+            const tripoint relative_destination = darea.off;
 
-        item_stack::iterator stack_begin, stack_end;
-        if( panes[src].in_vehicle() ) {
-            vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
-            stack_begin = targets.begin();
-            stack_end = targets.end();
-        } else {
-            map_stack targets = g->m.i_at( sarea.pos );
-            stack_begin = targets.begin();
-            stack_end = targets.end();
-        }
+            // Find target items and quantities thereof for the new activity
+            std::vector<item_location> target_items;
+            std::vector<int> quantities;
 
-        // If moving to inventory, worn, or vehicle, silently filter buckets
-        // Moving them would cause tons of annoying prompts or spills
-        bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
-                              dpane.get_area() == AIM_WORN ||
-                              dpane.in_vehicle();
-        bool filtered_any_bucket = false;
-        // Push item_locations and item counts for all items at placement
-        for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
-            if( spane.is_filtered( *it ) ) {
-                continue;
-            }
-            if( filter_buckets && it->is_bucket_nonempty() ) {
-                filtered_any_bucket = true;
-                continue;
-            }
-            if( spane.in_vehicle() ) {
-                g->u.activity.targets.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+            item_stack::iterator stack_begin, stack_end;
+            if( panes[src].in_vehicle() ) {
+                vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
+                stack_begin = targets.begin();
+                stack_end = targets.end();
             } else {
-                g->u.activity.targets.emplace_back( map_cursor( sarea.pos ), &*it );
+                map_stack targets = g->m.i_at( sarea.pos );
+                stack_begin = targets.begin();
+                stack_end = targets.end();
             }
-            // quantity of 0 means move all
-            g->u.activity.values.push_back( 0 );
+
+            // If moving to vehicle, silently filter buckets
+            // Moving them would cause tons of annoying prompts or spills
+            const bool filter_buckets = dpane.in_vehicle();
+            bool filtered_any_bucket = false;
+            // Push item_locations and item counts for all items at placement
+            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
+                if( spane.is_filtered( *it ) ) {
+                    continue;
+                }
+                if( filter_buckets && it->is_bucket_nonempty() ) {
+                    filtered_any_bucket = true;
+                    continue;
+                }
+                if( spane.in_vehicle() ) {
+                    target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                } else {
+                    target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                }
+                // quantity of 0 means move all
+                quantities.push_back( 0 );
+            }
+
+            if( filtered_any_bucket ) {
+                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
+            }
+
+            g->u.assign_activity( player_activity( move_items_activity_actor(
+                    target_items,
+                    quantities,
+                    dpane.in_vehicle(),
+                    relative_destination
+                                                   ) ) );
         }
 
-        if( filtered_any_bucket ) {
-            add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
-        }
     }
     // if dest was AIM_ALL then we used query_destination and should undo that
     if( restore_area ) {
