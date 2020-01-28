@@ -575,7 +575,7 @@
     "id": "manual_canning",
     "type": "BOOK",
     "name": { "str": "You Can Can at Home", "str_pl": "copies of You Can Can at Home" },
-    "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
+    "description": "This entry-level guide to home canning talks about the importance of acidity and food contents in preservation, and how to avoid contaminants in your canning batches.",
     "copy-from": "mag_cooking"
   },
   {
