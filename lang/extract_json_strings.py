@@ -1101,6 +1101,9 @@ def extract(item, infilename):
     if "footsteps" in item:
        writestr(outfile, item["footsteps"], **kwargs)
        wrote = True
+    if "cant_remove" in item:
+       writestr(outfile, item["cant_remove"], **kwargs)
+       wrote = True
     if not wrote and not "copy-from" in item:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
