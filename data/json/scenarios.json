@@ -497,7 +497,7 @@
     "ident": "overrun",
     "name": "Overrun",
     "points": 0,
-    "description": "When your base got overrun by the dead, your last order was to retreat to the armory.  During all the chaos you got separated from your squad and you are now stuck in the warehose all alone.  You are not sure if anyone made it to the armory, or you are the last man alive.",
+    "description": "Despite all the soldiers, guns and minefields, your base got overrun by the dead.  Your last order was to retreat to the armory, but during all the chaos you got separated from your squad and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "mil_base_2g" ],
     "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper" ],
