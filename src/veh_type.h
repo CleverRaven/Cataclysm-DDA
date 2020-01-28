@@ -285,7 +285,6 @@ class vpart_info
         int floor_bedding_warmth = 0;
         int bonus_fire_warmth_feet = 300;
 
-        std::string test_thing() const;
         /**
          * @name Engine specific functions
          *
@@ -332,10 +331,6 @@ class vpart_info
         // Display order in vehicle interact display
         int list_order;
 
-
-        std::string test_func() const {
-            return "abcde";
-        }
         std::set<std::string> get_flags() const {
             return flags;
         }
