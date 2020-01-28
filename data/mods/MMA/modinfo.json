@@ -3,10 +3,9 @@
     "type": "MOD_INFO",
     "ident": "MMA",
     "name": "Mythical Martial Arts",
-    "authors": [ "Photoloss" ],
+    "authors": [ "Hymore246" ],
     "description": "A collection of fictional, mythologically inspired or otherwise unrealistic martial arts.",
     "category": "misc_additions",
-    "dependencies": [ "dda" ],
-    "obsolete": true
+    "dependencies": [ "dda" ]
   }
 ]
