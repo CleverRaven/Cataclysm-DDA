@@ -25,6 +25,28 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
+    "id": "cassock",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": "cassock",
+    "name_plural": "cassocks",
+    "description": "A piece of clerical clothing, usually worn by Christian priests.",
+    "weight": "1200 g",
+    "volume": "5 L",
+    "price": 20000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "dark_gray",
+    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 10,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "coat_fur",
     "type": "ARMOR",
     "name": "fur coat",
