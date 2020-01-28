@@ -2186,7 +2186,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         if( g->m.check_seen_cache( p ) ) {
             g->u.memorize_tile( abs_pos, tname, subtile, rotation );
         } else {
-            const auto &cached_tile = g->u.get_memorized_tile( abs_pos );
+            const memorized_terrain_tile &cached_tile = g->u.get_memorized_tile( abs_pos );
             if( cached_tile.subtile != subtile && cached_tile.tile == tname ) {
                 g->u.memorize_tile( abs_pos, tname, subtile, rotation );
             }
