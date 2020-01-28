@@ -4,6 +4,7 @@
 
 #include <set>
 #include <string>
+#include "translations.h"
 
 class JsonObject;
 
