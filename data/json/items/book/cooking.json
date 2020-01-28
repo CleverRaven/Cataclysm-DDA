@@ -582,7 +582,7 @@
     "id": "manual_sealing",
     "type": "BOOK",
     "name": { "str": "Can Sealer Instructions", "str_pl": "copies of Can Sealer Instructions" },
-    "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
+    "description": "This dry guide to a home-use tin can sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
     "copy-from": "mag_cooking"
   },
   {
