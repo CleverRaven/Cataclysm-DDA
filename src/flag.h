@@ -60,7 +60,7 @@ class json_flag
         bool inherit_ = true;
         bool craft_inherit_ = false;
         std::string requires_flag_;
-        std::string cant_remove_;
+        translation cant_remove_;
         int taste_mod_ = 0;
 
         json_flag( const std::string &id = std::string() ) : id_( id ) {}
