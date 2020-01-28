@@ -81,12 +81,33 @@
     "sym": "M",
     "color": "light_green",
     "see_cost": 3,
-    "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "mortuary_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "mortuary_2story_second" },
-      { "point": [ 0, 0, -1 ], "overmap": "mortuary_basement" },
-      { "point": [ 0, 0, 2 ], "overmap": "mortuary_roof_north" }
-    ]
+    "locations": [ "land" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_basement",
+    "name": "county mortuary",
+    "sym": "M",
+    "color": "white",
+    "see_cost": 3,
+    "locations": [ "land" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_second",
+    "name": "county mortuary",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 3,
+    "locations": [ "land" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_roof",
+    "name": "county mortuary",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 3,
+    "locations": [ "land" ]
   }
 ]
