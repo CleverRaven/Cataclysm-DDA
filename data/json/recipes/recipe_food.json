@@ -29,7 +29,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "baking_book", 2 ] ],
+    "book_learn": [ [ "cookbook_foodfashions", 5 ], [ "baking_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
