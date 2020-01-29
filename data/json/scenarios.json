@@ -527,5 +527,16 @@
     "allowed_locs": [ "mil_base_2g" ],
     "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "presort",
+    "name": "Crazy party",
+    "points": 0,
+    "description": "Crazy party in secluded resort went very wrong - first cops arrived to ruin it, then dancers, guests and everyone around suddenly decided to have a piece of you.",
+    "start_name": "Private resort",
+    "allowed_locs": [ "p_resort_2ss" ],
+    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]
