@@ -218,6 +218,27 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
+    "id": "chainmail_arms",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of chainmail sleeves",
+    "name_plural": "pairs of chainmail sleeves",
+    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "weight": "2812 g",
+    "volume": "750 ml",
+    "price": 7500,
+    "to_hit": -1,
+    "material": [ "iron", "cotton" ],
+    "symbol": "[",
+    "looks_like": "armguard_metal",
+    "color": "light_red",
+    "covers": [ "ARMS" ],
+    "coverage": 95,
+    "encumbrance": 20,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "elbow_pads",
     "type": "ARMOR",
     "category": "armor",
