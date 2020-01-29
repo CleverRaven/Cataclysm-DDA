@@ -79,7 +79,7 @@
     "id": "NEURAL_IMPROVEMENT",
     "name": "Neural Improvement",
     "points": 1,
-    "description": "You see the world a little differently today. Intelligence + 1",
+    "description": "You see the world a little differently today.  Intelligence + 1",
     "changes_to": [ "EXPANDED_CONSCIOUSNESS" ],
     "category": [ "MIGO" ],
     "passive_mods": { "int_mod": 1 }

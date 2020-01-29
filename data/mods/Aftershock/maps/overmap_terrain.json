@@ -80,8 +80,7 @@
     "name": "county mortuary",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3,
-    "locations": [ "land" ]
+    "see_cost": 3
   },
   {
     "type": "overmap_terrain",
@@ -89,8 +88,7 @@
     "name": "county mortuary",
     "sym": "M",
     "color": "white",
-    "see_cost": 3,
-    "locations": [ "land" ]
+    "see_cost": 3
   },
   {
     "type": "overmap_terrain",
@@ -98,8 +96,7 @@
     "name": "county mortuary",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3,
-    "locations": [ "land" ]
+    "see_cost": 3
   },
   {
     "type": "overmap_terrain",
@@ -107,7 +104,6 @@
     "name": "county mortuary",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3,
-    "locations": [ "land" ]
+    "see_cost": 3
   }
 ]
