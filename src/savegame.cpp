@@ -723,6 +723,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( old + "_north" ) );
 
         } else if( old == "hunter_shack" ||
+                   old == "basement_bionic" ||
                    old == "outpost" ||
                    old == "park" ||
                    old == "pool" ||
