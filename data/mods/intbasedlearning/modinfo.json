@@ -9,15 +9,5 @@
     "category": "rebalance",
     "dependencies": [ "dda" ],
     "obsolete": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "INT_BASED_LEARNING",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "TRAIT_BLACKLIST",
-    "traits": [ "SLOWLEARNER", "FASTLEARNER" ]
   }
 ]
