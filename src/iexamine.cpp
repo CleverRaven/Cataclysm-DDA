@@ -1220,12 +1220,10 @@ void iexamine::safe( player &p, const tripoint &examp )
     if( p.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    }
-    if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe while wearing headphones!" ) );
+    } else if( p.has_effect( effect_earphones ) ) {
+        add_msg( m_info, _( "You can't crack a safe with earbuds on!" ) );
         return;
-    }
-    if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
+    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
