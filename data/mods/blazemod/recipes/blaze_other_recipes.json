@@ -102,7 +102,7 @@
     "components": [ [ [ "hard_plate", 10 ] ], [ [ "chain", 8 ] ] ]
   },
   {
-    "result": "turretframe",
+    "result": "turret_mount",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

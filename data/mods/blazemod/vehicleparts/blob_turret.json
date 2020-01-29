@@ -39,7 +39,7 @@
   },
   {
     "id": "biter",
-    "copy-from": "turret",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "biting blob",
     "item": "biter",
@@ -54,6 +54,7 @@
   },
   {
     "id": "clutter",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "gel shooter",
     "item": "clutter",
@@ -65,6 +66,7 @@
   },
   {
     "id": "freezie",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "frost lancer",
     "item": "freezie",
@@ -77,6 +79,7 @@
   },
   {
     "id": "fuzzle",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "snapping ooze",
     "item": "fuzzle",
@@ -91,6 +94,7 @@
   },
   {
     "id": "spouterqueen",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "gel spouter",
     "item": "spouterqueen",
@@ -104,6 +108,7 @@
   },
   {
     "id": "razorqueen",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "gel spiker",
     "item": "razorqueen",
@@ -115,6 +120,7 @@
   },
   {
     "id": "sharp",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "gel lancer",
     "item": "sharp",
@@ -126,6 +132,7 @@
   },
   {
     "id": "gelrazor",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "gel razor",
     "item": "gelrazor",
@@ -137,6 +144,7 @@
   },
   {
     "id": "sparkie",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "shock bulb",
     "item": "sparkie",
@@ -148,6 +156,7 @@
   },
   {
     "id": "stickie",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "gel puffer",
     "item": "stickie",
@@ -160,6 +169,7 @@
   },
   {
     "id": "torchie",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "fire puffer",
     "item": "torchie",
@@ -172,6 +182,7 @@
   },
   {
     "id": "voideater",
+    "copy-from": "blob_turret",
     "type": "vehicle_part",
     "name": "spark blight",
     "item": "voideater",
