@@ -1,0 +1,58 @@
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "categories": [
+      "GROUP_FUNGI",
+      "GROUP_FUNGI_TOWER",
+      "GROUP_FUNGI_FLOWERS",
+      "GROUP_TRIFFID",
+      "GROUP_MI-GO_BASE_COMMON",
+      "GROUP_MI-GO_SCOUT_TOWER",
+      "GROUP_MI-GO_BASE_CAPTORS",
+      "GROUP_MI-GO_BASE_BOSS"
+    ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_spore",
+      "mon_fungaloid",
+      "mon_fungaloid_young",
+      "mon_zombie_fungus",
+      "mon_boomer_fungus",
+      "mon_zombie_child_fungus",
+      "mon_fungal_wall",
+      "mon_fungaloid_queen",
+      "mon_fungal_tendril",
+      "mon_fungal_hedgerow",
+      "mon_fungaloid_tower",
+      "mon_fungal_blossom",
+      "mon_fungaloid_seeder",
+      "mon_triffid",
+      "mon_triffid_young",
+      "mon_fungal_fighter",
+      "mon_vinebeast",
+      "mon_triffid_queen",
+      "mon_triffid_heart",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_surgeon",
+      "mon_mi_go_guard",
+      "mon_mi_go_myrmidon",
+      "mon_mi_go_scout"
+    ]
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [
+      "marloss_seed",
+      "marloss_berry",
+      "marloss_gel",
+      "mycus_fruit",
+      "wine_mycus",
+      "marloss_scarf",
+      "resin_chunk",
+      "alien_pod_resin"
+    ]
+  }
+]
