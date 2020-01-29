@@ -1,0 +1,13 @@
+[
+  {
+
+    Mutant NPCs in aftershock from obsoleted Mutant NPCs mod
+    "type": "MOD_INFO",
+    "ident": "mutant_npcs",
+    "name": "Mutant NPCs",
+    "authors": [ "Spencer Michaels" ],
+    "description": "NPCs wandering the wasteland will occasionally have mutations --- your foes included.  Beware!",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]
