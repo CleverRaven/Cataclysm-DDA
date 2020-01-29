@@ -134,6 +134,7 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     const chtype border_rs = rs ? rs : LINE_XOXO;
     const chtype border_ts = ts ? ts : LINE_OXOX;
     const chtype border_bs = bs ? bs : LINE_OXOX;
+    const chtype border_tl = tl ? tl : LINE_OXXO;
     const chtype border_tr = tr ? tr : LINE_OOXX;
     const chtype border_bl = bl ? bl : LINE_XXOO;
     const chtype border_br = br ? br : LINE_XOOX;
@@ -150,7 +151,7 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     for( i = 1; i < win->width - 1; i++ ) {
         mvwaddch( win_, point( i, win->height - 1 ), border_bs );
     }
-    mvwaddch( win_, point_zero, tl ? tl : LINE_OXXO );
+    mvwaddch( win_, point_zero, border_tl );
     mvwaddch( win_, point( win->width - 1, 0 ), border_tr );
     mvwaddch( win_, point( 0, win->height - 1 ), border_bl );
     mvwaddch( win_, point( win->width - 1, win->height - 1 ), border_br );
