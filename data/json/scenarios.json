@@ -536,7 +536,7 @@
     "description": "Crazy party in secluded resort went very wrong - first cops arrived to ruin it, then dancers, guests and everyone around suddenly decided to have a piece of you.",
     "start_name": "Private resort",
     "allowed_locs": [ "p_resort_2ss" ],
-    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
+    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "bio_gangster" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

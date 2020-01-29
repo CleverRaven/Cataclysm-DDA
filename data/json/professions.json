@@ -4008,7 +4008,7 @@
   {
     "type": "profession",
     "ident": "frat",
-    "name": { "male": "Frat Boy", "female": "Frat Girl" },
+    "name": { "male": "Frat Boy", "female": "Sorority Girl" },
     "description": "You were living your life without care in the world spending your parents money.  When you were at another crazy party, suddenly people around you became hungry for more than your money.  You still have a chance to use last symbol of your luxury life - your sport car - and get far away.",
     "points": 2,
     "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
