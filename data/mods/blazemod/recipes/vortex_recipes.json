@@ -141,7 +141,7 @@
   },
   {
     "id": "avortexaccelerator",
-    "copy-from": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "vortex accelerator turret",
     "item": "vortexaccelerator",
@@ -154,7 +154,7 @@
   },
   {
     "id": "avortexacceleratornc",
-    "copy-from": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "automated vortex accelerator",
     "item": "vortexaccelerator",
@@ -166,7 +166,7 @@
   },
   {
     "id": "avortexbolter",
-    "copy-from": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "vortex bolter turret",
     "item": "vortexbolter",
@@ -179,7 +179,7 @@
   },
   {
     "id": "avortexbolternc",
-    "copy-from": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "automated vortex bolter",
     "item": "vortexbolter",
@@ -191,7 +191,7 @@
   },
   {
     "id": "avortexrifle",
-    "copy-from": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "vortex rifle turret",
     "item": "vortexrifle",
@@ -204,7 +204,7 @@
   },
   {
     "id": "avortexriflenc",
-    "copy-from": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "automated vortex rifle",
     "item": "vortexrifle",
