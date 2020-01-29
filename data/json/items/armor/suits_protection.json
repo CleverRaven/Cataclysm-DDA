@@ -603,8 +603,9 @@
     "color": "brown",
     "covers": [ "HEAD", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 25,
+    "encumbrance": 15,
+    "storage": "5 L",
+    "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
