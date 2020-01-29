@@ -54,7 +54,6 @@
 struct construction_category;
 
 void cancel_aim_processing();
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
