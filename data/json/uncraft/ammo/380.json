@@ -3,7 +3,7 @@
     "result": "380_JHP",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "using": [ [ "ammo_380", 1 ] ],
+    "using": [ [ "ammo_380", 50 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 100 ] ], [ [ "gunpowder_pistol", 150 ] ] ]
   },
@@ -11,7 +11,7 @@
     "result": "380_FMJ",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "using": [ [ "ammo_380", 1 ] ],
+    "using": [ [ "ammo_380", 50 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 100 ] ], [ [ "gunpowder_pistol", 150 ] ] ]
   },
@@ -19,7 +19,7 @@
     "result": "380_p",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "using": [ [ "ammo_380", 1 ] ],
+    "using": [ [ "ammo_380", 50 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 100 ] ], [ [ "gunpowder_pistol", 200 ] ] ]
   }
