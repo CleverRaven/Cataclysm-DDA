@@ -80,12 +80,13 @@
     "name": "county mortuary",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3
+    "see_cost": 3,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "mortuary_2story_basement",
-    "name": "county mortuary",
+    "id": "mortuary_basement",
+    "name": "county mortuary basement",
     "sym": "M",
     "color": "white",
     "see_cost": 3
@@ -93,7 +94,7 @@
   {
     "type": "overmap_terrain",
     "id": "mortuary_2story_second",
-    "name": "county mortuary",
+    "name": "county mortuary second floor",
     "sym": "M",
     "color": "light_green",
     "see_cost": 3
@@ -101,7 +102,7 @@
   {
     "type": "overmap_terrain",
     "id": "mortuary_2story_roof",
-    "name": "county mortuary",
+    "name": "county mortuary roof",
     "sym": "M",
     "color": "light_green",
     "see_cost": 3
