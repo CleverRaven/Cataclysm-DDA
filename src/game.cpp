@@ -4111,7 +4111,11 @@ void game::monmove()
         }
 
         m.creature_in_field( critter );
-
+        if( calendar::once_every( 1_days ) ) {
+            critter.refill_udders();
+            critter.try_biosignature();
+            critter.try_reproduce();
+        }
         while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
