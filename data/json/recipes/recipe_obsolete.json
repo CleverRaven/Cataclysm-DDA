@@ -2288,5 +2288,20 @@
     "type": "recipe",
     "result": "zweifire_off",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_survivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_hsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_xlsurvivor",
+    "obsolete": true
   }
 ]
