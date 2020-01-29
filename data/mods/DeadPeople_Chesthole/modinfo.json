@@ -2,8 +2,11 @@
   {
     "type": "MOD_INFO",
     "ident": "DP_AMAZING_CHEST_INDICATORS",
-    "name": "(DP_RP) Chesthole Indicators",
-    "authors": [ "MyMom" ],
-    "description": "Changes interface indicators to Chesthole version."
+    "name": "[DP_MOD] Indicators: Chesthole",
+    "authors": [ "SomeDeadGuy" ],
+    "description": "Changes interface indicators to Chesthole version.",
+    "category": "graphical",
+    "obsolete": true,
+    "dependencies": [ "dda" ]
   }
 ]

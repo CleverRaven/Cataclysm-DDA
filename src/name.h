@@ -10,9 +10,10 @@ enum nameFlags {
     nameIsUnisexName = nameIsMaleName | nameIsFemaleName,
     nameIsGivenName  = 1 << 2,
     nameIsFamilyName = 1 << 3,
-    nameIsTownName   = 1 << 4,
-    nameIsFullName   = 1 << 5,
-    nameIsWorldName  = 1 << 6
+    nameIsNickName   = 1 << 4,
+    nameIsTownName   = 1 << 5,
+    nameIsFullName   = 1 << 6,
+    nameIsWorldName  = 1 << 7
 };
 
 namespace Name
@@ -28,7 +29,7 @@ std::string generate( bool is_male );
 
 /// Clear names used for generation
 void clear();
-}
+} // namespace Name
 
 inline nameFlags operator|( nameFlags l, nameFlags r )
 {

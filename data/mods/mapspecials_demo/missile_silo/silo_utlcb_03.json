@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "silo_utlcb" ],
-    "comment": "underground. top left corner. alternate B stairs",
+    "//": "underground. top left corner. alternate B stairs",
     "method": "json",
     "weight": 100,
     "object": {
@@ -35,7 +35,7 @@
       ],
       "rotation": 0,
       "palettes": [ "missile_silo" ],
-      "monster": { "z": { "monster": "mon_turret" } }
+      "monster": { "z": { "monster": "mon_turret_rifle" } }
     }
   }
 ]

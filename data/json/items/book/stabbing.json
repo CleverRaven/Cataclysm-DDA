@@ -4,16 +4,17 @@
     "type": "BOOK",
     "name": "Duelist's Annual",
     "description": "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form.",
-    "weight": 80,
-    "volume": 1,
+    "weight": "80 g",
+    "volume": "250 ml",
     "price": 450,
+    "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "stabbing",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -21,15 +22,16 @@
     "type": "BOOK",
     "name": "FM 23-25 Army bayonet manual",
     "description": "A hefty military field manual about bayonet usage and combat theory.",
-    "weight": 454,
-    "volume": 1,
+    "weight": "454 g",
+    "volume": "250 ml",
     "price": 2000,
+    "price_postapoc": 7900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "stabbing",
     "max_level": 3,
     "intelligence": 4,
-    "time": 18
+    "time": "18 m"
   }
 ]

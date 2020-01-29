@@ -1,0 +1,8 @@
+[
+  {
+    "type": "item_group",
+    "id": "orichalcum_frame_break",
+    "subtype": "collection",
+    "entries": [ { "item": "orichalcum_lump", "count": [ 4, 6 ] }, { "item": "orichalcum_sliver", "count": [ 4, 6 ] } ]
+  }
+]

@@ -1,0 +1,173 @@
+[
+  {
+    "type": "recipe",
+    "result": "potion_starter",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 2 ],
+    "difficulty": 3,
+    "charges": 7,
+    "time": "120 m",
+    "batch_time_factors": [ 75, 4 ],
+    "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "hard_liquor", 7 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cats_grace_potion",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 5,
+    "time": "60 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "components": [
+      [ [ "potion_starter", 5 ] ],
+      [ [ "hairball", 2 ] ],
+      [
+        [ "catfood", 1 ],
+        [ "fish", 1 ],
+        [ "salted_fish", 1 ],
+        [ "fish_cooked", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "fish_fried", 1 ],
+        [ "lutefisk", 1 ]
+      ],
+      [ [ "adderall", 10 ], [ "meth", 6 ], [ "prozac", 15 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "ogres_strength_potion",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 5,
+    "time": "60 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "components": [ [ [ "potion_starter", 5 ] ], [ [ "sinew", 40 ] ], [ [ "adrenal_gland_large", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "eagles_sight_potion",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 5,
+    "time": "60 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "components": [
+      [ [ "potion_starter", 5 ] ],
+      [
+        [ "egg_bird", 5 ],
+        [ "egg_grouse", 5 ],
+        [ "egg_duck", 3 ],
+        [ "egg_crow", 5 ],
+        [ "egg_chicken", 5 ],
+        [ "egg_pheasant", 5 ],
+        [ "egg_cockatrice", 5 ],
+        [ "egg_turkey", 3 ],
+        [ "egg_goose_canadian", 2 ]
+      ],
+      [ [ "feather", 20 ], [ "down_feather", 20 ] ],
+      [
+        [ "liver", 3 ],
+        [ "veggy_canned", 3 ],
+        [ "veggy_salted", 5 ],
+        [ "carrot", 3 ],
+        [ "irradiated_carrot", 3 ],
+        [ "pumpkin", 4 ],
+        [ "irradiated_pumpkin", 4 ],
+        [ "raw_dandelion", 6 ],
+        [ "zucchini", 4 ],
+        [ "irradiated_zucchini", 4 ],
+        [ "rose_hips", 6 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "foxs_cunning_potion",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 5,
+    "time": "60 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "components": [
+      [ [ "potion_starter", 5 ] ],
+      [ [ "brain", 2 ], [ "brain_cooked", 2 ] ],
+      [
+        [ "adderall", 10 ],
+        [ "caff_gum", 30 ],
+        [ "chaw", 10 ],
+        [ "cig", 20 ],
+        [ "cigar", 5 ],
+        [ "handrolled_cig", 20 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "twisted_restore_potion",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 4 ],
+    "difficulty": 4,
+    "time": "60 m",
+    "result_mult": 5,
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "necro_basic", 3 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ]
+    ],
+    "components": [ [ [ "potion_starter", 5 ] ], [ [ "blood", 3 ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "twisted_restore_potion_improved",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 6 ],
+    "difficulty": 6,
+    "time": "60 m",
+    "result_mult": 5,
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "necro_basic", 5 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "components": [
+      [ [ "potion_starter", 5 ] ],
+      [ [ "blood", 5 ] ],
+      [ [ "slime_scrap", 5 ], [ "meat_tainted", 15 ] ],
+      [ [ "bandages", 5 ], [ "bandages_makeshift_bleached", 7 ], [ "bandages_makeshift_boiled", 7 ] ]
+    ]
+  }
+]

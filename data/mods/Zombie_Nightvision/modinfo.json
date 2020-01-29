@@ -5,6 +5,12 @@
     "name": "Zombie Nightvision",
     "description": "Gives all zombies perfect nightvision.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "special": "nightvision"
   }
 ]

@@ -1,0 +1,213 @@
+[
+  {
+    "method": "json",
+    "om_terrain": [ [ "helipad_nw", "helipad_ne" ], [ "helipad_sw", "helipad_se" ] ],
+    "type": "mapgen",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "FFF.......pppppppp...........................FFF",
+        "FTFFWWWWWF!!!!!!!!FFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
+        "FFG.W4ddw.pppppppp...........................GFF",
+        ".F..W-c?w.pppppppp...|||||||||||||||||||||||..F.",
+        ".F..WmWWW.pppppppp...|%_____________C__B___|..F.",
+        ".F..pppppppppppppppppM___C_________C_CC_B__|..F.",
+        ".F..pppppppppppppppppM____________CCCCC____|..F.",
+        ".F..pppppppppppppppppM_B__C___B__B___C_B___|..F.",
+        ".F..pppppyppppyppppppM________*_________B__|..F.",
+        ".F..pppppyppppyppppppM__B___C___B__C__B____|..F.",
+        ".F..pppppyppppyppp...|____C___B____________|..F.",
+        ".F..pppppyppppypppooom___________B______%__|..F.",
+        ".F..pppppyppppyppp...||||||||m|MMMMMMMMM||||..F.",
+        ".F..pppppyppppyppp...|_rrrr|____________%__|..F.",
+        ".F..oooooooooooooo...|_____|_______________|..F.",
+        ".F..............oo...|_rrrr|___IIIIIIIII_RR|..F.",
+        ".F..WwWWwWwwWwwW++WwW|M|||||___IUUUUUUUI_sR|..F.",
+        ".F..W----+-----+-----m_____m___IUUUUUUUI_75|..F.",
+        ".F..W-?ddWdc--dW--WWW|||||||___IUUUUUUUI___|..F.",
+        ".F..Wz-cfWd?f?dW--W&W|_____m___IUUUUUUUI_RR|..F.",
+        ".F..WWWWWWWWWWWWz-+-W|ggggg|___IUUUUUUUI_sR|..F.",
+        ".F..W[[[HH##O#SW--WSW|||||||___IUUUUUUUI_85|..F.",
+        ".F..W----------+--WWW|lllll|___IUUUUUUUI___|..F.",
+        ".F..W-cttc---1WW--+-W|_____M___IUUUUUUUI___|..F.",
+        ".F..W-cttc-z-2W<--WhW|lllll|___IUUUUUUUI%__|..F.",
+        ".F..WWwwwWwwwWWW++WWW||||||||m|MMMMMMMMM||||..F.",
+        ".F.......3P.....oo...........o.=========6666..F.",
+        ".F..========================================..F.",
+        ".F..========================================..F.",
+        ".F..========================================..F.",
+        ".F..========================================..F.",
+        ".F...o,,,,,o..o,,,,,,,,,,,,,,,,,,o..o,,,,,o...F.",
+        ".F...o=====o..o==================o..o=====o...F.",
+        ".F..$=========o$==,,========,,===o$=========..F.",
+        ".F..==========o===,,========,,===o==========..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,,,,,,,,,,,===o=,=====,==..F.",
+        ".F..=,,,,,,,==o===,,,,,,,,,,,,===o=,,,,,,,==..F.",
+        ".F..=,,,,,,,==o===,,========,,===o=,,,,,,,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..==========o==================o==========..F.",
+        ".F..==========o==================o==========..F.",
+        "FFG..........................................GFF",
+        "FTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
+        "FFF..........................................FFF"
+      ],
+      "palettes": [ "helipad_palette" ],
+      "toilets": { "&": {  } },
+      "gaspumps": { "$": {  } },
+      "items": {
+        "B": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "fuel_barrel", "prob": 30 }, { "item": "30gal_drum", "prob": 70 } ]
+          },
+          "chance": 75
+        },
+        "C": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "group": "military_patrol_food", "prob": 50, "count": [ 3, 5 ] },
+              { "group": "infantry_common_gear", "prob": 5, "count": [ 1, 2 ] },
+              { "group": "mil_food", "prob": 40, "count": [ 1, 5 ] },
+              { "group": "infantry_medical_gear", "prob": 5, "count": [ 1, 2 ] },
+              { "group": "supplies_metal", "prob": 150, "count": [ 2, 6 ] },
+              { "group": "supplies_mechanics", "prob": 50, "count": [ 0, 3 ] }
+            ]
+          },
+          "chance": 50
+        },
+        "r": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "military_standard_assault_rifles", "prob": 45 }, { "group": "military_standard_shotguns", "prob": 5 } ]
+          },
+          "chance": 10
+        },
+        "l": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "group": "army_personal_locker", "prob": 150 },
+              { "group": "military_patrol_food", "prob": 50 },
+              { "group": "supplies_plumbing", "prob": 20 },
+              { "group": "supplies_electronics", "prob": 20 },
+              { "group": "supplies_metal", "prob": 20 },
+              { "group": "supplies_mechanics", "prob": 20 },
+              { "group": "hardware", "prob": 20 }
+            ]
+          },
+          "chance": 50,
+          "repeat": [ 2, 6 ]
+        },
+        "L": { "item": "army_personal_locker", "chance": 50, "repeat": [ 0, 4 ] },
+        "d": { "item": "SUS_office_desk", "chance": 50 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
+        "4": { "item": "military_standard_shotguns", "chance": 50 },
+        "#": { "item": "SUS_utensils", "chance": 25, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_dishes", "chance": 50, "repeat": [ 1, 2 ] },
+        "[": { "item": "SUS_fridge", "chance": 50 },
+        "O": { "item": "SUS_oven", "chance": 75, "repeat": [ 0, 2 ] },
+        "H": { "item": "SUS_spice_collection", "chance": 75 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
+      },
+      "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
+      "monster": { "T": { "monster": "mon_turret_rifle" } },
+      "place_vehicles": [
+        { "vehicle": "forklift", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
+        { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
+        { "vehicle": "helicopter_wreck_3a", "x": 9, "y": 42, "chance": 10, "rotation": 90, "status": -1 },
+        { "vehicle": "helicopter_wreck_1a", "x": 18, "y": 34, "chance": 10, "rotation": 270, "status": -1 },
+        { "vehicle": "helicopter_wreck_3a", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": [ [ "helipad2f_nw", "helipad2f_ne" ], [ "helipad2f_sw", "helipad2f_se" ] ],
+    "type": "mapgen",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "************************************************",
+        "****RRRRR***************************************",
+        "****RRRRR***************************************",
+        "****RRRRR************=======================****",
+        "****RRRRR************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "*********************=======================****",
+        "****WWWWWWWWWWWWWWWWW=======================****",
+        "****WbttbWbttbWSjjWhW=======================****",
+        "****Wb--bWb--bW-----W=======================****",
+        "****WL--LWL--LW-LLWhW=======================****",
+        "****WW+WWWW+WWW+WWWWW=======================****",
+        "****W-----------W&-SW=======================****",
+        "****WW+WWWW+WWW-WW+WW=======================****",
+        "****WL--LWL--LW-----+=======================****",
+        "****Wb--bWb--bW-WW+WW=======================****",
+        "****WbttbWbttbW>W&-SW===================DD==****",
+        "****WWWWWWWWWWWWWWWWW=======================****",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************",
+        "************************************************"
+      ],
+      "palettes": [ "helipad_palette_roof" ],
+      "toilets": { "&": {  } },
+      "items": {
+        "t": { "item": "bedroom", "chance": 50, "repeat": [ 0, 4 ] },
+        "b": { "item": "bed", "repeat": [ 0, 3 ], "chance": 90 },
+        "h": { "item": "SUS_bathroom_sink", "chance": 50 },
+        "S": { "item": "SUS_bathroom_sink", "chance": 90 },
+        "L": { "item": "army_personal_locker", "repeat": [ 0, 4 ], "chance": 50 },
+        "=": { "item": "roof_trash", "chance": 2 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
+      },
+      "place_monsters": [ { "monster": "GROUP_MIL_WEAK", "x": 10, "y": 20, "density": 0.5 } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 30 ], [ "roof_2x2_utilities", 30 ] ],
+          "x": [ 24, 42 ],
+          "y": [ 4, 13 ]
+        },
+        {
+          "chunks": [ [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 30 ], [ "roof_2x2_utilities", 30 ] ],
+          "x": [ 24, 42 ],
+          "y": [ 14, 22 ]
+        }
+      ]
+    }
+  }
+]

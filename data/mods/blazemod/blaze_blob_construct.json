@@ -27,8 +27,9 @@
     "id": "blob_pit",
     "type": "terrain",
     "name": "mass of blob feed",
+    "description": "",
     "symbol": "O",
-    "color": [ "light_green" ],
+    "color": "light_green",
     "move_cost": 0,
     "bash": {
       "str_min": 1,
@@ -44,8 +45,9 @@
     "id": "blob_pit_slime",
     "type": "terrain",
     "name": "mound of blob feed",
+    "description": "",
     "symbol": "O",
-    "color": [ "light_green" ],
+    "color": "light_green",
     "move_cost": 0,
     "bash": {
       "str_min": 1,

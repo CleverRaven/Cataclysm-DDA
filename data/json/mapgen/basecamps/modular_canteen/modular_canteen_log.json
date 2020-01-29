@@ -1,0 +1,200 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmk_log_palette",
+    "terrain": {
+      "d": "t_door_c",
+      "B": "t_grass",
+      "o": "t_window_no_curtains",
+      "w": "t_wall_log",
+      ".": "t_floor",
+      ",": "t_dirtfloor",
+      "S": "t_dirtfloor",
+      "a": "t_dirtfloor",
+      "U": "t_rootcellar"
+    },
+    "furniture": {
+      "b": "f_bench",
+      "t": "f_table",
+      "K": "f_kiln_empty",
+      "a": "f_stool",
+      "r": "f_rack_wood",
+      "R": "f_rack",
+      "h": "f_chair",
+      "S": "f_smoking_rack",
+      "V": "f_fvat_empty",
+      "B": "f_birdbath",
+      "H": "f_butcher_rack",
+      "c": "f_counter",
+      "p": "f_planter"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_kitchen_room_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wowdwow",
+        "w.....w",
+        "......o",
+        "       ",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_canteen_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room_log" ], "x": 9, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_kitchen_room2_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        "       ",
+        "       ",
+        "w.....d",
+        "......o",
+        "w.....w",
+        "wwwdwww"
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_canteen2_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room2_log" ], "x": 9, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_smoking_area_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        ",w,w   ",
+        ",,,,   ",
+        ",,,,   ",
+        ",,aw   ",
+        ",,,,   ",
+        ",,,,   ",
+        "ww,w   "
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_smoking_area_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_smoking_area_log" ], "x": 16, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_pantry_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwww ",
+        "w..... ",
+        "o..... ",
+        "w..... ",
+        "o..... ",
+        "w..... ",
+        "wwwwww "
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_pantry_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_pantry_log" ], "x": 3, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_dining_west_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        " bbbw..",
+        "    w..",
+        "  B o..",
+        "    d..",
+        "    o..",
+        "    ww.",
+        "     ww"
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_dining_west_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_west_log" ], "x": 3, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_dining_east_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "...w   ",
+        "...w   ",
+        "...ob  ",
+        "...wb  ",
+        "...ob  ",
+        "..ww   ",
+        "oww    "
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_dining_east_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_east_log" ], "x": 14, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_dining_center_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  owdw "
+      ],
+      "palettes": [ "fbmk_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_dining_center_log",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_center_log" ], "x": 8, "y": 14 } ] }
+  }
+]

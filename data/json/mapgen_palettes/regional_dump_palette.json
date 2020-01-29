@@ -1,0 +1,48 @@
+[
+  {
+    "type": "palette",
+    "id": "regional_dump",
+    "terrain": {
+      ".": "t_dirt",
+      ",": "t_grass",
+      "-": "t_fence_barbed",
+      "|": "t_fence_barbed",
+      "'": "t_pavement",
+      "y": "t_pavement_y",
+      "o": "t_window",
+      " ": "t_floor",
+      "#": "t_wall_r",
+      "+": "t_door_c",
+      "h": "t_floor",
+      "L": "t_floor",
+      "d": "t_floor",
+      "^": "t_dirtmound",
+      "p": "t_pit",
+      "g": "t_pit_glass",
+      "1": "t_dirtmound",
+      "2": "t_dirtmound",
+      "3": "t_dirtmound"
+    },
+    "furniture": {
+      "B": "f_bathtub",
+      "W": "f_washer",
+      "w": "f_wreckage",
+      "D": "f_dryer",
+      "S": "f_sink",
+      "U": "f_dumpster",
+      "E": "f_exercise",
+      "O": "f_oven",
+      "F": "f_fridge",
+      "f": "f_glass_fridge",
+      "C": "f_trashcan",
+      "t": "f_toilet",
+      "r": "f_rubble_rock",
+      "R": "f_rubble",
+      "X": "f_barricade_road",
+      "h": "f_chair",
+      "L": "f_locker",
+      "d": "f_desk",
+      "a": "f_ash"
+    }
+  }
+]

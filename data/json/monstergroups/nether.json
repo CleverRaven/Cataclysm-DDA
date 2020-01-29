@@ -1,0 +1,23 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DOG_THING",
+    "default": "mon_dog_thing"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TINDALOS",
+    "default": "mon_hound_tindalos"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BREATHER_HUB",
+    "default": "mon_breather_hub"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BREATHER",
+    "default": "mon_breather",
+    "monsters": [ { "monster": "mon_breather", "freq": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] } ]
+  }
+]

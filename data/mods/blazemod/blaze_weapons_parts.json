@@ -1,14 +1,10 @@
 [
   {
     "abstract": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
-    "symbol": "t",
     "broken_symbol": "#",
-    "durability": 400,
-    "damage_modifier": 80,
-    "location": "on_roof",
-    "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls.",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls."
   },
   {
     "id": "bolter",
@@ -18,8 +14,8 @@
     "item": "bolter",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "cangun",
@@ -29,8 +25,8 @@
     "item": "cangun",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "gattler1",
@@ -40,8 +36,8 @@
     "item": "gattler",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "lasgun",
@@ -51,8 +47,8 @@
     "item": "lasgun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "lasgunp",
@@ -62,8 +58,8 @@
     "item": "lasgunp",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "lasgunx",
@@ -73,24 +69,22 @@
     "item": "lasgunx",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "mcutter",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "manual lacerator",
     "item": "cutter",
-    "symbol": "t",
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 400,
     "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
+    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "mflamethrower3",
@@ -100,8 +94,8 @@
     "item": "rm451_flamethrower",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 4,
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -112,8 +106,8 @@
     "item": "nailer",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "needler",
@@ -123,8 +117,8 @@
     "item": "needler",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "railturret",
@@ -134,24 +128,22 @@
     "item": "railturret",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "ripper",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "manual ripper",
     "item": "ripper",
-    "symbol": "t",
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 400,
     "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
+    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "rslauncher",
@@ -161,8 +153,8 @@
     "item": "rslauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "scorpion",
@@ -172,8 +164,8 @@
     "item": "scorpion",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "shardgun",
@@ -183,8 +175,8 @@
     "item": "shardgun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "slauncher",
@@ -194,8 +186,8 @@
     "item": "slauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "teslagun",
@@ -205,8 +197,8 @@
     "item": "teslagun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "tiharturret",
@@ -216,7 +208,7 @@
     "item": "tiharturret",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]

@@ -1,20 +1,21 @@
 # Die maximale Zeilenlänge beträgt 78 Zeichen. Die folgende Linie dient als Referenz.
 # Zu lange Zeilen werden automatisch umgebrochen.
 ##############################################################################
-Hauptfunktionen in v0.C Cooper:
-* Monster kämpfen gegeneinander.
-* Überarbeitetes Zielen.
-* Verbesserte Geschützturmsteuerung.
-* Kleidungsmodifikationen.
-* Zahlreiche Töpfe, Sprengstoffe, Metalgüter, Kleidungen und Nahrung
-  können angefertigt werden.
-* Neues Aktionsmenü, um Gegenstände auszulösen.
-* Verbessertes Schichten- und Belastungssystem (für Kleidung).
-* Enorme Geschwindigkeitsverbesserungen bei vielen nahen Gegenständen.
-* Abwärtskompatibilität mit Spielständen von 0.A und 0.B.
+              Besuch uns:
 
-Für die neusten Diskussionen und Neuigeiten um C:DDA besuche bitte:
-Homepage: https://cataclysmdda.org
-Wiki: http://tools.cataclysmdda.com/wiki
+* Homepage:    https://cataclysmdda.org
+* Wiki:        https://cddawiki.chezzo.com/cdda_wiki
 
-Im Spiel kannst du die Einstellungen über das Hilfemenü (?2) aufrufen.
+* Melde Bugs, Vorschläge und folge der Entwicklung auf:
+    https://github.com/CleverRaven/Cataclysm-DDA/issues
+    oder E-Mail: kevin.granade@gmail.com
+
+Nimm an der Diskussion in den Foren und Chaträumen teil:
+* Discourse:                 https://discourse.cataclysmdda.org/
+* Discord:                  https://discord.gg/jFEc7Yp
+* IRC:                       #CataclysmDDA auf freenode.net
+* Reddit (inoffiziell):      https://www.reddit.com/r/cataclysmdda/
+
+Andere nützliche Links sind auch auf unserer Homepage verfügbar.
+
+Im Spiel kannst du die Einstellungen über das Hauptmenü (Esc) aufrufen.

@@ -7,7 +7,8 @@
     "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Removes medieval weapons, armors, and specific books.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",
@@ -30,6 +31,7 @@
       "rapier_fake",
       "rapier",
       "estoc",
+      "estoc_inferior",
       "estoc_fake",
       "kris",
       "kris_fake",
@@ -72,8 +74,13 @@
       "gloves_plate",
       "boots_plate",
       "helmet_plate",
+      "armor_lamellar",
       "armor_lightplate",
+      "armor_lorica",
       "helmet_barbute",
+      "helmet_conical",
+      "helmet_galea",
+      "helmet_nasal",
       "armor_samurai",
       "helmet_kabuto",
       "helmet_larmor",

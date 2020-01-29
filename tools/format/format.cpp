@@ -9,14 +9,13 @@
 #include <sstream>
 #include <string>
 
-static void format( JsonIn &jsin, JsonOut &jsout, int depth = -1 );
+static void format( JsonIn &jsin, JsonOut &jsout, int depth = -1, bool force_wrap = false );
 
 #ifdef MSYS2
 static void erase_char( std::string &s, const char &c )
 {
     size_t pos = std::string::npos;
-    while( ( pos  = s.find( c ) ) != std::string::npos )
-    {
+    while( ( pos  = s.find( c ) ) != std::string::npos ) {
         s.erase( pos, 1 );
     }
 }
@@ -39,15 +38,30 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
     while( !jsin.end_object() ) {
         std::string name = jsin.get_member_name();
         jsout.member( name );
-        format( jsin, jsout, depth );
+        bool override_wrap = false;
+        if( name == "rows" || name == "blueprint" ) {
+            // Introspect into the row, if it has more than one element, force it to wrap.
+            int in_start_pos = jsin.tell();
+            bool ate_seperator = jsin.get_ate_separator();
+            {
+                JsonArray arr = jsin.get_array();
+                if( arr.size() > 1 ) {
+                    override_wrap = true;
+                }
+            }
+            jsin.seek( in_start_pos );
+            jsin.set_ate_separator( ate_seperator );
+        }
+        format( jsin, jsout, depth, override_wrap );
     }
     jsout.end_object();
 }
 
 static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
-                               std::function<void(JsonIn &, JsonOut &, int, bool )>write_func )
+                               std::function<void( JsonIn &, JsonOut &, int, bool )>write_func,
+                               bool force_wrap )
 {
-    if( depth > 1 ) {
+    if( depth > 1 && !force_wrap ) {
         // We're backtracking by storing jsin and jsout state before formatting
         // and restoring it afterwards if necessary.
         int in_start_pos = jsin.tell();
@@ -72,16 +86,24 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
     write_func( jsin, jsout, depth, true );
 }
 
-static void format( JsonIn &jsin, JsonOut &jsout, int depth )
+static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     depth++;
     if( jsin.test_array() ) {
-        format_collection( jsin, jsout, depth, write_array );
+        format_collection( jsin, jsout, depth, write_array, force_wrap );
     } else if( jsin.test_object() ) {
-        format_collection( jsin, jsout, depth, write_object );
+        format_collection( jsin, jsout, depth, write_object, force_wrap );
     } else if( jsin.test_string() ) {
-        std::string str = jsin.get_string();
-        jsout.write( str );
+        // The string may contain escape sequences which we want to keep in the output.
+        const int start_pos = jsin.tell();
+        jsin.get_string();
+        const int end_pos = jsin.tell();
+        std::string str = jsin.substr( start_pos, end_pos - start_pos );
+        str = str.substr( str.find( '"' ) );
+        str = str.substr( 0, str.rfind( '"' ) + 1 );
+        jsout.write_separator();
+        *jsout.get_stream() << str;
+        jsout.set_need_separator();
     } else if( jsin.test_number() ) {
         // Have to introspect into the string to distinguish integers from floats.
         // Otherwise they won't serialize correctly.
@@ -189,7 +211,8 @@ int main( int argc, char *argv[] )
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
             fout << out.str();
             fout.close();
-            std::cout << "Formatted " << filename << std::endl;
+            std::cout << filename << " needs to be linted" << std::endl;
+            std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
             exit( EXIT_FAILURE );
         }
     }

@@ -4,8 +4,8 @@
     "type": "GUN",
     "name": "fire lance",
     "description": "An ancient Chinese spear, with a small tube attached for a charge of gunpowder.  While it has an extremely short range, it gives a powerful edge in close combat.",
-    "weight": 1538,
-    "volume": 12,
+    "weight": "1538 g",
+    "volume": "3 L",
     "price": 95000,
     "to_hit": 1,
     "bashing": 4,
@@ -23,6 +23,7 @@
     "reload": 200,
     "techniques": [ "WBLOCK_1", "PRECISE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "RELOAD_ONE", "SPEAR", "REACH_ATTACK" ]
+    "flags": [ "RELOAD_ONE", "SPEAR", "REACH_ATTACK" ],
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]

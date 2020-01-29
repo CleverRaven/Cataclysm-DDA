@@ -1,0 +1,8 @@
+[
+  {
+    "type": "start_location",
+    "ident": "s_candy",
+    "name": "Candy Shop",
+    "target": "candy_shop"
+  }
+]

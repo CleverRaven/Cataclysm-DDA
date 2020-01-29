@@ -21,11 +21,11 @@
         "ea          m  jhiiiiiae",
         "ea          m  oaiiiiiae",
         "eaadaaddaaaaaadaaiiiiiae",
-        "ear a    avvou oaiiiiiae",
+        "ear a<   avvou oaiiiiiae",
         "ea  ao   avt    hiiiiiae",
         "eaqpao   av    raxxxxxae",
         "eaaaa    aaaaadaaaaaaaae",
-        "easss          aggggggge",
+        "easss          a;gggggge",
         "ea      ss ss  cgggggwwe",
         "eass    ss ss  cgggggwwe",
         "eassss         agggggwwe",
@@ -55,7 +55,9 @@
         "u": "t_floor",
         "v": "t_floor",
         "w": "t_pavement",
-        "x": "t_thconc_floor"
+        "x": "t_thconc_floor",
+        "<": "t_stairs_up",
+        ";": "t_gutter_downspout"
       },
       "furniture": {
         "j": "f_rack",
@@ -212,6 +214,85 @@
           "magazine": 100
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gunstore_2ndfloor" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "************************",
+        "*---w-----w--w---*******",
+        "*-BB.dd-...BB...-*******",
+        "*-BB...-...BB...-*******",
+        "*w.....-d......o-*******",
+        "*-....^-d...A..I-888886*",
+        "*----+---+-------zzzzz6*",
+        "*-I.......j-iiiO-zzzzz6*",
+        "*wt.FFll...iiii1-zzzzz6*",
+        "*-n..Ftt...iiii3wzzzzz6*",
+        "*wt..Fll..o-1ii2-zzzzz6*",
+        "*-........o-uiie-zzzzz6*",
+        "*-+--D-Y...------zzzzz6*",
+        "*-iS-.-A...+...;-zzzzz6*",
+        "*wiT->-....-rr.;-9zzzz6*",
+        "*-bb---w+w-------zzzzz6*",
+        "*----zzzzzzfMzfzzzzzzz6*",
+        "*4zzzzzzzzzgzzgzzzzzzz6*",
+        "*4z@zzzzzzzffff67555556*",
+        "*4zzzzzzzzzzzzz6********",
+        "*4zzzzzzzzzzzzz6********",
+        "*4zzzzzzzzzzzzz6********",
+        "*4zzzzzzzzzzzzz6********",
+        "*455555555555556********"
+      ],
+      "palettes": [ "apartment_palette" ],
+      "terrain": { "9": "t_gutter_downspout" },
+      "furniture": { ";": "f_gunsafe_ml" },
+      "items": {
+        ";": [
+          { "item": "guns_obscure", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "mags_obscure", "chance": 30, "repeat": [ 1, 4 ] },
+          { "item": "ammo_obscure", "chance": 100, "repeat": [ 1, 2 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gunstore_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " |222222222222223       ",
+        " |..............3       ",
+        " |..............3       ",
+        " |...A..........3       ",
+        " |..............3       ",
+        " |..............3       ",
+        " |X..........A.&3       ",
+        " |..............3       ",
+        " |..............3       ",
+        " |..............3       ",
+        " |..............3       ",
+        " |..............3       ",
+        " |.=............3       ",
+        " |..............5       ",
+        " |..|-----------3       ",
+        " |--|                   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

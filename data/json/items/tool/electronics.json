@@ -1,0 +1,554 @@
+[
+  {
+    "id": "adv_UPS_off",
+    "type": "TOOL",
+    "name": "advanced UPS",
+    "name_plural": "advanced UPS's",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "weight": "453 g",
+    "volume": "2 L",
+    "price": 560000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "ammo": "plutonium",
+    "max_charges": 2500,
+    "flags": [ "IS_UPS" ]
+  },
+  {
+    "id": "camera",
+    "type": "TOOL",
+    "name": "camera",
+    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
+    "weight": "907 g",
+    "volume": "250 ml",
+    "price": 20000,
+    "bashing": 1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 5,
+    "use_action": "CAMERA",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "camera_pro",
+    "type": "TOOL",
+    "name": "camera pro",
+    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
+    "weight": "2268 g",
+    "volume": "1250 ml",
+    "price": 800000,
+    "bashing": 1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 5,
+    "use_action": "CAMERA",
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "cell_phone",
+    "type": "TOOL",
+    "name": "cellphone",
+    "name_plural": "cellphones",
+    "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
+    "weight": "226 g",
+    "volume": "100 ml",
+    "price": 9000,
+    "price_postapoc": 2000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": {
+      "target": "cell_phone_flashlight",
+      "msg": "You light up the screen.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The cellphone's batteries need more charge.",
+      "type": "transform"
+    },
+    "flags": [ "WATCH", "ALARMCLOCK" ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "cell_phone_flashlight",
+    "copy-from": "cell_phone",
+    "type": "TOOL",
+    "name": "cellphone - Flashlight",
+    "name_plural": "cellphones - Flashlight",
+    "power_draw": 500,
+    "revert_to": "cell_phone",
+    "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
+  },
+  {
+    "id": "control_laptop",
+    "type": "TOOL",
+    "name": "control laptop",
+    "description": "A modified laptop, now capable of transmitting in the ultra high frequencies utilized by robots.  Activate it to command robots from afar.",
+    "weight": "2721 g",
+    "volume": "1 L",
+    "price": 10000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 2,
+    "use_action": "ROBOTCONTROL",
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
+  },
+  {
+    "id": "directional_antenna",
+    "type": "TOOL",
+    "name": "directional antenna",
+    "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
+    "weight": "454 g",
+    "volume": "500 ml",
+    "price": 800,
+    "to_hit": 1,
+    "material": "aluminum",
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": "DIRECTIONAL_ANTENNA"
+  },
+  {
+    "id": "e_handcuffs",
+    "type": "TOOL",
+    "name": "electronic handcuffs",
+    "name_plural": "electronic handcuffs",
+    "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
+    "weight": "2000 g",
+    "volume": "250 ml",
+    "price": 0,
+    "to_hit": -8,
+    "cutting": 1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "white",
+    "max_charges": 3000,
+    "turns_per_charge": 1,
+    "use_action": "EHANDCUFFS",
+    "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
+  },
+  {
+    "id": "eink_tablet_pc",
+    "type": "TOOL",
+    "name": "e-ink tablet PC",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 20000,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": ";",
+    "color": "blue",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": "EINKTABLETPC",
+    "flags": [ "WATCH" ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "electrohack",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "electrohack",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
+    "weight": "114 g",
+    "volume": "500 ml",
+    "price": 40000,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "green",
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "geiger_off",
+    "type": "TOOL",
+    "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
+    "description": "This is a tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation.  It is currently off.",
+    "weight": "225 g",
+    "volume": "500 ml",
+    "price": 15000,
+    "bashing": 2,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": "GEIGER",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "geiger_on",
+    "copy-from": "geiger_off",
+    "type": "TOOL",
+    "name": "geiger counter (on)",
+    "name_plural": "geiger counters (on)",
+    "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
+    "power_draw": 200,
+    "revert_to": "geiger_off",
+    "use_action": "GEIGER",
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
+  },
+  {
+    "id": "hand_crank_charger",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "hand-crank charger",
+    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
+    "weight": "2000 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "material": "plastic",
+    "symbol": ":",
+    "color": "light_gray",
+    "ammo": "battery",
+    "use_action": "HAND_CRANK",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "mp3",
+    "type": "TOOL",
+    "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
+    "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
+    "weight": "140 g",
+    "volume": "50 ml",
+    "price": 3000,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "use_action": "MP3",
+    "charges_per_use": 1,
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "mp3_on",
+    "copy-from": "mp3",
+    "type": "TOOL",
+    "name": "mp3 player (on)",
+    "name_plural": "mp3 players (on)",
+    "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
+    "power_draw": 1000,
+    "revert_to": "mp3",
+    "use_action": "MP3_ON",
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
+  },
+  {
+    "id": "noise_emitter",
+    "type": "TOOL",
+    "name": "noise emitter (off)",
+    "name_plural": "noise emitters (off)",
+    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
+    "weight": "340 g",
+    "volume": "1 L",
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": "NOISE_EMITTER_OFF",
+    "flags": [ "RADIO_MODABLE" ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "noise_emitter_on",
+    "copy-from": "noise_emitter",
+    "type": "TOOL",
+    "name": "noise emitter (on)",
+    "name_plural": "noise emitters (on)",
+    "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
+    "power_draw": 10000,
+    "revert_to": "noise_emitter",
+    "use_action": "NOISE_EMITTER_ON",
+    "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "portable_game",
+    "type": "TOOL",
+    "name": "handheld game system",
+    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 12000,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "use_action": "PORTABLE_GAME",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "smart_phone",
+    "type": "TOOL",
+    "name": "smartphone",
+    "name_plural": "smartphones",
+    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
+    "weight": "230 g",
+    "volume": "100 ml",
+    "price": 20000,
+    "price_postapoc": 1900,
+    "material": [ "plastic", "aluminum" ],
+    "looks_like": "cell_phone",
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "initial_charges": 110,
+    "max_charges": 120,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "target": "smart_phone_flashlight",
+        "msg": "You activate the flashlight app.",
+        "active": true,
+        "need_charges": 5,
+        "need_charges_msg": "The smartphone's charge is too low.",
+        "type": "transform"
+      },
+      "CAMERA",
+      "MP3"
+    ],
+    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "smartphone_music",
+    "copy-from": "smart_phone",
+    "type": "TOOL",
+    "name": "smartphone - music",
+    "name_plural": "smartphones - music",
+    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "power_draw": 300,
+    "revert_to": "smart_phone",
+    "use_action": "MP3_ON",
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "magazine_well": 1
+  },
+  {
+    "id": "smart_phone_flashlight",
+    "copy-from": "smart_phone",
+    "type": "TOOL",
+    "name": "smartphone - Flashlight",
+    "name_plural": "smartphones - Flashlight",
+    "power_draw": 1500,
+    "revert_to": "smart_phone",
+    "use_action": {
+      "target": "smart_phone",
+      "msg": "You deactivate the flashlight app.",
+      "menu_text": "Turn off flashlight",
+      "type": "transform"
+    },
+    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "UPS_off",
+    "type": "TOOL",
+    "name": "UPS",
+    "name_plural": "UPS's",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": 280000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4,
+    "flags": [ "IS_UPS" ]
+  },
+  {
+    "id": "vibrator",
+    "type": "TOOL",
+    "name": { "str": "vibrator" },
+    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
+    "weight": "453 g",
+    "volume": "500 ml",
+    "price": 5500,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "charges_per_use": 10,
+    "use_action": "VIBE",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  }
+]

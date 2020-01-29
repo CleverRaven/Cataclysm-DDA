@@ -1,74 +1,93 @@
 [
-    {
-        "id": "software",
-        "type": "GENERIC",
-        "name": "software",
-        "symbol": "#",
-        "container": "usb_drive",
-        "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
-        "flags": [ "IRREMOVABLE", "NO_DROP" ]
-    },
-    {
-        "id": "software_useless",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "misc software",
-        "name_plural": "misc software",
-        "description": "A miscellaneous piece of hobby software.  Probably useless.",
-        "price": 300
-    },
-    {
-        "id": "software_hacking",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "hackPRO",
-        "name_plural": "hackPRO",
-        "description": "A piece of hacking software.",
-        "price": 800
-    },
-    {
-        "id": "software_medical",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "MediSoft",
-        "name_plural": "MediSoft",
-        "description": "A piece of medical software.",
-        "price": 600
-    },
-    {
-        "id": "software_math",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "MatheMAX",
-        "name_plural": "MatheMAX",
-        "description": "A piece of mathematical software.",
-        "price": 500
-    },
-    {
-        "id": "software_blood_data",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "infection data",
-        "name_plural": "infection data",
-        "description": "Medical data on zombie blood.",
-        "price": 200
-    },
-    {
-        "id": "software_lab_data",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "lab data",
-        "name_plural": "lab data",
-        "description": "Research archives from a government laboratory.",
-        "price": 200
-    },
-    {
-        "id": "software_train_data",
-        "copy-from": "software",
-        "type":"GENERIC",
-        "name": "train data",
-        "name_plural": "train data",
-        "description": "Logistical data on subterranean train routes and schedules.",
-        "price": 200
-    }
+  {
+    "id": "software",
+    "type": "GENERIC",
+    "name": "software",
+    "symbol": "#",
+    "container": "usb_drive",
+    "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
+    "flags": [ "IRREMOVABLE", "NO_DROP" ]
+  },
+  {
+    "id": "software_useless",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "misc software",
+    "name_plural": "misc software",
+    "description": "A miscellaneous piece of hobby software.  Probably useless.",
+    "price": 300
+  },
+  {
+    "id": "software_hacking",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "hackPRO",
+    "name_plural": "hackPRO",
+    "description": "A piece of hacking software.",
+    "price": 800
+  },
+  {
+    "id": "software_medical",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "MediSoft",
+    "name_plural": "MediSoft",
+    "description": "A piece of medical software.",
+    "price": 600
+  },
+  {
+    "id": "software_math",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "MatheMAX",
+    "name_plural": "MatheMAX",
+    "description": "A piece of mathematical software.",
+    "price": 500
+  },
+  {
+    "id": "software_blood_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "infection data",
+    "name_plural": "infection data",
+    "description": "Medical data on zombie blood.",
+    "price": 200
+  },
+  {
+    "id": "software_lab_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "lab data",
+    "name_plural": "lab data",
+    "description": "Research archives from a government laboratory.",
+    "price": 200
+  },
+  {
+    "id": "software_train_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "train data",
+    "name_plural": "train data",
+    "description": "Logistical data on subterranean train routes and schedules.",
+    "price": 200
+  },
+  {
+    "id": "mind_scan_robofac",
+    "type": "GENERIC",
+    "name": "neural data",
+    "name_plural": "neural data",
+    "symbol": "#",
+    "container": "data_card",
+    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
+    "flags": [ "NO_DROP" ]
+  },
+  {
+    "id": "software_electronics_reference",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "integrated circuit datasheet archives",
+    "name_plural": "misc software",
+    "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
+    "price": 40000
+  }
 ]

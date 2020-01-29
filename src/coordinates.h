@@ -6,6 +6,7 @@
 
 #include "enums.h"
 #include "game_constants.h"
+#include "point.h"
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
@@ -75,8 +76,8 @@ struct real_coords {
 
     // specifically for the subjective position returned by overmap::draw
     void fromomap( int rel_omx, int rel_omy, int rel_om_posx, int rel_om_posy ) {
-        int ax = ( rel_omx * OMAPX ) + rel_om_posx;
-        int ay = ( rel_omy * OMAPY ) + rel_om_posy;
+        const int ax = rel_omx * OMAPX + rel_om_posx;
+        const int ay = rel_omy * OMAPY + rel_om_posy;
         fromabs( ax * SEEX * 2, ay * SEEY * 2 );
     }
 

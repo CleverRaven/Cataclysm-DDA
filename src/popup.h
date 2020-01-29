@@ -2,14 +2,16 @@
 #ifndef POPUP_H
 #define POPUP_H
 
+#include <cstddef>
 #include <functional>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "cursesdef.h"
 #include "input.h"
-
-class nc_color;
+#include "color.h"
+#include "string_formatter.h"
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -163,6 +165,10 @@ class query_popup
          * Specify starting cursor position.
          **/
         query_popup &cursor( size_t pos );
+        /**
+         * Specify the default message color.
+         **/
+        query_popup &default_color( const nc_color &d_color );
 
         /**
          * Draw the UI. An input context should be provided using `context()`
@@ -194,17 +200,17 @@ class query_popup
         std::string text;
         std::vector<query_option> options;
         size_t cur;
+        nc_color default_text_color;
         bool anykey;
         bool cancel;
         bool ontop;
         bool fullscr;
 
         struct button {
-            button( const std::string &text, int x, int y );
+            button( const std::string &text, const point & );
 
             std::string text;
-            int x;
-            int y;
+            point pos;
         };
 
         // UI caches
@@ -222,7 +228,7 @@ class query_popup
         template <typename ...Args>
         static void assert_format( const std::string &, Args &&... ) {
             static_assert( sizeof...( Args ) > 0,
-                           "Format string should take at least one argument. "
+                           "Format string should take at least one argument.  "
                            "If your message is not a format string, "
                            "use `message( \"%s\", text )` instead." );
         }

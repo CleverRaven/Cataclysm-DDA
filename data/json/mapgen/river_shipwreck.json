@@ -35,7 +35,14 @@
         "#": "t_dirt",
         "+": "t_door_metal_c",
         "-": "t_wall_metal",
-        ".": [ "t_water_sh", { "ter": "t_water_sh" }, { "ter": "t_dirt" }, { "ter": "t_grass" }, { "ter": "t_dirt" }, { "ter": "t_dirtmound" } ],
+        ".": [
+          "t_water_sh",
+          { "ter": "t_water_sh" },
+          { "ter": "t_dirt" },
+          { "ter": "t_grass" },
+          { "ter": "t_dirt" },
+          { "ter": "t_dirtmound" }
+        ],
         "3": "t_window_frame",
         "6": "t_machinery_light",
         "C": "t_dirtmound",
@@ -85,7 +92,14 @@
         "#": "t_dirt",
         "+": "t_door_metal_c",
         "-": "t_wall_metal",
-        ".": [ "t_water_sh", { "ter": "t_water_sh" }, { "ter": "t_dirt" }, { "ter": "t_grass" }, { "ter": "t_dirt" }, { "ter": "t_dirtmound" } ],
+        ".": [
+          "t_water_sh",
+          { "ter": "t_water_sh" },
+          { "ter": "t_dirt" },
+          { "ter": "t_grass" },
+          { "ter": "t_dirt" },
+          { "ter": "t_dirtmound" }
+        ],
         ">": "t_stairs_down",
         "A": "t_metal_floor",
         "C": "t_dirtmound",
@@ -191,7 +205,7 @@
         "~": "t_water_sh"
       },
       "furniture": { "#": "f_wreckage", "9": "f_locker", "A": "f_standing_tank" },
-      "items": { "9": { "item": "plumber_gear", "chance": 90 }, "C": { "item": "razorclaw_nest", "chance": 70 } },
+      "items": { "9": { "item": "hardware_plumbing", "chance": 90 }, "C": { "item": "razorclaw_nest", "chance": 70 } },
       "place_monsters": [ { "monster": "GROUP_RAZORCLAW", "x": [ 0, 9 ], "y": [ 9, 13 ], "density": 0.05 } ]
     }
   }

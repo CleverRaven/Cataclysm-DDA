@@ -1,0 +1,64 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_tree_burnt",
+    "name": "burnt tree",
+    "description": "This tree looks like it has been burnt badly, but it is somehow still standing.",
+    "symbol": "7",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "ash", "count": [ 3, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_webbed_corpse",
+    "name": "burnt tree",
+    "description": "This is a large coccoon-like object that looks to be the vague shape of some creature.  You don't want to know how long it stayed alive while being sucked dry by these spiders.",
+    "symbol": "7",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 30,
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "ash", "count": [ 3, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_demon_web_wall",
+    "name": "webbing wall",
+    "description": "This wall seems to be made up of a combination of webbing, wood splinters, detritus, and some kind of dark-colored resin.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL"
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirt_barren",
+    "name": "barren dirt",
+    "description": "It's dirt.  The ground here is infertile.  Could also be dug out for construction projects.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "looks_like": "t_dirt",
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  }
+]

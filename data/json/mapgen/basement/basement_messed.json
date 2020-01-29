@@ -1,0 +1,90 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "basement" ],
+    "weight": 250,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ||||||||||||       ",
+        "     |a.aaHHbbbr|       ",
+        "     |a.......ar|       ",
+        "     |a..a|||||||       ",
+        "     |a..aaaarrr|       ",
+        "     |a.a.aaaaaa|       ",
+        "     |aa....arrr|       ",
+        "     |||..|++||||       ",
+        "     |E..a|..|          ",
+        "     |W..r|<<|          ",
+        "     |||||||||          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_floor",
+        "a": "t_floor",
+        "r": "t_floor",
+        "E": "t_floor",
+        "c": "t_floor",
+        "H": "t_floor",
+        "W": "t_floor",
+        "b": "t_floor",
+        "<": "t_stairs_up",
+        "|": "t_wall"
+      },
+      "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "furniture": {
+        "c": "f_counter",
+        "r": "f_rack",
+        "E": "f_water_heater",
+        "W": [ "f_water_purifier", "f_home_furnace" ],
+        "a": [
+          [ "f_table", 30 ],
+          [ "f_armchair", 30 ],
+          [ "f_chair", 60 ],
+          [ "f_counter", 30 ],
+          [ "f_cupboard", 30 ],
+          [ "f_floor_lamp", 15 ],
+          [ "f_desk", 30 ],
+          [ "f_null", 50 ]
+        ],
+        "H": "f_bookcase",
+        "b": "f_workbench"
+      },
+      "items": {
+        ".": [ { "item": "trash", "chance": 5 } ],
+        "r": [
+          { "item": "livingroom", "chance": 30 },
+          { "item": "bedroom", "chance": 30 },
+          { "item": "allclothes", "chance": 50 },
+          { "item": "kitchen_appliances", "chance": 20 },
+          { "item": "pawn", "chance": 5 },
+          { "item": "musicstore_showpiece", "chance": 10 },
+          { "item": "sports", "chance": 30 }
+        ],
+        "H": [
+          { "item": "magazines", "chance": 60, "repeat": [ 0, 3 ] },
+          { "item": "homebooks", "chance": 50 },
+          { "item": "exotic_books", "chance": 5 }
+        ],
+        "b": [ { "item": "home_hw", "chance": 60 }, { "item": "mechanics", "chance": 30 } ]
+      },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 16 ], "y": [ 12, 16 ] } ]
+    }
+  }
+]

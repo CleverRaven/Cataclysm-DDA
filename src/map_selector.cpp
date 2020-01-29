@@ -1,16 +1,19 @@
 #include "map_selector.h"
 
 #include <vector>
+#include <functional>
+#include <memory>
 
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "optional.h"
 #include "rng.h"
+#include "game_constants.h"
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
-    for( const auto &e : closest_tripoints_first( radius, pos ) ) {
+    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
         if( !accessible || g->m.clear_path( pos, e, radius, 1, 100 ) ) {
             data.emplace_back( e );
         }

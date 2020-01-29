@@ -1,0 +1,312 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_VAMP",
+    "name": "Night Walker",
+    "points": 1,
+    "description": "Emerge from the grave of the old world, and become the night once again.",
+    "//": "Parallel reference to Woken Furies quote from the Altered Carbon series and song.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET",
+    "name": "Fleet-Footed",
+    "points": 2,
+    "description": "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
+    "starting_trait": true,
+    "changes_to": [ "FLEET2" ],
+    "category": [ "SPIDER", "MOUSE", "VAMP" ],
+    "types": [ "RUNNING" ],
+    "movecost_flatground_modifier": 0.85
+  },
+  {
+    "type": "mutation",
+    "id": "GOODHEARING",
+    "name": "Good Hearing",
+    "points": 1,
+    "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
+    "starting_trait": true,
+    "category": [ "ALPHA", "MOUSE", "ELFA" ],
+    "cancels": [ "BADHEARING" ],
+    "hearing_modifier": 1.25
+  },
+  {
+    "type": "mutation",
+    "id": "GOODCARDIO",
+    "name": "Indefatigable",
+    "points": 2,
+    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "BADCARDIO" ],
+    "changes_to": [ "GOODCARDIO2" ],
+    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "VAMP" ],
+    "max_stamina_modifier": 1.25
+  },
+  {
+    "type": "mutation",
+    "id": "FASTHEALER",
+    "name": "Fast Healer",
+    "points": 2,
+    "description": "You heal faster when sleeping and will even recover a small amount of HP when not sleeping.",
+    "starting_trait": true,
+    "types": [ "HEALING" ],
+    "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
+    "category": [ "MEDICAL", "VAMP" ],
+    "healing_awake": 0.2,
+    "healing_resting": 0.5
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST",
+    "name": "Pain Resistant",
+    "points": 2,
+    "description": "You have a high tolerance for pain.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ],
+    "category": [ "MEDICAL", "VAMP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "name": "Night Vision",
+    "points": 2,
+    "description": "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
+    "starting_trait": true,
+    "changes_to": [ "NIGHTVISION2" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "BIRD", "CATTLE", "INSECT", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "name": "Deft",
+    "points": 1,
+    "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
+    "starting_trait": true,
+    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "VAMP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TERRIFYING",
+    "name": "Terrifying",
+    "points": 1,
+    "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
+    "starting_trait": true,
+    "category": [ "BEAST", "INSECT", "CHIMERA", "VAMP" ],
+    "social_modifiers": { "intimidate": 15 }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTSTEP",
+    "name": "Light Step",
+    "points": 1,
+    "description": "You make less noise while walking.  You're also less likely to set off traps.",
+    "starting_trait": true,
+    "category": [ "BIRD", "ELFA", "FELINE", "VAMP" ],
+    "cancels": [ "CLUMSY" ],
+    "noise_modifier": 0.4
+  },
+  {
+    "type": "mutation",
+    "id": "CANNIBAL",
+    "name": "Cannibal",
+    "points": 1,
+    "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "VEGETARIAN" ],
+    "category": [ "VAMP" ],
+    "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEAKSCENT",
+    "name": "Weak Scent",
+    "points": 1,
+    "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
+    "starting_trait": true,
+    "category": [ "ALPHA", "VAMP" ],
+    "types": [ "SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRETTY",
+    "name": "Pretty",
+    "points": 1,
+    "ugliness": -2,
+    "description": "You are a sight to behold.  NPCs who care about such things will react more kindly to you.",
+    "starting_trait": true,
+    "category": [ "ALPHA", "FELINE", "LUPINE", "VAMP" ],
+    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "changes_to": [ "BEAUTIFUL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "INSOMNIA",
+    "name": "Insomniac",
+    "points": -2,
+    "description": "You have a hard time falling asleep, even under the best circumstances!",
+    "starting_trait": true,
+    "valid": false,
+    "category": [ "MEDICAL", "VAMP" ],
+    "cancels": [ "EASYSLEEPER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "THINSKIN",
+    "name": "Thin-Skinned",
+    "points": -1,
+    "description": "Your skin is fragile.  Cutting damage is slightly increased for you.",
+    "starting_trait": true,
+    "cancels": [ "THICKSKIN" ],
+    "category": [ "VAMP" ],
+    "armor": [ { "parts": "ALL", "cut": -1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEAKSTOMACH",
+    "name": "Weak Stomach",
+    "points": -1,
+    "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
+    "starting_trait": true,
+    "changes_to": [ "NAUSEA" ],
+    "category": [ "VAMP" ],
+    "cancels": [ "STRONGSTOMACH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ALBINO",
+    "name": "Albino",
+    "points": -1,
+    "description": "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and sunglasses when going out in the sun.",
+    "starting_trait": true,
+    "changes_to": [ "SUNBURN" ],
+    "category": [ "TROGLOBITE", "MOUSE", "VAMP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FLIMSY",
+    "name": "Flimsy",
+    "points": -4,
+    "description": "Your body can't take much abuse.  Its maximum HP is 25% lower than usual and you heal slightly slower.  Stacks with Glass Jaw.",
+    "starting_trait": true,
+    "valid": false,
+    "social_modifiers": { "intimidate": -2 },
+    "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
+    "category": [ "MOUSE", "ELFA", "VAMP" ],
+    "changes_to": [ "FLIMSY2" ],
+    "hp_modifier": -0.25
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION2",
+    "name": "High Night Vision",
+    "points": 4,
+    "description": "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
+    "prereqs": [ "NIGHTVISION" ],
+    "changes_to": [ "NIGHTVISION3" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION3",
+    "name": "Full Night Vision",
+    "points": 6,
+    "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
+    "prereqs": [ "NIGHTVISION2" ],
+    "leads_to": [ "INFRARED" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "FISH", "TROGLOBITE", "SPIDER", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "name": "Fangs",
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
+    "types": [ "TEETH" ],
+    "changes_to": [ "SABER_TEETH", "SHARKTEETH" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA" ],
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "MOUTH",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "required_mutations": [ "MUZZLE" ],
+        "body_part": "MOUTH",
+        "chance": 18,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "required_mutations": [ "MUZZLE_LONG" ],
+        "body_part": "MOUTH",
+        "chance": 15,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "required_mutations": [ "MUZZLE_RAT" ],
+        "body_part": "MOUTH",
+        "chance": 19,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NAILS",
+    "name": "Long Fingernails",
+    "points": 1,
+    "visibility": 1,
+    "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+    "types": [ "CLAWS" ],
+    "changes_to": [ "CLAWS", "TALONS" ],
+    "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
+    "category": [ "RAPTOR" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POISONOUS",
+    "name": "Venomous",
+    "points": 1,
+    "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
+    "prereqs": [ "POISRESIST" ],
+    "leads_to": [ "EATPOISON" ],
+    "changes_to": [ "POISONOUS2" ],
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "VAMP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SUNBURN",
+    "name": "Solar Sensitivity",
+    "points": -3,
+    "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
+    "prereqs": [ "ALBINO" ],
+    "prereqs2": [ "TROGLO2", "TROGLO3" ],
+    "category": [ "TROGLOBITE", "VAMP" ]
+  }
+]

@@ -4,8 +4,9 @@
     "ident": "mapgen_demo",
     "name": "Mapgen Demo",
     "authors": [ "Sunshine" ],
-    "description": "Demo for JSONized mapgens (FEMA, megastore, missile silo).",
+    "description": "Demo for JSONized mapgens (megastore, missile silo).",
     "category": "buildings",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

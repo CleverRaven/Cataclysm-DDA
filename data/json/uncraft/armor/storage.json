@@ -1,0 +1,20 @@
+[
+  {
+    "result": "fireman_belt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "police_belt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 6 ] ], [ [ "scrap", 3 ] ] ]
+  }
+]

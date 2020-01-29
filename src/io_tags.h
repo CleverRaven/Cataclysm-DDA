@@ -26,6 +26,6 @@ struct object_archive_tag {
     using OutputArchive = JsonObjectOutputArchive;
 };
 
-}
+} // namespace io
 
 #endif // CATA_IO_TAGS_H

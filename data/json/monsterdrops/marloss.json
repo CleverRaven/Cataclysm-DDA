@@ -1,0 +1,19 @@
+[
+  {
+    "id": "marloss_zealot_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "footrags", "damage": [ 0, 2 ] },
+      { "group": "zealot_outfit" },
+      { "item": "marloss_berry", "prob": 33 },
+      { "item": "stick_long", "prob": 50 },
+      { "item": "mycenacean_hymns", "prob": 2 }
+    ]
+  },
+  {
+    "id": "zealot_outfit",
+    "type": "item_group",
+    "items": [ [ "tunic", 90 ], [ "tunic_rag", 9 ], [ "armor_nomad_light", 1 ] ]
+  }
+]

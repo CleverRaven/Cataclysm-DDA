@@ -1,0 +1,25 @@
+[
+  {
+    "type": "palette",
+    "id": "field_football",
+    "furniture": { "H": "f_bench", "R": "f_trashcan", "C": "f_counter", "F": "f_fridge", "I": "f_sink" },
+    "terrain": {
+      "%": "t_grass_white",
+      ",": "t_dirt",
+      ".": "t_pavement_y",
+      "H": "t_dirt",
+      "p": "t_pavement",
+      "R": "t_dirt",
+      "o": "t_little_column",
+      "!": "t_floor",
+      "+": "t_door_c",
+      "-": "t_wall",
+      ";": "t_floor",
+      "C": "t_floor",
+      "F": "t_floor",
+      "I": "t_floor",
+      "W": "t_window_open",
+      "|": "t_wall"
+    }
+  }
+]

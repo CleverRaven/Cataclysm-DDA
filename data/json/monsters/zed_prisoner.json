@@ -1,0 +1,14 @@
+[
+  {
+    "id": "mon_zombie_prisoner",
+    "type": "MONSTER",
+    "name": "prisoner zombie",
+    "description": "Apparently this zombie was doing time when the Cataclysm struck.  It wears black and white striped prisoner clothes, and tattoos can be seen on his decaying skin.",
+    "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
+    "hp": 90,
+    "color": "green",
+    "melee_dice_sides": 4,
+    "death_drops": "mon_zombie_prisoner_death_drops"
+  }
+]

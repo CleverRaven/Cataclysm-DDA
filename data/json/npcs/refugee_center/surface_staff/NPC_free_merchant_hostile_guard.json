@@ -1,0 +1,13 @@
+[
+  {
+    "type": "npc",
+    "id": "hostile_guard",
+    "//": "A generic hostile guard for the Free Merchants faction.  For where the player shouldn't venture.'",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "free_merchants"
+  }
+]

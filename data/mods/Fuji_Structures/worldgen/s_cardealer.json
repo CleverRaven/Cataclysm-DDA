@@ -25,7 +25,7 @@
         "beeeeeeeee             b",
         "bcfgfffffc             b",
         "bcndddddkc       aaaaaab",
-        "bcdddddlkc             b",
+        "bcdddddlkc;            b",
         "bckkkkddkcccc          b",
         "bcmldkdddcjic          b",
         "bcmddddmdghhc          b",
@@ -45,7 +45,8 @@
         "k": "t_floor",
         "l": "t_floor",
         "m": "t_floor",
-        "n": "t_floor"
+        "n": "t_floor",
+        ";": "t_gutter_downspout"
       },
       "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker", "n": "f_vending_c" },
       "toilets": { "i": {  } },
@@ -65,6 +66,41 @@
         { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 15, 15 ], "chance": 50, "rotation": 0 },
         { "vehicle": "dealership", "x": [ 20, 20 ], "y": [ 20, 20 ], "chance": 50, "rotation": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_cardealer_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |22222223              ",
+        " |.......3              ",
+        " |...A...5              ",
+        " |.......3--3           ",
+        " |.........=3           ",
+        " |..........3           ",
+        " |----------3           "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

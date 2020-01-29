@@ -24,7 +24,7 @@
         "ea          hh hhh i  ae",
         "eahhhhha   oaacaaa aaaae",
         "eaababaaaacaa    a aprae",
-        "eddddddda   a ll a cpqae",
+        "edddddd9a   a ll a cpqae",
         "edddddddc   alkkla aaaae",
         "ennddddda  malkkla cpqae",
         "enndddddammma ll asaprae",
@@ -50,7 +50,8 @@
         "p": "t_linoleum_gray",
         "q": "t_linoleum_gray",
         "r": "t_linoleum_gray",
-        "s": "t_floor"
+        "s": "t_floor",
+        "9": "t_gutter_downspout"
       },
       "furniture": {
         "h": "f_rack",
@@ -82,6 +83,41 @@
         { "group": "vending_food_items", "chance": 80, "repeat": [ 4 ], "x": [ 19, 19 ], "y": [ 14, 15 ] },
         { "group": "trash", "chance": 50, "repeat": [ 5 ], "x": [ 1, 2 ], "y": [ 20, 22 ] }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_games_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       |222222222222223 ",
+        " |22252|..............3 ",
+        " |...............X.:..3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...A...........=&...3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-----5|.............3 ",
+        "        |.............3 ",
+        "        |.............3 ",
+        "        |........A....3 ",
+        "        |.............3 ",
+        "        |-------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

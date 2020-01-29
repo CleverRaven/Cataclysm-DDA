@@ -14,15 +14,15 @@
         "|   }                  |",
         "| T hST                |",
         "|              wwwwdwwww",
-        "| T {BT        vc******v",
-        "|              Wc******v",
-        "| T hsT{BT     vC******W",
-        "|              vC******W",
-        "|        8S    vC******W",
-        "| T      T     Wc******v",
-        "|    888       Wc******v",
+        "| T {BT        vc*****Iv",
+        "|              Wc****aIv",
+        "| T hsT{BT     vC*****kW",
+        "|              vCa***wvW",
+        "|        8S    vC****w$w",
+        "| T      T     Wc****d*v",
+        "|    888       Wc****w&v",
         "|    888       wwwwdwwww",
-        "| T  888 T             |",
+        "| T  888 T          4  |",
         "|        8S            |",
         "|                      |",
         "| T hST{BT             |",
@@ -45,17 +45,28 @@
         "T": "t_support_l",
         "W": "t_window",
         "c": "t_floor",
+        "k": "t_floor",
+        "a": "t_floor",
+        "$": "t_floor",
+        "&": "t_floor",
+        "I": "t_floor",
         "d": "t_door_locked",
         "h": "t_station_disc",
         "s": "t_switchgear_s",
-        "v": "t_wall",
-        "w": "t_wall",
+        "v": "t_wall_b",
+        "w": "t_wall_b",
         "x": "t_chainfence_posts",
         "{": "t_current_trans",
         "|": "t_chainfence_v",
-        "}": "t_lgtn_arrest"
+        "}": "t_lgtn_arrest",
+        "4": "t_gutter_downspout"
       },
-      "furniture": { "c": "f_counter" },
+      "toilets": { "&": {  } },
+      "furniture": { "c": "f_counter", "a": "f_stool", "I": "f_desk", "k": "f_filing_cabinet", "$": "f_sink" },
+      "items": {
+        "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
+        "k": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] }
+      },
       "place_loot": [
         { "group": "supplies_electronics", "x": 16, "y": [ 7, 8 ], "chance": 40, "repeat": [ 1, 3 ] },
         { "group": "tools_lighting_industrial", "x": 16, "y": [ 7, 8 ], "chance": 30, "repeat": [ 1, 2 ] },
@@ -64,8 +75,45 @@
         { "group": "supplies_electronics", "x": 16, "y": [ 12, 13 ], "chance": 40, "repeat": [ 1, 3 ] },
         { "group": "tools_lighting_industrial", "x": 16, "y": [ 12, 13 ], "chance": 30, "repeat": [ 1, 2 ] },
         { "group": "tools_common", "x": 16, "y": [ 12, 13 ], "chance": 40, "repeat": [ 1, 2 ] },
-        { "group": "clothing_work_set", "x": 16, "y": [ 12, 13 ], "chance": 25 }
+        { "group": "clothing_work_set", "x": 16, "y": [ 12, 13 ], "chance": 25 },
+        { "item": "stepladder", "x": 20, "y": 17, "chance": 100 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pwr_sub_s_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               |22222223",
+        "               |.......3",
+        "               |.......3",
+        "               |.......3",
+        "               |.......3",
+        "               |.......3",
+        "               |.......3",
+        "               |.......3",
+        "               |----5--3",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
     }
   }
 ]

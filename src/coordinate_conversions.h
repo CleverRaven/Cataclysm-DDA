@@ -2,7 +2,7 @@
 #ifndef COORDINATE_CONVERSIONS_H
 #define COORDINATE_CONVERSIONS_H
 
-#include "enums.h"
+#include "point.h"
 
 /**
  * Coordinate systems used here are:
@@ -74,6 +74,8 @@ inline point omt_to_om_remain( point &p )
 {
     return omt_to_om_remain( p.x, p.y );
 }
+// overmap to overmap terrain
+point om_to_omt_copy( const point &p );
 // submap to overmap terrain
 point sm_to_omt_copy( int x, int y );
 inline point sm_to_omt_copy( const point &p )
@@ -138,6 +140,8 @@ inline void omt_to_sm( tripoint &p )
 {
     omt_to_sm( p.x, p.y );
 }
+// overmap terrain to map square
+point omt_to_ms_copy( const point &p );
 // overmap to submap, basically: x *= 2 * OMAPX
 point om_to_sm_copy( int x, int y );
 inline point om_to_sm_copy( const point &p )
@@ -174,6 +178,10 @@ point ms_to_sm_remain( int &x, int &y );
 inline point ms_to_sm_remain( point &p )
 {
     return ms_to_sm_remain( p.x, p.y );
+}
+inline tripoint ms_to_sm_remain( tripoint &p )
+{
+    return tripoint( ms_to_sm_remain( p.x, p.y ), p.z );
 }
 // submap back to map squares, basically: x *= SEEX
 // Note: this gives you the map square coordinates of the top-left corner

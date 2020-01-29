@@ -6,6 +6,7 @@
     "authors": [ "Zaweri" ],
     "description": "Adds recipes for replicas of mythological weapons.",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

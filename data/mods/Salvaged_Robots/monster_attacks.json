@@ -6,7 +6,7 @@
     "cooldown": 5,
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 15, "armor_multiplier": 0.2 } ],
-    "effects": [ { "id": "pkill3", "duration": 50 }, { "id": "pkill2", "duration": 100 } ],
+    "effects": [ { "id": "pkill3", "duration": 300 }, { "id": "pkill2", "duration": 600 } ],
     "hit_dmg_u": "The %1$s injects you with a syringe!",
     "hit_dmg_npc": "The %1$s injects <npcname> with a syringe!",
     "no_dmg_msg_u": "The %1$s tries to inject you, but fails to penetrate your armor!",
