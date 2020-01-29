@@ -1119,6 +1119,34 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
+    if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
+        const std::map<std::string, std::string>::const_iterator idescription =
+            item_vars.find( "description" );
+        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
+        if( snippet.has_value() ) {
+            // Just use the dynamic description
+            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
+        } else if( idescription != item_vars.end() ) {
+            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
+        } else {
+            if( has_flag( "MAGIC_FOCUS" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "This item is a <info>magical focus</info>.  "
+                                             "You can cast spells with it in your hand." ) ) );
+            }
+            if( is_craft() ) {
+                const std::string desc = _( "This is an in progress %s.  "
+                                            "It is %d percent complete." );
+                const int percent_progress = item_counter / 100000;
+                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
+                                          craft_data_->making->result_name(),
+                                          percent_progress ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
+            }
+        }
+        insert_separation_line( info );
+    }
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
@@ -2603,34 +2631,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
     const std::string space = "  ";
 
-    if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
-        insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
-            item_vars.find( "description" );
-        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
-        if( snippet.has_value() ) {
-            // Just use the dynamic description
-            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
-        } else if( idescription != item_vars.end() ) {
-            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
-        } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item is a <info>magical focus</info>.  "
-                                             "You can cast spells with it in your hand." ) ) );
-            }
-            if( is_craft() ) {
-                const std::string desc = _( "This is an in progress %s.  "
-                                            "It is %d percent complete." );
-                const int percent_progress = item_counter / 100000;
-                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                          craft_data_->making->result_name(),
-                                          percent_progress ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
-            }
-        }
-    }
     std::set<matec_id> all_techniques = type->techniques;
     all_techniques.insert( techniques.begin(), techniques.end() );
     if( !all_techniques.empty() && parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {

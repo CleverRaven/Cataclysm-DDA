@@ -854,7 +854,7 @@
     "//": "Fills a deep pit with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 40,
+    "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
     "pre_special": "check_empty",
@@ -867,7 +867,7 @@
     "//": "Adds wood chippings to a shallow pit to prevent plants growing, or for looks.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 40,
+    "time": "40 m",
     "components": [ [ [ "splinter", 50 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_woodchips"
@@ -910,7 +910,7 @@
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": 100,
+    "time": "100 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
     "pre_special": "check_empty",
@@ -1214,6 +1214,18 @@
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor_primitive"
+  },
+  {
+    "type": "construction",
+    "description": "Build Roof Over Dirt Floor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_dirtfloor"
   },
   {
     "type": "construction",
@@ -1735,7 +1747,7 @@
     "description": "Build Bed Frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
-    "time": 55,
+    "time": "55 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
@@ -1746,7 +1758,7 @@
     "description": "Add Mattress to Bed Frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 5,
+    "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
@@ -2322,6 +2334,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_flags": "DIGGABLE",
+    "pre_special": "check_down_OK",
     "post_special": "done_dig_stair"
   },
   {
@@ -2983,7 +2996,7 @@
     "description": "Hang Hanging Meathook",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": 15,
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
     "pre_special": "check_support",
@@ -3050,7 +3063,7 @@
     "//": "Step 1: start wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": 120,
+    "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [
       [ [ "adobe_brick", 10 ] ],
@@ -3067,7 +3080,7 @@
     "//": "Step 2: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": 120,
+    "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [
       [ [ "adobe_brick", 10 ] ],

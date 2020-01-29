@@ -8,5 +8,10 @@
     "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.  The long term plan is to make this a classic zombie movie simulator set in the present day.",
     "category": "monster_exclude",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false }
   }
 ]

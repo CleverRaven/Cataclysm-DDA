@@ -1583,7 +1583,6 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
     u.apply_wetness_morale( weather.temperature );
-    u.do_skill_rust();
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
@@ -8172,7 +8171,7 @@ void game::butcher()
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
-            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything" ),
+            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {

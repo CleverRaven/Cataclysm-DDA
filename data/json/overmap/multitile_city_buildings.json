@@ -3217,5 +3217,35 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_fortified_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "basement" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_crack1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_crack1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_crack1_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_crack2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_crack2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_crack1_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_crack3",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_crack3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_crack3_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
   }
 ]

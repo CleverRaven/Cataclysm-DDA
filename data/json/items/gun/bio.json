@@ -23,7 +23,7 @@
   {
     "id": "bio_emp_gun",
     "type": "GUN",
-    "name": "EMP Projector",
+    "name": { "str": "EMP Projector" },
     "description": "this a pseudo item",
     "weight": "2950 g",
     "volume": "2 L",
@@ -88,8 +88,7 @@
   {
     "id": "mut_quills",
     "type": "GUN",
-    "name": "Assault barbs",
-    "name_plural": "Assault barbs",
+    "name": { "str": "Assault barbs", "str_pl": "Assault barbs" },
     "description": "this a pseudo item",
     "volume": "3 L",
     "price": 0,

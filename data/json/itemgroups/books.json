@@ -641,5 +641,78 @@
     "id": "tailorbooks",
     "type": "item_group",
     "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
+  },
+  {
+    "id": "magazines",
+    "type": "item_group",
+    "items": [
+      { "group": "book_mag_gen", "prob": 240 },
+      { "group": "book_mag_interests", "prob": 220 },
+      { "group": "book_mag_tech", "prob": 155 },
+      { "group": "book_mag_combat", "prob": 100 },
+      { "group": "book_gunmags", "prob": 95 },
+      { "group": "book_mag_surv", "prob": 90 },
+      [ "mag_porn", 20 ],
+      [ "mag_comic", 20 ],
+      [ "months_old_newspaper", 1 ],
+      [ "weeks_old_newspaper", 4 ],
+      [ "newest_newspaper", 10 ],
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "id": "book_mag_gen",
+    "type": "item_group",
+    "items": [
+      [ "mag_tv", 40 ],
+      [ "mag_dude", 40 ],
+      [ "mag_glam", 60 ],
+      [ "mag_beauty", 50 ],
+      [ "mag_news", 35 ],
+      [ "news_regional", 15 ]
+    ]
+  },
+  {
+    "id": "book_mag_interests",
+    "type": "item_group",
+    "items": [
+      [ "mag_cooking", 30 ],
+      [ "mag_carpentry", 30 ],
+      [ "mag_barter", 35 ],
+      [ "mag_swimming", 10 ],
+      [ "mag_tailor", 25 ],
+      [ "mag_firstaid", 40 ],
+      [ "mag_cars", 40 ],
+      [ "mag_animecon", 10 ]
+    ]
+  },
+  {
+    "id": "book_mag_tech",
+    "type": "item_group",
+    "items": [
+      [ "mag_fabrication", 30 ],
+      [ "mag_computer", 35 ],
+      [ "mag_electronics", 35 ],
+      [ "mag_mechanics", 35 ],
+      [ "mag_gaming", 20 ]
+    ]
+  },
+  {
+    "id": "book_mag_combat",
+    "type": "item_group",
+    "items": [
+      [ "mag_bashing", 10 ],
+      [ "mag_cutting", 10 ],
+      [ "mag_stabbing", 10 ],
+      [ "mag_melee", 10 ],
+      [ "mag_unarmed", 20 ],
+      [ "mag_dodge", 20 ],
+      [ "mag_throwing", 20 ]
+    ]
+  },
+  {
+    "id": "book_mag_surv",
+    "type": "item_group",
+    "items": [ [ "mag_survival", 40 ], [ "mag_traps", 20 ], [ "fun_survival", 10 ], [ "mag_archery", 20 ] ]
   }
 ]

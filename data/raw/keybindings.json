@@ -2800,6 +2800,31 @@
   {
     "type": "keybinding",
     "id": "YES",
+    "category": "YESNOQUIT",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNOQUIT",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "YESNOQUIT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard", "key": "Q" },
+      { "input_method": "keyboard", "key": "q" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Yes",
     "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]

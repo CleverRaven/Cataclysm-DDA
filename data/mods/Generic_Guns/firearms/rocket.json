@@ -1,0 +1,21 @@
+[
+  {
+    "id": "rocket_disposable",
+    "copy-from": "AT4",
+    "type": "GUN",
+    "name": "disposable rocket launcher",
+    "ammo": "ammo_rocket",
+    "description": "Constructed of fiberglass, with crude plastic sights and a titanium barrel, this is a launcher for a single rocket.  Though not as effective as other anti-armor weapons, the true value in this disposable rocket launcher is its portability and lack of dead weight once expended.  Has a backblast, so make sure nothing you mind destroying is behind you.",
+    "clip_size": 1
+  },
+  {
+    "id": "rocket_recoilless",
+    "copy-from": "m3_carlgustav",
+    "type": "GUN",
+    "name": "recoilless rocket launcher",
+    "ammo": "ammo_rocket",
+    "description": "This heavy, gigantic rifled tube features a complex optical sight and can launch a wide variety of payloads, including rockets or laser guided missiles.  Depending on the warhead loaded, such weapons are effective against older tanks, most vehicles, bunkers and personnel.  These are meant to be operated by a two-man crew, so reloading might be a bit slow.  Its recoilless design allows for superior range and damage, but it produces tremendous backblast, so make sure nothing you mind destroying is behind you.",
+    "clip_size": 1,
+    "default_mods": [ "acog_scope" ]
+  }
+]

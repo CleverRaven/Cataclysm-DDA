@@ -7,7 +7,8 @@
     "maintainers": [ "1n17" ],
     "description": "Learning through practice and reading is highly dependent on INT and focus. Respective traits are disabled.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "EXTERNAL_OPTION",

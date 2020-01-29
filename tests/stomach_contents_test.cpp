@@ -50,6 +50,8 @@ static time_duration time_until_hungry( player &p )
 {
     unsigned int thirty_minutes = 0;
     do {
+        p.set_sleep_deprivation( 0 );
+        p.set_fatigue( 0 );
         pass_time( p, 30_minutes );
         thirty_minutes++;
     } while( p.get_hunger() < 40 ); // hungry
@@ -215,6 +217,7 @@ TEST_CASE( "hunger" )
     reset_time();
     clear_stomach( dummy );
     dummy.initialize_stomach_contents();
+    dummy.clear_effects();
 
     if( print_tests ) {
         printf( "\n\n" );

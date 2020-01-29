@@ -2,6 +2,7 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cata_string_consts.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -933,7 +934,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+            g->u.assign_activity( ACT_PICKUP );
             g->u.activity.coords.push_back( g->u.pos() );
         } else {
             // Vehicle and map destinations are handled the same.
@@ -943,7 +944,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 return false;
             }
 
-            g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+            g->u.assign_activity( ACT_MOVE_ITEMS );
             // store whether the destination is a vehicle
             g->u.activity.values.push_back( dpane.in_vehicle() );
             // Stash the destination
@@ -1244,7 +1245,7 @@ void advanced_inventory::display()
                 // make sure advanced inventory is reopened after activity completion.
                 do_return_entry();
 
-                g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+                g->u.assign_activity( ACT_WEAR );
 
                 g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
                 g->u.activity.values.push_back( amount_to_move );
@@ -1269,7 +1270,7 @@ void advanced_inventory::display()
                 } else {
                     // important if item is worn
                     if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-                        g->u.assign_activity( activity_id( "ACT_DROP" ) );
+                        g->u.assign_activity( ACT_DROP );
                         g->u.activity.placement = squares[destarea].off;
 
                         // incase there is vehicle cargo space at dest but the player wants to drop to ground
@@ -1290,13 +1291,13 @@ void advanced_inventory::display()
                 do_return_entry();
 
                 if( destarea == AIM_INVENTORY ) {
-                    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+                    g->u.assign_activity( ACT_PICKUP );
                     g->u.activity.coords.push_back( g->u.pos() );
                 } else if( destarea == AIM_WORN ) {
-                    g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+                    g->u.assign_activity( ACT_WEAR );
                 } else {
                     // Vehicle and map destinations are handled similarly.
-                    g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+                    g->u.assign_activity( ACT_MOVE_ITEMS );
                     // store whether the destination is a vehicle
                     g->u.activity.values.push_back( to_vehicle );
                     // Stash the destination
@@ -1402,10 +1403,10 @@ void advanced_inventory::display()
                 // If examining the item did not create a new activity, we have to remove
                 // "return to AIM".
                 do_return_entry();
-                assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
+                assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
                 ret = g->inventory_item_menu( loc, info_startx, info_width,
                                               src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
-                if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
+                if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
                     exit = true;
                 } else {
                     g->u.cancel_activity();
@@ -1682,7 +1683,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+        const units::mass max_weight = g->u.has_trait( trait_DEBUG_STORAGE ) ?
                                        units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;
@@ -1836,7 +1837,7 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings( true );
-    g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
+    g->u.assign_activity( ACT_ADV_INVENTORY );
     g->u.activity.auto_resume = true;
     uistate.adv_inv_exit_code = exit_re_entry;
 }
