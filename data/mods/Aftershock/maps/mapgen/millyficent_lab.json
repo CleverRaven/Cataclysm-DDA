@@ -53,7 +53,7 @@
         ">": "t_wood_stairs_down",
         "<": "t_wood_stairs_up"
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": { "amount": [ 0, 50 ] } },
       "furniture": {
         "C": "f_coffin_c",
         "D": "f_desk",
@@ -192,7 +192,7 @@
         "G": [ { "item": "office_paper", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
       },
-      "toilets": { "&": {  } }
+      "toilets": { "&": { "amount": [ 0, 50 ] } }
     }
   },
   {
@@ -227,11 +227,8 @@
         "__||||||||||||||w||w||__",
         "________________________"
       ],
-    "palettes": [ "mortuary_2story_second" ],
-    "toilets": { "&": {  } }
-  },
-  {
-    "type": "palette",
+      "toilets": { "&": {  } }
+    },
     "id": "mortuary_2story_second",
     "terrain": {
       ".": "t_floor",
