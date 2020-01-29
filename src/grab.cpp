@@ -14,8 +14,7 @@
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
-
-const efftype_id effect_harnessed( "harnessed" );
+#include "cata_string_consts.h"
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
@@ -62,8 +61,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
                next_grab.x != 0 && next_grab.y != 0 ) {
         // Zig-zag (or semi-zig-zag) pull: player is diagonal to vehicle
         // and moves away from it, but not directly away
-        dp_veh.x = ( dp.x == -dp_veh.x ) ? 0 : dp_veh.x;
-        dp_veh.y = ( dp.y == -dp_veh.y ) ? 0 : dp_veh.y;
+        dp_veh.x = dp.x == -dp_veh.x ? 0 : dp_veh.x;
+        dp_veh.y = dp.y == -dp_veh.y ? 0 : dp_veh.y;
 
         next_grab = -dp_veh;
         zigzag = true;
@@ -77,7 +76,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = ( grabbed_vehicle->total_mass() / 25_kilogram ); //strength required to move vehicle.
+    int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
@@ -96,7 +95,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         for( int p : wheel_indices ) {
             const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-            mc += ( str_req / wheel_indices.size() ) * mapcost;
+            mc += str_req / wheel_indices.size() * mapcost;
         }
         //set strength check threshold
         //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
@@ -139,7 +138,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const auto get_move_dir = [&]( const tripoint & dir, const tripoint & from ) {
         tileray mdir;
 
-        mdir.init( dir.x, dir.y );
+        mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
@@ -180,8 +179,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     u.grab_point = next_grab;
 
-    tripoint gp = grabbed_vehicle->global_pos3();
-    grabbed_vehicle = m.displace_vehicle( gp, final_dp_veh );
+    m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
     if( grabbed_vehicle == nullptr ) {
         debugmsg( "Grabbed vehicle disappeared" );

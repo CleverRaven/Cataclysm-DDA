@@ -4,7 +4,7 @@
     "type": "GUNMOD",
     "name": "Power shot",
     "description": "This is a pseudo item -- the builtin part of a fusion blaster for the maximum power firing mode.",
-    "weight": 1,
+    "weight": "1 g",
     "volume": 0,
     "price": 85000,
     "material": [ "steel" ],

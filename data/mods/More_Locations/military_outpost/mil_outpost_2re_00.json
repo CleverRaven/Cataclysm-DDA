@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "mil_outpost_2re" ],
-    "comment": "second floor right edge",
+    "//": "second floor right edge",
     "method": "json",
     "weight": 0,
     "object": {

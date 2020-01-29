@@ -39,7 +39,7 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
     ++bitset;
     // Check each bit position for a match
-    for( unsigned idx = 0; idx < set.size(); idx++ ) {
+    for( size_t idx = 0; idx < set.size(); idx++ ) {
         if( bitset & ( 1 << idx ) ) {
             ret.push_back( set[idx] );
         }

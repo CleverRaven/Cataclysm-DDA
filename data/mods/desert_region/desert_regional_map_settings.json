@@ -3,7 +3,15 @@
     "type": "region_settings",
     "id": "default",
     "default_oter": "desert",
-    "default_groundcover": [ [ "t_searth_test", 4 ], [ "t_sand", 1 ] ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_searth_test": 4, "t_sand": 1 },
+        "t_region_shrub": { "t_shrub": 1 },
+        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 }
+      },
+      "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
+    },
     "river_scale": 0.0,
     "field_coverage": {
       "percent_coverage": 0.1333,
@@ -111,7 +119,8 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.5,
       "lake_size_min": 10,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ]
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.5,
@@ -411,7 +420,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_spider": 200,
@@ -434,7 +442,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_shia": 1,
@@ -459,7 +466,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3,
           "mx_spider": 200,
@@ -482,7 +488,6 @@
           "mx_portal": 3,
           "mx_minefield": 50,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3
         }
@@ -501,7 +506,6 @@
           "mx_portal": 5,
           "mx_minefield": 80,
           "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 2,
           "mx_anomaly": 3
         }
@@ -514,32 +518,16 @@
           "mx_collegekids": 15,
           "mx_portal": 5,
           "mx_crater": 60,
-          "mx_fumarole": 8,
           "mx_portal_in": 1,
           "mx_anomaly": 3
         }
       },
       "subway": {
         "chance": 75,
-        "extras": {
-          "mx_military": 5,
-          "mx_science": 12,
-          "mx_collegekids": 15,
-          "mx_portal": 7,
-          "mx_fumarole": 20,
-          "mx_portal_in": 1,
-          "mx_anomaly": 3
-        }
+        "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 1, "mx_anomaly": 3 }
       }
     },
-    "num_forests": 250,
-    "forest_size_min": 15,
-    "forest_size_max": 40,
-    "swamp_maxsize": 4,
-    "swamp_river_influence": 5,
-    "swamp_spread_chance": 8500,
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
@@ -690,7 +678,9 @@
         "s_thrift": 100,
         "s_petstore": 100,
         "megastore": 150,
-        "hotel": 75,
+        "hotel_1": 75,
+        "hotel_2": 75,
+        "hotel_3": 75,
         "hospital": 175,
         "public_works": 200,
         "office_tower_2": 150,

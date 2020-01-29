@@ -8,8 +8,11 @@
 #include <string>
 #include <unordered_map>
 
+#include "character.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
@@ -57,14 +60,15 @@ class faction_template
 {
     protected:
         faction_template();
-        void load_relations( JsonObject &jsobj );
+        void load_relations( const JsonObject &jsobj );
 
     private:
-        explicit faction_template( JsonObject &jsobj );
+        explicit faction_template( const JsonObject &jsobj );
 
     public:
         explicit faction_template( const faction_template & ) = default;
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
+        static void check_consistency();
         static void reset();
 
         std::string name;
@@ -77,9 +81,11 @@ class faction_template
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
+        bool lone_wolf_faction; // is this a faction for just one person?
         std::string currency; // itype_id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        std::set<std::tuple<int, int, snippet_id>> epilogue_data;
 };
 
 class faction : public faction_template
@@ -89,22 +95,27 @@ class faction : public faction_template
         faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
+        void faction_display( const catacurses::window &fac_w, int width ) const;
 
         std::string describe() const;
+        std::vector<std::string> epilogue() const;
 
         std::string food_supply_text();
         nc_color food_supply_color();
 
         bool has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const;
+        void add_to_membership( const character_id &guy_id, const std::string &guy_name, bool known );
+        void remove_member( const character_id &guy_id );
         std::vector<int> opinion_of;
         bool validated = false;
+        std::map<character_id, std::pair<std::string, bool>> members;
 };
 
 class faction_manager
 {
     private:
-        std::vector<faction> factions;
+        std::map<faction_id, faction> factions;
 
     public:
         void deserialize( JsonIn &jsin );
@@ -112,18 +123,15 @@ class faction_manager
 
         void clear();
         void create_if_needed();
-
-        const std::vector<faction> &all() const {
+        void display() const;
+        faction *add_new_faction( const std::string &name_new, const faction_id &id_new,
+                                  const faction_id &template_id );
+        void remove_faction( const faction_id &id );
+        const std::map<faction_id, faction> &all() const {
             return factions;
         }
 
-        faction *get( const faction_id &id );
-};
-
-class new_faction_manager
-{
-    public:
-        void display() const;
+        faction *get( const faction_id &id, bool complain = true );
 };
 
 #endif

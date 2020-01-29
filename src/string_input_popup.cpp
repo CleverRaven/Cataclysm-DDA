@@ -4,7 +4,9 @@
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "ime.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "ui.h"
 #include "uistate.h"
@@ -18,6 +20,7 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <memory>
 #include <vector>
 
 string_input_popup::string_input_popup() = default;
@@ -26,7 +29,7 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    int titlesize = utf8_width( _title ); // Occupied horizontal space
+    int titlesize = utf8_width( remove_color_tags( _title ) ); // Occupied horizontal space
     if( _max_length <= 0 ) {
         _max_length = _width;
     }
@@ -50,7 +53,7 @@ void string_input_popup::create_window()
 
         for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
             title_split = foldstring( _title, wraplen );
-            if( static_cast<int>( title_split.back().size() ) <= titlesize ) {
+            if( utf8_width( title_split.back() ) <= titlesize ) {
                 break;
             }
         }
@@ -76,15 +79,15 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w = catacurses::newwin( w_height, w_width, w_y, w_x );
+    w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     draw_border( w );
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        trim_and_print( w, 1 + i, 1, w_width - 2, _desc_color, descformatted[i] );
+        trim_and_print( w, point( 1, 1 + i ), w_width - 2, _desc_color, descformatted[i] );
     }
     for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-        mvwprintz( w, _starty++, i + 1, _title_color, title_split[i] );
+        mvwprintz( w, point( i + 1, _starty++ ), _title_color, title_split[i] );
     }
     right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
@@ -92,7 +95,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr.reset( new input_context( "STRING_INPUT" ) );
+    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "ANY_INPUT" );
 }
@@ -178,32 +181,22 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     if( up ) {
         if( _hist_str_ind >= static_cast<int>( hist.size() ) ) {
             return;
-        } else {
-            if( _hist_str_ind == 0 ) {
-                if( ret.empty() ) {
-                    _session_str_entered.erase( 0 );
-                } else {
-                    _session_str_entered = ret.str();
-                }
+        } else if( _hist_str_ind == 0 ) {
+            _session_str_entered = ret.str();
 
-                //avoid showing the same result twice (after reopen filter window without reset)
-                if( hist.size() > 1 && ret.str() == hist[hist.size() - 1] ) {
-                    _hist_str_ind += 1;
-                }
+            //avoid showing the same result twice (after reopen filter window without reset)
+            if( hist.size() > 1 && _session_str_entered == hist.back() ) {
+                _hist_str_ind += 1;
             }
         }
     } else {
         if( _hist_str_ind == 1 ) {
-            if( _session_str_entered.empty() ) {
-                ret.erase( 0 );
-            } else {
-                ret = _session_str_entered;
-                _position = _session_str_entered.length();
-            }
+            ret = _session_str_entered;
+            _position = ret.length();
             //show initial string entered and 'return'
             _hist_str_ind = 0;
-        }
-        if( _hist_str_ind == 0 ) {
+            return;
+        } else if( _hist_str_ind == 0 ) {
             return;
         }
     }
@@ -211,7 +204,6 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _hist_str_ind += up ? 1 : -1;
     ret = hist[hist.size() - _hist_str_ind];
     _position = ret.length();
-
 }
 
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
@@ -222,9 +214,9 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
     int start_x_edit = _startx;
     // Clear the line
-    mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ) );
+    mvwprintw( w, point( _startx, _starty ), std::string( std::max( 0, scrmax ), ' ' ) );
     // Print the whole input string in default color
-    mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
+    mvwprintz( w, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
     if( _position < static_cast<int>( ret.length() ) ) {
@@ -237,14 +229,14 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             cursor = ret.substr( a, _position - a + 1 );
         }
         const size_t left_over = ret.substr( 0, a ).display_width() - shift;
-        mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
+        mvwprintz( w, point( _startx + left_over, _starty ), _cursor_color, "%s", cursor.c_str() );
         start_x_edit += left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
-        mvwprintz( w, _starty, _startx + sx, _cursor_color, " " );
+        mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, " " );
         start_x_edit += sx;
         sx++; // don't override trailing ' '
     } else {
-        mvwprintz( w, _starty, _startx + sx, _cursor_color, "_" );
+        mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, "_" );
         start_x_edit += sx;
         sx++; // don't override trailing '_'
     }
@@ -262,11 +254,11 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             }
         }
         if( l > 0 ) {
-            mvwprintz( w, _starty, _startx + sx, _underscore_color, std::string( l, '_' ) );
+            mvwprintz( w, point( _startx + sx, _starty ), _underscore_color, std::string( l, '_' ) );
         }
     }
     if( !edit.empty() ) {
-        mvwprintz( w, _starty, start_x_edit, _cursor_color, "%s", edit.c_str() );
+        mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
 }
 
@@ -293,11 +285,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
-#if defined(__ANDROID__)
-    if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
+    cata::optional<ime_sentry> sentry;
+    if( !draw_only && loop ) {
+        sentry.emplace();
     }
-#endif
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {

@@ -8,12 +8,13 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <set>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "string_id.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "type_id.h"
 
 class player;
@@ -35,7 +36,7 @@ enum effect_rating {
 
 class effect_type
 {
-        friend void load_effect_type( JsonObject &jo );
+        friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
         effect_type();
@@ -74,9 +75,9 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jo, const std::string &member );
-        bool load_miss_msgs( JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( JsonObject &jo, const std::string &member );
+        bool load_mod_data( const JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
+        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
@@ -93,10 +94,12 @@ class effect_type
         int int_decay_tick;
         time_duration int_dur_factor;
 
-        bool main_parts_only;
+        std::set<std::string> flags;
+
+        bool main_parts_only = false;
 
         // Determines if effect should be shown in description.
-        bool show_in_info;
+        bool show_in_info = false;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
@@ -105,21 +108,21 @@ class effect_type
 
         std::vector<std::pair<std::string, int>> miss_msgs;
 
-        bool pain_sizing;
-        bool hurt_sizing;
-        bool harmful_cough;
+        bool pain_sizing = false;
+        bool hurt_sizing = false;
+        bool harmful_cough = false;
         // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
-        bool pkill_addict_reduces;
+        bool pkill_addict_reduces = false;
         // This flag is hard-coded for specific IDs now
         // It needs to be set for monster::move_effects
-        bool impairs_movement;
+        bool impairs_movement = false;
 
         std::vector<translation> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
-        bool part_descs;
+        bool part_descs = false;
 
         std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
@@ -131,14 +134,16 @@ class effect_type
         std::string remove_memorial_log;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+        std::unordered_map <
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
+        > mod_data;
 };
 
 class effect
 {
     public:
-        effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
@@ -148,11 +153,11 @@ class effect
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
 
-        /** Dummy effect returned when getting an effect that doesn't exist. */
-        static effect null_effect;
-
-        /** Compares pointers of this effect with the dummy above. */
+        /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
         bool is_null() const;
+
+        /** Dummy used for "reference to effect()" */
+        static effect null_effect;
 
         /** Returns the name displayed in the player status window. */
         std::string disp_name() const;
@@ -226,7 +231,7 @@ class effect
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
         const std::vector<efftype_id> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        const std::vector<efftype_id> get_blocks_effects() const;
+        std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod( std::string arg, bool reduced = false ) const;
@@ -246,6 +251,9 @@ class effect
          *  multiplier on the overall chance of a modifier type activating. */
         bool activated( const time_point &when, std::string arg, int val,
                         bool reduced = false, double mod = 1 ) const;
+
+        /** Check if the effect has the specified flag */
+        bool has_flag( const std::string &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
@@ -285,11 +293,11 @@ class effect
 
 };
 
-void load_effect_type( JsonObject &jo );
+void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
 
-std::string texitify_base_healing_power( const int power );
-std::string texitify_healing_power( const int power );
+std::string texitify_base_healing_power( int power );
+std::string texitify_healing_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

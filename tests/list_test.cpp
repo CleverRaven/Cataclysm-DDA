@@ -9,7 +9,6 @@
 #include "colony_list_test_helpers.h"
 #include "list.h"
 
-
 TEST_CASE( "list basics", "[list]" )
 {
     {
@@ -125,7 +124,6 @@ TEST_CASE( "list basics", "[list]" )
             CHECK( std::distance( test_list.rbegin(), r_iterator2 ) == 52 );
         }
 
-
         SECTION( "multiple iteration" ) {
             int count = 0;
             int sum = 0;
@@ -196,7 +194,7 @@ TEST_CASE( "list basics", "[list]" )
             }
 
             CHECK( count == 200 );
-            CHECK( test_list.size() == 0 );
+            CHECK( test_list.empty() );
         }
 
         SECTION( "negative iteration" ) {
@@ -234,6 +232,7 @@ TEST_CASE( "list basics", "[list]" )
 
         SECTION( "swap() and max_size()" ) {
             cata::list<int *> test_list_2;
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             test_list_2 = test_list;
 
             CHECK( test_list_2.size() == 400 );
@@ -297,7 +296,7 @@ TEST_CASE( "list insert and erase", "[list]" )
 
         } while( !test_list.empty() );
 
-        CHECK( test_list.size() == 0 );
+        CHECK( test_list.empty() );
     }
 
     SECTION( "erase randomly till half empty" ) {
@@ -546,7 +545,6 @@ TEST_CASE( "list splice", "[list]" )
             test_list.push_back( i );
             test_list_2.push_front( i );
         }
-
 
         test_list.splice( test_list.begin(), test_list_2 );
 
@@ -951,6 +949,7 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
         }
 
         CHECK( passed );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( test_list.empty() );
     }
 
@@ -974,6 +973,7 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
         }
 
         CHECK( passed );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( test_list_2.empty() );
     }
 
@@ -995,6 +995,7 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
     }
 
     SECTION( "copy constructor" ) {
+        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
         cata::list<small_struct> list3( test_list );
 
         bool passed = true;
@@ -1040,7 +1041,6 @@ TEST_CASE( "list reorder", "[list]" )
     SECTION( "single reorder" ) {
         CHECK( *it1 == 25 );
     }
-
 
     it1 = test_list.begin();
     std::advance( it1, 152 );

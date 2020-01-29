@@ -22,7 +22,10 @@ class player;
 class salvage_actor;
 class repair_item_actor;
 
+using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -39,6 +42,12 @@ namespace game_menus
 
 namespace inv
 {
+// item selector for all items in @you's inventory.
+item_location titled_menu( avatar &you, const std::string &title,
+                           const std::string &none_message = "" );
+// item selector for items in @you's inventory with a filter
+item_location titled_filter_menu( item_filter filter, avatar &you,
+                                  const std::string &title, const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus
@@ -58,9 +67,9 @@ void swap_letters( player &p );
 
 /**
  * Select items to drop.
- * @return A list of pairs of position, quantity.
+ * @return A list of pairs of item_location, quantity.
  */
-std::list<std::pair<int, int>> multidrop( player &p );
+drop_locations multidrop( player &p );
 
 /** Consuming an item. */
 item_location consume( player &p );
@@ -77,7 +86,7 @@ item_location disassemble( player &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
-item_location read( avatar &you );
+item_location read( player &pl );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, player &victim );
 /** Item activation menu. */
@@ -97,9 +106,11 @@ item_location salvage( player &p, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( player &p, player &patient );
+item_location install_bionic( player &p, player &patient, bool surgeon = false );
 /** Bionic uninstall menu. */
 item_location uninstall_bionic( player &p, player &patient );
+/**Autoclave sterilize menu*/
+item_location sterilize_cbm( player &p );
 /*@}*/
 
 } // namespace inv

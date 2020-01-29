@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "fuji_mpp",
+    "name": "Fuji's Military Profession Pack",
+    "authors": [ "Fuji" ],
+    "description": "Numerous military themed professions",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

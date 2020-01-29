@@ -16,10 +16,10 @@
         [ "gunpowder", 216 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
+        [ "biodiesel", 600 ],
         [ "chem_rdx", 1 ],
         [ "chem_hmtd", 2 ],
-        [ "chem_anfo", 5 ],
-        [ "matchbomb", 3 ]
+        [ "chem_anfo", 5 ]
       ],
       [
         [ "smpistol_primer", 1 ],
@@ -79,6 +79,7 @@
         [ "lamp_oil", 150 ],
         [ "gasoline", 200 ],
         [ "diesel", 200 ],
+        [ "biodiesel", 200 ],
         [ "napalm", 100 ]
       ],
       [
@@ -110,6 +111,7 @@
         [ "lamp_oil", 600 ],
         [ "gasoline", 1000 ],
         [ "diesel", 1000 ],
+        [ "biodiesel", 1000 ],
         [ "napalm", 400 ]
       ],
       [
@@ -138,6 +140,7 @@
         [ "gunpowder", 72 ],
         [ "gasoline", 200 ],
         [ "diesel", 200 ],
+        [ "biodiesel", 200 ],
         [ "chem_rdx", 1 ],
         [ "chem_hmtd", 2 ],
         [ "chem_anfo", 5 ]
@@ -240,7 +243,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
-      [ [ "canbombfrag", 1 ], [ "grenade", 1 ], [ "landmine", 1 ], [ "40mm_frag", 1 ], [ "pipebomb", 1 ] ],
+      [ [ "canbombfrag", 1 ], [ "grenade", 1 ], [ "landmine", 1 ], [ "40x46mm_m433", 1 ], [ "pipebomb", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },

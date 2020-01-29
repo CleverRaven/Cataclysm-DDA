@@ -24,7 +24,7 @@ class fungal_effects
         void fungalize( const tripoint &p, Creature *origin = nullptr, double spore_chance = 0.0 );
 
         void spread_fungus( const tripoint &p );
-        void spread_fungus_one_tile( const tripoint &p, const int growth );
+        void spread_fungus_one_tile( const tripoint &p, int growth );
 };
 
 #endif

@@ -1,8 +1,7 @@
 #include "craft_command.h"
 
-#include <limits.h>
+#include <climits>
 #include <cstdlib>
-#include <sstream>
 #include <algorithm>
 #include <limits>
 #include <list>
@@ -21,6 +20,7 @@
 #include "translations.h"
 #include "uistate.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -30,9 +30,11 @@ std::string comp_selection<CompType>::nname() const
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
         case use_from_both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player: // Is the same as the default return;
+        case use_from_player:
+        // Is the same as the default return;
         case use_from_none:
         case cancel:
+        case num_usages:
             break;
     }
 
@@ -42,34 +44,22 @@ std::string comp_selection<CompType>::nname() const
 namespace io
 {
 
-static const std::map<std::string, usage> usage_map = {{
-        { "map", usage::use_from_map },
-        { "player", usage::use_from_player },
-        { "both", usage::use_from_both },
-        { "none", usage::use_from_none },
-        { "cancel", usage::cancel }
-    }
-};
-
 template<>
-usage string_to_enum<usage>( const std::string &data )
+std::string enum_to_string<usage>( usage data )
 {
-    return string_to_enum_look_up( usage_map, data );
-}
-
-template<>
-const std::string enum_to_string<usage>( usage data )
-{
-    const auto iter = std::find_if( usage_map.begin(), usage_map.end(),
-    [data]( const std::pair<std::string, usage> &kv ) {
-        return kv.second == data;
-    } );
-
-    if( iter == usage_map.end() ) {
-        throw InvalidEnumString{};
+    switch( data ) {
+        // *INDENT-OFF*
+        case usage::use_from_map: return "map";
+        case usage::use_from_player: return "player";
+        case usage::use_from_both: return "both";
+        case usage::use_from_none: return "none";
+        case usage::cancel: return "cancel";
+        // *INDENT-ON*
+        case usage::num_usages:
+            break;
     }
-
-    return iter->first;
+    debugmsg( "Invalid usage" );
+    abort();
 }
 
 } // namespace io
@@ -115,7 +105,7 @@ void craft_command::execute( const tripoint &new_loc )
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
@@ -131,7 +121,7 @@ void craft_command::execute( const tripoint &new_loc )
 
     if( need_selections ) {
         if( !crafter->can_make( rec, batch_size ) ) {
-            if( crafter->can_start_craft( rec, batch_size ) ) {
+            if( crafter->can_start_craft( rec, recipe_filter_flags::none, batch_size ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
                     return;
@@ -142,13 +132,27 @@ void craft_command::execute( const tripoint &new_loc )
             }
         }
 
-        item_selections.clear();
-        const auto needs = rec->requirements();
-        const auto filter = rec->get_component_filter();
+        flags = recipe_filter_flags::no_rotten;
 
-        for( const auto &it : needs.get_components() ) {
-            comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true,
-                                           filter );
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+            if( !query_yn( _( "This craft will use rotten components.\n"
+                              "Start crafting anyway?" ) ) ) {
+                return;
+            }
+            flags = recipe_filter_flags::none;
+        }
+
+        item_selections.clear();
+        const auto filter = rec->get_component_filter( flags );
+        const requirement_data *needs = rec->deduped_requirements().select_alternative(
+                                            *crafter, filter, batch_size, craft_flags::start_only );
+        if( !needs ) {
+            return;
+        }
+
+        for( const auto &it : needs->get_components() ) {
+            comp_selection<item_comp> is =
+                crafter->select_item_component( it, batch_size, map_inv, true, filter );
             if( is.use_from == cancel ) {
                 return;
             }
@@ -156,7 +160,7 @@ void craft_command::execute( const tripoint &new_loc )
         }
 
         tool_selections.clear();
-        for( const auto &it : needs.get_tools() ) {
+        for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
             it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
@@ -187,10 +191,9 @@ void craft_command::execute( const tripoint &new_loc )
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
-static void component_list_string( std::stringstream &str,
-                                   const std::vector<comp_selection<T>> &components )
+static std::string component_list_string( const std::vector<comp_selection<T>> &components )
 {
-    str << enumerate_as_string( components.begin(), components.end(),
+    return enumerate_as_string( components.begin(), components.end(),
     []( const comp_selection<T> &comp ) {
         return comp.nname();
     } );
@@ -199,20 +202,21 @@ static void component_list_string( std::stringstream &str,
 bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
                                     const std::vector<comp_selection<tool_comp>> &missing_tools )
 {
-    std::stringstream ss;
-    ss << _( "Some components used previously are missing. Continue?" );
+    std::string ss = _( "Some components used previously are missing.  Continue?" );
 
     if( !missing_items.empty() ) {
-        ss << std::endl << _( "Item(s): " );
-        component_list_string( ss, missing_items );
+        ss += "\n";
+        ss += _( "Item(s): " );
+        ss += component_list_string( missing_items );
     }
 
     if( !missing_tools.empty() ) {
-        ss << std::endl << _( "Tool(s): " );
-        component_list_string( ss, missing_tools );
+        ss += "\n";
+        ss += _( "Tool(s): " );
+        ss += component_list_string( missing_tools );
     }
 
-    return query_yn( ss.str() );
+    return query_yn( ss );
 }
 
 item craft_command::create_in_progress_craft()
@@ -220,7 +224,7 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     std::list<item> used;
     std::vector<item_comp> comps_used;
-    if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( crafter->has_trait( trait_DEBUG_HS ) ) {
         return item( rec, batch_size, used, comps_used );
     }
 
@@ -230,14 +234,14 @@ item craft_command::create_in_progress_craft()
     }
 
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );
         return item();
     }
 
-    const auto filter = rec->get_component_filter();
+    const auto filter = rec->get_component_filter( flags );
 
     for( const auto &it : item_selections ) {
         std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
@@ -247,7 +251,18 @@ item craft_command::create_in_progress_craft()
     for( const comp_selection<item_comp> &selection : item_selections ) {
         item_comp comp_used = selection.comp;
         comp_used.count *= batch_size;
-        comps_used.emplace_back( comp_used );
+
+        //Handle duplicate component requirement
+        auto found_it = std::find_if( comps_used.begin(),
+        comps_used.end(), [&comp_used]( const item_comp & c ) {
+            return c.type == comp_used.type;
+        } );
+        if( found_it != comps_used.end() ) {
+            item_comp &found_comp = *found_it;
+            found_comp.count += comp_used.count;
+        } else {
+            comps_used.emplace_back( comp_used );
+        }
     }
 
     item new_craft( rec, batch_size, used, comps_used );
@@ -261,12 +276,17 @@ item craft_command::create_in_progress_craft()
     return new_craft;
 }
 
+skill_id craft_command::get_skill_id()
+{
+    return rec->skill_used;
+}
+
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
                                         const inventory &map_inv ) const
 {
     std::vector<comp_selection<item_comp>> missing;
 
-    const auto filter = rec->get_component_filter();
+    const auto filter = rec->get_component_filter( flags );
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
@@ -293,6 +313,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     break;
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else {
@@ -316,6 +337,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     break;
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         }
@@ -347,6 +369,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
                 case use_from_both:
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {

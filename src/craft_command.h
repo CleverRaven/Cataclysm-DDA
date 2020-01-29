@@ -6,6 +6,7 @@
 #include <string>
 
 #include "point.h"
+#include "recipe.h"
 #include "requirements.h"
 
 class inventory;
@@ -14,16 +15,23 @@ class player;
 class recipe;
 class JsonIn;
 class JsonOut;
+template<typename T> struct enum_traits;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
 */
 enum usage {
+    use_from_none = 0,
     use_from_map = 1,
     use_from_player = 2,
     use_from_both = 1 | 2,
-    use_from_none = 4,
-    cancel = 8 // FIXME: hacky.
+    cancel = 4, // FIXME: hacky.
+    num_usages
+};
+
+template<>
+struct enum_traits<usage> {
+    static constexpr usage last = usage::num_usages;
 };
 
 /**
@@ -76,6 +84,7 @@ class craft_command
         bool empty() const {
             return rec == nullptr;
         }
+        skill_id get_skill_id();
 
     private:
         const recipe *rec = nullptr;
@@ -87,6 +96,8 @@ class craft_command
         bool longcraft = false;
         // This is mainly here for maintainability reasons.
         player *crafter;
+
+        recipe_filter_flags flags = recipe_filter_flags::none;
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench

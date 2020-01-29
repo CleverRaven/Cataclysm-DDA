@@ -1,3 +1,9 @@
+# Recommended reading
+Basecamps leverage many existing aspects of JSON data such as recipes and mapgen. It's recommended to be familiar with those:
+* [JSON info](JSON_INFO.md) has information on common fields for recipes
+* [mapgen](MAPGEN.md), see section 3 about `update_mapgen`
+
+
 # Adding alternate basecamp upgrade paths
 
 A basecamp upgrade path is a series of basecamp upgrade missions that upgrade the camp.  Upgrade missions are generally performed sequentially, but there is an option to have them branch.  Branched missions optionally can have further missions that require missions from other branches.
@@ -48,6 +54,8 @@ provides `"id"` | meaning
 `"dismantling"` | after this upgrade mission is complete, the Chop Shop basecamp mission will be available.
 `"farming"` | after this upgrade mission is complete, the Plow Fields, Plant Fields, Fertilize Fields, and Harvest Fields basecamp missions will be available.
 
+`blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exlusively at faction camps.
+
 ### Sample recipe JSON
 ```JSON
   {
@@ -75,6 +83,8 @@ provides `"id"` | meaning
 ```
 
 The `"faction_base_camp_8"` upgrade mission can be performed after `"faction_base_camp_6"` and enables the trapping, hunting, fortification, and recruiting basecamp missions.  It adds a camp stove to the camp's inventory to represent the iron stove.
+
+`"blueprint_autocalc": true` could be used instead of `components` to let the cost be calculated automatically from the mapgen\_update data.
 
 ## mapgen_update JSON
 

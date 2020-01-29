@@ -32,7 +32,7 @@
       "That drug you just took is a painkiller.  Painkillers are very important to keep on hand, as pain both penalizes your stats and makes you slower.  Be careful, as the stronger painkillers can make you woozy, and some are even addictive.",
       "That drug you just took placed an effect on you.  To check your effects, press '@'.  Most only last a short while, while others, like chronic disease, last until cured by some other means.",
       "You just drank a bottle of water, reducing your thirst level and reducing the water level in the bottle.  You'll probably want to drop empty bottles, or you might want to save them to refill from a water source later.",
-      "You just activated a grenade!  You probably want to throw it.  To throw an item, press 't' and then select the item to throw.  The maximum range depends on your strength and the object's weight and size.  Throwing isn't very good in most combat situations, but if you've got some fire power...",
+      "You just activated a grenade!  You probably want to throw it.  To throw an item, press 't' and then select the item to throw.  The maximum range depends on your strength and the object's weight and size.  Throwing isn't very good in most combat situations, but if you've got some fire power…",
       "You just placed a trap.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on that _ -- don't worry, it's a harmless bubblewrap trap.",
       "You're carrying more volume than you have storage for, which means you are carrying some stuff in the crook of your arm or in some other awkward manner.  While overloaded like this, you will suffer SEVERE encumbrance penalties, making combat dangerous.  Either drop an item, or possibly wield something-- the object you are wielding does not take up inventory space.",
       "To use a gun, first wield it with the 'w' key.  Next you need to reload using the 'r' key, assuming you have the proper ammo.  If you wish to unload your gun, possibly to change ammunition types, press 'U'.",
@@ -41,7 +41,7 @@
       "That yellow > next to you is a staircase leading down.  To go downstairs, step onto the staircase and press the '>' key.  Similarly, a yellow < is stairs leading up, and can be followed with the '<' key.",
       "It's dark down here!  Without a source of light, you'll be limited to seeing only one space in any direction.  You'll encounter darkness while underground or at night.  Press '<' to go back upstairs, and look around for a flashlight.",
       "It's dark down here!  Fortunately, you have a flashlight.  Press 'a' and then select your flashlight to turn it on.",
-      "~ is a terrain symbol that indicates water.  From a water source like this, you can fill any containers you might have. Examine the water ('e') and press 'c' to fill a container, then select a watertight container to put the water into."
+      "~ is a terrain symbol that indicates water.  From a water source like this, you can fill any containers you might have.  Examine the water ('e') and press 'c' to fill a container, then select a watertight container to put the water into."
     ]
   }
 ]

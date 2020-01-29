@@ -45,7 +45,7 @@
   },
   {
     "type": "item_group",
-    "sub-type": "collection",
+    "subtype": "collection",
     "id": "NC_ROBOFAC_FREE_MERCHANT_misc",
     "items": [
       { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 90 },
@@ -78,6 +78,7 @@
       { "item": "bandana", "prob": 20 },
       { "item": "scarf", "prob": 15 },
       { "item": "fungicide", "prob": 20 },
+      { "item": "insecticide", "prob": 20 },
       { "item": "antifungal", "prob": 20 },
       { "item": "antiparasitic", "prob": 20 }
     ]

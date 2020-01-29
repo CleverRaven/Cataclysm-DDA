@@ -44,11 +44,11 @@ Remember to take part in the discussion of your suggestions.
 
 ### Questions
 
-You should direct your questions to the forum or ask on IRC. You should also read the included documentation and additional text files, e.g. `COMPILING.md` if you have problems building.
+You should direct your questions to the forum or ask on IRC. You should also read the included documentation and additional text files, e.g. [COMPILING.md](doc/COMPILING/COMPILING.md) if you have problems building.
 
 ## Bounties
 
-We keep the development and direction of the game community-driven so placing a bounty *does not* necessarily mean that change will be incorporated into the main game. But it may be incorporated as a mod (or not). As such feel free to post bounties on what you like, but remember we don't do "bounty-driven" development. Good way of thinking about bounties is as encouragement for contributors to work on a particular issue, and certainly not as "paying for features".
+Placing a bounty *does not* necessarily mean that change will be incorporated into the main game. Please coordinate in the issue you intend to place a bounty on to determine if it is a change the project will accept, and keep in mind that placing a bounty will not confer special status on the issue. A good way of thinking about bounties is as encouragement for contributors to work on a particular issue, and certainly not as "paying for features".
 
 ## Issue resolution
 

@@ -35,7 +35,7 @@
     "name": "Insect",
     "threshold_mut": "THRESH_INSECT",
     "mutagen_message": "You hear buzzing, and feel your body harden.",
-    "iv_message": "You sting yourself... for the Queen.",
+    "iv_message": "You sting yourself… for the Queen.",
     "memorial_message": "Metamorphosed."
   },
   {
@@ -44,7 +44,7 @@
     "name": "Spider",
     "threshold_mut": "THRESH_SPIDER",
     "mutagen_message": "You feel insidious.",
-    "iv_message": "Mmm... the *special* venom.",
+    "iv_message": "Mmm… the *special* venom.",
     "memorial_message": "Found a place in the web of life."
   },
   {
@@ -95,7 +95,7 @@
     "id": "URSINE",
     "name": "Bear",
     "threshold_mut": "THRESH_URSINE",
-    "mutagen_message": "You feel an urge to... patrol?  the forests?",
+    "mutagen_message": "You feel an urge to… patrol?  the forests?",
     "iv_message": "You feel yourself quite equipped for wilderness survival.",
     "memorial_message": "Became one with the bears."
   },
@@ -133,7 +133,7 @@
     "name": "Cephalopod",
     "//": "~Zork reference, but it's talking about your blood vessels",
     "threshold_mut": "THRESH_CEPHALOPOD",
-    "mutagen_message": "Your mind is overcome by images of eldritch horrors... and then they pass.",
+    "mutagen_message": "Your mind is overcome by images of eldritch horrors… and then they pass.",
     "iv_message": "You watch the mutagen flow through a maze of little twisty passages.  All the same.",
     "memorial_message": "Began living the dreams."
   },
@@ -152,7 +152,7 @@
     "name": "Lizard",
     "threshold_mut": "THRESH_LIZARD",
     "mutagen_message": "For a heartbeat, your blood cools down.",
-    "iv_message": "Your blood cools down.  The feeling is... different.",
+    "iv_message": "Your blood cools down.  The feeling is… different.",
     "memorial_message": "Shed the ugly human skin."
   },
   {
@@ -170,7 +170,7 @@
     "name": "Alpha",
     "//": "5-15 pain, 66% for each of the follow-ups, so slightly better odds (designed for injection).",
     "threshold_mut": "THRESH_ALPHA",
-    "mutagen_message": "You feel... better.  Somehow.",
+    "mutagen_message": "You feel… better.  Somehow.",
     "iv_message": "You took that shot like a champ!",
     "iv_min_mutations": 1,
     "iv_additional_mutations": 2,
@@ -252,8 +252,8 @@
     "name": "Raptor",
     "//": "Little more painful than average, but nowhere near as harsh & effective as Chimera.",
     "threshold_mut": "THRESH_RAPTOR",
-    "mutagen_message": "Mmm... sweet, bloody flavor... tastes like victory.",
-    "iv_message": "You distinctly smell the mutagen mixing with your blood... and then it passes.",
+    "mutagen_message": "Mmm… sweet, bloody flavor… tastes like victory.",
+    "iv_message": "You distinctly smell the mutagen mixing with your blood… and then it passes.",
     "memorial_message": "Hatched."
   },
   {
@@ -261,8 +261,8 @@
     "id": "MOUSE",
     "name": "Mouse",
     "threshold_mut": "THRESH_MOUSE",
-    "mutagen_message": "You feel a desire to curl up in a nice, warm pile of... shredded paper.",
-    "iv_message": "You feel... small.  But comfortable.",
+    "mutagen_message": "You feel a desire to curl up in a nice, warm pile of… shredded paper.",
+    "iv_message": "You feel… small.  But comfortable.",
     "memorial_message": "Found the cheese."
   }
 ]

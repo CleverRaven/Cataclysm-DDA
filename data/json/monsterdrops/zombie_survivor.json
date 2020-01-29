@@ -23,7 +23,8 @@
           { "group": "stash_food", "prob": 40 }
         ]
       },
-      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 }
+      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
+      { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
     ]
   },
   {
@@ -63,7 +64,7 @@
   {
     "id": "survivor_grenades",
     "type": "item_group",
-    "items": [ [ "gasbomb_makeshift", 30 ], [ "matchbomb", 50 ], [ "molotov", 100 ], [ "nail_bomb", 100 ], [ "pipebomb", 30 ] ]
+    "items": [ [ "gasbomb_makeshift", 30 ], [ "molotov", 100 ], [ "nail_bomb", 100 ], [ "pipebomb", 30 ], [ "can_bomb", 30 ] ]
   },
   {
     "id": "survivor_stabbing",

@@ -7,7 +7,7 @@
     "sym": "#",
     "color": "light_blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE_SHORE" ],
+    "flags": [ "NO_ROTATE", "LAKE_SHORE", "SOURCE_DRINK" ],
     "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
   },
   {
@@ -18,6 +18,6 @@
     "sym": "#",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE" ]
+    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
   }
 ]

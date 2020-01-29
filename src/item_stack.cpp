@@ -111,7 +111,7 @@ int item_stack::amount_can_fit( const item &it ) const
     const item *here = it.count_by_charges() ? stacks_with( it ) : nullptr;
 
     if( violates_count && !here ) {
-        return 0l;
+        return 0;
     }
     // Call max because a tile may have been overfilled to begin with (e.g. #14115)
     const int ret = std::max( 0, it.charges_per_volume( free_volume() ) );

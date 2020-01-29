@@ -13,6 +13,7 @@
 
 class JsonOut;
 class JsonObject;
+class translation;
 
 namespace catacurses
 {
@@ -32,7 +33,7 @@ void display_messages();
 void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
                        int bottom );
 void serialize( JsonOut &json );
-void deserialize( JsonObject &json );
+void deserialize( const JsonObject &json );
 } // namespace Messages
 
 void add_msg( std::string msg );
@@ -43,6 +44,11 @@ inline void add_msg( const std::string &msg, Args &&... args )
 }
 template<typename ...Args>
 inline void add_msg( const char *const msg, Args &&... args )
+{
+    return add_msg( string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg( const translation &msg, Args &&... args )
 {
     return add_msg( string_format( msg, std::forward<Args>( args )... ) );
 }

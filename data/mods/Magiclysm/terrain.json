@@ -5,7 +5,7 @@
     "name": "burnt tree",
     "description": "This tree looks like it has been burnt badly, but it is somehow still standing.",
     "symbol": "7",
-    "color": "dark_grey",
+    "color": "dark_gray",
     "move_cost": 0,
     "coverage": 60,
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
@@ -24,7 +24,7 @@
     "name": "burnt tree",
     "description": "This is a large coccoon-like object that looks to be the vague shape of some creature.  You don't want to know how long it stayed alive while being sucked dry by these spiders.",
     "symbol": "7",
-    "color": "light_grey",
+    "color": "light_gray",
     "move_cost": 0,
     "coverage": 30,
     "bash": {
@@ -48,5 +48,17 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL"
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirt_barren",
+    "name": "barren dirt",
+    "description": "It's dirt.  The ground here is infertile.  Could also be dug out for construction projects.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "looks_like": "t_dirt",
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]

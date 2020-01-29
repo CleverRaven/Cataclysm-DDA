@@ -4,10 +4,87 @@
 #include <utility>
 
 #include "calendar.h"
+#include "debug.h"
+#include "effect.h"
 
 int field_entry::move_cost() const
 {
     return type.obj().get_move_cost( intensity - 1 );
+}
+
+int field_entry::extra_radiation_min() const
+{
+    return type.obj().get_extra_radiation_min( intensity - 1 );
+}
+
+int field_entry::extra_radiation_max() const
+{
+    return type.obj().get_extra_radiation_max( intensity - 1 );
+}
+
+int field_entry::radiation_hurt_damage_min() const
+{
+    return type.obj().get_radiation_hurt_damage_min( intensity - 1 );
+}
+
+int field_entry::radiation_hurt_damage_max() const
+{
+    return type.obj().get_radiation_hurt_damage_max( intensity - 1 );
+}
+
+std::string field_entry::radiation_hurt_message() const
+{
+    return type.obj().get_radiation_hurt_message( intensity - 1 );
+}
+
+int field_entry::intensity_upgrade_chance() const
+{
+    return type.obj().get_intensity_upgrade_chance( intensity - 1 );
+}
+
+time_duration field_entry::intensity_upgrade_duration() const
+{
+    return type.obj().get_intensity_upgrade_duration( intensity - 1 );
+}
+
+int field_entry::monster_spawn_chance() const
+{
+    return type.obj().get_monster_spawn_chance( intensity - 1 );
+}
+
+int field_entry::monster_spawn_count() const
+{
+    return type.obj().get_monster_spawn_count( intensity - 1 );
+}
+
+int field_entry::monster_spawn_radius() const
+{
+    return type.obj().get_monster_spawn_radius( intensity - 1 );
+}
+
+mongroup_id field_entry::monster_spawn_group() const
+{
+    return type.obj().get_monster_spawn_group( intensity - 1 );
+}
+
+float field_entry::light_emitted() const
+{
+    return type.obj().get_light_emitted( intensity - 1 );
+}
+
+float field_entry::translucency() const
+{
+    return type.obj().get_translucency( intensity - 1 );
+}
+
+bool field_entry::is_transparent() const
+{
+    return type.obj().get_transparent( intensity - 1 );
+}
+
+int field_entry::convection_temperature_mod() const
+{
+    return type.obj().get_convection_temperature_mod( intensity - 1 );
 }
 
 nc_color field_entry::color() const
@@ -26,7 +103,7 @@ field_type_id field_entry::get_field_type() const
     return type;
 }
 
-field_type_id field_entry::set_field_type( const field_type_id new_type )
+field_type_id field_entry::set_field_type( const field_type_id &new_type )
 {
     type = new_type;
     return type;
@@ -69,7 +146,7 @@ Function: find_field
 Returns a field entry corresponding to the field_type_id parameter passed in. If no fields are found then returns NULL.
 Good for checking for existence of a field: if(myfield.find_field(fd_fire)) would tell you if the field is on fire.
 */
-field_entry *field::find_field( const field_type_id field_type_to_find )
+field_entry *field::find_field( const field_type_id &field_type_to_find )
 {
     const auto it = _field_type_list.find( field_type_to_find );
     if( it != _field_type_list.end() ) {
@@ -78,7 +155,7 @@ field_entry *field::find_field( const field_type_id field_type_to_find )
     return nullptr;
 }
 
-const field_entry *field::find_field_c( const field_type_id field_type_to_find ) const
+const field_entry *field::find_field_c( const field_type_id &field_type_to_find ) const
 {
     const auto it = _field_type_list.find( field_type_to_find );
     if( it != _field_type_list.end() ) {
@@ -87,7 +164,7 @@ const field_entry *field::find_field_c( const field_type_id field_type_to_find )
     return nullptr;
 }
 
-const field_entry *field::find_field( const field_type_id field_type_to_find ) const
+const field_entry *field::find_field( const field_type_id &field_type_to_find ) const
 {
     return find_field_c( field_type_to_find );
 }
@@ -100,7 +177,7 @@ If the field already exists, it will return false BUT it will add the intensity/
 If you wish to modify an already existing field use find_field and modify the result.
 Intensity defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::add_field( const field_type_id field_type_to_add, const int new_intensity,
+bool field::add_field( const field_type_id &field_type_to_add, const int new_intensity,
                        const time_duration &new_age )
 {
     auto it = _field_type_list.find( field_type_to_add );
@@ -116,7 +193,7 @@ bool field::add_field( const field_type_id field_type_to_add, const int new_inte
     return true;
 }
 
-bool field::remove_field( field_type_id const field_to_remove )
+bool field::remove_field( const field_type_id &field_to_remove )
 {
     const auto it = _field_type_list.find( field_to_remove );
     if( it == _field_type_list.end() ) {
@@ -179,6 +256,11 @@ field_type_id field::displayed_field_type() const
     return _displayed_field_type;
 }
 
+description_affix field::displayed_description_affix() const
+{
+    return _displayed_field_type.obj().desc_affix;
+}
+
 int field::total_move_cost() const
 {
     int current_cost = 0;
@@ -186,4 +268,9 @@ int field::total_move_cost() const
         current_cost += fld.second.move_cost();
     }
     return current_cost;
+}
+
+std::vector<field_effect> field_entry::field_effects() const
+{
+    return type->get_intensity_level( intensity - 1 ).field_effects;
 }

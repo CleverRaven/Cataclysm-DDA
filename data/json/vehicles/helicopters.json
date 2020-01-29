@@ -115,8 +115,8 @@
       { "x": -3, "y": 2, "part": "board_se" },
       { "x": -2, "y": -5, "part": "turret_mount" },
       { "x": -2, "y": 3, "part": "turret_mount" },
-      { "x": -2, "y": -5, "part": "mounted_m134" },
-      { "x": -2, "y": 3, "part": "mounted_m134" },
+      { "x": -2, "y": -5, "part": "mounted_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] },
+      { "x": -2, "y": 3, "part": "mounted_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] },
       { "x": 4, "y": -1, "part": "windshield" },
       { "x": -4, "y": -3, "part": "board_sw" },
       { "x": -4, "y": 1, "part": "board_se" },
@@ -183,7 +183,7 @@
       { "x": 0, "y": -1, "chance": 5, "items": [ "screwdriver_set" ] },
       { "x": 0, "y": -1, "chance": 10, "items": [ "knife_combat" ] },
       { "x": 0, "y": -1, "chance": 5, "ammo": 90, "items": [ "ecig" ] },
-      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "charges": 98, "items": [ "mp3" ] }
+      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "items": [ "mp3" ] }
     ]
   },
   {
@@ -282,7 +282,7 @@
       { "x": -2, "y": -4, "part": "board_horizontal" },
       { "x": -3, "y": -4, "part": "board_sw" },
       { "x": -2, "y": -5, "part": "turret_mount" },
-      { "x": -2, "y": -5, "part": "mounted_m134" },
+      { "x": -2, "y": -5, "part": "mounted_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] },
       { "x": 4, "y": -1, "part": "windshield" },
       { "x": -4, "y": -3, "part": "board_sw" },
       { "x": -4, "y": 1, "part": "board_se" },
@@ -327,7 +327,7 @@
       { "x": 0, "y": -1, "chance": 20, "item_groups": [ "remains_pilot" ] },
       { "x": 0, "y": -1, "chance": 50, "items": [ "militarymap" ] },
       { "x": 2, "y": -1, "chance": 20, "item_groups": [ "remains_pilot" ] },
-      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "charges": 98, "items": [ "mp3" ] }
+      { "x": 2, "y": -1, "chance": 5, "ammo": 90, "items": [ "mp3" ] }
     ]
   },
   {
@@ -408,8 +408,8 @@
       { "x": -3, "y": 4, "part": "board_se" },
       { "x": -2, "y": -3, "part": "turret_mount" },
       { "x": -2, "y": 5, "part": "turret_mount" },
-      { "x": -2, "y": -3, "part": "mounted_m134" },
-      { "x": -2, "y": 5, "part": "mounted_m134" },
+      { "x": -2, "y": -3, "part": "mounted_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] },
+      { "x": -2, "y": 5, "part": "mounted_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] },
       { "x": -4, "y": -1, "part": "board_sw" },
       { "x": -4, "y": 3, "part": "board_se" },
       { "x": -4, "y": 2, "part": "board_vertical" },

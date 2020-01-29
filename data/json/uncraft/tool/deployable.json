@@ -1,0 +1,18 @@
+[
+  {
+    "result": "camp_chair",
+    "type": "uncraft",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "tourist_table",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "8 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 10 ] ], [ [ "sheet_metal", 1 ] ] ]
+  }
+]

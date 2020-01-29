@@ -5,7 +5,22 @@ find_package(Clang REQUIRED CONFIG)
 
 add_library(
     CataAnalyzerPlugin MODULE
-    CataTidyModule.cpp NoLongCheck.cpp)
+    CataTidyModule.cpp
+    JsonTranslationInputCheck.cpp
+    NoLongCheck.cpp
+    NoStaticGettextCheck.cpp
+    PointInitializationCheck.cpp
+    SimplifyPointConstructorsCheck.cpp
+    StringLiteralIterator.cpp
+    TestFilenameCheck.cpp
+    TextStyleCheck.cpp
+    TranslatorCommentsCheck.cpp
+    UseNamedPointConstantsCheck.cpp
+    UsePointApisCheck.cpp
+    UsePointArithmeticCheck.cpp
+    Utils.cpp
+    XYCheck.cpp
+    )
 
 target_include_directories(
     CataAnalyzerPlugin SYSTEM PRIVATE

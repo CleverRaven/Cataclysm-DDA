@@ -128,29 +128,29 @@
     "type": "vehicle_spawn",
     "id": "default_city",
     "spawn_types": [
-      { "description": "Clear section of road", "weight": 33, "vehicle_function": "no_vehicles" },
+      { "//": "Clear section of road", "weight": 33, "vehicle_function": "no_vehicles" },
       {
-        "description": "Randomly-distributed wrecks",
+        "//": "Randomly-distributed wrecks",
         "weight": 33,
         "vehicle_json": { "vehicle": "city_vehicles", "placement": "%t_wrecks", "number": [ 1, 3 ], "fuel": -1, "status": 1 }
       },
       {
-        "description": "Parked vehicles",
+        "//": "Parked vehicles",
         "weight": 33,
         "vehicle_json": { "vehicle": "city_vehicles", "placement": "%t_parked", "number": 1, "fuel": -1, "status": 1 }
       },
-      { "description": "Jack-knifed semi", "weight": 0.75, "vehicle_function": "jack-knifed_semi" },
-      { "description": "Random car pileup", "weight": 0.2, "vehicle_function": "vehicle_pileup" },
-      { "description": "Police car pileup", "weight": 0.05, "vehicle_function": "policecar_pileup" }
+      { "//": "Jack-knifed semi", "weight": 0.75, "vehicle_function": "jack-knifed_semi" },
+      { "//": "Random car pileup", "weight": 0.2, "vehicle_function": "vehicle_pileup" },
+      { "//": "Police car pileup", "weight": 0.05, "vehicle_function": "policecar_pileup" }
     ]
   },
   {
     "type": "vehicle_spawn",
     "id": "default_country",
     "spawn_types": [
-      { "description": "Clear section of road", "weight": 97.5, "vehicle_function": "no_vehicles" },
+      { "//": "Clear section of road", "weight": 97.5, "vehicle_function": "no_vehicles" },
       {
-        "description": "Out of fuel vehicle",
+        "//": "Out of fuel vehicle",
         "weight": 2.5,
         "vehicle_json": { "vehicle": "highway", "placement": "%t_highway", "number": 1, "fuel": -1, "status": 1 }
       }
@@ -160,14 +160,14 @@
     "type": "vehicle_spawn",
     "id": "default_bridge",
     "spawn_types": [
-      { "description": "Clear section of bridge", "weight": 50, "vehicle_function": "no_vehicles" },
+      { "//": "Clear section of bridge", "weight": 50, "vehicle_function": "no_vehicles" },
       {
-        "description": "Unfueled Vehicle on the bridge",
+        "//": "Unfueled Vehicle on the bridge",
         "weight": 30,
         "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
       },
       {
-        "description": "Vehicle on the bridge",
+        "//": "Vehicle on the bridge",
         "weight": 20,
         "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": -1, "status": -1 }
       }
@@ -177,9 +177,9 @@
     "type": "vehicle_spawn",
     "id": "default_highway",
     "spawn_types": [
-      { "description": "Clear section of highway", "weight": 50, "vehicle_function": "no_vehicles" },
+      { "//": "Clear section of highway", "weight": 50, "vehicle_function": "no_vehicles" },
       {
-        "description": "Vehicle on the highway",
+        "//": "Vehicle on the highway",
         "weight": 50,
         "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
       }
@@ -188,15 +188,15 @@
   {
     "type": "vehicle_spawn",
     "id": "default_parkinglot",
-    "spawn_types": [ { "description": "Parking lot with vehicles", "weight": 100, "vehicle_function": "parkinglot" } ]
+    "spawn_types": [ { "//": "Parking lot with vehicles", "weight": 100, "vehicle_function": "parkinglot" } ]
   },
   {
     "type": "vehicle_spawn",
     "id": "default_subway_deadend",
     "spawn_types": [
-      { "description": "Clear section of subway", "weight": 100, "vehicle_function": "no_vehicles" },
+      { "//": "Clear section of subway", "weight": 100, "vehicle_function": "no_vehicles" },
       {
-        "description": "Vehicle on the subway",
+        "//": "Vehicle on the subway",
         "weight": 100,
         "vehicle_json": { "vehicle": "trains_draisine", "placement": "subway_deadend", "number": [ 1, 2 ], "fuel": -1, "status": -1 }
       }

@@ -2,18 +2,18 @@
 
 # Build script intended for use in Travis CI
 
-set -ex
+set -exo pipefail
 
 num_jobs=3
 
 function run_tests
 {
-    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
+    # The grep supresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
+    $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
 date +%s > build-start-time
 
-export CCACHE_MAXSIZE=1G
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
@@ -30,6 +30,10 @@ then
 fi
 
 ccache --zero-stats
+# Increase cache size because debug builds generate large object files
+ccache -M 2G
+ccache --show-stats
+
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
@@ -109,7 +113,8 @@ then
         {
             if [ -n "$1" ]
             then
-                echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+                echo "$1" | shuf | \
+                    xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
             else
                 echo "No files to analyze"
             fi
@@ -128,6 +133,20 @@ then
         [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
         [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
     fi
+elif [ "$NATIVE" == "android" ]
+then
+    export USE_CCACHE=1
+    export NDK_CCACHE="$(which ccache)"
+
+    # Tweak the ccache compiler analysis.  We're using the compiler from the
+    # Android NDK which has an unpredictable mtime, so we need to hash the
+    # content rather than the size+mtime (which is ccache's default behaviour).
+    export CCACHE_COMPILERCHECK=content
+
+    cd android
+    # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
+    # fills the log with nonsense.
+    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
@@ -142,6 +161,18 @@ else
             wait -n
         fi
         wait -n
+    fi
+
+    if [ -n "$TEST_STAGE" ]
+    then
+        # Run the tests one more time, without actually running any tests, just to verify that all
+        # the mod data can be successfully loaded
+
+        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
+        # shrink over time.
+        blacklist=build-scripts/mod_test_blacklist
+        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi
 ccache --show-stats

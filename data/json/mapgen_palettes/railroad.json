@@ -47,6 +47,7 @@
       "9": "t_concrete",
       "O": "t_window",
       "b": "t_floor",
+      "B": "t_floor",
       "c": "t_floor",
       "d": "t_floor",
       "f": "t_floor",
@@ -59,6 +60,7 @@
     "furniture": {
       "C": "f_counter",
       "b": "f_bench",
+      "B": "f_bench",
       "c": "f_chair",
       "d": "f_desk",
       "f": "f_sofa",
@@ -67,6 +69,21 @@
       "T": "f_toilet",
       "!": "f_trashcan",
       "&": "f_trashcan"
+    },
+    "items": {
+      "!": { "item": "trash", "chance": 30 },
+      "&": { "item": "trash", "chance": 30 },
+      "d": { "item": "office", "chance": 30 },
+      "C": { "item": "office", "chance": 30 },
+      "l": { "item": "clothing_work_set", "chance": 30 },
+      "b": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
+      "B": [
+        { "item": "magazines", "chance": 10 },
+        { "item": "novels", "chance": 10 },
+        { "item": "alcohol", "chance": 5 },
+        { "item": "snacks", "chance": 20 },
+        { "item": "manuals", "chance": 2 }
+      ]
     },
     "toilets": { "T": {  } }
   },

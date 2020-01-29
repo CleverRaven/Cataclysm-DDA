@@ -5,7 +5,8 @@
     "name": "campus admin building",
     "sym": "A",
     "color": "red",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "SOURCE_CHEMISTRY", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "bandit_tower_4brc",
-    "comment": "bottom right corner, roof, fourth floor or even level",
+    "//": "bottom right corner, roof, fourth floor or even level",
     "weight": 250,
     "method": "json",
     "object": {

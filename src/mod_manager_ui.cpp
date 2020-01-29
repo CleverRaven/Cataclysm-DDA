@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <exception>
-#include <sstream>
 
 #include "debug.h"
 #include "dependency_tree.h"
@@ -23,22 +22,21 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         return "";
     }
 
-    std::ostringstream info;
+    std::string info;
 
     if( !mod->authors.empty() ) {
-        info << "<color_light_blue>" << ngettext( "Author", "Authors", mod->authors.size() )
-             << "</color>: " << enumerate_as_string( mod->authors );
+        info += colorize( ngettext( "Author", "Authors", mod->authors.size() ),
+                          c_light_blue ) + ": " + enumerate_as_string( mod->authors );
         if( mod->maintainers.empty() ) {
-            info << "\n";
+            info += "\n";
         } else {
-            info << "  ";
+            info += "  ";
         }
     }
 
     if( !mod->maintainers.empty() ) {
-        info << "<color_light_blue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
-             << u8"</color>:\u00a0"/*non-breaking space*/
-             << enumerate_as_string( mod->maintainers ) << "\n";
+        info += colorize( ngettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
+                          c_light_blue ) + u8":\u00a0"/*non-breaking space*/ + enumerate_as_string( mod->maintainers ) + "\n";
     }
 
     if( !mod->dependencies.empty() ) {
@@ -50,26 +48,25 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
         } );
-        info << "<color_light_blue>" << ngettext( "Dependency", "Dependencies", deps.size() )
-             << "</color>: " << str << "\n";
+        info += colorize( ngettext( "Dependency", "Dependencies", deps.size() ),
+                          c_light_blue ) + ": " + str + "\n";
     }
 
     if( !mod->version.empty() ) {
-        info << "<color_light_blue>" << _( "Mod version" ) << "</color>: "
-             << mod->version << std::endl;
+        info += colorize( _( "Mod version" ), c_light_blue ) + ": " + mod->version + "\n";
     }
 
     if( !mod->description.empty() ) {
-        info << _( mod->description ) << "\n";
+        info += _( mod->description ) + "\n";
     }
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
                            mod->ident )->s_errors() : "";
     if( !note.empty() ) {
-        info << "<color_red>" << note << "</color>";
+        info += colorize( note, c_red );
     }
 
-    return info.str();
+    return info;
 }
 
 void mod_ui::try_add( const mod_id &mod_to_add,
@@ -227,16 +224,11 @@ bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_l
     // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
     int newsel = selection - 1;
 
-    mod_id modstring = active_list[newsel];
+    mod_id newsel_id = active_list[newsel];
+    bool newsel_is_dependency =
+        std::find( dependencies.begin(), dependencies.end(), newsel_id ) != dependencies.end();
 
-    if( modstring->core ||
-        std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
-        // can't move up due to a blocker
-        return false;
-    } else {
-        // we can shift!
-        return true;
-    }
+    return !newsel_id->core && !newsel_is_dependency;
 }
 
 bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active_list )
@@ -258,13 +250,8 @@ bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active
 
     mod_id modstring = active_list[newsel];
     mod_id selstring = active_list[oldsel];
+    bool sel_is_dependency =
+        std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end();
 
-    if( modstring->core ||
-        std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {
-        // can't move down due to a blocker
-        return false;
-    } else {
-        // we can shift!
-        return true;
-    }
+    return !modstring->core && !sel_is_dependency;
 }

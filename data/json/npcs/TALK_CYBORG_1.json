@@ -7,24 +7,21 @@
       "type": "dialogue",
       "context": "cyborg",
       "value": "yes",
-      "no": "I... I'm free. *Zzzt* I'm actually free! *bzzz* Look, you're the first person I've seen in a long time.",
+      "no": "I… I'm free. *Zzzt* I'm actually free! *bzzz* Look, you're the first person I've seen in a long time.",
       "yes": "Hey again. *kzzz*"
     },
-    "speaker_effect": {
-      "effect": { "npc_add_var": "cyborg_has_talked", "type": "dialogue", "context": "cyborg", "value": "yes" },
-      "sentinel": "cyborg_has_talked"
-    },
+    "speaker_effect": { "effect": { "npc_add_var": "cyborg_has_talked", "type": "dialogue", "context": "cyborg", "value": "yes" } },
     "responses": [
       {
         "switch": true,
         "condition": { "npc_has_var": "cyborg_has_talked", "type": "dialogue", "context": "cyborg", "value": "yes" },
-        "text": "Hey. Let's chat for a second.",
+        "text": "Hey.  Let's chat for a second.",
         "topic": "TALK_STRANGER_NEUTRAL"
       },
       {
         "switch": true,
         "default": true,
-        "text": "That's because I saved you. Listen, I could use your help...",
+        "text": "That's because I saved you.  Listen, I could use your help…",
         "trial": { "type": "PERSUADE", "difficulty": 0 },
         "success": { "topic": "TALK_CYBORG_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_CYBORG_WARY", "opinion": { "anger": 1, "fear": 1 } }
@@ -32,7 +29,7 @@
       {
         "switch": true,
         "default": true,
-        "text": "Big fucking deal. Do what I say or I'll shove that chip back where it belongs.",
+        "text": "Big fucking deal.  Do what I say or I'll shove that chip back where it belongs.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_CYBORG_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_CYBORG_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
@@ -40,7 +37,7 @@
       {
         "switch": true,
         "default": true,
-        "text": "Sorry, I'm nobody. Enjoy your freedom, I guess.",
+        "text": "Sorry, I'm nobody.  Enjoy your freedom, I guess.",
         "topic": "TALK_DONE"
       }
     ]
@@ -51,12 +48,12 @@
     "dynamic_line": "*buzz* Great! So what happens now?",
     "responses": [
       {
-        "text": "Come with me. We can help each other out.",
+        "text": "Come with me.  We can help each other out.",
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "value", 2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": -1, "fear": 1 } }
       },
-      { "text": "We both go our separate ways. Enjoy your freedom.", "topic": "TALK_DONE" }
+      { "text": "We both go our separate ways.  Enjoy your freedom.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -71,12 +68,12 @@
         "failure": { "topic": "TALK_CYBORG_LEAVES" }
       },
       {
-        "text": "For all you know, I did. I'm being nice for now. You'd better hope that it lasts.",
+        "text": "For all you know, I did.  I'm being nice for now.  You'd better hope that it lasts.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_CYBORG_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_CYBORG_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
       },
-      { "text": "Forget it. Enjoy your freedom.", "topic": "TALK_DONE" }
+      { "text": "Forget it.  Enjoy your freedom.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -97,7 +94,7 @@
         "opinion": { "trust": -1, "fear": -2, "anger": -2 }
       },
       {
-        "text": "No, *I'm* sorry, I didn't mean that. Go do what you want.",
+        "text": "No, *I'm* sorry, I didn't mean that.  Go do what you want.",
         "trial": { "type": "PERSUADE", "difficulty": 10 },
         "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
         "failure": { "topic": "TALK_CYBORG_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
@@ -107,7 +104,7 @@
   {
     "id": "TALK_CYBORG_BREAKDOWN",
     "type": "talk_topic",
-    "dynamic_line": "...kill... *ZTZTZT* ...you!",
+    "dynamic_line": "...kill… *ZTZTZT* …you!",
     "responses": [
       {
         "text": "Run while you still can!",
@@ -117,7 +114,7 @@
       },
       { "text": "Not if I kill you first!", "topic": "TALK_DONE", "effect": "hostile" },
       {
-        "text": "I'm sorry! I shouldn't have said that!",
+        "text": "I'm sorry!  I shouldn't have said that!",
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
@@ -127,7 +124,7 @@
   {
     "id": "TALK_CYBORG_LEAVES",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, *beeeeep* I don't think so. Bye.",
+    "dynamic_line": "Yeah, *beeeeep* I don't think so.  Bye.",
     "responses": [ { "text": "Suit yourself.", "topic": "TALK_DONE" } ]
   }
 ]

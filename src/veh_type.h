@@ -10,7 +10,6 @@
 #include <set>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 #include "calendar.h"
 #include "color.h"
@@ -22,6 +21,7 @@
 #include "vehicle.h"
 #include "requirements.h"
 #include "point.h"
+#include "translations.h"
 
 using itype_id = std::string;
 
@@ -68,10 +68,13 @@ enum vpart_bitflags : int {
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_AUTOCLAVE,
     VPFLAG_WASHING_MACHINE,
+    VPFLAG_DISHWASHER,
     VPFLAG_FLUIDTANK,
     VPFLAG_REACTOR,
     VPFLAG_RAIL,
+    VPFLAG_TURRET_CONTROLS,
 
     NUM_VPFLAGS
 };
@@ -99,9 +102,11 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    int movecost;   /* movecost for moving through this terrain (overrides current terrain movecost)
+    /* movecost for moving through this terrain (overrides current terrain movecost)
                      * if movecost <= 0 ignore this parameter */
-    int penalty;    // penalty while not on this terrain (adds to movecost)
+    int movecost;
+    // penalty while not on this terrain (adds to movecost)
+    int penalty;
 };
 
 struct vpslot_wheel {
@@ -171,7 +176,7 @@ class vpart_info
         int durability = 0;
 
         /** A text description of the part as a vehicle part */
-        std::string description;
+        translation description;
 
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
@@ -216,7 +221,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, const std::string &format_color, int width ) const;
+        int format_description( std::string &msg, const nc_color &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
@@ -228,7 +233,7 @@ class vpart_info
         int install_moves = to_moves<int>( 1_hours );
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const Character &ch ) const;
+        int install_time( const player &p ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
@@ -240,7 +245,7 @@ class vpart_info
         int removal_moves = -1;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const Character &ch ) const;
+        int removal_time( const player &p ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -255,7 +260,7 @@ class vpart_info
         int repair_moves = to_moves<int>( 1_hours );
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const Character &ch ) const;
+        int repair_time( const player &p ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
@@ -266,11 +271,19 @@ class vpart_info
         /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
         int bonus = 0;
 
+        /** cargo weight modifier (percentage) */
+        int cargo_weight_modifier = 100;
+
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction;
+        std::array<float, NUM_DT> damage_reduction = {};
 
         /* Contains data for terrain transformer parts */
         transform_terrain_data transform_terrain;
+
+        /*Comfort data for sleeping in vehicles*/
+        int comfort = 0;
+        int floor_bedding_warmth = 0;
+        int bonus_fire_warmth_feet = 300;
 
         /**
          * @name Engine specific functions
@@ -300,10 +313,11 @@ class vpart_info
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
-        mutable std::string name_;
+        translation name_;
 
-        std::set<std::string> flags;    // flags
-        std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+        std::set<std::string> flags;
+        // flags checked so often that things slow down due to string cmp
+        std::bitset<NUM_VPFLAGS> bitflags;
 
         /** Second field is the multiplier */
         std::vector<std::pair<requirement_id, int>> install_reqs;
@@ -312,8 +326,10 @@ class vpart_info
 
     public:
 
-        int z_order;        // z-ordering, inferred from location, cached here
-        int list_order;     // Display order in vehicle interact display
+        // z-ordering, inferred from location, cached here
+        int z_order;
+        // Display order in vehicle interact display
+        int list_order;
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;
@@ -323,11 +339,11 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo );
-        static void load( JsonObject &jo, const std::string &src );
+        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
         static void reset();
@@ -366,7 +382,7 @@ struct vehicle_prototype {
 
     std::unique_ptr<vehicle> blueprint;
 
-    static void load( JsonObject &jo );
+    static void load( const JsonObject &jo );
     static void reset();
     static void finalize();
 

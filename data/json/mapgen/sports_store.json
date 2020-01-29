@@ -62,18 +62,18 @@
       "toilets": { "&": {  } },
       "items": { "O": { "item": "allsporting", "chance": 50 } },
       "place_loot": [
-        { "group": "clothing_sport", "x": [ 5, 6 ], "y": 6, "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "clothing_sport", "x": [ 17, 18 ], "y": 6, "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "camping", "x": 2, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "camping", "x": 5, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "camping", "x": 6, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "sports", "x": 17, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "sports", "x": 18, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "sports", "x": 21, "y": [ 8, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "allsporting", "x": [ 10, 13 ], "y": 14, "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "allsporting", "x": [ 10, 13 ], "y": 15, "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "allsporting", "x": [ 8, 16 ], "y": 19, "chance": 60 },
-        { "group": "allsporting", "x": [ 8, 16 ], "y": 21, "chance": 60 }
+        { "group": "clothing_sport", "x": [ 5, 6 ], "y": 6, "chance": 90, "repeat": [ 1, 8 ] },
+        { "group": "clothing_sport", "x": [ 17, 18 ], "y": 6, "chance": 90, "repeat": [ 1, 8 ] },
+        { "group": "camping", "x": 2, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "group": "camping", "x": 5, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "group": "camping", "x": 6, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "group": "sports", "x": 17, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "group": "sports", "x": 18, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "group": "sports", "x": 21, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "group": "allsporting", "x": [ 10, 13 ], "y": 14, "chance": 90, "repeat": [ 1, 8 ] },
+        { "group": "allsporting", "x": [ 10, 13 ], "y": 15, "chance": 90, "repeat": [ 1, 8 ] },
+        { "group": "allsporting", "x": [ 8, 16 ], "y": 19, "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "allsporting", "x": [ 8, 16 ], "y": 21, "chance": 80, "repeat": [ 1, 8 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": 7, "chance": 2 } ]
     }

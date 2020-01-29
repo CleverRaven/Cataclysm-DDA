@@ -44,6 +44,22 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "large_storage_battery",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 4 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "storage_battery", 2 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
     "result": "light_minus_atomic_battery_cell",
     "type": "recipe",
     "category": "CC_ELECTRONIC",

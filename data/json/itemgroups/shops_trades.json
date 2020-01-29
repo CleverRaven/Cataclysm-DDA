@@ -41,6 +41,7 @@
       [ "oxy_torch", 5 ],
       { "item": "weldtank", "prob": 2, "count": [ 1, 2 ] },
       { "item": "tinyweldtank", "prob": 2, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
       [ "polisher", 1 ],
       [ "welder", 2 ]
     ]
@@ -56,7 +57,7 @@
       [ "chisel", 30 ],
       [ "glasses_safety", 25 ],
       [ "charcoal", 50 ],
-      [ "glass_shard", 90 ],
+      { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
       [ "material_sand", 80 ],
       [ "chemistry_set", 5 ]
     ]

@@ -17,14 +17,14 @@
     "responses": [
       { "text": "What is your job here?", "topic": "TALK_RANCH_WOODCUTTER_2_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_WOODCUTTER_2_HIRE" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_WOODCUTTER_2_JOB",
     "dynamic_line": "I turn the logs that laborers bring in into lumber to expand the outpost.  Maintaining the saw is a chore but breaks the monotony.",
-    "responses": [ { "text": "...", "topic": "TALK_RANCH_WOODCUTTER_2" } ]
+    "responses": [ { "text": "…", "topic": "TALK_RANCH_WOODCUTTER_2" } ]
   },
   {
     "type": "talk_topic",

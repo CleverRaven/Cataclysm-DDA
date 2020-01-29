@@ -12,6 +12,19 @@ void active_item_cache::remove( const item *it )
         item *const target = active_item.item_ref.get();
         return !target || target == it;
     } );
+    if( it->can_revive() ) {
+        special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
+    }
+    if( it->get_use( "explosion" ) ) {
+        special_items[ special_item_type::explosive ].remove_if( [it]( const item_reference &
+        active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
+    }
 }
 
 void active_item_cache::add( item &it, point location )
@@ -24,12 +37,23 @@ void active_item_cache::add( item &it, point location )
     } ) != target_list.end() ) {
         return;
     }
+    if( it.can_revive() ) {
+        special_items[ special_item_type::corpse ].push_back( item_reference{ location, it.get_safe_reference() } );
+    }
+    if( it.get_use( "explosion" ) ) {
+        special_items[ special_item_type::explosive ].push_back( item_reference{ location, it.get_safe_reference() } );
+    }
     target_list.push_back( item_reference{ location, it.get_safe_reference() } );
 }
 
 bool active_item_cache::empty() const
 {
-    return active_items.empty();
+    for( std::pair<int, std::list<item_reference>> active_queue : active_items ) {
+        if( !active_queue.second.empty() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 std::vector<item_reference> active_item_cache::get()
@@ -70,6 +94,15 @@ std::vector<item_reference> active_item_cache::get_for_processing()
         kv.second.splice( kv.second.end(), kv.second, kv.second.begin(), it );
     }
     return items_to_process;
+}
+
+std::vector<item_reference> active_item_cache::get_special( special_item_type type )
+{
+    std::vector<item_reference> matching_items;
+    for( const item_reference &it : special_items[type] ) {
+        matching_items.push_back( it );
+    }
+    return matching_items;
 }
 
 void active_item_cache::subtract_locations( const point &delta )

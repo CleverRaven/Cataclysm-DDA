@@ -21,6 +21,7 @@
 #include "messages.h"
 #include "monfaction.h"
 #include "mtype.h"
+#include "creature_tracker.h"
 #include "npc.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -39,73 +40,71 @@
 #include "string_id.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "cata_string_consts.h"
 
 #define MONSTER_FOLLOW_DIST 8
-
-const species_id FUNGUS( "FUNGUS" );
-
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_countdown( "countdown" );
-const efftype_id effect_docile( "docile" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_dragging( "dragging" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_operating( "operating" );
-const efftype_id effect_pacified( "pacified" );
-const efftype_id effect_pushed( "pushed" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_harnessed( "harnessed" );
-
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
-const species_id ROBOT( "ROBOT" );
-const species_id WORM( "WORM" );
 
 bool monster::wander()
 {
     return ( goal == pos() );
 }
 
-bool monster::is_immune_field( const field_type_id fid ) const
+bool monster::is_immune_field( const field_type_id &fid ) const
 {
-    if( fid == fd_smoke || fid == fd_tear_gas || fid == fd_toxic_gas ||
-        fid == fd_relax_gas || fid == fd_nuke_gas ) {
-        return has_flag( MF_NO_BREATHE );
-    }
-    if( fid == fd_acid ) {
-        return has_flag( MF_ACIDPROOF ) || has_flag( MF_FLIES );
-    }
-    if( fid == fd_fire ) {
-        return has_flag( MF_FIREPROOF );
-    }
-    if( fid == fd_electricity ) {
-        return has_flag( MF_ELECTRIC );
-    }
     if( fid == fd_fungal_haze ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
     }
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( FUNGUS );
     }
+    if( fid == fd_insecticidal_gas ) {
+        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
+    }
+    const field_type &ft = fid.obj();
+    if( ft.has_fume ) {
+        return has_flag( MF_NO_BREATHE );
+    }
+    if( ft.has_acid ) {
+        return has_flag( MF_ACIDPROOF ) || flies();
+    }
+    if( ft.has_fire ) {
+        return has_flag( MF_FIREPROOF );
+    }
+    if( ft.has_elec ) {
+        return has_flag( MF_ELECTRIC );
+    }
+    if( ft.immune_mtypes.count( type->id ) > 0 ) {
+        return true;
+    }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
 }
 
-bool monster::can_move_to( const tripoint &p ) const
+static bool z_is_valid( int z )
 {
-    const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
-    if( g->m.impassable( p ) && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+    return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
+}
+
+bool monster::will_move_to( const tripoint &p ) const
+{
+    if( g->m.impassable( p ) ) {
+        if( digging() ) {
+            if( !g->m.has_flag( "BURROWABLE", p ) ) {
+                return false;
+            }
+        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+            return false;
+        }
+    }
+
+    if( ( !can_submerge() && !flies() ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
 
-    if( ( !can_submerge() && !has_flag( MF_FLIES ) ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( digs() && !g->m.has_flag( "DIGGABLE", p ) && !g->m.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
-    if( has_flag( MF_DIGS ) && !g->m.has_flag( "DIGGABLE", p ) ) {
-        return false;
-    }
+
     if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
         return false;
     }
@@ -114,36 +113,66 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    // Various avoiding behaviors
-    if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
+    if( get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_SMALL_PASSAGE, p ) ) {
+        return false; // if a large critter, can't move through tight passages
+    }
+
+    // Various avoiding behaviors.
+
+    bool avoid_fire = has_flag( MF_AVOID_FIRE );
+    bool avoid_fall = has_flag( MF_AVOID_FALL );
+    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
+    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    /*
+     * Because some avoidance behaviors are supersets of others,
+     * we can cascade through the implications. Complex implies simple,
+     * and simple implies fire and fall.
+     * unfortunately, fall does not necessarily imply fire, nor the converse.
+     */
+    if( avoid_complex ) {
+        avoid_simple = true;
+    }
+    if( avoid_simple ) {
+        avoid_fire = true;
+        avoid_fall = true;
+    }
+
+    // technically this will shortcut in evaluation from fire or fall
+    // before hitting simple or complex but this is more explicit
+    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
         const ter_id target = g->m.ter( p );
-        // Don't enter lava ever
-        if( target == t_lava ) {
-            return false;
-        }
-        // Don't ever throw ourselves off cliffs
-        if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
+
+        // Don't enter lava if we have any concept of heat being bad
+        if( avoid_fire && target == t_lava ) {
             return false;
         }
 
-        // Don't enter open pits ever unless tiny, can fly or climb well
-        if( !( type->size == MS_TINY || can_climb ) &&
-            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-            return false;
+        if( avoid_fall ) {
+            // Don't throw ourselves off cliffs if we have a concept of falling
+            if( !g->m.has_floor( p ) && !flies() ) {
+                return false;
+            }
+
+            // Don't enter open pits ever unless tiny, can fly or climb well
+            if( !( type->size == MS_TINY || can_climb() ) &&
+                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                return false;
+            }
         }
 
-        // The following behaviors are overridden when attacking
-        if( attitude( &( g->u ) ) != MATT_ATTACK ) {
-            if( g->m.has_flag( "SHARP", p ) &&
-                !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
+        // Some things are only avoided if we're not attacking
+        if( attitude( &g->u ) != MATT_ATTACK ) {
+            // Sharp terrain is ignored while attacking
+            if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
+                !( type->size == MS_TINY || flies() ) ) {
                 return false;
             }
         }
 
         const field &target_field = g->m.field_at( p );
 
-        // Differently handled behaviors
-        if( has_flag( MF_AVOID_DANGER_2 ) ) {
+        // Higher awareness is needed for identifying these as threats.
+        if( avoid_complex ) {
             const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
@@ -153,15 +182,40 @@ bool monster::can_move_to( const tripoint &p ) const
             if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
                 return false;
             }
-        } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
-            // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
-                return false;
-            }
+        }
+
+        // Without avoid_complex, only fire and electricity are checked for field avoidance.
+        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+            return false;
+        }
+        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+            return false;
         }
     }
 
     return true;
+}
+
+bool monster::can_reach_to( const tripoint &p ) const
+{
+    if( p.z > pos().z && z_is_valid( pos().z ) ) {
+        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+            // can't go through the roof
+            return false;
+        }
+    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
+        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
+            // can't go through the floor
+            // you would fall anyway if there was no floor, so no need to check for that here
+            return false;
+        }
+    }
+    return true;
+}
+
+bool monster::can_move_to( const tripoint &p ) const
+{
+    return can_reach_to( p ) && will_move_to( p );
 }
 
 void monster::set_dest( const tripoint &p )
@@ -185,7 +239,7 @@ void monster::wander_to( const tripoint &p, int f )
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
-    const int d = rl_dist( pos(), c.pos() );
+    const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
         return INT_MAX;
     }
@@ -200,7 +254,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( !smart ) {
-        return d;
+        return int( d );
     }
 
     float power = c.power_rating();
@@ -211,19 +265,22 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( power > 0 ) {
-        return d / power;
+        return int( d ) / power;
     }
 
     return INT_MAX;
 }
 
-void monster::plan( const mfactions &factions )
+void monster::plan()
 {
+    const auto &factions = g->critter_tracker->factions();
+
     // Bots are more intelligent than most living stuff
     bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
+    int max_sight_range = std::max( type->vision_day, type->vision_night );
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
-    float dist = !smart_planning ? 1000 : 8.6f;
+    float dist = !smart_planning ? max_sight_range : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
 
@@ -341,8 +398,12 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( monster *const mon_ptr : fac.second ) {
-                monster &mon = *mon_ptr;
+            for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                const shared_ptr_fast<monster> shared = weak.lock();
+                if( !shared ) {
+                    continue;
+                }
+                monster &mon = *shared;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -369,8 +430,12 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( monster *const mon_ptr : myfaction_iter->second ) {
-            monster &mon = *mon_ptr;
+        for( const weak_ptr_fast<monster> &weak : myfaction_iter->second ) {
+            const shared_ptr_fast<monster> shared = weak.lock();
+            if( !shared ) {
+                continue;
+            }
+            monster &mon = *shared;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
@@ -413,10 +478,10 @@ void monster::plan( const mfactions &factions )
         if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
-            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
-            for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
-                    furn_id( "f_autodoc_couch" ) ) ) {
+            for( const auto &couch_pos : g->m.find_furnitures_with_flag_in_radius( pos(), 10,
+                    flag_AUTODOC_COUCH ) ) {
                 if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
                         tmp = couch_pos;
@@ -481,6 +546,23 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
+bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
+{
+    if( g->m.has_flag( "LIQUID", at_pos ) && can_drown() && one_in( chance ) ) {
+        // if there's a vehicle here with a boardable part, the monster is on it
+        // and not drowning
+        if( g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false ) ) {
+            return false;
+        }
+        die( nullptr );
+        if( g->u.sees( at_pos ) ) {
+            add_msg( _( "The %s drowns!" ), name() );
+        }
+        return true;
+    }
+    return false;
+}
+
 // General movement.
 // Currently, priority goes:
 // 1) Special Attack
@@ -509,21 +591,20 @@ void monster::move()
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
         }
-        static const auto volume_per_hp = units::from_milliliter( 250 );
+        static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
-                for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->is_empty( dest ) && hp / 2 > type->hp ) {
-                        if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
-                            hp -= type->hp;
-                            //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                            spawn->make_ally( *this );
-                            if( g->u.sees( *this ) ) {
-                                add_msg( _( "The %s splits in two!" ),
-                                         name() );
-                            }
-                        }
+            if( has_flag( MF_ABSORBS_SPLITS ) ) {
+                while( hp / 2 > type->hp ) {
+                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
+                    if( !spawn ) {
+                        break;
+                    }
+                    hp -= type->hp;
+                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                    spawn->make_ally( *this );
+                    if( g->u.sees( *this ) ) {
+                        add_msg( _( "The %s splits in two!" ), name() );
                     }
                 }
             }
@@ -531,7 +612,7 @@ void monster::move()
         g->m.i_clear( pos() );
     }
     // record position before moving to put the player there if we're dragging
-    tripoint drag_to = pos();
+    tripoint drag_to = g->m.getabs( pos() );
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -567,63 +648,23 @@ void monster::move()
         }
     }
 
-    // defective nursebot surgery code
-    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
-        dragged_foe != nullptr ) {
+    // Check if they're dragging a foe and find their hapless victim
+    player *dragged_foe = find_dragged_foe();
 
-        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
-            !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
-                add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
-                         dragged_foe->disp_name() );
-
-                dragged_foe->setpos( goal );
-
-                add_effect( effect_countdown, 2_turns );// there's still time to get away
-                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-            } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-                sounds::sound( pos(), 8, sounds::sound_t::speech,
-                               string_format(
-                                   _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
-                // TODO: Make it able to push NPC/player
-                push_to( goal, 4, 0 );
-            }
-        }
-        if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) ) {
-
-                bionic_collection collec = *dragged_foe->my_bionics;
-                int index = rng( 0, collec.size() - 1 );
-                bionic target_cbm = collec[index];
-
-                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-                float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                       static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
-
-                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
-
-                dragged_foe->remove_effect( effect_grabbed );
-                remove_effect( effect_dragging );
-                dragged_foe = nullptr;
-
-            }
-        }
-    }
+    // Give nursebots a chance to do surgery.
+    nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
-    const bool can_fly = has_flag( MF_FLIES );
-    if( !can_fly && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
+    if( !flies() && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
         g->m.creature_on_trap( *this, false );
+        if( is_dead() ) {
+            return;
+        }
     }
 
     // The monster is in a deep water tile and has a chance to drown
     if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
-        if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
-            die( nullptr );
-            if( g->u.sees( pos() ) ) {
-                add_msg( _( "The %s drowns!" ), name() );
-            }
+        if( die_if_drowning( pos(), 10 ) ) {
             return;
         }
     }
@@ -638,7 +679,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( MF_IMMOBILE ) ) {
+    if( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) {
         moves = 0;
         return;
     }
@@ -670,7 +711,7 @@ void monster::move()
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
         if( goal == g->u.pos() ) {
-            current_attitude = attitude( &( g->u ) );
+            current_attitude = attitude( &g->u );
         } else {
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
@@ -742,7 +783,7 @@ void monster::move()
     int new_dy = destination.y - pos().y;
 
     // toggle facing direction for sdl flip
-    if( ! tile_iso ) {
+    if( !tile_iso ) {
         if( new_dx < 0 ) {
             facing = FD_LEFT;
         } else if( new_dx > 0 ) {
@@ -759,7 +800,6 @@ void monster::move()
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
-    const bool can_climb = has_flag( MF_CLIMBS );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
@@ -769,6 +809,7 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            tripoint candidate_abs = g->m.getabs( candidate );
             if( candidate.z != posz() ) {
                 bool can_z_move = true;
                 if( !g->m.valid_move( pos(), candidate, false, true ) ) {
@@ -778,8 +819,8 @@ void monster::move()
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > posz() && !can_fly ) {
-                    if( !can_climb || !g->m.has_floor_or_support( candidate ) ) {
+                if( candidate.z > posz() && !flies() ) {
+                    if( !can_climb() || !g->m.has_floor_or_support( candidate ) ) {
                         // Can't "jump" up a whole z-level
                         can_z_move = false;
                     }
@@ -811,7 +852,7 @@ void monster::move()
                 if( att == A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
-                    next_step = candidate;
+                    next_step = candidate_abs;
                     break;
                 } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
                     continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
@@ -825,13 +866,11 @@ void monster::move()
 
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
-
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
                     continue;
                 }
-
                 const int estimate = g->m.bash_rating( bash_estimate(), candidate );
                 if( estimate <= 0 ) {
                     continue;
@@ -847,9 +886,9 @@ void monster::move()
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( !moved || x_in_y( progress, switch_chance ) ) {
+            if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
                 moved = true;
-                next_step = candidate;
+                next_step = candidate_abs;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
@@ -863,13 +902,14 @@ void monster::move()
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
+    const tripoint local_next_step = g->m.getlocal( next_step );
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( next_step ) ) ||
-            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
-            ( !pacified && bash_at( next_step ) ) ||
-            ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
+            ( !pacified && attack_at( local_next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
+            ( !pacified && bash_at( local_next_step ) ) ||
+            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
+            move_to( local_next_step, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -879,14 +919,91 @@ void monster::move()
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
-            } else if( drag_to != pos() && g->critter_at( drag_to ) == nullptr ) {
-                dragged_foe->setpos( drag_to );
+            } else if( g->m.getlocal( drag_to ) != pos() &&
+                       g->critter_at( g->m.getlocal( drag_to ) ) == nullptr ) {
+                dragged_foe->setpos( g->m.getlocal( drag_to ) );
             }
         }
     } else {
         moves -= 100;
         stumble();
         path.clear();
+    }
+}
+
+player *monster::find_dragged_foe()
+{
+    // Make sure they're actually dragging someone.
+    if( !dragged_foe_id.is_valid() || !has_effect( effect_dragging ) ) {
+        dragged_foe_id = character_id();
+        return nullptr;
+    }
+
+    // Dragged critters may die or otherwise become invalid, which is why we look
+    // them up each time. Luckily, monsters dragging critters is relatively rare,
+    // so this check should happen infrequently.
+    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+
+    if( dragged_foe == nullptr ) {
+        // Target no longer valid.
+        dragged_foe_id = character_id();
+        remove_effect( effect_dragging );
+    }
+
+    return dragged_foe;
+}
+
+// Nursebot surgery code
+void monster::nursebot_operate( player *dragged_foe )
+{
+    // No dragged foe, nothing to do.
+    if( dragged_foe == nullptr ) {
+        return;
+    }
+
+    // Nothing to do if they can't operate, or they don't think they're dragging.
+    if( !( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) ) ) {
+        return;
+    }
+
+    if( rl_dist( pos(), goal ) == 1 && !g->m.has_flag_furn( flag_AUTODOC_COUCH, goal ) &&
+        !has_effect( effect_operating ) ) {
+        if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+            ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+                     dragged_foe->disp_name() );
+
+            dragged_foe->setpos( goal );
+
+            // There's still time to get away
+            add_effect( effect_countdown, 2_turns );
+            add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+        } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+            sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
+                           string_format(
+                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+            // TODO: Make it able to push NPC/player
+            push_to( goal, 4, 0 );
+        }
+    }
+    if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
+        if( dragged_foe->has_effect( effect_grabbed ) ) {
+
+            const bionic_collection &collec = *dragged_foe->my_bionics;
+            const int index = rng( 0, collec.size() - 1 );
+            const bionic &target_cbm = collec[index];
+
+            //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
+            const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                         static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+
+            g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+
+            dragged_foe->remove_effect( effect_grabbed );
+            remove_effect( effect_dragging );
+            dragged_foe_id = character_id();
+
+        }
     }
 }
 
@@ -899,7 +1016,7 @@ void monster::footsteps( const tripoint &p )
     }
     made_footstep = true;
     int volume = 6; // same as player's footsteps
-    if( has_flag( MF_FLIES ) ) {
+    if( flies() ) {
         volume = 0;    // Flying monsters don't have footsteps!
     }
     if( digging() ) {
@@ -941,6 +1058,9 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
+    const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
+    const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
+
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -963,7 +1083,30 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+        const scenttype_id &type_scent = g->scent.get_type( dest );
+
+        bool right_scent = false;
+        // is the monster tracking this scent
+        if( !tracked_scents.empty() ) {
+            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
+        }
+        //is this scent recognised by the monster species
+        if( !type_scent.is_empty() ) {
+            const std::set<species_id> &receptive_species = type_scent->receptive_species;
+            const std::set<species_id> &monster_species = type->species;
+            std::vector<species_id> v_intersection;
+            std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
+                                   monster_species.end(), std::back_inserter( v_intersection ) );
+            if( !v_intersection.empty() ) {
+                right_scent = true;
+            }
+        }
+        // is the monster actually ignoring this scent
+        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+            right_scent = false;
+        }
+
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
@@ -989,10 +1132,10 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     const int source_cost = g->m.move_cost( f );
     const int dest_cost = g->m.move_cost( t );
     // Digging and flying monsters ignore terrain cost
-    if( has_flag( MF_FLIES ) || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
+    if( flies() || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
         movecost = 100;
         // Swimming monsters move super fast in water
-    } else if( has_flag( MF_SWIMS ) ) {
+    } else if( swims() ) {
         if( g->m.has_flag( "SWIMMABLE", f ) ) {
             movecost += 25;
         } else {
@@ -1016,7 +1159,7 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
             movecost += 50 * g->m.move_cost( t );
         }
         movecost /= 2;
-    } else if( has_flag( MF_CLIMBS ) ) {
+    } else if( climbs() ) {
         if( g->m.has_flag( "CLIMBABLE", f ) ) {
             movecost += 150;
         } else {
@@ -1037,11 +1180,11 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
 
 int monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const
 {
-    if( has_flag( MF_FLIES ) ) {
+    if( flies() ) {
         return 100;
     }
 
-    if( has_flag( MF_CLIMBS ) && !g->m.has_flag( TFLAG_NO_FLOOR, t ) ) {
+    if( climbs() && !g->m.has_flag( TFLAG_NO_FLOOR, t ) ) {
         const int diff = g->m.climb_difficulty( f );
         if( diff <= 10 ) {
             return 150;
@@ -1071,8 +1214,8 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     zone.reserve( 3 * maxdepth );
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
-        std::vector<point> swath = squares_in_direction( previous.x, previous.y, p.x, p.y );
-        for( point q : swath ) {
+        std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
+        for( const point &q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
 
@@ -1084,23 +1227,44 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
 bool monster::bash_at( const tripoint &p )
 {
     if( p.z != posz() ) {
-        return false; // TODO: Remove this
+        // TODO: Remove this
+        return false;
     }
 
     //Hallucinations can't bash stuff.
     if( is_hallucination() ) {
         return false;
     }
-    bool try_bash = !can_move_to( p ) || one_in( 3 );
-    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
-    if( try_bash && can_bash ) {
-        int bashskill = group_bash_skill( p );
-        g->m.bash( p, bashskill );
-        moves -= 100;
-        return true;
+    // Don't bash if a friendly monster is standing there
+    monster *target = g->critter_at<monster>( p );
+    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+        return false;
     }
-    return false;
+
+    bool try_bash = !can_move_to( p ) || one_in( 3 );
+    if( !try_bash ) {
+        return false;
+    }
+
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
+    if( !can_bash ) {
+        return false;
+    }
+
+    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
+    if( flat_ground ) {
+        bool can_bash_ter = g->m.is_bashable_ter( p );
+        bool try_bash_ter = one_in( 50 );
+        if( !( can_bash_ter && try_bash_ter ) ) {
+            return false;
+        }
+    }
+
+    int bashskill = group_bash_skill( p );
+    g->m.bash( p, bashskill );
+    moves -= 100;
+    return true;
 }
 
 int monster::bash_estimate()
@@ -1167,7 +1331,8 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
     if( p.z != posz() ) {
-        return false; // TODO: Remove this
+        // TODO: Remove this
+        return false;
     }
 
     if( p == g->u.pos() ) {
@@ -1213,17 +1378,43 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
+static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
+{
+    for( const tripoint &candidate : closest_tripoints_first( near_this, 10 ) ) {
+        if( g->m.has_flag( stair_type, candidate ) ) {
+            return candidate;
+        }
+    }
+    // we didn't find it
+    return near_this;
+}
+
 bool monster::move_to( const tripoint &p, bool force, const float stagger_adjustment )
 {
-    const bool digs = digging();
-    const bool flies = has_flag( MF_FLIES );
-    const bool on_ground = !digs && !flies;
-    const bool climbs = has_flag( MF_CLIMBS ) && g->m.has_flag( TFLAG_NO_FLOOR, p );
+    const bool on_ground = !digging() && !flies();
+
+    const bool z_move = p.z != pos().z;
+    const bool going_up = p.z > pos().z;
+
+    tripoint destination = p;
+
+    // This is stair teleportation hackery.
+    // TODO: Remove this in favor of stair alignment
+    if( going_up ) {
+        if( g->m.has_flag( TFLAG_GOES_UP, pos() ) ) {
+            destination = find_closest_stair( p, TFLAG_GOES_DOWN );
+        }
+    } else if( z_move ) {
+        if( g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
+            destination = find_closest_stair( p, TFLAG_GOES_UP );
+        }
+    }
+
     // Allows climbing monsters to move on terrain with movecost <= 0
-    Creature *critter = g->critter_at( p, is_hallucination() );
-    if( g->m.has_flag( "CLIMBABLE", p ) ) {
-        if( g->m.impassable( p ) && critter == nullptr ) {
-            if( flies ) {
+    Creature *critter = g->critter_at( destination, is_hallucination() );
+    if( g->m.has_flag( "CLIMBABLE", destination ) ) {
+        if( g->m.impassable( destination ) && critter == nullptr ) {
+            if( flies() ) {
                 moves -= 100;
                 force = true;
                 if( g->u.sees( *this ) ) {
@@ -1231,7 +1422,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                              g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
-            } else if( has_flag( MF_CLIMBS ) ) {
+            } else if( climbs() ) {
                 moves -= 150;
                 force = true;
                 if( g->u.sees( *this ) ) {
@@ -1248,7 +1439,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     // Make sure that we can move there, unless force is true.
-    if( !force && !can_move_to( p ) ) {
+    if( !force && !can_move_to( destination ) ) {
         return false;
     }
 
@@ -1258,7 +1449,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
-                           static_cast<float>( climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ) );
+                           static_cast<float>( climbs() &&
+                                               g->m.has_flag( TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos(), destination ) : calc_movecost( pos(),
+                                                       destination ) );
         if( cost > 0.0f ) {
             moves -= static_cast<int>( ceil( cost ) );
         } else {
@@ -1268,61 +1461,69 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
 
     //Check for moving into/out of water
     bool was_water = g->m.is_divable( pos() );
-    bool will_be_water = on_ground && can_submerge() && g->m.is_divable( p );
+    bool will_be_water = on_ground && can_submerge() && g->m.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
-    if( was_water && flies && g->u.sees( p ) ) {
+    if( was_water && flies() && g->u.sees( destination ) ) {
         if( one_in( 4 ) ) {
             add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
                      g->m.tername( pos() ) );
         }
     } else if( was_water && !will_be_water && g->u.sees( p ) ) {
-        //Use more dramatic messages for swimming monsters
-        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name(),
-                 has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
+        // Use more dramatic messages for swimming monsters
+        //~ Message when a monster emerges from water
+        //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
+        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
+                 swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
                  g->m.tername( pos() ) );
-    } else if( !was_water && will_be_water && g->u.sees( p ) ) {
-        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name(),
-                 has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 g->m.tername( p ) );
+    } else if( !was_water && will_be_water && g->u.sees( destination ) ) {
+        //~ Message when a monster enters water
+        //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
+        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
+                 swims() || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
+                 g->m.tername( destination ) );
     }
 
-    setpos( p );
-    footsteps( p );
+    setpos( destination );
+    footsteps( destination );
     underwater = will_be_water;
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    // TODO: Make tanks stop taking damage from rubble, because it's just silly
-    if( type->size != MS_TINY && on_ground ) {
-        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) ) {
-            apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
-        }
-        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
-        }
 
+    if( type->size != MS_TINY && on_ground ) {
+        const int sharp_damage = rng( 1, 10 );
+        const int rough_damage = rng( 1, 2 );
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
+            apply_damage( nullptr, bp_torso, sharp_damage );
+        }
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
+            apply_damage( nullptr, bp_torso, rough_damage );
+        }
     }
 
-    if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
+    if( g->m.has_flag( "UNSTABLE", destination ) && on_ground ) {
         add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
 
-    if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, p ) && on_ground ) {
+    if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, destination ) && on_ground ) {
         add_effect( effect_no_sight, 1_turns, num_bp, true );
     } else if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
     }
 
     g->m.creature_on_trap( *this );
-    if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
+    if( is_dead() ) {
+        return true;
+    }
+    if( !will_be_water && ( digs() || can_dig() ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() ) {
+    if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
         int factor = 0;
         switch( type->size ) {
             case MS_TINY:
@@ -1341,6 +1542,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 factor = 1;
                 break;
         }
+        // TODO: make this take terrain type into account so diggers travelling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
         }
@@ -1368,11 +1570,19 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
 
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
-            g->m.add_item_or_charges( pos(), item( "napalm" ) );
+            // if it has more napalm, drop some and reduce ammo in tank
+            if( ammo["pressurized_tank"] > 0 ) {
+                g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                ammo["pressurized_tank"] -= 50;
+            } else {
+                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                // Not possible for now since flag check is done on type, not individual monster
+            }
         }
     }
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
+            // TODO: use same idea that limits napalm dripping
             g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
@@ -1392,7 +1602,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     // TODO: Generalize this to Creature
     monster *const critter = g->critter_at<monster>( p );
-    if( critter == nullptr || critter == this || p == pos() ) {
+    if( critter == nullptr || critter == this ||
+        p == pos() || critter->movement_impaired() ) {
         return false;
     }
 
@@ -1434,7 +1645,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        tripoint dest( p.x + dx, p.y + dy, p.z );
+        tripoint dest( p + point( dx, dy ) );
+        const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
@@ -1449,7 +1661,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         Creature *critter_recur = g->critter_at( dest );
-        if( critter_recur == nullptr || critter_recur->is_hallucination() ) {
+        if( !( critter_recur == nullptr || critter_recur->is_hallucination() ) ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster * >( critter_recur );
             if( mon_recur == nullptr ) {
@@ -1463,15 +1675,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                 }
 
                 moves -= movecost_attacker;
-                if( movecost_from > 100 ) {
-                    critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-                } else {
-                    critter->moves -= movecost_from;
-                }
 
+                // Don't knock down a creature that successfully
+                // pushed another creature, just reduce moves
+                critter->moves -= dest_movecost_from;
                 return true;
             } else {
-                continue;
+                return false;
             }
         }
 
@@ -1479,20 +1689,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         if( critter_recur != nullptr ) {
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
-            } else {
-                return false;
             }
-        }
-
-        critter->setpos( dest );
-        move_to( p );
-        moves -= movecost_attacker;
-        if( movecost_from > 100 ) {
+        } else if( !critter->has_flag( MF_IMMOBILE ) ) {
+            critter->setpos( dest );
+            move_to( p );
+            moves -= movecost_attacker;
             critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
-        } else {
-            critter->moves -= movecost_from;
         }
-
         return true;
     }
 
@@ -1525,24 +1728,16 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
-    // Only move every 3rd turn.
-    if( !one_in( 3 ) ) {
+    // Only move every 10 turns.
+    if( !one_in( 10 ) ) {
         return;
     }
 
     std::vector<tripoint> valid_stumbles;
     valid_stumbles.reserve( 11 );
-    const bool avoid_water = has_flag( MF_NO_BREATHE ) &&
-                             !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC );
+    const bool avoid_water = has_flag( MF_NO_BREATHE ) && !swims() && !has_flag( MF_AQUATIC );
     for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() && can_move_to( dest ) &&
-            //Stop zombies and other non-breathing monsters wandering INTO water
-            //(Unless they can swim/are aquatic)
-            //But let them wander OUT of water if they are there.
-            !( avoid_water &&
-               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
-            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+        if( dest != pos() ) {
             valid_stumbles.push_back( dest );
         }
     }
@@ -1550,44 +1745,39 @@ void monster::stumble()
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
         tripoint above( posx(), posy(), posz() + 1 );
-        if( g->m.valid_move( pos(), below, false, true ) && can_move_to( below ) ) {
+        if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
         // More restrictions for moving up
-        if( has_flag( MF_FLIES ) && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) && can_move_to( above ) ) {
+        if( flies() && one_in( 5 ) &&
+            g->m.valid_move( pos(), above, false, true ) ) {
             valid_stumbles.push_back( above );
         }
     }
-
-    if( valid_stumbles.empty() ) { //nowhere to stumble?
-        return;
+    while( !valid_stumbles.empty() && !is_dead() ) {
+        const tripoint dest = random_entry_removed( valid_stumbles );
+        if( can_move_to( dest ) &&
+            //Stop zombies and other non-breathing monsters wandering INTO water
+            //(Unless they can swim/are aquatic)
+            //But let them wander OUT of water if they are there.
+            !( avoid_water &&
+               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
+               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
+            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+            move_to( dest, true );
+        }
     }
-
-    move_to( random_entry( valid_stumbles ), false );
 }
 
-void monster::knock_back_from( const tripoint &p )
+void monster::knock_back_to( const tripoint &to )
 {
-    if( p == pos() ) {
+    if( to == pos() ) {
         return; // No effect
     }
+
     if( is_hallucination() ) {
         die( nullptr );
         return;
-    }
-    tripoint to = pos();
-    if( p.x < posx() ) {
-        to.x++;
-    }
-    if( p.x > posx() ) {
-        to.x--;
-    }
-    if( p.y < posy() ) {
-        to.y++;
-    }
-    if( p.y > posy() ) {
-        to.y--;
     }
 
     bool u_see = g->u.sees( to );
@@ -1627,13 +1817,9 @@ void monster::knock_back_from( const tripoint &p )
 
     // If we're still in the function at this point, we're actually moving a tile!
     if( g->m.has_flag_ter( TFLAG_DEEP_WATER, to ) ) {
-        if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
-            die( nullptr );
-            if( u_see ) {
-                add_msg( _( "The %s drowns!" ), name() );
-            }
-
-        } else if( has_flag( MF_AQUATIC ) ) { // We swim but we're NOT in water
+        // die_if_drowning will kill the monster if necessary, but if the deep water
+        // tile is on a vehicle, we should check for swimmers out of water
+        if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
             die( nullptr );
             if( u_see ) {
                 add_msg( _( "The %s flops around and dies!" ), name() );
@@ -1663,47 +1849,47 @@ void monster::knock_back_from( const tripoint &p )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( int x, int y )
+bool monster::will_reach( const point &p )
 {
-    monster_attitude att = attitude( &( g->u ) );
+    monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
         return false;
     }
 
-    if( has_flag( MF_DIGS ) || has_flag( MF_AQUATIC ) ) {
+    if( digs() || has_flag( MF_AQUATIC ) ) {
         return false;
     }
 
-    if( has_flag( MF_IMMOBILE ) && ( posx() != x || posy() != y ) ) {
+    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( pos().xy() != p ) ) {
         return false;
     }
 
-    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
 
     if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
-        g->scent.get( { x, y, posz() } ) > g->scent.get( pos() ) ) {
+        g->scent.get( { p, posz() } ) > g->scent.get( pos() ) ) {
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( wander_pos.x, wander_pos.y, x, y ) <= 2 &&
-        rl_dist( posx(), posy(), wander_pos.x, wander_pos.y ) <= wandf ) {
+    if( can_hear() && wandf > 0 && rl_dist( wander_pos.xy(), p ) <= 2 &&
+        rl_dist( point( posx(), posy() ), wander_pos.xy() ) <= wandf ) {
         return true;
     }
 
-    if( can_see() && sees( tripoint( x, y, posz() ) ) ) {
+    if( can_see() && sees( tripoint( p, posz() ) ) ) {
         return true;
     }
 
     return false;
 }
 
-int monster::turns_to_reach( int x, int y )
+int monster::turns_to_reach( const point &p )
 {
-    // This function is a(n old) temporary hack that should soon be removed
-    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
+    // HACK: This function is a(n old) temporary hack that should soon be removed
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }
@@ -1761,7 +1947,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     break;
                 case MS_HUGE:
-                    if( veh_mass < 1500_kilogram ) {
+                    if( veh_mass < 2000_kilogram ) {
                         shove_moves_minimal = 50;
                         shove_veh_mass_moves_factor = 4;
                         shove_velocity = 1500;
@@ -1773,8 +1959,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
             }
             if( shove_velocity > 0 ) {
-                //~ %1$s - monster name, %2$s - vehicle name
                 if( g->u.sees( this->pos() ) ) {
+                    //~ %1$s - monster name, %2$s - vehicle name
                     g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
                                             veh.disp_name() );
                 }
@@ -1790,10 +1976,13 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {
+                    if( shove_destination.z != 0 ) {
+                        veh.vertical_velocity = shove_destination.z < 0 ? -shove_velocity : +shove_velocity;
+                    }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta_x, destination_delta_y );
-                veh.smash( shove_damage_min, shove_damage_max, 0.10F );
+                veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
+                veh.smash( g->m, shove_damage_min, shove_damage_max, 0.10F );
             }
         }
     }

@@ -53,6 +53,13 @@ if [ -n "${MXE_TARGET}" ]; then
   # Need to overwrite CXX to make the Makefile $CROSS logic work right.
   export CXX="$COMPILER"
   export CCACHE=1
+
+  curl -L -o libbacktrace-i686-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
+  if ! shasum -a 256 -c ./build-scripts/libbacktrace-i686-w64-mingw32-sha256; then
+    echo "Checksum failed for libbacktrace-i686-w64-mingw32.tar.gz"
+    exit 1
+  fi
+  sudo tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ${MXE_DIR}/../${PLATFORM}
 fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -60,3 +67,9 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
   brew link --force gettext ncurses
 fi
+
+if [[ "$NATIVE" == "android" ]]; then
+  yes | sdkmanager "ndk-bundle"
+fi
+
+set +x

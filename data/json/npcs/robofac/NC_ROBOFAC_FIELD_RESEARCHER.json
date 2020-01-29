@@ -9,7 +9,7 @@
       { "item": "robofac_enviro_suit" },
       { "item": "mask_gas" },
       { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 },
-      { "item": "chestrig" }
+      { "item": "tacvest" }
     ]
   }
 ]

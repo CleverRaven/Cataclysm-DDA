@@ -80,12 +80,16 @@ void throwErrorIf( bool condition, const char *message );
 /**@{*/
 void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture,
                  const SDL_Rect *srcrect, const SDL_Rect *dstrect );
+SDL_Texture_Ptr CreateTexture( const SDL_Renderer_Ptr &renderer, Uint32 format, int access,
+                               int w, int h );
 SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface );
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+// NOLINTNEXTLINE(cata-xy)
 void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
+void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode );
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );

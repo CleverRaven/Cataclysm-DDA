@@ -11,6 +11,7 @@
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -27,42 +28,45 @@ namespace trapfunc
 // creature is the creature that triggered the trap,
 // item is the item that triggered the trap,
 // creature and item can be nullptr.
-void none( const tripoint &, Creature *, item * );
-void bubble( const tripoint &p, Creature *c, item *i );
-void glass( const tripoint &p, Creature *c, item *i );
-void cot( const tripoint &p, Creature *c, item *i );
-void beartrap( const tripoint &p, Creature *c, item *i );
-void snare_light( const tripoint &p, Creature *c, item *i );
-void snare_heavy( const tripoint &p, Creature *c, item *i );
-void board( const tripoint &p, Creature *c, item *i );
-void caltrops( const tripoint &p, Creature *c, item *i );
-void caltrops_glass( const tripoint &p, Creature *c, item *i );
-void tripwire( const tripoint &p, Creature *c, item *i );
-void crossbow( const tripoint &p, Creature *c, item *i );
-void shotgun( const tripoint &p, Creature *c, item *i );
-void blade( const tripoint &p, Creature *c, item *i );
-void landmine( const tripoint &p, Creature *c, item *i );
-void telepad( const tripoint &p, Creature *c, item *i );
-void goo( const tripoint &p, Creature *c, item *i );
-void dissector( const tripoint &p, Creature *c, item *i );
-void sinkhole( const tripoint &p, Creature *c, item *i );
-void pit( const tripoint &p, Creature *c, item *i );
-void pit_spikes( const tripoint &p, Creature *c, item *i );
-void pit_glass( const tripoint &p, Creature *c, item *i );
-void lava( const tripoint &p, Creature *c, item *i );
-void portal( const tripoint &p, Creature *c, item *i );
-void ledge( const tripoint &p, Creature *c, item *i );
-void boobytrap( const tripoint &p, Creature *c, item *i );
-void temple_flood( const tripoint &p, Creature *c, item *i );
-void temple_toggle( const tripoint &p, Creature *c, item *i );
-void glow( const tripoint &p, Creature *c, item *i );
-void hum( const tripoint &p, Creature *c, item *i );
-void shadow( const tripoint &p, Creature *c, item *i );
-void drain( const tripoint &p, Creature *c, item *i );
-void snake( const tripoint &p, Creature *c, item *i );
+bool none( const tripoint &, Creature *, item * );
+bool bubble( const tripoint &p, Creature *c, item *i );
+bool glass( const tripoint &p, Creature *c, item *i );
+bool cot( const tripoint &p, Creature *c, item *i );
+bool beartrap( const tripoint &p, Creature *c, item *i );
+bool snare_light( const tripoint &p, Creature *c, item *i );
+bool snare_heavy( const tripoint &p, Creature *c, item *i );
+bool board( const tripoint &p, Creature *c, item *i );
+bool caltrops( const tripoint &p, Creature *c, item *i );
+bool caltrops_glass( const tripoint &p, Creature *c, item *i );
+bool tripwire( const tripoint &p, Creature *c, item *i );
+bool crossbow( const tripoint &p, Creature *c, item *i );
+bool shotgun( const tripoint &p, Creature *c, item *i );
+bool blade( const tripoint &p, Creature *c, item *i );
+bool landmine( const tripoint &p, Creature *c, item *i );
+bool telepad( const tripoint &p, Creature *c, item *i );
+bool goo( const tripoint &p, Creature *c, item *i );
+bool dissector( const tripoint &p, Creature *c, item *i );
+bool sinkhole( const tripoint &p, Creature *c, item *i );
+bool pit( const tripoint &p, Creature *c, item *i );
+bool pit_spikes( const tripoint &p, Creature *c, item *i );
+bool pit_glass( const tripoint &p, Creature *c, item *i );
+bool lava( const tripoint &p, Creature *c, item *i );
+bool portal( const tripoint &p, Creature *c, item *i );
+bool ledge( const tripoint &p, Creature *c, item *i );
+bool boobytrap( const tripoint &p, Creature *c, item *i );
+bool temple_flood( const tripoint &p, Creature *c, item *i );
+bool temple_toggle( const tripoint &p, Creature *c, item *i );
+bool glow( const tripoint &p, Creature *c, item *i );
+bool hum( const tripoint &p, Creature *c, item *i );
+bool shadow( const tripoint &p, Creature *c, item *i );
+bool map_regen( const tripoint &p, Creature *c, item *i );
+bool drain( const tripoint &p, Creature *c, item *i );
+bool snake( const tripoint &p, Creature *c, item *i );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
+    using itype_id = std::string;
+
     bool remove_trap = false;
     bool do_explosion = false;
     bool is_falling = false;
@@ -70,12 +74,15 @@ struct vehicle_handle_trap_data {
     int damage = 0;
     int shrapnel = 0;
     int sound_volume = 0;
-    std::string sound;
+    translation sound;
     std::string sound_type;
     std::string sound_variant;
+    // the double represents the count or chance to spawn.
+    std::vector<std::pair<itype_id, double>> spawn_items;
+    trap_str_id set_trap = trap_str_id::NULL_ID();
 };
 
-using trap_function = std::function<void( const tripoint &, Creature *, item * )>;
+using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
 
 struct trap {
         using itype_id = std::string;
@@ -87,12 +94,18 @@ struct trap {
         int sym;
         nc_color color;
     private:
-        int visibility = 1; // 1 to ??, affects detection
-        int avoidance = 0;  // 0 to ??, affects avoidance
-        int difficulty = 0; // 0 to ??, difficulty of assembly & disassembly
-        int trap_radius = 0;// 0 to ??, trap radius
+        // 1 to ??, affects detection
+        int visibility = 1;
+        // 0 to ??, affects avoidance
+        int avoidance = 0;
+        // 0 to ??, difficulty of assembly & disassembly
+        int difficulty = 0;
+        // 0 to ??, trap radius
+        int trap_radius = 0;
         bool benign = false;
         bool always_invisible = false;
+        // a valid overmap id, for map_regen action traps
+        std::string map_regen;
         trap_function act;
         std::string name_;
         /**
@@ -100,7 +113,8 @@ struct trap {
          */
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
-        std::vector<std::tuple<std::string, int, int>> components; // For disassembly?
+        // For disassembly?
+        std::vector<std::tuple<std::string, int, int>> components;
     public:
         int comfort = 0;
         int floor_bedding_warmth = 0;
@@ -119,6 +133,9 @@ struct trap {
         int get_visibility() const {
             return visibility;
         }
+
+        std::string  map_regen_target() const;
+
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
          * compared to dodge skill (with some adjustments). Smaller values means it's easier
@@ -183,7 +200,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         /*@{*/
         /**
@@ -212,9 +229,9 @@ struct trap {
          */
         /**
          * Loads the trap and adds it to the trapmap, and the traplist.
-         * @throw std::string if the json is invalid as usual.
+         * @throw JsonError if the json is invalid as usual.
          */
-        static void load_trap( JsonObject &jo, const std::string &src );
+        static void load_trap( const JsonObject &jo, const std::string &src );
         /**
          * Releases the loaded trap objects in trapmap and traplist.
          */
@@ -254,6 +271,7 @@ tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,

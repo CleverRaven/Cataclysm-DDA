@@ -6,7 +6,8 @@
     "authors": [ "tungtn/community" ],
     "description": "Removes fictional conventional firearms and ammunition.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",
@@ -57,7 +58,6 @@
       "l_long_45",
       "l_HFPack",
       "l_bak_223",
-      "l_def_12",
       "lw12mag",
       "lw21mag",
       "l_base_223",

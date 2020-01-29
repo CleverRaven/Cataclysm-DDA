@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <list>
 #include <memory>
@@ -35,9 +35,8 @@ static void wield_check_internal( player &dummy, item &the_item, const char *sec
 // As macro, so that we can generate the test cases for easy copypasting
 #define wield_check(section_text, dummy, the_item, expected_cost) \
     SECTION( section_text) { \
-        wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : expected_cost); \
+        wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
     }
-
 
 static void do_test( const bool generating_cases )
 {
@@ -80,14 +79,14 @@ static void do_test( const bool generating_cases )
 
 TEST_CASE( "Wield time test", "[wield]" )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
     do_test( false );
 }
 
 TEST_CASE( "Wield time make cases", "[.]" )
 {
-    clear_player();
+    clear_avatar();
     clear_map();
     do_test( true );
 }

@@ -7,15 +7,19 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <bitset>
 #include <utility>
 #include <vector>
+#include <set>
 #include <limits>
 #include <functional>
 #include <map>
 
 #include "cata_utility.h"
 #include "item.h"
+#include "item_stack.h"
+#include "magic_enchantment.h"
 #include "visitable.h"
 #include "units.h"
 
@@ -104,6 +108,7 @@ class inventory : public visitable<inventory>
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
+        inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
@@ -122,11 +127,16 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+        void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
+                             bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
+                            bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+        void form_from_map( map &m, const tripoint &origin, int range, const Character *pl = nullptr,
+                            bool assign_invlet = true,
                             bool clear_path = true );
-
+        void form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+                            bool assign_invlet = true );
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.
@@ -177,8 +187,6 @@ class inventory : public visitable<inventory>
         int worst_item_value( npc *p ) const;
         bool has_enough_painkiller( int pain ) const;
         item *most_appropriate_painkiller( int pain );
-        item *best_for_melee( player &p, double &best );
-        item *most_loaded_gun();
 
         void rust_iron_items();
 
@@ -197,8 +205,8 @@ class inventory : public visitable<inventory>
         void json_load_invcache( JsonIn &jsin );
         void json_load_items( JsonIn &jsin );
 
-        void json_save_invcache( JsonOut &jsout ) const;
-        void json_save_items( JsonOut &jsout ) const;
+        void json_save_invcache( JsonOut &json ) const;
+        void json_save_items( JsonOut &json ) const;
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
@@ -208,7 +216,7 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
-        void set_stack_favorite( const int position, const bool favorite );
+        void set_stack_favorite( int position, bool favorite );
 
         invlets_bitset allocated_invlets() const;
 
@@ -222,13 +230,16 @@ class inventory : public visitable<inventory>
 
         void copy_invlet_of( const inventory &other );
 
+        // gets a singular enchantment that is an amalgamation of all items that have active enchantments
+        enchantment get_active_enchantment_cache( const Character &owner ) const;
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;
 
-        mutable bool binned;
+        mutable bool binned = false;
         /**
          * Items binned by their type.
          * That is, item_bin["carrot"] is a list of pointers to all carrots in inventory.

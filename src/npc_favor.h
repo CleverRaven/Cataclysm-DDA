@@ -32,7 +32,7 @@ struct npc_favor {
         skill = skill_id::NULL_ID();
     }
 
-    void serialize( JsonOut &jsout ) const;
+    void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
 

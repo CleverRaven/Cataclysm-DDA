@@ -26,7 +26,7 @@ const construction_category &string_id<construction_category>::obj() const
     return all_construction_categories.obj( *this );
 }
 
-void construction_category::load( JsonObject &jo, const std::string & )
+void construction_category::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 }
@@ -36,7 +36,7 @@ size_t construction_category::count()
     return all_construction_categories.size();
 }
 
-void construction_categories::load( JsonObject &jo, const std::string &src )
+void construction_categories::load( const JsonObject &jo, const std::string &src )
 {
     all_construction_categories.load( jo, src );
 }

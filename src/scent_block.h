@@ -66,14 +66,14 @@ struct scent_block {
     }
 
     point index( const tripoint &p ) const {
-        return point( p.x - origin.x, p.y - origin.y );
+        return -origin.xy() + p.xy();
     }
 
     // We should be working entirely within the range, so don't range check here
-    void apply_gas( const tripoint &p ) {
+    void apply_gas( const tripoint &p, const int nintensity = 0 ) {
         const point ndx = index( p );
         assignment[ndx.x][ndx.y].mode = SET;
-        assignment[ndx.x][ndx.y].intensity = 0;
+        assignment[ndx.x][ndx.y].intensity = std::max( 0, assignment[ndx.x][ndx.y].intensity - nintensity );
         ++modification_count;
     }
     void apply_slime( const tripoint &p, int intensity ) {

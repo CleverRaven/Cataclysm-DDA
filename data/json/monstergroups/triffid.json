@@ -10,7 +10,8 @@
       { "monster": "mon_fungal_fighter", "freq": 160, "cost_multiplier": 0 },
       { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
       { "monster": "mon_creeper_hub", "freq": 50, "cost_multiplier": 2 },
-      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 }
+      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_flower", "freq": 25, "cost_multiplier": 4 }
     ]
   },
   {

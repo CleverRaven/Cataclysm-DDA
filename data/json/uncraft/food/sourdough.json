@@ -1,0 +1,14 @@
+[
+  {
+    "type": "uncraft",
+    "result": "sourdough_split",
+    "time": "5 s",
+    "components": [ [ [ "jar_glass", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "sourdough_young",
+    "time": "5 s",
+    "components": [ [ [ "jar_glass", 1 ] ] ]
+  }
+]

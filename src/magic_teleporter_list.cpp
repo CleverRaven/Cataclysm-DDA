@@ -1,6 +1,6 @@
 #include "magic_teleporter_list.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <algorithm>
 #include <memory>
@@ -15,6 +15,7 @@
 #include "line.h"
 #include "map.h"
 #include "messages.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "panels.h"
 #include "string_input_popup.h"
@@ -58,29 +59,26 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     // an OMT is SEEX * SEEY in size
     const tripoint sm_pt = omt_to_sm_copy( omt_pt );
     tinymap checker;
-    const int z_level = omt_pt.z;
-    checker.load( sm_pt.x, sm_pt.y, sm_pt.z, true );
-
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( checker.has_flag_furn( "TRANSLOCATOR", tripoint( x, y, z_level ) ) ) {
-                return tripoint( checker.getabs( x, y ), z_level );
-            }
+    checker.load( sm_pt, true );
+    for( const tripoint &p : checker.points_on_zlevel() ) {
+        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+            return checker.getabs( p );
         }
     }
     return cata::nullopt;
 }
 
-bool teleporter_list::place_avatar_overmap( avatar &, const tripoint &omt_pt ) const
+bool teleporter_list::place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const
 {
     tinymap omt_dest( 2, true );
     tripoint sm_dest = omt_to_sm_copy( omt_pt );
-    omt_dest.load( sm_dest.x, sm_dest.y, sm_dest.z, true );
+    omt_dest.load( sm_dest, true );
     cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
     if( !global_dest ) {
         return false;
     }
     tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    you.add_effect( efftype_id( "ignore_fall_damage" ), 1_seconds, num_bp, false, 0, true );
     g->place_player_overmap( omt_pt );
     g->place_player( local_dest );
     return true;
@@ -143,10 +141,7 @@ void teleporter_list::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
 
-    JsonArray parray = data.get_array( "known_teleporters" );
-    while( parray.has_more() ) {
-        JsonObject jo = parray.next_object();
-
+    for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint temp_pos;
         jo.read( "position", temp_pos );
         std::string name;
@@ -165,14 +160,14 @@ class teleporter_callback : public uilist_callback
         teleporter_callback( std::map<int, tripoint> &ip ) : index_pairs( ip ) {}
         void select( int entnum, uilist *menu ) override {
             const int start_x = menu->w_width - menu->pad_right;
-            mvwputch( menu->window, 0, start_x, c_magenta, LINE_OXXX );
-            mvwputch( menu->window, menu->w_height - 1, start_x, c_magenta, LINE_XXOX );
+            mvwputch( menu->window, point( start_x, 0 ), c_magenta, LINE_OXXX );
+            mvwputch( menu->window, point( start_x, menu->w_height - 1 ), c_magenta, LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
-                mvwputch( menu->window, i, start_x, c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
             overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], 1, start_x + 1, 29, 21 );
-            mvwprintz( menu->window, 1, start_x + 2, c_white,
-                       string_format( "Distance: %d (%d, %d)",
+            mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
+                       string_format( _( "Distance: %d (%d, %d)" ),
                                       rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
                                       index_pairs[entnum].x, index_pairs[entnum].y ) );
         }
@@ -187,15 +182,14 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     teleport_selector.w_height = 24;
 
     int index = 0;
-    size_t column_width = 0;
+    int column_width = 25;
     std::map<int, tripoint> index_pairs;
-    for( const std::pair<tripoint, std::string> &gate : known_teleporters ) {
+    for( const std::pair<const tripoint, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
-        column_width = std::max( column_width, gate.second.size() );
+        column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );
         index++;
     }
-    column_width = std::max( column_width, static_cast<size_t>( 25 ) );
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
     teleport_selector.w_width = 38 + column_width;

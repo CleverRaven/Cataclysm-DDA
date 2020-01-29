@@ -1,0 +1,190 @@
+[
+  {
+    "type": "profession",
+    "ident": "afs_radio_technician",
+    "name": "Radio Tower Technician",
+    "description": "From your spot at the top of the tower you were working on, you had a good view of the end of the world; of streaks of light falling from the sky, blossoming into mushroom clouds, barely a flicker on the horizon before your optical dampers flicked down.  You rushed to safety before the shockwaves could blast you from your perch.  The bionic implants included with your contract might come in handy now…",
+    "points": 4,
+    "CBMs": [
+      "bio_weight",
+      "bio_shock_absorber",
+      "bn_bio_solar",
+      "bio_power_storage_mkII",
+      "bio_flashlight",
+      "bio_tools",
+      "bio_sunglasses"
+    ],
+    "skills": [ { "level": 4, "name": "electronics" } ],
+    "items": {
+      "both": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "tool_belt" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_cryosleep_survivor",
+    "name": "Cryosleep Survivor",
+    "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
+    "points": 2,
+    "traits": [ "AFS_CRYOADAPTATION" ],
+    "items": { "both": [ "jumpsuit", "boots_winter", "under_armor", "under_armor_shorts", "gloves_wool" ] }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_atomic_pitchman",
+    "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
+    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
+    "points": 3,
+    "skills": [ { "level": 1, "name": "barter" } ],
+    "items": {
+      "both": [
+        "dress_shirt",
+        "pants",
+        "dress_shoes",
+        "socks",
+        "mbag",
+        "afs_atomic_smartphone",
+        "atomic_light",
+        "atomic_coffeepot",
+        "atomic_lamp_off",
+        "afs_atompot",
+        "energy_drink_atomic"
+      ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_planar_frontiersman",
+    "name": { "male": "Planar Frontiersman", "female": "Planar Frontierswoman" },
+    "description": "When the Cataclysm came, you were getting into your gear, prepared for the first manned entrance through a stabilized portal in the lab - just a quick five-minute scouting trip.  You were the last one left in the room when the portal snapped shut and all hell broke loose.  Now that you know what was on the other end, maybe that was a mercy.",
+    "points": 4,
+    "items": {
+      "both": {
+        "items": [
+          "phase_immersion_suit",
+          "dimensional_anchor",
+          "socks",
+          "afs_calorie_pill",
+          "crowbar",
+          "afs_atomic_smartphone",
+          "undershirt"
+        ],
+        "entries": [ { "item": "afs_sundew", "container-item": "camelbak" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_vatgrown_bodyguard",
+    "name": "Vatgrown Bodyguard",
+    "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
+    "points": 3,
+    "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
+    "items": {
+      "both": [ "suit", "dress_shoes", "bootsheath", "ceramic_knife" ],
+      "male": [ "briefs", "undershirt" ],
+      "female": [ "boy_shorts", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_cbm_engineer",
+    "name": "CBM Engineer",
+    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  Armed with the solderers in your hands, and aided by precise machines, you earned great pay.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "electronics" } ],
+    "CBMs": [ "afs_bio_precision_solderers", "bio_power_storage", "bio_batteries" ],
+    "items": {
+      "both": {
+        "items": [ "coat_lab", "gloves_medical", "mask_dust", "longshirt", "socks", "boots", "backpack", "jeans" ],
+        "entries": [ { "item": "cash_card", "charges": 50000 } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_wraitheon_executive",
+    "name": "Wraitheon Executive",
+    "description": "You were one of the chief executives of the Megacorporation Wraitheon Robotics ltd. and consistently ranked among the most powerful and influential persons of the world.  Still, the apocalypse has caught you unprepared, and now after the dissolution of your company and the crumbling of your network of influence, your were left powerless and destitute, and must rely on your two robotic bodyguards to survive.",
+    "points": 8,
+    "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
+    "traits": [ "FLIMSY3", "SLOWHEALER3" ],
+    "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
+    "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
+    "items": {
+      "both": {
+        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
+        "entries": [
+          { "item": "cash_card", "charges": 200000000 },
+          { "item": "cash_card", "charges": 200000000 },
+          { "item": "afs_wraitheon_smartphone" }
+        ]
+      },
+      "male": [ "briefs", "collarpin", "diamond_ring" ],
+      "female": [ "panties", "hairpin", "pearl_collar" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_holo_fighter",
+    "name": "Corporate Infiltrator",
+    "description": "Before all this, you were an 'independent contractor', a spy and mercenary at the service of megacorporations.  Using highly experimental holographic technology, you once took on impossible jobs one after the other.",
+    "points": 8,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "cutting" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "gloves_leather",
+          "pants_cargo",
+          "socks",
+          "boots_combat",
+          "gloves_leather",
+          "webbing_belt",
+          "sweater",
+          "powered_earmuffs",
+          "afs_holo_transposition_caster",
+          "afs_holo_decoy_caster",
+          "afs_holo_field_caster",
+          "afs_holo_flare_caster",
+          "afs_holo_cloak_mk2"
+        ],
+        "entries": [
+          { "item": "kukri", "container-item": "sheath" },
+          { "item": "afs_eidolon_derringer", "ammo-item": "5x50heavy", "charges": 4, "container-item": "holster" },
+          { "item": "5x50heavy" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_affluent_executive",
+    "name": "Assistant Sub-Executive",
+    "description": "Through a lifetime of hard work, dedication, boot-licking and immense luck, you achieved the almost impossible, and were promoted from an indentured clerk to a minor managerial position.  Although you were still an expendable peon among the ranks of the corporation, you earned numbers most people could only dream of, and you savored it.",
+    "points": 2,
+    "items": {
+      "both": {
+        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
+        "entries": [ { "item": "cash_card", "charges": 200000000 } ]
+      },
+      "male": [ "briefs", "collarpin", "diamond_ring" ],
+      "female": [ "panties", "hairpin", "pearl_collar" ]
+    }
+  }
+]

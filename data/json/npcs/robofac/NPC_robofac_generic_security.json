@@ -43,7 +43,7 @@
       { "item": "glasses_bal", "prob": 33 },
       { "item": "boots_combat" },
       { "item": "holster", "prob": 50 },
-      { "item": "chestrig" }
+      { "item": "tacvest" }
     ]
   },
   {
@@ -51,11 +51,12 @@
     "id": "NC_robofac_generic_security_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb", "prob": 33 },
+      { "item": "grenade_emp", "prob": 33 },
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },
-      { "item": "l_mp_9mm" },
+      { "item": "l_mp_9mm", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "lw21mag", "charges": 21, "ammo-item": "9mmP" },
       { "item": "9mmP", "count": 6 }
     ]
   },
@@ -63,6 +64,6 @@
     "id": "TALK_HUB_SECURITY",
     "type": "talk_topic",
     "dynamic_line": [ "Keep it civil, merc.", "Just on watch, move along.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

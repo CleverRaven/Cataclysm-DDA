@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <limits>
 #include <string>
 #include <utility>
@@ -75,6 +75,7 @@ void test_lvalues( const std::string &expected, const char *const pattern, const
     test_for_expected( expected, pattern, T( value ) ); // T &&
     T lvalue( value );
     test_for_expected( expected, pattern, lvalue ); // T &
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     const T const_lvalue( value );
     test_for_expected( expected, pattern, const_lvalue ); // const T &
 }
@@ -177,6 +178,7 @@ TEST_CASE( "string_formatter" )
         const std::string expected = "b" + long_string + "b";
         // moving into string_format should *not* consume the string.
         test_for_expected( expected, "b%sb", std::move( long_string ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( long_string.size() == 100000 );
     }
 
@@ -275,7 +277,9 @@ TEST_CASE( "string_formatter" )
     importet_test( 97, "-100", "% lld", -100LL );
     importet_test( 98, "  100", "% 5lld", 100LL );
     importet_test( 99, " -100", "% 5lld", -100LL );
+    // NOLINTNEXTLINE(cata-text-style): not a period
     importet_test( 100, " 00100", "% .5lld", 100LL );
+    // NOLINTNEXTLINE(cata-text-style): not a period
     importet_test( 101, "-00100", "% .5lld", -100LL );
     importet_test( 102, "   00100", "% 8.5lld", 100LL );
     importet_test( 103, "  -00100", "% 8.5lld", -100LL );
@@ -290,7 +294,9 @@ TEST_CASE( "string_formatter" )
     importet_test( 115, "+00100  ", "%#-+ 08.5lld", 100LL );
     importet_test( 116, "+00100  ", "%#-+ 08.5lld", 100LL );
     importet_test( 117, "0000000000000000000000000000000000000001", "%.40lld", 1LL );
+    // NOLINTNEXTLINE(cata-text-style): not a period
     importet_test( 118, " 0000000000000000000000000000000000000001", "% .40lld", 1LL );
+    // NOLINTNEXTLINE(cata-text-style): not a period
     importet_test( 119, " 0000000000000000000000000000000000000001", "% .40d", 1 );
     /* 121: excluded for C */
     /* 124: excluded for C */

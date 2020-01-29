@@ -11,14 +11,12 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "mapdata.h"
-
-const species_id MOLLUSK( "MOLLUSK" );
+#include "cata_string_consts.h"
 
 mtype::mtype()
 {
     id = mtype_id::NULL_ID();
-    name = "human";
-    name_plural = "humans";
+    name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
@@ -34,19 +32,17 @@ mtype::mtype()
     upgrade_group = mongroup_id::NULL_ID();
 
     reproduces = false;
-    baby_timer = -1;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
     baby_egg = "null";
 
     biosignatures = false;
-    biosig_timer = -1;
     biosig_item = "null";
 
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
-    harvest = harvest_id::NULL_ID();
+    harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
 
@@ -58,7 +54,7 @@ mtype::mtype()
 
 std::string mtype::nname( unsigned int quantity ) const
 {
-    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+    return name.translated( quantity );
 }
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
@@ -68,6 +64,7 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
+    MonsterGenerator::generator().m_flag_usage_stats[flag]++;
     return flags[flag];
 }
 
@@ -120,6 +117,16 @@ bool mtype::in_species( const species_id &spec ) const
 bool mtype::in_species( const species_type &spec ) const
 {
     return species_ptrs.count( &spec ) > 0;
+}
+std::vector<std::string> mtype::species_descriptions() const
+{
+    std::vector<std::string> ret;
+    for( const species_id &s : species ) {
+        if( !s->description.empty() ) {
+            ret.emplace_back( s->description.translated() );
+        }
+    }
+    return ret;
 }
 
 bool mtype::same_species( const mtype &other ) const
@@ -218,7 +225,7 @@ int mtype::get_meat_chunks_count() const
 
 std::string mtype::get_description() const
 {
-    return _( description );
+    return description.translated();
 }
 
 std::string mtype::get_footsteps() const
@@ -226,5 +233,5 @@ std::string mtype::get_footsteps() const
     for( const species_id &s : species ) {
         return s.obj().get_footsteps();
     }
-    return "footsteps.";
+    return _( "footsteps." );
 }

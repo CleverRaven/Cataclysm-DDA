@@ -23,9 +23,10 @@
 #include "debug.h"
 #include "optional.h"
 #include "enums.h"
+#include "vpart_range.h"
 
 static const itype_id fuel_type_battery( "battery" );
-const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_on_roof( "on_roof" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -58,7 +59,7 @@ turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-const turret_data vehicle::turret_query( const vehicle_part &pt ) const
+turret_data vehicle::turret_query( const vehicle_part &pt ) const
 {
     return const_cast<vehicle *>( this )->turret_query( const_cast<vehicle_part &>( pt ) );
 }
@@ -69,7 +70,7 @@ turret_data vehicle::turret_query( const tripoint &pos )
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
-const turret_data vehicle::turret_query( const tripoint &pos ) const
+turret_data vehicle::turret_query( const tripoint &pos ) const
 {
     return const_cast<vehicle *>( this )->turret_query( pos );
 }
@@ -84,7 +85,7 @@ item_location turret_data::base()
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-const item_location turret_data::base() const
+item_location turret_data::base() const
 {
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
@@ -201,7 +202,8 @@ bool turret_data::can_reload() const
         return false;
     }
     if( !part->base.magazine_integral() ) {
-        return true; // always allow changing of magazines
+        // always allow changing of magazines
+        return true;
     }
     return part->base.ammo_remaining() < part->base.ammo_capacity();
 }
@@ -294,7 +296,7 @@ void vehicle::turrets_set_targeting()
     std::vector<tripoint> locations;
 
     for( auto &p : parts ) {
-        if( p.base.is_gun() && !p.info().has_flag( "MANUAL" ) ) {
+        if( p.is_turret() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
         }
@@ -312,8 +314,11 @@ void vehicle::turrets_set_targeting()
         menu.w_y = 2;
 
         for( auto &p : turrets ) {
-            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name(),
-                           p->enabled ? _( "auto" ) : _( "manual" ) );
+            menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
+                           "%s [%s]", p->name(), p->enabled ?
+                           _( "auto -> manual" ) : has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ) ?
+                           _( "manual -> auto" ) :
+                           _( "manual (turret control unit required for auto mode)" ) );
         }
 
         menu.query();
@@ -322,7 +327,18 @@ void vehicle::turrets_set_targeting()
         }
 
         sel = menu.ret;
-        turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
+        if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
+            turrets[sel]->enabled = !turrets[sel]->enabled;
+        } else {
+            turrets[sel]->enabled = false;
+        }
+
+        for( const vpart_reference &vp : get_avail_parts( "TURRET_CONTROLS" ) ) {
+            vehicle_part &e = vp.part();
+            if( e.mount == turrets[sel]->mount ) {
+                e.enabled = turrets[sel]->enabled;
+            }
+        }
 
         // clear the turret's current targets to prevent unwanted auto-firing
         tripoint pos = locations[ sel ];
@@ -381,7 +397,8 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
     } ), last );
 
     if( opts.empty() ) {
-        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
+        add_msg( m_warning,
+                 _( "Can't aim turrets: all turrets are offline or set to manual targeting mode." ) );
         return false;
     }
 
@@ -402,10 +419,10 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
         const int rng = gun.range();
 
         int res = 0;
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x + rng, pos.y, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x - rng, pos.y, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x, pos.y + rng, pos.z } ) );
-        res = std::max( res, rl_dist( g->u.pos(), { pos.x, pos.y - rng, pos.z } ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( rng, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( -rng, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, rng ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -rng ) ) );
         return std::max( lhs, res );
     } );
 
@@ -497,7 +514,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
-    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
+    cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
     // turrets are subject only to recoil_vehicle()
     cpu.recoil = 0;
 
@@ -511,6 +528,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     cpu.setpos( global_part_pos3( pt ) );
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
+    cpu.set_fac( get_owner() );
     return cpu;
 }
 
@@ -530,7 +548,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     // Create the targeting computer's npc
     npc cpu = get_targeting_npc( pt );
 
-    int area = aoe_size( gun.ammo_effects() );
+    int area = max_aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
         // Pad a bit for less friendly fire
         area += area == 1 ? 1 : 2;
@@ -552,6 +570,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
+                cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
                 if( u_see ) {
                     add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",

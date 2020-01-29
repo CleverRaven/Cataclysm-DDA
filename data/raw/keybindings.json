@@ -188,6 +188,18 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_UP",
+    "name": "Scroll up",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_DOWN",
+    "name": "Scroll down",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT_ALL",
     "category": "PICKUP",
     "name": "Select all",
@@ -250,6 +262,27 @@
       { "input_method": "keyboard", "key": "RIGHT" },
       { "input_method": "gamepad", "key": "JOY_RIGHT" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ENABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Enable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_AUTO_NOTE_OPTION",
+    "category": "AUTO_NOTES",
+    "name": "Toggle auto notes option",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Disable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
   },
   {
     "type": "keybinding",
@@ -471,7 +504,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display Help",
+    "name": "Display keybindings menu",
     "bindings": [ { "input_method": "keyboard", "key": "?" } ]
   },
   {
@@ -571,6 +604,13 @@
     "category": "SOKOBAN",
     "name": "Previous level",
     "bindings": [ { "input_method": "keyboard", "key": "-" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET",
+    "category": "SOKOBAN",
+    "name": "Reset level",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -674,7 +714,7 @@
     "id": "QUIT",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Exit worldgen screen",
-    "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
+    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -690,6 +730,13 @@
     "category": "OVERMAP_NOTES",
     "name": "Edit Note",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_DANGER",
+    "category": "OVERMAP_NOTES",
+    "name": "Mark as Dangerous",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
   },
   {
     "type": "keybinding",
@@ -781,6 +828,13 @@
     "category": "OVERMAP",
     "name": "Place Overmap Special",
     "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View Missions",
+    "category": "OVERMAP",
+    "id": "MISSIONS",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
   },
   {
     "type": "keybinding",
@@ -1020,7 +1074,7 @@
     "id": "QUIT",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Exit new character screen",
-    "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -1214,16 +1268,13 @@
   {
     "type": "keybinding",
     "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TERRAIN",
+    "category": "EDITMAP_FEATURE",
     "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TRAPS",
-    "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "e" },
+      { "input_method": "keyboard", "key": "u" },
+      { "input_method": "keyboard", "key": "t" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1236,7 +1287,7 @@
     "type": "keybinding",
     "id": "START",
     "category": "EDITMAP_SHAPE",
-    "name": "Select shape",
+    "name": "To start",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
@@ -1276,8 +1327,15 @@
     "type": "keybinding",
     "id": "EDIT_TERRAIN",
     "category": "EDITMAP",
-    "name": "Edit terrain / furniture",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+    "name": "Edit terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_FURNITURE",
+    "category": "EDITMAP",
+    "name": "Edit furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -1358,6 +1416,20 @@
     "category": "BIONICS",
     "name": "Toggle activate/examine",
     "bindings": [ { "input_method": "keyboard", "key": "!" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_SAFE_FUEL",
+    "category": "BIONICS",
+    "name": "Toggle safe fuel mod",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_AUTO_START",
+    "category": "BIONICS",
+    "name": "Toggle auto start mod",
+    "bindings": [ { "input_method": "keyboard", "key": "A" } ]
   },
   {
     "type": "keybinding",
@@ -1507,6 +1579,12 @@
   },
   {
     "type": "keybinding",
+    "id": "toggle_thief_mode",
+    "category": "DEFAULTMODE",
+    "name": "Toggle thief mode"
+  },
+  {
+    "type": "keybinding",
     "name": "Peek Around Corners",
     "category": "DEFAULTMODE",
     "id": "peek",
@@ -1611,10 +1689,15 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Weapons",
+    "category": "DEFAULTMODE",
+    "id": "reload_weapon"
+  },
+  {
+    "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload_weapon",
-    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+    "id": "reload_wielded"
   },
   {
     "type": "keybinding",
@@ -1739,8 +1822,7 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode",
-    "bindings": [ { "input_method": "keyboard", "key": "" } ]
+    "id": "auto_travel_mode"
   },
   {
     "type": "keybinding",
@@ -1774,7 +1856,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "quit",
+    "id": "SUICIDE",
     "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
   },
   {
@@ -1813,9 +1895,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View Kills",
+    "name": "View Scores",
     "category": "DEFAULTMODE",
-    "id": "kills",
+    "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]
   },
   {
@@ -1871,6 +1953,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Scent Type",
+    "category": "DEFAULTMODE",
+    "id": "debug_scent_type"
+  },
+  {
+    "type": "keybinding",
     "name": "View Temperature Map",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
@@ -1880,6 +1968,18 @@
     "name": "View Visibility Map",
     "category": "DEFAULTMODE",
     "id": "debug_visibility"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Lighting Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_lighting"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Radiation Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_radiation"
   },
   {
     "type": "keybinding",
@@ -1895,8 +1995,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Pixel Minimap",
-    "category": "DEFAULTMODE",
+    "name": "Toggle Minimap",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
   },
@@ -1911,7 +2010,8 @@
     "type": "keybinding",
     "name": "Reload Item",
     "category": "DEFAULTMODE",
-    "id": "reload_item"
+    "id": "reload_item",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -2033,13 +2133,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Keybindings",
-    "category": "DEFAULTMODE",
-    "id": "open_keybindings",
-    "bindings": [ { "input_method": "keyboard", "key": "?" } ]
-  },
-  {
-    "type": "keybinding",
     "name": "Options",
     "category": "DEFAULTMODE",
     "id": "open_options"
@@ -2049,6 +2142,12 @@
     "name": "Autopickup manager",
     "category": "DEFAULTMODE",
     "id": "open_autopickup"
+  },
+  {
+    "type": "keybinding",
+    "name": "Autonotes manager",
+    "category": "DEFAULTMODE",
+    "id": "open_autonotes"
   },
   {
     "type": "keybinding",
@@ -2242,7 +2341,7 @@
     "id": "QUIT",
     "category": "HELP_KEYBINDINGS",
     "name": "Exit this keybinding screen",
-    "comment": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
+    "//": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -2279,6 +2378,13 @@
     "category": "HELP_KEYBINDINGS",
     "name": "Add global keybinding",
     "bindings": [ { "input_method": "keyboard", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXECUTE",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Execute action keybinding",
+    "bindings": [ { "input_method": "keyboard", "key": "." } ]
   },
   {
     "type": "keybinding",
@@ -2694,6 +2800,31 @@
   {
     "type": "keybinding",
     "id": "YES",
+    "category": "YESNOQUIT",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNOQUIT",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "YESNOQUIT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard", "key": "Q" },
+      { "input_method": "keyboard", "key": "q" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Yes",
     "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
@@ -2715,6 +2846,38 @@
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Ignore further distractions and finish",
     "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": [ "Y" ] }, { "input_method": "keyboard", "key": [ "y" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "No",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "N" ] },
+      { "input_method": "keyboard", "key": [ "n" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ALWAYS",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Always",
+    "bindings": [ { "input_method": "keyboard", "key": [ "A" ] }, { "input_method": "keyboard", "key": [ "a" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEVER",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Never",
+    "bindings": [ { "input_method": "keyboard", "key": [ "E" ] }, { "input_method": "keyboard", "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",

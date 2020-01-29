@@ -8,6 +8,7 @@
         "B": "f_bed",
         "C": "f_counter",
         "W": "f_wreckage",
+        "o": "f_oven",
         "a": "f_cupboard",
         "e": "f_shower",
         "t": "f_trashcan",
@@ -36,12 +37,13 @@
         { "chance": 5, "item": "road", "x": 5, "y": 10 },
         { "chance": 5, "item": "road", "x": 2, "y": 8 }
       ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 17, "y": 13, "repeat": [ 1, 6 ], "density": 0.1 } ],
       "place_toilets": [ { "x": 7, "y": 3 }, { "x": 8, "y": 21 } ],
       "rows": [
         "________________________",
         "______d___dddd__d__dd___",
         "_ccWcd|||||||||||||w|||d",
-        "_cWWc||&f|ff|ff##|FCCa|_",
+        "_cWWc||&f|ff|ff##|FoCa|_",
         "_cccc||ff+ff+fffb|ffff|d",
         "_cccg||fS|ff|fffffffff|d",
         "_cccc||ef|Bf|HHffffff^|_",
@@ -59,7 +61,7 @@
         "_cccc||Sf+ff|fffffffff|_",
         "_cccc||ff|ff|fffffffff|d",
         "_cccc||ff|ff+ffbf|afff|d",
-        "_cccc||e&|ff|ff##|aCCF|_",
+        "_cccc||e&|ff|ff##|aoCF|_",
         "_____d|||||||||||||ww||d",
         "_______d_____d__d__d_d__"
       ],
@@ -111,7 +113,7 @@
     "method": "json",
     "object": {
       "place_item": [ { "item": "blanket", "repeat": 1, "x": 11, "y": 17 }, { "item": "corpse", "repeat": 1, "x": 7, "y": 19 } ],
-      "furniture": { "B": "f_bed", "D": "f_null", "b": "f_null", "g": "f_shower" },
+      "furniture": { "B": "f_bed", "D": "f_null", "b": "f_null", "g": "f_shower", "o": "f_oven" },
       "place_items": [
         { "chance": 25, "item": "house_suicide_shotgun", "x": 8, "y": 20 },
         { "chance": 45, "item": "cannedfood", "x": 20, "y": 21 },
@@ -125,9 +127,9 @@
         { "chance": 35, "item": "house_suicide_clothing", "x": 7, "y": 19 }
       ],
       "place_monsters": [
-        { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 10, "y": 19 },
-        { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
-        { "chance": 20, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
+        { "monster": "GROUP_ZOMBIE", "x": 10, "y": 19, "repeat": [ 1, 6 ], "density": 0.1 },
+        { "monster": "GROUP_ZOMBIE", "x": 17, "y": 13, "repeat": [ 1, 6 ], "density": 0.1 },
+        { "monster": "GROUP_DOGS", "x": 3, "y": 14, "repeat": [ 1, 2 ], "density": 0.1 }
       ],
       "place_loot": [ { "item": "television", "x": 20, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 19, "y": 5, "chance": 100 } ],
       "place_toilets": [ { "x": 8, "y": 21 } ],
@@ -152,7 +154,7 @@
         "_cccc||ff|fB|ffftfHHH&|d",
         "_cccc||Sf-ff|fffffffff|_",
         "_cccc||ff|ff|fffffffff|d",
-        "_cccc||ff|ffDffef|Cfff|d",
+        "_cccc||ff|ffDffef|Cffo|d",
         "_cccc||gT|ff|fftt|Caa{|_",
         "_____d|||||||||||||WW||d",
         "_______d_____d__d__d_d__"
@@ -212,7 +214,8 @@
         "b": "f_bed",
         "g": "f_null",
         "t": "f_trashcan",
-        "{": "f_dumpster"
+        "{": "f_dumpster",
+        "o": "f_oven"
       },
       "place_items": [
         { "chance": 20, "item": "table_livingroom", "x": 16, "y": 21 },
@@ -235,15 +238,15 @@
         { "chance": 30, "item": "kitchen", "x": 6, "y": 2 }
       ],
       "place_monsters": [
-        { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
-        { "chance": 20, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
+        { "monster": "GROUP_ZOMBIE", "x": 17, "y": 13, "repeat": [ 1, 6 ], "density": 0.1 },
+        { "monster": "GROUP_DOGS", "x": 3, "y": 14, "repeat": [ 1, 2 ], "density": 0.1 }
       ],
       "place_toilets": [ { "x": 18, "y": 2 }, { "x": 8, "y": 21 } ],
       "rows": [
         "________ppp_p___p_______",
         "ddd||ww|||||||||||||____",
         "ddd|aCC|f#HH|fbb|B&||p__",
-        "ddd|Fff|ffff|fbb|ff||___",
+        "ddd|off|ffff|fbb|ff||___",
         "ddd|ffffffffffff|ff||___",
         "dddwffffffff|ffffff||p__",
         "ddd|fffffe#t|Dff|fS||p__",
@@ -260,7 +263,7 @@
         "_cccc||ff|fb|ffA#fffft|d",
         "_cccc||Sfhff|fffffffff|_",
         "_cccc||ff|ff|fffffffff|d",
-        "_cccc||ff|ffhffef|afff|d",
+        "_cccc||ff|ffhffef|affo|d",
         "_cccc||j&|fD|ff##|aCCF|_",
         "_____d|||||||||||||WW||d",
         "_______d_____d__d__d_d__"

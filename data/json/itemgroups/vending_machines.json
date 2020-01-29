@@ -2,6 +2,7 @@
   {
     "type": "item_group",
     "id": "default_vending_machine",
+    "subtype": "collection",
     "entries": [ { "group": "vending_drink", "prob": 50 }, { "group": "vending_drink", "prob": 50 } ]
   },
   {
@@ -50,6 +51,48 @@
       [ "lemonlime", 45 ],
       [ "V8", 15 ],
       [ "gum", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vending_food_items",
+    "items": [
+      { "group": "candy_chocolate", "prob": 615 },
+      { "group": "salty_snacks", "prob": 485 },
+      [ "peanut_unshelled", 60 ],
+      [ "almond_unshelled", 60 ],
+      [ "cashews", 60 ],
+      [ "pistachio_unshelled", 60 ],
+      [ "cookies", 80 ],
+      [ "choco_coffee_beans", 10 ],
+      [ "fruit_leather", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vending_drink_items",
+    "items": [
+      [ "water_clean", 90 ],
+      [ "water_mineral", 10 ],
+      [ "oj", 50 ],
+      [ "juice", 50 ],
+      [ "cranberry_juice", 50 ],
+      [ "sports_drink", 50 ],
+      [ "apple_cider", 50 ],
+      [ "lemonade", 50 ],
+      [ "energy_drink", 55 ],
+      [ "energy_drink_atomic", 4 ],
+      { "group": "softdrinks_canned", "prob": 70 },
+      { "item": "cola", "prob": 70, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 60, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 60, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 5, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 60, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 65, "container-item": "bottle_plastic" },
+      [ "purple_drink", 45 ],
+      [ "herbal_tea", 30 ],
+      [ "V8", 15 ]
     ]
   }
 ]

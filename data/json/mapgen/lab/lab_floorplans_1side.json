@@ -210,7 +210,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_barracks_turret",
-    "object": { "mapgensize": [ 24, 24 ], "place_monster": [ { "monster": "mon_turret", "x": [ 10, 13 ], "y": [ 15, 22 ] } ] }
+    "object": { "mapgensize": [ 24, 24 ], "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 10, 13 ], "y": [ 15, 22 ] } ] }
   },
   {
     "//": "prisoner containment",
