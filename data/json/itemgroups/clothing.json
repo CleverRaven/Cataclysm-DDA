@@ -2268,8 +2268,6 @@
     "items": [
       [ "hood_lsurvivor", 10 ],
       [ "hood_survivor", 8 ],
-      [ "helmet_survivor", 8 ],
-      [ "helmet_hsurvivor", 4 ],
       [ "hood_wsurvivor", 4 ],
       [ "hood_fsurvivor", 2 ],
       [ "hood_h20survivor", 1 ],
