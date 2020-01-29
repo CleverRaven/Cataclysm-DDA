@@ -10,7 +10,8 @@
       [ [ "lead", 90 ] ], 
       [ [ "5x50_hull", 45 ] ], 
       [ [ "smrifle_primer", 45] ], 
-      [ [ "gunpowder_rifle", 135 ] ] ],
+      [ [ "gunpowder_rifle", 135 ] ] 
+    ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -24,7 +25,8 @@
       [ [ "lead", 135 ] ], 
       [ [ "5x50_hull", 45 ] ], 
       [ [ "smrifle_primer", 45 ] ], 
-      [ [ "gunpowder_rifle", 135 ] ] ],
+      [ [ "gunpowder_rifle", 135 ] ] 
+    ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]
