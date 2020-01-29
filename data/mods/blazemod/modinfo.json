@@ -3,11 +3,10 @@
     "type": "MOD_INFO",
     "ident": "blazemod",
     "name": "Vehicle Additions Pack",
-    "authors": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
-    "maintainers": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
+    "authors": [ "Blaze" ],
+    "maintainers": [ "SouP" ],
     "description": "Please see the included PAQ.txt in the mod folder if you encounter any issues.",
     "category": "vehicles",
-    "dependencies": [ "dda" ],
-    "obsolete": true
+    "dependencies": [ "dda" ]
   }
 ]
