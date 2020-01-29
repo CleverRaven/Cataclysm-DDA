@@ -31,7 +31,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 225, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.4, "arpen": 4, "arpen": 2 } },
+    "explosion": { "power": 225, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.4, "arpen": 2 } },
     "use_action": {
       "target": "can_bomb_act",
       "msg": "You light the fuse on the can bomb.  Throw it before it blows in your face!",
