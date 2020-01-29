@@ -7,11 +7,11 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "545_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 5 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "lead", 60 ] ],
+      [ [ "545_casing", 30 ] ],
+      [ [ "smrifle_primer", 30 ] ],
+      [ [ "gunpowder_rifle", 150 ] ],
+      [ [ "copper", 60 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -23,11 +23,11 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 3 ] ],
-      [ [ "545_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 5 ] ],
-      [ [ "copper", 3 ] ]
+      [ [ "lead", 90 ] ],
+      [ [ "545_casing", 30 ] ],
+      [ [ "smrifle_primer", 30 ] ],
+      [ [ "gunpowder_rifle", 150 ] ],
+      [ [ "copper", 90 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
