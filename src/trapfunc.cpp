@@ -612,7 +612,7 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a land mine!" ),
                                   _( "<npcname> triggers a land mine!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.5, false, 8 );
+    explosion_handler::explosion( p, 18, 0.5, false, 8, 0, 8 );
     g->m.remove_trap( p );
     return true;
 }
@@ -623,7 +623,7 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.6, false, 12 );
+    explosion_handler::explosion( p, 18, 0.6, false, 12, 6 );
     g->m.remove_trap( p );
     return true;
 }

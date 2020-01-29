@@ -17,6 +17,7 @@ struct shrapnel_data {
     // Percentage
     int recovery        = 0;
     itype_id drop       = "null";
+    int arpen           = 0;
 
     shrapnel_data() = default;
     shrapnel_data( int casing_mass, float fragment_mass = 0.005, int recovery = 0,
@@ -59,7 +60,7 @@ namespace explosion_handler
     If factor <= 0, no blast is produced */
 void explosion(
     const tripoint &p, float power, float factor = 0.8f,
-    bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
+    bool fire = false, int casing_mass = 0, int arpen = 0, float fragment_mass = 0.05
 );
 
 void explosion( const tripoint &p, const explosion_data &ex );

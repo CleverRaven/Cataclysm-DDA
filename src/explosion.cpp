@@ -83,6 +83,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = fuel_type_none;
+        ret.shrapnel.arpen = jo.get_int( "arpen", 0 );
     } else if( jo.has_object( "shrapnel" ) ) {
         auto shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
@@ -100,6 +101,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
     ret.fragment_mass = jo.get_float( "fragment_mass", 0.005 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
+    ret.arpen = jo.get_int( "arpen", 0 );
     return ret;
 }
 namespace explosion_handler
@@ -459,7 +461,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
 }
 
 void explosion( const tripoint &p, float power, float factor, bool fire,
-                int casing_mass, float fragment_mass )
+                int casing_mass, int arpen, float fragment_mass )
 {
     explosion_data data;
     data.power = power;
@@ -467,6 +469,7 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
     data.fire = fire;
     data.shrapnel.casing_mass = casing_mass;
     data.shrapnel.fragment_mass = fragment_mass;
+    data.shrapnel.arpen = arpen;
     explosion( p, data );
 }
 
@@ -493,7 +496,7 @@ void explosion( const tripoint &p, const explosion_data &ex )
 
     const auto &shr = ex.shrapnel;
     if( shr.casing_mass > 0 ) {
-        auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
+        auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass, shr.arpen );
 
         // If explosion drops shrapnel...
         if( shr.recovery > 0 && shr.drop != "null" ) {
