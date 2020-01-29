@@ -7,11 +7,11 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 14 ] ],
-      [ [ "700nx_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 38 ] ],
-      [ [ "copper", 9 ] ]
+      [ [ "lead", 70 ] ],
+      [ [ "700nx_casing", 5 ] ],
+      [ [ "lgrifle_primer", 5 ] ],
+      [ [ "gunpowder_large_rifle", 190 ] ],
+      [ [ "copper", 45 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
