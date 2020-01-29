@@ -57,23 +57,7 @@
 #include "colony.h"
 #include "point.h"
 #include "weather.h"
-
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_survival( "survival" );
-
-static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
-static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
-static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
-static const efftype_id effect_riding( "riding" );
+#include "cata_string_consts.h"
 
 struct comp_rank {
     int industry;
@@ -1269,9 +1253,12 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
+    tripoint loot_location = g->u.global_omt_location();
+    // Only check at the ground floor.
+    loot_location.z = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "house",
-                              0, false );
+        const tripoint site = overmap_buffer.find_closest( loot_location, "house", 0, false,
+                              ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }

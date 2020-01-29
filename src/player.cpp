@@ -891,6 +891,9 @@ const tripoint &player::pos() const
 
 int player::sight_range( int light_level ) const
 {
+    if( light_level == 0 ) {
+        return 1;
+    }
     /* Via Beer-Lambert we have:
      * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
      * Solving for distance:
@@ -902,9 +905,9 @@ int player::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = static_cast<int>( -log( get_vision_threshold( static_cast<int>( g->m.ambient_light_at(
-                                            pos() ) ) ) /
-                                        static_cast<float>( light_level ) ) *
+    float vision_threshold =
+        get_vision_threshold( static_cast<int>( g->m.ambient_light_at( pos() ) ) );
+    int range = static_cast<int>( -log( vision_threshold / light_level ) *
                                   ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
@@ -1173,26 +1176,6 @@ void player::search_surroundings()
             add_known_trap( tp, tr );
         }
     }
-}
-
-int player::read_speed( bool return_stat_effect ) const
-{
-    // Stat window shows stat effects on based on current stat
-    const int intel = get_int();
-    /** @EFFECT_INT increases reading speed */
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
-
-    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
-    }
-
-    ret *= mutation_value( "reading_speed_multiplier" );
-
-    if( ret < to_moves<int>( 1_seconds ) ) {
-        ret = to_moves<int>( 1_seconds );
-    }
-    // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret / 10;
 }
 
 int player::talk_skill() const
@@ -4595,9 +4578,8 @@ int player::adjust_for_focus( int amount ) const
     if( has_trait( trait_SLOWLEARNER ) ) {
         effective_focus -= 15;
     }
-    if( get_option<bool>( "INT_BASED_LEARNING" ) ) {
-        effective_focus += ( get_int_base() - 8 ) * 5;
-    }
+    effective_focus += ( get_int_base() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
+                       get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     double tmp = amount * ( effective_focus / 100.0 );
     return roll_remainder( tmp );
 }

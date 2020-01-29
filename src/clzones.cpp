@@ -34,6 +34,7 @@
 #include "player.h"
 #include "vpart_position.h"
 #include "faction.h"
+#include "cata_string_consts.h"
 
 zone_manager::zone_manager()
 {
@@ -783,7 +784,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
-    if( it.has_flag( "FIREWOOD" ) ) {
+    if( it.has_flag( flag_FIREWOOD ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }

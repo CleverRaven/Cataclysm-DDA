@@ -1,0 +1,219 @@
+[
+  {
+    "id": "belt308",
+    "copy-from": "belt308",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "7.62x51mm ammo belt"
+  },
+  {
+    "id": "falbigmag",
+    "copy-from": "falbigmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN FAL extended magazine"
+  },
+  {
+    "id": "falmag",
+    "copy-from": "falmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN FAL magazine"
+  },
+  {
+    "id": "fal_makeshiftmag",
+    "copy-from": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN FAL makeshift magazine"
+  },
+  {
+    "id": "g3bigmag",
+    "copy-from": "g3bigmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "H&K G3 drum magazine"
+  },
+  {
+    "id": "g3mag",
+    "copy-from": "g3mag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "H&K G3 magazine"
+  },
+  {
+    "id": "g3_makeshiftmag",
+    "copy-from": "g3_makeshiftmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "H&K G3 makeshift magazine"
+  },
+  {
+    "id": "m14mag",
+    "copy-from": "m14mag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "M14 magazine"
+  },
+  {
+    "id": "m14smallmag",
+    "copy-from": "m14smallmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "M14 compact magazine"
+  },
+  {
+    "id": "m14_makeshiftmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "copy-from": "m14_makeshiftmag",
+    "name": "M14 makeshift magazine"
+  },
+  {
+    "id": "scarhbigmag",
+    "copy-from": "scarhbigmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN SCAR-H drum magazine"
+  },
+  {
+    "id": "scarhmag_30rd",
+    "copy-from": "scarhmag_30rd",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN SCAR-H 30-round magazine"
+  },
+  {
+    "id": "scarhmag",
+    "copy-from": "scarhmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN SCAR-H magazine"
+  },
+  {
+    "id": "scarh_makeshiftmag",
+    "copy-from": "scarh_makeshiftmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "FN SCAR-H makeshift magazine"
+  },
+  {
+    "id": "hk417mag_20rd",
+    "copy-from": "hk417mag_20rd",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "HK417 magazine"
+  },
+  {
+    "id": "hk417mag_10rd",
+    "copy-from": "hk417mag_10rd",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "HK417 compact magazine"
+  },
+  {
+    "id": "hk417_makeshiftmag",
+    "copy-from": "hk417_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "HK417 makeshift magazine",
+    "ammo_type": [ "ammo_rifle", "308" ]
+  },
+  {
+    "id": "ar10mag_20rd",
+    "copy-from": "ar10mag_20rd",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "AR-10 magazine"
+  },
+  {
+    "id": "ar10_makeshiftmag",
+    "copy-from": "ar10_makeshiftmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "308" ],
+    "name": "AR-10 makeshift magazine"
+  },
+  {
+    "id": "223_speedloader5",
+    "copy-from": "223_speedloader5",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "LW-5 speedloader"
+  },
+  {
+    "id": "belt223",
+    "copy-from": "belt223",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "5.56x45mm ammo belt"
+  },
+  {
+    "id": "lw223bigmag",
+    "copy-from": "lw223bigmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "LW-56 magazine"
+  },
+  {
+    "id": "lw223mag",
+    "copy-from": "lw223mag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "LW-32 magazine"
+  },
+  {
+    "id": "ruger5",
+    "copy-from": "ruger5",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "Ruger .223 5-round magazine"
+  },
+  {
+    "id": "stanag10",
+    "copy-from": "stanag10",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "Ruger .223 10-round magazine"
+  },
+  {
+    "id": "ruger30",
+    "copy-from": "ruger30",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "Ruger .223 high-capacity magazine"
+  },
+  {
+    "id": "stanag30",
+    "copy-from": "stanag30",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "STANAG magazine"
+  },
+  {
+    "id": "stanag50",
+    "copy-from": "stanag50",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "STANAG drum magazine"
+  },
+  {
+    "id": "survivor223mag",
+    "copy-from": "survivor223mag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "STANAG makeshift magazine"
+  },
+  {
+    "id": "ruger_makeshiftmag",
+    "copy-from": "ruger_makeshiftmag",
+    "type": "MAGAZINE",
+    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
+    "name": "Ruger makeshift magazine"
+  },
+  {
+    "id": "belt40mm",
+    "copy-from": "belt40mm",
+    "type": "MAGAZINE",
+    "name": "grenade belt",
+    "ammo_type": [ "40x53mm", "ammo_grenade" ]
+  }
+]

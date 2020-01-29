@@ -167,7 +167,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal",
-    "name": "oatmeal",
+    "name": { "str": "oatmeal", "str_pl": "oatmeal" },
     "weight": "25 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -208,7 +208,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_cooked",
-    "name": "cooked oatmeal",
+    "name": { "str": "cooked oatmeal", "str_pl": "cooked oatmeal" },
     "weight": "247 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -228,6 +228,7 @@
     "type": "COMESTIBLE",
     "id": "oatmeal_deluxe",
     "name": "deluxe cooked oatmeal",
+    "name_plural": "deluxe cooked oatmeal",
     "weight": "164 g",
     "color": "light_gray",
     "spoils_in": "10 days",

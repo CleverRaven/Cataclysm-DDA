@@ -350,7 +350,7 @@
   {
     "id": "pipe_launcher40mm",
     "type": "GUNMOD",
-    "name": "40mm pipe launcher",
+    "name": { "str": "40mm pipe launcher" },
     "description": "This is a home built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "2080 g",
     "volume": "750 ml",

@@ -217,7 +217,7 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
-static const efftype_id effect_magnesium_supplements( "magnesium" );
+static const efftype_id effect_melatonin_supplements( "melatonin" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -9252,6 +9252,9 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( it->has_var( "contained_name" ) ) {
+        // Remember contained_name for messages after release_monster erases it
+        const std::string contained_name = it->get_var( "contained_name", "" );
+
         if( it->release_monster( pos ) ) {
             // It's been activated somewhere where there isn't a player or monster, good.
             return 0;
@@ -9260,21 +9263,19 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             if( it->release_monster( p->pos(), 1 ) ) {
                 return 0;
             }
-            p->add_msg_if_player( _( "There is no place to put the %s." ),
-                                  it->get_var( "contained_name", "" ) );
+            p->add_msg_if_player( _( "There is no place to put the %s." ), contained_name );
             return 0;
         } else {
-            const std::string query = string_format( _( "Place the %s where?" ),
-                                      it->get_var( "contained_name", "" ) );
+            const std::string query = string_format( _( "Place the %s where?" ), contained_name );
             const cata::optional<tripoint> pos_ = choose_adjacent( query );
             if( !pos_ ) {
                 return 0;
             }
             if( it->release_monster( *pos_ ) ) {
+                p->add_msg_if_player( _( "You release the %s." ), contained_name );
                 return 0;
             }
-            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
-                                  it->get_var( "contained_name", "" ) );
+            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ), contained_name );
             return 0;
         }
     } else {
@@ -9311,6 +9312,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
+                p->add_msg_if_player( _( "You capture the %1$s in your %2$s." ),
+                                      f.type->nname(), it->tname() );
                 return it->contain_monster( target );
             } else {
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),
@@ -9434,7 +9437,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     };
     int available_water = std::max(
                               crafting_inv.charges_of( "water", INT_MAX, is_liquid ),
-                              crafting_inv.charges_of( "clean_water", INT_MAX, is_liquid )
+                              crafting_inv.charges_of( "water_clean", INT_MAX, is_liquid )
                           );
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
@@ -9693,14 +9696,14 @@ int iuse::gobag_personal( player *p, item *it, bool, const tripoint & )
     return gobag( p, it, true );
 }
 
-int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
+int iuse::melatonin_tablet( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
-    if( p->has_effect( effect_magnesium_supplements ) ) {
+    if( p->has_effect( effect_melatonin_supplements ) ) {
         p->add_msg_if_player( m_warning,
-                              _( "Simply taking more magnesium won't help.  You have to go to sleep for it to work." ) );
+                              _( "Simply taking more melatonin won't help.  You have to go to sleep for it to work." ) );
     }
-    p->add_effect( effect_magnesium_supplements, 16_hours );
+    p->add_effect( effect_melatonin_supplements, 16_hours );
     return it->type->charges_to_use();
 }
 

@@ -52,20 +52,9 @@
 #include "mtype.h"
 #include "point.h"
 #include "units.h"
+#include "cata_string_consts.h"
 
 class inventory;
-
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_electronics( "electronics" );
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 // Construction functions.
 namespace construct
@@ -832,7 +821,7 @@ void place_construction( const std::string &desc )
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
-    g->u.assign_activity( activity_id( "ACT_BUILD" ) );
+    g->u.assign_activity( ACT_BUILD );
     g->u.activity.placement = g->m.getabs( pnt );
 }
 
@@ -923,15 +912,15 @@ void complete_construction( player *p )
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
     if( p->is_player() && !p->backlog.empty() &&
-        p->backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+        p->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         p->backlog.clear();
-        p->assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+        p->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
 
 bool construct::check_empty( const tripoint &p )
 {
-    return ( g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
+    return ( g->m.has_flag( flag_FLAT, p ) && !g->m.has_furn( p ) &&
              g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
              g->m.i_at( p ).empty() && !g->m.veh_at( p ) );
 }
@@ -954,7 +943,7 @@ bool construct::check_support( const tripoint &p )
     }
     int num_supports = 0;
     for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
-        if( g->m.has_flag( "SUPPORTS_ROOF", nb ) ) {
+        if( g->m.has_flag( flag_SUPPORTS_ROOF, nb ) ) {
             num_supports++;
         }
     }
@@ -1032,7 +1021,7 @@ void construct::done_grave( const tripoint &p )
                 g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
-    if( g->u.has_quality( quality_id( "CUT" ) ) ) {
+    if( g->u.has_quality( qual_CUT ) ) {
         iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
     } else {
         add_msg( m_neutral,
@@ -1046,7 +1035,7 @@ static vpart_id vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id && vp.has_flag( "INITIAL_PART" ) ) {
+        if( vp.item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1119,7 +1108,7 @@ void construct::done_deconstruct( const tripoint &p )
         if( t.deconstruct.deconstruct_above ) {
             const tripoint top = p + tripoint_above;
             if( g->m.has_furn( top ) ) {
-                add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
+                add_msg( _( "That %s can not be disassembled, since there is furniture above it." ), t.name() );
                 return;
             }
             done_deconstruct( top );
@@ -1529,7 +1518,7 @@ void finalize_constructions()
     std::vector<item_comp> frame_items;
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( !vp.has_flag( "INITIAL_PART" ) ) {
+        if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
         frame_items.push_back( item_comp( vp.item, 1 ) );

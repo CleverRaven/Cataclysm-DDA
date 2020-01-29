@@ -2470,6 +2470,26 @@ int Character::rust_rate( bool return_stat_effect ) const
     return ( return_stat_effect ? ret : ret / 10 );
 }
 
+int Character::read_speed( bool return_stat_effect ) const
+{
+    // Stat window shows stat effects on based on current stat
+    const int intel = get_int();
+    /** @EFFECT_INT increases reading speed by 3s per level above 8*/
+    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
+
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
+        ret *= .85;
+    }
+
+    ret *= mutation_value( "reading_speed_multiplier" );
+
+    if( ret < to_moves<int>( 1_seconds ) ) {
+        ret = to_moves<int>( 1_seconds );
+    }
+    // return_stat_effect actually matters here
+    return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
+}
+
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
         const item &context ) const
 {
@@ -3569,10 +3589,6 @@ int Character::get_fatigue() const
 
 int Character::get_sleep_deprivation() const
 {
-    if( !get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
-        return 0;
-    }
-
     return sleep_deprivation;
 }
 
@@ -3913,17 +3929,16 @@ void Character::update_needs( int rate_multiplier )
             int fatigue_roll = roll_remainder( rates.fatigue * rate_multiplier );
             mod_fatigue( fatigue_roll );
 
-            if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
-                // Synaptic regen bionic stops SD while awake and boosts it while sleeping
-                if( !has_active_bionic( bio_synaptic_regen ) ) {
-                    // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
-                    // but characters who need less sleep will also get less sleep deprived, and vice-versa.
+            // Synaptic regen bionic stops SD while awake and boosts it while sleeping
+            if( !has_active_bionic( bio_synaptic_regen ) ) {
+                // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
+                // but characters who need less sleep will also get less sleep deprived, and vice-versa.
 
-                    // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
-                    // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
-                    mod_sleep_deprivation( fatigue_roll * 5 );
-                }
+                // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
+                // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
+                mod_sleep_deprivation( fatigue_roll * 5 );
             }
+
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -3942,41 +3957,40 @@ void Character::update_needs( int rate_multiplier )
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
-                if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
-                    // Sleeping on the ground, no bionic = 1x rest_modifier
-                    // Sleeping on a bed, no bionic      = 2x rest_modifier
-                    // Sleeping on a comfy bed, no bionic= 3x rest_modifier
+                // Sleeping on the ground, no bionic = 1x rest_modifier
+                // Sleeping on a bed, no bionic      = 2x rest_modifier
+                // Sleeping on a comfy bed, no bionic= 3x rest_modifier
 
-                    // Sleeping on the ground, bionic    = 3x rest_modifier
-                    // Sleeping on a bed, bionic         = 6x rest_modifier
-                    // Sleeping on a comfy bed, bionic   = 9x rest_modifier
-                    float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
-                    // Magnesium supplements also add a flat bonus to recovery speed
-                    if( has_effect( effect_magnesium_supplements ) ) {
-                        rest_modifier += 1;
-                    }
-
-                    comfort_level comfort = base_comfort_value( pos() );
-
-                    if( comfort >= comfort_level::very_comfortable ) {
-                        rest_modifier *= 3;
-                    } else  if( comfort >= comfort_level::comfortable ) {
-                        rest_modifier *= 2.5;
-                    } else if( comfort >= comfort_level::slightly_comfortable ) {
-                        rest_modifier *= 2;
-                    }
-
-                    // If we're just tired, we'll get a decent boost to our sleep quality.
-                    // The opposite is true for very tired characters.
-                    if( get_fatigue() < DEAD_TIRED ) {
-                        rest_modifier += 2;
-                    } else if( get_fatigue() >= EXHAUSTED ) {
-                        rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
-                    }
-
-                    // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
-                    mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+                // Sleeping on the ground, bionic    = 3x rest_modifier
+                // Sleeping on a bed, bionic         = 6x rest_modifier
+                // Sleeping on a comfy bed, bionic   = 9x rest_modifier
+                float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                // Melatonin supplements also add a flat bonus to recovery speed
+                if( has_effect( effect_melatonin_supplements ) ) {
+                    rest_modifier += 1;
                 }
+
+                comfort_level comfort = base_comfort_value( pos() );
+
+                if( comfort >= comfort_level::very_comfortable ) {
+                    rest_modifier *= 3;
+                } else  if( comfort >= comfort_level::comfortable ) {
+                    rest_modifier *= 2.5;
+                } else if( comfort >= comfort_level::slightly_comfortable ) {
+                    rest_modifier *= 2;
+                }
+
+                // If we're just tired, we'll get a decent boost to our sleep quality.
+                // The opposite is true for very tired characters.
+                if( get_fatigue() < DEAD_TIRED ) {
+                    rest_modifier += 2;
+                } else if( get_fatigue() >= EXHAUSTED ) {
+                    rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
+                }
+
+                // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
+                mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+
             }
         }
     }
