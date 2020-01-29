@@ -533,7 +533,7 @@
     "ident": "presort",
     "name": "Crazy party",
     "points": 0,
-    "description": "Crazy party in secluded resort went very wrong - first cops arrived to ruin it, then dancers, guests and everyone around suddenly decided to have a piece of you.",
+    "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",
     "allowed_locs": [ "p_resort_2ss" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "bio_gangster" ],
