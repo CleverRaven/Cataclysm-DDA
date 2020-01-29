@@ -2448,7 +2448,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-int Character::rust_rate( bool return_stat_effect ) const
+int Character::rust_rate() const
 {
     if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
         return 0;
@@ -2456,9 +2456,9 @@ int Character::rust_rate( bool return_stat_effect ) const
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
-    /** @EFFECT_INT reduces skill rust */
+    /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
     int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
-                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 500 : 500 - 35 * ( intel - 8 ) );
+                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 100 : 100 + 10 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
@@ -2466,8 +2466,7 @@ int Character::rust_rate( bool return_stat_effect ) const
         ret = 0;
     }
 
-    // return_stat_effect actually matters here
-    return ( return_stat_effect ? ret : ret / 10 );
+    return ret;
 }
 
 int Character::read_speed( bool return_stat_effect ) const
@@ -2596,29 +2595,21 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
-    const int rate = rust_rate();
-    if( rate <= 0 ) {
-        return;
-    }
-    for( auto &pair : *_skills ) {
-        if( rate <= rng( 0, 1000 ) ) {
-            continue;
-        }
-
+    for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( "PRED2" ) && one_in( 4 ) ) ||
-              ( has_trait_flag( "PRED3" ) && one_in( 2 ) ) ||
-              ( has_trait_flag( "PRED4" ) && x_in_y( 2, 3 ) ) ) ) {
+            ( ( has_trait_flag( "PRED2" ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( "PRED3" ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( "PRED4" ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
-            if( one_in( 15600 ) ) {
+            if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
                 // this point, but print a message about it now and
                 // then.
                 //
-                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
+                // 13 combat skills.
                 // This means PRED2/PRED3/PRED4 think of hunting on
                 // average every 8/4/3 hours, enough for immersion
                 // without becoming an annoyance.
@@ -2631,7 +2622,7 @@ void Character::do_skill_rust()
 
         const bool charged_bio_mem = get_power_level() > 25_kJ && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem ) ) {
+        if( skill_level_obj.rust( charged_bio_mem, rust_rate() ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -25_kJ );
