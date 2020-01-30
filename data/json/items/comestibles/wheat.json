@@ -332,7 +332,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 446,
+    "calories": 600,
     "description": "Crunchy and delicious waffles with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
     "price": 600,
     "material": [ "wheat", "fruit", "milk" ],
