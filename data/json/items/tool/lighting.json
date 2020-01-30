@@ -128,7 +128,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" },
-    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ]
+    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "id": "electric_lantern",
