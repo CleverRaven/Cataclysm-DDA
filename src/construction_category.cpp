@@ -26,6 +26,30 @@ const construction_category &string_id<construction_category>::obj() const
     return all_construction_categories.obj( *this );
 }
 
+template<>
+int_id<construction_category> string_id<construction_category>::id() const
+{
+    return all_construction_categories.convert( *this, int_id<construction_category>( -1 ) );
+}
+
+template<>
+bool int_id<construction_category>::is_valid() const
+{
+    return all_construction_categories.is_valid( *this );
+}
+
+template<>
+const construction_category &int_id<construction_category>::obj() const
+{
+    return all_construction_categories.obj( *this );
+}
+
+template<>
+const string_id<construction_category> &int_id<construction_category>::id() const
+{
+    return all_construction_categories.convert( *this );
+}
+
 void construction_category::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
