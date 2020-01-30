@@ -51,8 +51,8 @@
     "id": "mortuary_2story",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mortuary_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "mortuary_2story_second" },
-      { "point": [ 0, 0, -1 ], "overmap": "mortuary_basement" },
+      { "point": [ 0, 0, 1 ], "overmap": "mortuary_2story_second_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "mortuary_basement_north" },
       { "point": [ 0, 0, 2 ], "overmap": "mortuary_roof_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
