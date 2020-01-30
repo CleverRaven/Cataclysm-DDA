@@ -34,6 +34,7 @@
       [ "file", 10 ],
       [ "touristmap", 20 ],
       [ "restaurantmap", 20 ],
+      [ "subwaymap", 20 ],
       [ "money_bundle", 55 ],
       [ "gold_watch", 5 ],
       [ "silver_watch", 10 ],
