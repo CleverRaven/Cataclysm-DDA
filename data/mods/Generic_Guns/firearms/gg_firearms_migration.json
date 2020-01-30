@@ -274,7 +274,7 @@
       "sks",
       "mosin44",
       "os93",
-      "os93_carbine",
+      "os93_carbine"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
