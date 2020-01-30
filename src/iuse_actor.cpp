@@ -2553,7 +2553,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     int pos = 0;
     std::vector<std::string> opts;
 
-    if( static_cast<int>( it.contents.size() ) < multi ) {
+    if( static_cast<int>( it.contents.num_item_stacks() ) < multi ) {
         std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
         opts.push_back( prompt );
         pos = -1;
