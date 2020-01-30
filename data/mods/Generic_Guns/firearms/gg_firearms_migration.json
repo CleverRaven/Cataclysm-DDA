@@ -272,7 +272,9 @@
       "fn_fal",
       "m1a",
       "sks",
-      "mosin44"
+      "mosin44",
+      "os93",
+      "os93_carbine",
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
