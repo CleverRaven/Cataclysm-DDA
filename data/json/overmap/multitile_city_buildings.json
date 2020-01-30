@@ -319,7 +319,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_09_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_09_roof_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+      { "point": [ 0, 0, -1 ], "overmap": "basement_bionic_north" }
     ]
   },
   {
