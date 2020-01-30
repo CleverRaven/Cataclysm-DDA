@@ -1283,7 +1283,6 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
     }
     const tripoint source_pos = g->m.getlocal( act->coords.at( 0 ) );
     monster *source_mon = g->critter_at<monster>( source_pos );
-    monster *source_mon = dynamic_cast<monster *>( c );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
         return;
