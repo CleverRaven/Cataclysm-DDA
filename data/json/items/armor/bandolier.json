@@ -263,5 +263,40 @@
       "flags": [ "GRENADE" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
-  }
+  },
+  {
+  "id": "throwingknifebandolier",
+  "type": "ARMOR",
+  "name": "throwing knife bandolier",
+  "name_plural": "throwing knife bandoliers",
+  "description": "A leather bandolier strapped around the torso for keeping throwing knives close to hand..",
+  "weight": "600 g",
+  "volume": "1250 ml",
+  "price": 3000,
+  "price_postapoc": 5300,
+  "rigid": false,
+  "material": "cotton",
+  "symbol": "[",
+  "looks_like": "belt",
+  "color": "dark_gray",
+  "covers": [
+    "TORSO"
+  ],
+  "coverage": 15,
+  "material_thickness": 2,
+  "use_action": {
+    "type": "holster",
+    "holster_prompt": "Stash throwing knives",
+    "holster_msg": "You stash your %s.",
+    "multi": 6,
+    "max_volume": "250 ml",
+    "min_volume": "250 ml",
+    "draw_cost": 10,
+    "flags": [ "SHEATH_KNIFE" ]
+  },
+  "flags": [
+    "WATER_FRIENDLY",
+    "BELTED"
+  ]
+}
 ]
