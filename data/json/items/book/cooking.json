@@ -644,5 +644,43 @@
     "intelligence": 8,
     "time": "15 m",
     "fun": 1
+  },
+  {
+    "id": "sweets_book",
+    "type": "BOOK",
+    "name": { "str": "Sweets for your Sweet Child", "str_pl": "copies of Sweets for Sweet" },
+    "description": "Sweets for your Sweet Child is the best selling cooking book to the parents of young children.  Every recipe uses oversized text, easy words and diagram instructions for children learning to cook with their parents.",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1050,
+    "price_postapoc": 4800,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "skill": "cooking",
+    "required_level": 0,
+    "max_level": 2,
+    "intelligence": 4,
+    "time": "9 m",
+    "fun": 1
+  },
+  {
+    "id": "survivalflavor_book",
+    "type": "BOOK",
+    "name": { "str": "Pocket Survival Cookbook", "str_pl": "copies of Pocket Survival Cookbook" },
+    "description": "The smallest cookbook on the market, marketed exclusively to the outdoorsman.  Packs a surprising number of recipes for it's tiny size.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 3050,
+    "price_postapoc": 74800,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "skill": "cooking",
+    "required_level": 1,
+    "max_level": 3,
+    "intelligence": 9,
+    "time": "9 m",
+    "fun": -1
   }
 ]
