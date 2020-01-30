@@ -2268,8 +2268,6 @@
     "items": [
       [ "hood_lsurvivor", 10 ],
       [ "hood_survivor", 8 ],
-      [ "helmet_survivor", 8 ],
-      [ "helmet_hsurvivor", 4 ],
       [ "hood_wsurvivor", 4 ],
       [ "hood_fsurvivor", 2 ],
       [ "hood_h20survivor", 1 ],
@@ -2351,8 +2349,6 @@
       [ "balclava", 12 ],
       [ "mask_survivorxl", 2 ],
       [ "combatsaw_off", 1 ],
-      [ "firemachete_off", 1 ],
-      [ "shishkebab_off", 2 ],
       [ "helsing", 1 ],
       [ "tihar", 2 ],
       [ "bigun", 2 ],

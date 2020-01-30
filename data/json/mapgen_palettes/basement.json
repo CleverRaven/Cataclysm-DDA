@@ -61,9 +61,9 @@
     "terrain": {
       " ": "t_rock",
       "+": "t_door_c",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_rock_floor",
-      "<": "t_stairs_up",
+      "<": "t_wood_stairs_up",
       "&": "t_rock_floor",
       "*": "t_rock_floor",
       "%": "t_rock_floor",
@@ -98,7 +98,7 @@
       "l": "t_floor",
       "B": "t_floor",
       "M": "t_floor",
-      "|": "t_wall",
+      "|": "t_wall_w",
       "1": "t_wall_log"
     },
     "furniture": {

@@ -66,7 +66,7 @@
     "id": "m2browning_sawn",
     "copy-from": "m2browning",
     "type": "GUN",
-    "name": ".50 caliber rifle",
+    "name": { "str": ".50 caliber rifle" },
     "description": "Modified from the massive M2 Browning, this pared down rifle has been altered to be fired unmounted.  The burst fire has been disabled, and its belt fed mechanism has been modified into a much smaller single round chamber.",
     "material": [ "steel", "wood" ],
     "clip_size": 1,
