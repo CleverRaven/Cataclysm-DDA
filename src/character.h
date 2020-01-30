@@ -1296,7 +1296,7 @@ class Character : public Creature, public visitable<Character>
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         /** Returns the player's skill rust rate */
-        int rust_rate( bool return_stat_effect = true ) const;
+        int rust_rate() const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */

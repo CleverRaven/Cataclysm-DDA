@@ -12,7 +12,24 @@
     "blueprint_requires": [ { "id": "fbmw_0" } ],
     "blueprint_provides": [ { "id": "fbmw_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 17 h 40 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 100 ], [ "stick", 200 ] ],
+          [ [ "material_quicklime", 80 ], [ "material_limestone", 80 ], [ "clay_lump", 80 ] ],
+          [ [ "pebble", 200 ], [ "material_sand", 200 ] ],
+          [ [ "straw_pile", 80 ], [ "cattail_stalk", 80 ], [ "dogbane", 80 ], [ "pine_bough", 80 ] ],
+          [ [ "water", 100 ], [ "water_clean", 100 ] ],
+          [ [ "wood_panel", 25 ] ],
+          [ [ "2x4", 200 ] ],
+          [ [ "nail", 500 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +44,25 @@
     "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 3 } ],
     "blueprint_provides": [ { "id": "fbmw_north" } ],
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 2 h 45 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 185 ] ],
+          [ [ "nail", 352 ] ],
+          [ [ "wood_sheet", 6 ], [ "wood_panel", 12 ] ],
+          [ [ "material_quicklime", 52 ], [ "material_limestone", 52 ], [ "clay_lump", 52 ] ],
+          [ [ "pebble", 130 ], [ "material_sand", 130 ] ],
+          [ [ "straw_pile", 52 ], [ "cattail_stalk", 52 ], [ "dogbane", 52 ], [ "pine_bough", 52 ] ],
+          [ [ "water", 65 ], [ "water_clean", 65 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 10 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +77,31 @@
     "blueprint_requires": [ { "id": "fbmw_north" } ],
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 19 h 40 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 315 ] ],
+          [ [ "nail", 704 ] ],
+          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
+          [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
+          [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
+          [ [ "water", 45 ], [ "water_clean", 45 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 30 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +116,25 @@
     "blueprint_requires": [ { "id": "fbmw_east" } ],
     "blueprint_provides": [ { "id": "fbmw_center" } ],
     "blueprint_excludes": [ { "id": "fbmw_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "23 h 55 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 172 ] ],
+          [ [ "wood_sheet", 4 ], [ "wood_panel", 7 ] ],
+          [ [ "nail", 312 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
+          [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
+          [ [ "straw_pile", 40 ], [ "cattail_stalk", 40 ], [ "dogbane", 40 ], [ "pine_bough", 40 ] ],
+          [ [ "water", 50 ], [ "water_clean", 50 ] ],
+          [ [ "wood_panel", 12 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -74,7 +151,29 @@
     "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 3 h 10 m",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 162 ] ],
+          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "nail", 380 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "sheet_metal_small", 8 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+          [ [ "water", 32 ], [ "water_clean", 32 ] ],
+          [ [ "material_quicklime", 24 ], [ "material_limestone", 24 ], [ "clay_lump", 24 ] ],
+          [ [ "pebble", 60 ], [ "material_sand", 60 ] ],
+          [ [ "straw_pile", 24 ], [ "cattail_stalk", 24 ], [ "dogbane", 24 ], [ "pine_bough", 24 ] ],
+          [ [ "wood_panel", 15 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -89,7 +188,25 @@
     "blueprint_requires": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 15 h 58 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 260 ] ],
+          [ [ "nail", 454 ] ],
+          [ [ "wood_sheet", 10 ], [ "wood_panel", 20 ] ],
+          [ [ "material_quicklime", 96 ], [ "material_limestone", 96 ], [ "clay_lump", 96 ] ],
+          [ [ "pebble", 240 ], [ "material_sand", 240 ] ],
+          [ [ "straw_pile", 96 ], [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ] ],
+          [ [ "water", 120 ], [ "water_clean", 120 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 10 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -106,6 +223,28 @@
     "blueprint_excludes": [ { "id": "fbmw_northsoutheast" }, { "id": "fbmw_south" } ],
     "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 14 h 40 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "metal_tank", 2 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "anvil", 1 ] ],
+          [ [ "chain", 4 ] ],
+          [ [ "pipe", 3 ] ],
+          [ [ "2x4", 100 ], [ "stick", 200 ] ],
+          [ [ "material_quicklime", 80 ], [ "material_limestone", 80 ], [ "clay_lump", 80 ] ],
+          [ [ "pebble", 200 ], [ "material_sand", 200 ] ],
+          [ [ "straw_pile", 80 ], [ "cattail_stalk", 80 ], [ "dogbane", 80 ], [ "pine_bough", 80 ] ],
+          [ [ "water", 100 ], [ "water_clean", 100 ] ],
+          [ [ "wood_panel", 44 ] ],
+          [ [ "2x4", 352 ] ],
+          [ [ "nail", 880 ] ]
+        ]
+      }
+    }
   }
 ]
