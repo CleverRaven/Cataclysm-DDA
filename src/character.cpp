@@ -3948,7 +3948,7 @@ void Character::update_needs( int rate_multiplier )
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
-              
+
                 // Sleeping on the ground, no bionic = 1x rest_modifier
                 // Sleeping on a bed, no bionic      = 2x rest_modifier
                 // Sleeping on a comfy bed, no bionic= 3x rest_modifier
@@ -3962,7 +3962,7 @@ void Character::update_needs( int rate_multiplier )
                     rest_modifier += 1;
                 }
 
-                comfort_level comfort = base_comfort_value( pos() );
+                const comfort_level comfort = base_comfort_value( pos() ).level;
 
                 if( comfort >= comfort_level::very_comfortable ) {
                     rest_modifier *= 3;
