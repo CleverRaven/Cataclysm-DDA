@@ -85,8 +85,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_cabernet",
-    "name": "Cabernet Sauvignon",
-    "name_plural": "Cabernet Sauvignon",
+    "name": { "str": "Cabernet Sauvignon", "str_pl": "Cabernet Sauvignon" },
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",

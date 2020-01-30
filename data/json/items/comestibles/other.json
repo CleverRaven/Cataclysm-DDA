@@ -110,8 +110,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_gel",
-    "name": "marloss gelatin",
-    "name_plural": "marloss gelatin",
+    "name": { "str": "marloss gelatin", "str_pl": "marloss gelatin" },
     "weight": "177 g",
     "color": "yellow",
     "addiction_type": "marloss_y",
@@ -125,7 +124,7 @@
     "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-Cataclysm Jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
-    "volume": 0,
+    "volume": "100 ml",
     "stack_size": 10,
     "fun": 30
   },
