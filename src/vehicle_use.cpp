@@ -1832,6 +1832,7 @@ void vehicle::use_bike_rack( int part )
         if( success ) {
             for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+                parts[rack_part].remove_flag( vehicle_part::tracked_flag );
             }
         }
     } else {
