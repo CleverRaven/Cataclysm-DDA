@@ -51,7 +51,7 @@
     "responses": [
       { "text": "I'm so hungry, can you help me?", "topic": "TALK_millyficent_food" },
       { "text": "You are aware of the Cataclysm?", "topic": "TALK_millyficent_cataclysm" },
-      { "text": "I am your new lab partner.", "topic": "TALK_millyficent_1" }
+      { "text": "I am your new lab partner.", "topic": "TALK_Millyficent_1" }
     ]
   },
   {
@@ -60,7 +60,7 @@
     "dynamic_line": "Welcome to my lab! Here we explore the boundaries of the possible beyond the reach of small minds.",
     "responses": [
       { "text": "Can you give me something to eat then?", "topic": "TALK_millyficent_food" },
-      { "text": "Oh, okay.", "topic": "TALK_millyficent_1" },
+      { "text": "Oh, okay.", "topic": "TALK_Millyficent_1" },
       { "text": "I think there's been a mistake.", "topic": "TALK_DONE" }
     ]
   },
@@ -77,13 +77,19 @@
     "type": "talk_topic",
     "id": "TALK_millyficent_ask_past",
     "dynamic_line": "Well after I did my graduate thesis on theoretical xenobiology the government hired me to join the most interesting program.  Yes there were deaths but we learned so much.",
-    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_millyficent_1" } ]
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Millyficent_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_millyficent_cataclysm",
+    "dynamic_line": "What I know is that I pay well for test subjects and I deliver results and at this rate we will not be releasing on time!",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Millyficent_1" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_millyficent_ask_mood",
     "dynamic_line": "Ever since they moved me to my own lab my research has progressed so much faster.",
-    "responses": [ { "text": "This is not reassuring.", "topic": "TALK_millyficent_1" } ]
+    "responses": [ { "text": "This is not reassuring.", "topic": "TALK_Millyficent_1" } ]
   },
   {
     "id": "MISSION_migo_biology_1",
@@ -108,7 +114,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "You are holding back the evolution of the human race."
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "count": 1 } ] }
+    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 1 } ] }
   },
   {
     "id": "MISSION_migo_biology_2",
@@ -124,7 +130,7 @@
     "followup": "MISSION_migo_biology_3",
     "dialogue": {
       "describe": "I need 56 chunks of mi-go resin.",
-      "offer": "I need to understand more about their environment and how they create it.  This research wasn't even possible previously.",
+      "offer": "I need to understand more about their environment and how they create it.  This research wasn't even possible previously.  Bring me fifty six chunks of mi-go resin.",
       "accepted": "My notes suggest that their building materials are alive.  I need you to help me confirm that.",
       "rejected": "You can't just walk away from this.  We're changing the world!",
       "advice": "Find their buildings, jackhammer them.  What did you do before the world changed for the better, cold call salesman?",
@@ -133,7 +139,7 @@
       "success_lie": "Did you act on Broadway?  Because I bet that skill isn't useful anymore.",
       "failure": "I wonder if I could trade you to them for what I need?"
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "count": 1 } ] }
+    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 1 } ] }
   },
   {
     "id": "MISSION_migo_biology_3",
@@ -149,7 +155,7 @@
     "followup": "MISSION_migo_biology_4",
     "dialogue": {
       "describe": "I need three mutagen.",
-      "offer": "I need some mutagen and I don't want to spend the time making it myself.",
+      "offer": "I need some mutagen and I don't want to spend the time making it myself.  Bring me three doses, if you would be so kind.",
       "accepted": "Mutagen makes the world go round, it's definitely more valuable than love.",
       "rejected": "Are you scared of where I'm taking you?",
       "advice": "If you can't make it yourself go hit up a government lab.  Be prepared for anything in there.",
@@ -158,7 +164,7 @@
       "success_lie": "Lies and the lying liars who tell them.",
       "failure": "You are keeping me from my experiments.  Would you like to become one?"
     },
-    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "count": 1 } ] }
+    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "flask_glass", "count": 1 } ] }
   },
   {
     "id": "MISSION_migo_biology_4",
@@ -173,7 +179,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Parts, parts, parts.  Bring me some hearts. ",
-      "offer": "The Whately's are known in these parts for gathering body parts.  Ha!  That's just rumors and hearsay.",
+      "offer": "The Whately's are known in these parts for gathering body parts.  Ha!  That's just rumors and hearsay.  But I do need two humming hearts.",
       "accepted": "I have some relatives you should meet, if you don't mind hard work for the advancement of science.",
       "rejected": "Even I understand this is dangerous.",
       "advice": "Brain blasters, that's what I call them.  Some kind of automated weapon system the mi-go use.",
@@ -182,6 +188,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "count": 2 } ] }
+    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 2 } ] }
   }
 ]

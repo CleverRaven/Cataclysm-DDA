@@ -200,7 +200,7 @@
     "method": "json",
     "om_terrain": [ "mortuary_2story_second" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_open_air",
       "rows": [
         "________________________",
         "________________________",
@@ -223,7 +223,7 @@
         "||||||||||:++:|h.....|__",
         "__|BB>CoC|1..t|a....1|__",
         "__|B..*..+.*st|o.....w__",
-        "__|&BBfiB|1..t|......|__",
+        "__|TBBfiB|1..t|......|__",
         "__||||||||||||||w||w||__",
         "________________________"
       ],
@@ -242,10 +242,11 @@
         "o": "t_centrifuge",
         "x": "t_console_broken",
         "*": "t_utility_light",
-        "w": "t_window_bars_curtains"
+        "w": "t_window_bars_curtains",
+        ">": "t_wood_stairs_down"
       },
       "furniture": {
-        "&": "f_trashcan",
+        "T": "f_trashcan",
         "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "5": "f_server",
         "8": "f_sample_freezer",
@@ -277,8 +278,9 @@
         "t": "f_table",
         "U": "f_utility_shelf",
         "v": "f_ventilator",
-        "z": "f_bed"
-      }
+        "Z": "f_bed"
+      },
+      "place_npcs": [ { "class": "millyficent_whately", "x": 17, "y": 14 } ]
     }
   },
   {
