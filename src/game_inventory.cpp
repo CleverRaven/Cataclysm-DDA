@@ -978,7 +978,7 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book();
+            return loc->is_book() || loc->type->can_use( "learn_spell" );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -990,7 +990,8 @@ class read_inventory_preset: public pickup_inventory_preset
             }
 
             std::vector<std::string> denials;
-            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
+            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+                !loc->type->can_use( "learn_spell" ) ) {
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
