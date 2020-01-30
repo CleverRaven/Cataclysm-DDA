@@ -358,7 +358,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "result_mult": 4,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -367,7 +367,7 @@
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass", 1 ] ],
       [ [ "sweet_fruit", 4, "LIST" ] ],
-      [ [ "sugar", 20 ] ]
+      [ [ "sugar", 30 ] ]
     ]
   },
   {
@@ -570,12 +570,12 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "result_mult": 4,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ] ]
+    "components": [ [ [ "water", 4 ], [ "water_clean", 4 ] ], [ [ "jar_glass", 1 ] ], [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -682,10 +682,10 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "24 m",
-    "charges": 1,
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
+    "charges": 2,
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
@@ -712,6 +712,7 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
+    "charges": 2,
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
@@ -722,8 +723,8 @@
     "components": [
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "tomato", 1 ] ]
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ]
     ]
   },
   {
@@ -890,7 +891,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "result_mult": 24,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -955,13 +956,13 @@
     "time": "40 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "charges": 12,
+    "charges": 24,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "water", 16 ], [ "water_clean", 16 ] ],
+      [ [ "water", 24 ], [ "water_clean", 24 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "tomato", 12 ], [ "irradiated_tomato", 12 ] ]
+      [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ]
     ]
   },
   {
@@ -1123,7 +1124,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 22 ], [ "water_clean", 22 ] ],
+      [ [ "water", 24 ], [ "water_clean", 24 ] ],
       [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ]
     ]
   },
@@ -1146,7 +1147,7 @@
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
-      [ [ "water", 12 ], [ "water_clean", 12 ] ]
+      [ [ "water", 4 ], [ "water_clean", 4 ] ]
     ]
   },
   {
@@ -1172,7 +1173,7 @@
       [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+      [ [ "water", 4 ], [ "water_clean", 4 ] ]
     ]
   },
   {
