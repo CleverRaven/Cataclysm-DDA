@@ -2539,7 +2539,7 @@
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "shorts", "socks", "lowtops", "aspirin", "anesthesia", "pockknife", "backpack", "wristwatch" ],
+        "items": [ "tank_top", "shorts", "socks", "lowtops", "aspirin", "anesthetic_kit", "pockknife", "backpack", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3672,7 +3672,7 @@
           "dress_shoes",
           "coat_lab",
           "bandages",
-          "anesthesia",
+          "anesthetic_kit",
           "1st_aid",
           "wristwatch",
           "stethoscope"

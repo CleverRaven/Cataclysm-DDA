@@ -22,6 +22,27 @@
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "cape_fp",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": "Foodperson's cape",
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": "900 g",
+    "volume": "3 L",
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "looks_like": "cloak",
+    "color": "pink",
+    "covers": [ "TORSO" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ]
+  },
+  {
     "id": "cloak",
     "type": "ARMOR",
     "name": "cloak",

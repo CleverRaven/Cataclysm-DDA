@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <type_traits>
 
+#include "optional.h"
 #include "units.h"
 
 class JsonIn;
@@ -509,5 +510,24 @@ bool return_true( const T & )
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 
 int modulo( int v, int m );
+
+class on_out_of_scope
+{
+    private:
+        cata::optional<std::function<void()>> func;
+    public:
+        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        }
+
+        ~on_out_of_scope() {
+            if( func ) {
+                ( *func )();
+            }
+        }
+
+        void cancel() {
+            func.reset();
+        }
+};
 
 #endif // CAT_UTILITY_H

@@ -672,6 +672,7 @@ void debug_menu::wishskill( player *p )
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),
                             skill.name() );
+                    p->get_skill_level_object( skill.ident() ).practice();
                     skmenu.entries[skill_id + skoffset].text_color =
                         p->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
                 }
