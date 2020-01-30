@@ -1861,8 +1861,9 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {
-        slot.install_time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "install_time" ),
-                                           time_duration::units ) );
+        slot.install_time = to_moves<int>( read_from_json_string<time_duration>
+                                           ( *jo.get_raw( "install_time" ),
+                                             time_duration::units ) );
     }
 
     if( jo.has_member( "mod_targets" ) ) {
