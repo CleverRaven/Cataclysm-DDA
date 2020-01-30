@@ -2429,5 +2429,35 @@
       { "item": "blanket", "prob": 20 },
       { "item": "sheet", "prob": 20 }
     ]
+  },
+  {
+    "id": "grave",
+    "type": "item_group",
+    "items": [
+      [ "bone_human", 70 ],
+      [ "holy_symbol", 50 ],
+      [ "sheet", 20 ],
+      [ "bag_body_bag", 20 ],
+      [ "gloves_medical", 1 ],
+      [ "barrette", 5 ],
+      [ "hairpin", 5 ],
+      [ "child_book", 5 ],
+      [ "fancy_sunglasses", 5 ],
+      [ "flask_hip", 5 ],
+      [ "ref_lighter", 5 ],
+      { "group": "jewelry_accessories", "prob": 35 },
+      [ "story_book", 5 ],
+      [ "syringe", 3 ],
+      [ "teddy", 15 ],
+      [ "arm", 5 ],
+      [ "leg", 5 ],
+      [ "fetus", 5 ],
+      [ "foodperson_mask", 1 ],
+      [ "human_brain_embalmed", 5 ],
+      [ "many_years_old_newspaper", 2 ],
+      [ "years_old_newspaper", 2 ],
+      [ "one_year_old_newspaper", 2 ],
+      [ "months_old_newspaper", 2 ]
+    ]
   }
 ]

@@ -46,16 +46,7 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-
-static const efftype_id effect_assisted( "assisted" );
-
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_firstaid( "firstaid" );
-
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
+#include "cata_string_consts.h"
 
 class Character;
 
@@ -118,10 +109,10 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     bool init_selection = false;
 
     const std::vector<activity_id> consuming {
-        activity_id( "ACT_EAT_MENU" ),
-        activity_id( "ACT_CONSUME_FOOD_MENU" ),
-        activity_id( "ACT_CONSUME_DRINK_MENU" ),
-        activity_id( "ACT_CONSUME_MEDS_MENU" ) };
+        ACT_EAT_MENU,
+        ACT_CONSUME_FOOD_MENU,
+        ACT_CONSUME_DRINK_MENU,
+        ACT_CONSUME_MEDS_MENU };
 
     if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
         init_pair.first = u.activity.values[0];
@@ -455,7 +446,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 const item &it = get_consumable_item( loc );
-                if( it.has_flag( "MUSHY" ) ) {
+                if( it.has_flag( flag_MUSHY ) ) {
                     return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
                 } else {
                     return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
@@ -548,7 +539,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
                               ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
 
-            if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
+            if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( flag_LIQUIDCONT, loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -685,8 +676,8 @@ static std::string get_consume_needs_hint( player &p )
 
 item_location game_menus::inv::consume( player &p )
 {
-    if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
-        g->u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
+    if( !g->u.has_activity( ACT_EAT_MENU ) ) {
+        g->u.assign_activity( ACT_EAT_MENU );
     }
 
     return inv_internal( p, comestible_inventory_preset( p ),
@@ -712,13 +703,13 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
 
 item_location game_menus::inv::consume_food( player &p )
 {
-    if( !g->u.has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ) {
-        g->u.assign_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) );
+    if( !g->u.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
+        g->u.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
-               it.has_flag( "USE_EAT_VERB" );
+               it.has_flag( flag_USE_EAT_VERB );
     } ),
     _( "Consume food" ), 1,
     _( "You have no food to consume." ),
@@ -727,13 +718,13 @@ item_location game_menus::inv::consume_food( player &p )
 
 item_location game_menus::inv::consume_drink( player &p )
 {
-    if( !g->u.has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ) {
-        g->u.assign_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) );
+    if( !g->u.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
+        g->u.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
-               !it.has_flag( "USE_EAT_VERB" );
+               !it.has_flag( flag_USE_EAT_VERB );
     } ),
     _( "Consume drink" ), 1,
     _( "You have no drink to consume." ),
@@ -742,8 +733,8 @@ item_location game_menus::inv::consume_drink( player &p )
 
 item_location game_menus::inv::consume_meds( player &p )
 {
-    if( !g->u.has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ) {
-        g->u.assign_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) );
+    if( !g->u.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
+        g->u.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -798,7 +789,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            loc->ammo_required() );
             }
 
-            if( !it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                 return pickup_inventory_preset::get_denial( loc );
             }
 
@@ -1506,15 +1497,15 @@ static item_location autodoc_internal( player &u, player &patient,
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
         if( patient.has_trait( trait_NOPAIN ) ) {
             hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
-        } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+        } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
         } else {
             const inventory &crafting_inv = u.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_quality( quality_id( "ANESTHESIA" ) );
+                return it.has_quality( qual_ANESTHESIA );
             } );
             std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_flag( "ANESTHESIA" ); // legacy
+                return it.has_flag( flag_ANESTHESIA ); // legacy
             } );
             for( const item *anesthesia_item : a_filter ) {
                 if( anesthesia_item->ammo_remaining() >= 1 ) {
@@ -1602,10 +1593,10 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( "FILTHY" ) ) {
+            if( it->has_flag( flag_FILTHY ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( "NO_STERILE" ) ) {
+            } else if( it->has_flag( flag_NO_STERILE ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
@@ -1664,7 +1655,7 @@ class bionic_install_preset: public inventory_selector_preset
                                        -1 );
 
             if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1685,7 +1676,7 @@ class bionic_install_preset: public inventory_selector_preset
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
                 // Legacy
-                return it.has_flag( "ANESTHESIA" );
+                return it.has_flag( flag_ANESTHESIA );
             } );
 
             if( !b_filter.empty() ) {
@@ -1725,11 +1716,11 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( "FILTHY" ) ) {
+            if( it->has_flag( flag_FILTHY ) ) {
                 return _( "CBM is filthy." );
-            } else if( it->has_flag( "NO_STERILE" ) ) {
+            } else if( it->has_flag( flag_NO_STERILE ) ) {
                 return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+            } else if( it->has_fault( fault_bionic_salvaged ) ) {
                 return _( "CBM is already deployed." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
@@ -1776,7 +1767,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        20 );
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1823,7 +1814,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( "IN_CBM" );
+            return loc->has_flag( flag_IN_CBM );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1867,7 +1858,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                                        -1 );
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1887,7 +1878,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                                                 duration * weight;
 
             std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                return it.has_flag( "ANESTHESIA" ); // legacy
+                return it.has_flag( flag_ANESTHESIA ); // legacy
             } );
 
             if( !b_filter.empty() ) {
@@ -1920,15 +1911,15 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
+            return loc->has_flag( flag_NO_STERILE ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
-            if( loc.get_item()->has_flag( "FILTHY" ) ) {
+            if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }
-            if( loc.get_item()->has_flag( "NO_PACKED" ) ) {
+            if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
                 return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
             }
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {

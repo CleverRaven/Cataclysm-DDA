@@ -150,39 +150,6 @@
   },
   {
     "type": "recipe",
-    "result": "turret_mount",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 7 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
-    "difficulty": 9,
-    "time": "8 h",
-    "reversible": true,
-    "decomp_learn": 9,
-    "book_learn": [ [ "recipe_lab_elec", 8 ], [ "textbook_robots", 10 ] ],
-    "using": [ [ "soldering_standard", 14 ], [ "welding_standard", 5 ], [ "forging_standard", 4 ], [ "steel_standard", 4 ] ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "DRILL", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "spring", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "thermometer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

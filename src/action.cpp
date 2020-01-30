@@ -31,6 +31,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 class inventory;
 
@@ -577,8 +578,8 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
+    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factorD = g->u.max_quality( qual_CUT_FINE );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -599,18 +600,18 @@ bool can_butcher_at( const tripoint &p )
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
     // TODO: unify this with game::move_vertical
-    if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( g->m.has_flag( flag_SWIMMABLE, p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
+            return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
             return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
         }
     }
 
     if( movez == -1 ) {
-        return g->m.has_flag( "GOES_DOWN", p );
+        return g->m.has_flag( flag_GOES_DOWN, p );
     } else {
-        return g->m.has_flag( "GOES_UP", p );
+        return g->m.has_flag( flag_GOES_UP, p );
     }
 }
 
@@ -619,7 +620,7 @@ bool can_examine_at( const tripoint &p )
     if( g->m.veh_at( p ) ) {
         return true;
     }
-    if( g->m.has_flag( "CONSOLE", p ) ) {
+    if( g->m.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
     if( g->m.has_items( p ) ) {
@@ -701,7 +702,7 @@ action_id handle_action_menu()
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }

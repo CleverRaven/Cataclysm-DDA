@@ -207,8 +207,8 @@ class FontFallbackList : public Font
 };
 
 static std::unique_ptr<FontFallbackList> font;
-static std::unique_ptr<Font> map_font;
-static std::unique_ptr<Font> overmap_font;
+static std::unique_ptr<FontFallbackList> map_font;
+static std::unique_ptr<FontFallbackList> overmap_font;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
@@ -3555,10 +3555,10 @@ void catacurses::init_interface()
     // Reset the font pointer
     font = std::make_unique<FontFallbackList>( fl.fontwidth, fl.fontheight,
             fl.typeface, fl.fontsize, fl.fontblending );
-    map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight,
-                                fl.fontblending );
-    overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
-                                    fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
+    map_font = std::make_unique<FontFallbackList>( fl.map_fontwidth, fl.map_fontheight,
+               fl.map_typeface, fl.map_fontsize, fl.fontblending );
+    overmap_font = std::make_unique<FontFallbackList>( fl.overmap_fontwidth, fl.overmap_fontheight,
+                   fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 

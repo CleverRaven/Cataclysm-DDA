@@ -9,5 +9,17 @@
     "color": "yellow",
     "material": [ "orichalcum_metal" ],
     "price": 10000
+  },
+  {
+    "type": "GENERIC",
+    "id": "orichalcum_frame",
+    "name": "orichalcum frame",
+    "symbol": "]",
+    "description": "A frame made of orichalcum.  Significantly sturdier than steel, but also much more expensive.",
+    "volume": "20 L",
+    "weight": "100 kg",
+    "color": "yellow",
+    "material": [ "orichalcum_metal" ],
+    "price": 800000
   }
 ]

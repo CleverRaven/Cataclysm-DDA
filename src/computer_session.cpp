@@ -50,19 +50,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_secubot( "mon_secubot" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_crows_m240( "mon_crows_m240" );
-
-static const skill_id skill_computer( "computer" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
-static const species_id HUMAN( "HUMAN" );
-
-static const efftype_id effect_amigara( "amigara" );
+#include "cata_string_consts.h"
 
 static catacurses::window init_window()
 {
@@ -1198,7 +1186,7 @@ void computer_session::failure_shutdown()
 {
     bool found_tile = false;
     for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.has_flag( "CONSOLE", p ) ) {
+        if( g->m.has_flag( flag_CONSOLE, p ) ) {
             g->m.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
@@ -1208,7 +1196,7 @@ void computer_session::failure_shutdown()
         return;
     }
     for( const tripoint &p : g->m.points_on_zlevel() ) {
-        if( g->m.has_flag( "CONSOLE", p ) ) {
+        if( g->m.has_flag( flag_CONSOLE, p ) ) {
             g->m.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
         }

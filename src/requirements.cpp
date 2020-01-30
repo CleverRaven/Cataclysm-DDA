@@ -168,6 +168,19 @@ void quality_requirement::load( const JsonValue &value )
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
 
+void quality_requirement::dump( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "id", type );
+    if( level != 1 ) {
+        jsout.member( "level", level );
+    }
+    if( count != 1 ) {
+        jsout.member( "amount", count );
+    }
+    jsout.end_object();
+}
+
 void tool_comp::load( const JsonValue &value )
 {
     if( value.test_string() ) {
@@ -184,6 +197,17 @@ void tool_comp::load( const JsonValue &value )
         value.throw_error( "tool count must not be 0" );
     }
     // Note: negative count means charges (of the tool) should be consumed
+}
+
+void tool_comp::dump( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( type );
+    jsout.write( count );
+    if( requirement ) {
+        jsout.write( "LIST" );
+    }
+    jsout.end_array();
 }
 
 void item_comp::load( const JsonValue &value )
@@ -203,6 +227,20 @@ void item_comp::load( const JsonValue &value )
     if( count <= 0 ) {
         value.throw_error( "item count must be a positive number" );
     }
+}
+
+void item_comp::dump( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( type );
+    jsout.write( count );
+    if( !recoverable ) {
+        jsout.write( "NO_RECOVER" );
+    }
+    if( requirement ) {
+        jsout.write( "LIST" );
+    }
+    jsout.end_array();
 }
 
 template<typename T>
@@ -1136,6 +1174,41 @@ void requirement_data::consolidate()
         }
     }
     components = std::move( all_comps );
+}
+
+bool requirement_data::has_same_requirements_as( const requirement_data &that ) const
+{
+    return tools == that.tools && qualities == that.qualities && components == that.components;
+}
+
+template<typename T>
+static void dump_req_vec( const std::vector<std::vector<T>> &vec, JsonOut &jsout )
+{
+    jsout.start_array( /*wrap=*/!vec.empty() );
+    for( const auto &inner : vec ) {
+        jsout.start_array();
+        for( const auto &val : inner ) {
+            val.dump( jsout );
+        }
+        jsout.end_array();
+    }
+    jsout.end_array();
+}
+
+void requirement_data::dump( JsonOut &jsout ) const
+{
+    jsout.start_object( /*wrap=*/true );
+
+    jsout.member( "tools" );
+    dump_req_vec( tools, jsout );
+
+    jsout.member( "qualities" );
+    dump_req_vec( qualities, jsout );
+
+    jsout.member( "components" );
+    dump_req_vec( components, jsout );
+
+    jsout.end_object();
 }
 
 /// Helper function for deduped_requirement_data constructor below.

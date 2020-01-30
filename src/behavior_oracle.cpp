@@ -14,6 +14,7 @@
 #include "item.h"
 #include "optional.h"
 #include "ret_val.h"
+#include "cata_string_consts.h"
 
 namespace behavior
 {
@@ -77,7 +78,7 @@ status_t character_oracle_t::can_make_fire() const
     bool fuel = false;
     for( const auto &i : subject->inv.const_slice() ) {
         const item &candidate = i->front();
-        if( candidate.has_flag( "FIRESTARTER" ) ) {
+        if( candidate.has_flag( flag_FIRESTARTER ) ) {
             tool = true;
             if( fuel ) {
                 return running;

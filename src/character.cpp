@@ -2448,7 +2448,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-int Character::rust_rate( bool return_stat_effect ) const
+int Character::rust_rate() const
 {
     if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
         return 0;
@@ -2456,9 +2456,9 @@ int Character::rust_rate( bool return_stat_effect ) const
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
-    /** @EFFECT_INT reduces skill rust */
+    /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
     int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
-                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 500 : 500 - 35 * ( intel - 8 ) );
+                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 100 : 100 + 10 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
@@ -2466,8 +2466,27 @@ int Character::rust_rate( bool return_stat_effect ) const
         ret = 0;
     }
 
+    return ret;
+}
+
+int Character::read_speed( bool return_stat_effect ) const
+{
+    // Stat window shows stat effects on based on current stat
+    const int intel = get_int();
+    /** @EFFECT_INT increases reading speed by 3s per level above 8*/
+    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
+
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
+        ret *= .85;
+    }
+
+    ret *= mutation_value( "reading_speed_multiplier" );
+
+    if( ret < to_moves<int>( 1_seconds ) ) {
+        ret = to_moves<int>( 1_seconds );
+    }
     // return_stat_effect actually matters here
-    return ( return_stat_effect ? ret : ret / 10 );
+    return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
 }
 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -2576,29 +2595,21 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
-    const int rate = rust_rate();
-    if( rate <= 0 ) {
-        return;
-    }
-    for( auto &pair : *_skills ) {
-        if( rate <= rng( 0, 1000 ) ) {
-            continue;
-        }
-
+    for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( "PRED2" ) && one_in( 4 ) ) ||
-              ( has_trait_flag( "PRED3" ) && one_in( 2 ) ) ||
-              ( has_trait_flag( "PRED4" ) && x_in_y( 2, 3 ) ) ) ) {
+            ( ( has_trait_flag( "PRED2" ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( "PRED3" ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( "PRED4" ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
-            if( one_in( 15600 ) ) {
+            if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
                 // this point, but print a message about it now and
                 // then.
                 //
-                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
+                // 13 combat skills.
                 // This means PRED2/PRED3/PRED4 think of hunting on
                 // average every 8/4/3 hours, enough for immersion
                 // without becoming an annoyance.
@@ -2611,7 +2622,7 @@ void Character::do_skill_rust()
 
         const bool charged_bio_mem = get_power_level() > 25_kJ && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem ) ) {
+        if( skill_level_obj.rust( charged_bio_mem, rust_rate() ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -25_kJ );
@@ -3569,10 +3580,6 @@ int Character::get_fatigue() const
 
 int Character::get_sleep_deprivation() const
 {
-    if( !get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
-        return 0;
-    }
-
     return sleep_deprivation;
 }
 
@@ -3913,17 +3920,16 @@ void Character::update_needs( int rate_multiplier )
             int fatigue_roll = roll_remainder( rates.fatigue * rate_multiplier );
             mod_fatigue( fatigue_roll );
 
-            if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
-                // Synaptic regen bionic stops SD while awake and boosts it while sleeping
-                if( !has_active_bionic( bio_synaptic_regen ) ) {
-                    // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
-                    // but characters who need less sleep will also get less sleep deprived, and vice-versa.
+            // Synaptic regen bionic stops SD while awake and boosts it while sleeping
+            if( !has_active_bionic( bio_synaptic_regen ) ) {
+                // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
+                // but characters who need less sleep will also get less sleep deprived, and vice-versa.
 
-                    // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
-                    // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
-                    mod_sleep_deprivation( fatigue_roll * 5 );
-                }
+                // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
+                // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
+                mod_sleep_deprivation( fatigue_roll * 5 );
             }
+
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -3942,41 +3948,40 @@ void Character::update_needs( int rate_multiplier )
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
-                if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
-                    // Sleeping on the ground, no bionic = 1x rest_modifier
-                    // Sleeping on a bed, no bionic      = 2x rest_modifier
-                    // Sleeping on a comfy bed, no bionic= 3x rest_modifier
+                // Sleeping on the ground, no bionic = 1x rest_modifier
+                // Sleeping on a bed, no bionic      = 2x rest_modifier
+                // Sleeping on a comfy bed, no bionic= 3x rest_modifier
 
-                    // Sleeping on the ground, bionic    = 3x rest_modifier
-                    // Sleeping on a bed, bionic         = 6x rest_modifier
-                    // Sleeping on a comfy bed, bionic   = 9x rest_modifier
-                    float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
-                    // Melatonin supplements also add a flat bonus to recovery speed
-                    if( has_effect( effect_melatonin_supplements ) ) {
-                        rest_modifier += 1;
-                    }
-
-                    comfort_level comfort = base_comfort_value( pos() );
-
-                    if( comfort >= comfort_level::very_comfortable ) {
-                        rest_modifier *= 3;
-                    } else  if( comfort >= comfort_level::comfortable ) {
-                        rest_modifier *= 2.5;
-                    } else if( comfort >= comfort_level::slightly_comfortable ) {
-                        rest_modifier *= 2;
-                    }
-
-                    // If we're just tired, we'll get a decent boost to our sleep quality.
-                    // The opposite is true for very tired characters.
-                    if( get_fatigue() < DEAD_TIRED ) {
-                        rest_modifier += 2;
-                    } else if( get_fatigue() >= EXHAUSTED ) {
-                        rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
-                    }
-
-                    // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
-                    mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+                // Sleeping on the ground, bionic    = 3x rest_modifier
+                // Sleeping on a bed, bionic         = 6x rest_modifier
+                // Sleeping on a comfy bed, bionic   = 9x rest_modifier
+                float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                // Melatonin supplements also add a flat bonus to recovery speed
+                if( has_effect( effect_melatonin_supplements ) ) {
+                    rest_modifier += 1;
                 }
+
+                comfort_level comfort = base_comfort_value( pos() );
+
+                if( comfort >= comfort_level::very_comfortable ) {
+                    rest_modifier *= 3;
+                } else  if( comfort >= comfort_level::comfortable ) {
+                    rest_modifier *= 2.5;
+                } else if( comfort >= comfort_level::slightly_comfortable ) {
+                    rest_modifier *= 2;
+                }
+
+                // If we're just tired, we'll get a decent boost to our sleep quality.
+                // The opposite is true for very tired characters.
+                if( get_fatigue() < DEAD_TIRED ) {
+                    rest_modifier += 2;
+                } else if( get_fatigue() >= EXHAUSTED ) {
+                    rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
+                }
+
+                // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
+                mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+
             }
         }
     }

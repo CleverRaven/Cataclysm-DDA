@@ -40,6 +40,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "line.h"
+#include "cata_string_consts.h"
 
 namespace io
 {
@@ -582,7 +583,7 @@ bool spell::is_max_level() const
 
 bool spell::can_learn( const player &p ) const
 {
-    if( type->spell_class == trait_id( "NONE" ) ) {
+    if( type->spell_class == trait_NONE ) {
         return true;
     }
     return p.has_trait( type->spell_class );
@@ -1273,7 +1274,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( !force && sp->spell_class != trait_id( "NONE" ) ) {
+    if( !force && sp->spell_class != trait_NONE ) {
         if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
             std::string trait_cancel;
             for( const trait_id &cancel : sp->spell_class->cancels ) {
@@ -1329,7 +1330,7 @@ void known_magic::forget_spell( const spell_id &sp )
 bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
     const spell_type &sp_t = sp.obj();
-    if( sp_t.spell_class == trait_id( "NONE" ) ) {
+    if( sp_t.spell_class == trait_NONE ) {
         return true;
     }
     return !p.has_opposite_trait( sp_t.spell_class );
@@ -1568,7 +1569,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     nc_color yellow = c_yellow;
 
     print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
-                        sp.spell_class() == trait_id( "NONE" ) ? _( "Classless" ) : sp.spell_class()->name() );
+                        sp.spell_class() == trait_NONE ? _( "Classless" ) : sp.spell_class()->name() );
 
     line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray, sp.description() );
 
@@ -1835,7 +1836,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const spell fake_spell( sp.id );
 
     const std::string spell_name = colorize( sp.name, c_light_green );
-    const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
+    const std::string spell_class = sp.spell_class == trait_NONE ? _( "Classless" ) :
                                     sp.spell_class->name();
     print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
     print_colored_text( w, point( menu->pad_left - utf8_width( spell_class ) - 1, line++ ), yellow,

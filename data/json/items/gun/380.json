@@ -19,7 +19,7 @@
     "id": "kp3at",
     "copy-from": "kp32",
     "type": "GUN",
-    "name": "Kel-Tec P3AT",
+    "name": { "str": "Kel-Tec P3AT" },
     "description": "Essentially a slightly scaled up Kel-tec P32 in .380 ACP, the ever popular P3AT offers better ballistics in a small, concealable lightweight package.  Handling leaves something to be desired due to snappier recoil and diminuitive controls.",
     "weight": "220 g",
     "volume": "231ml",

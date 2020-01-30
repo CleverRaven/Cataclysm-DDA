@@ -6,6 +6,7 @@
     "authors": [ "Chaosvolt" ],
     "description": "Assorted fun classes and shields for the wannabe knight, legionary, and more.",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

@@ -1,0 +1,473 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_0",
+    "copy-from": "campus_admin_0_0_0",
+    "sym": "\u00C1",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_0",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_0",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_1",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_1",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_1",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_2",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_2",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_2",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_0_3",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_1_3",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_admin_0_2_3",
+    "copy-from": "campus_admin_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_0_0",
+    "name": "campus commons building",
+    "sym": "\u00C7",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_0_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_1_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_1_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_2_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_2_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_3_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_3_0",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_0_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_0_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_1_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_1_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_2_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_2_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_3_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_3_1",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_0_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_0_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_1_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_1_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_2_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_2_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_3_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_3_2",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_0_3",
+    "name": "campus commons roof",
+    "color": "blue",
+    "copy-from": "campus_commons_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_0_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_1_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_1_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_2_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_2_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_0_3_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_commons_1_3_3",
+    "copy-from": "campus_commons_0_0_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_0",
+    "copy-from": "campus_media_0_0_0",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_0",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_0",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_0",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_1",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_2",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_3",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_0_4",
+    "copy-from": "campus_media_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_0_1_4",
+    "copy-from": "campus_media_0_0_4"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_0_4",
+    "copy-from": "campus_media_0_0_4"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_media_1_1_4",
+    "copy-from": "campus_media_0_0_4"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_0_0",
+    "copy-from": "campus_health_0_0_0",
+    "sym": "\u00C1",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_1_0",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_2_0",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_0_1",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_1_1",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_2_1",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_0_2",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_1_2",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_2_2",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_0_3",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_1_3",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_health_0_2_3",
+    "copy-from": "campus_health_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_0_0",
+    "copy-from": "campus_lecture_0_0_0",
+    "sym": "\u00FE",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_1_0",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_2_0",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_3_0",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_0_1",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_1_1",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_2_1",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_3_1",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_0_2",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_1_2",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_2_2",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_3_2",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_0_3",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_1_3",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_2_3",
+    "copy-from": "campus_lecture_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campus_lecture_0_3_3",
+    "copy-from": "campus_lecture_0_0_3"
+  }
+]
