@@ -521,7 +521,7 @@
         "motel_city": 5,
         "trailerpark_city": 15
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
+      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25 },
       "parks": {
         "s_gas": 200,
         "s_gas_1": 200,
