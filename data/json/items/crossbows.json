@@ -303,7 +303,7 @@
     "reload_noise_volume": 5,
     "symbol": "(",
     "color": "green",
-    "name": "crossbow",
+    "name": { "str": "crossbow" },
     "description": "A slow-loading hand weapon that launches bolts.  Stronger people can reload it much faster.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
     "price": 69000,
     "material": [ "steel", "wood" ],

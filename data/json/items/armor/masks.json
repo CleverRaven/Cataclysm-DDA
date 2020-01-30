@@ -84,7 +84,7 @@
   },
   {
     "id": "fencing_mask",
-    "repairs_like": "helmet_survivor",
+    "repairs_like": "helmet_army",
     "type": "ARMOR",
     "name": "fencing mask",
     "description": "A tough hood made of steel mesh used by fencers.",
@@ -103,7 +103,7 @@
   },
   {
     "id": "mask_bal",
-    "repairs_like": "helmet_survivor",
+    "repairs_like": "helmet_army",
     "type": "ARMOR",
     "category": "armor",
     "name": "ballistic mask",

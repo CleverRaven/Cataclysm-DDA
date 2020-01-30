@@ -9252,6 +9252,9 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( it->has_var( "contained_name" ) ) {
+        // Remember contained_name for messages after release_monster erases it
+        const std::string contained_name = it->get_var( "contained_name", "" );
+
         if( it->release_monster( pos ) ) {
             // It's been activated somewhere where there isn't a player or monster, good.
             return 0;
@@ -9260,21 +9263,19 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             if( it->release_monster( p->pos(), 1 ) ) {
                 return 0;
             }
-            p->add_msg_if_player( _( "There is no place to put the %s." ),
-                                  it->get_var( "contained_name", "" ) );
+            p->add_msg_if_player( _( "There is no place to put the %s." ), contained_name );
             return 0;
         } else {
-            const std::string query = string_format( _( "Place the %s where?" ),
-                                      it->get_var( "contained_name", "" ) );
+            const std::string query = string_format( _( "Place the %s where?" ), contained_name );
             const cata::optional<tripoint> pos_ = choose_adjacent( query );
             if( !pos_ ) {
                 return 0;
             }
             if( it->release_monster( *pos_ ) ) {
+                p->add_msg_if_player( _( "You release the %s." ), contained_name );
                 return 0;
             }
-            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
-                                  it->get_var( "contained_name", "" ) );
+            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ), contained_name );
             return 0;
         }
     } else {
@@ -9311,6 +9312,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
+                p->add_msg_if_player( _( "You capture the %1$s in your %2$s." ),
+                                      f.type->nname(), it->tname() );
                 return it->contain_monster( target );
             } else {
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),

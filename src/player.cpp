@@ -1178,26 +1178,6 @@ void player::search_surroundings()
     }
 }
 
-int player::read_speed( bool return_stat_effect ) const
-{
-    // Stat window shows stat effects on based on current stat
-    const int intel = get_int();
-    /** @EFFECT_INT increases reading speed */
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
-
-    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
-    }
-
-    ret *= mutation_value( "reading_speed_multiplier" );
-
-    if( ret < to_moves<int>( 1_seconds ) ) {
-        ret = to_moves<int>( 1_seconds );
-    }
-    // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret / 10;
-}
-
 int player::talk_skill() const
 {
     /** @EFFECT_INT slightly increases talking skill */
@@ -4028,7 +4008,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     }
 
     gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
-    moves -= mod.type->gunmod->install_time / 2;
+    //TODO: add activity for removing gunmods 
 
     if( mod.typeId() == "brass_catcher" ) {
         gun.casings_handle( [&]( item & e ) {
@@ -4173,8 +4153,7 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    const int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
-    const int moves = to_moves<int>( time_duration::from_turns( turns ) );
+    const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
@@ -4602,9 +4581,8 @@ int player::adjust_for_focus( int amount ) const
     if( has_trait( trait_SLOWLEARNER ) ) {
         effective_focus -= 15;
     }
-    if( get_option<bool>( "INT_BASED_LEARNING" ) ) {
-        effective_focus += ( get_int_base() - 8 ) * 5;
-    }
+    effective_focus += ( get_int_base() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
+                       get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     double tmp = amount * ( effective_focus / 100.0 );
     return roll_remainder( tmp );
 }

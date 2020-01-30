@@ -17,8 +17,7 @@
   {
     "type": "overmap_terrain",
     "id": "basement_bionic",
-    "copy-from": "generic_city_house_basement",
-    "extend": { "flags": [ "NO_ROTATE" ] }
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -1691,6 +1690,49 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched10_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack1",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack1_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack2",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack3",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack3_roof",
     "name": "house",
     "copy-from": "generic_city_building",
     "color": "light_green",
