@@ -82,7 +82,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": "subway map",
-    "description": "This is a map of subway routes and stations in the area. Using it will add subway lines and underground stations to your map.",
+    "description": "This is a map of subway routes and stations in the area.  Using it will add subway lines and underground stations to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
