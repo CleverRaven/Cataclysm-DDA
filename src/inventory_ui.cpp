@@ -1516,6 +1516,20 @@ void inventory_selector::set_filter()
     layout_is_valid = false;
 }
 
+void inventory_selector::set_filter( const std::string &str )
+{
+    filter = str;
+    for( const auto elem : columns ) {
+        elem->set_filter( filter );
+    }
+    layout_is_valid = false;
+}
+
+std::string inventory_selector::get_filter() const
+{
+    return filter;
+}
+
 void inventory_selector::update( bool &need_refresh )
 {
     if( need_refresh ) {
