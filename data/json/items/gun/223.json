@@ -341,6 +341,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "skill": "pistol",
     "range": -6,
     "ranged_damage": -16,
     "dispersion": 380,
