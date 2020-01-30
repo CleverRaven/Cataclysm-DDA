@@ -624,5 +624,25 @@
     "intelligence": 8,
     "time": "15 m",
     "fun": 1
+  },
+  {
+    "id": "distilling_cookbook",
+    "type": "BOOK",
+    "name": { "str": "Out of the Holler and into the Home: A guide to home distilation. ", "str_pl": "copies of Out of the Holler" },
+    "description": "A book describing the history of at home distillation by liquor.  Each chapter contains a complete recipe for it's namesake.",
+    "weight": "454 g",
+    "volume": "619 ml",
+    "price": 1950,
+    "price_postapoc": 87600,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "cooking",
+    "required_level": 3,
+    "max_level": 5,
+    "intelligence": 8,
+    "time": "15 m",
+    "fun": 1
   }
 ]
