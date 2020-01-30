@@ -5636,6 +5636,20 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "rehydration_drink",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "book_learn": [ [ "textbook_firstaid", 1 ], [ "manual_survival", 1 ], [ "manual_first_aid", 1 ] ],
+    "skill_used": "cooking",
+    "time": "3 m",
+    "charges": 8,
+    "autolearn": false,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
+    "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
+  },
+  {
     "result": "oatmeal",
     "type": "recipe",
     "id_suffix": "with_food_processor",
@@ -5879,6 +5893,22 @@
         [ "pepper", 4 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_wasteland",
+    "id_suffix": "smoke",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "1 h 10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 1 ] ] ],
+    "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
     "type": "recipe",

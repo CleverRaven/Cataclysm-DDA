@@ -1345,13 +1345,18 @@
   },
   {
     "type": "technique",
-    "id": "tec_taekwondo_precise",
-    "name": "Axe-kick",
-    "messages": [ "You raise your heel and axe-kick %s", "<npcname> raises their heel and axe-kicks %s" ],
+    "id": "tec_taekwondo_strong",
+    "name": "Spinning Back Kick",
+    "messages": [
+      "You spin and back-kick %s, right in the center of gravity",
+      "<npcname> spins and back-kicks %s, right in the center of gravity"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 2
+    "stun_dur": 2,
+    "knockback_dist": 2,
+    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "bash", 1.5 ] ]
   },
   {
     "type": "technique",

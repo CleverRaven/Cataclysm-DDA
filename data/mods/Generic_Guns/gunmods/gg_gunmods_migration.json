@@ -1,0 +1,52 @@
+[
+  {
+    "id": [ "m203", "m320_mod", "pipe_launcher40mm", "lead_glm", "pipe_launcher40mm" ],
+    "type": "MIGRATION",
+    "replace": "grenade_under"
+  },
+  {
+    "id": [ "m320_mod_mod", "m203_mod" ],
+    "type": "MIGRATION",
+    "replace": "grenade_under_mod"
+  },
+  {
+    "id": [
+      "masterkey",
+      "rm121aux",
+      "u_shotgun",
+      "lead_u_shotgun",
+      "M6_shotgun",
+      "ts12_aux_shotgun",
+      "ksg_aux_shotgun",
+      "combination_gun_shotgun",
+      "combination_gun_shotgun_pipe"
+    ],
+    "type": "MIGRATION",
+    "replace": "shotgun_under"
+  },
+  {
+    "id": [ "masterkey_mod", "rm121aux_mod", "u_shotgun_mod" ],
+    "type": "MIGRATION",
+    "replace": "shotgun_under_mod"
+  },
+  {
+    "id": [ "lead_laser_sight" ],
+    "type": "MIGRATION",
+    "replace": "laser_sight"
+  },
+  {
+    "id": [ "lead_grip" ],
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": [ "lead_bipod" ],
+    "type": "MIGRATION",
+    "replace": "bipod"
+  },
+  {
+    "id": [ "inter_bayonet" ],
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  }
+]

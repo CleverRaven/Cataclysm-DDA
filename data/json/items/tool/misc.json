@@ -450,63 +450,6 @@
     "color": "white"
   },
   {
-    "id": "shishkebab_off",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "shishkebab (off)",
-    "name_plural": "shishkebabs (off)",
-    "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  When filled with gasoline, the blade can be made scorching hot to singe enemies and light your way.  Use to ignite.",
-    "weight": "1701 g",
-    "volume": "2500 ml",
-    "price": 10000,
-    "bashing": 4,
-    "cutting": 14,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "ammo": "gasoline",
-    "charges_per_use": 1,
-    "max_charges": 50,
-    "use_action": {
-      "type": "fireweapon_off",
-      "target_id": "shishkebab_on",
-      "moves": 10,
-      "noise": 10,
-      "success_chance": 5,
-      "success_message": "Let's dance, Zeds!",
-      "failure_message": "Aw, dangit.  It fails to start!",
-      "lacks_fuel_message": "This thing needs some fuel!"
-    },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "SHEATH_SWORD" ]
-  },
-  {
-    "id": "shishkebab_on",
-    "copy-from": "shishkebab_off",
-    "type": "TOOL",
-    "name": "shishkebab (on)",
-    "name_plural": "shishkebabs (on)",
-    "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  The blade is glowing brightly.  Use to shut off the gas.",
-    "turns_per_charge": 20,
-    "revert_to": "shishkebab_off",
-    "use_action": [
-      {
-        "type": "fireweapon_on",
-        "noise": 10,
-        "noise_chance": 25,
-        "noise_message": "Your shishkebab crackles!",
-        "auto_extinguish_chance": 75,
-        "auto_extinguish_message": "Bummer, man!  Your shishkebab's flame flickers and dies out.",
-        "voluntary_extinguish_message": "Peace out.  Your shishkebab's flame dies.",
-        "charges_extinguish_message": "Uncool, outta gas!  Your shishkebab's flame goes out.",
-        "water_extinguish_message": "Your shishkebab hisses in the water and goes out."
-      },
-      { "type": "firestarter", "moves": 30 }
-    ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
-  },
-  {
     "id": "small_space_heater",
     "type": "TOOL",
     "name": "small space heater",

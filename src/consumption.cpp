@@ -36,119 +36,7 @@
 #include "string_id.h"
 #include "enums.h"
 #include "flat_set.h"
-
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_cooking( "cooking" );
-
-static const efftype_id effect_foodpoison( "foodpoison" );
-static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_tapeworm( "tapeworm" );
-static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_brainworms( "brainworms" );
-static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_nausea( "nausea" );
-static const efftype_id effect_hallu( "hallu" );
-static const efftype_id effect_visuals( "visuals" );
-static const efftype_id effect_common_cold( "common_cold" );
-static const efftype_id effect_flu( "flu" );
-static const efftype_id effect_fungus( "fungus" );
-
-static const mtype_id mon_player_blob( "mon_player_blob" );
-
-static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
-static const bionic_id bio_syringe( "bio_syringe" );
-static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
-
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
-static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
-static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
-static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_EATDEAD( "EATDEAD" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_EATPOISON( "EATPOISON" );
-static const trait_id trait_GIZZARD( "GIZZARD" );
-static const trait_id trait_GOURMAND( "GOURMAND" );
-static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
-static const trait_id trait_HERBIVORE( "HERBIVORE" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_LACTOSE( "LACTOSE" );
-static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
-static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_MANDIBLES( "MANDIBLES" );
-static const trait_id trait_MEATARIAN( "MEATARIAN" );
-static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
-static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
-static const trait_id trait_PROJUNK( "PROJUNK" );
-static const trait_id trait_PROJUNK2( "PROJUNK2" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-static const trait_id trait_STIMBOOST( "STIMBOOST" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
-static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
-static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
-static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
-static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
-static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
-static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
-
-static const std::string flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
-static const std::string flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
-static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
-static const std::string flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
-static const std::string flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
-static const std::string flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
-static const std::string flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
-static const std::string flag_BIRD( "BIRD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
-static const std::string flag_CATTLE( "CATTLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_CORPSE( "CORPSE" );
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
-static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
-static const std::string flag_EATEN_HOT( "EATEN_HOT" );
-static const std::string flag_INEDIBLE( "INEDIBLE" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FELINE( "FELINE" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_LUPINE( "LUPINE" );
-static const std::string flag_MYCUS_OK( "MYCUS_OK" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
-static const std::string flag_NO_PARASITES( "NO_PARASITES" );
-static const std::string flag_NO_RELOAD( "NO_RELOAD" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
-static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
-static const std::string flag_RAW( "RAW" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
-static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
-
-static const std::string comesttype_FOOD( "FOOD" );
-static const std::string comesttype_DRINK( "DRINK" );
+#include "cata_string_consts.h"
 
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT,
@@ -955,12 +843,12 @@ bool player::eat( item &food, bool force )
                 bool has_table_nearby = false;
                 bool has_chair_nearby = false;
                 for( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
+                    if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
                         ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ||
                                                  g->m.veh_at( pt )->vehicle().has_part( "FLAT_SURF" ) ) ) ) {
                         has_table_nearby = true;
                     }
-                    if( g->m.has_flag_furn( "CAN_SIT", pt ) || g->m.has_flag( "CAN_SIT", pt ) ||
+                    if( g->m.has_flag_furn( flag_CAN_SIT, pt ) || g->m.has_flag( flag_CAN_SIT, pt ) ||
                         ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "SEAT" ) ) ) ) {
                         has_chair_nearby = true;
                     }

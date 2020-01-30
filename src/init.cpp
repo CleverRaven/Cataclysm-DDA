@@ -704,4 +704,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
+    catacurses::erase();
+    catacurses::refresh();
 }

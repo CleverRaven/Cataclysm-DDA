@@ -54,6 +54,13 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
+    "type": "effect_type",
+    "id": "magnesium",
+    "name": [ "Magnesium Supplements" ],
+    "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
+    "rating": "good"
+  },
+  {
     "type": "recipe",
     "result": "reloaded_270",
     "obsolete": true

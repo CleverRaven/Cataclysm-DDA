@@ -15,6 +15,25 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
+    "id": "melatonin_tablet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "melatonin tablet",
+    "description": "Over-the-counter melatonin supplements, commonly prescribed to treat sleep deprivation and to mitigate its effects.  One tablet a day combined with a good night's sleep will help you recover faster.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 400,
+    "price_postapoc": 4000,
+    "stack_size": 30,
+    "symbol": "!",
+    "color": "yellow",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You pop a melatonin tablet.",
+      "effects": [ { "id": "melatonin", "duration": "16 h" } ]
+    }
+  },
+  {
     "id": "adderall",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -52,8 +71,7 @@
     "id": "antibiotics",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antibiotics",
-    "name_plural": "antibiotics",
+    "name": { "str": "antibiotics", "str_pl": "antibiotics" },
     "description": "A strong antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -63,13 +81,13 @@
     "symbol": "!",
     "color": "white",
     "use_action": "ANTIBIOTIC",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "antifungal",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antifungal drug",
+    "name": { "str": "antifungal drug" },
     "description": "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -80,7 +98,7 @@
     "symbol": "!",
     "color": "white",
     "use_action": "ANTIFUNGAL",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "antiparasitic",

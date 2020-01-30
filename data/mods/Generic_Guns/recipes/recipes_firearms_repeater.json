@@ -1,0 +1,100 @@
+[
+  {
+    "result": "pistol_pipe_smg",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [
+      [
+        [ "pistol_ball", -1 ],
+        [ "pistol_jhp", -1 ],
+        [ "reloaded_pistol_ball", -1 ],
+        [ "reloaded_pistol_jhp", -1 ],
+        [ "bp_pistol_ball", -1 ],
+        [ "bp_pistol_jhp", -1 ],
+        [ "pistol_casing", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "pistol_magnum_pipe_levergun",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 6,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [
+      [
+        [ "pistol_ball", -1 ],
+        [ "pistol_jhp", -1 ],
+        [ "reloaded_pistol_ball", -1 ],
+        [ "reloaded_pistol_jhp", -1 ],
+        [ "bp_pistol_ball", -1 ],
+        [ "bp_pistol_jhp", -1 ],
+        [ "pistol_magnum_ball", -1 ],
+        [ "pistol_magnum_jhp", -1 ],
+        [ "reloaded_pistol_magnum_ball", -1 ],
+        [ "reloaded_pistol_magnum_jhp", -1 ],
+        [ "bp_pistol_magnum_ball", -1 ],
+        [ "bp_pistol_magnum_jhp", -1 ],
+        [ "pistol_casing", -1 ],
+        [ "pistol_magnum_casing", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "rifle_pipe_carbine",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 7,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 15 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [
+      [
+        [ "rifle_ball", -1 ],
+        [ "rifle_AP", -1 ],
+        [ "reloaded_rifle_ball", -1 ],
+        [ "reloaded_rifle_AP", -1 ],
+        [ "bp_rifle_ball", -1 ],
+        [ "bp_rifle_AP", -1 ],
+        [ "rifle_casing", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "black_powder_revolver",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "difficulty": 7,
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "time": "3 h",
+    "autolearn": true,
+    "book_learn": [ [ "manual_pistol", 6 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 2 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ], [ [ "sharp_rock", 1 ] ] ]
+  }
+]

@@ -1583,7 +1583,6 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
     u.apply_wetness_morale( weather.temperature );
-    u.do_skill_rust();
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
@@ -2635,6 +2634,8 @@ bool game::load( const std::string &world )
 
 void game::load( const save_t &name )
 {
+    popup_status( _( "Please wait…" ), _( "Loading the save…" ) );
+
     using namespace std::placeholders;
 
     const std::string worldpath = get_world_base_save_path() + "/";
@@ -8172,7 +8173,7 @@ void game::butcher()
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
-            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything" ),
+            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
@@ -9931,6 +9932,74 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
+    // Force means we're going down, even if there's no staircase, etc.
+    bool climbing = false;
+    int move_cost = 100;
+    tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
+    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+        // Climbing
+        if( m.has_floor_or_support( stairs ) ) {
+            add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+            return;
+        }
+
+        const int cost = u.climbing_cost( u.pos(), stairs );
+        if( cost == 0 ) {
+            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
+            return;
+        }
+
+        std::vector<tripoint> pts;
+        for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
+            if( m.passable( pt ) &&
+                m.has_floor_or_support( pt ) ) {
+                pts.push_back( pt );
+            }
+        }
+
+        if( cost <= 0 || pts.empty() ) {
+            add_msg( m_info,
+                     _( "You can't climb here - there is no terrain above you that would support your weight." ) );
+            return;
+        } else {
+            // TODO: Make it an extended action
+            climbing = true;
+            move_cost = cost;
+
+            const cata::optional<tripoint> pnt = point_selection_menu( pts );
+            if( !pnt ) {
+                return;
+            }
+            stairs = *pnt;
+        }
+    }
+
+    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+        add_msg( m_info, _( "You can't go down here!" ) );
+        return;
+    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+        add_msg( m_info, _( "You can't go up here!" ) );
+        return;
+    }
+
+    if( force ) {
+        // Let go of a grabbed cart.
+        u.grab( OBJECT_NONE );
+    } else if( u.grab_point != tripoint_zero ) {
+        add_msg( m_info, _( "You can't drag things up and down stairs." ) );
+        return;
+    }
+
+    // Because get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
+    // is called or when the map is loaded on new z-level (== false).
+    // This caches the z-level we start the movement on (current) and the level we're want to end.
+    const int z_before = get_levz();
+    const int z_after = get_levz() + movez;
+    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
     if( !u.move_effects( false ) ) {
         return;
     }
@@ -9998,74 +10067,6 @@ void game::vertical_move( int movez, bool force )
             }
         }
         u.moves -= 100;
-        return;
-    }
-
-    // Force means we're going down, even if there's no staircase, etc.
-    bool climbing = false;
-    int move_cost = 100;
-    tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
-    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
-        // Climbing
-        if( m.has_floor_or_support( stairs ) ) {
-            add_msg( m_info, _( "You can't climb here - there's a ceiling above your head" ) );
-            return;
-        }
-
-        const int cost = u.climbing_cost( u.pos(), stairs );
-        if( cost == 0 ) {
-            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against" ) );
-            return;
-        }
-
-        std::vector<tripoint> pts;
-        for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.passable( pt ) &&
-                m.has_floor_or_support( pt ) ) {
-                pts.push_back( pt );
-            }
-        }
-
-        if( cost <= 0 || pts.empty() ) {
-            add_msg( m_info,
-                     _( "You can't climb here - there is no terrain above you that would support your weight" ) );
-            return;
-        } else {
-            // TODO: Make it an extended action
-            climbing = true;
-            move_cost = cost;
-
-            const cata::optional<tripoint> pnt = point_selection_menu( pts );
-            if( !pnt ) {
-                return;
-            }
-            stairs = *pnt;
-        }
-    }
-
-    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
-        add_msg( m_info, _( "You can't go down here!" ) );
-        return;
-    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
-        add_msg( m_info, _( "You can't go up here!" ) );
-        return;
-    }
-
-    if( force ) {
-        // Let go of a grabbed cart.
-        u.grab( OBJECT_NONE );
-    } else if( u.grab_point != tripoint_zero ) {
-        add_msg( m_info, _( "You can't drag things up and down stairs." ) );
-        return;
-    }
-
-    // Because get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
-    // is called or when the map is loaded on new z-level (== false).
-    // This caches the z-level we start the movement on (current) and the level we're want to end.
-    const int z_before = get_levz();
-    const int z_after = get_levz() + movez;
-    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to move outside allowed range of z-levels" );
         return;
     }
 

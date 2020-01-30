@@ -219,22 +219,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "battletorch_done",
-    "name": "burnt out Louisville Slaughterer",
-    "description": "A sturdy wood bat, wrapped in flame-resistant Nomex fabric.  Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patches.",
-    "weight": "1343 g",
-    "to_hit": 3,
-    "color": "brown",
-    "symbol": "/",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ],
-    "volume": "1750 ml",
-    "bashing": 19,
-    "price": 18000
-  },
-  {
-    "type": "GENERIC",
     "id": "bee_sting",
     "name": "bee sting",
     "description": "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon.",

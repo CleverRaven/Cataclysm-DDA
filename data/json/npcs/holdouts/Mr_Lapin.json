@@ -86,7 +86,7 @@
       "no": "CRISPR?  Radiation?  Something in the water?  Maybe it was bunnies."
     },
     "responses": [
-      { "text": "So it goes", "topic": "TALK_WARRENER" },
+      { "text": "So it goes.", "topic": "TALK_WARRENER" },
       { "text": "You're disgusting.", "topic": "TALK_WARRENER_MUTATION_INSULT" }
     ]
   },

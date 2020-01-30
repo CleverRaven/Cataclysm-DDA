@@ -12,7 +12,6 @@ class loading_ui
 {
     private:
         std::unique_ptr<uilist> menu;
-        std::vector<std::string> entries;
     public:
         loading_ui( bool display );
         ~loading_ui();

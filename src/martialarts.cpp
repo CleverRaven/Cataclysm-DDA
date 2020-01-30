@@ -29,6 +29,7 @@
 #include "pldata.h"
 #include "enums.h"
 #include "optional.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -434,12 +435,12 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID)
     //or if the weapon is flagged as being compatible with the style. Some techniques have
     //further restrictions on required weapon properties (is_valid_weapon).
-    bool cqb = u.has_active_bionic( bionic_id( "bio_cqb" ) );
+    bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool melee_style = u.martial_arts_data.selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( "UNARMED_WEAPON" );
+    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data.selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( u.weapon );
     bool style_weapon = u.martial_arts_data.selected_has_weapon( u.weapon.typeId() );
@@ -938,14 +939,14 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
-    int unarmed_skill = owner.has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : owner.get_skill_level(
-                            skill_id( "unarmed" ) );
+    int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
+                            skill_unarmed );
 
     // Success conditions.
     if( owner.get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
-        } else if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bionic_id( "bio_armor_legs" ) ) ) {
+        } else if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
             return true;
         }
     }
@@ -957,14 +958,14 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
-    int unarmed_skill = owner.has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : owner.get_skill_level(
-                            skill_id( "unarmed" ) );
+    int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
+                            skill_unarmed );
 
     // Success conditions.
     if( !owner.is_limb_broken( hp_arm_l ) || !owner.is_limb_broken( hp_arm_r ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
-        } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bionic_id( "bio_armor_arms" ) ) ) {
+        } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
             return true;
         }
     }

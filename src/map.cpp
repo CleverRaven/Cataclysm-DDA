@@ -1505,14 +1505,14 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
 
     // HACK: Hack around ledges in traplocs or else it gets NASTY in z-level mode
     if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
-        auto &traps = traplocs[old_t.trap];
+        auto &traps = traplocs[old_t.trap.to_i()];
         const auto iter = std::find( traps.begin(), traps.end(), p );
         if( iter != traps.end() ) {
             traps.erase( iter );
         }
     }
     if( new_t.trap != tr_null && new_t.trap != tr_ledge ) {
-        traplocs[new_t.trap].push_back( p );
+        traplocs[new_t.trap.to_i()].push_back( p );
     }
 
     if( old_t.transparent != new_t.transparent ) {
@@ -5015,7 +5015,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
 
     current_submap->set_trap( l, type );
     if( type != tr_null ) {
-        traplocs[type].push_back( p );
+        traplocs[type.to_i()].push_back( p );
     }
 }
 
@@ -5093,7 +5093,7 @@ void map::remove_trap( const tripoint &p )
         }
 
         current_submap->set_trap( l, tr_null );
-        auto &traps = traplocs[tid];
+        auto &traps = traplocs[tid.to_i()];
         const auto iter = std::find( traps.begin(), traps.end(), p );
         if( iter != traps.end() ) {
             traps.erase( iter );
@@ -7034,11 +7034,11 @@ void map::actualize( const tripoint &grid )
 
             const auto trap_here = tmpsub->get_trap( p );
             if( trap_here != tr_null ) {
-                traplocs[trap_here].push_back( pnt );
+                traplocs[trap_here.to_i()].push_back( pnt );
             }
             const ter_t &ter = tmpsub->get_ter( p ).obj();
             if( ter.trap != tr_null && ter.trap != tr_ledge ) {
-                traplocs[ter.trap].push_back( pnt );
+                traplocs[ter.trap.to_i()].push_back( pnt );
             }
 
             if( do_funnels ) {
@@ -7353,7 +7353,7 @@ const std::vector<tripoint> &map::get_furn_field_locations() const
 
 const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const
 {
-    return traplocs[type];
+    return traplocs[type.to_i()];
 }
 
 bool map::inbounds( const tripoint &p ) const
