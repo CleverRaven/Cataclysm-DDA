@@ -90,8 +90,7 @@
   {
     "type": "COMESTIBLE",
     "id": "butter",
-    "name": "butter",
-    "name_plural": "butter",
+    "name": { "str": "butter", "str_pl": "butter" },
     "weight": "14180 mg",
     "color": "yellow",
     "spoils_in": "14 days",

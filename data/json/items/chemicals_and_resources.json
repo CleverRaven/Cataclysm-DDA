@@ -203,8 +203,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bleach",
-    "name": "bleach",
-    "name_plural": "bleach",
+    "name": { "str": "bleach", "str_pl": "bleach" },
     "weight": "138 g",
     "color": "white",
     "use_action": "BLECH",

@@ -162,8 +162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vinegar",
-    "name": "vinegar",
-    "name_plural": "vinegar",
+    "name": { "str": "vinegar", "str_pl": "vinegar" },
     "weight": "15 g",
     "color": "white",
     "container": "jug_plastic",

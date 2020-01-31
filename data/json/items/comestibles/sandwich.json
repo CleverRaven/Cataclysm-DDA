@@ -234,8 +234,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbj",
-    "name": "PB&J sandwich",
-    "name_plural": "PB&J sandwiches",
+    "name": { "str": "PB&J sandwich", "str_pl": "PB&J sandwiches" },
     "weight": "102 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -255,8 +254,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbh",
-    "name": "PB&H sandwich",
-    "name_plural": "PB&H sandwiches",
+    "name": { "str": "PB&H sandwich", "str_pl": "PB&H sandwiches" },
     "weight": "97 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -276,8 +274,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbm",
-    "name": "PB&M sandwich",
-    "name_plural": "PB&M sandwiches",
+    "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "weight": "225 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",

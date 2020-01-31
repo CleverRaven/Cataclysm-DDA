@@ -669,8 +669,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_veggyroll",
-    "name": "vegetable hosomaki",
-    "name_plural": "vegetable hosomaki",
+    "name": { "str": "vegetable hosomaki", "str_pl": "vegetable hosomaki" },
     "weight": "312 g",
     "color": "green",
     "spoils_in": "1 day 12 hours",

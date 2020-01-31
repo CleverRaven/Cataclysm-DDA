@@ -50,8 +50,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wax",
-    "name": "wax",
-    "name_plural": "waxes",
+    "name": { "str_pl": "waxes", "str": "wax" },
     "weight": "97 g",
     "color": "white",
     "comestible_type": "FOOD",
