@@ -2634,6 +2634,8 @@ bool game::load( const std::string &world )
 
 void game::load( const save_t &name )
 {
+    popup_status( _( "Please wait…" ), _( "Loading the save…" ) );
+
     using namespace std::placeholders;
 
     const std::string worldpath = get_world_base_save_path() + "/";
@@ -5811,8 +5813,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
         partial_con *pc = g->m.partial_con_at( lp );
         std::string tr_name;
         if( pc && tr.loadid == tr_unfinished_construction ) {
-            const std::vector<construction> &list_constructions = get_constructions();
-            const construction &built = list_constructions[pc->id];
+            const construction &built = pc->id.obj();
             tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
                                      pc->counter / 100000 );
         } else {

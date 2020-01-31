@@ -3320,7 +3320,6 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
-    const std::vector<construction> &list_constructions = get_constructions();
     partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
@@ -3336,8 +3335,8 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         return;
     }
     // if you ( or NPC ) are finishing someone elses started construction...
-    const construction &built = list_constructions[pc->id];
-    if( !p->meets_skill_requirements( built ) ) {
+    const construction &built = pc->id.obj();
+    if( !p->has_trait( trait_DEBUG_HS ) && !p->meets_skill_requirements( built ) ) {
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {

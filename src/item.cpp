@@ -3039,7 +3039,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "<bold>Environmental Protection:</bold> " ),
                                       iteminfo::no_newline ) );
-            for( const auto &element : bid->env_protec ) {
+            for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
+                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                          " <num> ", iteminfo::no_newline, element.second ) );
+            }
+        }
+
+        if( !bid->bash_protec.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "<bold>Bash Protection:</bold> " ),
+                                      iteminfo::no_newline ) );
+            for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
+                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                          " <num> ", iteminfo::no_newline, element.second ) );
+            }
+        }
+        if( !bid->cut_protec.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "<bold>Cut Protection:</bold> " ),
+                                      iteminfo::no_newline ) );
+            for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                           " <num> ", iteminfo::no_newline, element.second ) );
             }

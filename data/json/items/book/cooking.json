@@ -443,6 +443,14 @@
     "fun": -1
   },
   {
+    "id": "preserving_juice",
+    "type": "BOOK",
+    "name": { "str": "Drink the Harvest", "str_pl": "copies of Drink the Harvest" },
+    "description": "Canning foods doesn't have to stop with jam and pickles.  This books provides a plethora of juices that can be preserved.",
+    "copy-from": "brewing_cookbook",
+    "//": "Later on add mead transforms that don't require distilling to this book that match the source book. Possibly wait til beekeeping is added."
+  },
+  {
     "id": "offalcooking",
     "type": "BOOK",
     "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },

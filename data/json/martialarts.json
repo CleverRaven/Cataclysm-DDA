@@ -1263,7 +1263,14 @@
         "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
       }
     ],
-    "techniques": [ "tec_taekwondo_disarm", "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+    "techniques": [
+      "tec_taekwondo_disarm",
+      "tec_taekwondo_strong",
+      "tec_karate_roundhouse",
+      "tec_capoeira_feint",
+      "tec_taekwondo_push",
+      "tec_taekwondo_sweep"
+    ]
   },
   {
     "type": "martial_art",
