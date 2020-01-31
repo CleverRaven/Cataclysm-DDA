@@ -60,7 +60,6 @@
         "stop_guard",
         { "set_npc_rule": "investigate_noises" },
         { "u_sell_item": "inhaler" },
-        { "u_remove_item_with": "inhaler" },
         "npc_thankful"
       ]
     },
