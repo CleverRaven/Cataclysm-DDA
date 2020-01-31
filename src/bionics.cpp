@@ -46,6 +46,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vitamin.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "calendar.h"
@@ -412,7 +413,8 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         std::vector<std::string> good;
         std::vector<std::string> bad;
-
+        std::vector<std::string> vit;
+        ;
         if( get_rad() > 0 ) {
             bad.push_back( _( "Irradiated" ) );
         }
@@ -430,7 +432,16 @@ bool Character::activate_bionic( int b, bool eff_only )
             }
         }
 
-        const size_t win_h = std::min( static_cast<size_t>( TERMY ), bad.size() + good.size() + 2 );
+        const auto &vit_all = vitamin::all();
+        static const std::set<vitamin_id> trackable_vits = {vitamin_id( "iron" ), vitamin_id( "calcium" ), vitamin_id( "vitA" ), vitamin_id( "vitB" ), vitamin_id( "vitC" ), vitamin_id( "mutant_toxin" )};
+        for( const auto &v : vit_all ) {
+            if( trackable_vits.count( v.first ) ) {
+                vit.push_back( v.second.name() + _( " level is " ) + to_string( vitamin_get( v.first ) ) );
+            }
+        }
+
+        const size_t win_h = std::min( static_cast<size_t>( TERMY ),
+                                       bad.size() + good.size() + vit.size() + 2 );
         const int win_w = 46;
         catacurses::window w = catacurses::newwin( win_h, win_w, point( ( TERMX - win_w ) / 2,
                                ( TERMY - win_h ) / 2 ) );
@@ -446,6 +457,11 @@ bool Character::activate_bionic( int b, bool eff_only )
                                     good[line - 1 - bad.size()] );
                 }
             }
+        }
+        for( size_t line = good.size() + bad.size() + 1; line < ( win_h - 1 ) &&
+             line <= good.size() + bad.size() + vit.size(); ++line ) {
+            trim_and_print( w, point( 2, line ), win_w - 3, c_yellow,
+                            vit[line - 1 - bad.size() - good.size()] );
         }
         wrefresh( w );
         catacurses::refresh();
