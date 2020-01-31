@@ -550,21 +550,64 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
+	  "fill_ter": "t_metal_floor",
       "rows": [
         "!!____",
-		"_!!__k",
-		"_!jj_n",
-		"__jj!n",
-		"__!!!k",
+		"k!!__k",
+		"n!jj_n",
+		"n_jj!n",
+		"k_!!!k",
 		"___!!_"
       ],
 	  "terrain": {
-        "k": "t_plut_generator",
         "!": [ "t_lava", "t_metal_floor" ],
         "_": [ "t_lava", [ "t_metal_floor", 2 ] ],
         "n": "t_sewage_pipe",
         "j": "t_generator_broken"
+	  },
+	  "furniture": {
+	    "k": "f_kilopower"
 	  }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "f_kilopower",
+    "name": "kilopower reactor",
+    "description": "Tiny, stable, and able to function for over a decade without human supervision: the perfect power supply for a high-security facility.  These nuclear fission reactors were originally designed for deep space probes, and can individually produce several kilowatts of power.",
+    "symbol": "0",
+    "color": "light_green",
+    "move_cost": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "explosive": 25,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 20, 50 ] },
+		{ "item": "sheet_metal_small", "count": [ 5, 10 ] },
+        { "item": "e_scrap", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "lead", "charges": [ 12, 18 ] },
+		{ "item": "cable", "charges": [ 4, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "minireactor", "prob": 25 },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 12, 24 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
     }
   }
 ]
