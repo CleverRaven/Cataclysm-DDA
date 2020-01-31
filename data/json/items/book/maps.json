@@ -81,8 +81,8 @@
     "id": "subwaymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "subway map",
-    "description": "This is a map of subway routes and stations in the area.  Using it will add subway lines and underground stations to your map.",
+    "name": "subway maintenance map",
+    "description": "This is a map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -90,7 +90,8 @@
       "terrain": [
         { "om_terrain": "subway", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" },
-        { "om_terrain": "underground_sub_station", "om_terrain_match_type": "TYPE" }
+        { "om_terrain": "underground_sub_station", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "sewer_sub_station", "om_terrain_match_type": "TYPE" }
       ],
       "message": "You add subway lines and underground stations to your map."
     }

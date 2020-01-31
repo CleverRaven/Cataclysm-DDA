@@ -56,7 +56,7 @@
     "furniture": { "&": "f_trashcan", "b": "f_bench", "Q": "f_desk", "c": "f_chair", "N": "f_rack" },
     "signs": { "M": { "signage": "Subway Map: <city> stop" } },
     "items": {
-      "N": { "item": "tools_construction", "chance": 90, "repeat": 3 },
+      "N": [ { "item": "tools_construction", "chance": 90, "repeat": 3 }, { "item": "subwaymap", "chance": 75 } ],
       "Q": { "item": "office_paper", "chance": 90, "repeat": 5 }
     }
   }

@@ -586,7 +586,6 @@
       [ "restaurantmap", 25 ],
       [ "roadmap", 25 ],
       [ "trailmap", 25 ],
-      [ "subwaymap", 25 ],
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
       [ "flyer", 120 ],
@@ -839,7 +838,6 @@
     "id": "subway",
     "items": [
       [ "wrapper", 50 ],
-      [ "subwaymap", 50 ],
       [ "string_6", 2 ],
       [ "chain", 20 ],
       [ "rock", 40 ],
