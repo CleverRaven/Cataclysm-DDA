@@ -2328,7 +2328,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Pry where?" ), f, false, true );
+            _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -2387,9 +2387,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos :
-                                          choose_adjacent_highlight(
-                                                  _( "Pry where?" ), f, false, true );
+    const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
+            _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -2738,7 +2737,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ), f, false );
+            _( "Deposit excavated materials where?" ),
+            _( "There is nowhere to deposit the excavated materials" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -2825,7 +2825,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ), f, false );
+            _( "Deposit excavated materials where?" ),
+            _( "There is nowhere to deposit the excavated materials." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -2885,7 +2886,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Fill which pit or mound?" ), f, false, true );
+            _( "Fill which pit or mound?" ), _( "There is no pit or mound to fill nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -2942,7 +2943,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Clear rubble where?" ), f, false, true );
+            _( "Clear rubble where?" ), _( "There is no rubble to clear nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -3000,7 +3001,7 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     }
     if( found_more_than_one ) {
         cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-                                            _( "Siphon from where?" ), f, false, true );
+                                            _( "Siphon from where?" ), _( "There is nothing to siphon nearby" ), f, false, true );
         if( !pnt_ ) {
             return 0;
         }
@@ -3426,8 +3427,8 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
                 return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
             };
 
-            const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ), f, false,
-                                                  true );
+            const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ),
+                                                  _( "There is no one to scan nearby." ), f, false, true );
             if( !pnt_ ) {
                 return 0;
             }
@@ -4766,7 +4767,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Chop down which tree?" ), f, false, true );
+            _( "Chop down which tree?" ), _( "There is no tree to chop down nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -4812,7 +4813,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Chop which tree trunk?" ), f, false, true );
+            _( "Chop which tree trunk?" ), _( "There is no tree trunk to chop nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -4885,7 +4886,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Cut up metal where?" ), f, false, true );
+            _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -4975,7 +4976,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Cut up metal where?" ), f, false, true );
+            _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -5032,7 +5033,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Cut up metal where?" ), f, false, true );
+            _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -5121,7 +5122,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Mop where?" ), f, false, true );
+            _( "Mop where?" ), _( "There is nothing to mop nearby." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
