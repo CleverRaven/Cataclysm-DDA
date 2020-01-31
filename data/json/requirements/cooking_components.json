@@ -578,10 +578,18 @@
     ]
   },
   {
-    "id": "veggy_any",
-    "type": "requirement",
-    "components": [ [ [ "dandelion_cooked", 1 ], [ "veggy_any_uncooked", 1, "LIST" ], [ "veggy_canned", 1 ], [ "veggy_salted", 1 ] ] ]
-  },
+  "id": "veggy_any",
+  "type": "requirement",
+  "components": [
+    [
+      [ "fiddlehead_boiled", 1 ],
+      [ "dandelion_cooked", 1 ],
+      [ "veggy_any_uncooked", 1, "LIST" ],
+      [ "veggy_canned", 1 ],
+      [ "veggy_salted", 1 ]
+    ]
+  ]
+},
   {
     "id": "mushroom_soup_ingredients",
     "type": "requirement",
