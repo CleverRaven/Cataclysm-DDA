@@ -158,7 +158,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
+        data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( ms_to_omt_copy( location ) ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
