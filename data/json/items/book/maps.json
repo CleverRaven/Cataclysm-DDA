@@ -88,12 +88,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [
-        { "om_terrain": "subway", "om_terrain_match_type": "TYPE" },
-        { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" },
-        { "om_terrain": "underground_sub_station", "om_terrain_match_type": "TYPE" },
-        { "om_terrain": "sewer_sub_station", "om_terrain_match_type": "TYPE" }
-      ],
+      "terrain": [ "subway", "sub_station" ],
       "message": "You add subway lines and underground stations to your map."
     }
   },
