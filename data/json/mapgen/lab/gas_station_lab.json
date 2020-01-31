@@ -328,12 +328,12 @@
         "|     ; _ ;Tr  m m  r ||",
         "|||;+;| _ |T   |||TTXT||",
         "|oo   | ' |||m||[[[::[[[",
-        "|T   E| _ |#| b|[!!LLLL[",
-        "|||  E| ' |#|   [L!!LLk[",
-        "|oo   | _'|#|   gL!jjLn[",
-        "|T    |'_ |#|EE@[LLjj!n[",
-        "||||o |'''|#||||[LL!!!k[",
-        "###|Mp|#''|#####[LLL!!L[",
+        "|T   E| _ |#| b|[      [",
+        "|||  E| ' |#|   [      [",
+        "|oo   | _'|#|   M      [",
+        "|T    |'_ |#|EE@[      [",
+        "||||o |'''|#||||[      [",
+        "###|ap|#''|#####[      [",
         "###||||#########[[[[[[[["
       ],
       "terrain": {
@@ -344,8 +344,8 @@
         ";": "t_wall_glass",
 "m": "t_door_metal_c",
 ":": "t_reinforced_glass",
-        "g": "t_door_metal_locked",
-        "'": "t_rock_floor",
+"M": "t_door_metal_locked",
+"'": [ [ "t_rock_floor", 2 ], "t_concrete_floor" ],
 "_": "t_metal_floor",
         "@": "t_gates_mech_control",
         "n": "t_sewage_pipe",
@@ -358,13 +358,14 @@
         "y": "t_machinery_heavy",
         "z": "t_ind_furnace",
         "A": "t_ind_drill",
+        "E": "t_linoleum_gray",
         ",": "t_linoleum_gray",
         "H": "t_linoleum_gray",
         "T": "t_linoleum_gray",
         "F": "t_linoleum_gray",
-        "X": "t_console_broken",
+        "X": "t_console",
         "+": "t_door_glass_c",
-        "M": "t_concrete_floor"
+        "a": "t_concrete_floor"
       },
       "furniture": {
         "'": [ "f_rubble_rock", "f_null" ],
@@ -379,7 +380,7 @@
         "H": "f_chair",
         "A": "f_table",
         "F": "f_fridge",
-        "M": "f_autodoc_couch"
+        "a": "f_autodoc_couch"
       },
       "place_loot": [
         { "group": "bar_table", "chance": 50, "repeat": [ 2 ], "x": [ 12, 12 ], "y": [ 1, 2 ] },
@@ -552,18 +553,45 @@
       "rotation": [ 0, 3 ],
 	  "fill_ter": "t_metal_floor",
       "rows": [
-        "!!____",
-		"k!!__k",
-		"n!jj_n",
-		"n_jj!n",
-		"k_!!!k",
-		"___!!_"
+        "!!__  ",
+		" !!__k",
+		" !!__n",
+		" _!!!n",
+		"  _!!k",
+		"jj _!_"
       ],
 	  "terrain": {
         "!": [ "t_lava", "t_metal_floor" ],
         "_": [ "t_lava", [ "t_metal_floor", 2 ] ],
         "n": "t_sewage_pipe",
-        "j": "t_generator_broken"
+        "j": [ "t_console_broken", "t_console" ]
+	  },
+	  "furniture": {
+	    "k": "f_kilopower"
+	  }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_power_room_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+	  "fill_ter": "t_metal_floor",
+      "rows": [
+        "      ",
+		"     k",
+		"     n",
+		"     n",
+		"     k",
+		"jj    "
+      ],
+	  "terrain": {
+        "!": [ "t_lava", "t_metal_floor" ],
+        "_": [ "t_lava", [ "t_metal_floor", 2 ] ],
+        "n": "t_sewage_pipe",
+        "j": "t_console"
 	  },
 	  "furniture": {
 	    "k": "f_kilopower"
@@ -579,6 +607,7 @@
     "color": "light_green",
     "move_cost": -1,
     "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+	"looks_like": "t_plut_generator",
     "bash": {
       "str_min": 50,
       "str_max": 400,
