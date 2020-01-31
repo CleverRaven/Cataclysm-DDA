@@ -2340,6 +2340,8 @@
     [ "pocketwatch", 14 ],
     [ "holster", 14 ],
     [ "throwingknifebandolier", 5 ],
+    [ "throwingknifebootsheath", 5 ],
+    [ "throwingknifewristsheath", 5 ],
     [ "bandana", 18 ],
     [ "scarf", 26 ],
     [ "long_knit_scarf", 15 ],
