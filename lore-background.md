@@ -8,26 +8,28 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 
 ### Timeline
 
-Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL year the game world was created +1.
+Note: Canon date of game start is  mid-March, in "YEAR", which equals the IRL year the game world was created +1.
 
-#### YEAR -25
-- **March**: An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent energy technologies: there is a simple but functional high-capacity fuel cell on board, using mostly Earth accessible designs but with a few exotic components that will take time to reverse engineer.
+#### Early 1990s
+- An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent energy technologies: there is a simple but functional high-capacity fuel cell on board, using mostly Earth accessible designs but with a few exotic components that will take time to reverse engineer.
 
-#### YEAR -15
+#### Early 2000s
 - Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
+- Some DARPA researchers successfully open unstable portals to nearby subdimensions, but never for very long.
 
-#### YEAR -13
+#### c. 2007
 - Improved fuel cell designs make solar-electric cars a viable alternative to gasoline.  The first privately made electric cars are announced.
 
-#### YEAR -12
-- **April**: Advances in reverse engineering and some early tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.  They use radioactive plutonium as a catalyst in the fuel reaction, earning the nickname "plutonium fuel cells".  Due to the risk of radioactivity, they are not widely adopted by civilians.
-- **September**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse. The government puts a hard limit on acceptable portal research, particularly the creation of stable portals.
+#### c. 2008
+- **Spring**: Advances in reverse engineering and some tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.  They use radioactive plutonium as a catalyst in the fuel reaction, earning the nickname "plutonium fuel cells".  Due to the risk of radioactivity, they are not widely adopted outside of experimental use.
+- **Autumn**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse.  DARPA's ability to continue portal research is hampered by red tape, but some researchers continue working in secret.
 
 #### YEAR -10
 - *Big Picture*: An extraterrestrial visitor, frozen in ice, is retrieved by a Japanese whaling boat, and hastily recovered by their government and research agencies. This is the first contact between mi-go and humans. Existence of the aliens is heard in rumours and leaked photos on the internet, until a well-known Redditor posts a 'making of' video that shows detailed information of how she constructed the model alien for an art exhibit. The photos continue to circulate but are relegated to places online where people don't believe in Snopes.
 
 #### YEAR -9
 - **January**: Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient.
+- **Spring**: DARPA researchers begin drawing in small amounts of rare metals and isotopes through illicit portals, helping their research to fund itself.
 
 #### YEAR -8
 - *Big Picture*: Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
@@ -35,6 +37,7 @@ Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL y
 
 #### YEAR -7
 *Big Picture*: First phase development of CBMs, using bioplastic technology derived from research conducted on mi-go. Aided by Melchior, research is extremely promising.
+- Some government elements begin to notice that a few shell corporations have sprung up with access to DARPA-level technology.  They are hastily silenced and/or brought into the fold.
 
 #### YEAR -6
 *Big Picture*: The first eyebot drones are deployed to assist in police work. This is one of the first public displays of new AI systems using dimensional probability heuristics, with the actual DPH being managed by a central mainframe. From a public perspective the dimensional aspect is kept concealed and people are told it is an example of machine learning. Even engineers working on the technology have no idea how it really works (not far off of current deep machine learning really... But better).
@@ -42,7 +45,7 @@ Second phase CBM development commences.
 - **May**: A mi-go scout arrives in orbit in response to the awakened signal of the mi-go in the ice. It does not make immediate contact with humans.
 
 #### YEAR -4
-- **February**: The first CBMs are released for the public and military.
+- **February**: The first CBMs are released for the public and military.  Public release is dramatically hastened by shell corporations that are in essence 'third phase' testing CBMs on civilians, with the companies designed to fold and dissolve if the technology fails.
 - **April**: China announces its own competing CBM system (XFS) and showcases the first wave of "steel soldiers", using XFS gear.
 - **July**: The first military grade heavy power armors are released for field testing.  Unlike the tank suits, these are light and small enough to allow close quarters maneuvering in urban environments, and remain almost impervious to all but the heaviest of conventional weaponry.  Development on smaller, less expensive suits becomes a priority.
 
