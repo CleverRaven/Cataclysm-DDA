@@ -6,7 +6,8 @@
     "authors": [ "mugling" ],
     "description": "Disables vitamin requirements.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "EXTERNAL_OPTION",

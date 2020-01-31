@@ -233,6 +233,7 @@
     "price": 1000,
     "material": [ "nylon", "steel" ],
     "symbol": "[",
+    "looks_like": "leather_belt",
     "color": "yellow",
     "covers": [ "TORSO" ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
