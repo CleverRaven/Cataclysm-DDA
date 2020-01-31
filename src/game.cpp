@@ -2634,6 +2634,8 @@ bool game::load( const std::string &world )
 
 void game::load( const save_t &name )
 {
+    popup_status( _( "Please wait…" ), _( "Loading the save…" ) );
+
     using namespace std::placeholders;
 
     const std::string worldpath = get_world_base_save_path() + "/";

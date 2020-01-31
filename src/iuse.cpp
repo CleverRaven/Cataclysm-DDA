@@ -6941,18 +6941,18 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>. " ) ) },
         { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>. " ) ) },
         { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>. " ) ) },
-        { effect_webbed, ef_con( to_translation( " is covered in <color_gray>webs</color>. " ) ) },
+        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>. " ) ) },
         { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>. " ), 1 ) },
-        { effect_crushed, ef_con( to_translation( " lies under <color_gray>collapsed debris</color>. " ), to_translation( "lies" ) ) },
-        { effect_lack_sleep, ef_con( to_translation( " looks <color_gray>very tired</color>. " ) ) },
+        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>. " ), to_translation( "lies" ) ) },
+        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>. " ) ) },
         { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
         { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
         { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>. " ) ) },
-        { effect_saddled, ef_con( to_translation( " is <color_gray>saddled</color>. " ) ) },
-        { effect_harnessed, ef_con( to_translation( " is being <color_gray>harnessed</color> by a vehicle. " ) ) },
-        { effect_monster_armor, ef_con( to_translation( " is <color_gray>wearing armor</color>. " ) ) },
-        { effect_has_bag, ef_con( to_translation( " have <color_gray>bag</color> attached. " ) ) },
-        { effect_tied, ef_con( to_translation( " is <color_gray>tied</color>. " ) ) },
+        { effect_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>. " ) ) },
+        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle. " ) ) },
+        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>. " ) ) },
+        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached. " ) ) },
+        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>. " ) ) },
         { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
 
@@ -7373,17 +7373,17 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     std::string overmap_desc = string_format( _( "In the background you can see a %s" ),
                                colorize( cur_ter->get_name(), cur_ter->get_color() ) );
     if( outside_tiles_num == total_tiles_num ) {
-        photo_text += _( "\n\nThis photo was taken <color_gray>outside</color>." );
+        photo_text += _( "\n\nThis photo was taken <color_dark_gray>outside</color>." );
     } else if( outside_tiles_num == 0 ) {
-        photo_text += _( "\n\nThis photo was taken <color_gray>inside</color>." );
+        photo_text += _( "\n\nThis photo was taken <color_dark_gray>inside</color>." );
         overmap_desc += _( " interior" );
     } else if( outside_tiles_num < total_tiles_num / 2.0 ) {
-        photo_text += _( "\n\nThis photo was taken mostly <color_gray>inside</color>,"
-                         " but <color_gray>outside</color> can be seen." );
+        photo_text += _( "\n\nThis photo was taken mostly <color_dark_gray>inside</color>,"
+                         " but <color_dark_gray>outside</color> can be seen." );
         overmap_desc += _( " interior" );
     } else if( outside_tiles_num >= total_tiles_num / 2.0 ) {
-        photo_text += _( "\n\nThis photo was taken mostly <color_gray>outside</color>,"
-                         " but <color_gray>inside</color> can be seen." );
+        photo_text += _( "\n\nThis photo was taken mostly <color_dark_gray>outside</color>,"
+                         " but <color_dark_gray>inside</color> can be seen." );
     }
     photo_text += "\n" + overmap_desc + ".";
 

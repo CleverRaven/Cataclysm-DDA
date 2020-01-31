@@ -1450,7 +1450,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
             add_msg_if_player( m_warning,
                                _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
-        } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
+        } else if( !supertinymouse && to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
                                _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
@@ -6301,23 +6301,11 @@ int Character::get_armor_bash_base( body_part bp ) const
             ret += i.bash_resist();
         }
     }
-    if( has_bionic( bio_carbon ) ) {
-        ret += 2;
-    }
-    if( bp == bp_head && has_bionic( bio_armor_head ) ) {
-        ret += 3;
-    }
-    if( ( bp == bp_arm_l || bp == bp_arm_r ) && has_bionic( bio_armor_arms ) ) {
-        ret += 3;
-    }
-    if( bp == bp_torso && has_bionic( bio_armor_torso ) ) {
-        ret += 3;
-    }
-    if( ( bp == bp_leg_l || bp == bp_leg_r ) && has_bionic( bio_armor_legs ) ) {
-        ret += 3;
-    }
-    if( bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
-        ret += 3;
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto bash_prot = bid->bash_protec.find( bp );
+        if( bash_prot != bid->bash_protec.end() ) {
+            ret += bash_prot->second;
+        }
     }
 
     ret += mutation_armor( bp, DT_BASH );
@@ -6332,19 +6320,11 @@ int Character::get_armor_cut_base( body_part bp ) const
             ret += i.cut_resist();
         }
     }
-    if( has_bionic( bio_carbon ) ) {
-        ret += 4;
-    }
-    if( bp == bp_head && has_bionic( bio_armor_head ) ) {
-        ret += 3;
-    } else if( ( bp == bp_arm_l || bp == bp_arm_r ) && has_bionic( bio_armor_arms ) ) {
-        ret += 3;
-    } else if( bp == bp_torso && has_bionic( bio_armor_torso ) ) {
-        ret += 3;
-    } else if( ( bp == bp_leg_l || bp == bp_leg_r ) && has_bionic( bio_armor_legs ) ) {
-        ret += 3;
-    } else if( bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
-        ret += 3;
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto cut_prot = bid->cut_protec.find( bp );
+        if( cut_prot != bid->cut_protec.end() ) {
+            ret += cut_prot->second;
+        }
     }
 
     ret += mutation_armor( bp, DT_CUT );
@@ -7458,31 +7438,22 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
 float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
 {
     float result = 0.0f;
-    // We only check the passive bionics
-    if( has_bionic( bio_carbon ) ) {
-        if( dt == DT_BASH ) {
-            result += 2;
-        } else if( dt == DT_CUT || dt == DT_STAB ) {
-            result += 4;
+    if( dt == DT_CUT || dt == DT_STAB ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto cut_prot = bid->cut_protec.find( bp );
+            if( cut_prot != bid->cut_protec.end() ) {
+                result += cut_prot->second;
+            }
+        }
+    } else if( dt == DT_BASH ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bash_prot = bid->bash_protec.find( bp );
+            if( bash_prot != bid->bash_protec.end() ) {
+                result += bash_prot->second;
+            }
         }
     }
-    // All the other bionic armors reduce bash/cut/stab by 3
-    // Map body parts to a set of bionics that protect it
-    // TODO: JSONize passive bionic armor instead of hardcoding it
-    static const std::map< body_part, bionic_id > armor_bionics = {
-        { bp_head, { bio_armor_head } },
-        { bp_arm_l, { bio_armor_arms } },
-        { bp_arm_r, { bio_armor_arms } },
-        { bp_torso, { bio_armor_torso } },
-        { bp_leg_l, { bio_armor_legs } },
-        { bp_leg_r, { bio_armor_legs } },
-        { bp_eyes, { bio_armor_eyes } }
-    };
-    auto iter = armor_bionics.find( bp );
-    if( iter != armor_bionics.end() && has_bionic( iter->second ) &&
-        ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) ) {
-        result += 3;
-    }
+
     return result;
 }
 

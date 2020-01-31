@@ -147,6 +147,6 @@
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
-    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ] ]
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
   }
 ]

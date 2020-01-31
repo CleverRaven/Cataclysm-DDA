@@ -45,6 +45,7 @@
   },
   {
     "id": "helmet_army",
+    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": "army helmet",
@@ -68,7 +69,7 @@
   },
   {
     "id": "tac_fullhelmet",
-    "repairs_like": "helmet_army",
+    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": "tactical full helmet",
@@ -93,7 +94,7 @@
   },
   {
     "id": "tac_helmet",
-    "repairs_like": "helmet_army",
+    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": "tactical helmet",
@@ -117,6 +118,7 @@
   },
   {
     "id": "firehelmet",
+    "repairs_like": "flame-resistant hood",
     "type": "ARMOR",
     "category": "armor",
     "name": "firefighter helmet",
@@ -374,7 +376,7 @@
   },
   {
     "id": "helmet_lobster",
-    "repairs_like": "helmet_army",
+    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": "lobster helmet",
@@ -398,7 +400,7 @@
   },
   {
     "id": "helmet_motor",
-    "repairs_like": "helmet_army",
+    "repairs_like": "flame-resistant hood",
     "type": "ARMOR",
     "category": "armor",
     "name": "motorcycle helmet",
