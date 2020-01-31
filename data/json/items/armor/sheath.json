@@ -185,5 +185,80 @@
       "flags": [ "SHEATH_SPEAR" ]
     },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
-  }
+  },
+  {
+  "id": "throwingknifewristsheath",
+  "type": "ARMOR",
+  "name": "throwing knife wrist sheath",
+  "description": "A small sheath for throwing knives designed to be worn around the wrist.",
+  "weight": "30 g",
+  "volume": "250 ml",
+  "price": 2900,
+  "price_postapoc": 5900,
+  "material": [
+    "leather"
+  ],
+  "symbol": "[",
+  "looks_like": "sheath",
+  "color": "brown",
+  "covers": [
+    "HAND_EITHER"
+  ],
+  "coverage": 5,
+  "encumbrance": 1,
+  "material_thickness": 1,
+  "use_action": {
+    "type": "holster",
+    "holster_prompt": "Stash throwing knife",
+    "holster_msg": "You sheath your %s",
+    "multi": 2,
+    "max_volume": "250 ml",
+    "min_volume": "250 ml",
+    "draw_cost": 30,
+    "flags": [ "SHEATH_KNIFE" ]
+  },
+  "flags": [
+    "WATER_FRIENDLY",
+    "BELTED",
+    "ALLOWS_NATURAL_ATTACKS"
+  ]
+},
+{
+  "id": "throwingknifebootsheath",
+  "type": "ARMOR",
+  "name": "throwing knife ankle sheath",
+  "description": "A small concealed knife sheath worn on the ankle.  It holds two throwing knives.  Activate to sheathe/draw a weapon.",
+  "weight": "160 g",
+  "volume": "500 ml",
+  "price": 5200,
+  "to_hit": -1,
+  "material": [
+    "leather"
+  ],
+  "symbol": "[",
+  "looks_like": "sheath",
+  "color": "brown",
+  "covers": [
+    "FOOT_EITHER"
+  ],
+  "coverage": 5,
+  "encumbrance": 3,
+  "material_thickness": 1,
+  "use_action": {
+    "type": "holster",
+    "holster_prompt": "Stash throwing knives",
+    "holster_msg": "You sheath your %s",
+    "multi": 2,
+    "max_volume": "250 ml",
+    "min_volume": "250 ml",
+    "draw_cost": 30,
+    "flags": [ "SHEATH_KNIFE" ]
+  },
+  "flags": [
+    "BELTED",
+    "OVERSIZE",
+    "ALLOWS_NATURAL_ATTACKS",
+    "WATER_FRIENDLY"
+  ]
+}
 ]
