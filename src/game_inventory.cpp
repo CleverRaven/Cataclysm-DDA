@@ -107,6 +107,8 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
+    std::string init_filter;
+    bool has_init_filter = false;
 
     const std::vector<activity_id> consuming {
         ACT_EAT_MENU,
@@ -119,6 +121,10 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         init_pair.second = u.activity.values[1];
         init_selection = true;
     }
+    if( u.has_activity( consuming ) && !u.activity.str_values.empty() ) {
+        init_filter = u.activity.str_values[0];
+        has_init_filter = true;
+    }
 
     bool need_refresh = true;
     do {
@@ -128,10 +134,17 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
 
-        if( init_selection ) {
+        if( init_selection || has_init_filter ) {
             inv_s.update( need_refresh );
-            inv_s.select_position( init_pair );
-            init_selection = false;
+            if( has_init_filter ) {
+                inv_s.set_filter( init_filter );
+                has_init_filter = false;
+            }
+            // Set position after filter to keep cursor at the right position
+            if( init_selection ) {
+                inv_s.select_position( init_pair );
+                init_selection = false;
+            }
         }
 
         if( inv_s.empty() ) {
@@ -154,6 +167,8 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
             u.activity.values.push_back( init_pair.second );
+            u.activity.str_values.clear();
+            u.activity.str_values.emplace_back( inv_s.get_filter() );
         }
 
         return location;

@@ -162,7 +162,8 @@ struct vehicle_part {
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
                      carried_flag = 4,
-                     carrying_flag = 8
+                     carrying_flag = 8,
+                     tracked_flag = 16 //carried vehicle part with tracking enabled
                    };
 
         vehicle_part(); /** DefaultConstructible */
@@ -837,8 +838,10 @@ class vehicle
         bool remove_part( int p );
         void part_removal_cleanup();
 
-        // remove the carried flag from a vehicle after it has bee removed from a rack
+        // remove the carried flag from a vehicle after it has been removed from a rack
         void remove_carried_flag();
+        // remove the tracked flag from a tracked vehicle after it has been removed from a rack
+        void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( const std::vector<int> &carried_parts );
         // split the current vehicle into up to four vehicles if they have no connection other

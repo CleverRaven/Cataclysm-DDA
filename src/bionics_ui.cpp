@@ -249,7 +249,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
                              const int last_x, const bionic_id &bio_id )
 {
-    const int LIST_START_Y = 6;
+    const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
@@ -437,7 +437,7 @@ void player::power_bionics()
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
-    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
+    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT;
     catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
                                  START_Y ) );
 

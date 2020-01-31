@@ -1957,6 +1957,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 carried_part.carry_names.push( unique_id );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
+                //give each carried part a tracked_flag so that we can re-enable overmap tracking on unloading if necessary
+                if( carry_veh->tracking_on ) {
+                    carried_part.set_flag( vehicle_part::tracked_flag );
+                }
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
@@ -2157,6 +2161,20 @@ void vehicle::remove_carried_flag()
     }
 }
 
+void vehicle::remove_tracked_flag()
+{
+    for( vehicle_part &part : parts ) {
+        if( part.carry_names.empty() ) {
+            part.remove_flag( vehicle_part::tracked_flag );
+        } else {
+            part.carry_names.pop();
+            if( part.carry_names.empty() ) {
+                part.remove_flag( vehicle_part::tracked_flag );
+            }
+        }
+    }
+}
+
 bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
 {
     if( carried_parts.empty() ) {
@@ -2165,8 +2183,15 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     std::string veh_record;
     tripoint new_pos3;
     bool x_aligned = false;
+    bool tracked_parts =
+        false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
         std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
+        //check if selected part carries tracking flag
+        if( parts[carried_part].has_flag(
+                vehicle_part::tracked_flag ) ) { //this should only need to run once
+            tracked_parts = true;
+        }
         if( id_string == "X" || id_string == "Y" ) {
             veh_record = parts[ carried_part ].carry_names.top();
             new_pos3 = global_part_pos3( carried_part );
@@ -2244,6 +2269,10 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         new_vehicle->remove_carried_flag();
+        if( tracked_parts ) {
+            new_vehicle->toggle_tracking(); //turn on tracking for our newly created vehicle
+            new_vehicle->remove_tracked_flag(); //remove our tracking flags now that the vehicle isn't carried
+        }
         g->m.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
     } else {

@@ -314,7 +314,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
         if( you.rust_rate() ) {
             print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate( false ) ) );
+                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
