@@ -35,6 +35,13 @@ struct ammo_effect {
         bool do_flashbang = false;
         bool do_emp_blast = false;
 
+        field_type_id trail_field_type = fd_null;
+        /** used during JSON loading only */
+        std::string trail_field_type_name = "fd_null";
+        int trail_intensity_min = 0;
+        int trail_intensity_max = 0;
+        int trail_chance = 100;
+
     public:
         // Used by generic_factory
         string_id<ammo_effect> id;
