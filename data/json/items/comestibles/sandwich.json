@@ -215,8 +215,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pb",
-    "name": "peanut butter sandwich",
-    "name_plural": "peanut butter sandwiches",
+    "name": { "str": "peanut butter sandwich", "str_pl": "peanut butter sandwiches" },
     "weight": "204 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",

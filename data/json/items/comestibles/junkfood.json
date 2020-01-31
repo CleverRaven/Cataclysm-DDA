@@ -427,8 +427,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beet_syrup",
-    "name": "sugar beet syrup",
-    "name_plural": "sugar beet syrup",
+    "name": { "str": "sugar beet syrup", "str_pl": "sugar beet syrup" },
     "weight": "15 g",
     "color": "brown",
     "container": "bottle_glass",
