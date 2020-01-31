@@ -4,6 +4,7 @@
     "id": "NC_THUG_bashing",
     "items": [
       [ "hammer_sledge", 20 ],
+      [ "hammer_sledge_short", 20 ],
       [ "spear_rebar", 20 ],
       [ "bat", 20 ],
       [ "crowbar", 20 ],
