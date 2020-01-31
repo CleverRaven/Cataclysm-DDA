@@ -183,7 +183,7 @@
     "id": "power_armor_helmet_light",
     "type": "ARMOR",
     "category": "armor",
-    "name": "Light environmental combat helmet",
+    "name": "light environmental combat helmet",
     "description": "In response to complaints that the heavy environmental helmets were too bulky and restrictive for combat, a lighter full-enclosure helmet was designed based on commercial diving equipment.  While still a little more restrictive than regular combat headgear - and frustrating should your nose itch - this one received far better reviews from soldiers.  Sadly, civilization ended before they could roll out in significant numbers.  The environmental controls function best with direct-skin contact.",
     "weight": "1814 g",
     "volume": "4 L",
