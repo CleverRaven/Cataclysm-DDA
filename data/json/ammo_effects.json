@@ -8,7 +8,7 @@
       "intensity_max": 0,
       "radius": 0,
       "radius_z": 0,
-      "chance": 1,
+      "chance": 100,
       "size": 0,
       "check_passable": false,
       "check_sees": false,
@@ -89,7 +89,7 @@
   {
     "id": "PLASMA",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_plasma", "intensity_min": 2, "intensity_max": 3, "chance": 2 },
+    "aoe": { "field_type": "fd_plasma", "intensity_min": 2, "intensity_max": 3, "chance": 50 },
     "trail": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 2, "chance": 50 }
   },
   {
