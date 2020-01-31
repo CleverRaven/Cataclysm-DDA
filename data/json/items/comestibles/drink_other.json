@@ -260,8 +260,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_syrup",
-    "name": "coffee syrup",
-    "name_plural": "coffee syrup",
+    "name": { "str": "coffee syrup", "str_pl": "coffee syrup" },
     "weight": "32 g",
     "color": "brown",
     "addiction_type": "caffeine",
