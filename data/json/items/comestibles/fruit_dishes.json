@@ -184,8 +184,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fruit",
-    "name": "rehydrated fruit",
-    "name_plural": "rehydrated fruit",
+    "name": { "str": "rehydrated fruit", "str_pl": "rehydrated fruit" },
     "weight": "150 g",
     "color": "pink",
     "spoils_in": "18 hours",

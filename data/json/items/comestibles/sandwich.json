@@ -133,8 +133,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_honey",
-    "name": "honey sandwich",
-    "name_plural": "honey sandwiches",
+    "name": { "str": "honey sandwich", "str_pl": "honey sandwiches" },
     "weight": "192 g",
     "color": "brown",
     "spoils_in": "10 days",

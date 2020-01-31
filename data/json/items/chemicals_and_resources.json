@@ -343,8 +343,7 @@
   {
     "type": "COMESTIBLE",
     "id": "salt_water",
-    "name": "salt water",
-    "name_plural": "salt water",
+    "name": { "str": "salt water", "str_pl": "salt water" },
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",
