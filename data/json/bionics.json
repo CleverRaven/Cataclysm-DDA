@@ -863,6 +863,17 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
+    "id": "bio_synaptic_regen",
+    "type": "bionic",
+    "name": "Synaptic Regeneration System",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "TORSO", 1 ] ],
+    "act_cost": 0,
+    "react_cost": "1 kJ",
+    "time": 100
+  },
+  {
     "id": "bio_shock",
     "type": "bionic",
     "name": "Electroshock Unit",
@@ -1004,7 +1015,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": "Integrated Toolset",
-    "description": "Surgically implanted in your hands and fingers is a set of tools - screwdriver, hammer, wrench, hacksaw, hand drill, welder, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder, and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "fake_item": "toolset",
     "included_bionics": [ "bio_tools_extend" ],

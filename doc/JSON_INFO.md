@@ -19,6 +19,7 @@ Use the `Home` key to return to the top.
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Item Groups](#item-groups)
+    + [Item Category](#item-category)
     + [Materials](#materials)
     + [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
@@ -26,7 +27,7 @@ Use the `Home` key to return to the top.
     + [Monster Factions](#monster-factions)
     + [Monsters](#monsters)
     + [Names](#names)
-    + [Profession item substitution](#profession_item_substitution)
+    + [Profession item substitution](#profession-item-substitution)
       - [`description`](#-description-)
       - [`name`](#-name-)
       - [`points`](#-points-)
@@ -70,11 +71,11 @@ Use the `Home` key to return to the top.
     + [Seed Data](#seed-data)
     + [Artifact Data](#artifact-data)
     + [Brewing Data](#brewing-data)
-      - [`Charge_type`](#charge_type)
-      - [`Effects_carried`](#effects_carried)
-      - [`effects_worn`](#effects_worn)
-      - [`effects_wielded`](#effects_wielded)
-      - [`effects_activated`](#effects_activated)
+      - [`Charge_type`](#charge-type)
+      - [`Effects_carried`](#effects-carried)
+      - [`effects_worn`](#effects-worn)
+      - [`effects_wielded`](#effects-wielded)
+      - [`effects_activated`](#effects-activated)
     + [Software Data](#software-data)
     + [Fuel data](#fuel-data)
     + [Use Actions](#use-actions)
@@ -467,6 +468,28 @@ The syntax listed here is still valid.
 }
 ```
 
+### Item Category
+
+When you sort your inventory by category, these are the categories that are displayed.
+
+| Identifier      | Description
+|---              |---
+| id              | Unique ID. Must be one continuous word, use underscores if necessary
+| name            | The name of the category. This is what shows up in-game when you open the inventory.
+| zone            | The corresponding loot_zone (see loot_zones.json)
+| sort_rank       | Used to sort categories when displaying.  Lower values are shown first
+| priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
+
+```C++
+{
+    "id":"armor",
+    "name": "ARMOR",
+    "zone": "LOOT_ARMOR",
+    "sort_rank": -21,
+    "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
+}
+```
+
 ### Materials
 
 | Identifier       | Description
@@ -541,7 +564,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 
 | Identifier        | Description
 |---                |---
-| `monster`         | The monster's id.
+| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
 | `freq`            | Chance of occurrence, x/1000.
 | `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
@@ -1265,8 +1288,8 @@ See also VEHICLE_JSON.md
 "price": 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_post": "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
-"bashing": -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
+"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
+"bashing": 0,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
 "to_hit": 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
 "flags": ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
 "magazine_well": 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -1596,6 +1619,7 @@ Guns can be defined like this:
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 "barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 9mL per inch is a decent approximation.
+"valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json

@@ -34,6 +34,7 @@
 #include "item.h"
 #include "recipe.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 class inventory;
 class npc;
@@ -605,8 +606,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
-                                   current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
-                                   current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
+                                   current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
+                                   current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
                 if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,

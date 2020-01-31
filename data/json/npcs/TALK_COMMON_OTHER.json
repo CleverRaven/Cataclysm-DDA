@@ -50,7 +50,7 @@
               "no": {
                 "npc_has_effect": "asked_to_hint",
                 "no": "I have some reason for not telling you.",
-                "yes": "Nothing comes to my mind now. Ask me later perhaps?"
+                "yes": "Nothing comes to my mind now.  Ask me later perhaps?"
               },
               "yes": "I'm too tired, let me rest first."
             },
@@ -370,7 +370,7 @@
         "condition": "u_has_stolen_item"
       },
       {
-        "text": "No, I'm keeping it. Try and take it off me, I dare you.",
+        "text": "No, I'm keeping it.  Try and take it off me, I dare you.",
         "condition": "u_has_stolen_item",
         "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": { "topic": "TALK_KEEPING_ITEM", "effect": { "u_faction_rep": -2 } },
@@ -407,7 +407,7 @@
   {
     "id": "TALK_ALLOW_KEEP_ITEM",
     "type": "talk_topic",
-    "dynamic_line": "Just this once, you can keep it. Don't tell anyone else.",
+    "dynamic_line": "Just this once, you can keep it.  Don't tell anyone else.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_DONE", "effect": "remove_stolen_status" } ]
   },
   {

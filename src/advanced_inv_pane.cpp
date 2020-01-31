@@ -38,6 +38,8 @@
 #include <iterator>
 #include <utility>
 #include <numeric>
+#include "cata_string_consts.h"
+
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
@@ -49,7 +51,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( "HIDDEN_ITEM" ) ) {
+    if( it.has_flag( flag_HIDDEN_ITEM ) ) {
         return true;
     }
     if( filter.empty() ) {

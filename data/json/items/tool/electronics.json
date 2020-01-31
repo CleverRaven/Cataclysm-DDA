@@ -252,8 +252,7 @@
   {
     "id": "geiger_off",
     "type": "TOOL",
-    "name": "geiger counter (off)",
-    "name_plural": "geiger counters (off)",
+    "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
     "description": "This is a tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation.  It is currently off.",
     "weight": "225 g",
     "volume": "500 ml",
@@ -326,8 +325,7 @@
   {
     "id": "mp3",
     "type": "TOOL",
-    "name": "mp3 player (off)",
-    "name_plural": "mp3 players (off)",
+    "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
     "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
     "weight": "140 g",
     "volume": "50 ml",
@@ -526,8 +524,7 @@
   {
     "id": "vibrator",
     "type": "TOOL",
-    "name": "vibrator",
-    "name_plural": "vibrators",
+    "name": { "str": "vibrator" },
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
     "weight": "453 g",
     "volume": "500 ml",
