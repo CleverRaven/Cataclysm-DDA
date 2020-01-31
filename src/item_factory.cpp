@@ -2116,6 +2116,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "description", def.description );
     }
 
+    if( jo.has_member( "ascii_picture" ) ) {
+        jo.read( "ascii_picture", def.ascii_picture );
+    }
+
     if( jo.has_string( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" );
     }

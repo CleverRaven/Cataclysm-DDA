@@ -3331,6 +3331,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
     }
+    if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
+        const std::string pic = type->ascii_picture;
+        if( !pic.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION", pic ) );
+            insert_separation_line( info );
+        }
+    }
 }
 
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
