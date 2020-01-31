@@ -95,8 +95,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_jam",
-    "name": "jam sandwich",
-    "name_plural": "jam sandwiches",
+    "name": { "str": "jam sandwich", "str_pl": "jam sandwiches" },
     "weight": "97 g",
     "color": "brown",
     "spoils_in": "1 day 13 hours",

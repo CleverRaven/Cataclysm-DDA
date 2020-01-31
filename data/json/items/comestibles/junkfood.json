@@ -406,8 +406,7 @@
   {
     "type": "COMESTIBLE",
     "id": "syrup",
-    "name": "maple syrup",
-    "name_plural": "maple syrup",
+    "name": { "str": "maple syrup", "str_pl": "maple syrup" },
     "weight": "21 g",
     "color": "brown",
     "container": "bottle_glass",
