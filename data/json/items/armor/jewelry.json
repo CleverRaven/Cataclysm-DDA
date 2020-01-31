@@ -9,7 +9,7 @@
     "volume": 0,
     "price": 100,
     "price_postapoc": 100,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
@@ -41,7 +41,7 @@
     "price": 100,
     "price_postapoc": 100,
     "material": [ "wood" ],
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "FANCY" ],
     "symbol": "u",
     "color": "brown",
     "use_action": "MEDITATE"
@@ -56,7 +56,7 @@
     "volume": 0,
     "price": 100,
     "price_postapoc": 100,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
     "color": "red"
