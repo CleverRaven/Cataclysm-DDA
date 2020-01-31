@@ -281,8 +281,6 @@ construction_id construction_menu( const bool blueprint )
     draw_grid( w_con, w_list_width + w_list_x0 );
 
     construction_id ret( -1 );
-    std::vector<construction_category> construct_cat;
-    construct_cat = construction_categories::get_all();
 
     bool update_info = true;
     bool update_cat = true;
@@ -318,18 +316,27 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
 
-    static const int tabcount = static_cast<int>( construction_category::count() );
+    const std::vector<construction_category> &construct_cat = construction_categories::get_all();
+    const int tabcount = static_cast<int>( construction_category::count() );
 
     std::string filter;
-    int previous_index = 0;
     do {
         if( update_cat ) {
             update_cat = false;
-            category_id = construction_categories::get_all()[tabindex].id;
+            cata::optional<std::string> last_construction;
+            if( isnew ) {
+                filter = uistate.construction_filter;
+                tabindex = uistate.construction_tab.is_valid()
+                           ? uistate.construction_tab.id().to_i() : 0;
+                last_construction = uistate.last_construction;
+            } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
+                last_construction = constructs[select];
+            }
+            category_id = construct_cat[tabindex].id;
             if( category_id == "ALL" ) {
                 constructs = available;
-                previous_index = tabindex;
             } else if( category_id == "FILTER" ) {
                 constructs.clear();
                 previous_select = -1;
@@ -340,16 +347,14 @@ construction_id construction_menu( const bool blueprint )
                 } );
             } else {
                 constructs = cat_available[category_id];
-                previous_index = tabindex;
             }
-            if( isnew ) {
-                if( !uistate.last_construction.empty() ) {
-                    select = std::distance( constructs.begin(),
-                                            std::find( constructs.begin(),
-                                                       constructs.end(),
-                                                       uistate.last_construction ) );
+            select = 0;
+            if( last_construction ) {
+                const auto it = std::find( constructs.begin(), constructs.end(),
+                                           *last_construction );
+                if( it != constructs.end() ) {
+                    select = std::distance( constructs.begin(), it );
                 }
-                filter = uistate.construction_filter;
             }
         }
         isnew = false;
@@ -382,6 +387,10 @@ construction_id construction_menu( const bool blueprint )
             }
 
             std::vector<std::string> notes;
+            if( tabindex == tabcount - 1 && !filter.empty() ) {
+                notes.push_back( string_format( _( "Press %s to clear filter" ),
+                                                ctxt.get_desc( "RESET_FILTER" ) ) );
+            }
             notes.push_back( string_format( _( "Press %s or %s to tab." ), ctxt.get_desc( "LEFT" ),
                                             ctxt.get_desc( "RIGHT" ) ) );
             notes.push_back( string_format( _( "Press %s to search." ), ctxt.get_desc( "FILTER" ) ) );
@@ -601,24 +610,28 @@ construction_id construction_menu( const bool blueprint )
 
         const std::string action = ctxt.handle_input();
         if( action == "FILTER" ) {
-            string_input_popup()
+            string_input_popup popup;
+            popup
             .title( _( "Search" ) )
             .width( 50 )
             .description( _( "Filter" ) )
             .max_length( 100 )
-            .edit( filter );
-            if( !filter.empty() ) {
+            .text( tabindex == tabcount - 1 ? filter : std::string() )
+            .query();
+            if( popup.confirmed() ) {
+                filter = popup.text();
+                uistate.construction_filter = filter;
                 update_info = true;
                 update_cat = true;
                 tabindex = tabcount - 1;
-                select = 0;
-            } else if( previous_index != tabcount - 1 ) {
-                tabindex = previous_index;
+            }
+        } else if( action == "RESET_FILTER" ) {
+            if( tabindex == tabcount - 1 && !filter.empty() ) {
+                filter.clear();
+                uistate.construction_filter.clear();
                 update_info = true;
                 update_cat = true;
-                select = 0;
             }
-            uistate.construction_filter = filter;
         } else if( action == "DOWN" ) {
             update_info = true;
             if( select < static_cast<int>( constructs.size() ) - 1 ) {
@@ -636,7 +649,6 @@ construction_id construction_menu( const bool blueprint )
         } else if( action == "LEFT" ) {
             update_info = true;
             update_cat = true;
-            select = 0;
             tabindex--;
             if( tabindex < 0 ) {
                 tabindex = tabcount - 1;
@@ -644,7 +656,6 @@ construction_id construction_menu( const bool blueprint )
         } else if( action == "RIGHT" ) {
             update_info = true;
             update_cat = true;
-            select = 0;
             tabindex = ( tabindex + 1 ) % tabcount;
         } else if( action == "PAGE_UP" ) {
             update_info = true;
@@ -670,7 +681,6 @@ construction_id construction_menu( const bool blueprint )
             update_info = true;
             update_cat = true;
             hide_unconstructable = !hide_unconstructable;
-            select = 0;
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
@@ -705,6 +715,8 @@ construction_id construction_menu( const bool blueprint )
             }
         }
     } while( !exit );
+
+    uistate.construction_tab = int_id<construction_category>( tabindex ).id();
 
     w_list = catacurses::window();
     w_con = catacurses::window();
