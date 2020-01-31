@@ -602,8 +602,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sugar_fried",
-    "name": "caramel",
-    "name_plural": "caramel",
+    "name": { "str": "caramel", "str_pl": "caramel" },
     "weight": "67 g",
     "color": "white",
     "container": "box_small",

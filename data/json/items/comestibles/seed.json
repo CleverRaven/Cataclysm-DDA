@@ -438,8 +438,7 @@
     "type": "COMESTIBLE",
     "id": "marloss_seed",
     "category": "seeds",
-    "name": "marloss seed",
-    "name_plural": "marloss seeds",
+    "name": { "str": "marloss seed" },
     "weight": "177 g",
     "color": "cyan",
     "addiction_type": "marloss_b",
@@ -454,7 +453,7 @@
     "price": 0,
     "material": "fruit",
     "primary_material": "dried_vegetable",
-    "volume": 0,
+    "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "91 days" }
