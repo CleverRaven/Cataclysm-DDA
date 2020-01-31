@@ -845,7 +845,7 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                            _( "Read times: %d%%" ), read_spd );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_PENALTY, _( "Skill rust: %d%%" ),
-                           u.rust_rate( false ) );
+                           u.rust_rate() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
                            u.get_int() );
                 fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, COL_STAT_NEUTRAL,
@@ -2163,7 +2163,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
-            uilist_entry entry( loc.ident().get_cid(), true, -1, loc.name() );
+            uilist_entry entry( loc.ident().get_cid().to_i(), true, -1, loc.name() );
 
             select_location.entries.emplace_back( entry );
 
@@ -2400,7 +2400,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             select_location.query();
             if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_location::get_all() ) {
-                    if( loc.ident().get_cid() == select_location.ret ) {
+                    if( loc.ident().get_cid().to_i() == select_location.ret ) {
                         you.start_location = loc.ident();
                         break;
                     }

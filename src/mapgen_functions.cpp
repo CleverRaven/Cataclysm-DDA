@@ -3548,7 +3548,7 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             << " tripoint: " << p
             << " terrain: " << p_ter.name()
             << " movecost: " << p_ter.movecost
-            << " furniture: " << m->furn( p )
+            << " furniture: " << m->furn( p ).to_i()
             << " indoors: " << p_ter.has_flag( "INDOORS" )
             << " flat: " << p_ter.has_flag( "FLAT" )
             ;

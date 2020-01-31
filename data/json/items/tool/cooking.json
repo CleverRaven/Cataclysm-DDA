@@ -629,8 +629,7 @@
   {
     "id": "mortar_pestle",
     "type": "TOOL",
-    "name": "mortar and pestle",
-    "name_plural": "sets of mortar and pestle",
+    "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
     "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
     "weight": "1632 g",
     "volume": "1 L",

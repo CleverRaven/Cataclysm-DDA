@@ -548,7 +548,7 @@
         "trailerpark_city": 15,
         "railroad_city": 10
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
+      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25 },
       "parks": {
         "park": 400,
         "pool": 100,

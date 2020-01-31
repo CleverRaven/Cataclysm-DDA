@@ -2,11 +2,16 @@
   {
     "type": "MOD_INFO",
     "ident": "classic_zombies",
-    "name": "Classic zombies",
+    "name": "Cataclysm: Dark Days of the Dead (formerly Classic Zombies)",
     "authors": [ "Hirmuolio" ],
-    "maintainers": [ "" ],
-    "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.",
+    "maintainers": [ "I-am-Erk" ],
+    "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.  The long term plan is to make this a classic zombie movie simulator set in the present day.",
     "category": "monster_exclude",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false }
   }
 ]

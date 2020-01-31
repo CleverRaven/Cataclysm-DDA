@@ -87,8 +87,7 @@
   {
     "id": "radio",
     "type": "TOOL",
-    "name": "radio (off)",
-    "name_plural": "radios (off)",
+    "name": { "str": "radio (off)", "str_pl": "radios (off)" },
     "description": "This is a portable radio.  Using this radio turns it on.  It will pick up any nearby signals being broadcast and play them audibly.",
     "weight": "295 g",
     "volume": "1 L",

@@ -971,7 +971,7 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    std::set<int> invalid_terrains;
+    std::set<oter_id> invalid_terrains;
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
