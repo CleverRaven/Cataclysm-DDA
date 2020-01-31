@@ -194,6 +194,27 @@
     "components": [ [ [ "rag", 4 ] ], [ [ "filament", 8, "LIST" ] ] ]
   },
   {
+    "result": "throwingknifewristsheath",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [
+      [ "gun", 1 ],
+      [ "throw", 1 ]
+    ],
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "leather", 4 ] ],
+      [ [ "filament", 8, "LIST" ] ]
+    ]
+  },
+  {
     "result": "bholster",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -233,6 +254,27 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 3 ] ], [ [ "filament", 5, "LIST" ] ] ]
+  },
+  {
+    "result": "throwingknifebootsheath",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [
+      [ "gun", 1 ],
+      [ "throw", 1 ]
+    ],
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "leather", 4 ] ],
+      [ [ "filament", 8, "LIST" ] ]
+    ]
   },
   {
     "result": "bootstrap",
