@@ -1171,12 +1171,17 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
+    item_location loc = game_menus::inv::read( u );
 
     if( loc ) {
-        // calling obtain() invalidates the item pointer
-        // TODO: find a way to do this without an int index
-        u.read( u.i_at( loc.obtain( u ) ) );
+        if( loc->type->can_use( "learn_spell" ) ) {
+            item spell_book = *loc.get_item();
+            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+        } else {
+            // calling obtain() invalidates the item pointer
+            // TODO: find a way to do this without an int index
+            u.read( u.i_at( loc.obtain( u ) ) );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }
