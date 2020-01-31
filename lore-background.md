@@ -16,20 +16,20 @@ Note: Canon date of game start is  mid-March, in "YEAR", which equals the IRL ye
 #### Early 2000s
 - Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
 - Some DARPA researchers successfully open unstable portals to nearby subdimensions, but never for very long.
+- A handful of senior DARPA researchers begin drawing in small amounts of rare metals and isotopes through micro-portals, helping their research to fund itself.  The few aware of this practice keep it quiet, building shell accounts that grow into shell companies.
 
 #### c. 2007
-- Improved fuel cell designs make solar-electric cars a viable alternative to gasoline.  The first privately made electric cars are announced.
+- Improved fuel cell designs make solar-electric cars a viable alternative to gasoline.  The first privately made electric cars are announced.  The leading electric car companies could, with enough information, be tracked back to the shell companies created to launder wealth obtained through portal research.
 
 #### c. 2008
 - **Spring**: Advances in reverse engineering and some tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.  They use radioactive plutonium as a catalyst in the fuel reaction, earning the nickname "plutonium fuel cells".  Due to the risk of radioactivity, they are not widely adopted outside of experimental use.
-- **Autumn**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse.  DARPA's ability to continue portal research is hampered by red tape, but some researchers continue working in secret.
+- **Autumn**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse.  DARPA's ability to continue portal research is hampered by red tape.  Those depending financially on portals begin working harder on their shell companies, setting up secret research labs to continue working on portal tech outside DARPA's interference.
 
 #### YEAR -10
 - *Big Picture*: An extraterrestrial visitor, frozen in ice, is retrieved by a Japanese whaling boat, and hastily recovered by their government and research agencies. This is the first contact between mi-go and humans. Existence of the aliens is heard in rumours and leaked photos on the internet, until a well-known Redditor posts a 'making of' video that shows detailed information of how she constructed the model alien for an art exhibit. The photos continue to circulate but are relegated to places online where people don't believe in Snopes.
 
 #### YEAR -9
 - **January**: Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient.
-- **Spring**: DARPA researchers begin drawing in small amounts of rare metals and isotopes through illicit portals, helping their research to fund itself.
 
 #### YEAR -8
 - *Big Picture*: Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
