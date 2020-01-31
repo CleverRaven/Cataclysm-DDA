@@ -219,7 +219,7 @@
       "multi": 6,
       "min_volume": "250 ml",
       "max_volume": "1500 ml",
-      "max_weight": 1500,
+      "max_weight": "1500 g",
       "draw_cost": 50,
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },
