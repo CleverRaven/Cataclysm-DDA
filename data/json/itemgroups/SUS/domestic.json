@@ -314,8 +314,7 @@
     "//3": "In the future could make several fridge lists, eg SUS_fridge_vegetarian or SUS_fridge_bachelor, and have this be a distribution to randomly choose them",
     "subtype": "collection",
     "entries": [
-      { "group": "fresh_produce", "count": [ 1, 15 ] },
-      { "group": "fresh_produce", "count": [ 1, 15 ], "prob": 50 },
+      { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
         "distribution": [ { "item": "milk", "prob": 94 }, { "item": "almond_milk", "prob": 3 }, { "item": "soy_milk", "prob": 3 } ],
         "prob": 95
@@ -366,7 +365,7 @@
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
           { "item": "chili", "charges-min": 1, "prob": 10 }
         ],
-        "prob": 95
+        "prob": 75
       },
       {
         "distribution": [
