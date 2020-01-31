@@ -22,7 +22,7 @@
 #include "point.h"
 
 enum class outcome_type {
-    Lethal, Casualty
+    Kill, Casualty
 };
 
 static void check_lethality( const std::string &explosive_id, const int range, float lethality,
