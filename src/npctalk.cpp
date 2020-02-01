@@ -1971,24 +1971,20 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
         npc &p = *d.beta;
         player &u = *d.alpha;
         item old_item = item( item_name, calendar::turn );
-        if( u.has_charges( item_name, count ) ) {
+        if( old_item.count_by_charges() && u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
+            old_item.mod_charges( count - 1 );
+            p.i_add( old_item );
         } else if( u.has_amount( item_name, count ) ) {
             u.use_amount( item_name, count );
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                p.i_add( old_item );
+            }
         } else {
             //~ %1$s is a translated item name
             popup( _( "You don't have a %1$s!" ), old_item.tname() );
             return;
         }
-        if( old_item.count_by_charges() ) {
-            old_item.mod_charges( count - 1 );
-            p.i_add( old_item );
-        } else {
-            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                p.i_add( old_item );
-            }
-        }
-
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "You give %1$s a %2$s." ), p.name, old_item.tname() );
