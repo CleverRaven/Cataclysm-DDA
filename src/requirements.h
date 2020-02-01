@@ -338,8 +338,8 @@ struct requirement_data {
                 const std::list<item> &remaining_comps );
 
         /**
-         * Removes duplicated qualities and tools, and merge similar component lists.
-         * This actually changes the exact meaning of the requirement.
+         * Merge similar quality/tool/component lists.
+         * This simplifies the requirement but may make the requirement stricter.
          */
         void consolidate();
 
