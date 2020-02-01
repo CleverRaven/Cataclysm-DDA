@@ -5318,7 +5318,7 @@ void game::examine()
 
     const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Examine where?" ),
                                             _( "There is nothing that can be examined nearby." ),
-                                            ACTION_EXAMINE, false, false );
+                                            ACTION_EXAMINE, false );
     if( !examp_ ) {
         return;
     }
@@ -5524,7 +5524,7 @@ void game::pickup()
 {
     const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
                                             _( "There is nothing to pick up nearby." ),
-                                            ACTION_PICKUP, false, true );
+                                            ACTION_PICKUP, false );
     if( !examp_ ) {
         return;
     }

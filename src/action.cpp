@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "translations.h"
@@ -1054,19 +1055,17 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action, bool allow_vertical,
-        bool auto_select_if_single )
+        const std::string &failure_message, const action_id action, bool allow_vertical )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical,
-                                      auto_select_if_single );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical, const bool auto_select_if_single )
+        const bool allow_vertical )
 {
     // Highlight nearby terrain according to the highlight function
     if( allowed != nullptr ) {
@@ -1090,7 +1089,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
             add_msg( failure_message );
             return cata::nullopt;
         }
-        if( auto_select_if_single && single ) {
+        if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) && single ) {
             return single;
         }
     }

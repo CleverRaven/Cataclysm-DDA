@@ -464,8 +464,7 @@ cata::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, action_id action, bool allow_vertical = false,
-        bool auto_select_if_single = false );
+        const std::string &failure_message, action_id action, bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -485,7 +484,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false, bool auto_select_if_single = false );
+        bool allow_vertical = false );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );

@@ -443,8 +443,8 @@ static void open()
     map &m = g->m;
 
     const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            pgettext( "no door, gate, etc.", "There is nothing that can be opened nearby." ), ACTION_OPEN,
-                                            false, true );
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
@@ -519,8 +519,8 @@ static void open()
 static void close()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ), ACTION_CLOSE,
-            false, true ) ) {
+            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+            ACTION_CLOSE, false ) ) {
         doors::close_door( g->m, g->u, *pnt );
     }
 }
