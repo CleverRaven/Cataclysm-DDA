@@ -56,7 +56,7 @@
     "name": "Ruger LCP",
     "description": "One of the best selling modern day 'pocket pistol's, the LCP is an affordable, polymer framed pistol chambered in .380 ACP.  Despite the round's relatively low power, the pistol's low weight and short sight radius make for a moderately poor handling pistol.",
     "weight": "267 g",
-    "volume": "250 ml",
+    "volume": "160 ml",
     "price": 21000,
     "to_hit": -3,
     "bashing": 1,
