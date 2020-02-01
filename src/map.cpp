@@ -6899,6 +6899,8 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
     item sap( "maple_sap", calendar::turn );
 
+    sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
+
     // Is there a proper container?
     auto items = i_at( p );
     for( auto &it : items ) {
