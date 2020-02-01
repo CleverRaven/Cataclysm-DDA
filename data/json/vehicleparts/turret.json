@@ -17,7 +17,7 @@
     "item": "chemical_thrower",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "chemical_thrower", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "//": "doesn't work correctly if using ammo from vehicle tanks at the moment, so uses the usual magazines",
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
@@ -29,7 +29,7 @@
     "item": "heavy_rail_rifle",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "heavy_rail_rifle", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -43,7 +43,7 @@
     "item": "emp_gun",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "emp_gun", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -57,7 +57,7 @@
     "item": "rebar_rifle",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "rebar_rifle", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -71,7 +71,7 @@
     "item": "coilgun",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "coilgun", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -85,7 +85,7 @@
     "item": "hk_g80",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "hk_g80", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -99,7 +99,7 @@
     "item": "mininuke_launcher",
     "color": "green",
     "broken_color": "green",
-    "breaks_into": [ { "item": "mininuke_launcher", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -111,7 +111,7 @@
     "default_ammo": "napalm",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -123,7 +123,7 @@
     "item": "plasma_gun",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "plasma_gun", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ] }
@@ -137,7 +137,7 @@
     "item": "laser_rifle",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -151,7 +151,7 @@
     "item": "laser_cannon",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -165,7 +165,7 @@
     "item": "m249",
     "color": "cyan",
     "broken_color": "cyan",
-    "breaks_into": [ { "item": "m249", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -176,7 +176,7 @@
     "item": "bigun",
     "color": "green",
     "broken_color": "green",
-    "breaks_into": [ { "item": "bigun", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -187,7 +187,7 @@
     "item": "m2browning",
     "color": "green",
     "broken_color": "green",
-    "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -198,7 +198,7 @@
     "item": "m134",
     "color": "green",
     "broken_color": "green",
-    "breaks_into": [ { "item": "m134", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
@@ -209,7 +209,7 @@
     "item": "m1918",
     "color": "cyan",
     "broken_color": "cyan",
-    "breaks_into": [ { "item": "m1918", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -220,7 +220,7 @@
     "item": "m240",
     "color": "cyan",
     "broken_color": "cyan",
-    "breaks_into": [ { "item": "m240", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -231,7 +231,7 @@
     "item": "m60",
     "color": "cyan",
     "broken_color": "cyan",
-    "breaks_into": [ { "item": "m60", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -242,7 +242,7 @@
     "item": "mark19",
     "color": "green",
     "broken_color": "green",
-    "breaks_into": [ { "item": "mark19", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -254,7 +254,7 @@
     "color": "green",
     "broken_color": "green",
     "durability": 800,
-    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -265,7 +265,7 @@
     "item": "rm298",
     "color": "white",
     "broken_color": "white",
-    "breaks_into": [ { "item": "rm298", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -276,7 +276,7 @@
     "item": "rm614_lmg",
     "color": "white",
     "broken_color": "white",
-    "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -287,7 +287,7 @@
     "item": "plasma_rifle",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -302,7 +302,7 @@
     "default_ammo": "water",
     "color": "blue",
     "broken_color": "blue",
-    "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   }
