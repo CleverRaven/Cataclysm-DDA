@@ -55,14 +55,7 @@
         { "clear_npc_rule": "investigate_noises" }
       ]
     },
-    "end": {
-      "effect": [
-        "stop_guard",
-        { "set_npc_rule": "investigate_noises" },
-        { "u_sell_item": "inhaler" },
-        "npc_thankful"
-      ]
-    },
+    "end": { "effect": [ "stop_guard", { "set_npc_rule": "investigate_noises" }, { "u_sell_item": "inhaler" }, "npc_thankful" ] },
     "fail": { "effect": "npc_die" }
   },
   {
