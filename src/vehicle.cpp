@@ -4583,7 +4583,7 @@ int vehicle::total_solar_epower_w() const
 
 int vehicle::total_wind_epower_w() const
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
     const w_point weatherPoint = *g->weather.weather_precise;
     int epower_w = 0;
     for( int part : wind_turbines ) {
