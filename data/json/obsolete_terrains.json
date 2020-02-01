@@ -295,7 +295,11 @@
       "house_base_north",
       "house_base_south",
       "house_base_east",
-      "house_base_west"
+      "house_base_west",
+      "mass_grave_north",
+      "mass_grave_south",
+      "mass_grave_east",
+      "mass_grave_west"
     ]
   }
 ]

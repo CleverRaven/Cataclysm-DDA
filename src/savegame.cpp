@@ -846,6 +846,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( "house_east" ) );
         } else if( old == "house_base_west" ) {
             ter_set( pos, oter_id( "house_west" ) );
+        } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
+            ter_set( pos, oter_id( "field" ) );
         }
 
         for( const auto &conv : nearby ) {
