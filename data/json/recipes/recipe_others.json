@@ -2427,6 +2427,7 @@
   {
     "type": "recipe",
     "result": "hammer_sledge_short",
+    "id_suffix": "forged",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -2442,6 +2443,7 @@
   {
     "type": "recipe",
     "result": "hammer_sledge_short",
+    "id_suffix": "from_cutting",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
