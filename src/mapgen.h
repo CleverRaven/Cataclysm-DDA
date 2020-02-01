@@ -181,19 +181,46 @@ class jmapgen_place
 
 using palette_id = std::string;
 
+// Strong typedef for strings used as map/palette keys
+// Each key should be a UTF-8 string displayed in only one column (i.e.
+// utf8_width of 1) but can contain multiple Unicode code points.
+class map_key
+{
+    public:
+        map_key( const std::string & );
+        map_key( const JsonMember & );
+
+        friend bool operator==( const map_key &l, const map_key &r ) {
+            return l.str == r.str;
+        }
+
+        std::string str;
+};
+
+namespace std
+{
+template<>
+struct hash<map_key> {
+    size_t operator()( const map_key &k ) const noexcept {
+        return hash<std::string> {}( k.str );
+    }
+};
+} // namespace std
+
 class mapgen_palette
 {
     public:
         palette_id id;
         /**
-         * The mapping from character code (key) to a list of things that should be placed. This is
+         * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
          * out of the json "bitmap" (which is used to paint the terrain/furniture).
          */
-        using placing_map = std::map< int, std::vector< shared_ptr_fast<const jmapgen_piece> > >;
+        using placing_map =
+            std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::map<int, ter_id> format_terrain;
-        std::map<int, furn_id> format_furniture;
+        std::unordered_map<map_key, ter_id> format_terrain;
+        std::unordered_map<map_key, furn_id> format_furniture;
         placing_map format_placings;
 
         template<typename PieceType>
