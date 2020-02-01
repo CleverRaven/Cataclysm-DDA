@@ -2082,6 +2082,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
+    assign( jo, "ascii_picture", def.ascii_picture );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -2114,10 +2115,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "description" ) ) {
         jo.read( "description", def.description );
-    }
-
-    if( jo.has_member( "ascii_picture" ) ) {
-        jo.read( "ascii_picture", def.ascii_picture );
     }
 
     if( jo.has_string( "symbol" ) ) {
