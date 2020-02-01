@@ -20,14 +20,13 @@
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 381 ] ],
+          [ [ "cattail_stalk", 172 ], [ "dogbane", 172 ], [ "pine_bough", 172 ], [ "straw_pile", 172 ] ],
+          [ [ "clay_lump", 172 ], [ "material_limestone", 172 ], [ "material_quicklime", 172 ] ],
+          [ [ "material_sand", 430 ], [ "pebble", 430 ] ],
           [ [ "nail", 396 ] ],
-          [ [ "wood_sheet", 3 ], [ "wood_panel", 5 ] ],
-          [ [ "material_quicklime", 172 ], [ "material_limestone", 172 ], [ "clay_lump", 172 ] ],
-          [ [ "pebble", 430 ], [ "material_sand", 430 ] ],
-          [ [ "straw_pile", 172 ], [ "cattail_stalk", 172 ], [ "dogbane", 172 ], [ "pine_bough", 172 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 215 ], [ "water_clean", 215 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 17 ] ]
+          [ [ "wood_panel", 22 ] ]
         ]
       }
     }
@@ -53,16 +52,15 @@
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
           [ [ "2x4", 168 ] ],
+          [ [ "cattail_stalk", 104 ], [ "dogbane", 104 ], [ "pine_bough", 104 ], [ "straw_pile", 104 ] ],
+          [ [ "clay_lump", 104 ], [ "material_limestone", 104 ], [ "material_quicklime", 104 ] ],
+          [ [ "material_sand", 260 ], [ "pebble", 260 ] ],
           [ [ "nail", 72 ] ],
           [ [ "pipe", 60 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "sheet_metal", 10 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "material_quicklime", 104 ], [ "material_limestone", 104 ], [ "clay_lump", 104 ] ],
-          [ [ "pebble", 260 ], [ "material_sand", 260 ] ],
-          [ [ "straw_pile", 104 ], [ "cattail_stalk", 104 ], [ "dogbane", 104 ], [ "pine_bough", 104 ] ],
           [ [ "water", 130 ], [ "water_clean", 130 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 2 ] ]
+          [ [ "wood_panel", 3 ] ]
         ]
       }
     }

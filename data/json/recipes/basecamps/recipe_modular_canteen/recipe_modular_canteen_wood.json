@@ -64,7 +64,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 240 ] ], [ [ "nail", 688 ] ], [ [ "wood_sheet", 6 ], [ "wood_panel", 12 ] ], [ [ "wood_panel", 22 ] ] ]
+        "components": [ [ [ "2x4", 240 ] ], [ [ "nail", 688 ] ], [ [ "wood_panel", 34 ] ] ]
       }
     }
   },
@@ -87,13 +87,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 1660 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "2x4", 300 ] ],
-          [ [ "wood_sheet", 40 ], [ "wood_panel", 80 ] ]
-        ]
+        "components": [ [ [ "2x4", 330 ] ], [ [ "glass_sheet", 2 ] ], [ [ "nail", 1660 ] ], [ [ "wood_panel", 80 ], [ "wood_sheet", 40 ] ] ]
       }
     }
   },
