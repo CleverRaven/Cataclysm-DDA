@@ -2445,8 +2445,9 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 2,
+    "difficulty": 1,
     "time": "2 m",
+    "byproducts": [ [ "splinter", 1 ] ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "hammer_sledge", 1 ] ] ]
