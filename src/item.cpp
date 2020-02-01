@@ -8094,7 +8094,8 @@ bool item::can_holster( const item &obj, bool ) const
 
     const holster_actor *ptr = dynamic_cast<const holster_actor *>
                                ( type->get_use( "holster" )->get_actor_ptr() );
-    return ptr->multi > contents.num_item_stacks() && ptr->can_holster( obj );
+    return ptr->multi > static_cast<int>( contents.num_item_stacks() )
+           && ptr->can_holster( obj );
 }
 
 std::string item::components_to_string() const
