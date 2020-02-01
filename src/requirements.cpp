@@ -1176,9 +1176,27 @@ void requirement_data::consolidate()
     components = std::move( all_comps );
 }
 
+template<typename T>
+static bool sorted_equal( std::vector<std::vector<T>> lhs, std::vector<std::vector<T>> rhs )
+{
+    if( lhs.size() != rhs.size() ) {
+        return false;
+    }
+    for( auto &inner : lhs ) {
+        std::sort( inner.begin(), inner.end() );
+    }
+    for( auto &inner : rhs ) {
+        std::sort( inner.begin(), inner.end() );
+    }
+    std::sort( lhs.begin(), lhs.end() );
+    std::sort( rhs.begin(), rhs.end() );
+    return lhs == rhs;
+}
+
 bool requirement_data::has_same_requirements_as( const requirement_data &that ) const
 {
-    return tools == that.tools && qualities == that.qualities && components == that.components;
+    return sorted_equal( tools, that.tools ) && sorted_equal( qualities, that.qualities )
+           && sorted_equal( components, that.components );
 }
 
 template<typename T>
