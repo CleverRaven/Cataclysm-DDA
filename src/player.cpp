@@ -3430,6 +3430,12 @@ bool player::can_interface_armor() const
     return okay;
 }
 
+bool player::can_view_remote_video() const 
+{
+    // bio_remote don't provide video feed
+    return g->u.has_active_item( "remotevehcontrol" );
+}
+
 bool player::has_mission_item( int mission_id ) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );

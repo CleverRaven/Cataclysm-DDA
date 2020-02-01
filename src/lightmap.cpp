@@ -1141,7 +1141,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
 
-    const bool is_remote_controlled = static_cast<bool>( g->remoteveh() );
+    const bool can_view_remote = static_cast<bool>( g->remoteveh() ) && g->u.can_view_remote_video();
     vehicle *const veh = g->get_posessed_vehicle( origin );
     if ( !veh )
         return;
@@ -1170,7 +1170,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
     for( int mirror : mirrors ) {
         bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
-        if( is_camera && cam_control < 0 && !is_remote_controlled ) {
+        if( is_camera && cam_control < 0 && !can_view_remote ) {
             continue; // Player not at camera control, so cameras don't work
         }
 

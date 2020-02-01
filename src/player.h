@@ -876,6 +876,8 @@ class player : public Character
         */
         bool can_interface_armor() const;
 
+        bool can_view_remote_video() const;
+
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile

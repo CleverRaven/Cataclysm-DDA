@@ -1268,7 +1268,12 @@ void game::calc_driving_offset_for_rc( vehicle *veh )
 
     // due to very limited RC range, no need to adjust driving_view_offset to fit maximum of visible area in game window
     tripoint veh_ref_pos = u.pos();
-    if (g->remoteveh()) {
+    if( g->remoteveh() ) {
+        if( !( veh->has_part( "CAMERA" ) && g->u.can_view_remote_video() ) ) {
+            set_driving_view_offset(point_zero);
+            return;
+        }
+
         for( const vpart_reference &vp : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
             veh_ref_pos = vp.pos();
             break;
@@ -1517,7 +1522,7 @@ bool game::do_turn()
         // might also happen when someone dives from a moving car.
         // or when using the handbrake.
         vehicle *veh = g->get_posessed_vehicle( g->u.pos() );
-        if (!g->remoteveh()) {
+        if( !g->remoteveh() ) {
             g->calc_driving_offset( veh );
         } else {
             g->calc_driving_offset_for_rc( veh );
@@ -3343,6 +3348,10 @@ cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
 
     tripoint veh_ref_pos = u.pos();
     if( g->remoteveh() ) {
+        if( !( veh->has_part("CAMERA") && g->u.can_view_remote_video() ) ) {
+            return cata::nullopt;
+        }
+
         for ( const vpart_reference &vp : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
             veh_ref_pos = vp.pos();
             break;
