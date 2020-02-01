@@ -2738,7 +2738,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials" ), f, false, true );
+            _( "There is nowhere to deposit the excavated materials." ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
@@ -3001,7 +3001,7 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     }
     if( found_more_than_one ) {
         cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-                                            _( "Siphon from where?" ), _( "There is nothing to siphon nearby" ), f, false, true );
+                                            _( "Siphon from where?" ), _( "There is nothing to siphon nearby." ), f, false, true );
         if( !pnt_ ) {
             return 0;
         }
