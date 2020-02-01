@@ -450,7 +450,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             if( optional_vpart_position vp = g->m.veh_at( target ) ) {
                 vp->vehicle().damage( vp->part_index(), damage );
             } else {
-                g->m.bash( target, damage / 12, true );
+                g->m.bash( target, damage / 15, true );
             }
         }
     }
