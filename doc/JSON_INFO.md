@@ -2072,7 +2072,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
     "fun_bonus": 2,
     "description_frequency": 20, // Once every Nth turn, a randomly chosen description (from the that array) is displayed.
-    "descriptions": [
+    "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
