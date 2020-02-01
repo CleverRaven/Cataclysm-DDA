@@ -135,7 +135,14 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
 {
     for( Page &p : pages_ ) {
         if( p.id_ == page ) {
+            // Don't add duplicate options to the page
+            for( const cata::optional<std::string> &i : p.items_ ) {
+                if( i.has_value() && i.value() == name ) {
+                    return;
+                }
+            }
             p.items_.emplace_back( name );
+            return;
         }
     }
     // @TODO handle the case when an option has no valid page id (note: consider hidden external options as well)
