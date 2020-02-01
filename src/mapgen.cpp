@@ -216,21 +216,26 @@ class mapgen_basic_container
             mapgens_[index]->weight = 0;
         }
         /**
-         * Pick a mapgen function randomly.
+         * Pick a mapgen function randomly and call its generate function.
+         * This basically runs the mapgen functions with the given @ref mapgendata
+         * as argument.
+         * @return Whether the mapgen function has been run. It may not get run if
+         * the list of mapgen functions is effectively empty.
          * @p hardcoded_weight Weight for an additional entry. If that entry is chosen,
-         * a null pointer is returned. If unsure, just use 0 for it.
+         * false is returned. If unsure, just use 0 for it.
          */
-        mapgen_function *pick( const int hardcoded_weight ) const {
+        bool generate( mapgendata &dat, const int hardcoded_weight ) const {
             if( hardcoded_weight > 0 &&
                 rng( 1, weights_.get_weight() + hardcoded_weight ) > weights_.get_weight() ) {
-                return nullptr;
+                return false;
             }
             const std::shared_ptr<mapgen_function> *const ptr = weights_.pick();
             if( !ptr ) {
-                return nullptr;
+                return false;
             }
             assert( *ptr );
-            return ptr->get();
+            ( *ptr )->generate( dat );
+            return true;
         }
         /**
          * Calls @ref mapgen_function::setup and sets up the internal weighted list using
@@ -274,7 +279,7 @@ class mapgen_factory
                     result.insert( elem.generator_id );
                 }
             }
-            // Used in C++ code only, see calls to `oter_mapgen.pick()` below
+            // Used in C++ code only, see calls to `oter_mapgen.generate()` below
             result.insert( "lab_1side" );
             result.insert( "lab_4side" );
             result.insert( "lab_finale_1level" );
@@ -314,13 +319,13 @@ class mapgen_factory
         int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
             return mapgens_[key].add( ptr );
         }
-        /// @see mapgen_basic_container::pick
-        mapgen_function *pick( const std::string &key, const int hardcoded_weight = 0 ) const {
+        /// @see mapgen_basic_container::generate
+        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
             const auto iter = mapgens_.find( key );
             if( iter == mapgens_.end() ) {
-                return nullptr;
+                return false;
             }
-            return iter->second.pick( hardcoded_weight );
+            return iter->second.generate( dat, hardcoded_weight );
         }
         /// @see mapgen_basic_container::erase
         void erase( const std::string &key, const size_t index ) {
@@ -3577,8 +3582,7 @@ void map::draw_lab( mapgendata &dat )
             //A lab area with only one entrance
             if( boarders == 1 ) {
                 // If you remove the usage of "lab_1side" here, remove it from mapgen_factory::get_usages above as well.
-                if( const auto ptr = oter_mapgen.pick( "lab_1side" ) ) {
-                    ptr->generate( dat );
+                if( oter_mapgen.generate( dat, "lab_1side" ) ) {
                     if( tw == 2 ) {
                         rotate( 2 );
                     }
@@ -3596,8 +3600,7 @@ void map::draw_lab( mapgendata &dat )
             } else {
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
                 // If you remove the usage of "lab_4side" here, remove it from mapgen_factory::get_usages above as well.
-                if( const auto ptr = oter_mapgen.pick( "lab_4side", hardcoded_4side_map_weight ) ) {
-                    ptr->generate( dat );
+                if( oter_mapgen.generate( dat, "lab_4side", hardcoded_4side_map_weight ) ) {
                     // If the map template hasn't handled borders, handle them in code.
                     // Rotated maps cannot handle borders and have to be caught in code.
                     // We determine if a border isn't handled by checking the east-facing
@@ -4142,9 +4145,7 @@ void map::draw_lab( mapgendata &dat )
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
         // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
-        if( const auto ptr = oter_mapgen.pick( "lab_finale_1level", hardcoded_finale_map_weight ) ) {
-            ptr->generate( dat );
-
+        if( oter_mapgen.generate( dat, "lab_finale_1level", hardcoded_finale_map_weight ) ) {
             // If the map template hasn't handled borders, handle them in code.
             // Rotated maps cannot handle borders and have to be caught in code.
             // We determine if a border isn't handled by checking the east-facing
@@ -7359,11 +7360,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 {
-    if( const auto ptr = oter_mapgen.pick( mapgen_id ) ) {
-        ptr->generate( dat );
-        return true;
-    }
-    return false;
+    return oter_mapgen.generate( dat, mapgen_id );
 }
 
 int register_mapgen_function( const std::string &key )
