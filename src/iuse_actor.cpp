@@ -2572,7 +2572,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             pos = -2;
         } else {
             pos += ret;
-            if( opts.size() != it.contents.size() ) {
+            if( opts.size() != it.contents.num_item_stacks() ) {
                 ret--;
             }
             auto iter = std::next( all_items.begin(), ret );
