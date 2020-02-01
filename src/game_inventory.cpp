@@ -1117,7 +1117,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
                     if( loc->ammo_data()->ammo->prop_damage ) {
-                        const int ammo_mult = *loc->ammo_data()->ammo->prop_damage;
+                        const float ammo_mult = *loc->ammo_data()->ammo->prop_damage;
 
                         return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
                                               get_damage_string( basic_damage, true ),
@@ -1180,9 +1180,9 @@ class weapon_inventory_preset: public inventory_selector_preset
             return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
         }
 
-        std::string get_damage_string( int damage, bool display_zeroes = false ) const {
+        std::string get_damage_string( float damage, bool display_zeroes = false ) const {
             return damage ||
-                   display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
+                   display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
         const player &p;
