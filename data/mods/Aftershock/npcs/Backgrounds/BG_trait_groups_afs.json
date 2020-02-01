@@ -1,0 +1,21 @@
+[
+  {
+    "//": "This group picks out background traits that could apply to any mutant survivor.",
+    "type": "trait_group",
+    "id": "BG_survival_story_MUTANTS",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "BGSS_RECENT_MUTATION_1" },
+      { "trait": "BGSS_UPLIFTED_ANIMAL_1" },
+      { "trait": "BGSS_UPLIFTED_ANIMAL_2" },
+      { "trait": "BGSS_UPLIFTED_ANIMAL_3" },
+      { "trait": "BGSS_UPLIFTED_ANIMAL_4" },
+      { "trait": "BGSS_UPLIFTED_ANIMAL_5" },
+      { "trait": "BGSS_RADIATION_1" },
+      { "trait": "BGSS_RADIATION_2" },
+      { "trait": "BGSS_SELFTEST" },
+      { "trait": "BGSS_VATGROWN_1" },
+      { "trait": "BGSS_CRIMINAL_EXPERIMENT" }
+    ]
+  }
+]
