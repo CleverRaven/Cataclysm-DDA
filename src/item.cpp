@@ -3332,7 +3332,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
-        for( const std::string line : type->ascii_picture ) {
+        for( const std::string &line : type->ascii_picture ) {
             info.push_back( iteminfo( "DESCRIPTION", line ) );
         }
     }

@@ -415,17 +415,13 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
-    if( !obj.ascii_picture.empty() ) {
-        std::vector<std::string> tmp_ascii_pic;
-        for( std::string line : obj.ascii_picture ) {
-            if( line.length() > 42 ) {
-                line = line.substr( 0, 42 );
-                debugmsg( "ascii_picture in %s contains a line too long to be displayed (>42 char).", obj.id );
-            }
-            tmp_ascii_pic.emplace_back( line );
+    for( std::string &line : obj.ascii_picture ) {
+        if( line.length() > 42 ) {
+            line = line.substr( 0, 42 );
+            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>42 char).", obj.id );
         }
-        obj.ascii_picture = tmp_ascii_pic;
     }
+
 }
 
 void Item_factory::finalize()
