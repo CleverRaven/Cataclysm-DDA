@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_CRIMINAL_EXPERIMENT_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I underwent experimental treatments paid for by the cartels to become a more fearsome enforcer.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_CRIMINAL_EXPERIMENT_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_EXPERIMENT_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Half of the guys I underwent gene therapy with died, but hey if I had to guess 90 percent of everyone is dead now?",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_CRIMINAL_EXPERIMENT_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_EXPERIMENT_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Only the insane will prosper.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_CRIMINAL_EXPERIMENT_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]
