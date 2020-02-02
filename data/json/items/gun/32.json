@@ -8,7 +8,7 @@
     "name_plural": "SIG Sauer P230",
     "description": "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  Due to its small dimensions, it was often carried as a backup weapon.",
     "weight": "460 g",
-    "volume": "250 ml",
+    "volume": "312 ml",
     "price": 43000,
     "to_hit": -1,
     "bashing": 8,
