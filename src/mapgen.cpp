@@ -786,6 +786,20 @@ void jmapgen_place::offset( const point &offset )
     y.valmax -= offset.y;
 }
 
+map_key::map_key( const std::string &s ) : str( s )
+{
+    if( utf8_width( str ) != 1 ) {
+        debugmsg( "map key '%s' must be 1 column", str );
+    }
+}
+
+map_key::map_key( const JsonMember &member ) : str( member.name() )
+{
+    if( utf8_width( str ) != 1 ) {
+        member.throw_error( "format map key must be 1 column" );
+    }
+}
+
 /**
  * This is a generic mapgen piece, the template parameter PieceType should be another specific
  * type of jmapgen_piece. This class contains a vector of those objects and will chose one of
@@ -2060,16 +2074,13 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
 {
     if( jo.has_object( "mapping" ) ) {
         for( const JsonMember member : jo.get_object( "mapping" ) ) {
-            const std::string &key = member.name();
-            if( key.size() != 1 ) {
-                member.throw_error( "format map key must be 1 character" );
-            }
+            const map_key key( member );
             JsonObject sub = member.get_object();
             sub.allow_omitted_members();
             if( !sub.has_member( member_name ) ) {
                 continue;
             }
-            auto &vect = format_placings[ key[0] ];
+            auto &vect = format_placings[ key ];
             ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect );
         }
     }
@@ -2083,11 +2094,8 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         return;
     }
     for( const JsonMember member : jo.get_object( member_name ) ) {
-        const std::string &key = member.name();
-        if( key.size() != 1 ) {
-            member.throw_error( "format map key must be 1 character" );
-        }
-        auto &vect = format_placings[ key[0] ];
+        const map_key key( member );
+        auto &vect = format_placings[ key ];
         ::load_place_mapings<PieceType>( member, vect );
     }
 }
@@ -2165,20 +2173,17 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // "terrain": { "a": "t_grass", "b": "t_lava" }
     if( jo.has_member( "terrain" ) ) {
         for( const JsonMember member : jo.get_object( "terrain" ) ) {
-            const std::string &key = member.name();
-            if( key.size() != 1 ) {
-                member.throw_error( "format map key must be 1 character" );
-            }
+            const map_key key( member );
             if( member.test_string() ) {
-                format_terrain[key[0]] = ter_id( member.get_string() );
+                format_terrain[key] = ter_id( member.get_string() );
             } else {
-                auto &vect = format_placings[ key[0] ];
+                auto &vect = format_placings[ key ];
                 ::load_place_mapings<jmapgen_terrain>( member, vect );
                 if( !vect.empty() ) {
                     // Dummy entry to signal that this terrain is actually defined, because
                     // the code below checks that each square on the map has a valid terrain
                     // defined somehow.
-                    format_terrain[key[0]] = t_null;
+                    format_terrain[key] = t_null;
                 }
             }
         }
@@ -2186,14 +2191,11 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 
     if( jo.has_object( "furniture" ) ) {
         for( const JsonMember member : jo.get_object( "furniture" ) ) {
-            const std::string &key = member.name();
-            if( key.size() != 1 ) {
-                member.throw_error( "format map key must be 1 character" );
-            }
+            const map_key key( member );
             if( member.test_string() ) {
-                format_furniture[key[0]] = furn_id( member.get_string() );
+                format_furniture[key] = furn_id( member.get_string() );
             } else {
-                auto &vect = format_placings[ key[0] ];
+                auto &vect = format_placings[ key ];
                 ::load_place_mapings<jmapgen_furniture>( member, vect );
             }
         }
@@ -2331,27 +2333,35 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             return false;
         }
 
-        // mandatory: mapgensize rows of mapgensize character lines, each of which must have a matching key in "terrain",
-        // unless fill_ter is set
+        // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
+        // matching key in "terrain", unless fill_ter is set
         // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
         point expected_dim = mapgensize + m_offset;
+        assert( expected_dim.x >= 0 );
+        assert( expected_dim.y >= 0 );
+
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
                                                expected_dim.y, parray.size() ) );
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
-            const auto tmpval = parray.get_string( c );
-            if( static_cast<int>( tmpval.size() ) < expected_dim.x ) {
-                parray.throw_error( string_format( "format: row %d must have at least %d columns, not %d",
-                                                   c + 1, expected_dim.x, tmpval.size() ) );
+            const std::string row = parray.get_string( c );
+            std::vector<map_key> row_keys;
+            for( const std::string &key : utf8_display_split( row ) ) {
+                row_keys.emplace_back( key );
+            }
+            if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
+                parray.throw_error(
+                    string_format( "  format: row %d must have at least %d columns, not %d",
+                                   c + 1, expected_dim.x, row_keys.size() ) );
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const int tmpkey = tmpval[i];
-                const auto iter_ter = format_terrain.find( tmpkey );
-                const auto iter_furn = format_furniture.find( tmpkey );
-                const auto fpi = format_placings.find( tmpkey );
+                const map_key key = row_keys[i];
+                const auto iter_ter = format_terrain.find( key );
+                const auto iter_furn = format_furniture.find( key );
+                const auto fpi = format_placings.find( key );
 
                 const bool has_terrain = iter_ter != format_terrain.end();
                 const bool has_furn = iter_furn != format_furniture.end();
@@ -2360,18 +2370,19 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 if( !has_terrain && !fallback_terrain_exists ) {
                     parray.throw_error(
                         string_format( "format: rows: row %d column %d: "
-                                       "'%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
+                                       "'%s' is not in 'terrain', and no 'fill_ter' is set!",
+                                       c + 1, i + 1, key.str ) );
                 }
-                if( test_mode && !has_terrain && !has_furn && !has_placing && tmpkey != ' ' && tmpkey != '.' ) {
+                if( test_mode && !has_terrain && !has_furn && !has_placing &&
+                    key.str != " " && key.str != "." ) {
                     // TODO: Once all the in-tree mods don't report this error,
                     // it should be changed to happen in regular games (not
                     // just test_mode) and be non-fatal, so that mappers find
                     // out about their issues before they PR their changes.
                     parray.throw_error(
                         string_format( "format: rows: row %d column %d: "
-                                       "'%c' has no terrain, furniture, or other definition",
-                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
+                                       "'%s' has no terrain, furniture, or other definition",
+                                       c + 1, i + 1, key.str ) );
                 }
                 if( has_terrain ) {
                     format[ calc_index( p ) ].ter = iter_ter->second;
