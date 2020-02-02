@@ -342,6 +342,7 @@
       [ "manual_shotgun", 5 ],
       [ "manual_rifle", 5 ],
       [ "manual_pistol", 5 ],
+      [ "manual_traps_mil", 5 ],
       [ "mag_pistol", 10 ],
       [ "mag_rifle", 10 ]
     ]
