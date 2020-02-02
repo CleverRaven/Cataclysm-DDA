@@ -3228,9 +3228,9 @@ std::string give_item_to( npc &p, bool allow_use )
     const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-             p.weapon.type->get_id(), our_ammo, cur_weapon_value );
+             p.weapon.typeId(), our_ammo, cur_weapon_value );
     add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-             given.type->get_id(), new_ammo, new_weapon_value );
+             given.typeId(), new_ammo, new_weapon_value );
     if( allow_use ) {
         // Eating first, to avoid evaluating bread as a weapon
         const auto consume_res = try_consume( p, given, reason );
@@ -3257,22 +3257,20 @@ std::string give_item_to( npc &p, bool allow_use )
                 //if we can wear it with equip changes prompt first
                 can_wear = p.can_wear( given );
                 if( ( can_wear.success() ||
-                      query_yn( std::string( can_wear.c_str() ) += std::string(
-                                    _( " Should I take something off?" ) ) ) )
+                      query_yn( _( can_wear.str() ) += _( " Should I take something off?" ) ) )
                     && p.wear_if_wanted( given, reason ) ) {
                     taken = true;
                 } else {
-                    reason = can_wear.c_str();
+                    reason = can_wear.str();
                 }
             }
         } else {
-            reason += _( "My current weapon is better than this." );
-            reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                            cur_weapon_value );
+            reason += "" + string_format(
+                          _( "My current weapon is better than this. \n(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                          cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
-        if( p.can_pickVolume( given ) &&
-            p.can_pickWeight( given ) ) {
+        if( p.can_pickVolume( given ) && p.can_pickWeight( given ) ) {
             reason = _( "Thanks, I'll carry that now." );
             taken = true;
             p.i_add( given );
