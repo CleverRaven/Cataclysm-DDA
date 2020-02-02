@@ -1980,7 +1980,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         return;
     }
     for( const JsonMember member : jo.get_object( member_name ) ) {
-        const std::string key = member.name();
+        const std::string &key = member.name();
         if( key.size() != 1 ) {
             member.throw_error( "format map key must be 1 character" );
         }
@@ -2062,7 +2062,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // "terrain": { "a": "t_grass", "b": "t_lava" }
     if( jo.has_member( "terrain" ) ) {
         for( const JsonMember member : jo.get_object( "terrain" ) ) {
-            const std::string key = member.name();
+            const std::string &key = member.name();
             if( key.size() != 1 ) {
                 member.throw_error( "format map key must be 1 character" );
             }
@@ -2083,7 +2083,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 
     if( jo.has_object( "furniture" ) ) {
         for( const JsonMember member : jo.get_object( "furniture" ) ) {
-            const std::string key = member.name();
+            const std::string &key = member.name();
             if( key.size() != 1 ) {
                 member.throw_error( "format map key must be 1 character" );
             }
