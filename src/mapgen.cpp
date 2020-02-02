@@ -1979,13 +1979,13 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     if( member_name == "terrain" || member_name == "furniture" ) {
         return;
     }
-    JsonObject pjo = jo.get_object( member_name );
-    for( auto &key : pjo.get_member_names() ) {
+    for( const JsonMember member : jo.get_object( member_name ) ) {
+        const std::string key = member.name();
         if( key.size() != 1 ) {
-            pjo.throw_error( "format map key must be 1 character", key );
+            member.throw_error( "format map key must be 1 character" );
         }
         auto &vect = format_placings[ key[0] ];
-        ::load_place_mapings<PieceType>( pjo.get_member( key ), vect );
+        ::load_place_mapings<PieceType>( member, vect );
     }
 }
 
@@ -2061,16 +2061,16 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // mandatory: every character in rows must have matching entry, unless fill_ter is set
     // "terrain": { "a": "t_grass", "b": "t_lava" }
     if( jo.has_member( "terrain" ) ) {
-        JsonObject pjo = jo.get_object( "terrain" );
-        for( const auto &key : pjo.get_member_names() ) {
+        for( const JsonMember member : jo.get_object( "terrain" ) ) {
+            const std::string key = member.name();
             if( key.size() != 1 ) {
-                pjo.throw_error( "format map key must be 1 character", key );
+                member.throw_error( "format map key must be 1 character" );
             }
-            if( pjo.has_string( key ) ) {
-                format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
+            if( member.test_string() ) {
+                format_terrain[key[0]] = ter_id( member.get_string() );
             } else {
                 auto &vect = format_placings[ key[0] ];
-                ::load_place_mapings<jmapgen_terrain>( pjo.get_member( key ), vect );
+                ::load_place_mapings<jmapgen_terrain>( member, vect );
                 if( !vect.empty() ) {
                     // Dummy entry to signal that this terrain is actually defined, because
                     // the code below checks that each square on the map has a valid terrain
@@ -2082,16 +2082,16 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     }
 
     if( jo.has_object( "furniture" ) ) {
-        JsonObject pjo = jo.get_object( "furniture" );
-        for( const auto &key : pjo.get_member_names() ) {
+        for( const JsonMember member : jo.get_object( "furniture" ) ) {
+            const std::string key = member.name();
             if( key.size() != 1 ) {
-                pjo.throw_error( "format map key must be 1 character", key );
+                member.throw_error( "format map key must be 1 character" );
             }
-            if( pjo.has_string( key ) ) {
-                format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
+            if( member.test_string() ) {
+                format_furniture[key[0]] = furn_id( member.get_string() );
             } else {
                 auto &vect = format_placings[ key[0] ];
-                ::load_place_mapings<jmapgen_furniture>( pjo.get_member( key ), vect );
+                ::load_place_mapings<jmapgen_furniture>( member, vect );
             }
         }
     }
