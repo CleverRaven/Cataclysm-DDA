@@ -1287,7 +1287,7 @@ See also VEHICLE_JSON.md
       ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
       ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
       ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
-      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 44 characters won't display properly.
+      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
       "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
       "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
       "        `;;;;;;;;;;;;'   ...;;...............;.....",
