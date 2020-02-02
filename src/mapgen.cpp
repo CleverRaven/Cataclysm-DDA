@@ -295,6 +295,8 @@ class mapgen_factory
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
             }
+            // Dummy entry, overmap terrain null should never appear and is therefor never generated.
+            mapgens_.erase( "null" );
         }
         void check_consistency() {
             // Cache all strings that may get looked up here so we don't have to go through
