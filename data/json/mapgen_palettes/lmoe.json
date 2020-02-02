@@ -90,10 +90,16 @@
     "id": "bunker_ext",
     "terrain": {
       " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
-      "_": [ "t_region_groundcover", [ "t_dirt", 4 ] ],
+      "_": "t_region_groundcover_barren",
       "#": "t_rock",
       "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
-      "S": [ [ "t_region_groundcover", 5 ], "t_region_tree_fruit", "t_region_tree_nut", "t_region_tree", "t_region_shrub_fruit", "t_region_shrub" ],
+      "S": [
+        [ "t_region_groundcover", 5 ],
+        "t_region_tree_fruit",
+        "t_region_tree_nut",
+        "t_region_tree",
+        "t_region_shrub_fruit",
+        "t_region_shrub"
       ],
       "v": "t_open_air",
       "+": "t_door_metal_c",
