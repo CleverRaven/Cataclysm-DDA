@@ -58,6 +58,14 @@
     "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
   },
   {
+    "abstract": "paperback_romance_vanilla",
+    "type": "BOOK",
+    "name": "Vanilla Romance Novel",
+    "description": "Vanilla Media is a mainstream imprint providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventially uplifting moral.",
+    "copy-from": "paperback_novel",
+    "relative": { "price_post": -100 }
+  },
+  {
     "abstract": "holybook_abstract",
     "type": "BOOK",
     "name": "holybook abstract",
