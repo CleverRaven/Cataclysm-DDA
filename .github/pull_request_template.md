@@ -24,9 +24,10 @@ The categories to choose from are:
 * Build
 * I18N
 
-Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
-
 See the [Changelog Guidelines](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
+
+Example:
+```SUMMARY: Content "Adds new mutation category 'Mouse'"```
 -->
 
 #### Purpose of change
