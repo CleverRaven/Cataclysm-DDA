@@ -231,14 +231,6 @@ class mapgen_basic_container
             mapgens_.push_back( ptr );
             return mapgens_.size() - 1;
         }
-        void erase( const size_t index ) {
-            if( index > mapgens_.size() ) {
-                return;
-            }
-            assert( mapgens_[index] );
-            // Can't actually erase it as this might invalid the index stored elsewhere
-            mapgens_[index]->weight = 0;
-        }
         /**
          * Pick a mapgen function randomly and call its generate function.
          * This basically runs the mapgen functions with the given @ref mapgendata
@@ -353,10 +345,6 @@ class mapgen_factory
             }
             return iter->second.generate( dat, hardcoded_weight );
         }
-        /// @see mapgen_basic_container::erase
-        void erase( const std::string &key, const size_t index ) {
-            mapgens_[key].erase( index );
-        }
 };
 
 static mapgen_factory oter_mapgen;
@@ -430,21 +418,11 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &id_base,
-                      int default_idx, const point &offset )
+load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset )
 {
     int mgweight = jio.get_int( "weight", 1000 );
     std::shared_ptr<mapgen_function> ret;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
-        const std::string mgtype = jio.get_string( "method" );
-        if( default_idx != -1 && mgtype == "builtin" ) {
-            if( jio.has_string( "name" ) ) {
-                const std::string mgname = jio.get_string( "name" );
-                if( mgname == id_base ) {
-                    oter_mapgen.erase( id_base, default_idx );
-                }
-            }
-        }
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
@@ -514,7 +492,7 @@ void load_mapgen( const JsonObject &jo )
             point offset;
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
-                    const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, offset );
+                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset );
                     if( mgfunc ) {
                         oter_mapgen.add( mapgenid, mgfunc );
                     }
@@ -530,7 +508,7 @@ void load_mapgen( const JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, point_zero );
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
                         oter_mapgen.add( i, mgfunc );
@@ -539,7 +517,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1, point_zero );
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
