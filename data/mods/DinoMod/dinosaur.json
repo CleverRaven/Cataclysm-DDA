@@ -662,7 +662,6 @@
     "name": "GROUP_DINOSAUR_HARMLESS",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
     ]
@@ -672,6 +671,7 @@
     "name": "GROUP_DINOSAUR_DANGEROUS",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 },
       { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
@@ -704,6 +704,7 @@
     "type": "monstergroup",
     "name": "GROUP_FOREST",
     "default": "mon_null",
+    "is_animal": true,
     "monsters": [
       {
         "monster": "mon_gallimimus",
@@ -753,6 +754,7 @@
     "type": "monstergroup",
     "name": "GROUP_SWAMP",
     "default": "mon_null",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_parasaurolophus", "freq": 30, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
@@ -765,6 +767,7 @@
     "type": "monstergroup",
     "name": "GROUP_SEWER",
     "default": "mon_sewer_rat",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_compsognathus", "freq": 300, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_eoraptor", "freq": 200, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
@@ -780,7 +783,6 @@
     "is_safe": true,
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
     ]
@@ -789,6 +791,7 @@
     "type": "monstergroup",
     "name": "GROUP_CAVE",
     "default": "mon_null",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_compsognathus", "freq": 600, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 200, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
