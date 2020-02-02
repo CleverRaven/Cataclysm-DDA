@@ -414,6 +414,18 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
     }
+
+    if( !obj.ascii_picture.empty() ) {
+        std::vector<std::string> tmp_ascii_pic;
+        for( std::string line : obj.ascii_picture ) {
+            if( line.length() > 44 ) {
+                line = line.substr( 0, 44 );
+                debugmsg( "ascii_picture in %s contains a line too long to be displayed (>44 char).", obj.id );
+            }
+            tmp_ascii_pic.emplace_back( line );
+        }
+        obj.ascii_picture = tmp_ascii_pic;
+    }
 }
 
 void Item_factory::finalize()
@@ -2083,6 +2095,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "ascii_picture", def.ascii_picture );
+
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
