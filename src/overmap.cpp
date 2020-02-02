@@ -545,7 +545,7 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
     }
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
-            load_mapgen_function( jio, fmapkey, default_idx );
+            load_mapgen_function( jio, fmapkey, default_idx, point_zero );
         }
     }
 }

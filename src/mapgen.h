@@ -371,7 +371,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
  * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
-        const std::string &id_base, int default_idx, const point &offset = point_zero );
+        const std::string &id_base, int default_idx, const point &offset );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house_w_1", "duplex" ] )
