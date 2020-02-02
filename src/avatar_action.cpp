@@ -81,7 +81,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !you.is_mounted() ) {
-        if( you.weapon.has_flag( "DIG_TOOL" ) ) {
+        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
@@ -310,9 +310,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
     }
 
-    bool toSwimmable = m.has_flag( "SWIMMABLE", dest_loc );
+    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( "SWIMMABLE", you.pos() );
+    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
@@ -662,7 +662,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 if( !is_mech_weapon ) {
                     if( !( you.has_charges( "UPS_off", ups_drain ) ||
                            you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                           ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
+                           ( you.has_active_bionic( bio_ups ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                         messages.push_back( string_format(
                                                 _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),

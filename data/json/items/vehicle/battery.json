@@ -44,6 +44,22 @@
     "//": "~2.4Ah @ 12VDC. Could supply ~140 watts 10 minutes or so"
   },
   {
+    "type": "GENERIC",
+    "id": "it_battery_mount",
+    "name": "storage battery case",
+    "name_plural": "storage battery cases",
+    "description": "An empty case that can hold a storage battery.  Complete with charging controller chip and connecting wires.",
+    "weight": "1231 g",
+    "to_hit": -3,
+    "color": "light_gray",
+    "symbol": ":",
+    "material": [ "plastic", "steel" ],
+    "volume": "2250 ml",
+    "bashing": 1,
+    "category": "veh_parts",
+    "price": 1000
+  },
+  {
     "id": "large_storage_battery",
     "copy-from": "storage_battery",
     "type": "MAGAZINE",

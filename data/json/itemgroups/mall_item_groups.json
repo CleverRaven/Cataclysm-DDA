@@ -166,7 +166,10 @@
       [ "backpack_leather", 7 ],
       [ "pants_leather", 20 ],
       [ "bikini_top_leather", 20 ],
-      [ "jacket_leather", 5 ]
+      [ "jacket_leather", 5 ],
+      [ "horse_tack", 5 ],
+      [ "yoke_harness", 5 ],
+      [ "reins_tackle", 5 ]
     ]
   },
   {

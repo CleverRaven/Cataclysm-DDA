@@ -12,7 +12,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_1_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom1" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "8 h 10 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 58 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 32 ], [ "material_limestone", 32 ], [ "clay_lump", 32 ] ],
+          [ [ "pebble", 80 ], [ "material_sand", 80 ] ],
+          [ [ "straw_pile", 32 ], [ "cattail_stalk", 32 ], [ "dogbane", 32 ], [ "pine_bough", 32 ] ],
+          [ [ "water", 40 ], [ "water_clean", 40 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +43,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom2" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "8 h 10 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 58 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 32 ], [ "material_limestone", 32 ], [ "clay_lump", 32 ] ],
+          [ [ "pebble", 80 ], [ "material_sand", 80 ] ],
+          [ [ "straw_pile", 32 ], [ "cattail_stalk", 32 ], [ "dogbane", 32 ], [ "pine_bough", 32 ] ],
+          [ [ "water", 40 ], [ "water_clean", 40 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +74,15 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom3" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "9 h 30 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 62 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +97,24 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom5" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "13 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 84 ] ],
+          [ [ "nail", 64 ] ],
+          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
+          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
+          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "water", 60 ], [ "water_clean", 60 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,6 +129,22 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom6" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom6" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "13 h",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 96 ] ],
+          [ [ "nail", 48 ] ],
+          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
+          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
+          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "water", 60 ], [ "water_clean", 60 ] ],
+          [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ] ]
+        ]
+      }
+    }
   }
 ]

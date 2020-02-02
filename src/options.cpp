@@ -1681,7 +1681,7 @@ void options_manager::add_options_graphics()
 
     add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
          translate_marker( "Set the map font width.  Requires restart." ),
-         8, 100, 8, COPT_CURSES_HIDE
+         8, 100, 16, COPT_CURSES_HIDE
        );
 
     add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
@@ -1696,7 +1696,7 @@ void options_manager::add_options_graphics()
 
     add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
          translate_marker( "Set the overmap font width.  Requires restart." ),
-         8, 100, 8, COPT_CURSES_HIDE
+         8, 100, 16, COPT_CURSES_HIDE
        );
 
     add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
@@ -2730,8 +2730,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
                                    world_options_only );
         } else if( action == "QUIT" ) {
-            catacurses::clear();
-            catacurses::refresh();
             break;
         }
     }
@@ -2778,6 +2776,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     if( options_changed ) {
         if( query_yn( _( "Save changes?" ) ) ) {
+            popup_status( _( "Please wait…" ), _( "Applying option changes…" ) );
             save();
             if( ingame && world_options_changed ) {
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
@@ -2785,13 +2784,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
             g->on_options_changed();
         } else {
+            lang_changed = false;
+            terminal_size_changed = false;
             used_tiles_changed = false;
+            pixel_minimap_changed = false;
             OPTIONS = OPTIONS_OLD;
             if( ingame && world_options_changed ) {
                 ACTIVE_WORLD_OPTIONS = WOPTIONS_OLD;
             }
         }
     }
+
+    catacurses::clear();
+    catacurses::refresh();
 
     if( lang_changed ) {
         update_global_locale();

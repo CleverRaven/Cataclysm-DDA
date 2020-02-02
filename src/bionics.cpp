@@ -810,7 +810,7 @@ bool Character::burn_fuel( int b, bool start )
         const itype_id remote_fuel = find_remote_fuel();
         if( !remote_fuel.empty() ) {
             fuel_available.emplace_back( remote_fuel );
-            if( remote_fuel == itype_sun_light ) {
+            if( remote_fuel == fuel_type_sun_light ) {
                 // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
                 if( is_wearing( "solarpack_on" ) ) {
                     effective_efficiency = 0.05;
@@ -887,12 +887,12 @@ bool Character::burn_fuel( int b, bool start )
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
-                        if( fuel == itype_sun_light && g->is_in_sunlight( pos() ) ) {
+                        if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
                             const weather_type &wtype = current_weather( pos() );
                             const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
                             const double intensity = tick_sunlight / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
-                        } else if( fuel == itype_wind ) {
+                        } else if( fuel == fuel_type_wind ) {
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = g->m.veh_at( pos() );
                             if( vp ) {
@@ -969,10 +969,10 @@ void Character::passive_power_gen( int b )
             continue;
         }
 
-        if( fuel == itype_sun_light ) {
+        if( fuel == fuel_type_sun_light ) {
             const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * effective_passive_efficiency );
-        } else if( fuel == itype_wind ) {
+        } else if( fuel == fuel_type_wind ) {
             int vehwindspeed = 0;
             const optional_vpart_position vp = g->m.veh_at( pos() );
             if( vp ) {
@@ -1010,7 +1010,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                 if( !look_only ) {
                     set_value( "sunlight", "1" );
                 }
-                remote_fuel = itype_sun_light;
+                remote_fuel = fuel_type_sun_light;
             }
 
             if( cable->get_var( "state" ) == "UPS_link" ) {
@@ -1028,7 +1028,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                         set_value( "rem_battery", std::to_string( 0 ) );
                     }
                 }
-                remote_fuel = itype_battery;
+                remote_fuel = fuel_type_battery;
             }
             continue;
         }
@@ -1037,10 +1037,10 @@ itype_id Character::find_remote_fuel( bool look_only )
             continue;
         }
         if( !look_only ) {
-            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_battery,
+            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
                        true ) ) );
         }
-        remote_fuel = itype_battery;
+        remote_fuel = fuel_type_battery;
     }
 
     return remote_fuel;
@@ -1082,7 +1082,7 @@ int Character::consume_remote_fuel( int amount )
 
 void Character::reset_remote_fuel()
 {
-    if( get_bionic_fueled_with( item( itype_sun_light ) ).empty() ) {
+    if( get_bionic_fueled_with( item( fuel_type_sun_light ) ).empty() ) {
         remove_value( "sunlight" );
     }
     remove_value( "rem_battery" );
@@ -2392,6 +2392,15 @@ void load_bionic( const JsonObject &jsobj )
                                        ja.get_int( 1 ) );
     }
 
+    for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
+        new_bionic.bash_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+    }
+    for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
+        new_bionic.cut_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
+    }
+
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0_kJ ||
                            new_bionic.charge_time > 0;
@@ -2633,7 +2642,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
     if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
         has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
-                           _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+                           _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
     if( has_effect( effect_narcosis ) ) {

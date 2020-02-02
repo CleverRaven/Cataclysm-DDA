@@ -11,8 +11,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "mapdata.h"
-
-static const species_id MOLLUSK( "MOLLUSK" );
+#include "cata_string_consts.h"
 
 mtype::mtype()
 {
@@ -234,5 +233,5 @@ std::string mtype::get_footsteps() const
     for( const species_id &s : species ) {
         return s.obj().get_footsteps();
     }
-    return "footsteps.";
+    return _( "footsteps." );
 }

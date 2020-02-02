@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE2",
-    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge. My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },

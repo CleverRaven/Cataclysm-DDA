@@ -965,7 +965,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+            if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", p.name );
             }
             g->m.add_item_or_charges( p.pos(), ruined_parts );
@@ -1846,7 +1846,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &ammo = *act->targets[1];
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool is_bolt = ammo.ammo_type() == ammotype( "bolt" );
+    const bool is_bolt = ammo.ammo_type() == ammo_bolt;
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -2793,7 +2793,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         const auto route_to = g->m.route( p->pos(), centre_sub, p->get_pathfinding_settings(),
                                           p->get_path_avoid() );
         if( !route_to.empty() ) {
-            const activity_id act_travel = activity_id( "ACT_TRAVELLING" );
+            const activity_id act_travel = ACT_TRAVELLING;
             p->set_destination( route_to, player_activity( act_travel ) );
         } else {
             p->add_msg_if_player( _( "You cannot reach that destination" ) );
@@ -3008,7 +3008,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         } else {
             p->activity = player_activity();
             mon->add_effect( effect_controlled, 40_turns );
-            p->set_destination( route, player_activity( activity_id( "ACT_FIND_MOUNT" ) ) );
+            p->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
     }
 }
@@ -3129,7 +3129,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const bionic_id upbid( act->str_values[upgraded_cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
-                       g->u.has_bionic( bionic_id( "bio_painkiller" ) ) || g->u.has_trait( trait_id( "NOPAIN" ) ) );
+                       g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
 
     const int difficulty = act->values.front();
 
@@ -3320,7 +3320,6 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
-    const std::vector<construction> &list_constructions = get_constructions();
     partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
@@ -3336,8 +3335,8 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         return;
     }
     // if you ( or NPC ) are finishing someone elses started construction...
-    const construction &built = list_constructions[pc->id];
-    if( !p->meets_skill_requirements( built ) ) {
+    const construction &built = pc->id.obj();
+    if( !p->has_trait( trait_DEBUG_HS ) && !p->meets_skill_requirements( built ) ) {
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {
@@ -3810,9 +3809,9 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
     if( grave ) {
         if( one_in( 10 ) ) {
             static const std::array<mtype_id, 5> monids = { {
-                    mtype_id( "mon_zombie" ), mtype_id( "mon_zombie_fat" ),
-                    mtype_id( "mon_zombie_rot" ), mtype_id( "mon_skeleton" ),
-                    mtype_id( "mon_zombie_crawler" )
+                    mon_zombie, mon_zombie_fat,
+                    mon_zombie_rot, mon_skeleton,
+                    mon_zombie_crawler
                 }
             };
 
@@ -4236,7 +4235,7 @@ static hack_result hack_attempt( player &p )
     }
     const bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
-    const bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+    const bool using_fingerhack = !using_electrohack && p.has_bionic( bio_fingerhack ) &&
                                   p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {

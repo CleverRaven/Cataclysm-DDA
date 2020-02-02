@@ -1253,6 +1253,7 @@
     "symbol": "#",
     "color": "light_green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
     "examine_action": "shrub_wildveggies",
     "bash": {
@@ -1273,6 +1274,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1303,6 +1305,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1333,6 +1336,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1363,6 +1367,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",

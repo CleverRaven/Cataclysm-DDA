@@ -1,0 +1,325 @@
+[
+  {
+    "id": [ "pistol_flintlock" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_pistol"
+  },
+  {
+    "id": [ "colt_navy", "colt_army", "lemat_revolver" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_revolver"
+  },
+  {
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_rifle"
+  },
+  {
+    "id": [ "launcher_simple", "m79" ],
+    "type": "MIGRATION",
+    "replace": "grenade_blooper"
+  },
+  {
+    "id": [ "mark19" ],
+    "type": "MIGRATION",
+    "replace": "grenade_hmg"
+  },
+  {
+    "id": [ "m320" ],
+    "type": "MIGRATION",
+    "replace": "grenade_pistol"
+  },
+  {
+    "id": [ "mgl", "rm802", "triple_launcher_simple" ],
+    "type": "MIGRATION",
+    "replace": "grenade_revolver"
+  },
+  {
+    "id": [ "colt_lightning" ],
+    "type": "MIGRATION",
+    "replace": "pistol_levergun"
+  },
+  {
+    "id": [
+      "skorpion_61",
+      "mac_11",
+      "mac_10",
+      "hk_mp7",
+      "needlepistol",
+      "hk_mp5k",
+      "briefcase_smg",
+      "l_mp_9mm",
+      "skorpion_82",
+      "tec9",
+      "glock_18c"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_machine"
+  },
+  {
+    "id": [ "deagle_44", "l_sp_45", "l_mp_45" ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_automag"
+  },
+  {
+    "id": [ "henry_big_boy", "bh_m89", "l_long_45" ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_levergun"
+  },
+  {
+    "id": [ "rifle_44" ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_pipe"
+  },
+  {
+    "id": [
+      "rm228",
+      "l_bak_223",
+      "sw_619",
+      "ruger_redhawk",
+      "sw629",
+      "bfr",
+      "l_enforcer_45",
+      "sw_500",
+      "raging_bull",
+      "raging_judge"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_revolver"
+  },
+  {
+    "id": [
+      "p320_357sig",
+      "kp3at",
+      "fn1910",
+      "rugerlcp",
+      "hptcf380",
+      "taurus_spectrum",
+      "sig_40",
+      "hptjcp",
+      "m1911",
+      "m1911_MEU",
+      "walther_ppq_45",
+      "hptjhp",
+      "tokarev",
+      "rm103a_pistol",
+      "glock_19",
+      "l_sp_9mm",
+      "m9",
+      "usp_9mm",
+      "m17",
+      "hi_power_9mm",
+      "p226_357sig",
+      "glock_31",
+      "walther_p38",
+      "walther_ccp",
+      "makarov",
+      "af2011a1_38super",
+      "m1911a1_38super",
+      "glock_22",
+      "hi_power_40",
+      "walther_ppq_40",
+      "tommygun",
+      "usp_45",
+      "mk23",
+      "fn57",
+      "glock_17",
+      "kpf9",
+      "walther_ppq_9mm",
+      "hptc9",
+      "cz75"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_medium"
+  },
+  {
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico" ],
+    "type": "MIGRATION",
+    "replace": "pistol_pcc"
+  },
+  {
+    "id": [
+      "2_shot_special",
+      "rifle_38",
+      "rifle_40",
+      "smg_40",
+      "surv_six_shooter",
+      "rifle_45",
+      "smg_45",
+      "surv_hand_cannon",
+      "rifle_9mm",
+      "smg_9mm"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_pipe_smg"
+  },
+  {
+    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "l_lookout_9mm", "rm99_pistol" ],
+    "type": "MIGRATION",
+    "replace": "pistol_revolver"
+  },
+  {
+    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "type": "MIGRATION",
+    "replace": "pistol_smg"
+  },
+  {
+    "id": [ "american_180", "rm360_carbine", "ruger_1022" ],
+    "type": "MIGRATION",
+    "replace": "pistol_tiny_rifle"
+  },
+  {
+    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk" ],
+    "type": "MIGRATION",
+    "replace": "pistol_tiny_target"
+  },
+  {
+    "id": [ "moss_brownie", "rifle_22", "j22" ],
+    "type": "MIGRATION",
+    "replace": "pistol_tiny_zip"
+  },
+  {
+    "id": [
+      "h&k416a5",
+      "m1918",
+      "acr_300blk",
+      "hk417_13",
+      "acr",
+      "l_base_223",
+      "l_car_223",
+      "l_mbr_223",
+      "m4a1",
+      "m16a4",
+      "scar_l",
+      "scar_h",
+      "rm51_assault_rifle",
+      "an94",
+      "rm88_battle_rifle"
+    ],
+    "type": "MIGRATION",
+    "replace": "rifle_assault"
+  },
+  {
+    "id": [ "m107a1", "as50", "tac50" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_amr"
+  },
+  {
+    "id": [ "m2browning_sawn", "bfg50", "trex_gun" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_double"
+  },
+  {
+    "id": [ "m2browning" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_hmg"
+  },
+  {
+    "id": [ "m134", "l_lmg_223", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298" ],
+    "type": "MIGRATION",
+    "replace": "rifle_lmg"
+  },
+  {
+    "id": [ "surv_carbine_223" ],
+    "type": "MIGRATION",
+    "replace": "rifle_pipe_carbine"
+  },
+  {
+    "id": [ "rifle_3006", "rifle_223", "rifle_308" ],
+    "type": "MIGRATION",
+    "replace": "rifle_pipe_rifle"
+  },
+  {
+    "id": [
+      "survivor_special_700",
+      "m110a1",
+      "mosin44_ebr",
+      "mosin91_30_ebr",
+      "rm11b_sniper_rifle",
+      "l_dsr_223",
+      "remington700_270",
+      "m2010",
+      "weatherby_5",
+      "win70",
+      "browning_blr",
+      "remington_700",
+      "savage_111f",
+      "M24",
+      "sharps"
+    ],
+    "type": "MIGRATION",
+    "replace": "rifle_sniper"
+  },
+  {
+    "id": [
+      "hk_g36",
+      "garand",
+      "m1903",
+      "hk_g3",
+      "m14ebr",
+      "ar10",
+      "1895sbl",
+      "ak74",
+      "ak47",
+      "arx160",
+      "mosin91_30",
+      "ar15",
+      "ruger_mini",
+      "sig552",
+      "steyr_aug",
+      "iwi_tavor_x95_300blk",
+      "ar15_retool_300blk",
+      "fn_fal",
+      "m1a",
+      "sks",
+      "mosin44"
+    ],
+    "type": "MIGRATION",
+    "replace": "rifle_sporter"
+  },
+  {
+    "id": [ "AT4" ],
+    "type": "MIGRATION",
+    "replace": "rocket_disposable"
+  },
+  {
+    "id": [ "m202_flash", "m3_carlgustav" ],
+    "type": "MIGRATION",
+    "replace": "rocket_recoilless"
+  },
+  {
+    "id": [ "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "type": "MIGRATION",
+    "replace": "shot_double"
+  },
+  {
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
+    "type": "MIGRATION",
+    "replace": "shot_pipe_double"
+  },
+  {
+    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "bigun", "USAS_12" ],
+    "type": "MIGRATION",
+    "replace": "shot_tactical"
+  },
+  {
+    "id": [
+      "shotgun_410",
+      "browning_a5",
+      "ksg",
+      "m1014",
+      "mossberg_500",
+      "mossberg_500_security",
+      "mossberg_590",
+      "mossberg_930",
+      "remington_870",
+      "remington_870_breacher",
+      "remington_870_express",
+      "remington_1100",
+      "streetsweeper",
+      "SPAS_12"
+    ],
+    "type": "MIGRATION",
+    "replace": "shot_pump"
+  }
+]

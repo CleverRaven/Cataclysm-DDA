@@ -1,0 +1,400 @@
+[
+  {
+    "id": [ "22_fmj", "32_acp" ],
+    "type": "MIGRATION",
+    "replace": "tiny_pistol_ball"
+  },
+  {
+    "id": [ "reloaded_22_fmj", "reloaded_32_acp" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_tiny_pistol_ball"
+  },
+  {
+    "id": [ "bp_22_fmj", "bp_22_lr", "bp_32_acp" ],
+    "type": "MIGRATION",
+    "replace": "bp_tiny_pistol_ball"
+  },
+  {
+    "id": [ "22_cb", "22_lr", "22_ratshot" ],
+    "type": "MIGRATION",
+    "replace": "tiny_pistol_jhp"
+  },
+  {
+    "id": [ "reloaded_22_lr" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_tiny_pistol_jhp"
+  },
+  {
+    "id": [ "bp_22_lr" ],
+    "type": "MIGRATION",
+    "replace": "bp_tiny_pistol_jhp"
+  },
+  {
+    "id": [
+      "10mm_fmj",
+      "357sig_fmj",
+      "38_fmj",
+      "380_FMJ",
+      "380_p",
+      "38super_fmj",
+      "40fmj",
+      "45_acp",
+      "46mm",
+      "57mm",
+      "5x50dart",
+      "762_25hot",
+      "762_25typeP",
+      "9mmfmj",
+      "9mmP",
+      "9mmP2",
+      "9x18mmfmj",
+      "9x18mmP2"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_ball"
+  },
+  {
+    "id": [
+      "reloaded_10mm_fmj",
+      "reloaded_357sig_fmj",
+      "reloaded_38_fmj",
+      "reloaded_380_FMJ",
+      "reloaded_380_p",
+      "reloaded_38super_fmj",
+      "reloaded_40fmj",
+      "reloaded_45_acp",
+      "reloaded_46mm",
+      "reloaded_57mm",
+      "reloaded_5x50dart",
+      "reloaded_9mmfmj",
+      "reloaded_9mmP",
+      "reloaded_9mmP2",
+      "reloaded_9x18mmfmj",
+      "reloaded_9x18mmP2"
+    ],
+    "type": "MIGRATION",
+    "replace": "reloaded_pistol_ball"
+  },
+  {
+    "id": [
+      "bp_10mm_fmj",
+      "bp_38_fmj",
+      "bp_380_FMJ",
+      "bp_40ball",
+      "bp_44ball",
+      "bp_45_acp",
+      "bp_46mm",
+      "bp_57mm",
+      "bp_9mmfmj",
+      "bp_9x18mmfmj"
+    ],
+    "type": "MIGRATION",
+    "replace": "bp_pistol_ball"
+  },
+  {
+    "id": [
+      "357sig_jhp",
+      "38_special",
+      "38_super",
+      "380_JHP",
+      "40sw",
+      "45_jhp",
+      "45_super",
+      "45colt_jhp",
+      "5x50heavy",
+      "762_25",
+      "9mm",
+      "9x18mm"
+    ],
+    "type": "MIGRATION",
+    "replace": "pistol_jhp"
+  },
+  {
+    "id": [
+      "reloaded_357sig_jhp",
+      "reloaded_38_special",
+      "reloaded_38_super",
+      "reloaded_380_JHP",
+      "reloaded_40sw",
+      "reloaded_45_jhp",
+      "reloaded_45_super",
+      "reloaded_45colt_jhp",
+      "reloaded_762_25",
+      "reloaded_9mm",
+      "reloaded_9x18mm"
+    ],
+    "type": "MIGRATION",
+    "replace": "reloaded_pistol_jhp"
+  },
+  {
+    "id": [ "bp_38_special", "bp_380_JHP", "bp_40sw", "bp_45_jhp", "bp_762_25", "bp_9mm", "bp_9x18mm" ],
+    "type": "MIGRATION",
+    "replace": "bp_pistol_jhp"
+  },
+  {
+    "id": [ "357mag_fmj", "44fmj", "460_fmj" ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_ball"
+  },
+  {
+    "id": [ "reloaded_357mag_fmj", "reloaded_44magnum", "reloaded_460_fmj" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_pistol_magnum_ball"
+  },
+  {
+    "id": [ "bp_357mag_fmj", "bp_44fmj", "bp_460_fmj" ],
+    "type": "MIGRATION",
+    "replace": "bp_pistol_magnum_ball"
+  },
+  {
+    "id": [ "357mag_jhp", "44magnum", "454_Casull", "460_rowland", "500_Magnum" ],
+    "type": "MIGRATION",
+    "replace": "pistol_magnum_jhp"
+  },
+  {
+    "id": [ "reloaded_357mag_jhp", "reloaded_44fmj", "reloaded_454_Casull", "reloaded_460_rowland", "reloaded_500_Magnum" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_pistol_magnum_jhp"
+  },
+  {
+    "id": [ "bp_357mag_jhp", "bp_44magnum", "bp_454_Casull", "bp_460_rowland", "bp_500_Magnum" ],
+    "type": "MIGRATION",
+    "replace": "bp_pistol_magnum_jhp"
+  },
+  {
+    "id": [
+      "223",
+      "270win_jsp",
+      "300_winmag",
+      "3006",
+      "300blk",
+      "300blk_ss",
+      "308",
+      "4570_low",
+      "4570_sp",
+      "545",
+      "762_54R",
+      "762_m87",
+      "8mm_civilian",
+      "8mm_jhp"
+    ],
+    "type": "MIGRATION",
+    "replace": "rifle_ball"
+  },
+  {
+    "id": [
+      "reloaded_223",
+      "reloaded_270win_jsp",
+      "reloaded_300_winmag",
+      "reloaded_3006",
+      "reloaded_300blk",
+      "reloaded_308",
+      "reloaded_4570_bp",
+      "reloaded_4570_low",
+      "reloaded_4570_sp",
+      "reloaded_545",
+      "reloaded_762_54R",
+      "reloaded_762_m87"
+    ],
+    "type": "MIGRATION",
+    "replace": "reloaded_rifle_ball"
+  },
+  {
+    "id": [ "bp_223", "bp_270win_jsp", "bp_300_winmag", "bp_3006", "bp_300blk", "bp_308" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_ball"
+  },
+  {
+    "id": [
+      "3006_incendiary",
+      "3006fmj",
+      "4570_pen",
+      "545_ap",
+      "556",
+      "556_incendiary",
+      "762_51",
+      "762_51_incendiary",
+      "762_m43",
+      "8mm_caseless",
+      "8mm_fmj",
+      "8mm_hvp",
+      "8mm_inc"
+    ],
+    "type": "MIGRATION",
+    "replace": "rifle_AP"
+  },
+  {
+    "id": [
+      "reloaded_3006_incendiary",
+      "reloaded_3006fmj",
+      "reloaded_4570_pen",
+      "reloaded_545_ap",
+      "reloaded_556",
+      "reloaded_556_incendiary",
+      "reloaded_762_51",
+      "reloaded_762_51_incendiary",
+      "reloaded_762_m43"
+    ],
+    "type": "MIGRATION",
+    "replace": "reloaded_rifle_AP"
+  },
+  {
+    "id": [ "bp_3006_incendiary", "bp_3006fmj", "bp_556", "bp_556_incendiary", "bp_762_51", "bp_762_51_incendiary" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_AP"
+  },
+  {
+    "id": [ "50_incendiary", "50_mk211", "50bmg", "50match" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_ball"
+  },
+  {
+    "id": [ "reloaded_50_incendiary", "reloaded_50bmg" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_rifle_huge_ball"
+  },
+  {
+    "id": [ "50ss", "700nx" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_AP"
+  },
+  {
+    "id": [ "reloaded_50ss", "reloaded_700nx" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_rifle_huge_AP"
+  },
+  {
+    "id": [ "36navy", "44army" ],
+    "type": "MIGRATION",
+    "replace": "flintlock_ammo"
+  },
+  {
+    "id": [ "40x46mm_m1006" ],
+    "type": "MIGRATION",
+    "replace": "grenade_ammo_beanbag"
+  },
+  {
+    "id": [ "40mm_flare" ],
+    "type": "MIGRATION",
+    "replace": "grenade_ammo_flare"
+  },
+  {
+    "id": [ "40x46mm_m433", "40x46mm_m651", "40x53mm_m430a1" ],
+    "type": "MIGRATION",
+    "replace": "grenade_ammo_hedp"
+  },
+  {
+    "id": [
+      "40x46mm_m576",
+      "40x46mm_buckshot_m118",
+      "40x46mm_buckshot_m199",
+      "40x46mm_flechette_m118",
+      "40x46mm_flechette_m199",
+      "40x53mm_m1001",
+      "40x53mm_flechette_m169",
+      "40x53mm_buckshot_m169"
+    ],
+    "type": "MIGRATION",
+    "replace": "grenade_ammo_shot"
+  },
+  {
+    "id": [ "40x46mm_slug_m118", "40x46mm_slug_m199", "40x53mm_slug_m169" ],
+    "type": "MIGRATION",
+    "replace": "grenade_ammo_slug"
+  },
+  {
+    "id": [ "40x46mm_m651" ],
+    "type": "MIGRATION",
+    "replace": "grenade_ammo_teargas"
+  },
+  {
+    "id": [
+      "shot_00",
+      "shot_paper_00",
+      "410shot_000",
+      "20x66_exp",
+      "20x66_flechette",
+      "20x66_frag",
+      "20x66_inc",
+      "20x66_shot",
+      "20x66_flare"
+    ],
+    "type": "MIGRATION",
+    "replace": "shot_buck"
+  },
+  {
+    "id": [ "shot_beanbag", "20x66_beanbag" ],
+    "type": "MIGRATION",
+    "replace": "shot_bean"
+  },
+  {
+    "id": [ "shot_bird", "shot_paper_bird" ],
+    "type": "MIGRATION",
+    "replace": "shot_fowl"
+  },
+  {
+    "id": [ "shot_slug", "shot_paper_slug", "20x66_slug" ],
+    "type": "MIGRATION",
+    "replace": "shot_foster"
+  },
+  {
+    "id": [ "shot_dragon", "shot_paper_dragon" ],
+    "type": "MIGRATION",
+    "replace": "shot_pyro"
+  },
+  {
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "shot_scrap" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_buck"
+  },
+  {
+    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_buck"
+  },
+  {
+    "id": [ "reloaded_shot_bird" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_fowl"
+  },
+  {
+    "id": [ "reloaded_shot_slug", "20x66_bootleg_slug" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_foster"
+  },
+  {
+    "id": [ "reloaded_shot_dragon" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_pyro"
+  },
+  {
+    "id": [ "reloaded_shot_flechette" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_dart"
+  },
+  {
+    "id": [ "bp_shot_00", "bp_shot_scrap" ],
+    "type": "MIGRATION",
+    "replace": "bp_shot_buck"
+  },
+  {
+    "id": [ "bp_shot_bird" ],
+    "type": "MIGRATION",
+    "replace": "bp_shot_fowl"
+  },
+  {
+    "id": [ "bp_shot_slug" ],
+    "type": "MIGRATION",
+    "replace": "bp_shot_foster"
+  },
+  {
+    "id": [ "bp_shot_dragon" ],
+    "type": "MIGRATION",
+    "replace": "bp_shot_pyro"
+  },
+  {
+    "id": [ "bp_shot_flechette" ],
+    "type": "MIGRATION",
+    "replace": "bp_shot_dart"
+  }
+]

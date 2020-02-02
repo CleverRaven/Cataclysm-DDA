@@ -2,42 +2,42 @@
   {
     "id": "guns",
     "type": "ITEM_CATEGORY",
-    "name": "GUNS",
+    "name": { "str": "GUNS" },
     "zone": "LOOT_GUNS",
     "sort_rank": -23
   },
   {
     "id": "magazines",
     "type": "ITEM_CATEGORY",
-    "name": "MAGAZINES",
+    "name": { "str": "MAGAZINES" },
     "zone": "LOOT_MAGAZINES",
     "sort_rank": -22
   },
   {
     "id": "ammo",
     "type": "ITEM_CATEGORY",
-    "name": "AMMO",
+    "name": { "str": "AMMO" },
     "zone": "LOOT_AMMO",
     "sort_rank": -21
   },
   {
     "id": "weapons",
     "type": "ITEM_CATEGORY",
-    "name": "WEAPONS",
+    "name": { "str": "WEAPONS" },
     "zone": "LOOT_WEAPONS",
     "sort_rank": -20
   },
   {
     "id": "tools",
     "type": "ITEM_CATEGORY",
-    "name": "TOOLS",
+    "name": { "str": "TOOLS" },
     "zone": "LOOT_TOOLS",
     "sort_rank": -19
   },
   {
     "id": "clothing",
     "type": "ITEM_CATEGORY",
-    "name": "CLOTHING",
+    "name": { "str": "CLOTHING" },
     "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
     "zone": "LOOT_CLOTHING",
     "sort_rank": -18
@@ -45,111 +45,111 @@
   {
     "id": "food",
     "type": "ITEM_CATEGORY",
-    "name": "FOOD",
+    "name": { "str": "FOOD" },
     "//": "zone is hardcoded",
     "sort_rank": -17
   },
   {
     "id": "drugs",
     "type": "ITEM_CATEGORY",
-    "name": "DRUGS",
+    "name": { "str": "DRUGS" },
     "zone": "LOOT_DRUGS",
     "sort_rank": -16
   },
   {
     "id": "books",
     "type": "ITEM_CATEGORY",
-    "name": "BOOKS",
+    "name": { "str": "BOOKS" },
     "zone": "LOOT_BOOKS",
     "sort_rank": -15
   },
   {
     "id": "maps",
     "type": "ITEM_CATEGORY",
-    "name": "MAPS",
+    "name": { "str": "MAPS" },
     "sort_rank": -14
   },
   {
     "id": "mods",
     "type": "ITEM_CATEGORY",
-    "name": "MODS",
+    "name": { "str": "MODS" },
     "zone": "LOOT_MODS",
     "sort_rank": -13
   },
   {
     "id": "mutagen",
     "type": "ITEM_CATEGORY",
-    "name": "MUTAGENS",
+    "name": { "str": "MUTAGENS" },
     "zone": "LOOT_MUTAGENS",
     "sort_rank": -12
   },
   {
     "id": "bionics",
     "type": "ITEM_CATEGORY",
-    "name": "BIONICS",
+    "name": { "str": "BIONICS" },
     "zone": "LOOT_BIONICS",
     "sort_rank": -12
   },
   {
     "id": "veh_parts",
     "type": "ITEM_CATEGORY",
-    "name": "VEHICLE PARTS",
+    "name": { "str": "VEHICLE PARTS" },
     "zone": "LOOT_VEHICLE_PARTS",
     "sort_rank": -10
   },
   {
     "id": "other",
     "type": "ITEM_CATEGORY",
-    "name": "OTHER",
+    "name": { "str": "OTHER" },
     "zone": "LOOT_OTHER",
     "sort_rank": -9
   },
   {
     "id": "fuel",
     "type": "ITEM_CATEGORY",
-    "name": "FUEL",
+    "name": { "str": "FUEL" },
     "zone": "LOOT_FUEL",
     "sort_rank": -8
   },
   {
     "id": "seeds",
     "type": "ITEM_CATEGORY",
-    "name": "SEEDS",
+    "name": { "str": "SEEDS" },
     "zone": "LOOT_SEEDS",
     "sort_rank": -7
   },
   {
     "id": "chems",
     "type": "ITEM_CATEGORY",
-    "name": "CHEMICAL STUFF",
+    "name": { "str": "CHEMICAL STUFF" },
     "zone": "LOOT_CHEMICAL",
     "sort_rank": 5
   },
   {
     "id": "spare_parts",
     "type": "ITEM_CATEGORY",
-    "name": "SPARE PARTS",
+    "name": { "str": "SPARE PARTS" },
     "zone": "LOOT_SPARE_PARTS",
     "sort_rank": 8
   },
   {
     "id": "container",
     "type": "ITEM_CATEGORY",
-    "name": "CONTAINERS",
+    "name": { "str": "CONTAINERS" },
     "zone": "LOOT_CONTAINERS",
     "sort_rank": 9
   },
   {
     "id": "artifacts",
     "type": "ITEM_CATEGORY",
-    "name": "ARTIFACTS",
+    "name": { "str": "ARTIFACTS" },
     "zone": "LOOT_ARTIFACTS",
     "sort_rank": 10
   },
   {
     "id": "armor",
     "type": "ITEM_CATEGORY",
-    "name": "ARMOR",
+    "name": { "str": "ARMOR" },
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
     "zone": "LOOT_ARMOR",
     "sort_rank": 20
@@ -157,13 +157,13 @@
   {
     "id": "ITEMS_WORN",
     "type": "ITEM_CATEGORY",
-    "name": "ITEMS WORN",
+    "name": { "str": "ITEMS WORN" },
     "sort_rank": -100
   },
   {
     "id": "WEAPON_HELD",
     "type": "ITEM_CATEGORY",
-    "name": "WEAPON HELD",
+    "name": { "str": "WEAPON HELD" },
     "sort_rank": -200
   }
 ]

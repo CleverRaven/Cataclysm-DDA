@@ -1229,11 +1229,13 @@ int vehicle::part_epower_w( const int index ) const
 int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) const
 {
     // Integrate constant epower (watts) over time to get units of battery energy
-    int energy_j = power_w * to_seconds<int>( d );
+    // Thousands of watts over millions of seconds can happen, so 32-bit int
+    // insufficient.
+    int64_t energy_j = power_w * to_seconds<int64_t>( d );
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
-    energy_bat += x_in_y( abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
+    energy_bat += x_in_y( std::abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
     return energy_bat;
 }
 
@@ -1955,6 +1957,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 carried_part.carry_names.push( unique_id );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
+                //give each carried part a tracked_flag so that we can re-enable overmap tracking on unloading if necessary
+                if( carry_veh->tracking_on ) {
+                    carried_part.set_flag( vehicle_part::tracked_flag );
+                }
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
@@ -2155,6 +2161,20 @@ void vehicle::remove_carried_flag()
     }
 }
 
+void vehicle::remove_tracked_flag()
+{
+    for( vehicle_part &part : parts ) {
+        if( part.carry_names.empty() ) {
+            part.remove_flag( vehicle_part::tracked_flag );
+        } else {
+            part.carry_names.pop();
+            if( part.carry_names.empty() ) {
+                part.remove_flag( vehicle_part::tracked_flag );
+            }
+        }
+    }
+}
+
 bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
 {
     if( carried_parts.empty() ) {
@@ -2163,8 +2183,15 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     std::string veh_record;
     tripoint new_pos3;
     bool x_aligned = false;
+    bool tracked_parts =
+        false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
         std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
+        //check if selected part carries tracking flag
+        if( parts[carried_part].has_flag(
+                vehicle_part::tracked_flag ) ) { //this should only need to run once
+            tracked_parts = true;
+        }
         if( id_string == "X" || id_string == "Y" ) {
             veh_record = parts[ carried_part ].carry_names.top();
             new_pos3 = global_part_pos3( carried_part );
@@ -2242,6 +2269,10 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         new_vehicle->remove_carried_flag();
+        if( tracked_parts ) {
+            new_vehicle->toggle_tracking(); //turn on tracking for our newly created vehicle
+            new_vehicle->remove_tracked_flag(); //remove our tracking flags now that the vehicle isn't carried
+        }
         g->m.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
     } else {
@@ -4132,8 +4163,11 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area() ) *
-                               to_kilogram( total_mass() );
+    const float fraction_without_traction = 1.0f - wheel_traction_area / wheel_area();
+    if( fraction_without_traction == 0 ) {
+        return 1.0f;
+    }
+    const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
@@ -4549,7 +4583,7 @@ int vehicle::total_solar_epower_w() const
 
 int vehicle::total_wind_epower_w() const
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
     const w_point weatherPoint = *g->weather.weather_precise;
     int epower_w = 0;
     for( int part : wind_turbines ) {
