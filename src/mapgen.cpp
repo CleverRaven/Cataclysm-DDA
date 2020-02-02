@@ -437,7 +437,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
         ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
         oter_mapgen.add( id_base, ret );
     } else {
-        jio.throw_error( "invalid value: must be \"builtin\" or \"json\")", "method" );
+        jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
     }
     return ret;
 }
