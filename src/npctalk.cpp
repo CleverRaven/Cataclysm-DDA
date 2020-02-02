@@ -1980,15 +1980,15 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
             }
         } else {
             //~ %1$s is a translated item name
-            popup( _( "You don't have a %1$s!" ), item_name );
+            popup( _( "You don't have a %1$s!" ), item::nname( item_name ) );
             return;
         }
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "You give %1$s a %2$s." ), p.name, item_name );
+            popup( _( "You give %1$s a %2$s." ), p.name, item::nname( item_name ) );
         } else {
             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, item_name );
+            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, item::nname( item_name, count ) );
         }
         p.op_of_u.owed += cost;
     };
