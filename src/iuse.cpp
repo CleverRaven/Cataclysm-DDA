@@ -8848,13 +8848,13 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             return 0;
         } else {
             vehicle *const source_veh = veh_pointer_or_null( vp );
-            if( source_veh ){
+            if( source_veh ) {
                 if( source_veh->has_tow_attached() || source_veh->is_towed() ||
-                                    source_veh->is_towing() ) {
+                    source_veh->is_towing() ) {
                     p->add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
                     return 0;
                 }
-                if( !source_veh->is_external_part(posp)){
+                if( !source_veh->is_external_part( posp ) ) {
                     p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
                     return 0;
                 }
@@ -8924,6 +8924,10 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
                 if( p->has_item( *it ) ) {
                     p->add_msg_if_player( m_warning, _( "You cannot set a vehicle to tow itself!" ) );
                 }
+                return 0;
+            }
+            if( !target_veh->is_external_part( vpos ) ) {
+                p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
                 return 0;
             }
             const vpart_id vpid( it->typeId() );

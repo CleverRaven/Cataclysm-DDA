@@ -136,6 +136,13 @@ class vehicle_stack : public item_stack
         units::volume max_volume() const override;
 };
 
+enum towing_point_side : int {
+    TOW_FRONT,
+    TOW_SIDE,
+    TOW_BACK,
+    NUM_TOW_TYPES
+};
+
 class towing_data
 {
     private:
@@ -155,6 +162,7 @@ class towing_data
             towing = nullptr;
             towed_by = nullptr;
         }
+        towing_point_side tow_direction;
         // temp variable used for saving/loading
         tripoint other_towing_point;
 };
@@ -780,8 +788,9 @@ class vehicle
         bool is_towing() const;
         bool has_tow_attached() const;
         int get_tow_part() const;
-        bool is_external_part( const tripoint &part_pt) const;
+        bool is_external_part( const tripoint &part_pt ) const;
         bool is_towed() const;
+        void set_tow_directions();
         // owner functions
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;

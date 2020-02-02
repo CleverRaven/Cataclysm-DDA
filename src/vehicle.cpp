@@ -746,20 +746,21 @@ std::set<point> vehicle::immediate_path( int rotate )
     return points_to_check;
 }
 
-static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target, bool reverse = false )
+static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target,
+                                bool reverse = false )
 {
     if( angle > 10.0 && angle <= 45.0 ) {
-        return reverse ? -4 : 1;
+        return reverse ? 4 : 1;
     } else if( angle > 45.0 && angle <= 90.0 ) {
-        return reverse ? -3 : 3;
+        return reverse ? 3 : 3;
     } else if( angle > 90.0 && angle < 180.0 ) {
-        return reverse ? -1 : 4;
+        return reverse ? 1 : 4;
     } else if( angle < -10.0 && angle >= -45.0 ) {
-        return reverse ? 1 : -1;
+        return reverse ? -4 : -1;
     } else if( angle < -45.0 && angle >= -90.0 ) {
-        return reverse ? 3 : -3;
+        return reverse ? -3 : -3;
     } else if( angle < -90.0 && angle > -180.0 ) {
-        return reverse ? 4 : -4;
+        return reverse ? -1 : -4;
         // edge case of being exactly on the button for the target.
         // just keep driving, the next path point will be picked up.
     } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
@@ -886,7 +887,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
     }
-    follow_protocol || is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
+    follow_protocol ||
+    is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
 }
 
 double vehicle::get_angle_from_targ( const tripoint &targ )
@@ -1924,7 +1926,6 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         loot_zones.erase( parts[p].mount );
         zones_dirty = true;
     }
-
     parts[p].removed = true;
     removed_part_count++;
 
@@ -5516,108 +5517,92 @@ void vehicle::refresh_pivot() const
     }
 }
 
-static int get_side_from_angle( double angle )
-{
-    if( angle < 45 && angle > -45 ){
-        return 0;
-        std::cout << "get side = 2" << std::endl;
-    } else if( angle >= 45 && angle <= 135 ){
-        return 1;
-        std::cout << "get side = 2" << std::endl;
-    } else if( angle > 135 && angle > -135 ){
-        std::cout << "get side = 2" << std::endl;
-        return 2;
-    }
-    std::cout << "get side fallthrough " << std::endl;
-    return 3;
-}
-
 void vehicle::do_towing_move()
 {
-    std::cout << "do towing move" << std::endl;
     if( !no_towing_slack() || velocity <= 0 ) {
         return;
     }
     bool invalidate = false;
-    if( !tow_data.get_towed() ){
-        debugmsg( "tried to do towing move, but no towed vehicle!");
+    if( !tow_data.get_towed() ) {
+        debugmsg( "tried to do towing move, but no towed vehicle!" );
         invalidate = true;
     }
     const int tow_index = get_tow_part();
-    if( tow_index == -1 ){
-        debugmsg( "tried to do towing move, but no tow part");
+    if( tow_index == -1 ) {
+        debugmsg( "tried to do towing move, but no tow part" );
         invalidate = true;
     }
     vehicle *towed_veh = tow_data.get_towed();
-    if( !towed_veh ){
-        debugmsg( "tried to do towing move, but towed vehicle dosnt exist.");
+    if( !towed_veh ) {
+        debugmsg( "tried to do towing move, but towed vehicle dosnt exist." );
         invalidate = true;
     }
     const int other_tow_index = towed_veh->get_tow_part();
-    if( other_tow_index == -1 ){
+    if( other_tow_index == -1 ) {
         debugmsg( "tried to do towing move but towed vehicle has no towing part" );
         invalidate = true;
     }
-    if( invalidate ){
+    if( invalidate ) {
         invalidate_towing();
-        vehicle_part *part = &parts[part_with_feature( tow_index, "TOW_CABLE", true )];
-        item drop = part->properties_to_item();
-        g->m.add_item_or_charges( global_part_pos3( *part ), drop );
         return;
     }
-    // first find out where on the vehicle the towing point is.
-    // if its on the front or back, then the vehicle can steer into the tow.
-    // if its on the side then it skids
-    // then get the pulling angle of the pulling vehicle
-    const tripoint tower_tow_point = g->m.getabs( global_part_pos3(tow_index) );
-    const tripoint towed_tow_point = g->m.getabs( towed_veh->global_part_pos3( other_tow_index) );
-    double tow_point_angle = towed_veh->get_angle_from_targ( towed_tow_point );
-    // 0 = towed from front , 1 = dragged from right side , 2 = towed from rear
-    // 3 = dragged from left side
-    int tow_point_side = get_side_from_angle( tow_point_angle );
+    const tripoint tower_tow_point = g->m.getabs( global_part_pos3( tow_index ) );
+    const tripoint towed_tow_point = g->m.getabs( towed_veh->global_part_pos3( other_tow_index ) );
     // same as above, but where the pulling vehicle is pulling from
     double towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
-    //int pulled_from = get_side_from_angle( towing_veh_angle );
-    int accel_y;
+    const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
+    int accel_y = 0;
     tripoint vehpos = g->m.getabs( towed_veh->global_pos3() );
-    int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, tow_point_side == 2 );
+    int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
     if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
-        accel_y = 1;
+        accel_y = reverse ? -1 : 1;
     }
-    if( towed_veh->velocity <= velocity && rl_dist( towed_tow_point, tower_tow_point ) >= 4 ) {
-        accel_y = -1;
+    if( towed_veh->velocity <= velocity && rl_dist( towed_tow_point, tower_tow_point ) >= 7 ) {
+        accel_y = reverse ? 1 : -1;
     }
-    if( rl_dist( towed_tow_point, tower_tow_point ) >= 8 ) {
+    if( rl_dist( towed_tow_point, tower_tow_point ) >= 12 ) {
         towed_veh->velocity = velocity * 1.8;
+        if( reverse ) {
+            towed_veh->velocity = -towed_veh->velocity;
+        }
     } else {
-        towed_veh->velocity = velocity;
+        towed_veh->velocity = reverse ? -velocity : velocity;
     }
-    std::cout << "accel_y =  " << std::to_string( accel_y ) << std::endl;
-    std::cout << "turn x = " << std::to_string( turn_x ) << std::endl;
-    std::cout << "pulled angle = " << std::to_string( towing_veh_angle ) << std::endl;
-    std::cout << "tow point angle = " << std::to_string( tow_point_angle ) << std::endl;
-    if( tow_point_side == 0 ){
+    if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
         towed_veh->autodrive( turn_x, accel_y );
-    } else if( tow_point_side == 1 || tow_point_side == 3 ){
-        towed_veh->skidding = true;
-        tileray skid_ray;
-        skid_ray.init( towing_veh_angle );
-        std::cout << "skid sidewsays" << std::endl;
-        g->m.move_vehicle( *towed_veh, g->m.getlocal( tower_tow_point ), skid_ray );
+    } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
+        accel_y = 10;
+        towed_veh->autodrive( turn_x, accel_y );
     } else {
-        std::cout << "pull reverse" << std::endl;
-        towed_veh->autodrive( turn_x,  );
+        towed_veh->skidding = true;
+        std::vector<tripoint> lineto = line_to( g->m.getlocal( towed_tow_point ),
+                                                g->m.getlocal( tower_tow_point ) );
+        tripoint nearby_destination;
+        if( lineto.size() >= 2 ) {
+            nearby_destination = lineto[1];
+        } else {
+            nearby_destination = tower_tow_point;
+        }
+        const int destination_delta_x = g->m.getlocal( tower_tow_point ).x - nearby_destination.x;
+        const int destination_delta_y = g->m.getlocal( tower_tow_point ).y - nearby_destination.y;
+        const int destination_delta_z = towed_veh->global_pos3().z;
+        const tripoint move_destination( clamp( destination_delta_x, -1, 1 ),
+                                         clamp( destination_delta_y, -1, 1 ),
+                                         clamp( destination_delta_z, -1, 1 ) );
+        g->m.move_vehicle( *towed_veh, move_destination, towed_veh->face );
+        towed_veh->move = tileray( point( destination_delta_x, destination_delta_y ) );
     }
+
 }
 
 bool vehicle::is_external_part( const tripoint &part_pt ) const
 {
-    for( const tripoint &elem : g->m.points_in_radius( part_pt, 1 ) ){
+    for( const tripoint &elem : g->m.points_in_radius( part_pt, 1 ) ) {
         const optional_vpart_position vp = g->m.veh_at( elem );
-        if( !vp ){
+        if( !vp ) {
             return true;
         }
-        if( vp && &vp->vehicle() != this ){
+        if( vp && &vp->vehicle() != this ) {
             return true;
         }
     }
@@ -5686,6 +5671,27 @@ bool vehicle::has_tow_attached() const
     return ret;
 }
 
+void vehicle::set_tow_directions()
+{
+    const int length = mount_max.x - mount_min.x + 1;
+    const point mount_of_tow = parts[get_tow_part()].mount;
+    const point normalized_tow_mount = point( abs( mount_of_tow.x - mount_min.x ),
+                                       abs( mount_of_tow.y - mount_min.y ) );
+    if( length >= 3 ) {
+        const int trisect = length / 3;
+        if( normalized_tow_mount.x <= trisect ) {
+            tow_data.tow_direction = TOW_BACK;
+        } else if( normalized_tow_mount.x > trisect && normalized_tow_mount.x <= trisect * 2 ) {
+            tow_data.tow_direction = TOW_SIDE;
+        } else {
+            tow_data.tow_direction = TOW_FRONT;
+        }
+    } else {
+        // its a small vehicle, no danger if it flips around.
+        tow_data.tow_direction = TOW_FRONT;
+    }
+}
+
 bool towing_data::set_towing( vehicle *tower_veh, vehicle *towed_veh )
 {
     if( !towed_veh || !tower_veh ) {
@@ -5693,6 +5699,8 @@ bool towing_data::set_towing( vehicle *tower_veh, vehicle *towed_veh )
     }
     towed_veh->tow_data.towed_by = tower_veh;
     tower_veh->tow_data.towing = towed_veh;
+    tower_veh->set_tow_directions();
+    towed_veh->set_tow_directions();
     return true;
 }
 
@@ -5792,7 +5800,7 @@ bool vehicle::no_towing_slack() const
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
-    return rl_dist( towing_point, towed_point ) >= 4;
+    return rl_dist( towing_point, towed_point ) >= 8;
 
 }
 
@@ -5825,7 +5833,15 @@ void vehicle::shed_loose_parts()
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
             remove_remote_part( elem );
         }
-
+        if( is_towing() || is_towed() ) {
+            vehicle *other_veh = is_towing() ? tow_data.get_towed() : tow_data.get_towed_by();
+            if( other_veh ) {
+                other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(), "TOW_CABLE",
+                                        true ) );
+                other_veh->tow_data.clear_towing();
+            }
+            tow_data.clear_towing();
+        }
         auto part = &parts[elem];
         item drop = part->properties_to_item();
         g->m.add_item_or_charges( global_part_pos3( *part ), drop );
