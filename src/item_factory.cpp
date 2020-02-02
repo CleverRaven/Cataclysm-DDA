@@ -25,6 +25,7 @@
 #include "json.h"
 #include "material.h"
 #include "options.h"
+#include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_formatter.h"
@@ -63,6 +64,8 @@ static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
 extern const double MAX_RECOIL;
+
+static const int ascii_art_width = 42;
 
 bool item_is_blacklisted( const std::string &id )
 {
@@ -416,12 +419,12 @@ void Item_factory::finalize_post( itype &obj )
     }
 
     for( std::string &line : obj.ascii_picture ) {
-        if( line.length() > 42 ) {
-            line = line.substr( 0, 42 );
-            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>42 char).", obj.id );
+        if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
+            line = line.substr( 0, ascii_art_width );
+            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>%i char).", obj.id,
+                      ascii_art_width );
         }
     }
-
 }
 
 void Item_factory::finalize()
