@@ -6,7 +6,7 @@
       " ": [ "t_region_groundcover" ],
       "_": [
         [ "t_railroad_rubble", 2 ],
-        [ "t_dirt", 6 ],
+        [ "t_region_groundcover_barren", 6 ],
         [ "t_region_groundcover", 2 ]
       ],
       "%": "t_open_air",

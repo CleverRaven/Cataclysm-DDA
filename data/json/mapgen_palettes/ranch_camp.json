@@ -33,7 +33,7 @@
       "Z": "t_floor",
       "_": "t_pavement",
       "`": "t_water_dp",
-      "b": "t_dirt",
+      "b": "t_region_groundcover_barren",
       "c": "t_floor",
       "d": "t_floor",
       "f": "t_floor",

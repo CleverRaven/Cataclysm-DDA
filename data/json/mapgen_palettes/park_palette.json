@@ -96,7 +96,7 @@
       "7": "t_backboard",
       "[": "t_fence_rope",
       "$": "t_sand",
-      ",": "t_dirt"
+      ",": "t_region_groundcover_barren"
     },
     "furniture": { "b": "f_bench", "&": "f_trashcan" },
     "items": { "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] }, "b": { "item": "trash", "chance": 2 } },

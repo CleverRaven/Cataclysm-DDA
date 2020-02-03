@@ -27,7 +27,7 @@
       "b": "t_dirtfloor",
       "B": "t_door_boarded",
       "c": "t_dirtfloor",
-      "d": "t_dirt",
+      "d": "t_region_groundcover_barren",
       "D": "t_door_boarded_damaged",
       "f": "t_region_groundcover",
       "g": "t_generator_broken",
