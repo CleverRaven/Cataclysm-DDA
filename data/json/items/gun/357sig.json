@@ -27,6 +27,7 @@
     "name": { "str": "Glock 31" },
     "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
     "weight": "660 g",
+    "volume": "443 ml",
     "ammo": [ "357sig" ],
     "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
   },
