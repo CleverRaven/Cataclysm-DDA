@@ -19,7 +19,7 @@
 /data/mods/speedydex/ @KorGgenT
 /data/mods/stats_through_kills/ @KorGgenT
 
-magic_*.cpp @KorGgenT
+magic*.cpp @KorGgenT
 magic_*.h @KorGgenT
 /data/json/itemgroups/SUS/ @I-am-Erk
 /data/json/npcs/refugee_center/ @I-am-Erk
