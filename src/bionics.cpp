@@ -434,7 +434,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         const std::map<vitamin_id, vitamin> &vit_all = vitamin::all();
         for( const auto &v : vit_all ) {
             if( !v.second.has_flag( "NO_DISPLAY" ) && !v.second.has_flag( "NOT_IN_BLOOD" ) ) {
-                vit.push_back( v.second.name() + _( " level is " ) + to_string( vitamin_get( v.first ) ) );
+                vit.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
             }
         }
 

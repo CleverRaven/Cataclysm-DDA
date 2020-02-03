@@ -84,6 +84,9 @@ class vitamin
         /** Get intensity of deficiency or zero if not deficient for specified qty */
         int severity( int qty ) const;
 
+        /** Get text description of specified vitamin level*/
+        std::string get_string_level( int qty ) const;
+
         /** Load vitamin from JSON definition */
         static void load_vitamin( const JsonObject &jo );
 

@@ -47,6 +47,11 @@ int vitamin::severity( int qty ) const
     return 0;
 }
 
+std::string vitamin::get_string_level( int qty ) const
+{
+    return name() + _( " level is " ) + to_string( qty );
+}
+
 void vitamin::load_vitamin( const JsonObject &jo )
 {
     vitamin vit;
