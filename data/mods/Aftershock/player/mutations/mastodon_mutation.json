@@ -6,7 +6,7 @@
     "points": 2,
     "description": "You come from uplifted animal stock.  This decreases morale penalties for being wet.",
     "starting_trait": true,
-    "valid": "false",
+    "valid": false,
     "wet_protection": [
       { "part": "HEAD", "neutral": 9 },
       { "part": "LEG_L", "neutral": 11 },
