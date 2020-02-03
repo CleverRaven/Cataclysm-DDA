@@ -403,7 +403,7 @@
     "copy-from": "thermal_socks",
     "repairs_like": "thermal_socks",
     "type": "TOOL_ARMOR",
-    "name": { "str": "pair of thermal electric socks (on)", "str_pl": "name_plural" },
+    "name": { "str": "pair of thermal electric socks (on)", "str_pl": "pairs of thermal electric socks (on)" },
     "description": "This is a pair of socks with internal battery-powered heating elements.  They are currently on, and continually draining batteries.  Use it to turn them off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
     "power_draw": 7500,
