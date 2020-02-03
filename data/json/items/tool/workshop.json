@@ -1012,7 +1012,7 @@
     "name_plural": "X-Acto knives",
     "description": "This is a small, sharp knife, designed for making precise cuts for textiles or crafts.  It could cause decent damage, but is difficult to hit things with it.  Its small, sharp blade allows for precision strikes in the hands of the skilled.  It is too small to butcher corpses with.",
     "weight": "23 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 400,
     "to_hit": -3,
     "cutting": 6,
