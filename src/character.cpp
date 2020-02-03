@@ -8282,8 +8282,27 @@ int Character::bonus_item_warmth( body_part bp ) const
 
 bool Character::can_use_floor_warmth() const
 {
-    // TODO: Reading? Waiting?
-    return in_sleep_state();
+    return in_sleep_state() ||
+           has_activity( activity_id( "ACT_WAIT" ) ) ||
+           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
+           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
+           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
+           has_activity( activity_id( "ACT_READ" ) ) ||
+           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
+           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
+           has_activity( activity_id( "ACT_FISH" ) ) ||
+           has_activity( activity_id( "ACT_GAME" ) ) ||
+           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
+           has_activity( activity_id( "ACT_HEATING" ) ) ||
+           has_activity( activity_id( "ACT_VIBE" ) ) ||
+           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
+           has_activity( activity_id( "ACT_OPERATION" ) ) ||
+           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
+           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
+           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
