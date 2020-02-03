@@ -69,7 +69,7 @@
   {
     "type": "mutation",
     "id": "SPECAILIZED_DIET",
-    "name": "Hervivorous Ancestors",
+    "name": "Herbivorous Ancestors",
     "points": -2,
     "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties and obtain less nutrition from it.",
     "category": [ "MASTODON" ],
