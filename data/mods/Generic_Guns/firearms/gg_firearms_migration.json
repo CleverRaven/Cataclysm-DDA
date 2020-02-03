@@ -154,7 +154,17 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "l_lookout_9mm", "rm99_pistol" ],
+    "id": [
+      "cop_38",
+      "model_10_revolver",
+      "ruger_lcr_38",
+      "sw_610",
+      "bond_410",
+      "colt_saa",
+      "l_lookout_9mm",
+      "rm99_pistol",
+      "m47a1"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -306,6 +316,7 @@
     "id": [
       "shotgun_410",
       "browning_a5",
+      "gunblade",
       "ksg",
       "m1014",
       "mossberg_500",
