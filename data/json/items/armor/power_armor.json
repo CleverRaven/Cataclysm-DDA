@@ -106,7 +106,7 @@
     "category": "armor",
     "name": "heavy combat exoskeleton",
     "description": "Colloquially known as a 'tank suit' in the media, these bulky exoskeletons, covered in thick segmented armor plates, were tested in military service a few years back and determined to be too heavy and expensive for regular use.  Now that it's in your hands, though, you have a massive suit of power armor capable of resisting almost any small arms fire and most other forms of attack.  On the other hand, it doubles your effective weight, and it's almost impossible not to bump into things.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.",
-	"//": "This should probably changed to a pseudo-vehicle like the civilian exoskeleton",
+    "//": "This should probably changed to a pseudo-vehicle like the civilian exoskeleton",
     "weight": "75 kg",
     "volume": "130 L",
     "price": 11500000,
