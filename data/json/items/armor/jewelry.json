@@ -855,8 +855,7 @@
   {
     "id": "gold_watch",
     "type": "ARMOR",
-    "name": "gold watch",
-    "name_plural": "gold watches",
+    "name": { "str": "gold watch", "str_pl": "gold watches" },
     "description": "A gold-plated steel self-winding wristwatch, suitable for a retirement present.  Tells the time and looks good.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -886,8 +885,7 @@
   {
     "id": "silver_watch",
     "type": "ARMOR",
-    "name": "silver watch",
-    "name_plural": "silver watches",
+    "name": { "str": "silver watch", "str_pl": "silver watches" },
     "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, and more classy than an ordinary wristwatch.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -995,11 +993,10 @@
   {
     "id": "jade_brooch",
     "type": "ARMOR",
-    "name": "jade brooch",
-    "name_plural": "jade brooches",
+    "name": { "str": "jade brooch", "str_pl": "jade brooches" },
     "description": "A hand-crafted jade brooch of Oriental origin.  You can wear it if you like, but it won't provide any effects.",
     "weight": "26 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 90000,
     "price_postapoc": 1900,
     "material": [ "stone" ],
@@ -1024,8 +1021,7 @@
   {
     "id": "platinum_watch",
     "type": "ARMOR",
-    "name": "platinum watch",
-    "name_plural": "platinum watches",
+    "name": { "str": "platinum watch", "str_pl": "platinum watches" },
     "description": "Flex on those gold-watch wearers with the rare, expensive and superior platinum watch.  This one is made from solid platinum.",
     "weight": "80 g",
     "volume": "250 ml",
