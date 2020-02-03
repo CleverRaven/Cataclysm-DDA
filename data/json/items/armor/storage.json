@@ -413,7 +413,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
-    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
+    "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 5,
@@ -433,7 +433,7 @@
     "symbol": "[",
     "looks_like": "hide_bag",
     "color": "pink",
-    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
+    "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 5,
@@ -502,8 +502,7 @@
   {
     "id": "legrig",
     "type": "ARMOR",
-    "name": "pair of drop leg pouches",
-    "name_plural": "pairs of drop leg pouches",
+    "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
     "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
     "weight": "205 g",
     "volume": "500 ml",
@@ -685,8 +684,7 @@
   {
     "id": "ragpouch",
     "type": "ARMOR",
-    "name": "pouch",
-    "name_plural": "pouches",
+    "name": { "str": "pouch", "str_pl": "pouches" },
     "description": "A makeshift bag, cobbled together from rags.  Really gets in the way, but provides a decent amount of storage.",
     "weight": "560 g",
     "volume": "500 ml",

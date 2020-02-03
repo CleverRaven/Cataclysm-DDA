@@ -930,8 +930,7 @@
   {
     "id": "sf_watch",
     "type": "ARMOR",
-    "name": "fancy watch",
-    "name_plural": "fancy watches",
+    "name": { "str": "fancy watch", "str_pl": "fancy watches" },
     "//": "That's about the midpoint for a rolex.",
     "description": "A rather large and expensively made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
     "weight": "80 g",
@@ -1280,8 +1279,7 @@
   {
     "id": "wristwatch",
     "type": "ARMOR",
-    "name": "wrist watch",
-    "name_plural": "wrist watches",
+    "name": { "str": "wrist watch", "str_pl": "wrist watches" },
     "description": "A simple wristwatch on a plastic band.  Tells the time and has an alarm clock feature.",
     "weight": "50 g",
     "volume": "250 ml",
