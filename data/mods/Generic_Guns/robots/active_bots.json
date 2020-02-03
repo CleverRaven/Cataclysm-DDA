@@ -57,12 +57,6 @@
     ]
   },
   {
-    "id": "mon_crows_m240",
-    "copy-from": "mon_turret_rifle",
-    "type": "MONSTER",
-    "default_faction": "military"
-  },
-  {
     "id": "mon_turret_rifle",
     "copy-from": "mon_turret_rifle",
     "type": "MONSTER",
@@ -90,6 +84,12 @@
         "no_ammo_sound": "a chk!"
       }
     ]
+  },
+  {
+    "id": "mon_crows_m240",
+    "copy-from": "mon_turret_rifle",
+    "type": "MONSTER",
+    "default_faction": "military"
   },
   {
     "id": "mon_secubot",
