@@ -414,6 +414,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         std::vector<std::string> good;
         std::vector<std::string> bad;
         std::vector<std::string> vit;
+        std::vector<std::string> tox;
+        std::vector<std::string> drug;
+        std::vector<std::string> cnt;
         if( get_rad() > 0 ) {
             bad.push_back( _( "Irradiated" ) );
         }
@@ -434,12 +437,25 @@ bool Character::activate_bionic( int b, bool eff_only )
         const std::map<vitamin_id, vitamin> &vit_all = vitamin::all();
         for( const auto &v : vit_all ) {
             if( !v.second.has_flag( "NO_DISPLAY" ) && !v.second.has_flag( "NOT_IN_BLOOD" ) ) {
-                vit.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                switch( v.second.type() ) {
+                    case vitamin_type::VITAMIN:
+                        vit.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        break;
+                    case vitamin_type::TOXIN:
+                        tox.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        break;
+                    case vitamin_type::DRUG:
+                        drug.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        break;
+                    default:
+                        cnt.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                }
             }
         }
 
+        const int effect_spacing = ( good.empty() && bad.empty() ) ? 1 : good.size() + bad.size();
         const size_t win_h = std::min( static_cast<size_t>( TERMY ),
-                                       bad.size() + good.size() + vit.size() + 2 );
+                                       effect_spacing + vit.size() + tox.size() + drug.size() + cnt.size() + 2 );
         const int win_w = 46;
         catacurses::window w = catacurses::newwin( win_h, win_w, point( ( TERMX - win_w ) / 2,
                                ( TERMY - win_h ) / 2 ) );
@@ -456,10 +472,26 @@ bool Character::activate_bionic( int b, bool eff_only )
                 }
             }
         }
-        for( size_t line = good.size() + bad.size() + 1; line < ( win_h - 1 ) &&
-             line <= good.size() + bad.size() + vit.size(); ++line ) {
+        for( size_t line = effect_spacing + 1; line < ( win_h - 1 ) &&
+             line <= effect_spacing + vit.size(); ++line ) {
             trim_and_print( w, point( 2, line ), win_w - 3, c_yellow,
-                            vit[line - 1 - bad.size() - good.size()] );
+                            vit[line - 1 - effect_spacing] );
+        }
+        for( size_t line = effect_spacing + vit.size() + 1; line < ( win_h - 1 ) &&
+             line <= effect_spacing + vit.size() + tox.size(); ++line ) {
+            trim_and_print( w, point( 2, line ), win_w - 3, c_yellow,
+                            tox[line - 1 - effect_spacing - vit.size()] );
+        }
+        for( size_t line = effect_spacing + vit.size() + tox.size() + 1; line < ( win_h - 1 ) &&
+             line <= effect_spacing + vit.size() + tox.size() + drug.size(); ++line ) {
+            trim_and_print( w, point( 2, line ), win_w - 3, c_yellow,
+                            drug[line - 1 - effect_spacing - vit.size() - drug.size()] );
+        }
+        for( size_t line = effect_spacing + vit.size() + tox.size() + drug.size() + 1;
+             line < ( win_h - 1 ) &&
+             line <= effect_spacing + vit.size() + tox.size() + drug.size() + cnt.size(); ++line ) {
+            trim_and_print( w, point( 2, line ), win_w - 3, c_yellow,
+                            cnt[line - 1 - effect_spacing - vit.size() - drug.size() - cnt.size()] );
         }
         wrefresh( w );
         catacurses::refresh();
