@@ -191,7 +191,7 @@
     "type": "profession",
     "ident": "afs_mastadon_swat",
     "name": "Upifted SWAT Officer",
-    "description": "Uplifted elephants are created with human, elephant and mastodon DNA among others.  Exclusively created by the military they are often known as Killophants.  You served your tours and earned the right to be considered a full citizen, while many of your peers became mercenaries you decided to devote your life to helping others.  Now you may be the last lawman standing, and stand you will against the hordes.",
+    "description": "Uplifted elephants are created with human, elephant and mastodon DNA among others.  Exclusively created by the military they are often known as Killophants.  You served your tours and earned the right to be considered a full citizen.  While many of your peers became mercenaries, you decided to devote your life to helping others.  Now you may be the last lawman standing, and stand you will against the hordes.",
     "points": 10,
     "skills": [
       { "level": 3, "name": "gun" },
