@@ -5317,7 +5317,8 @@ void game::examine()
     }
 
     const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Examine where?" ),
-                                            ACTION_EXAMINE );
+                                            _( "There is nothing that can be examined nearby." ),
+                                            ACTION_EXAMINE, false );
     if( !examp_ ) {
         return;
     }
@@ -5521,31 +5522,9 @@ void game::examine( const tripoint &examp )
 
 void game::pickup()
 {
-    // First check if there is no/only one option for pickup
-    int num_tiles_with_items = 0;
-    tripoint tile_with_items = u.pos();
-    for( const tripoint &p : m.points_in_radius( u.pos(), 1 ) ) {
-        bool veh_has_items = false;
-        const optional_vpart_position vp = m.veh_at( p );
-        if( vp ) {
-            const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
-            veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
-        }
-        if( m.has_items( p ) || veh_has_items ) {
-            ++num_tiles_with_items;
-            tile_with_items = p;
-        }
-    }
-    if( num_tiles_with_items == 0 ) {
-        add_msg( _( "There's nothing to pick up there" ) );
-        return;
-    } else if( num_tiles_with_items == 1 ) {
-        pickup( tile_with_items );
-        return;
-    }
-
     const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
-                                            ACTION_PICKUP );
+                                            _( "There is nothing to pick up nearby." ),
+                                            ACTION_PICKUP, false );
     if( !examp_ ) {
         return;
     }
@@ -9931,6 +9910,33 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
+    // > and < are used for diving underwater.
+    if( m.has_flag( "SWIMMABLE", u.pos() ) && m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
+        if( movez == -1 ) {
+            if( u.is_underwater() ) {
+                add_msg( m_info, _( "You are already underwater!" ) );
+                return;
+            }
+            if( u.worn_with_flag( "FLOTATION" ) ) {
+                add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
+                return;
+            }
+            u.set_underwater( true );
+            ///\EFFECT_STR increases breath-holding capacity while diving
+            u.oxygen = 30 + 2 * u.str_cur;
+            add_msg( _( "You dive underwater!" ) );
+        } else {
+            if( u.swim_speed() < 500 || u.shoe_type_count( "swim_fins" ) ) {
+                u.set_underwater( false );
+                add_msg( _( "You surface." ) );
+            } else {
+                add_msg( m_info, _( "You try to surface but can't!" ) );
+            }
+        }
+        u.moves -= 100;
+        return;
+    }
+
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
     int move_cost = 100;
@@ -10040,33 +10046,6 @@ void game::vertical_move( int movez, bool force )
         }
         slippedpast = true;
         u.moves -= 100;
-    }
-
-    // > and < are used for diving underwater.
-    if( m.has_flag( "SWIMMABLE", u.pos() ) && m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
-        if( movez == -1 ) {
-            if( u.is_underwater() ) {
-                add_msg( m_info, _( "You are already underwater!" ) );
-                return;
-            }
-            if( u.worn_with_flag( "FLOTATION" ) ) {
-                add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
-                return;
-            }
-            u.set_underwater( true );
-            ///\EFFECT_STR increases breath-holding capacity while diving
-            u.oxygen = 30 + 2 * u.str_cur;
-            add_msg( _( "You dive underwater!" ) );
-        } else {
-            if( u.swim_speed() < 500 || u.shoe_type_count( "swim_fins" ) ) {
-                u.set_underwater( false );
-                add_msg( _( "You surface." ) );
-            } else {
-                add_msg( m_info, _( "You try to surface but can't!" ) );
-            }
-        }
-        u.moves -= 100;
-        return;
     }
 
     // Shift the map up or down

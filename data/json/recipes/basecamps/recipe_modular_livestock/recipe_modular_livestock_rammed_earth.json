@@ -58,14 +58,13 @@
         ],
         "components": [
           [ [ "2x4", 176 ] ],
+          [ [ "concrete", 11 ], [ "material_quicklime", 220 ], [ "material_sand", 220 ] ],
+          [ [ "material_soil", 2640 ] ],
           [ [ "nail", 512 ] ],
           [ [ "pointy_stick", 22 ], [ "spear_wood", 22 ] ],
-          [ [ "wood_sheet", 11 ], [ "wood_panel", 21 ] ],
-          [ [ "material_soil", 2640 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 1100 ], [ "water_clean", 1100 ] ],
-          [ [ "material_sand", 220 ], [ "material_quicklime", 220 ], [ "concrete", 11 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 8 ] ]
+          [ [ "wood_panel", 29 ] ]
         ]
       }
     }

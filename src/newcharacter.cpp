@@ -1862,6 +1862,9 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             sorted_scens.clear();
             auto &wopts = world_generator->active_world->WORLD_OPTIONS;
             for( const auto &scen : scenario::get_all() ) {
+                if( scen.scen_is_blacklisted() ) {
+                    continue;
+                }
                 if( !lcmatch( scen.gender_appropriate_name( u.male ), filterstring ) ) {
                     continue;
                 }

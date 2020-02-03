@@ -118,19 +118,19 @@
       "time": "1 d 7 h 10 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 12 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "alien_pod_resin", 36 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
           [ [ "nail", 80 ] ],
           [ [ "pipe", 16 ] ],
+          [ [ "rock", 40 ] ],
           [ [ "sheet_metal", 4 ] ],
           [ [ "sheet_metal_small", 8 ] ],
-          [ [ "rock", 40 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
           [ [ "water", 2 ], [ "water_clean", 2 ] ],
-          [ [ "alien_pod_resin", 36 ] ]
+          [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
         ]
       }
     }
