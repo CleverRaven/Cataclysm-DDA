@@ -414,7 +414,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         std::vector<std::string> good;
         std::vector<std::string> bad;
         std::vector<std::string> vit;
-        ;
         if( get_rad() > 0 ) {
             bad.push_back( _( "Irradiated" ) );
         }
@@ -432,10 +431,9 @@ bool Character::activate_bionic( int b, bool eff_only )
             }
         }
 
-        const auto &vit_all = vitamin::all();
-        static const std::set<vitamin_id> trackable_vits = {vitamin_id( "iron" ), vitamin_id( "calcium" ), vitamin_id( "vitA" ), vitamin_id( "vitB" ), vitamin_id( "vitC" ), vitamin_id( "mutant_toxin" )};
+        const std::map<vitamin_id, vitamin> &vit_all = vitamin::all();
         for( const auto &v : vit_all ) {
-            if( trackable_vits.count( v.first ) ) {
+            if( !v.second.has_flag("NO_DISPLAY") && !v.second.has_flag("NOT_IN_BLOOD") ) {
                 vit.push_back( v.second.name() + _( " level is " ) + to_string( vitamin_get( v.first ) ) );
             }
         }
