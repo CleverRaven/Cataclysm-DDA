@@ -20,7 +20,7 @@
 /data/mods/stats_through_kills/ @KorGgenT
 
 magic*.cpp @KorGgenT
-magic_*.h @KorGgenT
+magic*.h @KorGgenT
 /data/json/itemgroups/SUS/ @I-am-Erk
 /data/json/npcs/refugee_center/ @I-am-Erk
 /data/json/npcs/Backgrounds/ @I-am-Erk
