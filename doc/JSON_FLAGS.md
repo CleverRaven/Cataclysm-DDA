@@ -1432,7 +1432,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Vehicle parts requiring other vehicle parts
 
-The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` and ```cant_remove``` for the flag. 
+The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` and ```cant_remove``` for the flag.
+```requires_flag``` is the other flag that a part with this flag requires. 
 ```cant_remove``` message is shown when player tries to remove a part that can't be removed because some other part needs that part. For example trying to remove wheel hub assembly while a wheel is attached to it.
 
 ### Fuel types
