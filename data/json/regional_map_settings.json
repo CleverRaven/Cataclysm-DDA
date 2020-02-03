@@ -26,7 +26,7 @@
           "t_shrub_rose": 2,
           "t_shrub_hydrangea": 2,
           "t_shrub_lilac": 2,
-		  "t_shrub_peanut": 1
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
@@ -35,7 +35,7 @@
           "t_shrub_grape": 4,
           "t_shrub_blackberry": 2,
           "t_shrub_huckleberry": 2,
-		  "t_shrub_peanut": 1
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
         "t_region_tree": {
