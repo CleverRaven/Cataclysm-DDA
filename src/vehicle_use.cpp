@@ -1709,7 +1709,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), f, false, true );
+            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+            false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
