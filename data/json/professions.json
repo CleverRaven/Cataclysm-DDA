@@ -2223,7 +2223,10 @@
     "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
     "points": 0,
     "items": {
-      "both": [ "tobacco", "pipe_tobacco", "ref_lighter", "socks", "dress_shoes", "knit_scarf", "cane" ],
+      "both": {
+        "items": [ "tobacco", "pipe_tobacco", "ref_lighter", "socks", "dress_shoes", "knit_scarf" ],
+        "entries": [ { "item": "cane", "custom-flags": [ "auto_wield" ] } ]
+      },
       "male": [ "briefs", "dress_shirt", "pants_checkered", "pocketwatch" ],
       "female": [ "panties", "bra", "dress", "fanny", "gold_watch" ]
     }
