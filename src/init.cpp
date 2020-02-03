@@ -213,6 +213,7 @@ void DynamicDataLoader::initialize()
     add( "speech", &load_speech );
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
     add( "scenario", &scenario::load_scenario );
+    add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
