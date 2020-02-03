@@ -4102,7 +4102,8 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ||
-               p->has_active_item( "afs_atomic_smartphone_music" ) ) {
+               p->has_active_item( "afs_atomic_smartphone_music" ) ||
+               p->has_active_item( "afs_atomic_wraitheon_music" ) ) {
         p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
@@ -4112,7 +4113,10 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
             it->convert( "smartphone_music" ).active = true;
         } else if( it->typeId() == "afs_atomic_smartphone" ) {
             it->convert( "afs_atomic_smartphone_music" ).active = true;
+        } else if( it->typeId() == "afs_wraitheon_smartphone" ) {
+            it->convert( "afs_atomic_wraitheon_music" ).active = true;
         }
+        p->mod_moves( -200 );
     }
     return it->type->charges_to_use();
 }
@@ -4195,7 +4199,11 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
         } else if( it->typeId() == "afs_atomic_smartphone_music" ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( "afs_atomic_smartphone" ).active = false;
+        } else if( it->typeId() == "afs_atomic_wraitheon_music" ) {
+            p->add_msg_if_player( _( "The phone turns off." ) );
+            it->convert( "afs_wraitheon_smartphone" ).active = false;
         }
+        p->mod_moves( -200 );
     }
     return it->type->charges_to_use();
 }
