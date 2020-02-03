@@ -448,9 +448,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( g->m.impassable( target ) ) {
             if( optional_vpart_position vp = g->m.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage / 30 );
+                vp->vehicle().damage( vp->part_index(), damage / 20 );
             } else {
-                g->m.bash( target, damage / 10, true );
+                g->m.bash( target, damage / 20, true );
             }
         }
     }
