@@ -50,8 +50,7 @@
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic goggles",
-    "name_plural": "bionic goggles",
+    "name": { "str": "bionic goggles", "str_pl": "bionic goggles" },
     "qualities": [ [ "GLARE", 2 ] ]
   },
   {
