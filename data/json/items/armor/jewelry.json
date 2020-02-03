@@ -772,11 +772,10 @@
   {
     "id": "gold_ear",
     "type": "ARMOR",
-    "name": "pair of gold earrings",
-    "name_plural": "pairs of gold earrings",
+    "name": { "str": "pair of gold earrings", "str_pl": "pairs of gold earrings" },
     "description": "A pair of shiny gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "10 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 13000,
     "price_postapoc": 500,
     "material": [ "gold" ],
@@ -1396,8 +1395,7 @@
   {
     "id": "fur_cat_ears",
     "type": "ARMOR",
-    "name": "pair of fuzzy cat ears",
-    "name_plural": "pairs of fuzzy cat ears",
+    "name": { "str": "pair of fuzzy cat ears", "str_pl": "pairs of fuzzy cat ears" },
     "description": "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "20 g",
     "volume": "250 ml",
@@ -1412,8 +1410,7 @@
     "id": "faux_fur_cat_ears",
     "type": "ARMOR",
     "copy-from": "fur_cat_ears",
-    "name": "pair of faux fur cat ears",
-    "name_plural": "pairs of faux fur cat ears",
+    "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
     "color": "pink"
