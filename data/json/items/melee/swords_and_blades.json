@@ -112,8 +112,7 @@
     "id": "knife_combat_mod",
     "copy-from": "knife_combat",
     "type": "TOOL",
-    "name": "modified combat knife",
-    "name_plural": "modified combat knives",
+    "name": { "str": "modified combat knife", "str_pl": "modified combat knives" },
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
       "location": "underbarrel",
