@@ -3302,7 +3302,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         tid = contents.front().typeId();
     }
     const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-    if( !known_recipes.empty() && parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
+    if( known_recipes.empty() ) {
+        insert_separation_line( info );
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "You don't know anything you could craft with it." ) ) );
+    } else if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
         const inventory &inv = g->u.crafting_inventory();
 
         if( known_recipes.size() > 24 ) {
