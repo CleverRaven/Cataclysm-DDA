@@ -544,8 +544,8 @@ dynamic_line_string_keys = {
     "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
     "u_driving", "npc_driving",
     "has_pickup_list", "is_by_radio", "has_reason",
-# yes/no strings for complex conditions
-    "yes", "no"
+# yes/no strings for complex conditions, 'and' list
+    "yes", "no", "and"
 }
 
 def extract_dynamic_line(line, outfile):
