@@ -3257,7 +3257,7 @@ std::string give_item_to( npc &p, bool allow_use )
                 //if we can wear it with equip changes prompt first
                 can_wear = p.can_wear( given );
                 if( ( can_wear.success() ||
-                      query_yn( _( can_wear.str() ) += _( " Should I take something off?" ) ) )
+                      query_yn( can_wear.str() + _( " Should I take something off?" ) ) )
                     && p.wear_if_wanted( given, reason ) ) {
                     taken = true;
                 } else {
@@ -3265,7 +3265,7 @@ std::string give_item_to( npc &p, bool allow_use )
                 }
             }
         } else {
-            reason += "" + string_format(
+            reason += string_format(
                           _( "My current weapon is better than this. \n(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
                           cur_weapon_value );
         }
