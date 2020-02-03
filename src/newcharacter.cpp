@@ -734,7 +734,7 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
     unsigned char sel = 1;
-    const int iSecondColumn = 27;
+    const int iSecondColumn = utf8_width( points.to_string(), true ) + 9;
     input_context ctxt( "NEW_CHAR_STATS" );
     ctxt.register_cardinal();
     ctxt.register_action( "PREV_TAB" );
@@ -1020,11 +1020,18 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
+    int full_string_length = 0;
+
     do {
         draw_points( w, points );
         if( !points.is_freeform() ) {
-            mvwprintz( w, point( 26, 3 ), c_light_green, "%2d/%-2d", num_good, max_trait_points );
-            mvwprintz( w, point( 32, 3 ), c_light_red, "%3d/-%-2d ", num_bad, max_trait_points );
+            const int remaining_points_length = utf8_width( points.to_string(), true );
+            std::string full_string =
+                string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
+                               num_good, max_trait_points, num_bad, max_trait_points );
+            fold_and_print( w, point( remaining_points_length + 3, 3 ), getmaxx( w ) - 2, c_white,
+                            full_string );
+            full_string_length = utf8_width( full_string, true ) + remaining_points_length + 3;
         }
 
         // Clear the bottom of the screen.
@@ -1074,14 +1081,16 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
                 auto &cur_trait = vStartingTraits[iCurrentPage][i];
                 auto &mdata = cur_trait.obj();
                 if( cur_line_y == i && iCurrentPage == iCurWorkingPage ) {
-                    // Clear line from 41 to end of line (minus border)
-                    mvwprintz( w, point( 41, 3 ), c_light_gray, std::string( getmaxx( w ) - 41 - 1, ' ' ) );
+                    // Clear line beginning from end of (remaining points + positive/negative traits) text to end of line (minus border)
+                    mvwprintz( w, point( full_string_length, 3 ), c_light_gray,
+                               std::string( getmaxx( w ) - full_string_length - 1, ' ' ) );
                     int points = mdata.points;
                     bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
-                    mvwprintz( w,  point( 41, 3 ), col_tr, ngettext( "%s %s %d point", "%s %s %d points", points ),
+                    mvwprintz( w,  point( full_string_length + 3, 3 ), col_tr,
+                               ngettext( "%s %s %d point", "%s %s %d points", points ),
                                mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
@@ -1615,11 +1624,14 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
 
+    const int remaining_points_length = utf8_width( points.to_string(), true );
+
     do {
         draw_points( w, points );
         // Clear the bottom of the screen.
         werase( w_description );
-        mvwprintz( w, point( 31, 3 ), c_light_gray, std::string( getmaxx( w ) - 32, ' ' ) );
+        mvwprintz( w, point( remaining_points_length + 9, 3 ), c_light_gray,
+                   std::string( getmaxx( w ) - remaining_points_length - 4, ' ' ) );
 
         // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
@@ -1631,7 +1643,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
                 //~ levels here are skill levels at character creation time
                 ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
         const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
-        mvwprintz( w, point( 31, 3 ), color,
+        mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
                    //~ Second string is e.g. "1 level" or "2 levels"
                    ngettext( "Upgrading %s by %s costs %d point",
                              "Upgrading %s by %s costs %d points", cost ),
