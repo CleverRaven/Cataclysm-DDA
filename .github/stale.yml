@@ -52,7 +52,8 @@ markComment: >
 closeComment: >
   This issue has been automatically closed due to lack of activity. This does
   not mean that we do not value the issue. Feel free to request that it be
-  re-opened if you are going to actively work on it
+  re-opened if you are going to actively work on it, or it is a bug that is
+  reproduceable on the current master branch.
 
 # Limit the number of actions per hour, from 1-30. Default is 30
 limitPerRun: 2
