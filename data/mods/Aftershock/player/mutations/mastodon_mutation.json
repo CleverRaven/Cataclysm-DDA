@@ -354,7 +354,7 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
-    "prereqs": [ "ELEPHANTINE_", "ELEPHANTINE_OK" ],
+    "prereqs": [ "ELEPHANTINE", "ELEPHANTINE_OK" ],
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "GIGANTIC_OK" ],
