@@ -3295,43 +3295,46 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     // list recipes you could use it in
-    itype_id tid;
-    if( contents.empty() ) { // use this item
-        tid = typeId();
-    } else { // use the contained item
-        tid = contents.front().typeId();
-    }
-    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-    if( known_recipes.empty() ) {
-        insert_separation_line( info );
-        info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "You don't know anything you could craft with it." ) ) );
-    } else if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
-        const inventory &inv = g->u.crafting_inventory();
+    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
+        itype_id tid;
+        if( contents.empty() ) { // use this item
+            tid = typeId();
+        } else { // use the contained item
+            tid = contents.front().typeId();
+        }
+        const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
 
-        if( known_recipes.size() > 24 ) {
+        if( known_recipes.empty() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You know dozens of things you could craft with it." ) ) );
-        } else if( known_recipes.size() > 12 ) {
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You could use it to craft various other things." ) ) );
+                                      _( "You don't know anything you could craft with it." ) ) );
         } else {
-            const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
-            [ &inv ]( const recipe * r ) {
-                if( r->deduped_requirements().can_make_with_inventory(
-                        inv, r->get_component_filter() ) ) {
-                    return r->result_name();
-                } else {
-                    return string_format( "<dark>%s</dark>", r->result_name() );
-                }
-            } );
-            if( !recipes.empty() ) {
+            const inventory &inv = g->u.crafting_inventory();
+
+            if( known_recipes.size() > 24 ) {
                 insert_separation_line( info );
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "You could use it to craft: %s" ),
-                                                  recipes ) ) );
+                                          _( "You know dozens of things you could craft with it." ) ) );
+            } else if( known_recipes.size() > 12 ) {
+                insert_separation_line( info );
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "You could use it to craft various other things." ) ) );
+            } else {
+                const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
+                [ &inv ]( const recipe * r ) {
+                    if( r->deduped_requirements().can_make_with_inventory(
+                            inv, r->get_component_filter() ) ) {
+                        return r->result_name();
+                    } else {
+                        return string_format( "<dark>%s</dark>", r->result_name() );
+                    }
+                } );
+                if( !recipes.empty() ) {
+                    insert_separation_line( info );
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              string_format( _( "You could use it to craft: %s" ),
+                                                      recipes ) ) );
+                }
             }
         }
     }
