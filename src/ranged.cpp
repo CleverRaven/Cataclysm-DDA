@@ -1193,9 +1193,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
         // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-            print_colored_text( w, point( 1, line_number++ ), col, col,
-                                string_format( _( "<color_white>[%s]</color> %s: Moves to fire\u02EF" ),
-                                               hotkey, label ) );
+            print_colored_text( w, point( 1, line_number ), col, col,
+                                string_format( _( "%s:" ), label ) );
+            right_print( w, line_number++, 1, c_dark_gray, "Moves to fire\u02EF" );
             right_print( w, line_number, 1, c_light_blue, string_format( _( "%d" ),
                          moves_to_fire ) );
         } else {
