@@ -22,31 +22,33 @@ The following table lists the currently planned/implemented scrap categories and
 
 Note that more categories can be added, and that it inst necessary for a category to encompass the five tiers, although its better if they do.
 
-##Scrap Tiers Briefly Explained a
+## Scrap Tiers Briefly Explained
 
-###Tier 1
+### Tier 1
 
 Tier 1 scarp is plentiful, and can be easily found even when you aren't specifically looking for it.  It might be dropped by defeating common enemies, or by disassembling common household objects.  Ideally Tier 1 scarp is mostly used as a filler component in more advanced recipes. Things that might be crafted using only this tier of scrap must be single-use and not very effective, and should  see little use outside of the early game.For example
 
 - Makeshift ammunition of all kinds, that might risk damaging your gun.
 - Weak grenades with very limited range.
  
-###Tier 2 
+### Tier 2 
+
 Tier 2 scarp remains common, but requires some measure of effort to acquire. Perhaps it spawns only in certain locations or requires specialized tools and skills to extract.  This scrap might be used to craft disposable tools and weapons or to make decent quality ammunition and explosives. For example:
 
 - Bulky, makeshift version of an UPS with very limited charge capacity.
 - A rail gun/laser that works only for a limited number of shots before melting.
 - A grenade that emits a low range electric field.
 
+### Tier 3
 
-###Tier 3
 Much like tier 2 above, this type of scrap is common, but is only meant to spawn in locations that might prove dangerous to a mid-game characters.  Additionally, it should always need tools and skills to extract.  Tier 3 scrap might be used to craft  basic rechargeable tools, mid-quality weapons and exotic ammunition and grenades.  For example:
 
 - UPS
 - Non relaodable charge packs for Laser Weapons
 - Shoddy laser Rifle
 
-###Tier 4 
+### Tier 4 
+
 This tier of scrap is properly uncommon, it spawns should be limited to the 'boss rooms' of mid-game and to end-game dungeons, and should prove challenging to acquire.  It might be used to craft tools that provide great convenience in the non combat aspects of the game, single use items that grant very powerful abilities and good quality weapons. For Example
 
 -Most utility bionics.
@@ -54,7 +56,8 @@ This tier of scrap is properly uncommon, it spawns should be limited to the 'bos
 -Atomic tools.
 -Singe use invisibility cloak.
 
-###Tier 5
+### Tier 5
+
 Very rare loot occasionally dropped by endgame threats and dungeons, extracting it requires very high skills and specialized tools. Thematically linked to the dimensional technology that caused the cataclysm. Might be used to craft items that severely and permanently alter the combat aspects of gameplay. For example:
 
 -Hologram Cloak Mk. II
