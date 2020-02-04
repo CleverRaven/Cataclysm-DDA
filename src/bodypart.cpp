@@ -9,7 +9,6 @@
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "translations.h"
 #include "json.h"
 
 side opposite_side( side s )
@@ -182,10 +181,12 @@ void body_part_struct::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
 
+    name.make_plural();
     mandatory( jo, was_loaded, "name", name );
-    optional( jo, was_loaded, "name_plural", name_multiple );
-    mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
-    mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
+    name_accusative.make_plural();
+    mandatory( jo, was_loaded, "name_accusative", name_accusative );
+    name_as_heading.make_plural();
+    mandatory( jo, was_loaded, "name_as_heading", name_as_heading );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
@@ -259,35 +260,27 @@ void body_part_struct::check() const
 // translated for these languages.
 std::string body_part_name( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
+    return get_bp( bp ).name.translated( number );
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
-    if( number > 1 ) {
-        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
-    } else {
-        return pgettext( "bodypart_accusative", bdy.name.c_str() );
-    }
+    return get_bp( bp ).name_accusative.translated( number );
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
+    return get_bp( bp ).name_as_heading.translated( number );
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text );
+    return get_bp( bp ).hp_bar_ui_text.translated();
 }
 
 std::string encumb_text( body_part bp )
 {
-    const std::string &txt = get_bp( bp ).encumb_text;
-    return !txt.empty() ? _( txt ) : txt;
+    return get_bp( bp ).encumb_text.translated();
 }
 
 body_part random_body_part( bool main_parts_only )

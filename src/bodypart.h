@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include <string>
 
+#include "translations.h"
 #include "int_id.h"
 #include "string_id.h"
 
@@ -70,12 +71,11 @@ struct body_part_struct {
         bool was_loaded = false;
 
         // Those are stored untranslated
-        std::string name;
-        std::string name_multiple;
-        std::string name_as_heading_singular;
-        std::string name_as_heading_multiple;
-        std::string hp_bar_ui_text;
-        std::string encumb_text;
+        translation name;
+        translation name_accusative;
+        translation name_as_heading;
+        translation hp_bar_ui_text;
+        translation encumb_text;
         // Legacy "string id"
         std::string legacy_id = "num_bp";
         // Legacy enum "int id"
