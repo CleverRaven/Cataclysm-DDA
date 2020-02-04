@@ -278,6 +278,8 @@ game::game() :
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
 
+game::~game() = default;
+
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
@@ -401,11 +403,6 @@ void game::load_core_data( loading_ui &ui )
 void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
 {
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
-}
-
-game::~game()
-{
-    MAPBUFFER.reset();
 }
 
 // Fixed window sizes
