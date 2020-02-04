@@ -375,7 +375,7 @@
     "quench": -5,
     "fun": 4,
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
-    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 },
+    "proportional": { "price": 2.0, "volume": 0.28, "weight": 0.28 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -543,8 +543,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str": "blood", "str_pl": "blood" },
     "weight": "265 g",
     "color": "red",
     "container": "bag_iv",
@@ -577,8 +576,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fat",
-    "name": "chunk of fat",
-    "name_plural": "chunks of fat",
+    "name": { "str": "chunk of fat", "str_pl": "chunks of fat" },
     "weight": "220 g",
     "color": "pink",
     "spoils_in": "7 days",

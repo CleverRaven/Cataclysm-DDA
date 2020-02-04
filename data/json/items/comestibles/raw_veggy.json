@@ -224,8 +224,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cotton_boll",
-    "name": "cotton boll",
-    "name_plural": "cotton bolls",
+    "name": { "str": "cotton boll" },
     "category": "other",
     "weight": "26 g",
     "color": "light_green",

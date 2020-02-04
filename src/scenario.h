@@ -95,6 +95,9 @@ class scenario
         */
         std::string prof_count_str() const;
 
+        // Is this scenario blacklisted?
+        bool scen_is_blacklisted() const;
+
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
         bool has_flag( const std::string &flag ) const;
 
@@ -105,6 +108,15 @@ class scenario
 
         const std::vector<mission_type_id> &missions() const;
 
+};
+
+struct scen_blacklist {
+    std::set<string_id<scenario>> scenarios;
+    bool whitelist = false;
+
+    static void load_scen_blacklist( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string & );
+    void finalize();
 };
 
 #endif

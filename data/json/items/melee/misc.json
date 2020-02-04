@@ -1,0 +1,61 @@
+[
+  {
+    "id": "bullwhip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": "bullwhip",
+    "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
+    "weight": "3460 g",
+    "volume": "2 L",
+    "price": 3500,
+    "material": [ "leather" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
+    "cutting": 3,
+    "category": "weapons"
+  },
+  {
+    "id": "lobotomizer",
+    "type": "TOOL",
+    "name": "lobotomizer",
+    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
+    "weight": "2722 g",
+    "volume": "1750 ml",
+    "price": 25000,
+    "to_hit": -3,
+    "bashing": 13,
+    "cutting": 26,
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ]
+  },
+  {
+    "id": "tazer",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "tazer",
+    "description": "This is a high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, damaging and temporarily paralyzing them.  Because the shock can actually jump through the air, it is difficult to miss.",
+    "weight": "151 g",
+    "volume": "250 ml",
+    "price": 14000,
+    "to_hit": -1,
+    "bashing": 6,
+    "//": "Yes, this is smaller than it's magazine well. Go with it.",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "charges_per_use": 100,
+    "use_action": "TAZER",
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
+  }
+]

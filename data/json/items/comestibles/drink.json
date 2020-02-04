@@ -868,8 +868,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_water",
-    "name": "sweet water",
-    "name_plural": "sweet water",
+    "name": { "str": "sweet water", "str_pl": "sweet water" },
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",

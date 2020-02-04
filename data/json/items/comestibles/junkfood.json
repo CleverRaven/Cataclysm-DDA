@@ -406,8 +406,7 @@
   {
     "type": "COMESTIBLE",
     "id": "syrup",
-    "name": "maple syrup",
-    "name_plural": "maple syrup",
+    "name": { "str": "maple syrup", "str_pl": "maple syrup" },
     "weight": "21 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -428,8 +427,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beet_syrup",
-    "name": "sugar beet syrup",
-    "name_plural": "sugar beet syrup",
+    "name": { "str": "sugar beet syrup", "str_pl": "sugar beet syrup" },
     "weight": "15 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -603,8 +601,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sugar_fried",
-    "name": "caramel",
-    "name_plural": "caramel",
+    "name": { "str": "caramel", "str_pl": "caramel" },
     "weight": "67 g",
     "color": "white",
     "container": "box_small",

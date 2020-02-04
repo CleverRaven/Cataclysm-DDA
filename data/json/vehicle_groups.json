@@ -176,7 +176,13 @@
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "bicycle_dirt", 100 ] ]
+    "vehicles": [
+      [ "quad_bike", 100 ],
+      [ "pickup", 300 ],
+      [ "bicycle_dirt", 100 ],
+      [ "motorcycle_cross", 75 ],
+      [ "motorcycle_enduro", 150 ]
+    ]
   },
   {
     "type": "vehicle_group",
@@ -358,6 +364,8 @@
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
       [ "bicycle_dirt", 50 ],
+      [ "motorcycle_cross", 75 ],
+      [ "motorcycle_enduro", 150 ],
       [ "car_mini", 100 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],

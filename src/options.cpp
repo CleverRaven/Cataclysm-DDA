@@ -1395,6 +1395,13 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "AUTOSELECT_SINGLE_VALID_TARGET", "interface",
+         translate_marker( "Autoselect if exactly one valid target" ),
+         translate_marker( "If true, directional actions ( like \"Examine\", \"Open\", \"Pickup\" ) "
+                           "will autoselect an adjacent tile if there is exactly one valid target." ),
+         true
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
@@ -1681,7 +1688,7 @@ void options_manager::add_options_graphics()
 
     add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
          translate_marker( "Set the map font width.  Requires restart." ),
-         8, 100, 8, COPT_CURSES_HIDE
+         8, 100, 16, COPT_CURSES_HIDE
        );
 
     add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
@@ -1696,7 +1703,7 @@ void options_manager::add_options_graphics()
 
     add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
          translate_marker( "Set the overmap font width.  Requires restart." ),
-         8, 100, 8, COPT_CURSES_HIDE
+         8, 100, 16, COPT_CURSES_HIDE
        );
 
     add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),

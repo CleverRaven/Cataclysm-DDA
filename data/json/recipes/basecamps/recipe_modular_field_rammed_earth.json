@@ -50,15 +50,14 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 6 ], [ "spear_wood", 6 ] ],
+          [ [ "log", 12 ] ],
+          [ [ "2x4", 40 ], [ "stick", 20 ] ],
+          [ [ "birchbark", 60 ], [ "pine_bough", 60 ] ],
+          [ [ "concrete", 3 ], [ "material_quicklime", 60 ], [ "material_sand", 60 ] ],
           [ [ "material_soil", 920 ] ],
-          [ [ "water", 300 ], [ "water_clean", 300 ] ],
-          [ [ "material_sand", 60 ], [ "material_quicklime", 60 ], [ "concrete", 3 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "nail", 30 ] ],
-          [ [ "log", 10 ] ],
-          [ [ "stick", 20 ], [ "2x4", 40 ] ],
-          [ [ "birchbark", 60 ], [ "pine_bough", 60 ] ]
+          [ [ "pointy_stick", 6 ], [ "spear_wood", 6 ] ],
+          [ [ "water", 300 ], [ "water_clean", 300 ] ]
         ]
       }
     }

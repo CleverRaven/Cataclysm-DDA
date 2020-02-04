@@ -18,15 +18,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 560 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "log", 36 ] ],
-          [ [ "stick", 54 ], [ "2x4", 108 ] ],
-          [ [ "wood_panel", 25 ] ],
-          [ [ "2x4", 200 ] ]
-        ]
+        "components": [ [ [ "2x4", 338 ] ], [ [ "glass_sheet", 2 ] ], [ [ "log", 36 ] ], [ [ "nail", 560 ] ], [ [ "wood_panel", 25 ] ] ]
       }
     }
   },
@@ -112,12 +104,11 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 200 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 7 ] ],
-          [ [ "nail", 372 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
           [ [ "glass_sheet", 2 ] ],
           [ [ "log", 16 ] ],
-          [ [ "wood_panel", 12 ] ]
+          [ [ "nail", 372 ] ],
+          [ [ "wood_panel", 19 ] ]
         ]
       }
     }
@@ -141,20 +132,24 @@
       "time": "1 d 4 h 10 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
         "components": [
           [ [ "2x4", 168 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "log", 12 ] ],
           [ [ "nail", 380 ] ],
           [ [ "pipe", 16 ] ],
+          [ [ "rock", 40 ] ],
           [ [ "sheet_metal", 4 ] ],
           [ [ "sheet_metal_small", 8 ] ],
-          [ [ "rock", 40 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
           [ [ "water", 2 ], [ "water_clean", 2 ] ],
-          [ [ "log", 12 ] ],
-          [ [ "wood_panel", 15 ] ]
+          [ [ "wood_panel", 23 ] ]
         ]
       }
     }
@@ -211,16 +206,15 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "metal_tank", 2 ] ],
-          [ [ "water_faucet", 2 ] ],
+          [ [ "2x4", 472 ] ],
           [ [ "anvil", 1 ] ],
           [ [ "chain", 4 ] ],
-          [ [ "pipe", 3 ] ],
           [ [ "log", 40 ] ],
-          [ [ "stick", 60 ], [ "2x4", 120 ] ],
-          [ [ "wood_panel", 44 ] ],
-          [ [ "2x4", 352 ] ],
-          [ [ "nail", 880 ] ]
+          [ [ "metal_tank", 2 ] ],
+          [ [ "nail", 880 ] ],
+          [ [ "pipe", 3 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "wood_panel", 44 ] ]
         ]
       }
     }

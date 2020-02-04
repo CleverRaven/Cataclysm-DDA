@@ -1,0 +1,34 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "bio_claws_weapon",
+    "name": "bionic claws",
+    "name_plural": "bionic claws",
+    "description": "Short and sharp claws made from a high-tech metal.",
+    "to_hit": 4,
+    "color": "light_gray",
+    "symbol": "{",
+    "material": [ "superalloy" ],
+    "volume": "500 ml",
+    "bashing": 8,
+    "cutting": 16,
+    "flags": [ "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bio_blade_weapon",
+    "name": "monomolecular blade",
+    "description": "A foot-long blade made from high-tech alloy and edged with bonded nanocrystals.",
+    "weight": "100 g",
+    "to_hit": 3,
+    "color": "dark_gray",
+    "symbol": "{",
+    "material": [ "superalloy" ],
+    "techniques": [ "WBLOCK_2" ],
+    "volume": "750 ml",
+    "cutting": 36,
+    "flags": [ "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
+  }
+]

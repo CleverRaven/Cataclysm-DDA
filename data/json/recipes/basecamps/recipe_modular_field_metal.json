@@ -62,15 +62,9 @@
       "time": "1 d 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 140 ], [ "welder", 700 ], [ "welder_crude", 1050 ], [ "toolset", 1050 ] ] ],
+        "tools": [ [ [ "oxy_torch", 140 ], [ "toolset", 1050 ], [ "welder", 700 ], [ "welder_crude", 1050 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 28 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 30 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   },
@@ -91,17 +85,16 @@
       "time": "3 d 11 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 500 ], [ "welder", 2500 ], [ "welder_crude", 3750 ], [ "toolset", 3750 ] ] ],
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 100 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -123,17 +116,16 @@
       "time": "3 d 5 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 460 ], [ "welder", 2300 ], [ "welder_crude", 3450 ], [ "toolset", 3450 ] ] ],
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 92 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -155,17 +147,16 @@
       "time": "3 d 11 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 500 ], [ "welder", 2500 ], [ "welder_crude", 3750 ], [ "toolset", 3750 ] ] ],
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 100 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -187,17 +178,16 @@
       "time": "3 d 5 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 460 ], [ "welder", 2300 ], [ "welder_crude", 3450 ], [ "toolset", 3450 ] ] ],
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 92 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -219,17 +209,16 @@
       "time": "2 d 12 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 370 ], [ "welder", 1850 ], [ "welder_crude", 2775 ], [ "toolset", 2775 ] ] ],
+        "tools": [ [ [ "oxy_torch", 370 ], [ "toolset", 2775 ], [ "welder", 1850 ], [ "welder_crude", 2775 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 74 ] ]
+          [ [ "hinge", 3 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
+          [ [ "steel_plate", 76 ] ],
+          [ [ "spike", 8 ] ]
         ]
       }
     }
@@ -251,17 +240,16 @@
       "time": "3 d 11 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 500 ], [ "welder", 2500 ], [ "welder_crude", 3750 ], [ "toolset", 3750 ] ] ],
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 100 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -283,17 +271,16 @@
       "time": "3 d 5 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 460 ], [ "welder", 2300 ], [ "welder_crude", 3450 ], [ "toolset", 3450 ] ] ],
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 92 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -315,17 +302,16 @@
       "time": "3 d 11 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 500 ], [ "welder", 2500 ], [ "welder_crude", 3750 ], [ "toolset", 3750 ] ] ],
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 100 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -347,17 +333,16 @@
       "time": "3 d 5 h 45 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 460 ], [ "welder", 2300 ], [ "welder_crude", 3450 ], [ "toolset", 3450 ] ] ],
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 30 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 92 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -379,15 +364,9 @@
       "time": "1 d 15 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 240 ], [ "welder", 1200 ], [ "welder_crude", 1800 ], [ "toolset", 1800 ] ] ],
+        "tools": [ [ [ "oxy_torch", 240 ], [ "toolset", 1800 ], [ "welder", 1200 ], [ "welder_crude", 1800 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 48 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 50 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   },
@@ -431,15 +410,9 @@
       "time": "1 d 16 h",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 220 ], [ "welder", 1100 ], [ "welder_crude", 1650 ], [ "toolset", 1650 ] ] ],
+        "tools": [ [ [ "oxy_torch", 220 ], [ "toolset", 1650 ], [ "welder", 1100 ], [ "welder_crude", 1650 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
-          [ [ "steel_plate", 44 ] ]
-        ]
+        "components": [ [ [ "hinge", 6 ] ], [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ], [ [ "steel_plate", 48 ] ], [ [ "spike", 16 ] ] ]
       }
     }
   },
@@ -460,15 +433,9 @@
       "time": "1 d 8 h",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 190 ], [ "welder", 950 ], [ "welder_crude", 1425 ], [ "toolset", 1425 ] ] ],
+        "tools": [ [ [ "oxy_torch", 190 ], [ "toolset", 1425 ], [ "welder", 950 ], [ "welder_crude", 1425 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 38 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 40 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   },
@@ -489,15 +456,9 @@
       "time": "2 d 15 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 400 ], [ "welder", 2000 ], [ "welder_crude", 3000 ], [ "toolset", 3000 ] ] ],
+        "tools": [ [ [ "oxy_torch", 400 ], [ "toolset", 3000 ], [ "welder", 2000 ], [ "welder_crude", 3000 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 80 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 82 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   },
@@ -518,15 +479,9 @@
       "time": "1 d 16 h",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 220 ], [ "welder", 1100 ], [ "welder_crude", 1650 ], [ "toolset", 1650 ] ] ],
+        "tools": [ [ [ "oxy_torch", 220 ], [ "toolset", 1650 ], [ "welder", 1100 ], [ "welder_crude", 1650 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
-          [ [ "steel_plate", 44 ] ]
-        ]
+        "components": [ [ [ "hinge", 6 ] ], [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ], [ [ "steel_plate", 48 ] ], [ [ "spike", 16 ] ] ]
       }
     }
   },
@@ -547,15 +502,9 @@
       "time": "1 d 8 h",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 190 ], [ "welder", 950 ], [ "welder_crude", 1425 ], [ "toolset", 1425 ] ] ],
+        "tools": [ [ [ "oxy_torch", 190 ], [ "toolset", 1425 ], [ "welder", 950 ], [ "welder_crude", 1425 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 38 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 40 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   },
@@ -576,15 +525,9 @@
       "time": "1 d 15 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 240 ], [ "welder", 1200 ], [ "welder_crude", 1800 ], [ "toolset", 1800 ] ] ],
+        "tools": [ [ [ "oxy_torch", 240 ], [ "toolset", 1800 ], [ "welder", 1200 ], [ "welder_crude", 1800 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 48 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 50 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   },
@@ -633,15 +576,9 @@
       "time": "2 d 15 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 400 ], [ "welder", 2000 ], [ "welder_crude", 3000 ], [ "toolset", 3000 ] ] ],
+        "tools": [ [ [ "oxy_torch", 400 ], [ "toolset", 3000 ], [ "welder", 2000 ], [ "welder_crude", 3000 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "steel_plate", 80 ] ]
-        ]
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 82 ] ], [ [ "spike", 8 ] ] ]
       }
     }
   }
