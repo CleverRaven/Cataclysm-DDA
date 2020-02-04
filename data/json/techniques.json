@@ -1378,6 +1378,24 @@
   },
   {
     "type": "technique",
+    "id": "tec_taekwondo_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_feint",
+    "name": "Feint",
+    "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
     "id": "tec_taichi_disarm",
     "name": "Disarm",
     "messages": [ "You gently disarm %s", "<npcname> gently disarms %s" ],
