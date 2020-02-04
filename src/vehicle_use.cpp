@@ -1709,7 +1709,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), f, false, true );
+            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+            false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
@@ -1832,6 +1833,7 @@ void vehicle::use_bike_rack( int part )
         if( success ) {
             for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+                parts[rack_part].remove_flag( vehicle_part::tracked_flag );
             }
         }
     } else {

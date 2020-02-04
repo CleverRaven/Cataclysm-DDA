@@ -861,7 +861,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
-            maxlen = std::max( maxlen, utf8_width( line.second ) );
+            maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
         mvwputch( w, point_south_east, c_white, LINE_OXXO );

@@ -11,6 +11,7 @@
 #include <string>
 #include <utility>
 
+#include "int_id.h"
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
@@ -30,7 +31,7 @@ struct tripoint;
 struct partial_con {
     int counter = 0;
     std::list<item> components = {};
-    size_t id = 0;
+    construction_id id = construction_id( -1 );
 };
 
 struct build_reqs {
@@ -38,6 +39,11 @@ struct build_reqs {
     std::map<requirement_id, int> reqs;
     int time = 0;
 };
+
+template <>
+const construction &construction_id::obj() const;
+template <>
+bool construction_id::is_valid() const;
 
 struct construction {
         // Construction type category
@@ -67,7 +73,8 @@ struct construction {
         requirement_id requirements;
 
         // Index in construction vector
-        size_t id;
+        construction_id id = construction_id( -1 );
+        construction_str_id str_id = construction_str_id::NULL_ID();
 
         // Time in moves
         int time;
@@ -106,7 +113,7 @@ void standardize_construction_times( int time );
 
 void load_construction( const JsonObject &jo );
 void reset_constructions();
-int construction_menu( bool blueprint );
+construction_id construction_menu( bool blueprint );
 void complete_construction( player *p );
 bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( player &p, const inventory &inv, const construction &con );

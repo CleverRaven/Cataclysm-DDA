@@ -71,7 +71,7 @@
     "name_plural": "folding knives",
     "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
     "weight": "256 g",
-    "volume": "250 ml",
+    "volume": "40 ml",
     "price": 1500,
     "bashing": 1,
     "cutting": 12,
@@ -112,8 +112,7 @@
     "id": "knife_combat_mod",
     "copy-from": "knife_combat",
     "type": "TOOL",
-    "name": "modified combat knife",
-    "name_plural": "modified combat knives",
+    "name": { "str": "modified combat knife", "str_pl": "modified combat knives" },
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
       "location": "underbarrel",

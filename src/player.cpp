@@ -4008,7 +4008,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     }
 
     gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
-    moves -= mod.type->gunmod->install_time / 2;
+    //TODO: add activity for removing gunmods
 
     if( mod.typeId() == "brass_catcher" ) {
         gun.casings_handle( [&]( item & e ) {
@@ -4153,8 +4153,7 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    const int turns = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
-    const int moves = to_moves<int>( time_duration::from_turns( turns ) );
+    const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );

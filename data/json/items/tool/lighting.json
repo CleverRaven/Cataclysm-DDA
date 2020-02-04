@@ -127,8 +127,11 @@
     "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 1350,
-    "use_action": { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" },
-    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 100 },
+      { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" }
+    ],
+    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "id": "electric_lantern",
@@ -445,8 +448,7 @@
     "//": "This doesn't make too much sense, flavor-wise, but it's the best I can come up with.  Put it on the todo list.",
     "id": "lightstrip_inactive",
     "type": "TOOL",
-    "name": "lightstrip (inactive)",
-    "name_plural": "lightstrips (inactive)",
+    "name": { "str": "lightstrip (inactive)", "str_pl": "lightstrips (inactive)" },
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "white",

@@ -16,15 +16,14 @@
       "time": "2 d 7 h 30 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 180 ], [ "welder", 900 ], [ "welder_crude", 1350 ], [ "toolset", 1350 ] ] ],
+        "tools": [ [ [ "oxy_torch", 180 ], [ "toolset", 1350 ], [ "welder", 900 ], [ "welder_crude", 1350 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 560 ] ],
+          [ [ "2x4", 230 ] ],
           [ [ "glass_sheet", 2 ] ],
+          [ [ "nail", 560 ] ],
           [ [ "steel_plate", 36 ] ],
-          [ [ "wood_panel", 25 ] ],
-          [ [ "2x4", 200 ] ]
+          [ [ "wood_panel", 25 ] ]
         ]
       }
     }
@@ -122,7 +121,7 @@
       "time": "1 d 6 h 45 m",
       "skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 80 ], [ "welder", 400 ], [ "welder_crude", 600 ], [ "toolset", 600 ] ] ],
+        "tools": [ [ [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
         "qualities": [
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -131,14 +130,13 @@
         ],
         "components": [
           [ [ "2x4", 146 ] ],
-          [ [ "wood_sheet", 2 ], [ "wood_panel", 3 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "nail", 332 ] ],
           [ [ "pipe", 12 ] ],
           [ [ "sheet_metal", 2 ] ],
-          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
-          [ [ "glass_sheet", 2 ] ],
           [ [ "steel_plate", 16 ] ],
-          [ [ "wood_panel", 12 ] ]
+          [ [ "wood_panel", 15 ] ]
         ]
       }
     }
@@ -162,7 +160,7 @@
       "time": "1 d 6 h 30 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+        "tools": [ [ [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
         "qualities": [
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -170,16 +168,16 @@
           [ { "id": "WRENCH" } ]
         ],
         "components": [
+          [ [ "2x4", 120 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "nail", 300 ] ],
           [ [ "pipe", 40 ] ],
+          [ [ "rock", 40 ] ],
           [ [ "sheet_metal", 8 ] ],
           [ [ "sheet_metal_small", 8 ] ],
-          [ [ "rock", 40 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
-          [ [ "water", 2 ], [ "water_clean", 2 ] ],
           [ [ "steel_plate", 12 ] ],
-          [ [ "wood_panel", 15 ] ],
-          [ [ "2x4", 120 ] ],
-          [ [ "nail", 300 ] ]
+          [ [ "water", 2 ], [ "water_clean", 2 ] ],
+          [ [ "wood_panel", 15 ] ]
         ]
       }
     }

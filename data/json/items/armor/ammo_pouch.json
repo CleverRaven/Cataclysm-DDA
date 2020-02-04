@@ -211,7 +211,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "type": "ARMOR",

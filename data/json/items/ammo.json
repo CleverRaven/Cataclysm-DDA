@@ -499,7 +499,7 @@
     "id": "gunpowder",
     "category": "chems",
     "price": 500,
-    "name": "mixed gunpowder",
+    "name": "mixed smokeless gunpowder",
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
