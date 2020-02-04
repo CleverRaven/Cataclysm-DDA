@@ -898,6 +898,9 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     mvwprintz( w_target, point( 1, text_y++ ), c_white,
                _( "Move cursor to target with directional keys" ) );
     if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+    // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         int text_y = getmaxy( w_target ) - 1;
         int lines_used = getmaxy( w_target ) - 1 - text_y;
         const std::string aimhelp = _( "< [?] show help >" );
@@ -1134,7 +1137,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
-    if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         window_width = window_width - 3;
     }
 
@@ -1188,7 +1191,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+        // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
             print_colored_text( w, point( 1, line_number++ ), col, col,
                                 string_format( _( "<color_white>[%s]</color> %s: Moves to fire\u02EF" ),
                                                hotkey, label ) );
@@ -1196,7 +1200,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                          moves_to_fire ) );
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col,
-                                string_format( _( "<color_white>[%s]</color> %s: Moves to fire:"
+                                string_format( _( "<color_white>[%s]</color> %s: Moves to fire: "
                                                   "<color_light_blue>%d</color>" ),
                                                hotkey, label, moves_to_fire ) );
         }
@@ -1487,7 +1491,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+    // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         width = 34;
     }
     catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
@@ -1637,23 +1643,27 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 g->draw_line( dst, center, ret_this_zlevel );
 
                 // Print to target window
-                if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+                // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+                if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+                    && display_type != "numbers" ) {
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
                                rl_dist( src, dst ), range, relative_elevation );
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
                                t.size() );
                 } else {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d"
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d "
                                "Targets: %d" ), range, relative_elevation, t.size() );
                 }
             } else {
-                if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+                // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+                if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+                    && display_type != "numbers" ) {
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
                                rl_dist( src, dst ), range, relative_elevation );
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
                                t.size() );
                 } else {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d"
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d "
                                "Targets: %d" ), range, relative_elevation, t.size() );
                 }
             }
