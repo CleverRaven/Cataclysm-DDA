@@ -180,7 +180,7 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, bool line_of_sight = false ) const;
+        virtual bool sees( const Creature &critter ) const;
         virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
         /*@}*/
 

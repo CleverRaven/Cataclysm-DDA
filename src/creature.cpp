@@ -164,7 +164,7 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
-bool Creature::sees( const Creature &critter, bool line_of_sight ) const
+bool Creature::sees( const Creature &critter ) const
 {
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {

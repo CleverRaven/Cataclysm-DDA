@@ -254,7 +254,7 @@ class player : public Character
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter, bool line_of_sight = false ) const override;
+        bool sees( const Creature &critter ) const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */
