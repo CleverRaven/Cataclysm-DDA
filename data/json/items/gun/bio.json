@@ -5,7 +5,7 @@
     "type": "GUN",
     "name": "bionic shotgun",
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
-    "volume": "410 ml",
+    "volume": "103 ml",
     "price": 0,
     "to_hit": -2,
     "bashing": 3,
