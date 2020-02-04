@@ -2014,7 +2014,8 @@ bool player::disassemble( item_location target, bool interactive )
     }
 
     if( activity.id() != ACT_DISASSEMBLE ) {
-        assign_activity( ACT_DISASSEMBLE, r.time * num_dis );
+        if (num_dis != 0) { assign_activity(ACT_DISASSEMBLE, r.time * num_dis); }
+        else { assign_activity(ACT_DISASSEMBLE, r.time); }
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
