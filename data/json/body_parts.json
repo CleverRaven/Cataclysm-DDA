@@ -11,7 +11,7 @@
     "opposite_part": "torso",
     "hit_size": 45,
     "hit_size_relative": [ 20, 33.33, 36.57 ],
-    "hit_difficulty": 1,
+    "hit_difficulty": 1.0,
     "side": "both",
     "legacy_id": "TORSO",
     "bionic_slots": 80
@@ -68,8 +68,7 @@
   {
     "id": "arm_l",
     "type": "body_part",
-    "name": "left arm",
-    "name_plural": "arms",
+    "name": { "str": "left arm", "str_pl": "arms" },
     "heading_singular": "L. Arm",
     "heading_plural": "Arms",
     "encumbrance_text": "Melee and ranged combat is hampered.",
@@ -86,8 +85,7 @@
   {
     "id": "arm_r",
     "type": "body_part",
-    "name": "right arm",
-    "name_plural": "arms",
+    "name": { "str": "right arm", "str_pl": "arms" },
     "heading_singular": "R. Arm",
     "heading_plural": "Arms",
     "hp_bar_ui_text": "R ARM",
@@ -104,8 +102,7 @@
   {
     "id": "hand_l",
     "type": "body_part",
-    "name": "left hand",
-    "name_plural": "hands",
+    "name": { "str": "left hand", "str_pl": "hands" },
     "heading_singular": "L. Hand",
     "heading_plural": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
@@ -121,8 +118,7 @@
   {
     "id": "hand_r",
     "type": "body_part",
-    "name": "right hand",
-    "name_plural": "hands",
+    "name": { "str": "right hand", "str_pl": "hands" },
     "heading_singular": "R. Hand",
     "heading_plural": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
@@ -138,8 +134,7 @@
   {
     "id": "leg_l",
     "type": "body_part",
-    "name": "left leg",
-    "name_plural": "legs",
+    "name": { "str": "left leg", "str_pl": "legs" },
     "heading_singular": "L. Leg",
     "heading_plural": "Legs",
     "hp_bar_ui_text": "L LEG",
@@ -156,8 +151,7 @@
   {
     "id": "leg_r",
     "type": "body_part",
-    "name": "right leg",
-    "name_plural": "legs",
+    "name": { "str": "right leg", "str_pl": "legs" },
     "heading_singular": "R. Leg",
     "heading_plural": "Legs",
     "hp_bar_ui_text": "R LEG",
@@ -174,8 +168,7 @@
   {
     "id": "foot_l",
     "type": "body_part",
-    "name": "left foot",
-    "name_plural": "feet",
+    "name": { "str": "left foot", "str_pl": "feet" },
     "heading_singular": "L. Foot",
     "heading_plural": "Feet",
     "encumbrance_text": "Running is slowed.",
@@ -191,8 +184,7 @@
   {
     "id": "foot_r",
     "type": "body_part",
-    "name": "right foot",
-    "name_plural": "feet",
+    "name": { "str": "right foot", "str_pl": "feet" },
     "heading_singular": "R. Foot",
     "heading_plural": "Feet",
     "encumbrance_text": "Running is slowed.",
@@ -216,7 +208,7 @@
     "opposite_part": "num_bp",
     "hit_size": 0,
     "hit_size_relative": [ 0, 0, 0 ],
-    "hit_difficulty": 0,
+    "hit_difficulty": 0.0,
     "side": "both",
     "legacy_id": "NUM_BP"
   }
