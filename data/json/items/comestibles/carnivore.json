@@ -60,8 +60,7 @@
     "id": "human_fat",
     "copy-from": "fat",
     "type": "COMESTIBLE",
-    "name": "chunk of human fat",
-    "name_plural": "chunks of human fat",
+    "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "Freshly harvested from a human body.",
     "material": "hflesh"
   },
@@ -87,8 +86,7 @@
     "copy-from": "meat",
     "type": "COMESTIBLE",
     "cooks_like": "human_cooked",
-    "name": "human flesh",
-    "name_plural": "human fleshes",
+    "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
     "material": "hflesh"
   },
@@ -654,8 +652,7 @@
     "id": "mutant_human_fat",
     "type": "COMESTIBLE",
     "copy-from": "mutant_fat",
-    "name": "chunk of mutant humanoid fat",
-    "name_plural": "chunks of mutant humanoid fat",
+    "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Freshly butchered fat from a heavily mutated humanoid.",
     "material": "hflesh"
   },
