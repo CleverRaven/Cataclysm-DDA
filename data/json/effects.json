@@ -1680,11 +1680,11 @@
     "rating": "bad"
   },
   {
-    "type": "effect_type",
-    "id": "milked",
-    "name": [ "Milked" ],
-    "desc": [ "The creature has been partially or fully milked." ],
-    "max_duration": "1 d"
+  "type": "effect_type",
+  "id": "milked",
+  "name": [ "Milked" ],
+  "desc": [ "The creature has been partially or fully milked." ],
+  "max_duration": "1 d"
   },
   {
     "type": "effect_type",
