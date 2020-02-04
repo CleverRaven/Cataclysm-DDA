@@ -51,17 +51,17 @@ Much like tier 2 above, this type of scrap is common, but is only meant to spawn
 
 This tier of scrap is properly uncommon, it spawns should be limited to the 'boss rooms' of mid-game and to end-game dungeons, and should prove challenging to acquire.  It might be used to craft tools that provide great convenience in the non combat aspects of the game, single use items that grant very powerful abilities and good quality weapons. For Example
 
--Most utility bionics.
--Laser Weapons.
--Atomic tools.
--Singe use invisibility cloak.
+- Most utility bionics.
+- Laser Weapons.
+- Atomic tools.
+- Singe use invisibility cloak.
 
 ### Tier 5
 
 Very rare loot occasionally dropped by endgame threats and dungeons, extracting it requires very high skills and specialized tools. Thematically linked to the dimensional technology that caused the cataclysm. Might be used to craft items that severely and permanently alter the combat aspects of gameplay. For example:
 
--Hologram Cloak Mk. II
--Rechargeable Spell Casters
--CBMs that interact with space-time
--Most combat bionics.
+- Hologram Cloak Mk. II
+- Rechargeable Spell Casters
+- CBMs that interact with space-time
+- Most combat bionics.
 
