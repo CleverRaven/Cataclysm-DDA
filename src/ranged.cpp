@@ -517,7 +517,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             continue; // skip retargeting for launchers
         }
     }
-
+    // apply shot counter to gun and its mods.
+    gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
+    for( item *mod : gun.gunmods() ) {
+        mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
+    }
     // apply delayed recoil
     recoil += delay;
     if( is_mech_weapon ) {
