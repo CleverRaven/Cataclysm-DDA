@@ -5188,12 +5188,12 @@ bool player::sees( const tripoint &t, bool, int ) const
     return can_see;
 }
 
-bool player::sees( const Creature &critter ) const
+bool player::sees( const Creature &critter, bool line_of_sight ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
-        return true;
+        return !line_of_sight || g->m.sees( pos(), critter.pos(), 3 );
     }
 
     return Creature::sees( critter );
@@ -5386,7 +5386,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
         // TODO: get rid of fake npcs (pos() check)
         return this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY &&
         round( rl_dist_exact( pos(), critter.pos() ) ) <= range &&
-        ( sees( critter ) || sees_with_infrared( critter ) );
+        ( sees( critter, true ) || sees_with_infrared( critter ) );
     } );
 }
 
