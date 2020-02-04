@@ -1147,9 +1147,9 @@
     "id": "mon_corpse_beetle",
     "type": "MONSTER",
     "name": { "str": "corpse beetle" },
-    "description": "An oversized beetle.  It seems more interested at eating zombies than bother you.",
+    "description": "An oversized beetle.  It seems to have abnormal preference to eat zombies than anything else.",
     "default_faction": "beetle",
-    "bodytype": "flying insect",
+    "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "50 L",
     "weight": "90 kg",
@@ -1169,8 +1169,8 @@
     "armor_cut": 8,
     "vision_day": 10,
     "harvest": "arachnid",
+    "anger_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   }
 ]
