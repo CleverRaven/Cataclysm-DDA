@@ -4,10 +4,10 @@
     "ident": "Salvaged_Robots",
     "name": "Salvaged Robots",
     "authors": [ "Sunshine" ],
-    "maintainers": [ "Anyone" ],
+    "maintainers": [ "CSHague" ],
     "description": "Expands the types of robots and allows players to jury-rig broken robots into functioning companions.",
     "category": "creatures",
-    "dependencies": [ "dda", "modular_turrets" ],
-    "obsolete": true
+    "dependencies": [ "dda", "modular_turrets" ]
+    "obsolete": false
   }
 ]
