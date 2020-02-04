@@ -152,7 +152,10 @@
       [ "bucket", 50 ],
       [ "mop", 100 ],
       [ "shovel", 40 ],
-      [ "hammer_sledge", 50 ],
+      [ "hammer_sledge", 10 ],
+      [ "hammer_sledge_short", 20 ],
+      [ "hammer_sledge_engineer", 20 ],
+      [ "hammer_sledge_heavy", 10 ],
       [ "spray_can", 100 ],
       [ "permanent_marker", 50 ],
       [ "funnel", 200 ],
@@ -184,7 +187,15 @@
     "id": "tools_entry",
     "type": "item_group",
     "//": "Tools used for forcing entry into a building",
-    "items": [ [ "boltcutters", 30 ], [ "crowbar", 50 ], [ "claw_bar", 25 ], [ "hammer_sledge", 20 ], [ "halligan", 10 ] ]
+    "items": [
+      [ "boltcutters", 30 ],
+      [ "crowbar", 50 ],
+      [ "claw_bar", 25 ],
+      [ "hammer_sledge", 5 ],
+      [ "hammer_sledge_short", 5 ],
+      [ "hammer_sledge_engineer", 10 ],
+      [ "halligan", 10 ]
+    ]
   },
   {
     "id": "tools_home",
