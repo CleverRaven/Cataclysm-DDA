@@ -12,10 +12,7 @@
       ">": "t_slope_down",
       "#": "t_rock"
     },
-    "furniture": { 
-      "H": "f_altar",
-      "C": "f_coffin_c" 
-    },
+    "furniture": { "H": "f_altar", "C": "f_coffin_c" },
     "items": {
       "R": { "group": "magic_animist", "chance": 25 },
       "H": { "item": "summon_undead_spellbook", "chance": 100 },
