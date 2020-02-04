@@ -961,8 +961,10 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
             return keys.empty() ? fallback : keys.front();
         };
 
-        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%s] Cycle targets; [%c] to fire." ),
+        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL
+            || mode == TARGET_MODE_TURRET ) {
+            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%s] Cycle targets; "
+                       "[%c] to fire." ),
                        ctxt.get_desc( "NEXT_TARGET", 1 ), front_or( "FIRE", ' ' ) );
             mvwprintz( w_target, point( 1, text_y++ ), c_white,
                        _( "[%c] target self; [%c] toggle snap-to-target" ),
@@ -970,7 +972,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         }
 
         if( mode == TARGET_MODE_FIRE ) {
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
+            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  "
+                       "(10 moves)" ),
                        front_or( "AIM", ' ' ) );
             std::string aim_and_fire;
             for( const auto &e : aim_types ) {
@@ -978,7 +981,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                     aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
                 }
             }
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "%sto aim and fire" ), aim_and_fire );
+            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "%sto aim and fire" ),
+                       aim_and_fire );
             mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch aiming modes." ),
                        front_or( "SWITCH_AIM", ' ' ) );
         }
@@ -1002,7 +1006,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
     return lines_used;
 
-        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
+        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL
+            || mode == TARGET_MODE_TURRET ) {
             mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch firing modes." ),
                        front_or( "SWITCH_MODE", ' ' ) );
             mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
@@ -1014,7 +1019,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                        _( "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire" ) );
         }
         return lines_used;
-   }
+    }
 }
 
 static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
@@ -1130,7 +1135,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-                window_width = window_width - 3;
+        window_width = window_width - 3;
     }
 
     nc_color col = c_dark_gray;
@@ -1150,10 +1155,10 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
         if( panel_type == "compact" || panel_type == "labels-narrow" ) {
             print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                _( "%s" ), symbols ) );
+                                    _( "%s" ), symbols ) );
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                _( "Symbols:%s" ), symbols ) );
+                                    _( "Symbols:%s" ), symbols ) );
         }
     }
 
@@ -1178,20 +1183,22 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
-                            *ranged_weapon.type );
+            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil )
+                            + time_to_attack( p, *ranged_weapon.type );
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
         if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-        print_colored_text( w, point( 1, line_number++ ), col, col,
-                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire\u02EF\n               "
-                            "               <color_light_blue>%d</color>" ),
-                                           hotkey, label, moves_to_fire ) );
+            print_colored_text( w, point( 1, line_number++ ), col, col,
+                                string_format( _( "<color_white>[%s]</color> %s: Moves to fire\u02EF"
+                                                  "\n                              "
+                                                  "<color_light_blue>%d</color>" ),
+                                               hotkey, label, moves_to_fire ) );
         } else {
-        print_colored_text( w, point( 1, line_number++ ), col, col,
-                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire: <color_light_blue>%d</color>" ),
-                                           hotkey, label, moves_to_fire ) );
+            print_colored_text( w, point( 1, line_number++ ), col, col,
+                                string_format( _( "<color_white>[%s]</color> %s: Moves to fire:"
+                                                  "<color_light_blue>%d</color>" ),
+                                               hotkey, label, moves_to_fire ) );
         }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
@@ -1480,9 +1487,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    if (panel_type == "compact" || panel_type == "labels-narrow") {
+    if( panel_type == "compact" || panel_type == "labels-narrow" ) {
         width = 34;
-    }   
+    }
     catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
     input_context ctxt( "TARGET" );
@@ -1631,23 +1638,23 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
                 // Print to target window
                 if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
-                           rl_dist( src, dst ), range, relative_elevation );
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
-                           t.size() );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
+                               rl_dist( src, dst ), range, relative_elevation );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
+                               t.size() );
                 } else {
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                           relative_elevation, t.size() );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d"
+                               "Targets: %d" ), range, relative_elevation, t.size() );
                 }
             } else {
                 if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
-                           rl_dist( src, dst ), range, relative_elevation );
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
-                           t.size() );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
+                               rl_dist( src, dst ), range, relative_elevation );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
+                               t.size() );
                 } else {
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                           relative_elevation, t.size() );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d"
+                               "Targets: %d" ), range, relative_elevation, t.size() );
                 }
             }
 
