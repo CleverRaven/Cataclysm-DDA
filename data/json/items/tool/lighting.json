@@ -113,8 +113,7 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "name": "candle",
-    "name_plural": "candles",
+    "name": { "str": "candle", "str_pl": "candles" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -542,12 +541,11 @@
     "id": "oxylamp_on",
     "copy-from": "oxylamp",
     "type": "TOOL",
-    "name": "acetylene lamp (on)",
-    "name_plural": "acetylene lamps (on)",
+    "name": { "str": "acetylene lamp (on)", "str_pl": "acetylene lamps (on)" },
     "turns_per_charge": 240,
     "revert_to": "oxylamp",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s is extinguished", "target": "oxylamp" },
-    "flags": "LIGHT_30"
+    "flags": [ "LIGHT_30" ]
   },
   {
     "id": "reading_light",
@@ -668,8 +666,7 @@
   {
     "id": "torch_lit",
     "type": "TOOL",
-    "name": "torch",
-    "name_plural": "torches",
+    "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
     "weight": "831 g",
     "volume": "750 ml",
