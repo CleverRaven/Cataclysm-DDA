@@ -48,8 +48,7 @@
     "id": "scrap_kevlar",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "Kevlar scraps",
-    "name_plural": "Kevlar scraps",
+    "name": { "str": "Kevlar scraps", "str_pl": "Kevlar scraps" },
     "description": "Oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it's disposed of, but since Kevlar would be very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "price": 5,
     "material": "kevlar"
