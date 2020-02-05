@@ -14,8 +14,8 @@ The following table lists the currently planned/implemented scrap categories and
 | `Circuitry`       | scrap photonics      | photonic circuitry       | photonic computation core  | hypergeometric photonics  | acausal logic permutator             |
 | `Energy Storage`  | Nanowire battery     | ultracapacitor           | Ultracapacitor array       | Superconductive Coil      | zero-point energy extractor          |
 | `Material`        | Composite Superalloy | vacuum cast Carbide      | Nanoprinted Alloys         | crystal forged neutrite   | phase-uneven matter                  |
-| `Cloth`           | E-textile            |                          | graphene weave             | woven metamaterial        |                                      |
-| `Magnet`          | Emag                 | cryo electromagnet       |                            |                           |                                      |
+| `Cloth`           | E-textile            | monofilament silk        | graphene weave             | woven metamaterial        |                                      |
+| `Magnet`          | Emag                 | cryo electromagnet       | super conductive emag      | ferrofluid dynamo         |                                      |
 | `Optics  `        |                      | Laser Optics             | Phased Array Optics        | Nano-optics               |                                      |
 | `Neural I/O`      | peripheral electrode | neural electrode         | Brain implant prod         | Synthetic Neural Tissue   | neurosynaptic interface matrix       |
 | `Biomaterial`     | monomeric slurry     | micellular growth medium | artificial muscle fibers   | self healing polymers     | autologous totipotent tissue culture |
@@ -33,7 +33,7 @@ Tier 1 scrap is plentiful, and can be easily found even when you aren't specific
  
 ### Tier 2 
 
-Tier 2 scarp remains common, but requires some measure of effort to acquire. Perhaps it spawns only in certain locations or requires specialized tools and skills to extract.  This scrap might be used to craft disposable tools and weapons or to make decent quality ammunition and explosives. For example:
+Tier 2 scrap remains common, but requires some measure of effort to acquire. Perhaps it spawns only in certain locations or requires specialized tools and skills to extract.  This scrap might be used to craft disposable tools and weapons or to make decent quality ammunition and explosives. For example:
 
 - Bulky, makeshift version of an UPS with very limited charge capacity.
 - A rail gun/laser that works only for a limited number of shots before melting.
