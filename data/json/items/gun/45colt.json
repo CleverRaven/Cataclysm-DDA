@@ -41,7 +41,7 @@
     "name": "Colt Lightning .45 Carbine",
     "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
     "weight": "2722 g",
-    "volume": "2500 ml",
+    "volume": "1601 ml",
     "price": 132000,
     "to_hit": -1,
     "bashing": 12,
@@ -51,7 +51,7 @@
     "ranged_damage": 5,
     "dispersion": 180,
     "durability": 7,
-    "clip_size": 10,
+    "clip_size": 14,
     "blackpowder_tolerance": 56,
     "reload_noise": "chik chik.",
     "flags": [ "RELOAD_ONE" ]
