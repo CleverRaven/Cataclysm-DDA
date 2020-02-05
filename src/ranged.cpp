@@ -899,6 +899,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                _( "Move cursor to target with directional keys" ) );
     if( panel_type == "compact" || panel_type == "labels-narrow" ) {
     // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+    // Call accuracy display type to exclude "Numbers" style
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         int text_y = getmaxy( w_target ) - 1;
@@ -1138,7 +1139,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-        window_width = window_width - 3;
+        window_width -= 3; // Padding for "bars" to fit moves_to_fire value.
     }
 
     nc_color col = c_dark_gray;
@@ -1158,7 +1159,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
         if( panel_type == "compact" || panel_type == "labels-narrow" ) {
             print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                    _( "%s" ), symbols ) );
+                                    ( "%s" ), symbols ) );
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
                                     _( "Symbols:%s" ), symbols ) );
@@ -1186,18 +1187,15 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil )
-                            + time_to_attack( p, *ranged_weapon.type );
+            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
+                            *ranged_weapon.type );
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-            print_colored_text( w, point( 1, line_number ), col, col,
-                                string_format( _( "%s:" ), label ) );
-            right_print( w, line_number++, 1, c_dark_gray, "Moves to fire\u02EF" );
-            right_print( w, line_number, 1, c_light_blue, string_format( _( "%d" ),
-                         moves_to_fire ) );
+            print_colored_text( w, point( 1, line_number ), col, col, string_format( ( "%s:" ), label ) );
+            right_print( w, line_number++, 1, c_dark_gray, _( "Moves to fire\u02EF" ) );
+            right_print( w, line_number, 1, c_light_blue, string_format( ( "%d" ), moves_to_fire ) );
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col,
                                 string_format( _( "<color_white>[%s]</color> %s: Moves to fire: "
@@ -1491,7 +1489,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
+    // Call accuracy display type to exclude "Numbers" style
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         width = 34;
@@ -1643,25 +1641,21 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 g->draw_line( dst, center, ret_this_zlevel );
 
                 // Print to target window
-                // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
                 if( ( panel_type == "compact" || panel_type == "labels-narrow" )
                     && display_type != "numbers" ) {
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
                                rl_dist( src, dst ), range, relative_elevation );
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
-                               t.size() );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ), t.size() );
                 } else {
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d "
                                "Targets: %d" ), range, relative_elevation, t.size() );
                 }
             } else {
-                // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
                 if( ( panel_type == "compact" || panel_type == "labels-narrow" )
                     && display_type != "numbers" ) {
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
                                rl_dist( src, dst ), range, relative_elevation );
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ),
-                               t.size() );
+                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ), t.size() );
                 } else {
                     mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d "
                                "Targets: %d" ), range, relative_elevation, t.size() );
