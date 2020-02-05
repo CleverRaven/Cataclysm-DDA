@@ -72,8 +72,7 @@
   },
   {
     "id": "biodiesel",
-    "name": "biodiesel",
-    "name_plural": "biodiesel",
+    "name": { "str": "biodiesel", "str_pl": "biodiesel" },
     "copy-from": "diesel",
     "type": "AMMO",
     "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
@@ -134,7 +133,7 @@
     "ammo_type": "lamp_oil",
     "fuel": {
       "//": "Roughly equivalent to LPG",
-      "energy": 26,
+      "energy": 26.0,
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
@@ -163,7 +162,7 @@
     "ammo_type": "motor_oil",
     "fuel": {
       "//": "Roughly equivalent to LPG",
-      "energy": 26,
+      "energy": 26.0,
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
