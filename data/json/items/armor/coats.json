@@ -1217,7 +1217,7 @@
   },
   {
     "id": "tux",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "tuxedo",
     "description": "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
@@ -1239,7 +1239,7 @@
   },
   {
     "id": "waistcoat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "waistcoat",
     "description": "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt would be too casual and a suit would be just overdoing it.",
@@ -1260,7 +1260,7 @@
   },
   {
     "id": "winter_jacket_army",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "army winter jacket",
     "name_plural": "army winter jackets",

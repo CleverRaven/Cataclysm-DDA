@@ -584,7 +584,7 @@
   },
   {
     "id": "tshirt_text",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": "t-shirt",
     "description": "A short-sleeved cotton shirt.",
@@ -609,7 +609,7 @@
   },
   {
     "id": "tshirt_tour",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "copy-from": "tshirt",
     "name": "tour t-shirt",

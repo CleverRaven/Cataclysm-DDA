@@ -1177,7 +1177,7 @@
   },
   {
     "id": "mask_bunker",
-    "repairs_like": "miner_hat",
+    "repairs_like": "mask_gas",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "[",
@@ -1638,7 +1638,7 @@
   },
   {
     "id": "folding_poncho_on",
-    "repairs_like": "miner_hat",
+    "repairs_like": "sheet",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "symbol": "[",
@@ -1661,7 +1661,7 @@
   {
     "type": "TOOL",
     "id": "emer_blanket",
-    "repairs_like": "miner_hat",
+    "repairs_like": "sheet",
     "symbol": ",",
     "color": "light_gray",
     "name": "folded emergency blanket",
@@ -2292,7 +2292,6 @@
   {
     "type": "TOOL_ARMOR",
     "id": "mask_ski",
-    "repairs_like": "miner_hat",
     "name": "ski mask",
     "category": "clothing",
     "weight": "86 g",
@@ -2593,7 +2592,6 @@
   },
   {
     "id": "powered_earmuffs",
-    "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "symbol": "[",
@@ -2778,7 +2776,7 @@
   },
   {
     "id": "helmet_riot",
-    "repairs_like": "miner_hat",
+    "repairs_like": "helmet_barbute",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": "riot helmet",
