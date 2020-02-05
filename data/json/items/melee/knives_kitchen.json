@@ -10,8 +10,7 @@
   },
   {
     "id": "knife_butcher",
-    "name": "butcher knife",
-    "name_plural": "butcher knives",
+    "name": { "str": "butcher knife", "str_pl": "butcher knives" },
     "type": "TOOL",
     "category": "weapons",
     "description": "This is a sharp, heavy knife.  It makes a good melee weapon, and is an ideal item for butchering corpses.",

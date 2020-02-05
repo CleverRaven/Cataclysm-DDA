@@ -621,8 +621,7 @@
   {
     "id": "testflames",
     "type": "TOOL",
-    "name": "Flaming Chunk of Steel +2",
-    "name_plural": "Flaming Chunks of Steel +2",
+    "name": { "str": "Flaming Chunk of Steel +2", "str_pl": "Flaming Chunks of Steel +2" },
     "description": "HOLY SHIT THIS THING IS ON FIRE",
     "weight": "64 g",
     "volume": "250 ml",
