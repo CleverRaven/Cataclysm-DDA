@@ -482,6 +482,7 @@
       "halberd",
       "halberd_fake",
       "hammer_sledge",
+      "hammer_sledge_short",
       "hockey_stick",
       "hoe",
       "ji",
@@ -1263,7 +1264,14 @@
         "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
       }
     ],
-    "techniques": [ "tec_taekwondo_disarm", "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+    "techniques": [
+      "tec_taekwondo_disarm",
+      "tec_taekwondo_strong",
+      "tec_taekwondo_roundhouse",
+      "tec_taekwondo_feint",
+      "tec_taekwondo_push",
+      "tec_taekwondo_sweep"
+    ]
   },
   {
     "type": "martial_art",

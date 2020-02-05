@@ -1566,7 +1566,7 @@
   {
     "type": "recipe",
     "result": "oj",
-    "byproducts": [ [ "juice_pulp" ] ],
+    "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",

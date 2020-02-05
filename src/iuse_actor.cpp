@@ -954,7 +954,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), f, false, true );
+            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
     }

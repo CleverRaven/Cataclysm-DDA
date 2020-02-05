@@ -1037,8 +1037,7 @@
     "id": "bio_ankles",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Squeaky Ankles",
-    "name_plural": "Squeaky Ankles",
+    "name": { "str": "Squeaky Ankles", "str_pl": "Squeaky Ankles" },
     "description": "A pair of defective bionics that make squeaking noises.",
     "weight": "100 g",
     "difficulty": 4
@@ -1047,8 +1046,7 @@
     "id": "bio_deformity",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Pieces Of Junk",
-    "name_plural": "Pieces of Junk",
+    "name": { "str": "Pieces Of Junk", "str_pl": "Pieces of Junk" },
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
@@ -1179,8 +1177,7 @@
     "id": "bio_stiff",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Wire-Induced Stiffness",
-    "name_plural": "Wire-Induced Stiffnesses",
+    "name": { "str": "Wire-Induced Stiffness", "str_pl": "Wire-Induced Stiffnesses" },
     "description": "A length of poorly installed wiring that would cause stiffness.",
     "difficulty": 7
   },
@@ -1188,8 +1185,7 @@
     "id": "bio_thumbs",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Self-Locking Thumbs",
-    "name_plural": "Self-Locking Thumbs",
+    "name": { "str": "Self-Locking Thumbs", "str_pl": "Self-Locking Thumbs" },
     "description": "A pair of faulty, self-locking thumb bionics.",
     "weight": "50 g",
     "difficulty": 5

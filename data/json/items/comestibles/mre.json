@@ -8,7 +8,7 @@
     "category": "food",
     "description": "A generic MRE box, you shouldn't see this.",
     "price": 1500,
-    "weight": "900 g",
+    "weight": "725 g",
     "volume": "750 ml",
     "material": [ "plastic" ],
     "looks_like": "mre_beef_box",
