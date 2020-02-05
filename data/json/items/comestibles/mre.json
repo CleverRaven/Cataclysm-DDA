@@ -73,8 +73,7 @@
     "id": "mre_bbqbeef_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - BBQ Beef",
-    "name_plural": "MREs - BBQ Beef",
+    "name": { "str": "MRE - BBQ Beef", "str_pl": "MREs - BBQ Beef" },
     "description": "A 'Meal Ready to Eat' with a BBQ beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
@@ -104,8 +103,7 @@
     "id": "mre_beeftaco_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Beef Taco",
-    "name_plural": "MREs - Beef Taco",
+    "name": { "str": "MRE - Beef Taco", "str_pl": "MREs - Beef Taco" },
     "description": "A 'Meal Ready to Eat' with a beef taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
@@ -142,8 +140,7 @@
     "id": "mre_veggy_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Vegetarian Taco",
-    "name_plural": "MREs - Vegetarian Taco",
+    "name": { "str": "MRE - Vegetarian Taco", "str_pl": "MREs - Vegetarian Taco" },
     "description": "A 'Meal Ready to Eat' with a vegetarian taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
@@ -207,8 +204,7 @@
     "id": "mre_pepperjackbeef_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Pepper Jack Beef",
-    "name_plural": "MREs - Pepper Jack Beef",
+    "name": { "str": "MRE - Pepper Jack Beef", "str_pl": "MREs - Pepper Jack Beef" },
     "description": "A 'Meal Ready to Eat' with a pepper jack beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
@@ -229,8 +225,7 @@
     "id": "mre_asianbeef_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Asian Beef & Vegetables",
-    "name_plural": "MREs - Asian Beef & Vegetables",
+    "name": { "str": "MRE - Asian Beef & Vegetables", "str_pl": "MREs - Asian Beef & Vegetables" },
     "description": "A 'Meal Ready to Eat' with an asian beef & vegetables entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
@@ -244,8 +239,7 @@
     "id": "mre_southwestbeef_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Southwest Beef & Beans",
-    "name_plural": "MREs - Southwest Beef & Beans",
+    "name": { "str": "MRE - Southwest Beef & Beans", "str_pl": "MREs - Southwest Beef & Beans" },
     "description": "A 'Meal Ready to Eat' with a southwest beef & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
