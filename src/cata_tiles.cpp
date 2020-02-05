@@ -1508,6 +1508,13 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
             }
             const ter_t &ter = tid.obj();
             looks_like = ter.looks_like;
+        } else if( category == C_FIELD ) {
+            const field_type_id fid( looks_like );
+            if( !fid.is_valid() ) {
+                return nullptr;
+            }
+            const field_type &ft = fid.obj();
+            looks_like = ft.looks_like;
         } else if( category == C_MONSTER ) {
             const mtype_id mid( looks_like );
             if( !mid.is_valid() ) {
