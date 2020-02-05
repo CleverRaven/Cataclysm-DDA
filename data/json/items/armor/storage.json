@@ -970,7 +970,7 @@
   },
   {
     "id": "vest",
-    "repairs_like": "miner_hat",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": "utility vest",
     "description": "A light vest covered in pockets and straps for storage.",
