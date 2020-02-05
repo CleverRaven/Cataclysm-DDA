@@ -4,12 +4,11 @@
     "id": "battery",
     "category": "spare_parts",
     "price": 12000,
-    "name": "battery",
-    "name_plural": "batteries",
+    "name": { "str": "battery", "str_pl": "batteries" },
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "material": "iron",
     "effects": [ "COOKOFF" ],
     "volume": "250 ml",
@@ -17,7 +16,7 @@
     "ammo_type": "battery",
     "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
-    "fuel": { "energy": 1 }
+    "fuel": { "energy": 1.0 }
   },
   {
     "type": "TOOL",
@@ -222,7 +221,7 @@
     "ammo_type": "plutonium",
     "count": 5,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
-    "fuel": { "energy": 10 }
+    "fuel": { "energy": 10.0 }
   },
   {
     "type": "AMMO",
@@ -474,8 +473,8 @@
     "flags": [ "UNRECOVERABLE" ],
     "fuel": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
-      "energy": 4000,
-      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+      "energy": 4000.0,
+      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1.0, "fiery": true, "size_factor": 0.15 }
     }
   },
   {
@@ -859,7 +858,7 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": { "energy": 30 }
+    "fuel": { "energy": 30.0 }
   },
   {
     "type": "AMMO",
