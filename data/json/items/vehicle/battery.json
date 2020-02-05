@@ -3,7 +3,7 @@
     "id": "battery_car",
     "type": "MAGAZINE",
     "category": "veh_parts",
-    "name": { "str_pl": "car batteries", "str": "car battery" },
+    "name": { "str": "car battery", "str_pl": "car batteries" },
     "description": "A 12v lead-acid battery used to power car electrical systems.",
     "weight": "18000 g",
     "volume": "6250 ml",
