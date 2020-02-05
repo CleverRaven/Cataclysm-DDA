@@ -1,9 +1,9 @@
 [
   {
     "type": "technique",
-    "id": "pistol_whip",
-    "name": "Whip",
-    "min_melee": 2,
+    "id": "Pistol Whip",
+    "name": "HOOK",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.95 ], [ "damage", "bash", 0.88 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
     "flat_bonuses": [ [ "movecost", "per", -0.25 ] ],
@@ -13,9 +13,9 @@
   },
   {
     "type": "technique",
-    "id": "stock_bash",
+    "id": "INERTIAL",
     "name": "Crowd Control",
-    "min_melee": 2,
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "knockback_dist": 1,
     "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
