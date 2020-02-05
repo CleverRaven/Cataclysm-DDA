@@ -1,6 +1,6 @@
 [
   {
-    "id": "TDI",
+    "id": "mounted_TDI",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "TDI Vector turret",
@@ -9,7 +9,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "abolter",
+    "id": "mounted_bolter",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "storm bolter turret",
@@ -20,7 +20,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "acangun",
+    "id": "mounted_cangun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "slingshot cannon turret",
@@ -31,7 +31,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "acr",
+    "id": "mounted_acr",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Remington ACR turret",
@@ -40,7 +40,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "agattler1",
+    "id": "mounted_gattler1",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "rotary cannon turret",
@@ -49,7 +49,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "ak47",
+    "id": "mounted_ak47",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AK47 turret",
@@ -58,7 +58,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "ak74",
+    "id": "mounted_ak74",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AK74 turret",
@@ -67,7 +67,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "alasgun",
+    "id": "mounted_lasgun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "laser cannon turret",
@@ -78,7 +78,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
-    "id": "alasgunp",
+    "id": "mounted_lasgunp",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "pulse laser turret",
@@ -89,7 +89,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
-    "id": "alasgunx",
+    "id": "mounted_lasgunx",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "turbolaser turret",
@@ -100,7 +100,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
-    "id": "american_180",
+    "id": "mounted_american_180",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "American-180 turret",
@@ -109,7 +109,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "an94",
+    "id": "mounted_an94",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AN94 turret",
@@ -118,7 +118,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "anailer",
+    "id": "mounted_nailer",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "perforator turret",
@@ -127,7 +127,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "aneedler",
+    "id": "mounted_needler",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "needler turret",
@@ -138,7 +138,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "ar15",
+    "id": "mounted_ar15",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AR-15 turret",
@@ -147,7 +147,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "arailturret",
+    "id": "mounted_railturret",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "hypervelocity driver turret",
@@ -158,7 +158,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "aripper",
+    "id": "mounted_ripper",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "ripper turret",
@@ -172,7 +172,7 @@
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
-    "id": "ascorpion",
+    "id": "mounted_scorpion",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "scorpion turret",
@@ -183,7 +183,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "ashardgun",
+    "id": "mounted_shardgun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "splintergun turret",
@@ -194,7 +194,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
-    "id": "ateslagun",
+    "id": "mounted_teslagun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "tesla turret",
@@ -205,7 +205,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "atiharturret",
+    "id": "mounted_tiharturret",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "avalanche turret",
@@ -216,7 +216,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "bigun",
+    "id": "mounted_bigun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "autoshotgun turret",
@@ -225,7 +225,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "blunderbuss",
+    "id": "mounted_blunderbuss",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "blunderbuss turret",
@@ -234,7 +234,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "browning_blr",
+    "id": "mounted_browning_blr",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Browning BLR turret",
@@ -243,7 +243,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "calico",
+    "id": "mounted_calico",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Calico M960 turret",
@@ -252,7 +252,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "carbine_flintlock",
+    "id": "mounted_carbine_flintlock",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "flintlock carbine turret",
@@ -266,7 +266,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "coilgun",
+    "id": "mounted_coilgun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "coilgun turret",
@@ -275,7 +275,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "cutter",
+    "id": "mounted_cutter",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "lacerator turret",
@@ -289,7 +289,7 @@
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
-    "id": "cx4",
+    "id": "mounted_cx4",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Cx4 Storm turret",
@@ -298,7 +298,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "flamethrower1",
+    "id": "mounted_flamethrower1",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "simple flamethrower turret",
@@ -310,7 +310,7 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "flamethrower2",
+    "id": "mounted_flamethrower2",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "flamethrower turret",
@@ -322,7 +322,7 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "flamethrower3",
+    "id": "mounted_flamethrower3",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM451 flamethrower turret",
@@ -334,7 +334,7 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "fn_fal",
+    "id": "mounted_fn_fal",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN FAL turret",
@@ -343,7 +343,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "fn_p90",
+    "id": "mounted_fn_p90",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN P90 turret",
@@ -352,7 +352,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "h&k416a5",
+    "id": "mounted_h&k416a5",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K 416A5 turret",
@@ -361,7 +361,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "heavy_rail_rifle",
+    "id": "mounted_heavy_rail_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "heavy rail rifle turret",
@@ -370,7 +370,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "hk_g3",
+    "id": "mounted_hk_g3",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K G3 turret",
@@ -379,7 +379,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "hk_g36",
+    "id": "mounted_hk_g36",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K G36 turret",
@@ -388,7 +388,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "hk_g80",
+    "id": "mounted_hk_g80",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K G80 turret",
@@ -397,7 +397,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "hk_mp5",
+    "id": "mounted_hk_mp5",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K MP5 turret",
@@ -406,7 +406,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "hk_mp7",
+    "id": "mounted_hk_mp7",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K MP7 turret",
@@ -415,7 +415,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "hk_ump45",
+    "id": "mounted_hk_ump45",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K UMP45 turret",
@@ -424,7 +424,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "ksg",
+    "id": "mounted_ksg",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Kel-Tec KSG turret",
@@ -433,7 +433,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "l_base_223",
+    "id": "mounted_l_base_223",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523 turret",
@@ -442,7 +442,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "l_car_223",
+    "id": "mounted_l_car_223",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-CAR turret",
@@ -451,7 +451,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "l_def_12",
+    "id": "mounted_l_def_12",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Tavor TS12 turret",
@@ -460,7 +460,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "l_dsr_223",
+    "id": "mounted_l_dsr_223",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-DSR turret",
@@ -469,7 +469,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "l_lmg_223",
+    "id": "mounted_l_lmg_223",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-LMG turret",
@@ -478,7 +478,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "l_long_45",
+    "id": "mounted_l_long_45",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Long Ranger turret",
@@ -487,7 +487,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "l_mbr_223",
+    "id": "mounted_l_mbr_223",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-MBR turret",
@@ -496,7 +496,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "launcher_simple",
+    "id": "mounted_launcher_simple",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "40mm launcher turret",
@@ -505,7 +505,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "m1014",
+    "id": "mounted_m1014",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M1014 shotgun turret",
@@ -514,7 +514,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "m107a1",
+    "id": "mounted_m107a1",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Barrett M107A1 turret",
@@ -523,7 +523,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m14ebr",
+    "id": "mounted_m14ebr",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M14-EBR turret",
@@ -532,7 +532,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m1a",
+    "id": "mounted_m1a",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M1A turret",
@@ -541,7 +541,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m2010",
+    "id": "mounted_m2010",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M2010 ESR turret",
@@ -550,7 +550,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m27iar",
+    "id": "mounted_m27iar",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M27 IAR turret",
@@ -559,7 +559,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m2browning_sawn",
+    "id": "mounted_m2browning_sawn",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": ".50 caliber turret",
@@ -568,7 +568,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m320",
+    "id": "mounted_m320",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M320 turret",
@@ -577,7 +577,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "m4a1",
+    "id": "mounted_m4a1",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M4A1 turret",
@@ -586,7 +586,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m60",
+    "id": "mounted_m60",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M60 turret",
@@ -595,7 +595,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m79",
+    "id": "mounted_m79",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M79 turret",
@@ -604,7 +604,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mac_10",
+    "id": "mounted_mac_10",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "MAC-10 turret",
@@ -613,7 +613,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "marlin_9a",
+    "id": "mounted_marlin_9a",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Marlin 39A turret",
@@ -622,7 +622,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mgl",
+    "id": "mounted_mgl",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Milkor MGL turret",
@@ -631,7 +631,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "mossberg_500",
+    "id": "mounted_mossberg_500",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Mossberg 500 turret",
@@ -640,7 +640,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "nailrifle",
+    "id": "mounted_nailrifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "nail rifle turret",
@@ -649,7 +649,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "needlegun",
+    "id": "mounted_needlegun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM216 SPIW turret",
@@ -658,7 +658,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "pipe_double_shotgun",
+    "id": "mounted_pipe_double_shotgun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "double pipe shotgun turret",
@@ -667,7 +667,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "pipe_shotgun",
+    "id": "mounted_pipe_shotgun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "pipe shotgun turret",
@@ -676,7 +676,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "rebar_rifle",
+    "id": "mounted_rebar_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "rail rifle turret",
@@ -685,7 +685,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "remington_700",
+    "id": "mounted_remington_700",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Remington 700 turret",
@@ -694,7 +694,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "remington_870",
+    "id": "mounted_remington_870",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Remington 870 turret",
@@ -703,7 +703,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "repeatingcrossbow",
+    "id": "mounted_repeatingcrossbow",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "repeating crossbow turret",
@@ -714,7 +714,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "revolver_shotgun",
+    "id": "mounted_revolver_shotgun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "revolver shotgun turret",
@@ -723,7 +723,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "rifle_22",
+    "id": "mounted_rifle_22",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": ".22 pipe rifle turret",
@@ -732,7 +732,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "rifle_308",
+    "id": "mounted_rifle_308",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": ".308 pipe rifle turret",
@@ -741,7 +741,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "rifle_9mm",
+    "id": "mounted_rifle_9mm",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "9x19mm pipe rifle turret",
@@ -750,7 +750,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "rifle_flintlock",
+    "id": "mounted_rifle_flintlock",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "flintlock rifle turret",
@@ -762,7 +762,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "rm11b_sniper_rifle",
+    "id": "mounted_rm11b_sniper_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM11B scout rifle turret",
@@ -771,7 +771,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rm2000_smg",
+    "id": "mounted_rm2000_smg",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM2000 SMG turret",
@@ -780,7 +780,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rm360_carbine",
+    "id": "mounted_rm360_carbine",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM360 carbine turret",
@@ -789,7 +789,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rm51_assault_rifle",
+    "id": "mounted_rm51_assault_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM51 assault rifle turret",
@@ -798,7 +798,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rm614_lmg",
+    "id": "mounted_rm614_lmg",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM614 LMG turret",
@@ -807,7 +807,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rm802",
+    "id": "mounted_rm802",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM802 turret",
@@ -816,7 +816,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "rm88_battle_rifle",
+    "id": "mounted_rm88_battle_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM88 battle rifle turret",
@@ -825,7 +825,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rslauncher",
+    "id": "mounted_rslauncher",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "rotary speargun turret",
@@ -836,7 +836,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "ruger_1022",
+    "id": "mounted_ruger_1022",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Ruger 10/22 turret",
@@ -845,7 +845,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "ruger_mini",
+    "id": "mounted_ruger_mini",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Ruger mini-14 turret",
@@ -854,7 +854,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "saiga_12",
+    "id": "mounted_saiga_12",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Saiga 12 turret",
@@ -863,7 +863,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "savage_111f",
+    "id": "mounted_savage_111f",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Savage 111F turret",
@@ -872,7 +872,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "scar_h",
+    "id": "mounted_scar_h",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN SCAR-H turret",
@@ -881,7 +881,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "scar_l",
+    "id": "mounted_scar_l",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN SCAR-L turret",
@@ -890,7 +890,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "shotgun_d",
+    "id": "mounted_shotgun_d",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "double shotgun turret",
@@ -899,7 +899,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "shotgun_s",
+    "id": "mounted_shotgun_s",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "single shotgun turret",
@@ -908,7 +908,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "sks",
+    "id": "mounted_sks",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "SKS turret",
@@ -917,7 +917,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "slauncher",
+    "id": "mounted_slauncher",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "speargun turret",
@@ -928,7 +928,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "steyr_aug",
+    "id": "mounted_steyr_aug",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Steyr AUG turret",
@@ -937,7 +937,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "surv_carbine_223",
+    "id": "mounted_surv_carbine_223",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "223 carbine turret",
@@ -946,7 +946,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "survivor_special_700",
+    "id": "mounted_survivor_special_700",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "survivor special turret",
@@ -955,7 +955,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "tec9",
+    "id": "mounted_tec9",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "TEC-9 turret",
@@ -964,7 +964,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "uzi",
+    "id": "mounted_uzi",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Uzi turret",
@@ -973,7 +973,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "v29",
+    "id": "mounted_v29",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "V29 laser turret",
@@ -982,7 +982,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
-    "id": "v29_cheap",
+    "id": "mounted_v29_cheap",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": "LACP laser turret",
