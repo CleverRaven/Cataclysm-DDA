@@ -3126,6 +3126,7 @@ void activity_handlers::try_sleep_query( player_activity *act, player *p )
                           _( "Continue trying to fall asleep and don't ask again." ) );
     sleep_query.query();
     switch( sleep_query.ret ) {
+        case UILIST_CANCEL:
         case 1:
             act->set_to_null();
             break;
