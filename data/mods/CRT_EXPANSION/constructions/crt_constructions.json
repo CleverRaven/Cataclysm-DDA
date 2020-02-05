@@ -38,7 +38,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_long",
-    "description": "Uproot Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "9 m",
@@ -50,7 +50,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_tall",
-    "description": "Uproot Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "9 m",
@@ -62,7 +62,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_dead",
-    "description": "Uproot Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -74,7 +74,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_golf",
-    "description": "Uproot Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -86,7 +86,7 @@
   {
     "type": "construction",
     "id": "constr_crt_remove_grass_white",
-    "description": "Uproot Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
