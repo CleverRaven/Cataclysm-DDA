@@ -26,7 +26,7 @@ Note that more categories can be added, and that it inst necessary for a categor
 
 ### Tier 1
 
-Tier 1 scarp is plentiful, and can be easily found even when you aren't specifically looking for it.  It might be dropped by defeating common enemies, or by disassembling common household objects.  Ideally Tier 1 scarp is mostly used as a filler component in more advanced recipes. Things that might be crafted using only this tier of scrap must be single-use and not very effective, and should  see little use outside of the early game.For example
+Tier 1 scrap is plentiful, and can be easily found even when you aren't specifically looking for it.  It might be dropped by defeating common enemies, or by disassembling common household objects.  Ideally Tier 1 scrap is mostly used as a filler component in more advanced recipes. Things that might be crafted using only this tier of scrap must be single-use and not very effective, and should  see little use outside of the early game.For example
 
 - Makeshift ammunition of all kinds, that might risk damaging your gun.
 - Weak grenades with very limited range.
