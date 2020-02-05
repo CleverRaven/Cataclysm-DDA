@@ -6,11 +6,13 @@
     "authors": [ "dvolk" ],
     "description": "Removes religious text items from the game.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
-    "type": "ITEM_BLACKLIST",
-    "items": [
+    "replace": "philosophy_book",
+    "type": "MIGRATION",
+    "id": [
       "holybook_bible1",
       "holybook_bible2",
       "holybook_bible3",

@@ -17,7 +17,7 @@
     "name": "Refugee",
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "Boris is nice, but shy and sad.  He was a carpenter; he and his partner lost their son in the cataclysm, and it makes it harder for them to make friends in the survivor group.",
+    "//": "Boris is nice, but shy and sad.  He was a carpenter; he and his partner lost their son in the Cataclysm, and it makes it harder for them to make friends in the survivor group.",
     "bonus_str": { "rng": [ 1, 4 ] },
     "bonus_dex": { "rng": [ -1, 2 ] },
     "bonus_int": { "rng": [ -3, 2 ] },
@@ -159,7 +159,7 @@
       "context": "flag",
       "value": "yes",
       "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I'll think about it, get back to me later.",
-      "//yes-for-later": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw Ash... my son.  If... if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
+      "//yes-for-later": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw Ash… my son.  If… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
       "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
     },
     "responses": [

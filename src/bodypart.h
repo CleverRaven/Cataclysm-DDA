@@ -99,11 +99,11 @@ struct body_part_struct {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
-        static void load_bp( JsonObject &jo, const std::string &src );
+        static void load_bp( const JsonObject &jo, const std::string &src );
 
         // Clears all bps
         static void reset();

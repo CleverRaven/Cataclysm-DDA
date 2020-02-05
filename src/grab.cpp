@@ -14,8 +14,7 @@
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
-
-const efftype_id effect_harnessed( "harnessed" );
+#include "cata_string_consts.h"
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
@@ -180,8 +179,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     u.grab_point = next_grab;
 
-    tripoint gp = grabbed_vehicle->global_pos3();
-    grabbed_vehicle = m.displace_vehicle( gp, final_dp_veh );
+    m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
     if( grabbed_vehicle == nullptr ) {
         debugmsg( "Grabbed vehicle disappeared" );

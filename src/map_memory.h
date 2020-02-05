@@ -22,7 +22,7 @@ class map_memory
     public:
         void store( JsonOut &jsout ) const;
         void load( JsonIn &jsin );
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
         void memorize_tile( int limit, const tripoint &pos, const std::string &ter,

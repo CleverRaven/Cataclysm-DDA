@@ -1,0 +1,242 @@
+[
+  {
+    "id": "beartrap",
+    "type": "TOOL",
+    "name": "bear trap",
+    "description": "This is a spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
+    "weight": "14000 g",
+    "volume": "1500 ml",
+    "price": 6000,
+    "to_hit": -2,
+    "bashing": 9,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_trap",
+      "allow_underwater": true,
+      "bury_question": "Bury the beartrap?",
+      "bury": { "trap": "tr_beartrap_buried", "moves": 275, "practice": 7, "done_message": "You bury the beartrap." },
+      "trap": "tr_beartrap",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the beartrap."
+    }
+  },
+  {
+    "id": "blade_trap",
+    "type": "TOOL",
+    "name": "blade trap",
+    "description": "This is a machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
+    "weight": "2381 g",
+    "volume": "4500 ml",
+    "price": 5000,
+    "to_hit": -4,
+    "bashing": 4,
+    "cutting": 14,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_trap",
+      "outer_layer_trap": "tr_blade",
+      "trap": "tr_engine",
+      "moves": 400,
+      "practice": 12,
+      "done_message": "You set the blade trap %d squares away."
+    }
+  },
+  {
+    "id": "board_trap",
+    "type": "TOOL",
+    "name": "nailboard trap",
+    "description": "These are several pieces of wood nailed together, with some nails sticking straight up.  If an unsuspecting victim steps on it, they'll get nails through the foot.",
+    "weight": "2041 g",
+    "volume": "1500 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 12,
+    "cutting": 6,
+    "material": "wood",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "place_trap",
+      "allow_underwater": true,
+      "trap": "tr_nailboard",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the board trap on the %s, nails facing up."
+    }
+  },
+  {
+    "id": "boobytrap",
+    "type": "TOOL",
+    "name": "booby trap",
+    "description": "This is a crude explosive device triggered by a piece of string.  Use it to setup and watch some poor bastard trigger it.",
+    "weight": "586 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "to_hit": -4,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_boobytrap",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the booby trap up and activate the grenade."
+    }
+  },
+  {
+    "id": "bubblewrap",
+    "type": "TOOL",
+    "name": "bubble wrap",
+    "description": "This is a sheet of plastic covered with air-filled bubbles.  Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
+    "weight": "6 g",
+    "volume": "250 ml",
+    "price": 50,
+    "material": "plastic",
+    "symbol": ";",
+    "color": "light_cyan",
+    "use_action": {
+      "type": "place_trap",
+      "allow_underwater": true,
+      "trap": "tr_bubblewrap",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the bubble wrap on the ground, ready to be popped."
+    }
+  },
+  {
+    "id": "caltrops",
+    "type": "TOOL",
+    "name": { "str": "loose caltrops", "str_pl": "loose caltrops" },
+    "description": "These are small metal objects covered with many sharp points.  If an unsuspecting victim steps on one, they'll get a spine through the foot.",
+    "weight": "264 g",
+    "volume": "250 ml",
+    "price": 900,
+    "to_hit": -4,
+    "bashing": 1,
+    "cutting": 8,
+    "material": "iron",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_caltrops",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You scatter the caltrops on the %s."
+    }
+  },
+  {
+    "id": "caltrops_glass",
+    "type": "TOOL",
+    "name": { "str": "loose glass caltrops", "str_pl": "loose glass caltrops" },
+    "description": "These are glass shards glued together to expose their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
+    "weight": "264 g",
+    "volume": "500 ml",
+    "price": 100,
+    "to_hit": -4,
+    "cutting": 6,
+    "material": "glass",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_caltrops_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You scatter the glass caltrops on the %s."
+    }
+  },
+  {
+    "id": "crossbow_trap",
+    "type": "TOOL",
+    "name": "crossbow trap",
+    "description": "This is a simple tripwire, which is attached to the trigger of a loaded crossbow.  When pulled, the crossbow fires.  Only a single round can be used, after which the trap is disabled.",
+    "weight": "1772 g",
+    "volume": "1750 ml",
+    "price": 6000,
+    "to_hit": -2,
+    "bashing": 4,
+    "material": [ "steel", "wood" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_crossbow",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the crossbow trap."
+    }
+  },
+  {
+    "id": "landmine",
+    "type": "TOOL",
+    "name": "land mine",
+    "description": "This is an military anti-personnel mine that is triggered when stepped upon.",
+    "weight": "2360 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "bury_question": "Bury the land mine?",
+      "bury": { "trap": "tr_landmine_buried", "moves": 275, "practice": 7, "done_message": "You bury the land mine." },
+      "trap": "tr_landmine",
+      "moves": 200,
+      "practice": 4,
+      "done_message": "You set the land mine."
+    }
+  },
+  {
+    "id": "shotgun_trap",
+    "type": "TOOL",
+    "name": "shotgun trap",
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
+    "weight": "2922 g",
+    "volume": "1750 ml",
+    "price": 25000,
+    "to_hit": -2,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_shotgun_2",
+      "moves": 225,
+      "practice": 5,
+      "done_message": "You set the shotgun trap."
+    }
+  },
+  {
+    "id": "tripwire",
+    "type": "TOOL",
+    "name": "tripwire trap",
+    "description": "This is some thin strong cable with some affixing tools on either end.  A tripwire trap must be placed across a doorway or other thin passage.  Its purpose is to trip up bypassers, causing them to stumble and possibly hurt themselves slightly.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 300,
+    "to_hit": -1,
+    "material": "aluminum",
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_trap",
+      "needs_solid_neighbor": true,
+      "trap": "tr_tripwire",
+      "moves": 175,
+      "practice": 3,
+      "done_message": "You string up the tripwire."
+    }
+  }
+]

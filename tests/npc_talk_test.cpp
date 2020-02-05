@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <memory>
 #include <vector>
@@ -87,7 +87,7 @@ static void change_om_type( const std::string &new_type )
 
 static npc &prep_test( dialogue &d )
 {
-    clear_player();
+    clear_avatar();
     CHECK( !g->u.in_vehicle );
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
@@ -406,29 +406,29 @@ TEST_CASE( "npc_talk_season", "[npc_talk]" )
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
+    CHECK( d.responses[1].text == "This is a days since Cataclysm 30 test response." );
     CHECK( d.responses[2].text == "This is a season summer test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
-    CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
+    CHECK( d.responses[1].text == "This is a days since Cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a days since Cataclysm 120 test response." );
     CHECK( d.responses[3].text == "This is a season autumn test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 5 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
-    CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
-    CHECK( d.responses[3].text == "This is a days since cataclysm 210 test response." );
+    CHECK( d.responses[1].text == "This is a days since Cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a days since Cataclysm 120 test response." );
+    CHECK( d.responses[3].text == "This is a days since Cataclysm 210 test response." );
     CHECK( d.responses[4].text == "This is a season winter test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a season spring test response." );
-    CHECK( d.responses[2].text == "This is a days since cataclysm 30 test response." );
-    CHECK( d.responses[3].text == "This is a days since cataclysm 120 test response." );
-    CHECK( d.responses[4].text == "This is a days since cataclysm 210 test response." );
-    CHECK( d.responses[5].text == "This is a days since cataclysm 300 test response." );
+    CHECK( d.responses[2].text == "This is a days since Cataclysm 30 test response." );
+    CHECK( d.responses[3].text == "This is a days since Cataclysm 120 test response." );
+    CHECK( d.responses[4].text == "This is a days since Cataclysm 210 test response." );
+    CHECK( d.responses[5].text == "This is a days since Cataclysm 300 test response." );
     calendar::turn = old_calendar;
 }
 

@@ -41,6 +41,29 @@
   },
   {
     "type": "material",
+    "ident": "demon_chitin",
+    "name": "Demon Chitin",
+    "density": 15,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "bash_resist": 1,
+    "cut_resist": 10,
+    "acid_resist": 3,
+    "fire_resist": 18,
+    "elec_resist": 2,
+    "chip_resist": 10,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 1 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
     "ident": "orichalcum_metal",
     "name": "Orichalcum",
     "density": 40,

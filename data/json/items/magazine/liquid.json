@@ -29,7 +29,8 @@
     "ammo_type": "flammable",
     "capacity": 500,
     "reliability": 9,
-    "reload_time": 3
+    "reload_time": 3,
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "rm4502",

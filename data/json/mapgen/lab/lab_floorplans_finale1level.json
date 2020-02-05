@@ -131,8 +131,8 @@
       },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_monster": [
-        { "monster": "mon_tripod", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
-        { "monster": "mon_tripod", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
+        { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
+        { "monster": "mon_secubot", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
         { "monster": "mon_zombie_scientist", "x": [ 2, 20 ], "y": [ 1, 9 ], "chance": 90, "repeat": [ 1, 2 ] },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
       ]

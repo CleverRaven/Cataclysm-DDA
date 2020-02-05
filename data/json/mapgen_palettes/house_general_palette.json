@@ -1,0 +1,209 @@
+[
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette",
+    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: ! $ % & _ = ~ ? / , and some symbols that conflict with json (like brackets).",
+    "toilets": { "t": {  } },
+    "furniture": {
+      "a": "f_fireplace",
+      "b": "f_bigmirror",
+      "c": "f_statue",
+      "d": "f_dresser",
+      "e": "f_pool_table",
+      "f": "f_table",
+      "g": "f_water_heater",
+      "h": "f_chair",
+      "i": "f_bench",
+      "j": "f_bench",
+      "k": "f_woodstove",
+      "l": "f_coffee_table",
+      "m": "f_glass_fridge",
+      "n": "f_dishwasher",
+      "p": "f_mailbox",
+      "q": "f_rack",
+      "r": "f_desk",
+      "s": "f_table",
+      "u": "f_rotary_clothesline",
+      "v": [ "f_gun_safe_el", "f_safe_l" ],
+      "w": "f_rack_wood",
+      "x": "f_entertainment_center",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "z": "f_cardboard_box",
+      "A": "f_stool",
+      "B": "f_bathtub",
+      "C": "f_cupboard",
+      "D": "f_wardrobe",
+      "E": "f_armchair",
+      "F": "f_fridge",
+      "G": "f_camp_chair",
+      "H": "f_sofa",
+      "I": "f_desk",
+      "J": "f_counter",
+      "K": "f_tourist_table",
+      "L": "f_rack_coat",
+      "M": "f_displaycase",
+      "N": "f_workbench",
+      "O": "f_oven",
+      "P": [ [ "f_filing_cabinet", 80 ], [ "f_shredder", 20 ] ],
+      "Q": "f_rack_wood",
+      "R": "f_bookcase",
+      "S": "f_sink",
+      "T": "f_floor_lamp",
+      "U": "f_utility_shelf",
+      "V": "f_glass_cabinet",
+      "W": "f_washer",
+      "X": "f_birdbath",
+      "Y": "f_trashcan",
+      "Z": "f_dryer",
+      "1": "f_cupboard",
+      "2": "f_cupboard",
+      "3": "f_cupboard",
+      "4": "f_cupboard",
+      "5": "f_sink",
+      "6": "f_rack_wood",
+      "7": "f_cupboard",
+      "8": "f_counter",
+      "9": "f_shower",
+      "0": "f_woodstove",
+      "@": "f_bed"
+    },
+    "terrain": {
+      "j": "t_region_groundcover_urban",
+      "p": "t_region_groundcover_urban",
+      "u": "t_region_groundcover_urban",
+      "X": "t_region_groundcover_urban",
+      ".": "t_region_groundcover_urban",
+      " ": "t_floor",
+      "+": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
+      "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
+      "^": "t_gutter_downspout",
+      "|": "t_wall_w",
+      "#": "t_brick_wall",
+      ":": "t_wall_glass",
+      "-": "t_sidewalk",
+      "o": [
+        [ "t_window_domestic", 10 ],
+        "t_window_no_curtains",
+        "t_window_open",
+        "t_window_no_curtains_open",
+        [ "t_curtains", 5 ]
+      ],
+      "<": "t_wood_stairs_up",
+      ">": "t_wood_stairs_down"
+    },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "items": {
+      "a": { "item": "stash_wood", "chance": 30, "repeat": [ 2, 5 ] },
+      "d": [
+        { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
+      "f": [
+        { "item": "dishes_dining", "chance": 30 },
+        { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "baked_goods", "chance": 5 },
+        { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "dining", "chance": 10 }
+      ],
+      "k": { "item": "stash_wood", "chance": 30, "repeat": [ 2, 5 ] },
+      "l": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "s": [
+        { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "m": { "item": "SUS_fridge", "chance": 80 },
+      "n": { "item": "SUS_dishwasher", "chance": 70 },
+      "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "q": [
+        { "item": "tools_home", "chance": 40 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 10 },
+        { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
+      "v": [
+        { "item": "art", "chance": 5 },
+        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "maps", "chance": 2 },
+        { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
+        { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "w": [
+        { "item": "shower", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "x": { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+      "B": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
+      "D": [
+        { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "F": { "item": "SUS_fridge", "chance": 100 },
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "J": { "item": "kitchen_counters", "chance": 5 },
+      "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+      "N": [
+        { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
+      ],
+      "O": { "item": "SUS_oven", "chance": 100 },
+      "P": { "item": "office_paper", "chance": 100 },
+      "Q": [
+        { "item": "shower", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 4 ] },
+      "S": { "item": "SUS_bathroom_sink", "chance": 75 },
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+      "2": { "item": "SUS_cookware", "chance": 100 },
+      "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+      "4": { "item": "SUS_junk_drawer", "chance": 100 },
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "6": { "item": "SUS_pantry", "chance": 25 },
+      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+      "8": [
+        { "item": "SUS_hair_drawer", "chance": 50 },
+        { "item": "SUS_bathroom_cabinet", "chance": 50 },
+        { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs", "chance": 2 }
+      ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "Z": { "item": "laundry", "chance": 100 },
+      "W": { "item": "laundry", "chance": 50 },
+      "z": [
+        { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "child_items", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "stash_drugs", "chance": 1 },
+        { "item": "maps", "chance": 7 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_basement_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "terrain": { "^": "t_rock", "#": "t_concrete_wall", ".": "t_thconc_floor" },
+    "furniture": { "c": "f_exercise", "u": "f_ergometer", "X": "f_punching_bag" },
+    "monsters": {
+      "!": [ { "monster": "GROUP_ROACH", "chance": 70 }, { "monster": "GROUP_ZOMBIE", "chance": 100 } ],
+      ".": [ { "monster": "GROUP_ROACH", "chance": 80 }, { "monster": "GROUP_ZOMBIE", "chance": 60 } ]
+    }
+  }
+]

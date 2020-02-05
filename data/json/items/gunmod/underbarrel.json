@@ -141,10 +141,60 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 3,
-      "dispersion": 345,
-      "durability": 10,
+      "ranged_damage": 1,
+      "dispersion": 425,
+      "durability": 7,
       "clip_size": 7,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "GUNMOD",
+    "name": "TS12 second magazine",
+    "description": "The integrated second shotgun magazine of the Tavor TS12 which holds 5 shots.  It's irremovable.",
+    "weight": "100 g",
+    "volume": "1750 ml",
+    "integral_volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 1,
+      "dispersion": 320,
+      "durability": 6,
+      "clip_size": 5,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "GUNMOD",
+    "name": "TS12 third magazine",
+    "description": "The integrated third shotgun magazine of the Tavor TS12 which holds 5 shots.  It's irremovable.",
+    "weight": "100 g",
+    "volume": "1750 ml",
+    "integral_volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 1,
+      "dispersion": 320,
+      "durability": 6,
+      "clip_size": 5,
       "reload": 120
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -195,8 +245,7 @@
   {
     "id": "m203",
     "type": "GUNMOD",
-    "name": "M203",
-    "name_plural": "M203",
+    "name": { "str": "M203", "str_pl": "M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "1360 g",
     "volume": "500 ml",
@@ -206,7 +255,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -221,8 +270,7 @@
   {
     "id": "m320_mod",
     "type": "GUNMOD",
-    "name": "M320 GLM",
-    "name_plural": "M320 GLM",
+    "name": { "str": "M320 GLM", "str_pl": "M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for stand alone use.",
     "weight": "1500 g",
     "volume": "500 ml",
@@ -232,7 +280,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -245,6 +293,21 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
+    "id": "M6_shotgun",
+    "type": "GUNMOD",
+    "name": "M6 Survival Gun shotgun",
+    "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
+    "volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
+    "flags": [ "RELOAD_EJECT" ]
+  },
+  {
     "id": "makeshift_bayonet",
     "copy-from": "spike",
     "type": "GENERIC",
@@ -255,8 +318,6 @@
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "qualities": [ [ "COOK", 1 ] ],
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
@@ -287,7 +348,7 @@
   {
     "id": "pipe_launcher40mm",
     "type": "GUNMOD",
-    "name": "40mm pipe launcher",
+    "name": { "str": "40mm pipe launcher" },
     "description": "This is a home built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "2080 g",
     "volume": "750 ml",
@@ -297,7 +358,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
   {
@@ -419,11 +480,10 @@
     "id": "lead_glm",
     "copy-from": "m320_mod",
     "type": "GUNMOD",
-    "name": "LW GLM",
-    "name_plural": "LW GLM",
+    "name": { "str": "LW GLM", "str_pl": "LW GLM" },
     "description": "The Leadworks built in Grenade Launcher Module offers the functionality of larger launchers in a very small package.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
   }

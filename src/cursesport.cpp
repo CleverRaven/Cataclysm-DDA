@@ -119,8 +119,7 @@ inline void addedchar( cata_cursesport::WINDOW *win )
 
 //Borders the window with fancy lines!
 void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl,
-                          chtype tr,
-                          chtype bl, chtype br )
+                          chtype tr, chtype bl, chtype br )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
@@ -129,73 +128,35 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     }
     int i = 0;
     int j = 0;
-    point old = win->cursor; //methods below move the cursor, save the value!
+    point old = win->cursor; // methods below move the cursor, save the value!
 
-    if( ls ) {
-        for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, point( 0, j ), ls );
-        }
-    } else {
-        for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, point( 0, j ), LINE_XOXO );
-        }
+    const chtype border_ls = ls ? ls : LINE_XOXO;
+    const chtype border_rs = rs ? rs : LINE_XOXO;
+    const chtype border_ts = ts ? ts : LINE_OXOX;
+    const chtype border_bs = bs ? bs : LINE_OXOX;
+    const chtype border_tl = tl ? tl : LINE_OXXO;
+    const chtype border_tr = tr ? tr : LINE_OOXX;
+    const chtype border_bl = bl ? bl : LINE_XXOO;
+    const chtype border_br = br ? br : LINE_XOOX;
+
+    for( j = 1; j < win->height - 1; j++ ) {
+        mvwaddch( win_, point( 0, j ), border_ls );
     }
-
-    if( rs ) {
-        for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, point( win->width - 1, j ), rs );
-        }
-    } else {
-        for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, point( win->width - 1, j ), LINE_XOXO );
-        }
+    for( j = 1; j < win->height - 1; j++ ) {
+        mvwaddch( win_, point( win->width - 1, j ), border_rs );
     }
-
-    if( ts ) {
-        for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, point( i, 0 ), ts );
-        }
-    } else {
-        for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, point( i, 0 ), LINE_OXOX );
-        }
+    for( i = 1; i < win->width - 1; i++ ) {
+        mvwaddch( win_, point( i, 0 ), border_ts );
     }
-
-    if( bs ) {
-        for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, point( i, win->height - 1 ), bs );
-        }
-    } else {
-        for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, point( i, win->height - 1 ), LINE_OXOX );
-        }
+    for( i = 1; i < win->width - 1; i++ ) {
+        mvwaddch( win_, point( i, win->height - 1 ), border_bs );
     }
+    mvwaddch( win_, point_zero, border_tl );
+    mvwaddch( win_, point( win->width - 1, 0 ), border_tr );
+    mvwaddch( win_, point( 0, win->height - 1 ), border_bl );
+    mvwaddch( win_, point( win->width - 1, win->height - 1 ), border_br );
 
-    if( tl ) {
-        mvwaddch( win_, point_zero, tl );
-    } else {
-        mvwaddch( win_, point_zero, LINE_OXXO );
-    }
-
-    if( tr ) {
-        mvwaddch( win_, point( win->width - 1, 0 ), tr );
-    } else {
-        mvwaddch( win_, point( win->width - 1, 0 ), LINE_OOXX );
-    }
-
-    if( bl ) {
-        mvwaddch( win_, point( 0, win->height - 1 ), bl );
-    } else {
-        mvwaddch( win_, point( 0, win->height - 1 ), LINE_XXOO );
-    }
-
-    if( br ) {
-        mvwaddch( win_, point( win->width - 1, win->height - 1 ), br );
-    } else {
-        mvwaddch( win_, point( win->width - 1, win->height - 1 ), LINE_XOOX );
-    }
-
-    //methods above move the cursor, put it back
+    // methods above move the cursor, put it back
     wmove( win_, old );
     wattroff( win_, c_white );
 }
@@ -203,14 +164,9 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 void catacurses::mvwhline( const window &win, const point &p, chtype ch, int n )
 {
     wattron( win, BORDER_COLOR );
-    if( ch ) {
-        for( int i = 0; i < n; i++ ) {
-            mvwaddch( win, p + point( i, 0 ), ch );
-        }
-    } else {
-        for( int i = 0; i < n; i++ ) {
-            mvwaddch( win, p + point( i, 0 ), LINE_OXOX );
-        }
+    const chtype hline_char = ch ? ch : LINE_OXOX;
+    for( int i = 0; i < n; i++ ) {
+        mvwaddch( win, p + point( i, 0 ), hline_char );
     }
     wattroff( win, BORDER_COLOR );
 }
@@ -218,14 +174,9 @@ void catacurses::mvwhline( const window &win, const point &p, chtype ch, int n )
 void catacurses::mvwvline( const window &win, const point &p, chtype ch, int n )
 {
     wattron( win, BORDER_COLOR );
-    if( ch ) {
-        for( int j = 0; j < n; j++ ) {
-            mvwaddch( win, p + point( 0, j ), ch );
-        }
-    } else {
-        for( int j = 0; j < n; j++ ) {
-            mvwaddch( win, p + point( 0, j ), LINE_XOXO );
-        }
+    const chtype vline_char = ch ? ch : LINE_XOXO;
+    for( int j = 0; j < n; j++ ) {
+        mvwaddch( win, p + point( 0, j ), vline_char );
     }
     wattroff( win, BORDER_COLOR );
 }

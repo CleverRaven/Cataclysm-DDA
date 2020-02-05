@@ -35,11 +35,11 @@ class profession
         struct itypedec {
             std::string type_id;
             /** Snippet id, @see snippet_library. */
-            std::string snippet_id;
+            snippet_id snip_id;
             // compatible with when this was just a std::string
-            itypedec( const char *t ) : type_id( t ) {
+            itypedec( const std::string &t ) : type_id( t ), snip_id( snippet_id::NULL_ID() ) {
             }
-            itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
+            itypedec( const std::string &t, const snippet_id &d ) : type_id( t ), snip_id( d ) {
             }
         };
         using itypedecvec = std::vector<itypedec>;
@@ -76,14 +76,14 @@ class profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( JsonObject &jo, const std::string &src );
-        static void load_item_substitutions( JsonObject &jo );
+        static void load_profession( const JsonObject &jo, const std::string &src );
+        static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession

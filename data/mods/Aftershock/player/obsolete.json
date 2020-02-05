@@ -1,0 +1,34 @@
+[
+  {
+    "type": "profession",
+    "ident": "afs_circus_strongman",
+    "name": { "male": "Circus Strongman", "female": "Circus Strongwoman" },
+    "description": "You were born with a genetic defect that made your body unnaturally strong.  Your life was strange and multifaceted, and ultimately, you ended up traveling with a troupe up and down the coastline, putting on shows of strength  (NOTE: To preserve balance, choose this profession *before* adjusting your stats.  Or don't.  I'm a description, not a cop.)",
+    "points": 2,
+    "traits": [ "AFS_PROF_STRONGMAN" ],
+    "items": { "both": [ "b_shorts", "undershirt" ], "male": [ "briefs" ], "female": [ "boy_shorts" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PROF_SKIIER",
+    "name": "Alpine Conditioning",
+    "description": "Time spent in high altitudes and low temperatures have adapted you to them, and you're slightly better at resisting the cold.",
+    "bodytemp_modifiers": [ 50, 100 ],
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_PROF_STRONGMAN",
+    "name": "Brutal Strength",
+    "description": "Genetic defects have made your body incredibly strong.  Strength + 7.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "cancels": [ "STR_UP" ],
+    "profession": true,
+    "passive_mods": { "str_mod": 7 }
+  }
+]

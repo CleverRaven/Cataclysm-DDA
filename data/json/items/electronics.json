@@ -1,0 +1,33 @@
+[
+  {
+    "id": "magnetron",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "microwave generator",
+    "description": "This electrical component is designed to produce microwaves, for use in your microwave.",
+    "weight": "954 g",
+    "volume": "4 L",
+    "price": 4000,
+    "looks_like": "motor_small",
+    "material": "steel",
+    "symbol": ":",
+    "color": "light_gray"
+  },
+  {
+    "id": "flux_comp_gen",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "explosively pumped flux compression generator",
+    "description": "This large device consists mainly of a tube of copper wire surrounding a large copper tube filled with high explosives.  When detonated properly, the explosives allow the device to produce large amounts of electrical energy in a very short time.",
+    "weight": "3589 g",
+    "volume": "10455 ml",
+    "price": 10000,
+    "explode_in_fire": true,
+    "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
+    "//": "uncraftable right now, needs fiberglass before it can be crafted",
+    "looks_like": "cu_pipe",
+    "material": "copper",
+    "symbol": "|",
+    "color": "brown"
+  }
+]

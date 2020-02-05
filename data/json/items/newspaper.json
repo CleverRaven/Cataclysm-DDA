@@ -182,5 +182,19 @@
     "flags": "TRADER_AVOID",
     "weight": "3 g",
     "volume": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "evac_pamphlet",
+    "category": "books",
+    "name": "FEMA evacuation pamphlet",
+    "description": "Welcome to your Emergency Survival Shelter.  We hope your stay here will be short and comfortable.  Provided are an emergency blanket, high visibility jacket, gas mask, and food and water rations for one day, as well as an emergency lighter and flashlight.  There are further supplies in the communal cabinets should the facility be over its intended capacity.  These resources are checked and updated by FEMA on a regular basis, but if you find some items missing, please contact a FEMA supervisor at your earliest convenience.\n\nPlease wait in the shelter until an official evacuation transport arrives to take you to your homes or, in the event of a major disaster, to the nearest evacuation gathering point.\n\nIn the event that you have been evacuated under violent circumstances, FEMA recommends taking cover in the shelter's basement until help arrives.  Remember: if you leave the shelter, we cannot find you to take you to safety.",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "material": [ "paper" ],
+    "looks_like": "newest_newspaper",
+    "color": "white",
+    "symbol": "?",
+    "flags": "TRADER_AVOID"
   }
 ]

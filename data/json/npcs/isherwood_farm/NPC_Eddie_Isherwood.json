@@ -54,7 +54,7 @@
     "id": "TALK_ISHERWOOD_EDDIE",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need ot keep on walking, straight off this property.",
+      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
       "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
     },
     "responses": [
@@ -145,7 +145,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_EDDIE_LUKE",
-    "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery. He's out in the old outbuilding right now, cleaning up the place.",
+    "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery.  He's out in the old outbuilding right now, cleaning up the place.",
     "speaker_effect": { "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
@@ -174,7 +174,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -211,7 +211,7 @@
       "inquire": "Do you have the stone?",
       "success": "I appreciate it, this will make Luke happy.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
@@ -222,7 +222,6 @@
       "update_mapgen": [
         {
           "om_terrain": "rural_outbuilding",
-          "om_special": "Isherwood Farms",
           "place_nested": [ { "chunks": [ "isherwood_outbuilding_kilns" ], "x": 0, "y": 0 } ],
           "set": [
             { "point": "furniture", "id": "f_kiln_empty", "x": 8, "y": 13 },
@@ -256,9 +255,9 @@
       "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
       "advice": "You can find it along river banks, or maybe landscaping supplies and hardware stores.",
       "inquire": "How is the search going?",
-      "success": "Thanks, now Luke can get started. Here's a token of my thanks.",
+      "success": "Thanks, now Luke can get started.  Here's a token of my thanks.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the sand went..."
+      "failure": "I wonder where all the sand went…"
     }
   },
   {
@@ -290,7 +289,7 @@
       "inquire": "How is the search going?",
       "success": "Thanks, now Luke can get started making jugs, We'd like to give you a cow, Here's Daisy, take good care of her and she'll provide you with milk.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the sand went..."
+      "failure": "I wonder where all the sand went…"
     }
   }
 ]

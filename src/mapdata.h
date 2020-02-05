@@ -50,7 +50,7 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -62,7 +62,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -71,7 +71,7 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
-    bool load( JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, const std::string &member );
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -83,7 +83,7 @@ struct plant_data {
     // What percent of the normal harvest this crop gives
     float harvest_multiplier;
     plant_data();
-    bool load( JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, const std::string &member );
 };
 
 /*
@@ -245,12 +245,13 @@ struct map_data_common_t {
         int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
-        units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
+        // Maximal volume of items that can be stored in/on this furniture
+        units::volume max_volume = 1000_liter;
 
         translation description;
 
         std::array<nc_color, NUM_SEASONS> color_; //The color the sym will draw in on the GUI.
-        void load_symbol( JsonObject &jo );
+        void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
 
@@ -306,7 +307,7 @@ struct map_data_common_t {
                    flags.count( "FLAMMABLE_HARD" ) > 0;
         }
 
-        virtual void load( JsonObject &jo, const std::string &src );
+        virtual void load( const JsonObject &jo, const std::string &src );
         virtual void check() const;
 };
 
@@ -329,7 +330,7 @@ struct ter_t : map_data_common_t {
 
     static size_t count();
 
-    void load( JsonObject &jo, const std::string &src ) override;
+    void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
 
@@ -370,12 +371,14 @@ struct furn_t : map_data_common_t {
 
     static size_t count();
 
-    void load( JsonObject &jo, const std::string &src ) override;
+    bool is_movable() const;
+
+    void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
 
-void load_furniture( JsonObject &jo, const std::string &src );
-void load_terrain( JsonObject &jo, const std::string &src );
+void load_furniture( const JsonObject &jo, const std::string &src );
+void load_terrain( const JsonObject &jo, const std::string &src );
 
 void verify_furniture();
 void verify_terrain();
@@ -431,7 +434,7 @@ extern ter_id t_null,
        t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
        t_portcullis,
        t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open,
-       t_curtains,
+       t_curtains, t_window_bars_curtains, t_window_bars_domestic,
        t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
        t_window_boarded_noglass, t_window_bars_alarm, t_window_bars,
        t_window_stained_green, t_window_stained_red, t_window_stained_blue,
@@ -547,8 +550,7 @@ extern furn_id f_null,
        f_brazier,
        f_firering,
        f_tourist_table,
-       f_camp_chair,
-       f_autodoc_couch;
+       f_camp_chair;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

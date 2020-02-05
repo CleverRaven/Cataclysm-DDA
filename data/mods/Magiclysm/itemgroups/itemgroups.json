@@ -60,7 +60,7 @@
   {
     "type": "item_group",
     "id": "displays",
-    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ] ]
+    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ], [ "cauldron_demon_chitin", 3 ] ]
   },
   {
     "id": "coffee_display_2",
@@ -152,12 +152,41 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "magic_tools_and_loot",
+    "//": "Stuff you would find in an average wizard's workshop or other place where someone stores magical goodies.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_common", "prob": 60 },
+      { "group": "jewelry_safe", "prob": 10 },
+      { "group": "jewelry_front", "prob": 8 },
+      { "group": "potions_common", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "enchanted_wands_lesser", "prob": 15 },
+          { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
+          { "group": "enchanted_rings_common", "prob": 20 },
+          { "group": "enchanted_rings_uncommon", "prob": 5 },
+          { "group": "enchanted_combat_items", "prob": 10 },
+          { "group": "enchanted_belts", "prob": 2 }
+        ],
+        "prob": 15
+      },
+      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      [ "toolbox", 10 ]
+    ]
+  },
+  {
     "id": "demon_spider_lair_treasure",
     "type": "item_group",
     "items": [
       { "group": "potions_common", "prob": 20 },
-      { "group": "magic_shop_wands", "prob": 35 },
-      { "group": "magic_shop_books", "prob": 15 }
+      { "group": "enchanted_wands_lesser", "prob": 15 },
+      { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
+      { "group": "enchanted_rings_common", "prob": 20 },
+      { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_combat_items", "prob": 10 },
+      { "group": "enchanted_belts", "prob": 2 }
     ]
   },
   {
@@ -202,7 +231,7 @@
   {
     "type": "item_group",
     "id": "lair_black_dragon",
-    "//": "Stuff you would find in any dragon deeper lair level. Gold, jewelry, weapons etc. Should require a bit of a fight or risk to access.",
+    "//": "Stuff you would find in any dragon deeper lair level.  Gold, jewelry, weapons etc.  Should require a bit of a fight or risk to access.",
     "items": [
       { "item": "bone_human", "prob": 30, "count-min": 1, "count-max": 5 },
       { "group": "archery", "prob": 1 },
@@ -219,7 +248,7 @@
   {
     "type": "item_group",
     "id": "lair_black_dragon_treasure",
-    "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access. Includes lower tier group, plus the best magic items.",
+    "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access.  Includes lower tier group, plus the best magic items.",
     "items": [
       { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
       { "item": "dragon_black_scale", "count": [ 48, 120 ] },
@@ -252,7 +281,8 @@
       { "item": "mtorch_everburning", "prob": 10 },
       { "item": "mflask_hip_whiskey", "prob": 10 },
       { "item": "mtailors_kit", "prob": 10 },
-      { "item": "mspider_box", "prob": 10 }
+      { "item": "mspider_box", "prob": 10 },
+      { "item": "cauldron_demon_chitin", "prob": 2 }
     ]
   },
   {
@@ -306,6 +336,7 @@
       { "item": "mring_strength_2", "prob": 10 },
       { "item": "mring_dexterity_2", "prob": 10 },
       { "item": "mring_intelligence_2", "prob": 10 },
+      { "item": "mring_dodge_bonus_1", "prob": 10 },
       { "item": "mring_perception_2", "prob": 10 },
       { "item": "mring_speed_5", "prob": 10 },
       { "item": "mring_protection_4", "prob": 10 }
@@ -319,6 +350,7 @@
     "items": [
       { "item": "mring_strength_3", "prob": 10 },
       { "item": "mring_dexterity_3", "prob": 10 },
+      { "item": "mring_dodge_bonus_2", "prob": 10 },
       { "item": "mring_intelligence_3", "prob": 10 },
       { "item": "mring_perception_3", "prob": 10 },
       { "item": "mring_speed_7", "prob": 10 },
@@ -328,7 +360,7 @@
   {
     "id": "enchanted_rings_rare",
     "type": "item_group",
-    "//": "all the rare enchanted rings. High end loot for boss fights, treasure rooms, etc.",
+    "//": "all the rare enchanted rings.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [
       { "item": "mring_strength_4", "prob": 10 },
@@ -370,7 +402,7 @@
   {
     "id": "enchanted_wands_greater",
     "type": "item_group",
-    "//": "rare enchanted wands. High end loot for boss fights, treasure rooms, etc.",
+    "//": "rare enchanted wands.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [
       { "item": "wand_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
@@ -384,7 +416,7 @@
   {
     "id": "enchanted_masks",
     "type": "item_group",
-    "//": "all enchanted masks. High end loot for boss fights, treasure rooms, etc.",
+    "//": "all enchanted masks.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [ { "item": "mmask_disappearance", "prob": 5 }, { "item": "mmask_vision", "prob": 10 } ]
   },
@@ -484,7 +516,7 @@
   {
     "id": "enchanted_melee_weapons_plus2",
     "type": "item_group",
-    "//": "plus 2 enchanted melee weapons. High end loot for boss fights, treasure rooms, etc.",
+    "//": "plus 2 enchanted melee weapons.  High end loot for boss fights, treasure rooms, etc.",
     "items": [
       { "item": "cudgel_plus_two", "prob": 10 },
       { "item": "q_staff_plus_two", "prob": 10 },
@@ -570,6 +602,20 @@
       { "group": "enchanted_worn_items", "prob": 10 },
       { "group": "enchanted_melee_weapons_plus1", "prob": 2 },
       { "group": "enchanted_small_items", "prob": 1 }
+    ]
+  },
+  {
+    "id": "boss_treasure_items",
+    "//": "A distribution of rare magical items treasure rooms.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_combat_items", "prob": 20 },
+      { "group": "enchanted_misc", "prob": 40 },
+      { "group": "enchanted_rings_unusual", "prob": 10 },
+      { "group": "enchanted_rings_rare", "prob": 20 },
+      { "group": "enchanted_wands_greater", "prob": 20 },
+      { "group": "enchanted_wands_lesser", "prob": 10 }
     ]
   }
 ]

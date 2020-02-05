@@ -276,12 +276,11 @@
     "id": "ammo_launcher_grenade",
     "//": "Factory specification grenade launcher ammo intended for military use",
     "items": [
-      [ "40mm_flare", 40 ],
-      [ "40mm_flechette", 10 ],
-      [ "40mm_frag", 120 ],
-      [ "40mm_incendiary", 25 ],
-      [ "40mm_shot", 15 ],
-      [ "40mm_smoke", 60 ]
+      [ "40x53mm_m1001", 10 ],
+      [ "40x46mm_m433", 120 ],
+      [ "40x53mm_m430a1", 75 ],
+      [ "40x46mm_m576", 15 ],
+      [ "40x46mm_m651", 20 ]
     ]
   },
   {
@@ -382,10 +381,8 @@
     "items": [
       { "group": "ammo_cop", "prob": 100 },
       [ "300_winmag", 5 ],
-      [ "40mm_concussive", 5 ],
-      [ "40mm_flashbang", 20 ],
-      [ "40mm_smoke", 5 ],
-      [ "40mm_teargas", 20 ],
+      [ "40x46mm_m433", 5 ],
+      [ "40x46mm_m651", 20 ],
       [ "556", 10 ],
       [ "shot_slug", 20 ]
     ]
@@ -429,6 +426,33 @@
       [ "9x18mm_casing", 80 ],
       [ "shot_hull", 100 ],
       [ "300blk_casing", 80 ]
+    ]
+  },
+  {
+    "id": "casings",
+    "//": "casings list for shooting range.",
+    "type": "item_group",
+    "items": [
+      [ "9mm_casing", 100 ],
+      [ "22_casing", 95 ],
+      [ "38_casing", 75 ],
+      [ "40_casing", 80 ],
+      [ "44_casing", 35 ],
+      [ "45_casing", 65 ],
+      [ "454_casing", 10 ],
+      [ "500_casing", 10 ],
+      [ "57mm_casing", 10 ],
+      [ "46mm_casing", 10 ],
+      [ "762_casing", 85 ],
+      [ "762_51_casing", 50 ],
+      [ "223_casing", 85 ],
+      [ "3006_casing", 40 ],
+      [ "308_casing", 50 ],
+      [ "50_casing", 30 ],
+      [ "700nx_casing", 10 ],
+      [ "300_casing", 60 ],
+      [ "762R_casing", 10 ],
+      [ "32_casing", 70 ]
     ]
   },
   {

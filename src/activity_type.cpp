@@ -45,7 +45,7 @@ static const std::map<std::string, float> activity_levels = {
     { "EXTRA_EXERCISE", EXTRA_EXERCISE }
 };
 
-void activity_type::load( JsonObject &jo )
+void activity_type::load( const JsonObject &jo )
 {
     activity_type result;
 
@@ -117,7 +117,8 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
         pair->second( act, p );
-        sfx::end_activity_sounds(); // kill activity sounds at finish
+        // kill activity sounds at finish
+        sfx::end_activity_sounds();
         return true;
     }
     return false;

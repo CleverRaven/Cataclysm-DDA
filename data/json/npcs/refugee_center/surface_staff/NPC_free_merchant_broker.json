@@ -6,7 +6,7 @@
     "name_suffix": "Broker",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
     "faction": "free_merchants",
     "mission_offered": "MISSION_BROKER_1"
@@ -163,13 +163,13 @@
       "context": "recruit",
       "value": "yes",
       "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
-      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies. These are harsh times.  We're doing what we can for those folks... at least they've got shelter."
+      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies. These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
     }
   },
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
-    "dynamic_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went... wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
+    "dynamic_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went… wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
     "responses": [ { "text": "What went wrong with your staging area?", "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong" } ]
   },
   {
@@ -217,7 +217,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, that's a lot more jars than it sounded on paper.  Thanks.  Here's your payment.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the jars went..."
+      "failure": "I wonder where all the jars went…"
     }
   }
 ]

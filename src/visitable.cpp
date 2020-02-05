@@ -26,8 +26,6 @@
 #include "colony.h"
 #include "point.h"
 
-const efftype_id effect_riding( "riding" );
-
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -118,7 +116,8 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
         if( e->get_quality( qual ) >= level ) {
             qty = sum_no_wrap( qty, static_cast<int>( e->count() ) );
             if( qty >= limit ) {
-                return VisitResponse::ABORT; // found sufficient items
+                // found sufficient items
+                return VisitResponse::ABORT;
             }
         }
         return VisitResponse::NEXT;
@@ -533,7 +532,8 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
     std::list<item> res;
 
     if( count <= 0 ) {
-        return res; // nothing to do
+        // nothing to do
+        return res;
     }
 
     remove_internal( filter, *it, count, res );
@@ -549,7 +549,8 @@ std::list<item> visitable<inventory>::remove_items_with( const
     std::list<item> res;
 
     if( count <= 0 ) {
-        return res; // nothing to do
+        // nothing to do
+        return res;
     }
 
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
@@ -580,6 +581,10 @@ std::list<item> visitable<inventory>::remove_items_with( const
             ++stack;
         }
     }
+
+    // Invalidate binning cache
+    inv->binned = false;
+
     return res;
 }
 
@@ -592,7 +597,8 @@ std::list<item> visitable<Character>::remove_items_with( const
     std::list<item> res;
 
     if( count <= 0 ) {
-        return res; // nothing to do
+        // nothing to do
+        return res;
     }
 
     // first try and remove items from the inventory
@@ -639,7 +645,8 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     std::list<item> res;
 
     if( count <= 0 ) {
-        return res; // nothing to do
+        // nothing to do
+        return res;
     }
 
     if( !g->m.inbounds( *cur ) ) {
@@ -704,7 +711,8 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
     std::list<item> res;
 
     if( count <= 0 ) {
-        return res; // nothing to do
+        // nothing to do
+        return res;
     }
 
     int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );

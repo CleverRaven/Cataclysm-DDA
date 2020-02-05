@@ -16,7 +16,7 @@ struct itype;
 using Item_tag = std::string;
 using Group_tag = std::string;
 class JsonObject;
-class JsonIn;
+class JsonValue;
 class time_point;
 
 namespace item_group
@@ -74,27 +74,28 @@ void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */
-void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
+void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+                      const std::string &subtype );
 /**
  * Get an item group id and (optionally) load an inlined item group.
  *
- * If the next value in the JSON stream is string, it's assumed to be an item group id and it's
+ * If the value is string, it's assumed to be an item group id and it's
  * returned directly.
  *
- * If the next value is a JSON object, it is loaded as item group. The group will be given a
+ * If the value is a JSON object, it is loaded as item group. The group will be given a
  * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
  * If the JSON object does not contain a subtype, the given default is used.
  *
- * If the next value is a JSON array, it is loaded as item group: the default_subtype will be
+ * If the value is a JSON array, it is loaded as item group: the default_subtype will be
  * used as subtype of the new item group and the array is loaded like the "entries" array of
  * a item group definition (see format of item groups).
  *
  * @param stream Stream to load from
  * @param default_subtype If an inlined item group is loaded this is used as the default
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
- * @throw std::string as usual for JSON errors, including invalid input values.
+ * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
+Group_tag load_item_group( const JsonValue &value, const std::string &default_subtype );
 } // namespace item_group
 
 /**
@@ -133,6 +134,7 @@ class Item_spawn_data
          * all linked groups.
          */
         virtual bool remove_item( const Item_tag &itemid ) = 0;
+        virtual bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) = 0;
         virtual bool has_item( const Item_tag &itemid ) const = 0;
 
         virtual std::set<const itype *> every_item() const = 0;
@@ -188,6 +190,7 @@ class Item_modifier
         void modify( item &new_item ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const Item_tag &itemid );
+        bool replace_item( const Item_tag &itemid, const Item_tag &replacementid );
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -235,6 +238,8 @@ class Single_item_creator : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const Item_tag &itemid ) override;
+        bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) override;
+
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;
 };
@@ -279,6 +284,7 @@ class Item_group : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const Item_tag &itemid ) override;
+        bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) override;
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;
 

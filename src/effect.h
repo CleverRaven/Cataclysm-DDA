@@ -36,7 +36,7 @@ enum effect_rating {
 
 class effect_type
 {
-        friend void load_effect_type( JsonObject &jo );
+        friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
         effect_type();
@@ -75,9 +75,9 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jo, const std::string &member );
-        bool load_miss_msgs( JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( JsonObject &jo, const std::string &member );
+        bool load_mod_data( const JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
+        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
@@ -96,10 +96,10 @@ class effect_type
 
         std::set<std::string> flags;
 
-        bool main_parts_only;
+        bool main_parts_only = false;
 
         // Determines if effect should be shown in description.
-        bool show_in_info;
+        bool show_in_info = false;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
@@ -108,21 +108,21 @@ class effect_type
 
         std::vector<std::pair<std::string, int>> miss_msgs;
 
-        bool pain_sizing;
-        bool hurt_sizing;
-        bool harmful_cough;
+        bool pain_sizing = false;
+        bool hurt_sizing = false;
+        bool harmful_cough = false;
         // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
-        bool pkill_addict_reduces;
+        bool pkill_addict_reduces = false;
         // This flag is hard-coded for specific IDs now
         // It needs to be set for monster::move_effects
-        bool impairs_movement;
+        bool impairs_movement = false;
 
         std::vector<translation> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
-        bool part_descs;
+        bool part_descs = false;
 
         std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
@@ -293,7 +293,7 @@ class effect
 
 };
 
-void load_effect_type( JsonObject &jo );
+void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
 
 std::string texitify_base_healing_power( int power );

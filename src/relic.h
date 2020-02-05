@@ -32,7 +32,7 @@ class relic
         // returns number of charges that should be consumed
         int activate( Creature &caster, const tripoint &target ) const;
 
-        void load( JsonObject &jo );
+        void load( const JsonObject &jo );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

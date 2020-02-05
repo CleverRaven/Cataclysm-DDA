@@ -2,8 +2,7 @@
   {
     "id": "mag_shotgun",
     "type": "BOOK",
-    "name": "Trap and Field",
-    "name_plural": "Trap and Field",
+    "name": { "str": "Trap and Field", "str_pl": "issues of Trap and Field" },
     "description": "An in-depth magazine all about shotguns and shooting.  There is an informative article about proper shooting stance in the back pages.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -21,8 +20,7 @@
   {
     "id": "manual_shotgun",
     "type": "BOOK",
-    "name": "Shotguns: The art and science",
-    "name_plural": "Shotguns: The art and science",
+    "name": { "str": "Shotguns: The Art and Science", "str_pl": "copies of Shotguns: The Art and Science" },
     "description": "This book claims to address every problem the shotgunner is likely to face, and offers solutions to ensure that shooters can make every shot count.",
     "weight": "400 g",
     "volume": "500 ml",

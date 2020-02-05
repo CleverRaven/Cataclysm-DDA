@@ -52,7 +52,7 @@
     "id": "wide_headlight_reinforced",
     "name": "reinforced wide-angle headlight",
     "description": "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
-    "weight": "1400 g",
+    "weight": "4800 g",
     "volume": "1250 ml",
     "copy-from": "headlight_reinforced"
   },

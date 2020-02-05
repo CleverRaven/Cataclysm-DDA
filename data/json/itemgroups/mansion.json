@@ -57,37 +57,97 @@
     "subtype": "collection",
     "entries": [
       { "group": "everyday_gear", "prob": 40 },
-      { "group": "shoes", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "shirts", "prob": 60, "damage": [ 0, 4 ] },
-      { "group": "jackets", "prob": 20, "damage": [ 0, 4 ] },
-      { "group": "common_gloves", "prob": 20, "damage": [ 0, 4 ] },
-      { "group": "hatstore_hats", "prob": 20, "damage": [ 0, 4 ] },
-      { "group": "hatstore_accessories", "prob": 20, "damage": [ 0, 4 ] },
-      { "group": "clothing_glasses", "prob": 20, "damage": [ 0, 4 ] },
-      { "group": "jewelry_accessories", "prob": 15 },
-      {
-        "distribution": [
-          { "item": "wristwatch", "prob": 15 },
-          { "item": "pocketwatch", "prob": 5 },
-          { "item": "gold_watch", "prob": 5, "damage": [ 1, 4 ] },
-          { "item": "diving_watch", "prob": 10, "damage": [ 1, 4 ] },
-          { "item": "sf_watch", "prob": 5, "damage": [ 1, 4 ] }
-        ],
-        "prob": 20
-      },
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "prob": 15 },
       {
         "distribution": [
           {
             "collection": [
-              { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] },
-              { "group": "pants_male", "prob": 60, "damage": [ 0, 4 ] },
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "thawb", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "cassock", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] },
               { "group": "corpse_male" }
             ]
           },
           {
             "collection": [
-              { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
-              { "group": "pants_female", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 70
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [
+                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      },
+                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 20
+                  },
+                  {
+                    "collection": [
+                      { "item": "dress_wedding", "damage": [ 1, 4 ] },
+                      { "item": "veil_wedding", "damage": [ 1, 4 ] },
+                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 10
+                  }
+                ]
+              },
               { "group": "corpse_female" }
             ]
           },
@@ -95,6 +155,9 @@
             "collection": [
               { "group": "underwear", "prob": 90, "damage": [ 0, 4 ] },
               { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] },
               { "group": "corpse_child" }
             ]
           }
@@ -228,6 +291,9 @@
       { "item": "wine_noir", "prob": 20, "container-group": "wine_glasses" },
       { "item": "wine_vermouth", "prob": 25, "container-group": "wine_glasses" },
       { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "sherry", "prob": 10, "container-group": "wine_glasses" },
+      { "item": "madeira", "prob": 10, "container-group": "wine_glasses" },
+      { "item": "bristol_sherry", "prob": 10, "container-group": "wine_glasses" },
       { "item": "fruit_wine", "prob": 5, "container-group": "wine_glasses" }
     ]
   },
@@ -244,6 +310,11 @@
       { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
       { "item": "wine_marsala", "prob": 8, "count": [ 1, 12 ] },
       { "item": "wine_vermouth", "prob": 13, "count": [ 1, 12 ] },
+      { "item": "single_pot_whiskey", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "canadian_whiskey", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "sherry", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "bristol_sherry", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "madeira", "prob": 10, "count": [ 1, 12 ] },
       { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
       { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
     ]
@@ -593,20 +664,14 @@
       [ "talking_doll", 50 ],
       [ "basketball", 50 ],
       [ "fc_hairpin", 50 ],
-      [ "fairy_tales", 40 ],
-      [ "child_book", 40 ],
-      [ "manual_dodge_kid", 10 ],
-      [ "tall_tales", 40 ],
+      { "group": "kids_books", "prob": 170 },
       [ "backpack", 40 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "orangesoda", 30 ],
       [ "hairpin", 30 ],
       [ "purple_drink", 20 ],
-      [ "mag_comic", 20 ],
       [ "candy", 20 ],
-      [ "story_book", 10 ],
-      [ "novel_coa", 10 ],
       [ "slingshot", 10 ],
       [ "rock", 10 ],
       [ "bat", 10 ],
@@ -743,7 +808,9 @@
       [ "jar_glass", 50 ],
       [ "jar_3l_glass", 40 ],
       [ "tongs", 25 ],
-      [ "coffeemaker", 10 ]
+      [ "coffeemaker", 10 ],
+      [ "cookbook_daintydishes", 40 ],
+      [ "cookbook_foodfashions", 18 ]
     ]
   },
   {
@@ -776,12 +843,6 @@
       [ "candlestick", 30 ],
       [ "spiral_stone", 2 ]
     ]
-  },
-  {
-    "id": "pantry",
-    "type": "item_group",
-    "subtype": "distribution",
-    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
   },
   {
     "id": "clutter_basement",
@@ -830,13 +891,11 @@
       [ "bottle_plastic", 30 ],
       { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "bag_plastic", 30 ],
-      { "group": "vending_food", "prob": 20 },
       [ "rag_bloody", 20 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       { "group": "tinware", "prob": 20 },
-      { "group": "vending_drink", "prob": 10 },
       [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 }
@@ -872,8 +931,6 @@
       [ "matches", 20 ],
       [ "jersey", 20 ],
       [ "fanny", 20 ],
-      { "group": "vending_drink", "prob": 10 },
-      { "group": "vending_food", "prob": 10 },
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
       [ "contacts", 10 ],
@@ -911,6 +968,7 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
+      [ "toothbrush_plain", 10 ],
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },
@@ -1055,10 +1113,7 @@
       [ "gloves_light", 40 ],
       [ "gloves_leather", 30 ],
       [ "flyer", 30 ],
-      [ "mag_news", 20 ],
-      [ "mag_tv", 20 ],
-      [ "mag_beauty", 10 ],
-      [ "mag_glam", 10 ],
+      { "group": "book_mag_gen", "prob": 60 },
       [ "purse", 5 ]
     ]
   },
@@ -1079,7 +1134,10 @@
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
-      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
+      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
+      [ "toilet_paper", 30 ],
+      [ "plunger_toilet", 10 ],
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -1097,29 +1155,20 @@
     "items": [
       { "group": "beer_selection", "prob": 30 },
       { "group": "glass_of_wine", "prob": 30 },
+      { "group": "book_mag_gen", "prob": 120 },
+      { "group": "tobacco_products", "prob": 50 },
       [ "novel_pulp", 30 ],
-      [ "mag_news", 30 ],
-      [ "mag_tv", 30 ],
-      [ "cig", 30 ],
       [ "gum", 30 ],
-      { "group": "vending_drink", "prob": 20 },
-      [ "mag_beauty", 20 ],
-      [ "mag_dude", 20 ],
-      [ "mag_glam", 20 ],
       [ "glass", 20 ],
       [ "bandana", 10 ],
       [ "mp3", 10 ],
       [ "weeks_old_newspaper", 5 ],
       [ "newest_newspaper", 5 ],
-      [ "advanced_ecig", 5 ],
       [ "portable_game", 5 ],
       [ "cell_phone", 1 ],
       [ "smart_phone", 5 ],
       [ "phonebook", 5 ],
       [ "hairpin", 5 ],
-      [ "cigar", 5 ],
-      [ "chaw", 5 ],
-      [ "ecig", 5 ],
       { "group": "tinware", "prob": 5 },
       [ "months_old_newspaper", 4 ],
       [ "one_year_old_newspaper", 3 ],
@@ -1137,16 +1186,11 @@
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
       { "group": "glass_of_wine", "prob": 40 },
-      [ "cig", 30 ],
-      { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
-      [ "cigar", 20 ],
-      [ "ecig", 20 ],
+      { "group": "tobacco_products", "prob": 75 },
       [ "money_bundle", 10 ],
-      [ "advanced_ecig", 5 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
-      [ "chaw", 5 ],
       { "item": "cash_card", "prob": 1, "charges-min": 25000, "charges-max": 100000 }
     ]
   },
@@ -1168,7 +1212,7 @@
     "id": "wetbar_fridge",
     "type": "item_group",
     "subtype": "distribution",
-    "groups": [ [ "beer_selection", 70 ], [ "vending_drink", 50 ], [ "chilled_wine", 20 ] ]
+    "groups": [ [ "beer_selection", 70 ], [ "chilled_wine", 20 ] ]
   },
   {
     "id": "beer_selection",
@@ -1244,7 +1288,12 @@
       [ "sewing_kit", 10 ],
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "group": "harddrugs", "prob": 5 }
+      { "group": "harddrugs", "prob": 5 },
+      [ "hairbrush", 30 ],
+      [ "comb_pocket", 15 ],
+      [ "curler_hair", 10 ],
+      [ "curling_iron", 15 ],
+      [ "brush_toilet", 15 ]
     ]
   },
   {
@@ -1276,7 +1325,9 @@
       [ "nyquil", 5 ],
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
-      [ "joint", 1 ]
+      [ "joint", 1 ],
+      [ "curler_hair", 10 ],
+      [ "hairbrush", 5 ]
     ]
   },
   {
@@ -1505,8 +1556,6 @@
       { "group": "softdrugs", "prob": 30 },
       [ "lighter", 20 ],
       [ "matches", 20 ],
-      { "group": "vending_drink", "prob": 10 },
-      { "group": "vending_food", "prob": 10 },
       [ "pocket_survival", 5 ]
     ]
   },

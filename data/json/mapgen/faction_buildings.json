@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_0" ],
+    "om_terrain": [ "faction_base_camp_0", "faction_base_camp_new_0" ],
     "method": "json",
     "weight": 250,
     "object": {

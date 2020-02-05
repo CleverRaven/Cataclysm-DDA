@@ -4,7 +4,7 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": "barb launching organ",
+    "name": { "str": "barb launching organ" },
     "description": "A mutated organ capable of launching bony barbs at great speed.",
     "material": [ "hflesh" ],
     "flags": [
@@ -28,6 +28,37 @@
     "loudness": 2,
     "range": 12,
     "dispersion": 100,
+    "durability": 8
+  },
+  {
+    "id": "emp_frond",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "electric alien frond" },
+    "description": "Electricity unnaturally arcs from the tips of this alien frond.",
+    "material": [ "hflesh" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "NO_AMMO"
+    ],
+    "skill": "pistol",
+    "ammo_effects": [ "EMP", "LIGHTNING" ],
+    "ranged_damage": { "damage_type": "electric", "amount": 1 },
+    "weight": "540 g",
+    "volume": "750ml",
+    "bashing": 2,
+    "to_hit": 1,
+    "reload_noise_volume": 2,
+    "loudness": 2,
+    "range": 12,
+    "dispersion": 150,
     "durability": 8
   }
 ]

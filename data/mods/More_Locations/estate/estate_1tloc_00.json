@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_1tloc",
-    "comment": "first floor, top left outer corner",
+    "//": "first floor, top left outer corner",
     "weight": 0,
     "method": "json",
     "object": {

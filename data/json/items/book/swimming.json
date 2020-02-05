@@ -2,8 +2,7 @@
   {
     "id": "mag_swimming",
     "type": "BOOK",
-    "name": "Swim Planet",
-    "name_plural": "Swim Planet",
+    "name": { "str": "Swim Planet", "str_pl": "issues of Swim Planet" },
     "description": "The world's leading resource about aquatic sports.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -21,7 +20,7 @@
   {
     "id": "manual_swimming",
     "type": "BOOK",
-    "name": "Water Survival Training Field Manual",
+    "name": { "str": "Water Survival Training Field Manual", "str_pl": "copies of Water Survival Training Field Manual" },
     "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios.",
     "weight": "400 g",
     "volume": "500 ml",

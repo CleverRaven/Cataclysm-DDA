@@ -22,6 +22,7 @@ exemptLabels:
   - "(P4 - Low)"
   - "(P5 - Long-term)"
   - "(S2 - Confirmed)"
+  - "0.E Feature Freeze"
 
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: true

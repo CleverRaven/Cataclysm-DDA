@@ -182,7 +182,7 @@
         { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
         { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
       ],
-      "place_monster": [ { "monster": "mon_tripod", "x": [ 12, 13 ], "y": [ 20, 23 ] } ],
+      "place_monster": [ { "monster": "mon_talon_m202a1", "x": [ 12, 13 ], "y": [ 20, 23 ] } ],
       "monster": { " ": { "monster": "mon_zombie_living_wall", "chance": 20 } },
       "place_monsters": [
         { "monster": "GROUP_COLLAPSED_TOWER", "x": [ 0, 23 ], "y": [ 0, 15 ], "density": 2.5 },

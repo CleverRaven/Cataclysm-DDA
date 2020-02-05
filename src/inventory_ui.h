@@ -2,7 +2,7 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -40,6 +40,9 @@ enum class scroll_direction : int {
 
 struct navigation_mode_data;
 struct inventory_input;
+
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 class inventory_entry
 {
@@ -420,7 +423,7 @@ class selection_column : public inventory_column
 class inventory_selector
 {
     public:
-        inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
+        inventory_selector( player &u, const inventory_selector_preset &preset = default_preset );
         ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
@@ -446,6 +449,11 @@ class inventory_selector
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
 
+        /** Apply filter string to all columns */
+        void set_filter( const std::string &str );
+        /** Get last filter string set by set_filter or entered by player */
+        std::string get_filter() const;
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
@@ -453,7 +461,7 @@ class inventory_selector
         bool keep_open = false;
 
     protected:
-        const player &u;
+        player &u;
         const inventory_selector_preset &preset;
 
         /**
@@ -528,7 +536,7 @@ class inventory_selector
 
     public:
 
-        void update();
+        void update( bool &need_refresh );
 
         /**
          * Select a location
@@ -622,7 +630,7 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( const player &p,
+        inventory_pick_selector( player &p,
                                  const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {}
 
@@ -632,7 +640,7 @@ class inventory_pick_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
-        inventory_multiselector( const player &p, const inventory_selector_preset &preset = default_preset,
+        inventory_multiselector( player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
@@ -645,11 +653,11 @@ class inventory_multiselector : public inventory_selector
 class inventory_compare_selector : public inventory_multiselector
 {
     public:
-        inventory_compare_selector( const player &p );
+        inventory_compare_selector( player &p );
         std::pair<const item *, const item *> execute();
 
     protected:
-        std::vector<inventory_entry *> compared;
+        std::vector<const item *> compared;
 
         void toggle_entry( inventory_entry *entry );
 };
@@ -660,11 +668,11 @@ class inventory_iuse_selector : public inventory_multiselector
 {
     public:
         using GetStats = std::function<stats( const std::map<const item *, int> & )>;
-        inventory_iuse_selector( const player &p,
+        inventory_iuse_selector( player &p,
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
-        std::list<std::pair<int, int>> execute();
+        drop_locations execute();
 
     protected:
         stats get_raw_stats() const override;
@@ -679,9 +687,9 @@ class inventory_iuse_selector : public inventory_multiselector
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
-        inventory_drop_selector( const player &p,
+        inventory_drop_selector( player &p,
                                  const inventory_selector_preset &preset = default_preset );
-        std::list<std::pair<int, int>> execute();
+        drop_locations execute();
 
     protected:
         stats get_raw_stats() const override;

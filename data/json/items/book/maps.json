@@ -33,7 +33,8 @@
         "outpost",
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
-        "police"
+        "police",
+        "mil_base_road_entrance"
       ],
       "message": "You add roads and facilities to your map."
     }
@@ -43,7 +44,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": "survivor's map",
-    "description": "This is a hand-drawn map of the local area.  Whomever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
+    "description": "This is a hand-drawn map of the local area.  Whoever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",
@@ -114,7 +115,16 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "s_restaurant_coffee", "s_restaurant", "bar", "s_pizza_parlor", "s_restaurant_fast" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "s_restaurant_coffee",
+        "s_restaurant",
+        { "om_terrain": "bar", "om_terrain_match_type": "TYPE" },
+        "s_pizza_parlor",
+        "s_restaurant_fast"
+      ],
       "message": "You add roads and restaurants to your map."
     }
   }

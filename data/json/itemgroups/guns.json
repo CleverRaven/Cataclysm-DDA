@@ -15,6 +15,7 @@
       { "item": "sw_22", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "sw_610", "prob": 20, "charges-min": 0, "charges-max": 6 },
       { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 7 },
+      { "item": "model_10_revolver", "prob": 20, "charges-min": 0, "charges-max": 6 },
       { "item": "taurus_spectrum", "prob": 15, "charges-min": 0, "charges-max": 6 },
       { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "p320_357sig", "prob": 10, "charges-min": 0, "charges-max": 14 },
@@ -42,8 +43,9 @@
     "id": "guns_pistol_rare",
     "//": "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
+      { "item": "bond_410", "prob": 20, "charges-min": 0, "charges-max": 2 },
       { "item": "deagle_44", "prob": 35, "charges-min": 0, "charges-max": 8 },
-      { "item": "m1911a1_38super", "prob": 25, "charges-min": 0, "charges-max": 10 },
+      { "item": "m1911a1_38super", "prob": 25, "charges-min": 0, "charges-max": 9 },
       { "item": "fn57", "prob": 80, "charges-min": 0, "charges-max": 20 },
       { "item": "l_enforcer_45", "prob": 25, "charges-min": 0, "charges-max": 6 },
       { "item": "l_lookout_9mm", "prob": 20, "charges-min": 0, "charges-max": 7 },
@@ -81,6 +83,7 @@
     "id": "guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
+      { "item": "af2011a1_38super", "prob": 1, "charges-min": 0, "charges-max": 16 },
       { "item": "bfr", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "cop_38", "prob": 100, "charges-min": 0, "charges-max": 4 },
       { "item": "lemat_revolver", "prob": 150, "charges-min": 0, "charges-max": 9 },
@@ -88,6 +91,7 @@
       { "item": "moss_brownie", "prob": 100, "charges-min": 0, "charges-max": 4 },
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
+      { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 },
       { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
@@ -193,6 +197,7 @@
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
       { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
+      { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 20 },
       { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 20 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 30 },
@@ -292,8 +297,14 @@
     "id": "guns_shotgun_common",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "items": [
-      { "item": "mossberg_500", "prob": 50, "charges-min": 0, "charges-max": 8 },
-      { "item": "remington_870", "prob": 100, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 6 },
+      { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
+      { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
+      { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 10 },
+      { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
+      { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 1 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
       { "item": "shotgun_s", "prob": 30 }
     ]
@@ -301,23 +312,46 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_rare",
-    "//": "Less common shotguns including those only used by police/paramilitary forces.",
-    "items": [
+    "//": "Uncommon or rare shotguns in civilian possession.",
+    "subtype": "distribution",
+    "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
-      { "item": "m1014", "prob": 80, "charges-min": 0, "charges-max": 8 },
-      { "item": "rm120c", "prob": 30, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm228", "prob": 30, "charges-min": 0, "charges-max": 10 },
-      { "item": "l_def_12", "prob": 20, "charges-min": 0, "charges-max": 8 },
-      { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
-      { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
+      { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 16 },
+      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
+      { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
+      { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_readied",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_shotgun_rare", "prob": 22, "contents-group": "sights_shotgun_readied" },
+      { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_static",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_shotgun_rare", "prob": 22, "contents-group": "sights_shotgun_static" },
+      { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_milspec",
-    "//": "Military specification shotguns only ever found at military sites.",
+    "//": "Military shotguns currently in service.",
     "items": [
       { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "remington_870_express", "prob": 50, "charges-min": 0, "charges-max": 6 },
+      { "item": "remington_870_breacher", "prob": 20, "charges-min": 0, "charges-max": 4 },
+      { "item": "mossberg_590", "prob": 50, "charges-min": 0, "charges-max": 9 },
       { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
@@ -325,7 +359,12 @@
     "type": "item_group",
     "id": "guns_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotguns.",
-    "items": [  ]
+    "items": [
+      { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
+      { "item": "streetsweeper", "prob": 4, "charges-min": 0, "charges-max": 12 },
+      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -336,8 +375,7 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
-      { "item": "surv_levershotgun", "prob": 40, "charges-min": 0, "charges-max": 8 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -369,8 +407,8 @@
       [ "LAW_Packed", 200 ],
       [ "m202_flash", 100 ],
       [ "m74_clip", 150 ],
-      [ "m3_carlgustav", 50 ],
-      [ "AT4", 50 ],
+      { "item": "m3_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
+      { "item": "AT4", "prob": 50, "charges-min": 1, "charges-max": 1 },
       [ "84x246mm_he", 100 ],
       [ "84x246mm_hedp", 80 ],
       [ "84x246mm_smoke", 100 ]
@@ -415,6 +453,28 @@
       { "group": "guns_smg_rare", "prob": 30 },
       { "group": "guns_rifle_rare", "prob": 70 },
       { "group": "guns_shotgun_rare", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare_static",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 100 },
+      { "group": "guns_smg_rare", "prob": 30 },
+      { "group": "guns_rifle_rare", "prob": 70 },
+      { "group": "guns_shotgun_rare_static", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare_readied",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 100 },
+      { "group": "guns_smg_rare", "prob": 30 },
+      { "group": "guns_rifle_rare", "prob": 70 },
+      { "group": "guns_shotgun_rare_readied", "prob": 70 }
     ]
   },
   {
@@ -491,6 +551,7 @@
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },
@@ -504,6 +565,7 @@
       { "item": "mossberg_500", "prob": 5, "charges-min": 0, "charges-max": 8 },
       { "item": "remington_870", "prob": 5, "charges-min": 0, "charges-max": 6 },
       { "item": "ruger_1022", "prob": 15, "charges-min": 0, "charges-max": 10 },
+      { "item": "shotgun_410", "prob": 10, "charges-min": 0, "charges-max": 1 },
       { "item": "shotgun_s", "prob": 10 },
       { "item": "shotgun_d", "prob": 10, "charges-min": 0, "charges-max": 2 },
       { "item": "sten", "prob": 20, "charges-min": 0, "charges-max": 32 },

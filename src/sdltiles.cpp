@@ -3,7 +3,7 @@
 #include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
 
-#include <stdint.h>
+#include <cstdint>
 #include <climits>
 #include <algorithm>
 #include <cassert>
@@ -63,7 +63,7 @@
 #endif
 
 #if defined(_WIN32)
-#   if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #       include "platform_win.h"
 #   endif
 #   include <shlwapi.h>
@@ -109,16 +109,16 @@ class Font
 {
     public:
         Font( int w, int h ) :
-#if defined(__ANDROID__)
-            opacity( 1.0f ),
-#endif
             fontwidth( w ), fontheight( h ) { }
         virtual ~Font() = default;
+
+        virtual bool isGlyphProvided( const std::string &ch ) const = 0;
         /**
          * Draw character t at (x,y) on the screen,
          * using (curses) color.
          */
-        virtual void OutputChar( const std::string &ch, int x, int y, unsigned char color ) = 0;
+        virtual void OutputChar( const std::string &ch, int x, int y,
+                                 unsigned char color, float opacity = 1.0f ) = 0;
         virtual void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const;
         bool draw_window( const catacurses::window &w );
         bool draw_window( const catacurses::window &w, int offsetx, int offsety );
@@ -126,9 +126,6 @@ class Font
         static std::unique_ptr<Font> load_font( const std::string &typeface, int fontsize, int fontwidth,
                                                 int fontheight, bool fontblending );
     public:
-#if defined(__ANDROID__)
-        float opacity; // 0-1
-#endif
         // the width of the font, background is always this size
         int fontwidth;
         // the height of the font, background is always this size
@@ -144,7 +141,9 @@ class CachedTTFFont : public Font
         CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
         ~CachedTTFFont() override = default;
 
-        void OutputChar( const std::string &ch, int x, int y, unsigned char color ) override;
+        bool isGlyphProvided( const std::string &ch ) const override;
+        void OutputChar( const std::string &ch, int x, int y,
+                         unsigned char color, float opacity = 1.0f ) override;
     protected:
         SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -181,17 +180,35 @@ class BitmapFont : public Font
         BitmapFont( int w, int h, const std::string &typeface_path );
         ~BitmapFont() override = default;
 
-        void OutputChar( const std::string &ch, int x, int y, unsigned char color ) override;
-        void OutputChar( int t, int x, int y, unsigned char color );
+        bool isGlyphProvided( const std::string &ch ) const override;
+        void OutputChar( const std::string &ch, int x, int y,
+                         unsigned char color, float opacity = 1.0f ) override;
+        void OutputChar( int t, int x, int y,
+                         unsigned char color, float opacity = 1.0f );
         void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
         int tilewidth;
 };
 
-static std::unique_ptr<Font> font;
-static std::unique_ptr<Font> map_font;
-static std::unique_ptr<Font> overmap_font;
+class FontFallbackList : public Font
+{
+    public:
+        FontFallbackList( int w, int h, const std::vector<std::string> &typefaces,
+                          int fontsize, bool fontblending );
+        ~FontFallbackList() override = default;
+
+        bool isGlyphProvided( const std::string &ch ) const override;
+        void OutputChar( const std::string &ch, int x, int y,
+                         unsigned char color, float opacity = 1.0f ) override;
+    protected:
+        std::vector<std::unique_ptr<Font>> fonts;
+        std::map<std::string, std::vector<std::unique_ptr<Font>>::iterator> glyph_font;
+};
+
+static std::unique_ptr<FontFallbackList> font;
+static std::unique_ptr<FontFallbackList> map_font;
+static std::unique_ptr<FontFallbackList> overmap_font;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
@@ -362,10 +379,14 @@ static void WinCreate()
 #if !defined(__ANDROID__)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+        fullscreen = true;
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+    } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
+        window_flags |= SDL_WINDOW_MAXIMIZED;
     }
 #endif
 
@@ -403,7 +424,8 @@ static void WinCreate()
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
-    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP ) {
+    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
+        || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
@@ -483,7 +505,8 @@ static void WinCreate()
 
 #if defined(__ANDROID__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
-    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP ) {
+    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
+        || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
     }
 
@@ -656,8 +679,13 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return CreateTextureFromSurface( renderer, sglyph );
 }
 
+bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
+{
+    return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
+}
+
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
-                                const unsigned char color )
+                                const unsigned char color, const float opacity )
 {
     key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
 
@@ -676,51 +704,105 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
         return;
     }
     SDL_Rect rect {x, y, value.width, fontheight};
-#if defined(__ANDROID__)
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
     }
-#endif
     RenderCopy( renderer, value.texture, nullptr, &rect );
-#if defined(__ANDROID__)
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), 255 );
     }
-#endif
 }
 
-void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
+bool BitmapFont::isGlyphProvided( const std::string &ch ) const
+{
+    const uint32_t t = UTF8_getch( ch );
+    switch( t ) {
+        case LINE_XOXO_UNICODE:
+        case LINE_OXOX_UNICODE:
+        case LINE_XXOO_UNICODE:
+        case LINE_OXXO_UNICODE:
+        case LINE_OOXX_UNICODE:
+        case LINE_XOOX_UNICODE:
+        case LINE_XXXO_UNICODE:
+        case LINE_XXOX_UNICODE:
+        case LINE_XOXX_UNICODE:
+        case LINE_OXXX_UNICODE:
+        case LINE_XXXX_UNICODE:
+            return true;
+        default:
+            return t < 256;
+    }
+}
+
+void BitmapFont::OutputChar( const std::string &ch, const int x, const int y,
+                             const unsigned char color, const float opacity )
 {
     const int t = UTF8_getch( ch );
-    BitmapFont::OutputChar( t, x, y, color );
+    BitmapFont::OutputChar( t, x, y, color, opacity );
 }
 
-void BitmapFont::OutputChar( int t, int x, int y, unsigned char color )
+void BitmapFont::OutputChar( const int t, const int x, const int y,
+                             const unsigned char color, const float opacity )
 {
-    if( t > 256 ) {
-        return;
+    if( t <= 256 ) {
+        SDL_Rect src;
+        src.x = ( t % tilewidth ) * fontwidth;
+        src.y = ( t / tilewidth ) * fontheight;
+        src.w = fontwidth;
+        src.h = fontheight;
+        SDL_Rect rect;
+        rect.x = x;
+        rect.y = y;
+        rect.w = fontwidth;
+        rect.h = fontheight;
+        if( opacity != 1.0f ) {
+            SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
+        }
+        RenderCopy( renderer, ascii[color], &src, &rect );
+        if( opacity != 1.0f ) {
+            SDL_SetTextureAlphaMod( ascii[color].get(), 255 );
+        }
+    } else {
+        unsigned char uc = 0;
+        switch( t ) {
+            case LINE_XOXO_UNICODE:
+                uc = LINE_XOXO_C;
+                break;
+            case LINE_OXOX_UNICODE:
+                uc = LINE_OXOX_C;
+                break;
+            case LINE_XXOO_UNICODE:
+                uc = LINE_XXOO_C;
+                break;
+            case LINE_OXXO_UNICODE:
+                uc = LINE_OXXO_C;
+                break;
+            case LINE_OOXX_UNICODE:
+                uc = LINE_OOXX_C;
+                break;
+            case LINE_XOOX_UNICODE:
+                uc = LINE_XOOX_C;
+                break;
+            case LINE_XXXO_UNICODE:
+                uc = LINE_XXXO_C;
+                break;
+            case LINE_XXOX_UNICODE:
+                uc = LINE_XXOX_C;
+                break;
+            case LINE_XOXX_UNICODE:
+                uc = LINE_XOXX_C;
+                break;
+            case LINE_OXXX_UNICODE:
+                uc = LINE_OXXX_C;
+                break;
+            case LINE_XXXX_UNICODE:
+                uc = LINE_XXXX_C;
+                break;
+            default:
+                return;
+        }
+        draw_ascii_lines( uc, x, y, color );
     }
-    SDL_Rect src;
-    src.x = ( t % tilewidth ) * fontwidth;
-    src.y = ( t / tilewidth ) * fontheight;
-    src.w = fontwidth;
-    src.h = fontheight;
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = fontwidth;
-    rect.h = fontheight;
-#if defined(__ANDROID__)
-    if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
-    }
-#endif
-    RenderCopy( renderer, ascii[color], &src, &rect );
-#if defined(__ANDROID__)
-    if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( ascii[color].get(), 255 );
-    }
-#endif
 }
 
 #if defined(__ANDROID__)
@@ -1689,17 +1771,12 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
-        handle_redraw();
+        SetupRenderTarget();
+        game_ui::init_ui();
 
         return true;
     }
     return false;
-}
-
-void handle_redraw()
-{
-    SetupRenderTarget();
-    game_ui::init_ui();
 }
 
 void toggle_fullscreen_window()
@@ -2227,10 +2304,10 @@ void draw_quick_shortcuts()
                      text_scale;
         }
         text_y = ( WindowHeight - ( height + font->fontheight * text_scale ) * 0.5f ) / text_scale;
-        font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f;
-        font->OutputChar( text, text_x + 1, text_y + 1, 0 );
-        font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f;
-        font->OutputChar( text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
+        font->OutputChar( text, text_x + 1, text_y + 1, 0,
+                          get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
+        font->OutputChar( text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
+                          get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
         if( hovered ) {
             // draw a second button hovering above the first one
             font->OutputChar( text, text_x, text_y - ( height * 1.2f / text_scale ),
@@ -2247,15 +2324,14 @@ void draw_quick_shortcuts()
                                   hint_length );    // scale to fit comfortably
                 }
                 SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
-                font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f;
                 text_x = ( WindowWidth - ( ( font->fontwidth  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
                 text_y = ( WindowHeight - font->fontheight * text_scale ) * 0.5f / text_scale;
-                font->OutputChar( hint_text, text_x + 1, text_y + 1, 0 );
-                font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f;
-                font->OutputChar( hint_text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
+                font->OutputChar( hint_text, text_x + 1, text_y + 1, 0,
+                                  get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
+                font->OutputChar( hint_text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
+                                  get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
             }
         }
-        font->opacity = 1.0f;
         SDL_RenderSetScale( renderer.get(), 1.0f, 1.0f );
         i++;
         if( ( i + 1 ) * width > WindowWidth ) {
@@ -2790,6 +2866,14 @@ static void CheckMessages()
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
                     case SDL_WINDOWEVENT_EXPOSED:
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        // Main menu redraw
+                        reinitialize_framebuffer();
+                        // TODO: redraw all game menus if they are open
+                        needupdate = true;
+                        break;
                     case SDL_WINDOWEVENT_RESTORED:
                         needupdate = true;
 #if defined(__ANDROID__)
@@ -2926,7 +3010,8 @@ static void CheckMessages()
             case SDL_JOYBUTTONDOWN:
                 last_input = input_event( ev.jbutton.button, CATA_INPUT_KEYBOARD );
                 break;
-            case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
+            case SDL_JOYAXISMOTION:
+                // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
                 break;
             case SDL_MOUSEMOTION:
@@ -3219,8 +3304,8 @@ static void save_font_list()
 {
     try {
         std::set<std::string> bitmap_fonts;
-        write_to_file( FILENAMES["fontlist"], [&]( std::ostream & fout ) {
-            font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
+        write_to_file( PATH_INFO::fontlist(), [&]( std::ostream & fout ) {
+            font_folder_list( fout, PATH_INFO::fontdir(), bitmap_fonts );
 
 #if defined(_WIN32)
             constexpr UINT max_dir_len = 256;
@@ -3256,31 +3341,18 @@ static void save_font_list()
     } catch( const std::exception &err ) {
         // This is called during startup, the UI system may not be initialized (because that
         // needs the font file in order to load the font for it).
-        dbg( D_ERROR ) << "Faied to create fontlist file \"" << FILENAMES["fontlist"] << "\": " <<
+        dbg( D_ERROR ) << "Faied to create fontlist file \"" << PATH_INFO::fontlist() << "\": " <<
                        err.what();
     }
 }
 
 static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
 {
-    const std::string fontlist_path = FILENAMES["fontlist"];
+    const std::string fontlist_path = PATH_INFO::fontlist();
     std::ifstream fin( fontlist_path.c_str() );
     if( !fin.is_open() ) {
-        // Try opening the fontlist at the old location.
-        fin.open( FILENAMES["legacy_fontlist"].c_str() );
-        if( !fin.is_open() ) {
-            dbg( D_INFO ) << "Generating fontlist";
-            assure_dir_exist( FILENAMES["config_dir"] );
-            save_font_list();
-            fin.open( fontlist_path.c_str() );
-            if( !fin ) {
-                dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
-                return cata::nullopt;
-            }
-        } else {
-            // Write out fontlist to the new location.
-            save_font_list();
-        }
+        // Write out fontlist to the new location.
+        save_font_list();
     }
     if( fin.is_open() ) {
         std::string fname;
@@ -3481,14 +3553,12 @@ void catacurses::init_interface()
     load_soundset();
 
     // Reset the font pointer
-    font = Font::load_font( fl.typeface, fl.fontsize, fl.fontwidth, fl.fontheight, fl.fontblending );
-    if( !font ) {
-        throw std::runtime_error( "loading font data failed" );
-    }
-    map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight,
-                                fl.fontblending );
-    overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
-                                    fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
+    font = std::make_unique<FontFallbackList>( fl.fontwidth, fl.fontheight,
+            fl.typeface, fl.fontsize, fl.fontblending );
+    map_font = std::make_unique<FontFallbackList>( fl.map_fontwidth, fl.map_fontheight,
+               fl.map_typeface, fl.map_fontsize, fl.fontblending );
+    overmap_font = std::make_unique<FontFallbackList>( fl.overmap_fontwidth, fl.overmap_fontheight,
+                   fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
@@ -3517,7 +3587,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
         // Try to load as bitmap font.
         try {
             return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
-                                          FILENAMES["fontdir"] + typeface ) );
+                                          PATH_INFO::fontdir() + typeface ) );
         } catch( std::exception &err ) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
@@ -3712,7 +3782,7 @@ int get_scaling_factor()
 BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )
     : Font( w, h )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "]." ;
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
     if( asciiload->w * asciiload->h < ( fontwidth * fontheight * 256 ) ) {
@@ -3811,21 +3881,21 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
         typeface = *sysfnt;
-        dbg( D_INFO ) << "Using font [" + typeface + "]." ;
+        dbg( D_INFO ) << "Using font [" + typeface + "].";
     }
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
-        dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
+        typeface = PATH_INFO::fontdir() + typeface + ".ttf";
+        dbg( D_INFO ) << "Using compatible font [" + typeface + "].";
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
-        dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
+        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
+        dbg( D_INFO ) << "Using fallback font [" + typeface + "].";
     }
-    dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;
+    dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";
     if( fontsize <= 0 ) {
         fontsize = fontheight - 1;
     }
@@ -3841,12 +3911,48 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
+FontFallbackList::FontFallbackList( const int w, const int h,
+                                    const std::vector<std::string> &typefaces,
+                                    const int fontsize, const bool fontblending )
+    : Font( w, h )
+{
+    for( const std::string &typeface : typefaces ) {
+        std::unique_ptr<Font> font = Font::load_font( typeface, fontsize, w, h, fontblending );
+        if( !font ) {
+            throw std::runtime_error( "Cannot load font " + typeface );
+        }
+        fonts.emplace_back( std::move( font ) );
+    }
+    if( fonts.empty() ) {
+        throw std::runtime_error( "Typeface list is empty" );
+    }
+}
+
+bool FontFallbackList::isGlyphProvided( const std::string & ) const
+{
+    return true;
+}
+
+void FontFallbackList::OutputChar( const std::string &ch, const int x, const int y,
+                                   const unsigned char color, const float opacity )
+{
+    auto cached = glyph_font.find( ch );
+    if( cached == glyph_font.end() ) {
+        for( auto it = fonts.begin(); it != fonts.end(); ++it ) {
+            if( std::next( it ) == fonts.end() || ( *it )->isGlyphProvided( ch ) ) {
+                cached = glyph_font.emplace( ch, it ).first;
+            }
+        }
+    }
+    ( *cached->second )->OutputChar( ch, x, y, color, opacity );
+}
+
 static int map_font_width()
 {
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_width();
     }
-    return ( map_font ? map_font : font )->fontwidth;
+    return ( map_font ? map_font.get() : font.get() )->fontwidth;
 }
 
 static int map_font_height()
@@ -3854,17 +3960,17 @@ static int map_font_height()
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_height();
     }
-    return ( map_font ? map_font : font )->fontheight;
+    return ( map_font ? map_font.get() : font.get() )->fontheight;
 }
 
 static int overmap_font_width()
 {
-    return ( overmap_font ? overmap_font : font )->fontwidth;
+    return ( overmap_font ? overmap_font.get() : font.get() )->fontwidth;
 }
 
 static int overmap_font_height()
 {
-    return ( overmap_font ? overmap_font : font )->fontheight;
+    return ( overmap_font ? overmap_font.get() : font.get() )->fontheight;
 }
 
 void to_map_font_dim_width( int &w )

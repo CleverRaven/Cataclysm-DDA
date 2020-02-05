@@ -14,8 +14,6 @@
 #include "output.h"
 #include "enums.h"
 
-extern bool trigdist;
-
 void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
 {
@@ -228,43 +226,6 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
         } );
     }
     return line;
-}
-
-float trig_dist( const point &loc1, const point &loc2 )
-{
-    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
-}
-
-float trig_dist( const tripoint &loc1, const tripoint &loc2 )
-{
-    return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
-                 ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
-                 ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
-}
-
-int square_dist( const point &loc1, const point &loc2 )
-{
-    const point d = abs( loc1 - loc2 );
-    return std::max( d.x, d.y );
-}
-
-int square_dist( const tripoint &loc1, const tripoint &loc2 )
-{
-    const tripoint d = abs( loc1 - loc2 );
-    return std::max( { d.x, d.y, d.z } );
-}
-
-int rl_dist( const point &a, const point &b )
-{
-    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
-}
-
-int rl_dist( const tripoint &loc1, const tripoint &loc2 )
-{
-    if( trigdist ) {
-        return trig_dist( loc1, loc2 );
-    }
-    return square_dist( loc1, loc2 );
 }
 
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )

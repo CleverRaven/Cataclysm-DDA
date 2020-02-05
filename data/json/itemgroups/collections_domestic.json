@@ -14,7 +14,8 @@
     "items": [
       { "group": "dishes_dining", "prob": 100 },
       { "group": "dishes_utility", "prob": 50 },
-      { "group": "kitchen_appliances", "prob": 25 }
+      { "group": "kitchen_appliances", "prob": 25 },
+      { "group": "SUS_cooking_bookcase", "prob": 15 }
     ]
   },
   {
@@ -163,6 +164,66 @@
         "prob": 10
       },
       { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_home",
+    "items": [
+      [ "iodine", 5 ],
+      [ "prussian_blue", 5 ],
+      [ "textbook_chemistry", 8 ],
+      [ "brewing_cookbook", 4 ],
+      [ "adv_chemistry", 6 ],
+      [ "water_clean", 80 ],
+      [ "salt_water", 30 ],
+      { "item": "bleach", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      [ "yeast", 2 ],
+      [ "royal_jelly", 8 ],
+      [ "superglue", 20 ],
+      [ "bottle_glass", 10 ],
+      [ "syringe", 4 ],
+      [ "adrenaline_injector", 2 ],
+      [ "1st_aid", 4 ],
+      [ "saline", 1 ],
+      [ "extinguisher", 20 ],
+      [ "hotplate", 10 ],
+      [ "thermometer", 10 ],
+      [ "funnel", 50 ],
+      [ "jar_glass", 20 ],
+      [ "jar_3l_glass", 15 ],
+      [ "apron_leather", 3 ],
+      [ "pur_tablets", 15 ],
+      [ "lye_powder", 20 ],
+      [ "oxy_powder", 24 ],
+      [ "chemistry_set", 10 ],
+      [ "sm_extinguisher", 20 ],
+      [ "eyedrops", 25 ],
+      [ "charcoal", 15 ],
+      [ "tin", 15 ],
+      [ "chem_hydrogen_peroxide", 15 ],
+      { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
+      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
+      { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
+      [ "chem_muriatic_acid", 15 ],
+      [ "denat_alcohol", 10 ]
+    ]
+  },
+  {
+    "id": "mail",
+    "type": "item_group",
+    "items": [
+      { "group": "magazines", "prob": 515 },
+      { "item": "weeks_old_newspaper", "prob": 95, "count-min": 3, "count-max": 5 },
+      { "item": "newest_newspaper", "prob": 100, "count-min": 3, "count-max": 5 },
+      [ "flyer", 80 ],
+      [ "survnote", 3 ],
+      [ "touristmap", 3 ],
+      [ "trailmap", 3 ],
+      [ "phonebook", 60 ],
+      { "group": "religious_books", "prob": 4 }
     ]
   }
 ]

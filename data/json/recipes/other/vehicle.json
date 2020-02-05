@@ -52,7 +52,7 @@
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ], [ [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_superior_short", 1, "LIST" ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "result": "filter_air_makeshift",

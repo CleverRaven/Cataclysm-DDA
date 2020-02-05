@@ -586,7 +586,7 @@ Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 
 ### 2.5.6 "items"
 Places items from an item group. Values:
-- "item": (required, string) the item group to use.
+- "item": (required, string or itemgroup object) the item group to use.
 - "chance": (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 - "repeat": (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 

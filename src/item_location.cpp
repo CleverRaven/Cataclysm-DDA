@@ -254,6 +254,10 @@ class item_location::impl::item_on_person : public item_location::impl
 
         void serialize( JsonOut &js ) const override {
             if( !ensure_who_unpacked() ) {
+                // Write an invalid item_location to avoid invalid json
+                js.start_object();
+                js.member( "type", "null" );
+                js.end_object();
                 return;
             }
             js.start_object();
@@ -541,7 +545,13 @@ void item_location::deserialize( JsonIn &js )
 
     if( type == "character" ) {
         character_id who_id;
-        obj.read( "character", who_id );
+        if( obj.has_member( "character" ) ) {
+            obj.read( "character", who_id );
+        } else {
+            // This is for migrating saves before npc item locations were supported and all
+            // character item locations were assumed to be on g->u
+            who_id = g->u.getID();
+        }
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {

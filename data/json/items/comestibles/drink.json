@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_cider",
-    "name": "apple cider",
-    "name_plural": "apple cider",
+    "name": { "str": "apple cider", "str_pl": "apple cider" },
     "weight": "263 g",
     "color": "brown",
     "spoils_in": "6 days",
@@ -26,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_milk",
-    "name": "almond milk",
+    "name": { "str": "almond milk" },
     "weight": "258 g",
     "color": "white",
     "spoils_in": "3 days",
@@ -108,7 +107,7 @@
     "weight": "238 g",
     "color": "white",
     "spoils_in": "1 day",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
@@ -116,8 +115,9 @@
     "description": "A dense, sweet creamy sauce, often used in curries.",
     "price": 350,
     "material": "fruit",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "phase": "liquid",
+    "charges": 2,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
     "fun": 1
   },
@@ -294,29 +294,6 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 5
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "con_milk",
-    "name": "condensed milk",
-    "name_plural": "condensed milk",
-    "weight": "32 g",
-    "color": "white",
-    "spoils_in": "1 day",
-    "container": "can_food",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 12,
-    "calories": 103,
-    "description": "Cow's milk that has been partly dehydrated, and also sweetened.  A key ingredient in many sweets.",
-    "price": 70,
-    "material": [ "milk", "junk" ],
-    "primary_material": "milk",
-    "volume": "250 ml",
-    "phase": "liquid",
-    "charges": 10,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
-    "fun": 3
   },
   {
     "type": "COMESTIBLE",
@@ -653,14 +630,13 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
   },
   {
     "type": "COMESTIBLE",
     "id": "milk_reconstituted",
-    "name": "reconstituted milk",
-    "name_plural": "reconstituted milk",
+    "name": { "str": "reconstituted milk", "str_pl": "reconstituted milk" },
     "copy-from": "milk",
     "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
   },
@@ -687,7 +663,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -712,7 +688,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -727,7 +703,7 @@
     "symbol": "~",
     "quench": 35,
     "healthy": 2,
-    "calories": 123,
+    "calories": 108,
     "description": "Freshly-squeezed from real oranges!  Tasty and nutritious.",
     "price": 90,
     "material": "fruit",
@@ -871,9 +847,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "rehydration_drink",
+    "name": "rehydration drink",
+    "weight": "257 g",
+    "color": "light_cyan",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 60,
+    "calories": 12,
+    "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but it tastes kind of strange.",
+    "price": 55,
+    "material": "water",
+    "volume": "250 ml",
+    "looks_like": "sports_drink",
+    "phase": "liquid",
+    "fun": -2
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "sweet_water",
-    "name": "sweet water",
-    "name_plural": "sweet water",
+    "name": { "str": "sweet water", "str_pl": "sweet water" },
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",
@@ -959,7 +953,8 @@
     "name": "clean water",
     "name_plural": "clean water",
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "use_action": [  ]
   },
   {
     "id": "water_mineral",
@@ -970,6 +965,7 @@
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
     "container": "bottle_plastic",
     "proportional": { "quench": 1.2 },
-    "relative": { "fun": 1 }
+    "relative": { "fun": 1 },
+    "use_action": [  ]
   }
 ]

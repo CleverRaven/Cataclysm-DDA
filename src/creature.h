@@ -275,7 +275,7 @@ class Creature
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
-        virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
@@ -299,7 +299,7 @@ class Creature
         /** Returns true if we are immune to the field type with the given fid. Does not
          *  handle intensity, so this function should only be called through is_dangerous_field().
          */
-        virtual bool is_immune_field( const field_type_id ) const {
+        virtual bool is_immune_field( const field_type_id & ) const {
             return false;
         }
 
@@ -333,7 +333,7 @@ class Creature
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                                  bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
@@ -402,6 +402,7 @@ class Creature
         virtual int get_num_dodges() const;
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
+        virtual int get_num_dodges_base() const;
 
         virtual int get_env_resist( body_part bp ) const;
 
@@ -474,7 +475,7 @@ class Creature
         virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus( int nblocks );
-        virtual void set_num_dodges_bonus( int ndodges );
+        virtual void mod_num_dodges_bonus( int ndodges );
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
@@ -779,7 +780,7 @@ class Creature
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
 
-        static void load_hit_range( JsonObject & );
+        static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
         static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**
@@ -818,7 +819,7 @@ class Creature
         // Store data of *this* class in the stream
         void store( JsonOut &jsout ) const;
         // Load creature data from the given json object.
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
     private:
         int pain;

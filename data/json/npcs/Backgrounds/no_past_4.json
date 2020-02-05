@@ -2,7 +2,7 @@
   {
     "id": "BGSS_NO_PAST_4_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Who I was is gone.  All that stuff burned away in <the_cataclysm>.  Got it?  Who I am now started two days into it.  I was on the run from a big-ass hell zombie, running like I'd always been doing, when I found a steel baseball bat just laying on the ground.  I took it as a sign and beat that gooey bastard to a pulp... and that's when I became me.  I still run, because who doesn't, but I stand my ground now.",
+    "dynamic_line": "Who I was is gone.  All that stuff burned away in <the_cataclysm>.  Got it?  Who I am now started two days into it.  I was on the run from a big-ass hell zombie, running like I'd always been doing, when I found a steel baseball bat just laying on the ground.  I took it as a sign and beat that gooey bastard to a pulp… and that's when I became me.  I still run, because who doesn't, but I stand my ground now.",
     "responses": [
       { "text": "What happened to you after that?", "topic": "BGSS_NO_PAST_4_STORY2" },
       {

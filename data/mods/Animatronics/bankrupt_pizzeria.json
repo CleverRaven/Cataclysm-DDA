@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "pizza_display",
-    "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
+    "items": [ [ "pizza_meat", 50 ], [ "pizza_veggy", 50 ] ]
   },
   {
     "type": "item_group",
@@ -33,8 +33,8 @@
       [ "sauce_pesto", 12 ],
       [ "zucchini", 13 ],
       [ "tomato", 10 ],
-      [ "mushroom_magic", 2 ],
-      [ "mushroom_poison", 1 ],
+      { "item": "mushroom", "prob": 2, "custom-flags": [ "HIDDEN_HALLU" ] },
+      { "item": "mushroom", "prob": 1, "custom-flags": [ "HIDDEN_POISON" ] },
       [ "mushroom", 27 ],
       [ "sausage", 25 ],
       [ "pineapple", 20 ]
@@ -168,7 +168,7 @@
     "type": "overmap_terrain",
     "id": "bankruptpizzeria",
     "name": "Bankrupt Pizzeria",
-    "sym": 94,
+    "sym": "^",
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
@@ -251,7 +251,6 @@
             "I": "f_hay"
           },
           "toilets": { "t": {  } },
-          "comment": "randomly picked from a group ---v",
           "place_items": [
             { "item": "pizza_display", "x": 11, "y": 5, "chance": 60 },
             { "item": "pizza_kitchen", "x": 17, "y": 16, "chance": 60 },
@@ -289,12 +288,10 @@
             { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 10, "y": 1, "density": 0.1 },
             { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 11, "y": 1, "density": 0.1 },
             { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 1, "y": 13, "density": 0.1 }
-          ],
-          "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v",
-        "flags": [ "SIDEWALK" ]
+          ]
+        }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

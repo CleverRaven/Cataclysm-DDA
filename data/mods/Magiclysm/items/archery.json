@@ -12,7 +12,7 @@
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow_orichalcum",
+    "ammo": [ "arrow_orichalcum", "arrow" ],
     "weight": "740 g",
     "volume": "5 L",
     "bashing": 14,
