@@ -343,7 +343,7 @@
     "name": { "str": "firecracker (lit)", "str_pl": "firecrackers (lit)" },
     "description": "A firecracker that has been lit; the fuse is hissing.  Throw it quickly before it explodes.",
     "weight": "3 g",
-    "volume": "250 ml",
+    "volume": "10 ml",
     "price": 0,
     "to_hit": -3,
     "bashing": 1,
