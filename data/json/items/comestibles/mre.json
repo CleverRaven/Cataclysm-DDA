@@ -87,8 +87,7 @@
     "id": "mre_spaghetti_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Spaghetti",
-    "name_plural": "MREs - Spaghetti",
+    "name": { "str": "MRE - Spaghetti", "str_pl": "MREs - Spaghetti" },
     "description": "A 'Meal Ready to Eat' with a spaghetti entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -131,8 +130,7 @@
     "id": "mre_chilimac_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Chili & Macaroni",
-    "name_plural": "MREs - Chili & Macaroni",
+    "name": { "str": "MRE - Chili & Macaroni", "str_pl": "MREs - Chili & Macaroni" },
     "description": "A 'Meal Ready to Eat' with a chili & macaroni entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -147,8 +145,7 @@
     "id": "mre_macaronimarinara_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Macaroni Marinara",
-    "name_plural": "MREs - Macaroni Marinara",
+    "name": { "str": "MRE - Macaroni Marinara", "str_pl": "MREs - Macaroni Marinara" },
     "description": "A 'Meal Ready to Eat' with a macaroni marinara entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -156,8 +153,7 @@
     "id": "mre_cheesetort_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Cheese Tortellini",
-    "name_plural": "MREs - Cheese Tortellini",
+    "name": { "str": "MRE - Cheese Tortellini", "str_pl": "MREs - Cheese Tortellini" },
     "description": "A 'Meal Ready to Eat' with a cheese tortellini entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -165,8 +161,7 @@
     "id": "mre_mushroomfettuccine_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Mushroom Fettuccine",
-    "name_plural": "MREs - Mushroom Fettuccine",
+    "name": { "str": "MRE - Mushroom Fettuccine", "str_pl": "MREs - Mushroom Fettuccine" },
     "description": "A 'Meal Ready to Eat' with a mushroom fettuccine entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -174,8 +169,7 @@
     "id": "mre_mexicanchickenstew_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Mexican Chicken Stew",
-    "name_plural": "MREs - Mexican Chicken Stew",
+    "name": { "str": "MRE - Mexican Chicken Stew", "str_pl": "MREs - Mexican Chicken Stew" },
     "description": "A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_beef_box"
   },

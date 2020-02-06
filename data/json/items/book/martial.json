@@ -21,8 +21,7 @@
     "id": "manual_capoeira",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Capoeira 100",
-    "name_plural": "Capoeira 100",
+    "name": { "str": "Capoeira 100", "str_pl": "Capoeira 100" },
     "description": "A complete guide to Capoeira.",
     "book_data": { "martial_art": "style_capoeira" }
   },
@@ -75,8 +74,7 @@
     "id": "manual_judo",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Kodokan Judo",
-    "name_plural": "Kodokan Judo",
+    "name": { "str": "Kodokan Judo", "str_pl": "Kodokan Judo" },
     "description": "A complete guide to Judo.",
     "book_data": { "martial_art": "style_judo" }
   },
@@ -93,8 +91,7 @@
     "id": "manual_krav_maga",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Complete Krav Maga",
-    "name_plural": "Complete Krav Maga",
+    "name": { "str": "Complete Krav Maga", "str_pl": "Complete Krav Maga" },
     "description": "A complete guide to Krav Maga.",
     "book_data": { "martial_art": "style_krav_maga" }
   },
@@ -129,8 +126,7 @@
     "id": "manual_ninjutsu",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Essence of Ninjutsu",
-    "name_plural": "Essence of Ninjutsu",
+    "name": { "str": "Essence of Ninjutsu", "str_pl": "Essence of Ninjutsu" },
     "description": "A complete guide to Ninjutsu.",
     "book_data": { "martial_art": "style_ninjutsu" }
   },
@@ -183,8 +179,7 @@
     "id": "manual_taekwondo",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Official Taekwondo Training Manual",
-    "name_plural": "Official Taekwondo Training Manual",
+    "name": { "str": "Official Taekwondo Training Manual", "str_pl": "Official Taekwondo Training Manual" },
     "description": "A complete guide to Taekwondo.",
     "book_data": { "martial_art": "style_taekwondo" }
   },
@@ -192,8 +187,7 @@
     "id": "manual_tai_chi",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Becoming One with the Tao",
-    "name_plural": "Becoming One with the Tao",
+    "name": { "str": "Becoming One with the Tao", "str_pl": "Becoming One with the Tao" },
     "description": "A complete guide to T'ai Chi Ch'uan.",
     "book_data": { "martial_art": "style_tai_chi" }
   },
@@ -246,8 +240,7 @@
     "id": "manual_wingchun",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Beautiful Springtime",
-    "name_plural": "Beautiful Springtime",
+    "name": { "str": "Beautiful Springtime", "str_pl": "Beautiful Springtime" },
     "description": "A complete guide to Wing Chun Kung-fu.",
     "book_data": { "martial_art": "style_wingchun" }
   },
@@ -255,8 +248,7 @@
     "id": "manual_medievalpole",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Fior Di Battaglia",
-    "name_plural": "Fior Di Battaglia",
+    "name": { "str": "Fior Di Battaglia", "str_pl": "Fior Di Battaglia" },
     "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms… there are even pictures!",
     "book_data": { "martial_art": "style_medievalpole" }
   },
@@ -264,8 +256,7 @@
     "id": "manual_swordsmanship",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Historic European Swordfighting",
-    "name_plural": "Historic European Swordfighting",
+    "name": { "str": "Historic European Swordfighting", "str_pl": "Historic European Swordfighting" },
     "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for longsword and side sword, in and out of armor, with and without shield.",
     "book_data": { "martial_art": "style_swordsmanship" }
   }
