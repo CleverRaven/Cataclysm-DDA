@@ -55,8 +55,7 @@
   {
     "id": "ear_plugs",
     "type": "ARMOR",
-    "name": "pair of ear plugs",
-    "name_plural": "pairs of ear plugs",
+    "name": { "str": "pair of ear plugs", "str_pl": "pairs of ear plugs" },
     "description": "Industrial grade ear plugs.  They fit inside the ear.",
     "weight": "10 g",
     "volume": "10 ml",
@@ -242,8 +241,7 @@
   {
     "id": "welding_mask_crude_raised",
     "type": "ARMOR",
-    "name": "crude welding mask (raised)",
-    "name_plural": "crude welding masks (raised)",
+    "name": { "str": "crude welding mask (raised)", "str_pl": "crude welding masks (raised)" },
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to lower it over your face.",
     "weight": "4 kg",
     "volume": "4 L",
@@ -267,8 +265,7 @@
   {
     "id": "welding_mask_raised",
     "type": "ARMOR",
-    "name": "welding mask (raised)",
-    "name_plural": "welding masks (raised)",
+    "name": { "str": "welding mask (raised)", "str_pl": "welding masks (raised)" },
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to lower it over your face.",
     "weight": "1 kg",
     "volume": "4 L",
@@ -3038,8 +3035,7 @@
   {
     "id": "attached_ear_plugs_on",
     "type": "ARMOR",
-    "name": "pair of attached ear plugs (in)",
-    "name_plural": "pairs of attached ear plugs (in)",
+    "name": { "str": "pair of attached ear plugs (in)", "str_pl": "pairs of attached ear plugs (in)" },
     "description": "A pair of industrial grade ear plugs attached together by some string.  They are inside your ears, activate them to take them out.",
     "copy-from": "ear_plugs",
     "use_action": {
@@ -3054,8 +3050,7 @@
     "id": "attached_ear_plugs_off",
     "type": "ARMOR",
     "repairs_like": "attached_ear_plugs_on",
-    "name": "pair of attached ear plugs (out)",
-    "name_plural": "pairs of attached ear plugs (out)",
+    "name": { "str": "pair of attached ear plugs (out)", "str_pl": "pairs of attached ear plugs (out)" },
     "description": "A pair of industrial grade ear plugs, they are attached together by some string.  They hang around your neck, use them to plug them in.",
     "copy-from": "attached_ear_plugs_on",
     "use_action": {
