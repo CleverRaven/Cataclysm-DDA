@@ -550,8 +550,7 @@
   {
     "id": "oxy_torch",
     "type": "TOOL",
-    "name": "acetylene torch",
-    "name_plural": "acetylene torches",
+    "name": { "str": "acetylene torch", "str_pl": "acetylene torches" },
     "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It requires connecting to pressurized cylinders of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
     "weight": "1600 g",
     "volume": "1 L",
@@ -1008,8 +1007,7 @@
   {
     "id": "xacto",
     "type": "TOOL",
-    "name": "X-Acto knife",
-    "name_plural": "X-Acto knives",
+    "name": { "str": "X-Acto knife", "str_pl": "X-Acto knives" },
     "description": "This is a small, sharp knife, designed for making precise cuts for textiles or crafts.  It could cause decent damage, but is difficult to hit things with it.  Its small, sharp blade allows for precision strikes in the hands of the skilled.  It is too small to butcher corpses with.",
     "weight": "23 g",
     "volume": "20 ml",

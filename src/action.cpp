@@ -636,6 +636,11 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
 
+    Creature *c = g->critter_at( p );
+    if( c != nullptr && p != g->u.pos() ) {
+        return true;
+    }
+
     const trap &tr = g->m.tr_at( p );
     return tr.can_see( p, g->u );
 }

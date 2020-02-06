@@ -4445,8 +4445,12 @@ void player::try_to_sleep( const time_duration &dur )
 int player::sleep_spot( const tripoint &p ) const
 {
     const int current_stim = get_stim();
-    comfort_level base_level = base_comfort_value( p );
-    int sleepy = static_cast<int>( base_level );
+    const comfort_response_t comfort_info = base_comfort_value( p );
+    if( comfort_info.aid != nullptr ) {
+        add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
+    }
+
+    int sleepy = static_cast<int>( comfort_info.level );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
     if( has_addiction( ADD_SLEEP ) ) {
@@ -5383,10 +5387,12 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
+        bool can_see = ( ( sees( critter ) && g->m.sees( pos(), critter.pos(), 100 ) ) //the call to map.sees is to make sure that even if we can see it through walls
+                         || sees_with_infrared( critter ) );                           //via a mutation or cbm we only attack targets with a line of sight
+        bool in_range = round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
         // TODO: get rid of fake npcs (pos() check)
-        return this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY &&
-        round( rl_dist_exact( pos(), critter.pos() ) ) <= range &&
-        ( sees( critter ) || sees_with_infrared( critter ) );
+        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
+        return valid_target && in_range && can_see;
     } );
 }
 

@@ -3948,6 +3948,7 @@ void Character::update_needs( int rate_multiplier )
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
+
                 // Sleeping on the ground, no bionic = 1x rest_modifier
                 // Sleeping on a bed, no bionic      = 2x rest_modifier
                 // Sleeping on a comfy bed, no bionic= 3x rest_modifier
@@ -3961,7 +3962,7 @@ void Character::update_needs( int rate_multiplier )
                     rest_modifier += 1;
                 }
 
-                comfort_level comfort = base_comfort_value( pos() );
+                const comfort_level comfort = base_comfort_value( pos() ).level;
 
                 if( comfort >= comfort_level::very_comfortable ) {
                     rest_modifier *= 3;
@@ -4883,13 +4884,15 @@ void Character::temp_equalizer( body_part bp1, body_part bp2 )
     temp_cur[bp1] += diff;
 }
 
-Character::comfort_level Character::base_comfort_value( const tripoint &p ) const
+Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
     // As in the latter also checks for fatigue and other variables while this function
     // only looks at the base comfyness of something. It's still subjective, in a sense,
     // as arachnids who sleep in webs will find most places comfortable for instance.
     int comfort = 0;
+
+    comfort_response_t comfort_response;
 
     bool plantsleep = has_trait( trait_CHLOROMORPH );
     bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
@@ -4913,16 +4916,15 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p ) cons
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            vehicle &veh = vp->vehicle();
             const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
-                vehicle_stack items = veh.get_items( carg->part_index() );
-                for( auto &items_it : items ) {
+                const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
+                for( const item &items_it : items ) {
                     if( items_it.has_flag( "SLEEP_AID" ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                        comfort_response.aid = &items_it;
                         break; // prevents using more than 1 sleep aid
                     }
                 }
@@ -4953,16 +4955,17 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p ) cons
             comfort -= g->m.move_cost( p );
         }
 
-        auto items = g->m.i_at( p );
-        for( auto &items_it : items ) {
-            if( items_it.has_flag( "SLEEP_AID" ) ) {
-                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
-                break; // prevents using more than 1 sleep aid
+        if( comfort_response.aid == nullptr ) {
+            const map_stack items = g->m.i_at( p );
+            for( const item &items_it : items ) {
+                if( items_it.has_flag( "SLEEP_AID" ) ) {
+                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                    comfort_response.aid = &items_it;
+                    break; // prevents using more than 1 sleep aid
+                }
             }
         }
-
         if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
@@ -4998,16 +5001,17 @@ Character::comfort_level Character::base_comfort_value( const tripoint &p ) cons
     }
 
     if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
-        return comfort_level::very_comfortable;
+        comfort_response.level = comfort_level::very_comfortable;
     } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
-        return comfort_level::comfortable;
+        comfort_response.level = comfort_level::comfortable;
     } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
-        return comfort_level::slightly_comfortable;
+        comfort_response.level = comfort_level::slightly_comfortable;
     } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
-        return comfort_level::neutral;
+        comfort_response.level = comfort_level::neutral;
     } else {
-        return comfort_level::uncomfortable;
+        comfort_response.level = comfort_level::uncomfortable;
     }
+    return comfort_response;
 }
 
 int Character::blood_loss( body_part bp ) const
