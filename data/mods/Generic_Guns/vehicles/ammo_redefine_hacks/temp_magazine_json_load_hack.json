@@ -147,20 +147,6 @@
     "name": "5.56x45mm ammo belt"
   },
   {
-    "id": "lw223bigmag",
-    "copy-from": "lw223bigmag",
-    "type": "MAGAZINE",
-    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "LW-56 magazine"
-  },
-  {
-    "id": "lw223mag",
-    "copy-from": "lw223mag",
-    "type": "MAGAZINE",
-    "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "LW-32 magazine"
-  },
-  {
     "id": "ruger5",
     "copy-from": "ruger5",
     "type": "MAGAZINE",

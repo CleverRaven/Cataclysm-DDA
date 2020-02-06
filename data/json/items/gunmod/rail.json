@@ -120,16 +120,5 @@
     "name": { "str": "modified gyroscopic stabilizer" },
     "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
-    "id": "lead_stabilizer",
-    "copy-from": "stabilizer",
-    "type": "GUNMOD",
-    "name": { "str": "LW gyroscopic stabilizer" },
-    "description": "An advanced Leadworks built-in gyroscopic stabilizer.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 0,
-    "flags": [ "IRREMOVABLE" ]
   }
 ]
