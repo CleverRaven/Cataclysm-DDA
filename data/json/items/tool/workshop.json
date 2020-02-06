@@ -1020,8 +1020,7 @@
   {
     "id": "wrench",
     "type": "TOOL",
-    "name": "wrench",
-    "name_plural": "wrenches",
+    "name": { "str": "wrench", "str_pl": "wrenches" },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
     "volume": "500 ml",

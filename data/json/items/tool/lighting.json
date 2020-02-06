@@ -232,8 +232,7 @@
   {
     "id": "gasoline_lantern",
     "type": "TOOL",
-    "name": "gasoline lantern (off)",
-    "name_plural": "gasoline lanterns (off)",
+    "name": { "str": "gasoline lantern (off)", "str_pl": "gasoline lanterns (off)" },
     "description": "This is a small gasoline powered lantern.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "1400 g",
     "volume": "750 ml",
