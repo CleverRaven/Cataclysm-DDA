@@ -25,8 +25,7 @@
   },
   {
     "id": "knife_steak",
-    "name": "steak knife",
-    "name_plural": "steak knives",
+    "name": { "str": "steak knife", "str_pl": "steak knives" },
     "type": "TOOL",
     "category": "weapons",
     "description": "This is a sharp knife, designed for cutting meat.  It makes a poor melee weapon, but is decent at butchering corpses.",
