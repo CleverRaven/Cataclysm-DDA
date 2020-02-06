@@ -51,7 +51,7 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "relative": { "price": 500, "pierce": 2, "loudness": 25, "dispersion": 20 }
+    "relative": { "price": 500, "pierce": 4, "loudness": 25, "dispersion": 20 }
   },
   {
     "type": "AMMO",
