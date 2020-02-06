@@ -849,7 +849,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
             }
         }
     }
-    if( spane.items.empty() || liquid_items == static_cast<int>( spane.items.size() ) ) {
+    if( spane.items.empty() || liquid_items == spane.items.size() ) {
         return false;
     }
     bool restore_area = false;
