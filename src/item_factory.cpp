@@ -275,6 +275,27 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
+    // Migrate compataible magazines
+    for( auto kv : obj.magazines ) {
+        for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
+            auto maybe_migrated = migrated_magazines.find( *mag_it );
+            if( maybe_migrated != migrated_magazines.end() ) {
+                mag_it = kv.second.erase( mag_it );
+                kv.second.insert( kv.second.begin(), maybe_migrated->second );
+            } else {
+                ++mag_it;
+            }
+        }
+    }
+
+    // Migrate default magazines
+    for( auto kv : obj.magazine_default ) {
+        auto maybe_migrated = migrated_magazines.find( kv.second );
+        if( maybe_migrated != migrated_magazines.end() ) {
+            kv.second = maybe_migrated->second;
+        }
+    }
+
     if( obj.mod ) {
         // Migrate acceptable ammo and ammo modifiers
         migrate_ammo_set( obj.mod->acceptable_ammo );
@@ -595,6 +616,18 @@ void Item_factory::finalize_item_blacklist()
                 migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
             } else {
                 debugmsg( "Replacement item %s for migrated ammo %s is not ammo.", migrate.second.replace,
+                          migrate.first );
+            }
+        }
+
+        // migrate magazines as well
+        auto maybe_mag = m_templates.find( migrate.first );
+        if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
+            auto replacement = m_templates.find( migrate.second.replace );
+            if( replacement->second.magazine ) {
+                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+            } else {
+                debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.", migrate.second.replace,
                           migrate.first );
             }
         }

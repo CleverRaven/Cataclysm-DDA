@@ -249,6 +249,7 @@ class Item_factory
         GroupMap m_template_groups;
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;
+        std::unordered_map<itype_id, itype_id> migrated_magazines;
 
         /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
