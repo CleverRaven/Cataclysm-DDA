@@ -2,8 +2,7 @@
   {
     "id": "adobe_pallet_full",
     "type": "TOOL",
-    "name": "pallet of wet adobe bricks",
-    "name_plural": "pallets of wet adobe bricks",
+    "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
     "weight": "35000 g",
     "volume": "12500 ml",
@@ -615,8 +614,7 @@
   {
     "id": "pliers",
     "type": "TOOL",
-    "name": "pliers",
-    "name_plural": "pliers",
+    "name": { "str": "pliers", "str_pl": "pliers" },
     "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work.  Anything too complex will require a wrench.",
     "weight": "807 g",
     "volume": "250 ml",
