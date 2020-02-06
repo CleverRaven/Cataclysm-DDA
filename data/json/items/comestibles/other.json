@@ -243,7 +243,7 @@
     "name": "cardboard",
     "looks_like": "paper",
     "category": "spare_parts",
-    "weight": "2 g",
+    "weight": "10 g",
     "color": "brown",
     "comestible_type": "FOOD",
     "symbol": "`",
@@ -252,7 +252,7 @@
     "material": "cardboard",
     "volume": "250 ml",
     "freezing_point": -490,
-    "charges": 50,
+    "charges": 10,
     "fun": -20
   },
   {
