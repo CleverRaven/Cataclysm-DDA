@@ -21,7 +21,7 @@
     "dispersion": 90,
     "durability": 7,
     "blackpowder_tolerance": 24,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -203,7 +203,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": 4,
+    "barrel_length": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
