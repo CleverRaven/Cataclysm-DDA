@@ -2016,8 +2016,9 @@ bool player::disassemble( item_location target, bool interactive )
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
             assign_activity( ACT_DISASSEMBLE, r.time * num_dis );
+        } else {
+            assign_activity( ACT_DISASSEMBLE, r.time );
         }
-        else { assign_activity(ACT_DISASSEMBLE, r.time); }
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
@@ -2027,7 +2028,7 @@ bool player::disassemble( item_location target, bool interactive )
     activity.targets.emplace_back( std::move( target ) );
     activity.str_values.push_back( r.result() );
     // Unused position attribute used to store ammo to disassemble
-    activity.position = std::min( num_dis, obj.charges ); 
+    activity.position = std::min( num_dis, obj.charges );
 
     return true;
 }
