@@ -42,8 +42,7 @@
   },
   {
     "id": "knife_paring",
-    "name": "paring knife",
-    "name_plural": "paring knives",
+    "name": { "str": "paring knife", "str_pl": "paring knives" },
     "type": "TOOL",
     "category": "weapons",
     "description": "This is a short-bladed knife with a sharp blade, made for fine controlled cuts to vegetables without using a cutting board.",

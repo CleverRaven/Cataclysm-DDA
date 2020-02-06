@@ -102,8 +102,7 @@
   {
     "id": "magnifying_glass",
     "type": "TOOL",
-    "name": "magnifying glass",
-    "name_plural": "magnifying glasses",
+    "name": { "str": "magnifying glass", "str_pl": "magnifying glasses" },
     "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
     "weight": "400 g",
     "volume": "250 ml",
