@@ -7685,7 +7685,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
             }
             // use selected row get the start row
-            calcStartPos( iStartPos, iSelPos, iMaxRows, iMenuSize );
+            calcStartPos( iStartPos, iSelPos, iMaxRows - 1, iMenuSize );
 
             // get first visible monster and category
             int iCurMon = iStartPos;
@@ -7695,7 +7695,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 --iCurMon;
             }
 
-            const auto endY = std::min<int>( iMaxRows, iMenuSize );
+            const auto endY = std::min<int>( iMaxRows - 1, iMenuSize );
             for( int y = 0; y < endY; ++y ) {
                 if( CatSortIter != mSortCategory.cend() ) {
                     const int iCurPos = iStartPos + y;
@@ -7718,11 +7718,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 bool is_npc = false;
                 const monster *m = dynamic_cast<monster *>( critter );
                 const npc     *p = dynamic_cast<npc *>( critter );
+                nc_color name_color = critter->basic_symbol_color();
+
+                if( selected ) {
+                    name_color = hilite( name_color );
+                }
 
                 if( m != nullptr ) {
-                    mvwprintz( w_monsters, point( 1, y ), selected ? c_light_green : c_white, m->name() );
+                    mvwprintz( w_monsters, point( 1, y ), name_color, m->name() );
                 } else {
-                    mvwprintz( w_monsters, point( 1, y ), selected ? c_light_green : c_white, critter->disp_name() );
+                    mvwprintz( w_monsters, point( 1, y ), name_color, critter->disp_name() );
                     is_npc = true;
                 }
 
@@ -7736,8 +7741,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sSafemode = _( "<A>dd to safemode Blacklist" );
                     }
 
-                    mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, width - 1 );
-                    shortcut_print( w_monsters, point( 1, getmaxy( w_monsters ) - 2 ),
+                    shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
                                     c_white, c_light_green, sSafemode );
                 }
 
