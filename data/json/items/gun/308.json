@@ -21,7 +21,7 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
   },
   {
@@ -123,7 +123,7 @@
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -238,7 +238,7 @@
     "durability": 6,
     "blackpowder_tolerance": 60,
     "reload": 200,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -276,7 +276,7 @@
     "durability": 9,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
-    "barrel_length": 3,
+    "barrel_length": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },
   {
@@ -314,7 +314,7 @@
     "dispersion": 85,
     "durability": 9,
     "min_cycle_recoil": 2700,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "default_mods": [ "rifle_scope", "cheek_pad" ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ],
     "valid_mod_locations": [

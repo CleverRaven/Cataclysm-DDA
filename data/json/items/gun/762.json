@@ -59,7 +59,7 @@
     "dispersion": 160,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "default_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
