@@ -977,20 +977,17 @@ void Character::modify_morale( item &food, const int nutr )
                     food.type );
     }
 
-    bool spoiled = food.rotten();
-
     // Morale bonus for eating unspoiled food at a nearby table
-    if( !spoiled && !food.has_flag( flag_ALLERGEN_JUNK ) ) {
+    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) ) {
         bool has_table_nearby = false;
         bool has_chair_nearby = false;
         for( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
-                ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ||
-                                         g->m.veh_at( pt )->vehicle().has_part( "FLAT_SURF" ) ) ) ) {
+            const optional_vpart_position vp = g->m.veh_at( pt );
+            if( g->m.has_flag( flag_FLAT_SURF, pt ) ||
+                ( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) ) {
                 has_table_nearby = true;
             }
-            if( g->m.has_flag_furn( flag_CAN_SIT, pt ) || g->m.has_flag( flag_CAN_SIT, pt ) ||
-                ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "SEAT" ) ) ) ) {
+            if( g->m.has_flag( flag_CAN_SIT, pt ) || ( vp && vp->vehicle().has_part( "SEAT" ) ) ) {
                 has_chair_nearby = true;
             }
         }
@@ -1085,7 +1082,7 @@ void Character::modify_morale( item &food, const int nutr )
     }
     const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
                       food.has_flag( flag_USE_EAT_VERB );
-    if( !spoiled && chew && has_trait( trait_SAPROPHAGE ) ) {
+    if( !food.rotten() && chew && has_trait( trait_SAPROPHAGE ) ) {
         // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
         add_morale( MORALE_NO_DIGEST, -75, -400, 30_minutes, 24_minutes );
