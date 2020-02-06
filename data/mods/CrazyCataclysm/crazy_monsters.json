@@ -77,7 +77,7 @@
     "id": "mon_bear_smoky",
     "type": "MONSTER",
     "name": "Smoky bear",
-    "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with maliceâ€¦ and hunger.",
+    "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice… and hunger.",
     "default_faction": "bear",
     "species": [ "ZOMBIE" ],
     "volume": "92500 ml",
@@ -118,5 +118,13 @@
       "NO_BREATHE",
       "FILTHY"
     ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_hulk_hat",
+    "copy-from": "mon_zombie_hulk",
+    "name": "hulk with a funny hat",
+    "description": "A giant slab of festering muscle tissue, its oily eyes blankly regarding the world around it. It has a tiny hat on its head, the garment undamaged by the carnage around it. How cute.",
+    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_hulk_death_drops", 100 ], [ "hatstore_hats", 100 ] ] }
   }
 ]

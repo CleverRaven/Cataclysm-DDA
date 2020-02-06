@@ -79,5 +79,14 @@
       { "monster": "mon_bear_smoky", "freq": 100, "cost_multiplier": 0, "conditions": [ "WINTER" ] }
     ],
     "//": "Additional bears during winter, when they hibernate."
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRUTE",
+    "default": "mon_zombie_brute",
+    "//": "Brute upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_hulk_hat", "freq": 10, "cost_multiplier": 50 }
+    ]
   }
 ]
