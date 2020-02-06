@@ -219,8 +219,7 @@
   {
     "id": "tinderbox_on",
     "type": "TOOL",
-    "name": "ember carrier (lit)",
-    "name_plural": "ember carriers (lit)",
+    "name": { "str": "ember carrier (lit)", "str_pl": "ember carriers (lit)" },
     "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
     "weight": "500 g",
     "volume": "500 ml",

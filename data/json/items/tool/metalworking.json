@@ -34,8 +34,7 @@
   {
     "id": "boltcutters",
     "type": "TOOL",
-    "name": "pair of bolt cutters",
-    "name_plural": "pairs of bolt cutters",
+    "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
     "description": "This is a large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
     "weight": "1224 g",
     "volume": "750 ml",
@@ -242,8 +241,7 @@
   {
     "id": "tongs",
     "type": "TOOL",
-    "name": "pair of metal tongs",
-    "name_plural": "pairs of metal tongs",
+    "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
     "description": "These are long, metal tongs.  They are commonly used for cooking or in metalworking fabrication recipes.",
     "weight": "540 g",
     "volume": "500 ml",

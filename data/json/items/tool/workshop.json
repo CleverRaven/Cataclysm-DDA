@@ -568,8 +568,7 @@
   {
     "id": "paint_brush",
     "type": "TOOL",
-    "name": "paint brush",
-    "name_plural": "paint brushes",
+    "name": { "str": "paint brush", "str_pl": "paint brushes" },
     "description": "A wide brush, suitable for painting walls.",
     "weight": "60 g",
     "volume": "500 ml",
