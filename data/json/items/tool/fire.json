@@ -122,7 +122,7 @@
     "weight": "10 g",
     "volume": 0,
     "price": 10,
-    "material": "paper",
+    "material": "cardboard",
     "symbol": ",",
     "color": "blue",
     "initial_charges": 20,

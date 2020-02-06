@@ -294,7 +294,7 @@
     "weight": "151 g",
     "volume": "1 L",
     "price": 0,
-    "material": "paper",
+    "material": "cardboard",
     "symbol": ")",
     "color": "brown",
     "contains": "1 L"
@@ -309,7 +309,7 @@
     "volume": "2 L",
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
-    "material": "paper",
+    "material": "cardboard",
     "symbol": ")",
     "color": "brown",
     "contains": "3 L"
@@ -324,7 +324,7 @@
     "volume": "3 L",
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
-    "material": "paper",
+    "material": "cardboard",
     "symbol": ")",
     "color": "brown",
     "contains": "5 L",
