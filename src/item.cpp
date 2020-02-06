@@ -8055,7 +8055,7 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     if( is_int ) {
         convert << std::setprecision( 0 );
     } else {
-        convert << std::setprecision( 2 );
+        convert << std::setprecision( 3 );
     }
     convert << std::fixed << Value;
     sValue = convert.str();
