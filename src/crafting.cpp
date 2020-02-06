@@ -2024,7 +2024,7 @@ bool player::disassemble( item_location target, bool interactive )
     activity.index = false;
     activity.targets.emplace_back( std::move( target ) );
     activity.str_values.push_back( r.result() );
-    activity.position = std::min( num_dis,
+    // Unused position attribute used to store ammo to disassemble
                                   obj.charges ); // Unused position attribute used to store ammo to disassemble
 
     return true;
