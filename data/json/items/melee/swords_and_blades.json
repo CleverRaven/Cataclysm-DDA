@@ -67,8 +67,7 @@
   {
     "id": "knife_folding",
     "type": "TOOL",
-    "name": "folding knife",
-    "name_plural": "folding knives",
+    "name": { "str": "folding knife", "str_pl": "folding knives" },
     "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
     "weight": "256 g",
     "volume": "40 ml",
