@@ -179,8 +179,7 @@
     "id": "manual_taekwondo",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Official Taekwondo Training Manual",
-    "name_plural": "Official Taekwondo Training Manual",
+    "name": { "str": "Official Taekwondo Training Manual", "str_pl": "Official Taekwondo Training Manual" },
     "description": "A complete guide to Taekwondo.",
     "book_data": { "martial_art": "style_taekwondo" }
   },
