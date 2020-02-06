@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_raw",
-    "name": "raw milk",
-    "name_plural": "raw milk",
+    "name": { "str": "raw milk", "str_pl": "raw milk" },
     "copy-from": "milk",
     "spoils_in": "12 hours",
     "price": 19,

@@ -29,8 +29,7 @@
     "abstract": "seed_mushroom_base",
     "type": "COMESTIBLE",
     "copy-from": "seed",
-    "name": "mushroom spores",
-    "name_plural": "mushroom spores",
+    "name": { "str": "mushroom spores", "str_pl": "mushroom spores" },
     "description": "Some mushroom spores.",
     "charges": 2,
     "color": "green"

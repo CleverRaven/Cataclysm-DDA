@@ -224,6 +224,7 @@ activity_handlers::finish_functions = {
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
+    { ACT_MILK, milk_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -1272,6 +1273,45 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
     resume_for_multi_activities( *p );
+}
+
+void activity_handlers::milk_finish( player_activity *act, player *p )
+{
+    if( act->coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        return;
+    }
+    const tripoint source_pos = g->m.getlocal( act->coords.at( 0 ) );
+    monster *source_mon = g->critter_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        debugmsg( "could not find source creature for liquid transfer" );
+        return;
+    }
+    auto milked_item = source_mon->ammo.find( "milk_raw" );
+    if( milked_item == source_mon->ammo.end() ) {
+        debugmsg( "animal has no milk ammo type" );
+        return;
+    }
+    if( milked_item->second <= 0 ) {
+        debugmsg( "started milking but udders are now empty before milking finishes" );
+        return;
+    }
+    item milk( milked_item->first, calendar::turn, milked_item->second );
+    milk.set_item_temperature( 311.75 );
+    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+        milked_item->second = 0;
+        if( milk.charges > 0 ) {
+            milked_item->second = milk.charges;
+        } else {
+            p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+        }
+    }
+    // if the monster was not manually tied up, but needed to be fixed in place temporarily then
+    // remove that now.
+    if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
+        source_mon->remove_effect( effect_tied );
+    }
+    act->set_to_null();
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -3086,6 +3126,7 @@ void activity_handlers::try_sleep_query( player_activity *act, player *p )
                           _( "Continue trying to fall asleep and don't ask again." ) );
     sleep_query.query();
     switch( sleep_query.ret ) {
+        case UILIST_CANCEL:
         case 1:
             act->set_to_null();
             break;
