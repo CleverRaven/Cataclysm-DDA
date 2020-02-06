@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_mycus",
-    "name": "marloss wine",
-    "name_plural": "marloss wine",
+    "name": { "str": "marloss wine", "str_pl": "marloss wine" },
     "weight": "33 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -191,8 +190,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_barley",
-    "name": "barley wine",
-    "name_plural": "barley wine",
+    "name": { "str": "barley wine", "str_pl": "barley wine" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -464,8 +462,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_wine",
-    "name": "fruit wine",
-    "name_plural": "fruit wine",
+    "name": { "str": "fruit wine", "str_pl": "fruit wine" },
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
@@ -492,8 +489,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brandy",
-    "name": "brandy",
-    "name_plural": "brandy",
+    "name": { "str": "brandy", "str_pl": "brandy" },
     "weight": "34 g",
     "color": "light_red",
     "addiction_type": "alcohol",
@@ -655,8 +651,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beer",
-    "name": "beer",
-    "name_plural": "beer",
+    "name": { "str": "beer", "str_pl": "beer" },
     "weight": "251 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -709,8 +704,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_wine",
-    "name": "dandelion wine",
-    "name_plural": "dandelion wine",
+    "name": { "str": "dandelion wine", "str_pl": "dandelion wine" },
     "weight": "35 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -847,8 +841,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pale_ale",
-    "name": "American pale ale",
-    "name_plural": "American pale ale",
+    "name": { "str": "American pale ale", "str_pl": "American pale ale" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -875,8 +868,7 @@
   {
     "type": "COMESTIBLE",
     "id": "india_pale_ale",
-    "name": "India pale ale",
-    "name_plural": "India pale ale",
+    "name": { "str": "India pale ale", "str_pl": "India pale ale" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
