@@ -93,7 +93,7 @@
   },
   {
     "id": "fencing_pants",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": "fencing pants",
     "name_plural": "fencing pants",
