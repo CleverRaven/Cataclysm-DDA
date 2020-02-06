@@ -136,8 +136,7 @@
   {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
-    "name": "electric chainsaw (off)",
-    "name_plural": "electric chainsaws (off)",
+    "name": { "str": "electric chainsaw (off)", "str_pl": "electric chainsaws (off)" },
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with batteries, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "weight": "6577 g",
     "volume": "2500 ml",

@@ -135,8 +135,7 @@
   {
     "id": "electric_lantern",
     "type": "TOOL",
-    "name": "electric lantern (off)",
-    "name_plural": "electric lanterns (off)",
+    "name": { "str": "electric lantern (off)", "str_pl": "electric lanterns (off)" },
     "description": "This is a battery-powered lamp.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "980 g",
     "volume": "1 L",
@@ -586,8 +585,7 @@
   {
     "id": "smart_lamp",
     "type": "TOOL",
-    "name": "smart lamp (off)",
-    "name_plural": "smart lamps (off)",
+    "name": { "str": "smart lamp (off)", "str_pl": "smart lamps (off)" },
     "description": "This is a smart lamp, it can be activated remotely.",
     "weight": "400 g",
     "volume": "500 ml",
