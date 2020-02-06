@@ -1138,8 +1138,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-        window_width -= 3; // Padding for "bars" to fit moves_to_fire value.
+        window_width -= bars_pad;
     }
 
     nc_color col = c_dark_gray;
@@ -1153,16 +1154,25 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
     if( display_type != "numbers" ) {
         std::string symbols;
+        int len = 0;
+        int c_len = 0;
         for( const confidence_rating &cr : confidence_config ) {
-            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol,
+            symbols += string_format( "<color_%s>%s</color> = %s ", cr.color, cr.symbol,
                                       pgettext( "aim_confidence", cr.label.c_str() ) );
+            c_len += cr.color.length();
         }
         if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-            print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                    ( "%s" ), symbols ) );
+            fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
+                            c_dark_gray, symbols );
+            // Determine length of string, subtracting color code.
+            // If exceeds window width, increments line number.
+            len += ( utf8_width( symbols ) - ( 3 * 16 ) - c_len );
+            if( len > window_width + bars_pad ) {
+                line_number++;
+            }
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                    _( "Symbols:%s" ), symbols ) );
+                                    _( "Symbols: %s" ), symbols ) );
         }
     }
 
@@ -1174,7 +1184,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
-        std::string label = _( "Current Aim" );
+        std::string label = _( "Current" );
+        std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
@@ -1193,14 +1204,15 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-            print_colored_text( w, point( 1, line_number ), col, col, string_format( ( "%s:" ), label ) );
-            right_print( w, line_number++, 1, c_dark_gray, _( "Moves to fire\u02EF" ) );
+            print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+                                aim_l ) );
+            right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
             right_print( w, line_number, 1, c_light_blue, string_format( ( "%d" ), moves_to_fire ) );
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col,
-                                string_format( _( "<color_white>[%s]</color> %s: Moves to fire: "
+                                string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
                                                   "<color_light_blue>%d</color>" ),
-                                               hotkey, label, moves_to_fire ) );
+                                               hotkey, label, aim_l, moves_to_fire ) );
         }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
@@ -1363,17 +1375,17 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
     }
     thresholds_it = thresholds.begin();
-    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
+    aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
     thresholds_it++;
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
+        aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
         thresholds_it++;
     }
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
+        aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
                                         _( "[%c] to take precise aim and fire." ), true,
                                         *thresholds_it } );
     }
