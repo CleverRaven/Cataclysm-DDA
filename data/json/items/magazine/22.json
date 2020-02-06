@@ -1,6 +1,7 @@
 [
   {
     "id": "22_speedloader8",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": ".22 8-round speedloader",
     "description": "This speedloader can hold 8 rounds of .22 and quickly reload a compatible revolver.",
@@ -85,6 +86,7 @@
   },
   {
     "id": "mosquitomag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "SIG Mosquito magazine",
     "description": "A factory specification 10-round magazine for the SIG Mosquito.",
@@ -136,6 +138,7 @@
   },
   {
     "id": "sw22mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "S&W 22A magazine",
     "description": "A standard capacity magazine for the popular S&W 22A pistol.",
@@ -152,6 +155,7 @@
   },
   {
     "id": "j22mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Jennings J-22 magazine",
     "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
@@ -168,6 +172,7 @@
   },
   {
     "id": "wp22mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Walther P22 magazine",
     "description": "A 10-round box magazine for the Walther P22.",

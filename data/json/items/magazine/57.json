@@ -1,6 +1,7 @@
 [
   {
     "id": "fn57mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "FN-57 magazine",
     "description": "A standard capacity magazine for use with the FN Five-Seven.",

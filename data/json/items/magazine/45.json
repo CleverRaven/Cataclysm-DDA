@@ -1,6 +1,7 @@
 [
   {
     "id": "m1911bigmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "M1911 extended magazine",
     "description": "An extended 10-round magazine for use with the M1911 handgun.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "m1911mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "M1911 magazine",
     "description": "A military issue 7-round magazine for use with the M1911 handgun.",
@@ -162,6 +164,7 @@
   },
   {
     "id": "usp45mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "USP .45 magazine",
     "description": "A standard capacity magazine for use with the H&K USP handgun.",
@@ -178,6 +181,7 @@
   },
   {
     "id": "ppq45mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "PPQ .45 ACP magazine",
     "description": "A 12 round steel box magazine for the Walther PPQ .45 ACP.",
@@ -194,6 +198,7 @@
   },
   {
     "id": "hptjhpmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Model JHP magazine",
     "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP.",
