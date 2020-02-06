@@ -23,7 +23,7 @@
     "weight": "50 g",
     "volume": "100 ml",
     "price": 2000,
-    "material": [ "paper" ],
+    "material": [ "cardboard" ],
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
