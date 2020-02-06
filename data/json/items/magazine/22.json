@@ -16,6 +16,7 @@
   },
   {
     "id": "360_200_mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "RMRB200 .22 magazine",
     "description": "A 200 round box magazine for use with the RM360 rotary carbine.",
@@ -33,6 +34,7 @@
   },
   {
     "id": "360_400_mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "RMRD400 .22 drum magazine",
     "description": "A 400 round drum magazine for use with the RM360 rotary carbine.",
@@ -67,6 +69,7 @@
   },
   {
     "id": "marlin_tubeloader",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": ".22 19-round tube loader",
     "description": "This is a tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with tubular magazine.",
@@ -98,6 +101,7 @@
   },
   {
     "id": "ruger1022bigmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Ruger BX-25 magazine",
     "description": "Extended 25-round stick magazine for the Ruger 10/22.",
@@ -114,6 +118,7 @@
   },
   {
     "id": "ruger1022mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Ruger 10/22 rotary magazine",
     "description": "Removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
