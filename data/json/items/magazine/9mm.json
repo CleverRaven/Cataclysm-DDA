@@ -1,21 +1,5 @@
 [
   {
-    "id": "9mm_speedloader7",
-    "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
-    "name": { "str": "LW-7 speedloader" },
-    "description": "This speedloader, made by Leadworks for use with L2032 Lookout revolver, can hold 7 rounds of 9x19mm and quickly reload a compatible revolver.",
-    "weight": "72 g",
-    "volume": "250 ml",
-    "price": 2800,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "9mm",
-    "capacity": 7,
-    "flags": [ "SPEEDLOADER" ]
-  },
-  {
     "id": "calicomag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
@@ -136,24 +120,6 @@
     "capacity": 100,
     "reliability": 8,
     "flags": [ "MAG_BULKY" ]
-  },
-  {
-    "id": "lw21mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": "LW-21 magazine" },
-    "description": "A 21-round polymer magazine for Leadworks LLC 9x19mm firearms.  Lightweight and reliable but somewhat more difficult to reload.",
-    "weight": "105 g",
-    "volume": "500 ml",
-    "price": 7600,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "9mm",
-    "capacity": 21,
-    "reliability": 10,
-    "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "m9bigmag",
