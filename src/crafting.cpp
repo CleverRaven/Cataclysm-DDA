@@ -2175,7 +2175,8 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
             if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
-            if (dis_item.is_ammo()) { //If ammo, overwrite component count with selected quantity of ammo
+            //If ammo, overwrite component count with selected quantity of ammo
+            if( dis_item.is_ammo() ) {
                 compcount *= activity.position;
             }
             const bool is_liquid = newit.made_of( LIQUID );
