@@ -427,10 +427,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [
-        { "type": "grab", "cooldown": 6 },
-        { "type": "scratch", "cooldown": 15 }
-    ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 15 ] ],
     "death_drops": "mon_zombie_swat_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
