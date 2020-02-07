@@ -62,7 +62,14 @@ std::string vitamin::get_string_level( int qty ) const
         } else if( id_ == "calcium" ) {
             norm_level = 1.1f;
         }
-        const float v_level = norm_level * qty / disease_[0].first;
+        float vlevel = 0.0f;
+        if( ( disease_.size() > 0 ) && !disease_[0].first ) {
+            v_level = norm_level * qty / disease_[0].first;
+        } else if( ( disease_excess_.size() > 0 ) && !disease_excess_[0].first ) {
+            v_level = norm_level * qty / disease_excess_[0].first;
+        } else {
+            return "";
+        }
         if( v_level != 0 ) {
             std::string message = string_format( _( "%s level is %.2f times %s than normal." ), name(),
                                                  std::abs( v_level ), ( v_level < 0  ? _( "higher" ) : _( "lower" ) ) );
@@ -94,7 +101,7 @@ std::string vitamin::get_string_level( int qty ) const
             }
         }
     }
-    return string_format( "%s level is %d.", name(), qty );
+    return "";
 }
 
 void vitamin::load_vitamin( const JsonObject &jo )
