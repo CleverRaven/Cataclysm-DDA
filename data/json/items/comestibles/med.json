@@ -1370,8 +1370,7 @@
     "id": "weak_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "Atreyupan",
-    "name_plural": "Atreyupan",
+    "name": { "str": "Atreyupan", "str_pl": "Atreyupan" },
     "description": "A broad-spectrum antibiotic used to suppress infections and prevent them from setting in.  It isn't strong enough to purge infections outright, but it boosts the body's resistance against them.  One dose lasts twelve hours.",
     "weight": "15 g",
     "volume": "250 ml",
@@ -1383,7 +1382,7 @@
     "color": "white",
     "healthy": -2,
     "use_action": "WEAK_ANTIBIOTIC",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "pepto",

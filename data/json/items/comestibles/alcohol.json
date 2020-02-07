@@ -1059,8 +1059,7 @@
     "type": "COMESTIBLE",
     "id": "canadian_whiskey",
     "copy-from": "whiskey",
-    "name": "Canadian whiskey",
-    "name_plural": "Canadian whiskey",
+    "name": { "str": "Canadian whiskey", "str_pl": "Canadian whiskey" },
     "description": "A multi-grain liquor made from a mash of corn and rye.",
     "price": 2400,
     "fun": 17
@@ -1095,8 +1094,7 @@
     "type": "COMESTIBLE",
     "id": "bristol_sherry",
     "copy-from": "sherry",
-    "name": "Bristol Cream",
-    "name_plural": "Bristol Cream",
+    "name": { "str": "Bristol Cream", "str_pl": "Bristol Cream" },
     "description": "A fine sherry that was been aged in American oak casks and bottled in Bristol, England.",
     "price": 2800,
     "fun": 18

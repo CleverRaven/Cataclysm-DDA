@@ -528,8 +528,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fresh_fries",
-    "name": "French fries",
-    "name_plural": "French fries",
+    "name": { "str": "French fries", "str_pl": "French fries" },
     "copy-from": "fries",
     "spoils_in": "3 days",
     "description": "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
