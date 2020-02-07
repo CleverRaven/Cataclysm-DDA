@@ -575,7 +575,7 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseuso_bio_picklock", 0 );
+        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
         if( invoke_item( &tmp_item ) == 0 ) {
             if( tmp_item.charges > 0 ) {
