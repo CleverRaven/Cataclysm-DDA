@@ -1763,15 +1763,14 @@
     "id": "mobile_memory_card_science",
     "symbol": ",",
     "color": "white",
-    "name": "Science SD-Memory card",
-    "name_plural": "Science SD-Memory cards",
+    "name": { "str": "Science SD-Memory card", "str_pl": "Science SD-Memory cards" },
     "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks *Interesting*, though…",
     "price": 10000,
     "price_postapoc": 0,
     "material": "plastic",
     "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF" ],
     "weight": "5 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
