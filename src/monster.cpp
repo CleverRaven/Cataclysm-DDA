@@ -105,6 +105,7 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
+    udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
 }
 
@@ -356,6 +357,28 @@ void monster::try_reproduce()
         }
 
         *baby_timer += *type->baby_timer;
+    }
+}
+
+void monster::refill_udders()
+{
+    if( !has_flag( MF_MILKABLE ) ) {
+        return;
+    }
+    const auto milked_item = type->starting_ammo.find( "milk_raw" );
+    auto current_milk = ammo.find( "milk_raw" );
+    if( milked_item == type->starting_ammo.end() || current_milk == ammo.end() ) {
+        debugmsg( "%s is milkable but has no milk in its starting ammo!", get_name() );
+        return;
+    }
+    if( current_milk->second == milked_item->second ) {
+        // already full up
+        return;
+    }
+    if( calendar::turn - udder_timer > 1_days ) {
+        // no point granularizing this really, you milk once a day.
+        current_milk->second = milked_item->second;
+        udder_timer = calendar::turn;
     }
 }
 
@@ -2793,6 +2816,7 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+    refill_udders();
 
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;

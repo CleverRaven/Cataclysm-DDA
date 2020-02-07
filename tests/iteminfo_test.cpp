@@ -66,7 +66,7 @@ TEST_CASE( "gun_damage_multiplier_not_integer", "[item][iteminfo]" )
     iteminfo_test(
         item( "compbow" ), q,
         "--\n"
-        "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
+        "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.250</color> = <color_c_yellow>22</color>\n" );
 }
 
 TEST_CASE( "nutrients_in_regular_item", "[item][iteminfo]" )

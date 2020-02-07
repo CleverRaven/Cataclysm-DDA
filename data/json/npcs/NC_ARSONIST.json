@@ -85,7 +85,8 @@
     "items": [
       [ "hammer", 20 ],
       [ "wrench", 20 ],
-      [ "hammer_sledge", 20 ],
+      [ "hammer_sledge", 10 ],
+      [ "hammer_sledge_short", 10 ],
       [ "pipe", 20 ],
       [ "bat", 20 ],
       [ "bat_metal", 20 ],

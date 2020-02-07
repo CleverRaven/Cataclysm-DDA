@@ -1,7 +1,7 @@
 [
   {
     "id": "american_flag",
-    "repairs_like": "miner_hat",
+    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": "American flag",
     "description": "A large American flag made to fly in even the worst conditions.",

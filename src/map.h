@@ -682,6 +682,11 @@ class map
         // a iuse function needs fire.
         bool has_nearby_fire( const tripoint &p, int radius = 1 );
         /**
+         * Check whether a table/workbench/vehicle kitchen or other flat
+         * surface is nearby that could be used for crafting or eating.
+         */
+        bool has_nearby_table( const tripoint &p, int radius = 1 );
+        /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
          * - check for SEALED flag (sealed furniture/terrain makes

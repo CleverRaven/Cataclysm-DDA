@@ -891,13 +891,11 @@
       [ "bottle_plastic", 30 ],
       { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "bag_plastic", 30 ],
-      { "group": "vending_food", "prob": 20 },
       [ "rag_bloody", 20 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       { "group": "tinware", "prob": 20 },
-      { "group": "vending_drink", "prob": 10 },
       [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 }
@@ -933,8 +931,6 @@
       [ "matches", 20 ],
       [ "jersey", 20 ],
       [ "fanny", 20 ],
-      { "group": "vending_drink", "prob": 10 },
-      { "group": "vending_food", "prob": 10 },
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
       [ "contacts", 10 ],
@@ -1163,7 +1159,6 @@
       { "group": "tobacco_products", "prob": 50 },
       [ "novel_pulp", 30 ],
       [ "gum", 30 ],
-      { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
       [ "bandana", 10 ],
       [ "mp3", 10 ],
@@ -1191,7 +1186,6 @@
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
       { "group": "glass_of_wine", "prob": 40 },
-      { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
       { "group": "tobacco_products", "prob": 75 },
       [ "money_bundle", 10 ],
@@ -1218,7 +1212,7 @@
     "id": "wetbar_fridge",
     "type": "item_group",
     "subtype": "distribution",
-    "groups": [ [ "beer_selection", 70 ], [ "vending_drink", 50 ], [ "chilled_wine", 20 ] ]
+    "groups": [ [ "beer_selection", 70 ], [ "chilled_wine", 20 ] ]
   },
   {
     "id": "beer_selection",
@@ -1562,8 +1556,6 @@
       { "group": "softdrugs", "prob": 30 },
       [ "lighter", 20 ],
       [ "matches", 20 ],
-      { "group": "vending_drink", "prob": 10 },
-      { "group": "vending_food", "prob": 10 },
       [ "pocket_survival", 5 ]
     ]
   },

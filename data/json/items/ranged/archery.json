@@ -40,6 +40,26 @@
     "effects": [ "RECOVER_30" ]
   },
   {
+    "id": "arrow_plastic",
+    "type": "AMMO",
+    "symbol": "=",
+    "color": "green",
+    "name": "wooden rubber blunt arrow",
+    "description": "A fletched wooden arrow shaft with a blunt rubber tip.  Can stun weaker enemies.  Stands a good chance of remaining intact once fired.",
+    "price": 500,
+    "material": [ "wood", "plastic" ],
+    "volume": "250 ml",
+    "weight": "60 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "arrow",
+    "prop_damage": 0.2,
+    "dispersion": 250,
+    "loudness": 0,
+    "count": 10,
+    "effects": [ "RECOVER_35", "BEANBAG" ]
+  },
+  {
     "type": "AMMO",
     "id": "arrow_small_game_fletched",
     "price": 300,
