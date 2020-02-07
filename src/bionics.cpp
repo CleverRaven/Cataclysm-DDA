@@ -697,7 +697,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_plutdump ) {
         if( query_yn(
-                _( "WARNING: Purging all fuel is likely to result in radiation !  Purge anyway?" ) ) ) {
+                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
             add_msg_activate();
             slow_rad += ( tank_plut + reactor_plut );
             tank_plut = 0;
