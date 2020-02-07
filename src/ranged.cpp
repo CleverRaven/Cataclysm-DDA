@@ -1155,9 +1155,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( display_type != "numbers" ) {
         int column_number = 1;
         if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
-            auto label = gettext( "Symbols:" );
+            auto label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
-            column_number += strlen( label ) + 1; // 1 for whitespace after 'Symbols:'
+            column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
         for( const confidence_rating &cr : confidence_config ) {
             auto label = pgettext( "aim_confidence", cr.label.c_str() );
@@ -1205,7 +1205,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
             print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
                                 aim_l ) );
             right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
-            right_print( w, line_number, 1, c_light_blue, string_format( ( "%d" ), moves_to_fire ) );
+            right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col,
                                 string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
