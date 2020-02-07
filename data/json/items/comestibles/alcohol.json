@@ -501,8 +501,7 @@
   {
     "type": "COMESTIBLE",
     "id": "irish_coffee",
-    "name": "Irish coffee",
-    "name_plural": "Irish coffee",
+    "name": { "str": "Irish coffee", "str_pl": "Irish coffee" },
     "weight": "260 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -527,8 +526,7 @@
   {
     "type": "COMESTIBLE",
     "id": "long_island",
-    "name": "Long Island iced tea",
-    "name_plural": "Long Island iced tea",
+    "name": { "str": "Long Island iced tea", "str_pl": "Long Island iced tea" },
     "weight": "232 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -1103,8 +1101,7 @@
     "type": "COMESTIBLE",
     "id": "madeira",
     "copy-from": "sherry",
-    "name": "Madeira wine",
-    "name_plural": "Madeira wine",
+    "name": { "str": "Madeira wine", "str_pl": "Madeira wine" },
     "description": "Fortified wine from Madeira.  A true Royal Navy drink.",
     "price": 2400,
     "fun": 15
