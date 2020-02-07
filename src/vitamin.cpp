@@ -62,7 +62,7 @@ std::string vitamin::get_string_level( int qty ) const
         } else if( id_ == "calcium" ) {
             norm_level = 1.1f;
         }
-        float v_level = norm_level * qty / disease_[0].first;
+        const float v_level = norm_level * qty / disease_[0].first;
         if( v_level != 0 ) {
             std::string message = string_format( _( "%s level is %.2f times %s than normal." ), name(),
                                                  std::abs( v_level ), ( v_level < 0  ? _( "higher" ) : _( "lower" ) ) );
