@@ -45,8 +45,7 @@
     "id": "manual_dragon",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Jade Dragon",
-    "name_plural": "The Jade Dragon",
+    "name": { "str": "The Jade Dragon", "str_pl": "The Jade Dragon" },
     "description": "A complete guide to Dragon Kung Fu.",
     "book_data": { "martial_art": "style_dragon" }
   },
@@ -62,8 +61,7 @@
     "id": "manual_fencing",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Modern Swordsman",
-    "name_plural": "The Modern Swordsman",
+    "name": { "str": "The Modern Swordsman", "str_pl": "The Modern Swordsman" },
     "description": "A complete guide to Fencing.",
     "book_data": { "martial_art": "style_fencing" }
   },
@@ -104,8 +102,7 @@
     "id": "manual_lizard",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Lizard Kuo Chui",
-    "name_plural": "The Lizard Kuo Chui",
+    "name": { "str": "The Lizard Kuo Chui", "str_pl": "The Lizard Kuo Chui" },
     "description": "A complete guide to Lizard Kung Fu.",
     "book_data": { "martial_art": "style_lizard" }
   },
@@ -138,8 +135,7 @@
     "id": "manual_pankration",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Modern Pankratiast",
-    "name_plural": "The Modern Pankratiast",
+    "name": { "str": "The Modern Pankratiast", "str_pl": "The Modern Pankratiast" },
     "description": "A complete guide to Pankration.",
     "book_data": { "martial_art": "style_pankration" }
   },
@@ -156,8 +152,7 @@
     "id": "manual_silat",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Indonesian Warrior",
-    "name_plural": "The Indonesian Warrior",
+    "name": { "str": "The Indonesian Warrior", "str_pl": "The Indonesian Warrior" },
     "description": "A complete guide to Pentjak Silat.",
     "book_data": { "martial_art": "style_silat" }
   },
