@@ -2,7 +2,7 @@
   {
     "id": "glowie_power",
     "type": "vehicle_part",
-    "name": "gel generator",
+    "name": { "str": "gel generator" },
     "item": "glowie",
     "location": "center",
     "fuel_type": "bfeed",

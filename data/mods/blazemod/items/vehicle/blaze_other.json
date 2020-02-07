@@ -3,7 +3,7 @@
     "id": "space_anomaly",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": "stabilized portal",
+    "name": { "str": "stabilized portal" },
     "description": "As you gaze into the seemingly infinite depths of this portable hole in reality, a phrase from a time forever gone echoes in your mind.  \"There are two things that are infinite: the universe and human kleptomania.\"",
     "weight": "22813 g",
     "volume": "50 L",

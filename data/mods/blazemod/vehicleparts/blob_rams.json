@@ -2,7 +2,7 @@
   {
     "id": "frostie_ram",
     "type": "vehicle_part",
-    "name": "ice ram",
+    "name": { "str": "ice ram" },
     "item": "frostie",
     "location": "structure",
     "symbol": "X",

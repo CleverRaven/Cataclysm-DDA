@@ -1,48 +1,9 @@
 [
   {
-    "id": "avortexaccelerator",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": "vortex accelerator turret",
-    "item": "vortexaccelerator",
-    "color": "pink",
-    "broken_color": "pink",
-    "size": 5,
-    "folded_volume": 10,
-    "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "avortexbolter",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": "vortex bolter turret",
-    "item": "vortexbolter",
-    "color": "pink",
-    "broken_color": "pink",
-    "size": 10,
-    "folded_volume": 10,
-    "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "avortexrifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": "vortex rifle turret",
-    "item": "vortexrifle",
-    "color": "pink",
-    "broken_color": "pink",
-    "size": 40,
-    "folded_volume": 10,
-    "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
     "id": "vgen",
     "type": "TOOL",
     "category": "veh_parts",
-    "name": "vortex engine",
+    "name": { "str": "vortex engine" },
     "description": "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allows it to be attached to a vehicle to render it mobile.",
     "weight": "62071 g",
     "volume": "56250 ml",
@@ -56,7 +17,7 @@
   {
     "id": "vgen",
     "type": "vehicle_part",
-    "name": "vortex generator",
+    "name": { "str": "vortex generator" },
     "item": "vgen2",
     "location": "engine_block",
     "fuel_type": "vpower",
@@ -89,7 +50,7 @@
   {
     "id": "vgen2",
     "type": "vehicle_part",
-    "name": "vortex engine",
+    "name": { "str": "vortex engine" },
     "item": "vgen",
     "location": "engine_block",
     "fuel_type": "vpower",
@@ -123,7 +84,7 @@
     "id": "vgen2",
     "type": "TOOL",
     "category": "veh_parts",
-    "name": "vortex generator",
+    "name": { "str": "vortex generator" },
     "description": "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allow it to be hooked up to a battery to store the power generated.",
     "weight": "48066 g",
     "volume": "50 L",
@@ -137,7 +98,7 @@
   {
     "id": "vortexaccelerator",
     "type": "GUN",
-    "name": "vortex accelerator",
+    "name": { "str": "vortex accelerator" },
     "description": "This weapon uses powerful bursts of air to launch sharp fragments at its target at high speed.  You'll need some form of platform to mount it on.",
     "weight": "10700 g",
     "volume": "2500 ml",
@@ -162,10 +123,10 @@
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
-    "id": "vortexaccelerator",
+    "id": "mounted_vortexaccelerator",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "vortex accelerator",
+    "name": { "str": "mounted vortex accelerator" },
     "item": "vortexaccelerator",
     "color": "pink",
     "broken_color": "pink",
@@ -175,10 +136,10 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "vortexbolter",
+    "id": "mounted_vortexbolter",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "vortex bolter",
+    "name": { "str": "mounted vortex bolter" },
     "item": "vortexbolter",
     "color": "pink",
     "broken_color": "pink",
@@ -190,7 +151,7 @@
   {
     "id": "vortexbolter",
     "type": "GUN",
-    "name": "vortex bolter",
+    "name": { "str": "vortex bolter" },
     "description": "This weapon uses powerful bursts of air to launch bolts at its target at high speed.  You'll need some form of platform to mount it on.",
     "weight": "8310 g",
     "volume": "2500 ml",
@@ -216,23 +177,10 @@
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
-    "id": "vortexcannon",
+    "id": "mounted_vortexcannon",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "vortex cannon",
-    "item": "vortexcannon",
-    "color": "pink",
-    "broken_color": "pink",
-    "size": 10,
-    "folded_volume": 20,
-    "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "vortexcannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": "vortex cannon turret",
+    "name": { "str": "mounted vortex cannon" },
     "item": "vortexcannon",
     "color": "pink",
     "broken_color": "pink",
@@ -244,7 +192,7 @@
   {
     "id": "vortexcannon",
     "type": "GUN",
-    "name": "vortex cannon",
+    "name": { "str": "vortex cannon" },
     "description": "Essentially a large pneumatic gun made to hurl sharpened metal rails.  Instead of a mechanical system, you've managed to harness the vortex to power this gun.  While powerful for its size, you'll need some form of platform to mount it on.",
     "weight": "21831 g",
     "volume": "5 L",
@@ -267,10 +215,10 @@
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
-    "id": "vortexrifle",
+    "id": "mounted_vortexrifle",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "vortex rifle",
+    "name": { "str": "mounted vortex rifle" },
     "item": "vortexrifle",
     "color": "pink",
     "broken_color": "pink",
@@ -283,7 +231,7 @@
   {
     "id": "vortexrifle",
     "type": "GUN",
-    "name": "vortex rifle",
+    "name": { "str": "vortex rifle" },
     "description": "This weapon uses powerful bursts of air to launch small projectiles at its target at high speed.  You'll need some form of platform to mount it on.",
     "weight": "11759 g",
     "volume": "2500 ml",
@@ -318,8 +266,7 @@
     "id": "vpower",
     "type": "AMMO",
     "category": "chems",
-    "name": "vortex core",
-    "name_plural": "vortex core",
+    "name": { "str": "vortex core" },
     "description": "Seeing this is a bug.",
     "weight": 0,
     "volume": 0,

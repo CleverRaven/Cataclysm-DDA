@@ -2,7 +2,7 @@
   {
     "id": "glowie_battery",
     "type": "vehicle_part",
-    "name": "gel battery",
+    "name": { "str": "gel battery" },
     "item": "glowie",
     "location": "fuel_source",
     "fuel_type": "battery",
@@ -22,7 +22,7 @@
     "id": "glowie_battery_u",
     "type": "vehicle_part",
     "copy-from": "glowie_battery",
-    "name": "gel battery (under)",
+    "name": { "str": "gel battery (under)" },
     "location": "under"
   }
 ]

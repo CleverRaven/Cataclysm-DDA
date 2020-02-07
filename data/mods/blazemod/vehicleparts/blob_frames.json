@@ -9,7 +9,7 @@
   {
     "id": "gloople_horizontal",
     "type": "vehicle_part",
-    "name": "gel framework",
+    "name": { "str": "gel framework" },
     "item": "gloople",
     "location": "structure",
     "symbol": "h",
@@ -76,7 +76,7 @@
   {
     "id": "gray_horizontal",
     "type": "vehicle_part",
-    "name": "gray frame",
+    "name": { "str": "gray frame" },
     "item": "gray",
     "location": "structure",
     "symbol": "h",
@@ -143,7 +143,7 @@
   {
     "id": "oozle_horizontal",
     "type": "vehicle_part",
-    "name": "ooze chassis",
+    "name": { "str": "ooze chassis" },
     "item": "oozle",
     "location": "structure",
     "symbol": "h",

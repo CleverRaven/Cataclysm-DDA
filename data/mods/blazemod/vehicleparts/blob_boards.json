@@ -2,7 +2,7 @@
   {
     "id": "frostie_wall",
     "type": "vehicle_part",
-    "name": "icy windshield",
+    "name": { "str": "icy windshield" },
     "item": "frostie",
     "location": "center",
     "symbol": "\"",
@@ -20,7 +20,7 @@
   {
     "id": "gloopleboard_horizontal",
     "type": "vehicle_part",
-    "name": "gel panel",
+    "name": { "str": "gel panel" },
     "item": "gloople",
     "location": "center",
     "symbol": "h",
@@ -67,7 +67,7 @@
   {
     "id": "grayboard_horizontal",
     "type": "vehicle_part",
-    "name": "gray wall",
+    "name": { "str": "gray wall" },
     "item": "gray",
     "location": "center",
     "symbol": "h",
@@ -115,7 +115,7 @@
   {
     "id": "halfgloopleboard_horizontal",
     "type": "vehicle_part",
-    "name": "gel quarterpanel",
+    "name": { "str": "gel quarterpanel" },
     "item": "gloople",
     "location": "center",
     "symbol": "h",
@@ -175,7 +175,7 @@
   {
     "id": "halfgrayboard_horizontal",
     "type": "vehicle_part",
-    "name": "gray barricade",
+    "name": { "str": "gray barricade" },
     "item": "gray",
     "location": "center",
     "symbol": "h",
@@ -235,7 +235,7 @@
   {
     "id": "halfoozleboard_horizontal",
     "type": "vehicle_part",
-    "name": "ooze screen",
+    "name": { "str": "ooze screen" },
     "item": "oozle",
     "location": "center",
     "symbol": "h",
@@ -295,7 +295,7 @@
   {
     "id": "oozleboard_horizontal",
     "type": "vehicle_part",
-    "name": "ooze barrier",
+    "name": { "str": "ooze barrier" },
     "item": "oozle",
     "location": "center",
     "symbol": "h",

@@ -2,7 +2,7 @@
   {
     "id": "frostie_wheel",
     "type": "vehicle_part",
-    "name": "snow slider",
+    "name": { "str": "snow slider" },
     "item": "frostie_wheel",
     "location": "under",
     "symbol": "|",
@@ -23,7 +23,7 @@
   {
     "id": "gloople_wheel",
     "type": "vehicle_part",
-    "name": "gelatinous wheel",
+    "name": { "str": "gelatinous wheel" },
     "item": "gloople_wheel",
     "location": "under",
     "symbol": "|",
@@ -44,7 +44,7 @@
   {
     "id": "gray_wheel",
     "type": "vehicle_part",
-    "name": "gray wheel",
+    "name": { "str": "gray wheel" },
     "item": "gray_wheel",
     "location": "under",
     "symbol": "|",
@@ -65,7 +65,7 @@
   {
     "id": "grinder",
     "type": "vehicle_part",
-    "name": "earthen roller",
+    "name": { "str": "earthen roller" },
     "item": "grinder",
     "location": "structure",
     "symbol": "O",
@@ -85,7 +85,7 @@
   {
     "id": "oozle_wheel",
     "type": "vehicle_part",
-    "name": "oozing wheel",
+    "name": { "str": "oozing wheel" },
     "item": "oozle_wheel",
     "location": "under",
     "symbol": "|",
