@@ -1680,16 +1680,16 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     hp_cur[hurtpart] -= dam_to_bodypart;
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
-    if( is_limb_broken( hurtpart ) && ( source == nullptr || !source->is_hallucination() ) ) {
-        if( !weapon.is_null() && can_unwield( weapon ).success() ) {
-            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
-            i_rem( &weapon );
-        }
-        if( has_effect( effect_mending, hurt ) ) {
-            effect &e = get_effect( effect_mending, hurt );
-            float remove_mend = dam / 20.0f;
-            e.mod_duration( -e.get_max_duration() * remove_mend );
-        }
+    if( !weapon.is_null() && !can_wield( weapon ).success() && can_unwield( weapon ).success() ) {
+        add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
+                           weapon.display_name() );
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
+        i_rem( &weapon );
+    }
+    if( has_effect( effect_mending, hurt ) && ( source == nullptr || !source->is_hallucination() ) ) {
+        effect &e = get_effect( effect_mending, hurt );
+        float remove_mend = dam / 20.0f;
+        e.mod_duration( -e.get_max_duration() * remove_mend );
     }
 
     if( dam > get_painkiller() ) {
