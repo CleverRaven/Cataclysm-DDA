@@ -4,8 +4,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "American-180",
-    "name_plural": "American-180",
+    "name": { "str": "American-180", "str_pl": "American-180" },
     "description": "The American-180 is a submachine gun developed in the 1960's that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
     "weight": "2600 g",
     "volume": "1250 ml",
@@ -22,7 +21,7 @@
     "durability": 6,
     "min_cycle_recoil": 39,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -140,7 +139,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -215,7 +214,7 @@
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 39,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

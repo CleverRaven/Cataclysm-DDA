@@ -58,6 +58,7 @@
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
 #include "units.h"
 #include "type_id.h"
 #include "clzones.h"
@@ -1883,16 +1884,17 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
                                             monster );
     }
 
-    if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
-        // Create a new item to get the default charges
-        int qty = r.create_result().charges;
-        if( obj.charges < qty ) {
-            auto msg = ngettext( "You need at least %d charge of %s.",
-                                 "You need at least %d charges of %s.", qty );
-            return ret_val<bool>::make_failure( msg, qty, obj.tname() );
+    if( !obj.is_ammo() ) { //we get ammo quantity to disassemble later on
+        if( obj.count_by_charges() && !r.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+            // Create a new item to get the default charges
+            int qty = r.create_result().charges;
+            if( obj.charges < qty ) {
+                auto msg = ngettext( "You need at least %d charge of %s.",
+                                     "You need at least %d charges of %s.", qty );
+                return ret_val<bool>::make_failure( msg, qty, obj.tname() );
+            }
         }
     }
-
     const auto &dis = r.disassembly_requirements();
 
     for( const auto &opts : dis.get_qualities() ) {
@@ -1997,9 +1999,26 @@ bool player::disassemble( item_location target, bool interactive )
             return false;
         }
     }
+    // If we're disassembling ammo, prompt the player to specify amount
+    // This could be extended more generally in the future
+    int num_dis = 0;
+    if( obj.is_ammo() ) {
+        string_input_popup popup_input;
+        const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
+                                  obj.type_name( 1 ), obj.charges );
+        popup_input.title( title ).edit( num_dis );
+        if( popup_input.canceled() || num_dis <= 0 ) {
+            add_msg( _( "Never mind." ) );
+            return false;
+        }
+    }
 
     if( activity.id() != ACT_DISASSEMBLE ) {
-        assign_activity( ACT_DISASSEMBLE, r.time );
+        if( num_dis != 0 ) {
+            assign_activity( ACT_DISASSEMBLE, r.time * num_dis );
+        } else {
+            assign_activity( ACT_DISASSEMBLE, r.time );
+        }
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
@@ -2008,6 +2027,8 @@ bool player::disassemble( item_location target, bool interactive )
     activity.index = false;
     activity.targets.emplace_back( std::move( target ) );
     activity.str_values.push_back( r.result() );
+    // Unused position attribute used to store ammo to disassemble
+    activity.position = std::min( num_dis, obj.charges );
 
     return true;
 }
@@ -2106,7 +2127,12 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
 
     if( dis_item.count_by_charges() ) {
         // remove the charges that one would get from crafting it
-        org_item.charges -= dis.create_result().charges;
+        if( org_item.is_ammo() ) {
+            //subtract selected number of rounds to disassemble
+            org_item.charges -= activity.position;
+        } else {
+            org_item.charges -= dis.create_result().charges;
+        }
     }
     // remove the item, except when it's counted by charges and still has some
     if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
@@ -2139,6 +2165,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
     // If the components aren't empty, we want items exactly identical to them
     // Even if the best-fit recipe does not involve those items
     std::list<item> components = dis_item.components;
+
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
         const bool uncraft_liquids_contained = dis.has_flag( flag_UNCRAFT_LIQUIDS_CONTAINED );
@@ -2150,6 +2177,10 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
             // have their component count multiplied by the number of charges.
             if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
+            }
+            //If ammo, overwrite component count with selected quantity of ammo
+            if( dis_item.is_ammo() ) {
+                compcount *= activity.position;
             }
             const bool is_liquid = newit.made_of( LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {

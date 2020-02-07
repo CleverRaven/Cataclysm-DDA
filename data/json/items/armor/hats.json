@@ -1,7 +1,7 @@
 [
   {
     "id": "10gal_hat",
-    "repairs_like": "miner_hat",
+    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": "ten-gallon hat",
     "description": "These may not be the Great Plains, but you can still be the Boss with this high-crowned, wide-brimmed hat.",
@@ -570,7 +570,7 @@
   },
   {
     "id": "turban",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "turban",
     "description": "Rags worn around the head.",
@@ -591,7 +591,7 @@
   },
   {
     "id": "hat_golf",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "golf cap",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
