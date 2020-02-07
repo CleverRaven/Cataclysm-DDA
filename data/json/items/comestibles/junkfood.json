@@ -558,8 +558,7 @@
   {
     "type": "COMESTIBLE",
     "id": "neccowafers",
-    "name": "Necco wafers",
-    "name_plural": "Necco wafers",
+    "name": { "str": "Necco wafers", "str_pl": "Necco wafers" },
     "weight": "60 g",
     "color": "magenta",
     "spoils_in": "180 days",
