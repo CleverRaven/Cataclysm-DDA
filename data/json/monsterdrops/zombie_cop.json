@@ -111,7 +111,7 @@
         "prob": 25
       },
       {
-        "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 10 } ],
+        "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
         "prob": 75
       },
       {
@@ -143,31 +143,57 @@
   {
     "id": "swat_gloves",
     "type": "item_group",
-    "items": [ [ "gloves_fingerless", 15 ], [ "gloves_leather", 15 ], [ "gloves_tactical", 45 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_fingerless", "prob": 15 },
+      { "item": "gloves_leather", "prob": 15 },
+      { "item": "gloves_tactical", "prob": 45 }
+    ]
   },
   {
     "id": "swat_helmet",
     "type": "item_group",
-    "items": [ [ "mask_gas", 10 ], [ "helmet_riot", 20 ], [ "tac_helmet", 10 ], [ "tac_fullhelmet", 5 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mask_gas", "prob": 10 },
+      { "item": "helmet_riot", "prob": 20 },
+      { "item": "tac_helmet", "prob": 10 },
+      { "item": "tac_fullhelmet", "prob": 5 }
+    ]
   },
   {
     "id": "swat_pants",
     "type": "item_group",
-    "items": [ [ "pants", 75 ], [ "pants_cargo", 70 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "pants_army", "prob": 30 } ]
   },
   {
     "id": "swat_shoes",
     "type": "item_group",
-    "items": [ [ "boots", 20 ], [ "boots_steel", 40 ], [ "boots_hiking", 5 ], [ "boots_combat", 30 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "boots", "prob": 20 },
+      { "item": "boots_steel", "prob": 40 },
+      { "item": "boots_hiking", "prob": 5 },
+      { "item": "boots_combat", "prob": 30 }
+    ]
   },
   {
     "id": "swat_torso",
     "type": "item_group",
-    "items": [ [ "dress_shirt", 10 ], [ "tank_top", 25 ], [ "tshirt", 50 ], [ "undershirt", 25 ], [ "jacket_light", 40 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tank_top", "prob": 30 },
+      { "item": "army_top", "prob": 40 },
+      { "item": "tshirt", "prob": 20 },
+      { "item": "longshirt", "prob": 10 },
+      { "item": "thermal_shirt", "prob": 10 }
+    ]
   },
   {
     "id": "swat_weapons",
     "type": "item_group",
-    "items": [ { "group": "cop_melee", "prob": 25 }, { "group": "guns_swat", "prob": 75 } ]
+    "subtype": "collection",
+    "entries": [ { "group": "cop_melee", "prob": 25 }, { "group": "guns_swat", "prob": 75 } ]
   }
 ]
