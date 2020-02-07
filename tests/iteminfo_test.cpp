@@ -99,3 +99,43 @@ TEST_CASE( "nutrient_ranges_for_recipe_exemplars", "[item][iteminfo]" )
         "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
         "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
 }
+
+TEST_CASE( "show_available_recipes_using_item", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
+
+    GIVEN( "a character with no cooking skill" ) {
+        avatar character;
+        const recipe *pur = &recipe_id( "pur_tablets" ).obj();
+
+        REQUIRE( character.get_skill_level( pur->skill_used ) == 0 );
+        REQUIRE_FALSE( character.knows_recipe( pur ) );
+
+        WHEN( "they have potassium iodide tablets in their inventory" ) {
+            item &iodine = character.i_add( item( "iodine" ) );
+
+            THEN( "nothing is craftable from it" ) {
+                std::vector<iteminfo> info_v;
+                std::string info = iodine.info( info_v, &q, 1 );
+                CHECK( info == "--\nYou know of nothing you could craft with it.\n" );
+            }
+
+            AND_WHEN( "they have the water purification tablet recipe memorized" ) {
+                item &textbook = character.i_add( item( "textbook_chemistry" ) );
+                character.set_skill_level( pur->skill_used, pur->difficulty + 1 );
+                character.learn_recipe( pur );
+                REQUIRE( character.knows_recipe( pur ) );
+
+                THEN( "they can use potassium iodide tablets to craft it" ) {
+                    std::vector<iteminfo> info_v;
+                    std::string info = iodine.info( info_v, &q, 1 );
+                    CHECK( info == "--\n"
+                           "You could use it to craft: "
+                           "<color_c_dark_gray>water purification tablet</color>\n" );
+                }
+            }
+        }
+
+    }
+}
+
