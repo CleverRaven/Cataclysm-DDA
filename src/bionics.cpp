@@ -389,7 +389,6 @@ bool Character::activate_bionic( int b, bool eff_only )
                 { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
                 // TODO: Hallucinations not inducted by chemistry
                 { effect_hallu, translate_marker( "Hallucinations" ) },
-                { effect_visuals, translate_marker( "Hallucinations" ) },
             }
         };
 
@@ -439,16 +438,24 @@ bool Character::activate_bionic( int b, bool eff_only )
             if( !v.second.has_flag( "NO_DISPLAY" ) && !v.second.has_flag( "NOT_IN_BLOOD" ) ) {
                 switch( v.second.type() ) {
                     case vitamin_type::VITAMIN:
-                        vit.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        if( v.second.get_string_level( vitamin_get( v.first ) ) != "" ) {
+                            vit.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        }
                         break;
                     case vitamin_type::TOXIN:
-                        tox.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        if( v.second.get_string_level( vitamin_get( v.first ) ) != "" ) {
+                            tox.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        }
                         break;
                     case vitamin_type::DRUG:
-                        drug.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        if( v.second.get_string_level( vitamin_get( v.first ) ) != "" ) {
+                            drug.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        }
                         break;
                     default:
-                        cnt.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        if( v.second.get_string_level( vitamin_get( v.first ) ) != "" ) {
+                            cnt.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
+                        }
                 }
             }
         }
@@ -456,7 +463,8 @@ bool Character::activate_bionic( int b, bool eff_only )
         const int effect_spacing = ( good.empty() && bad.empty() ) ? 1 : good.size() + bad.size();
         const size_t win_h = std::min( static_cast<size_t>( TERMY ),
                                        effect_spacing + vit.size() + tox.size() + drug.size() + cnt.size() + 2 );
-        const int win_w = 46;
+        //const int win_w = 46;
+        const int win_w = 80;
         catacurses::window w = catacurses::newwin( win_h, win_w, point( ( TERMX - win_w ) / 2,
                                ( TERMY - win_h ) / 2 ) );
         draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );

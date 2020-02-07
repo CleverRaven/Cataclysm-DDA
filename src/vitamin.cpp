@@ -49,6 +49,51 @@ int vitamin::severity( int qty ) const
 
 std::string vitamin::get_string_level( int qty ) const
 {
+    float norm_level = 1.0f;
+    if( type_ == vitamin_type::VITAMIN ) {
+        if( id_ == "vitA" ) {
+            norm_level = 2.0f;
+        } else if( id_ == "vitB" ) {
+            norm_level = 2.75f;
+        } else if( id_ == "vitC" ) {
+            norm_level = 2.2f;
+        } else if( id_ == "iron" ) {
+            norm_level = 1.23f;
+        } else if( id_ == "calcium" ) {
+            norm_level = 1.1f;
+        }
+        float v_level = norm_level * qty / disease_[0].first;
+        if( v_level != 0 ) {
+            std::string message = string_format( _( "%s level is %.2f times %s than normal." ), name(),
+                                                 std::abs( v_level ), ( v_level < 0  ? _( "higher" ) : _( "lower" ) ) );
+            const int sev = severity( qty );
+            if( sev ) {
+                const std::vector<std::string> s = { "", _( "Minor" ), _( "Severe" ), _( "Extreme" ) };
+                message += string_format( " %s %s.", s[std::abs( sev )],
+                                          ( sev < 0 ? _( "deficiency" ) : _( "excess" ) ) );
+            }
+            return message;
+        } else {
+            return string_format( _( "%s level is normal." ), name() );
+        }
+    }
+    if( type_ == vitamin_type::TOXIN ) {
+        if( id_ == "mutant_toxin" ) {
+            if( qty > ( disease_excess_[2].first ) ) {
+                return _( "Deadly levels of unknown toxins detected." );
+            } else if( qty > ( disease_excess_[1].first ) ) {
+                return _( "Extreme levels of unknown toxins detected." );
+            } else if( qty > ( disease_excess_[0].first ) ) {
+                return _( "Dangerous levels of unknown toxins detected." );
+            } else if( qty > ( disease_excess_[0].first / 2 ) ) {
+                return _( "Significant levels of unknown toxins detected." );
+            } else if( qty > ( disease_excess_[0].first / 4 ) ) {
+                return _( "Traces of unknown toxins detected." );
+            } else {
+                return _( "" );
+            }
+        }
+    }
     return name() + _( " level is " ) + to_string( qty );
 }
 
