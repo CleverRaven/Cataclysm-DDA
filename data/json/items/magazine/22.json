@@ -1,7 +1,7 @@
 [
   {
     "id": "22_speedloader8",
-    "looks_like": "glock17_17",
+    "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": ".22 8-round speedloader",
     "description": "This speedloader can hold 8 rounds of .22 and quickly reload a compatible revolver.",

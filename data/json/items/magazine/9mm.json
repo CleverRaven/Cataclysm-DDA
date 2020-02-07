@@ -1,7 +1,7 @@
 [
   {
     "id": "9mm_speedloader7",
-    "looks_like": "glock17_17",
+    "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": "LW-7 speedloader",
     "description": "This speedloader, made by Leadworks for use with L2032 Lookout revolver, can hold 7 rounds of 9x19mm and quickly reload a compatible revolver.",
