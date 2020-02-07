@@ -17,7 +17,7 @@
   },
   {
     "id": "360_200_mag",
-    "looks_like": "stanag30",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "RMRB200 .22 magazine",
     "description": "A 200 round box magazine for use with the RM360 rotary carbine.",
@@ -35,7 +35,7 @@
   },
   {
     "id": "360_400_mag",
-    "looks_like": "stanag30",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "RMRD400 .22 drum magazine",
     "description": "A 400 round drum magazine for use with the RM360 rotary carbine.",
@@ -53,6 +53,7 @@
   },
   {
     "id": "a180mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "A-180 magazine",
     "description": "An unusually shaped pan magazine for the American-180.",

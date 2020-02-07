@@ -17,6 +17,7 @@
   },
   {
     "id": "calicomag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "Calico magazine",
     "description": "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.",
@@ -209,6 +210,7 @@
   },
   {
     "id": "mp5mag",
+    "//": "Tileset whitelist for SMG magazines",
     "type": "MAGAZINE",
     "name": "MP5 magazine",
     "description": "A standard capacity curved magazine for use with the H&K MP5 SMG.",
@@ -225,6 +227,7 @@
   },
   {
     "id": "stenmag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "STEN magazine",
     "description": "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based off the magazines for the German MP-28 and later MP-40.",
@@ -241,6 +244,7 @@
   },
   {
     "id": "survivor9mm_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "makeshift STEN magazine",
     "description": "An improvised magazine that is mostly compatible with the STEN submachine gun, with a simplified feed system.",
@@ -258,6 +262,7 @@
   },
   {
     "id": "tec9mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "TEC-9 magazine",
     "description": "A cheap and somewhat unreliable 32-round steel box magazine for use with the TEC-9 SMG.",
@@ -291,6 +296,7 @@
   },
   {
     "id": "uzimag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "UZI magazine",
     "description": "A standard 32-round steel box magazine for use with the UZI SMG.",

@@ -35,6 +35,7 @@
   },
   {
     "id": "skorpion61mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "Skorpion Vz. 61 magazine",
     "description": "A standard 20-round magazine for the Skorpion Vz. 61, in .32 ACP.",

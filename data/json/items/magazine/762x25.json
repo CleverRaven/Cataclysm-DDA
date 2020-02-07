@@ -1,6 +1,7 @@
 [
   {
     "id": "ppshdrum",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "PPSh 71-round drum magazine",
     "//": "Provisional.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "ppshmag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "PPSh 35-round magazine",
     "description": "A 35-round box magazine for the PPSh-41.",

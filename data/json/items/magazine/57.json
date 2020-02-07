@@ -18,6 +18,7 @@
   },
   {
     "id": "fnp90mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "FN-P90 magazine",
     "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
