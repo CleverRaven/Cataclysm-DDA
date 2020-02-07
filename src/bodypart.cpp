@@ -183,9 +183,15 @@ void body_part_struct::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
-    optional( jo, was_loaded, "name_plural", name_multiple );
-    mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
-    mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
+    // This is NOT the plural of `name`; it's a name refering to the pair of
+    // bodyparts which this bodypart belongs to, and thus should not be implemented
+    // using "ngettext" or "translation::make_plural". Otherwise, in languages
+    // without plural forms, translation of this string would indicate it
+    // to be a left or right part, while it is not.
+    optional( jo, was_loaded, "name_multiple", name_multiple );
+    mandatory( jo, was_loaded, "heading", name_as_heading );
+    // Same as the above comment
+    mandatory( jo, was_loaded, "heading_multiple", name_as_heading_multiple );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
@@ -276,7 +282,7 @@ std::string body_part_name_accusative( body_part bp, int number )
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
+    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading );
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )

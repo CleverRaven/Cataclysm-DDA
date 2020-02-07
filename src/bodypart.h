@@ -72,7 +72,7 @@ struct body_part_struct {
         // Those are stored untranslated
         std::string name;
         std::string name_multiple;
-        std::string name_as_heading_singular;
+        std::string name_as_heading;
         std::string name_as_heading_multiple;
         std::string hp_bar_ui_text;
         std::string encumb_text;
