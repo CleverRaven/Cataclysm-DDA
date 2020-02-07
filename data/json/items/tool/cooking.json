@@ -670,7 +670,7 @@
     "name": { "str": "multi cooker - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating. There is a dish in it.",
     "//": "Don't know how to force it to lose qualities. Specifying empty array here seems not to work.",
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "oil_cooker",
