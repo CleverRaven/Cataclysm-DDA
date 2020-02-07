@@ -116,25 +116,25 @@
       },
       {
         "collection": [
-            { "item": "heavy_flashlight", "prob": 20 },
-            { "item": "airhorn", "prob": 5 },
-            { "item": "two_way_radio", "prob": 30 },
-            { "item": "whistle", "prob": 5 },
-            { "item": "flashbang", "prob": 10 },
-            { "item": "sm_extinguisher", "prob": 5 },
-            { "item": "rope_30", "prob": 10 }
+          { "item": "heavy_flashlight", "prob": 20 },
+          { "item": "airhorn", "prob": 5 },
+          { "item": "two_way_radio", "prob": 30 },
+          { "item": "whistle", "prob": 5 },
+          { "item": "flashbang", "prob": 10 },
+          { "item": "sm_extinguisher", "prob": 5 },
+          { "item": "rope_30", "prob": 10 }
         ],
         "prob": 30
       },
       {
         "collection": [
-            { "item": "holster", "prob": 35 },
-            { "item": "chestpouch", "prob": 15 },
-            { "item": "ammo_satchel", "prob": 10 },          
-            { "item": "bholster", "prob": 25 },
-            { "item": "bandolier_shotgun", "prob": 10 },
-            { "item": "legpouch_large", "prob": 25 },
-            { "item": "police_belt", "prob": 15 }
+          { "item": "holster", "prob": 35 },
+          { "item": "chestpouch", "prob": 15 },
+          { "item": "ammo_satchel", "prob": 10 },          
+          { "item": "bholster", "prob": 25 },
+          { "item": "bandolier_shotgun", "prob": 10 },
+          { "item": "legpouch_large", "prob": 25 },
+          { "item": "police_belt", "prob": 15 }
         ],
         "prob": 25
       }
