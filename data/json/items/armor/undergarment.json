@@ -110,8 +110,7 @@
   {
     "id": "boxer_briefs",
     "type": "ARMOR",
-    "name": "boxer briefs",
-    "name_plural": "boxer briefs",
+    "name": { "str": "boxer briefs", "str_pl": "boxer briefs" },
     "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
     "weight": "37 g",
     "volume": "250 ml",
@@ -129,8 +128,7 @@
   {
     "id": "boxer_shorts",
     "type": "ARMOR",
-    "name": "boxer shorts",
-    "name_plural": "boxer shorts",
+    "name": { "str": "boxer shorts", "str_pl": "boxer shorts" },
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
     "weight": "42 g",
     "volume": "250 ml",

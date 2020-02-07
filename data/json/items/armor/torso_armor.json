@@ -2,9 +2,8 @@
   {
     "id": "armor_cuirass",
     "type": "ARMOR",
-    "name": "bell cuirass",
+    "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "category": "armor",
-    "name_plural": "bell cuirasses",
     "description": "An ancient Greek breastplate, made of bronze.",
     "weight": "5896 g",
     "volume": "6 L",
