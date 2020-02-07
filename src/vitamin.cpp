@@ -90,11 +90,11 @@ std::string vitamin::get_string_level( int qty ) const
             } else if( qty > ( disease_excess_[0].first / 4 ) ) {
                 return _( "Traces of unknown toxins detected." );
             } else {
-                return _( "" );
+                return "";
             }
         }
     }
-    return name() + _( " level is " ) + to_string( qty );
+    return string_format( "%s level is %d.", name(), qty );
 }
 
 void vitamin::load_vitamin( const JsonObject &jo )
