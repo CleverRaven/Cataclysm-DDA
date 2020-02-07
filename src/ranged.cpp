@@ -1155,12 +1155,12 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( display_type != "numbers" ) {
         int column_number = 1;
         if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
-            auto label = _( "Symbols:" );
+            std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
         for( const confidence_rating &cr : confidence_config ) {
-            auto label = pgettext( "aim_confidence", cr.label.c_str() );
+            std::string label = pgettext( "aim_confidence", cr.label.c_str() );
             std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
                                                  label );
             int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
