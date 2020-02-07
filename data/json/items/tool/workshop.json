@@ -822,8 +822,7 @@
   {
     "id": "toolbox_workshop",
     "type": "TOOL",
-    "name": "workshop toolbox",
-    "name_plural": "workshop toolboxes",
+    "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
     "looks_like": "toolbox",
     "weight": "3994 g",
