@@ -9,7 +9,6 @@
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "translations.h"
 #include "json.h"
 
 side opposite_side( side s )
@@ -189,6 +188,11 @@ void body_part_struct::load( const JsonObject &jo, const std::string & )
     // without plural forms, translation of this string would indicate it
     // to be a left or right part, while it is not.
     optional( jo, was_loaded, "name_multiple", name_multiple );
+
+    mandatory( jo, was_loaded, "accusative", accusative );
+    // same as the above comment
+    optional( jo, was_loaded, "accusative_multiple", accusative_multiple );
+
     mandatory( jo, was_loaded, "heading", name_as_heading );
     // Same as the above comment
     mandatory( jo, was_loaded, "heading_multiple", name_as_heading_multiple );
@@ -260,29 +264,28 @@ void body_part_struct::check() const
     }
 }
 
-// Some languages do not have plural forms, so we don't use ngettext()/npgettext()
-// in the 3 following methods so the singular and plural strings can be properly
-// translated for these languages.
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
+    // See comments in `body_part_struct::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    if( number > 1 ) {
-        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
-    } else {
-        return pgettext( "bodypart_accusative", bdy.name.c_str() );
-    }
+    // See comments in `body_part_struct::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bdy.accusative_multiple.translated() : bdy.accusative.translated();
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading );
+    // See comments in `body_part_struct::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )
