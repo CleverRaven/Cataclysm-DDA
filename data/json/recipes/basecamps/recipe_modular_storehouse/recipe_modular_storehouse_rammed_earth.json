@@ -81,15 +81,14 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "log", 10 ] ],
+          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "nail", 30 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "stick", 16 ], [ "2x4", 32 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ]
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "water", 400 ], [ "water_clean", 400 ] ]
         ]
       }
     }
@@ -114,15 +113,14 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "log", 10 ] ],
+          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "nail", 30 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "stick", 16 ], [ "2x4", 32 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ]
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "water", 400 ], [ "water_clean", 400 ] ]
         ]
       }
     }
@@ -147,15 +145,14 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "log", 10 ] ],
+          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "nail", 30 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "stick", 16 ], [ "2x4", 32 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ]
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "water", 400 ], [ "water_clean", 400 ] ]
         ]
       }
     }
@@ -180,15 +177,14 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "log", 10 ] ],
+          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "nail", 30 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "stick", 16 ], [ "2x4", 32 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ]
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "water", 400 ], [ "water_clean", 400 ] ]
         ]
       }
     }

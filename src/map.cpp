@@ -2587,6 +2587,20 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
     return false;
 }
 
+bool map::has_nearby_table( const tripoint &p, int radius )
+{
+    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+        const optional_vpart_position vp = veh_at( p );
+        if( has_flag( "FLAT_SURF", pt ) ) {
+            return true;
+        }
+        if( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::mop_spills( const tripoint &p )
 {
     bool retval = false;
@@ -6898,6 +6912,8 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     }
 
     item sap( "maple_sap", calendar::turn );
+
+    sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
 
     // Is there a proper container?
     auto items = i_at( p );

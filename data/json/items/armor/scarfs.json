@@ -21,7 +21,7 @@
   },
   {
     "id": "headscarf",
-    "repairs_like": "miner_hat",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": "headscarf",
     "description": "A loose cloth worn over the head and around the neck.",

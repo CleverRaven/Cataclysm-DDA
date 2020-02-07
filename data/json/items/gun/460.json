@@ -83,7 +83,7 @@
     "durability": 9,
     "blackpowder_tolerance": 32,
     "clip_size": 12,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],

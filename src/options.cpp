@@ -1395,6 +1395,13 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "AUTOSELECT_SINGLE_VALID_TARGET", "interface",
+         translate_marker( "Autoselect if exactly one valid target" ),
+         translate_marker( "If true, directional actions ( like \"Examine\", \"Open\", \"Pickup\" ) "
+                           "will autoselect an adjacent tile if there is exactly one valid target." ),
+         true
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",

@@ -362,19 +362,13 @@
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",
-    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ] ] ]
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ], [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
   },
   {
     "id": "edible_fat",
     "type": "requirement",
     "//": "Any type of edible raw fat.",
     "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "human_fat", 1 ], [ "mutant_human_fat", 1 ] ] ]
-  },
-  {
-    "id": "any_fat",
-    "type": "requirement",
-    "//": "Any type of raw fat.",
-    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
   },
   {
     "id": "edible_tallow",

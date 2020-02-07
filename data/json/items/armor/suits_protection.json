@@ -263,7 +263,7 @@
   },
   {
     "id": "armor_riot",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": "riot armor",
@@ -523,7 +523,7 @@
   },
   {
     "id": "hazmat_suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "aep_suit",
     "type": "ARMOR",
     "name": "hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -611,7 +611,7 @@
   },
   {
     "id": "robofac_enviro_suit",
-    "repairs_like": "miner_hat",
+    "repairs_like": "aep_suit",
     "type": "ARMOR",
     "name": "Hub 01 environmental suit",
     "description": "A lightweight environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",

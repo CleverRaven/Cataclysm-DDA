@@ -19,14 +19,13 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 18 ], [ "spear_wood", 18 ] ],
+          [ [ "2x4", 230 ] ],
+          [ [ "concrete", 9 ], [ "material_quicklime", 180 ], [ "material_sand", 180 ] ],
           [ [ "material_soil", 2160 ] ],
-          [ [ "water", 900 ], [ "water_clean", 900 ] ],
-          [ [ "material_sand", 180 ], [ "material_quicklime", 180 ], [ "concrete", 9 ] ],
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "nail", 560 ] ],
-          [ [ "wood_panel", 25 ] ],
-          [ [ "2x4", 200 ] ]
+          [ [ "pointy_stick", 18 ], [ "spear_wood", 18 ] ],
+          [ [ "water", 900 ], [ "water_clean", 900 ] ],
+          [ [ "wood_panel", 25 ] ]
         ]
       }
     }
@@ -57,14 +56,13 @@
         ],
         "components": [
           [ [ "2x4", 135 ] ],
+          [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
+          [ [ "material_soil", 1440 ] ],
           [ [ "nail", 382 ] ],
           [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
-          [ [ "wood_sheet", 6 ], [ "wood_panel", 12 ] ],
-          [ [ "material_soil", 1440 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 600 ], [ "water_clean", 600 ] ],
-          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 10 ] ]
+          [ [ "wood_panel", 22 ] ]
         ]
       }
     }
@@ -95,15 +93,14 @@
         ],
         "components": [
           [ [ "2x4", 285 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
+          [ [ "material_soil", 960 ] ],
           [ [ "nail", 734 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
           [ [ "rock", 40 ] ],
-          [ [ "material_soil", 960 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 30 ] ]
+          [ [ "wood_panel", 38 ] ]
         ]
       }
     }
@@ -128,15 +125,14 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "2x4", 152 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 7 ] ],
-          [ [ "nail", 372 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 960 ] ],
+          [ [ "nail", 372 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "wood_panel", 12 ] ]
+          [ [ "wood_panel", 19 ] ]
         ]
       }
     }
@@ -160,22 +156,30 @@
       "time": "1 d 16 h 55 m",
       "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [
+          [ [ "frame_wood_light", -1 ] ],
+          [ [ "log", -1 ] ],
+          [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ]
+        ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
         "components": [
-          [ [ "pointy_stick", 6 ], [ "spear_wood", 6 ] ],
           [ [ "2x4", 132 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "concrete", 3 ], [ "material_quicklime", 60 ], [ "material_sand", 60 ] ],
+          [ [ "material_soil", 720 ] ],
           [ [ "nail", 380 ] ],
           [ [ "pipe", 16 ] ],
+          [ [ "pointy_stick", 6 ], [ "spear_wood", 6 ] ],
+          [ [ "rock", 40 ] ],
           [ [ "sheet_metal", 4 ] ],
           [ [ "sheet_metal_small", 8 ] ],
-          [ [ "rock", 40 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
           [ [ "water", 302 ], [ "water_clean", 302 ] ],
-          [ [ "material_soil", 720 ] ],
-          [ [ "material_sand", 60 ], [ "material_quicklime", 60 ], [ "concrete", 3 ] ],
-          [ [ "wood_panel", 15 ] ]
+          [ [ "wood_panel", 23 ] ]
         ]
       }
     }
@@ -198,9 +202,15 @@
       "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
       "inline": {
         "tools": [
-          [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],
           [ [ "frame_wood_light", -1 ] ],
-          [ [ "log", -1 ] ]
+          [ [ "log", -1 ] ],
+          [
+            [ "machete", -1 ],
+            [ "makeshift_machete", -1 ],
+            [ "scythe", -1 ],
+            [ "sickle", -1 ],
+            [ "survivor_machete", -1 ]
+          ]
         ],
         "qualities": [
           [ { "id": "CUT" } ],
@@ -210,14 +220,13 @@
         ],
         "components": [
           [ [ "2x4", 170 ] ],
+          [ [ "concrete", 11 ], [ "material_quicklime", 220 ], [ "material_sand", 220 ] ],
+          [ [ "material_soil", 2640 ] ],
           [ [ "nail", 514 ] ],
           [ [ "pointy_stick", 22 ], [ "spear_wood", 22 ] ],
-          [ [ "wood_sheet", 10 ], [ "wood_panel", 20 ] ],
-          [ [ "material_soil", 2640 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 1100 ], [ "water_clean", 1100 ] ],
-          [ [ "material_sand", 220 ], [ "material_quicklime", 220 ], [ "concrete", 11 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 10 ] ]
+          [ [ "wood_panel", 30 ] ]
         ]
       }
     }

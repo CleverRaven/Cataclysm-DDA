@@ -245,8 +245,7 @@
   {
     "id": "m203",
     "type": "GUNMOD",
-    "name": "M203",
-    "name_plural": "M203",
+    "name": { "str": "M203", "str_pl": "M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "1360 g",
     "volume": "500 ml",
@@ -271,8 +270,7 @@
   {
     "id": "m320_mod",
     "type": "GUNMOD",
-    "name": "M320 GLM",
-    "name_plural": "M320 GLM",
+    "name": { "str": "M320 GLM", "str_pl": "M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for stand alone use.",
     "weight": "1500 g",
     "volume": "500 ml",
@@ -482,11 +480,10 @@
     "id": "lead_glm",
     "copy-from": "m320_mod",
     "type": "GUNMOD",
-    "name": "LW GLM",
-    "name_plural": "LW GLM",
+    "name": { "str": "LW GLM", "str_pl": "LW GLM" },
     "description": "The Leadworks built in Grenade Launcher Module offers the functionality of larger launchers in a very small package.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
   }
