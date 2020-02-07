@@ -3302,28 +3302,30 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else { // use the contained item
             tid = contents.front().typeId();
         }
-        const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
 
-        if( known_recipes.empty() ) {
+        // FIXME: Somehow the following lines are causing a game crash whenever the crafting menu is opened
+        const inventory &crafting_inv = g->u.crafting_inventory();
+        const std::set<const recipe *> &item_recipes = g->u.get_available_recipes( crafting_inv,
+                nullptr ).of_component( tid );
+
+        if( item_recipes.empty() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "You don't know anything you could craft with it." ) ) );
         } else {
-            const inventory &inv = g->u.crafting_inventory();
-
-            if( known_recipes.size() > 24 ) {
+            if( item_recipes.size() > 24 ) {
                 insert_separation_line( info );
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "You know dozens of things you could craft with it." ) ) );
-            } else if( known_recipes.size() > 12 ) {
+            } else if( item_recipes.size() > 12 ) {
                 insert_separation_line( info );
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "You could use it to craft various other things." ) ) );
             } else {
-                const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
-                [ &inv ]( const recipe * r ) {
+                const std::string recipes = enumerate_as_string( item_recipes.begin(), item_recipes.end(),
+                [ &crafting_inv ]( const recipe * r ) {
                     if( r->deduped_requirements().can_make_with_inventory(
-                            inv, r->get_component_filter() ) ) {
+                            crafting_inv, r->get_component_filter() ) ) {
                         return r->result_name();
                     } else {
                         return string_format( "<dark>%s</dark>", r->result_name() );
