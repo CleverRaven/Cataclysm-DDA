@@ -3303,15 +3303,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             tid = contents.front().typeId();
         }
 
-        // FIXME: Somehow the following lines are causing a game crash whenever the crafting menu is opened
         const inventory &crafting_inv = g->u.crafting_inventory();
-        const std::set<const recipe *> &item_recipes = g->u.get_available_recipes( crafting_inv,
-                nullptr ).of_component( tid );
+        const recipe_subset available_recipe_subset = g->u.get_available_recipes( crafting_inv );
+        const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
         if( item_recipes.empty() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You don't know anything you could craft with it." ) ) );
+                                      _( "You know of nothing you could craft with it." ) ) );
         } else {
             if( item_recipes.size() > 24 ) {
                 insert_separation_line( info );
