@@ -12,8 +12,7 @@
     "id": "manual_boxing",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Practical Pugilism",
-    "name_plural": "Practical Pugilism",
+    "name": { "str": "Practical Pugilism", "str_pl": "Practical Pugilism" },
     "description": "A complete guide to boxing.  Let's get ready to rough-up some ruffians!",
     "book_data": { "martial_art": "style_boxing" }
   },
@@ -29,8 +28,7 @@
     "id": "manual_centipede",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Centipede Lu Feng",
-    "name_plural": "The Centipede Lu Feng",
+    "name": { "str": "The Centipede Lu Feng", "str_pl": "The Centipede Lu Feng" },
     "description": "A complete guide to Centipede Kung Fu.",
     "book_data": { "martial_art": "style_centipede" }
   },
@@ -47,8 +45,7 @@
     "id": "manual_dragon",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Jade Dragon",
-    "name_plural": "The Jade Dragon",
+    "name": { "str": "The Jade Dragon", "str_pl": "The Jade Dragon" },
     "description": "A complete guide to Dragon Kung Fu.",
     "book_data": { "martial_art": "style_dragon" }
   },
@@ -56,8 +53,7 @@
     "id": "manual_eskrima",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Practical Eskrima",
-    "name_plural": "Practical Eskrima",
+    "name": { "str": "Practical Eskrima", "str_pl": "Practical Eskrima" },
     "description": "A complete guide to Eskrima.",
     "book_data": { "martial_art": "style_eskrima" }
   },
@@ -65,8 +61,7 @@
     "id": "manual_fencing",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Modern Swordsman",
-    "name_plural": "The Modern Swordsman",
+    "name": { "str": "The Modern Swordsman", "str_pl": "The Modern Swordsman" },
     "description": "A complete guide to Fencing.",
     "book_data": { "martial_art": "style_fencing" }
   },
@@ -99,8 +94,7 @@
     "id": "manual_leopard",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Deaf Leopard",
-    "name_plural": "The Deaf Leopard",
+    "name": { "str": "The Deaf Leopard", "str_pl": "The Deaf Leopard" },
     "description": "A complete guide to Leopard Kung Fu.",
     "book_data": { "martial_art": "style_leopard" }
   },
@@ -108,8 +102,7 @@
     "id": "manual_lizard",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Lizard Kuo Chui",
-    "name_plural": "The Lizard Kuo Chui",
+    "name": { "str": "The Lizard Kuo Chui", "str_pl": "The Lizard Kuo Chui" },
     "description": "A complete guide to Lizard Kung Fu.",
     "book_data": { "martial_art": "style_lizard" }
   },
@@ -134,8 +127,7 @@
     "id": "manual_niten",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Book of Five Rings",
-    "name_plural": "The Book of Five Rings",
+    "name": { "str": "The Book of Five Rings", "str_pl": "The Book of Five Rings" },
     "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu.",
     "book_data": { "martial_art": "style_niten" }
   },
@@ -143,8 +135,7 @@
     "id": "manual_pankration",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Modern Pankratiast",
-    "name_plural": "The Modern Pankratiast",
+    "name": { "str": "The Modern Pankratiast", "str_pl": "The Modern Pankratiast" },
     "description": "A complete guide to Pankration.",
     "book_data": { "martial_art": "style_pankration" }
   },
@@ -161,8 +152,7 @@
     "id": "manual_silat",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Indonesian Warrior",
-    "name_plural": "The Indonesian Warrior",
+    "name": { "str": "The Indonesian Warrior", "str_pl": "The Indonesian Warrior" },
     "description": "A complete guide to Pentjak Silat.",
     "book_data": { "martial_art": "style_silat" }
   },
@@ -170,8 +160,7 @@
     "id": "manual_snake",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Black Snake",
-    "name_plural": "The Black Snake",
+    "name": { "str": "The Black Snake", "str_pl": "The Black Snake" },
     "description": "A complete guide to Snake Kung Fu.",
     "book_data": { "martial_art": "style_snake" }
   },
