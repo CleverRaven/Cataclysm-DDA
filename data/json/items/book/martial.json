@@ -12,8 +12,7 @@
     "id": "manual_boxing",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Practical Pugilism",
-    "name_plural": "Practical Pugilism",
+    "name": { "str": "Practical Pugilism", "str_pl": "Practical Pugilism" },
     "description": "A complete guide to boxing.  Let's get ready to rough-up some ruffians!",
     "book_data": { "martial_art": "style_boxing" }
   },
@@ -56,8 +55,7 @@
     "id": "manual_eskrima",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Practical Eskrima",
-    "name_plural": "Practical Eskrima",
+    "name": { "str": "Practical Eskrima", "str_pl": "Practical Eskrima" },
     "description": "A complete guide to Eskrima.",
     "book_data": { "martial_art": "style_eskrima" }
   },
