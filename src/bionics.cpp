@@ -453,7 +453,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                         }
                         break;
                     default:
-                        if( v.second.get_string_level( vitamin_get( v.first ) ) != "" ) {
+                        if( !v.second.get_string_level( vitamin_get( v.first ) ).empty() ) {
                             cnt.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
                         }
                 }
