@@ -438,7 +438,7 @@ bool Character::activate_bionic( int b, bool eff_only )
             if( !v.second.has_flag( "NO_DISPLAY" ) && !v.second.has_flag( "NOT_IN_BLOOD" ) ) {
                 switch( v.second.type() ) {
                     case vitamin_type::VITAMIN:
-                        if( v.second.get_string_level( vitamin_get( v.first ) ) != "" ) {
+                        if( !v.second.get_string_level( vitamin_get( v.first ) ).empty() ) {
                             vit.push_back( v.second.get_string_level( vitamin_get( v.first ) ) );
                         }
                         break;
