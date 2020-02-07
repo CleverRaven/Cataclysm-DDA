@@ -2598,6 +2598,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
             return true;
         }
     }
+    return false;
 }
 
 bool map::mop_spills( const tripoint &p )
