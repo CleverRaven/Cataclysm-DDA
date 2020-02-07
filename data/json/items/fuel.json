@@ -2,8 +2,7 @@
   {
     "id": "chem_ethanol",
     "type": "AMMO",
-    "name": "ethanol",
-    "name_plural": "ethanol",
+    "name": { "str": "ethanol", "str_pl": "ethanol" },
     "description": "Extremely pure alcohol suitable for use as a component in chemical reactions.  You could also water it down and drink it, or use it as fuel in alcohol-burning stoves.",
     "weight": "1 g",
     "volume": "200ml",
@@ -44,8 +43,7 @@
   {
     "id": "diesel",
     "type": "AMMO",
-    "name": "diesel",
-    "name_plural": "diesel",
+    "name": { "str": "diesel", "str_pl": "diesel" },
     "description": "Petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
     "weight": "1 g",
