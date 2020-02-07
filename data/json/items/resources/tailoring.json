@@ -97,8 +97,7 @@
     "id": "scrap_nomex",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "Nomex scraps",
-    "name_plural": "Nomex scraps",
+    "name": { "str": "Nomex scraps", "str_pl": "Nomex scraps" },
     "description": "Oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it's disposed of, but since Nomex would be very difficult to make in a post-apocalyptic world, it might be worth recycling it.",
     "price": 5,
     "material": "nomex"
