@@ -409,14 +409,6 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    bool has_table_nearby = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
-        if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
-            ( ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( flag_KITCHEN ) ||
-                                       g->m.veh_at( pt )->vehicle().has_part( flag_FLAT_SURF ) ) ) ) ) {
-            has_table_nearby = true;
-        }
-    }
     bool has_tree_nearby = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
         if( g->m.has_flag( flag_TREE, pt ) ) {
@@ -448,7 +440,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                 act.targets.pop_back();
                 return;
             }
-            if( !has_table_nearby ) {
+            if( !g->m.has_nearby_table( u.pos(), 2 ) ) {
                 u.add_msg_if_player( m_info,
                                      _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();

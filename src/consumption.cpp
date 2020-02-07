@@ -840,20 +840,14 @@ bool player::eat( item &food, bool force )
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                    food.tname() );
             if( !spoiled && !food.has_flag( flag_ALLERGEN_JUNK ) ) {
-                bool has_table_nearby = false;
                 bool has_chair_nearby = false;
                 for( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
-                        ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ||
-                                                 g->m.veh_at( pt )->vehicle().has_part( "FLAT_SURF" ) ) ) ) {
-                        has_table_nearby = true;
-                    }
                     if( g->m.has_flag_furn( flag_CAN_SIT, pt ) || g->m.has_flag( flag_CAN_SIT, pt ) ||
                         ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "SEAT" ) ) ) ) {
                         has_chair_nearby = true;
                     }
                 }
-                if( has_chair_nearby && has_table_nearby ) {
+                if( has_chair_nearby && g->m.has_nearby_table( pos(), 1 ) ) {
                     if( has_trait( trait_TABLEMANNERS ) ) {
                         rem_morale( MORALE_ATE_WITHOUT_TABLE );
                         add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
