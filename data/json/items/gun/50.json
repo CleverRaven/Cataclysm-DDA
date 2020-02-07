@@ -19,7 +19,7 @@
     "ranged_damage": -5,
     "dispersion": 130,
     "durability": 8,
-    "barrel_length": 5,
+    "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "magazine_well": 1,
     "magazines": [ [ "50", [ "m107a1mag" ] ] ],
@@ -45,7 +45,7 @@
     "dispersion": 250,
     "durability": 8,
     "reload": 400,
-    "barrel_length": 5,
+    "barrel_length": "1250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

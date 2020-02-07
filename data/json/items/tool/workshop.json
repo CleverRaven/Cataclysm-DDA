@@ -2,8 +2,7 @@
   {
     "id": "adobe_pallet_full",
     "type": "TOOL",
-    "name": "pallet of wet adobe bricks",
-    "name_plural": "pallets of wet adobe bricks",
+    "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
     "weight": "35000 g",
     "volume": "12500 ml",
@@ -28,8 +27,7 @@
     "id": "adobe_pallet_done",
     "type": "TOOL",
     "category": "tools",
-    "name": "pallet of dry adobe bricks",
-    "name_plural": "pallets of dry adobe bricks",
+    "name": { "str": "pallet of dry adobe bricks", "str_pl": "pallets of dry adobe bricks" },
     "description": "A pallet of humble mud bricks that have dried for a week, while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
     "weight": "30000 g",
     "volume": "12500 ml",
@@ -505,7 +503,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "acidchitin", "bone", "chitin", "paper", "wood", "kevlar_rigid" ],
+        "materials": [ "acidchitin", "bone", "chitin", "paper", "cardboard", "wood", "kevlar_rigid" ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
@@ -568,8 +566,7 @@
   {
     "id": "paint_brush",
     "type": "TOOL",
-    "name": "paint brush",
-    "name_plural": "paint brushes",
+    "name": { "str": "paint brush", "str_pl": "paint brushes" },
     "description": "A wide brush, suitable for painting walls.",
     "weight": "60 g",
     "volume": "500 ml",
@@ -617,8 +614,7 @@
   {
     "id": "pliers",
     "type": "TOOL",
-    "name": "pliers",
-    "name_plural": "pliers",
+    "name": { "str": "pliers", "str_pl": "pliers" },
     "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work.  Anything too complex will require a wrench.",
     "weight": "807 g",
     "volume": "250 ml",
@@ -1024,8 +1020,7 @@
   {
     "id": "wrench",
     "type": "TOOL",
-    "name": "wrench",
-    "name_plural": "wrenches",
+    "name": { "str": "wrench", "str_pl": "wrenches" },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
     "volume": "500 ml",

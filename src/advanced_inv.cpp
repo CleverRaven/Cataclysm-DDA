@@ -1423,6 +1423,7 @@ void advanced_inventory::display()
                 it.info( true, vThisItem );
 
                 item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+                data.handle_scrolling = true;
 
                 ret = draw_item_info( info_startx, info_width, 0, 0, data ).get_first_input();
             }

@@ -1678,7 +1678,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( on_terrain && on_items ) {
         uilist imenu;
         imenu.text = string_format( _( "%s on what?" ), verb );
-        imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
+        imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The terrain" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
         choice = imenu.ret;
@@ -1693,7 +1693,12 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
+        const cata::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
+        if( !dest_ ) {
+            return 0;
+        }
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ),
+                                             dest_.value() );
     }
 
     item_location loc = game_menus::inv::titled_menu( g->u, _( "Inscribe which item?" ) );
