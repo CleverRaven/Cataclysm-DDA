@@ -1167,8 +1167,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     int converted_volume_scale = 0;
-    const double converted_volume = convert_volume( volume().value(),
-                                    &converted_volume_scale ) * batch;
+    const double converted_volume = round_up( convert_volume( volume().value(),
+                                    &converted_volume_scale ) * batch, 3 );
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
         if( converted_volume_scale != 0 ) {
