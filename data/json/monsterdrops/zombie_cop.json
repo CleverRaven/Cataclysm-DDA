@@ -107,7 +107,7 @@
     "subtype": "collection",
     "entries": [
       {
-        "collection": [ { "item": "bandages", "prob": 60 }, { "item": "pocket_firstaid", "prob": 40 }, { "item": "1st_aid", "prob": 20 } ],
+        "collection": [ { "item": "bandages", "prob": 60 }, { "item": "1st_aid", "prob": 20 } ],
         "prob": 25
       },
       {
