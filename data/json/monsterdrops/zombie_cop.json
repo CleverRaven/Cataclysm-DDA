@@ -107,8 +107,7 @@
     "subtype": "collection",
     "entries": [
       {
-        "collection": [ { "item": "bandages", "prob": 60 }, { "item": "1st_aid", "prob": 20 } ],
-        "prob": 25
+        "collection": [ { "item": "bandages", "prob": 60 }, { "item": "1st_aid", "prob": 20 } ], "prob": 25
       },
       {
         "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
