@@ -3,10 +3,12 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
+#include "itype.h"
 
 static void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
 {
@@ -91,25 +93,61 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo]" )
     }
 }
 
-
-TEST_CASE( "default ammo for gun", "[item][iteminfo]" )
+TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
 {
-    iteminfo_query q( { iteminfo_parts::GUN_DEFAULT_AMMO } );
-    iteminfo_test(
-        item( "compbow" ), q,
-        "--\n"
-        "Gun is not loaded, so stats below assume the default ammo: <color_c_light_blue>wooden broadhead arrow</color>\n" );
-}
+    SECTION( "ammo capacity" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_CAPACITY } );
+        iteminfo_test(
+            item( "compbow" ), q,
+            "--\n"
+            "<color_c_white>Capacity:</color> <color_c_yellow>1</color> round of arrows\n" );
+    }
 
-TEST_CASE( "gun damage with floating-point damage multiplier", "[item][iteminfo]" )
-{
-    iteminfo_query q( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
-                        iteminfo_parts::GUN_DAMAGE_TOTAL
-                      } );
-    iteminfo_test(
-        item( "compbow" ), q,
-        "--\n"
-        "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
+    SECTION( "default ammo when unloaded" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_DEFAULT_AMMO } );
+        iteminfo_test(
+            item( "compbow" ), q,
+            "--\n"
+            "Gun is not loaded, so stats below assume the default ammo:"
+            " <color_c_light_blue>wooden broadhead arrow</color>\n" );
+    }
+
+    SECTION( "damage including floating-point multiplier" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
+                            iteminfo_parts::GUN_DAMAGE_TOTAL
+                          } );
+        iteminfo_test(
+            item( "compbow" ), q,
+            "--\n"
+            "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
+    }
+
+    SECTION( "time to reload" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_RELOAD_TIME } );
+        iteminfo_test(
+            item( "compbow" ), q,
+            "--\n"
+            "Reload time: <color_c_yellow>110</color> moves \n" );
+    }
+
+    SECTION( "firing modes" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_FIRE_MODES } );
+        iteminfo_test(
+            item( "compbow" ), q,
+            "--\n"
+            "<color_c_white>Fire modes:</color> manual (1)\n" );
+    }
+
+    SECTION( "weapon mods" ) {
+        iteminfo_query q( { iteminfo_parts::DESCRIPTION_GUN_MODS } );
+        iteminfo_test(
+            item( "compbow" ), q,
+            "--\n"
+            "<color_c_white>Mods:</color> <color_c_white>0/2</color> accessories;"
+            " <color_c_white>0/1</color> dampening; <color_c_white>0/1</color> sights;"
+            " <color_c_white>0/1</color> stabilizer; <color_c_white>0/1</color> underbarrel.\n" );
+    }
+
 }
 
 TEST_CASE( "nutrients in food", "[item][iteminfo]" )
@@ -140,6 +178,33 @@ TEST_CASE( "nutrients in food", "[item][iteminfo]" )
             "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
     }
 }
+
+TEST_CASE( "food freshness and lifetime", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::FOOD_ROT } );
+
+    SECTION( "food is fresh" ) {
+        iteminfo_test(
+            item( "pine_nuts" ), q,
+            "--\n"
+            "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+            " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
+            "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
+    }
+
+    SECTION( "food is old" ) {
+        item nuts( "pine_nuts" );
+        nuts.mod_rot( nuts.type->comestible->spoils );
+        iteminfo_test(
+            nuts, q,
+            "--\n"
+            "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+            " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
+            "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
+    }
+
+}
+
 
 TEST_CASE( "item conductivity", "[item][iteminfo]" )
 {
