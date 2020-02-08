@@ -1357,7 +1357,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
 int player::get_lift_assist() const
 {
     int result = 0;
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = get_crafting_helpers();
     for( const npc *np : helpers ) {
         result += np->get_str();
     }
@@ -1366,7 +1366,7 @@ int player::get_lift_assist() const
 
 int player::get_num_crafting_helpers( int max ) const
 {
-    std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    std::vector<npc *> helpers = get_crafting_helpers();
     return std::min( max, static_cast<int>( helpers.size() ) );
 }
 
@@ -2650,7 +2650,7 @@ static bool query_consume_ownership( item &target, player &p )
             elem->say( "<witnessed_thievery>", 7 );
         }
         if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-            if( g->u.add_faction_warning( target.get_owner() ) ) {
+            if( p.add_faction_warning( target.get_owner() ) ) {
                 for( npc *elem : witnesses ) {
                     elem->make_angry();
                 }
@@ -2832,7 +2832,7 @@ item::reload_option player::select_ammo( const item &base,
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
         } else if( e.ammo->is_watertight_container() ||
-                   ( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) ) {
+                   ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
 
@@ -2844,10 +2844,10 @@ item::reload_option player::select_ammo( const item &base,
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( where ), []( const item::reload_option & e ) {
+    std::back_inserter( where ), [this]( const item::reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
-            if( is_ammo_container && g->u.is_worn( *e.ammo ) ) {
+            if( is_ammo_container && is_worn( *e.ammo ) ) {
                 return e.ammo->type_name();
             }
             return string_format( _( "%s, %s" ), e.ammo->type_name(), e.ammo.describe( &g->u ) );
@@ -2931,12 +2931,12 @@ item::reload_option player::select_ammo( const item &base,
                            *opts[ i ].ammo;
 
         char hotkey = -1;
-        if( g->u.has_item( ammo ) ) {
+        if( has_item( ammo ) ) {
             // if ammo in player possession and either it or any container has a valid invlet use this
             if( ammo.invlet ) {
                 hotkey = ammo.invlet;
             } else {
-                for( const auto obj : g->u.parents( ammo ) ) {
+                for( const auto obj : parents( ammo ) ) {
                     if( obj->invlet ) {
                         hotkey = obj->invlet;
                         break;
@@ -3283,7 +3283,7 @@ bool player::can_reload( const item &it, const itype_id &ammo ) const
 
 void player::mend_item( item_location &&obj, bool interactive )
 {
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    if( has_trait( trait_DEBUG_HS ) ) {
         uilist menu;
         menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
@@ -3730,21 +3730,21 @@ bool player::unload( item &it )
 
     if( target->is_magazine() ) {
         player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
-        g->u.assign_activity( unload_mag_act );
-        g->u.activity.targets.emplace_back( item_location( *this, target ) );
+        assign_activity( unload_mag_act );
+        activity.targets.emplace_back( item_location( *this, target ) );
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
         for( auto &content : target->contents ) {
             mv += this->item_reload_cost( it, content, content.charges ) / 2;
         }
-        g->u.activity.moves_left += mv;
+        activity.moves_left += mv;
 
         // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
         if( !it.is_ammo_belt() ) {
-            g->u.activity.moves_left += mv;
+            activity.moves_left += mv;
         }
-        g->u.activity.auto_resume = true;
+        activity.auto_resume = true;
 
         return true;
 
@@ -5553,21 +5553,18 @@ item &player::item_with_best_of_quality( const quality_id &qid )
 
 bool player::crush_frozen_liquid( item_location loc )
 {
-
-    player &u = g->u;
-
-    if( u.has_quality( quality_id( "HAMMER" ) ) ) {
-        item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
+    if( has_quality( quality_id( "HAMMER" ) ) ) {
+        item hammering_item = item_with_best_of_quality( quality_id( "HAMMER" ) );
         //~ %1$s: item to be crushed, %2$s: hammer name
         if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
                          "<color_red>Be wary of fragile items nearby!</color>" ),
                       loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
             //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-            if( one_in( 1 + u.dex_cur / 4 ) ) {
+            if( one_in( 1 + dex_cur / 4 ) ) {
                 add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                    hammering_item.tname() );
-                int smashskill = u.str_cur + hammering_item.damage_melee( DT_BASH );
+                int smashskill = str_cur + hammering_item.damage_melee( DT_BASH );
                 g->m.bash( loc.position(), smashskill );
             }
             add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
@@ -5633,7 +5630,7 @@ const targeting_data &player::get_targeting_data()
         debugmsg( "Tried to get targeting data before setting it" );
         tdata.reset( new targeting_data() );
         tdata->relevant = nullptr;
-        g->u.cancel_activity();
+        cancel_activity();
     }
 
     return *tdata;
