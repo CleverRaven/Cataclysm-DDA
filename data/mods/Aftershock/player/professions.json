@@ -191,7 +191,7 @@
     "type": "profession",
     "ident": "afs_mastadon_swat",
     "name": "Upifted Enforcer",
-    "description": "Uplifted elephants are created with human, elephant and mastodon DNA among others.  Exclusively created by the military they are often known as Killophants.  You served your tours and earned the right to be considered a full citizen.  While many of your peers became mercenaries, you decided to devote your life to helping others.  Now you may be the last lawman standing, and stand you will against the hordes.",
+    "description": "You are an uplifted elephant hybrid, a precisely engineered enforcer creature created by combining human, elephant and mastodon DNA.   Unlike most of your war-minded kin,  you sought a peaceful retirement after completing your compulsive service period, and even earned the right to be considered a full citizen. Now, with the end of the world in the horizon, it seems that your combat skills might come useful once again.",
     "points": 10,
     "skills": [
       { "level": 3, "name": "gun" },
