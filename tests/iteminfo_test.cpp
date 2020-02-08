@@ -113,11 +113,11 @@ TEST_CASE( "gun damage with floating-point damage multiplier", "[item][iteminfo]
 }
 
 TEST_CASE( "nutrients in food", "[item][iteminfo]" )
+{
     iteminfo_query q( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                         iteminfo_parts::FOOD_QUENCH
                       } );
-    SECTION( "fixed nutrient values in regular item" )
-    {
+    SECTION( "fixed nutrient values in regular item" ) {
         item i( "icecream" );
         iteminfo_test(
             i, q,
@@ -127,8 +127,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo]" )
             "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
     }
 
-    SECTION( "nutrient ranges for recipe exemplars", "[item][iteminfo]" )
-    {
+    SECTION( "nutrient ranges for recipe exemplars", "[item][iteminfo]" ) {
         item i( "icecream" );
         i.set_var( "recipe_exemplar", "icecream" );
         iteminfo_test(
