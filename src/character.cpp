@@ -2153,7 +2153,9 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
+                return ret_val<bool>::make_failure( is_player() ?
+                                                    _( "Your %s mutation prevents you from wearing your %s." ), branch.name(), it.type_name() :
+                                                    _( "My %s mutation prevents me from wearing this %s." ), branch.name(), it.type_name(),
                                                     branch.name(), it.type_name() );
             }
         }
