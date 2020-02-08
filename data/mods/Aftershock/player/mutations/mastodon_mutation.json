@@ -61,7 +61,7 @@
     "id": "WEAKJOINTS",
     "name": { "str": "Weak Joints" },
     "points": -1,
-    "description": "A common flaw in this genemod brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
+    "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
     "cancels": [ "PARKOUR" ],
     "category": [ "MASTODON" ],
     "movecost_obstacle_modifier": 1.15
