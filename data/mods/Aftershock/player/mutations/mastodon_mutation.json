@@ -81,7 +81,7 @@
     "id": "ELEPHANTINE_SMELL",
     "name": "Strong Scent",
     "points": -1,
-    "description": "Your scent is particularly strong.  It's vaguely offensive to humans, but animals that track your scent will do so more easily.",
+    "description": "Your scent is particularly strong.  It's vaguely offensive to humans, and animals that track your scent will do so more easily.",
     "starting_trait": true,
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
