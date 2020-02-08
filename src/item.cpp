@@ -3296,13 +3296,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     // list recipes you could use it in
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
-        itype_id tid;
-        if( contents.empty() ) { // use this item
-            tid = typeId();
-        } else { // use the contained item
-            tid = contents.front().typeId();
-        }
-
+        itype_id tid = contents.empty() ? typeId() : contents.front().typeId();
         const inventory &crafting_inv = g->u.crafting_inventory();
         const recipe_subset available_recipe_subset = g->u.get_available_recipes( crafting_inv );
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
