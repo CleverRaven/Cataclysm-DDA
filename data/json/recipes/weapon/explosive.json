@@ -97,12 +97,8 @@
     "autolearn": true,
     "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 2 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
-      [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
-      [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "biodiesel", 400 ], [ "sugar", 100 ] ],
-      [ [ "string_6", 1 ], [ "rag", 1 ] ]
-    ]
+    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 17 ] ],
+    "components": [ [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "flashbang",
@@ -327,7 +323,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
-    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_anfo", 70 ] ], [ [ "dynamite", 2 ] ] ]
+    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_anfo", 6300 ] ], [ [ "dynamite", 2 ] ] ]
   },
   {
     "result": "can_bomb",
