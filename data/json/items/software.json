@@ -30,8 +30,7 @@
     "id": "software_medical",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "MediSoft",
-    "name_plural": "MediSoft",
+    "name": { "str": "MediSoft", "str_pl": "MediSoft" },
     "description": "A piece of medical software.",
     "price": 600
   },
@@ -39,8 +38,7 @@
     "id": "software_math",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "MatheMAX",
-    "name_plural": "MatheMAX",
+    "name": { "str": "MatheMAX", "str_pl": "MatheMAX" },
     "description": "A piece of mathematical software.",
     "price": 500
   },

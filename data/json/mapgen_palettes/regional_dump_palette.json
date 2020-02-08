@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "regional_dump",
     "terrain": {
-      ".": "t_dirt",
-      ",": "t_grass",
+      ".": "t_region_groundcover_barren",
+      ",": "t_region_groundcover",
       "-": "t_fence_barbed",
       "|": "t_fence_barbed",
       "'": "t_pavement",

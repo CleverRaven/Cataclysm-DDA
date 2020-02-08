@@ -1189,10 +1189,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
         }
     }
 
-    targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
-        return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
-    } ), targets.end() );
-
     if( targets.empty() ) {
         idx = -1;
 
@@ -1350,7 +1346,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( who.guaranteed_hostile() ) {
                 return true;
             }
-            return query_yn( _( "Really attack %s?" ), who.name );
+            if( g->u.sees( who ) ) {
+                return query_yn( _( "Really attack %s?" ), who.name );
+            }
         }
         return true;
     };

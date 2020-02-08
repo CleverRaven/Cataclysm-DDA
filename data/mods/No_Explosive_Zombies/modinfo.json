@@ -5,7 +5,8 @@
     "name": "No Explosive Zombies",
     "description": "Removes all explosion-based zombies from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",

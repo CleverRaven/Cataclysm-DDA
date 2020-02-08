@@ -1326,7 +1326,7 @@ void player::hardcoded_effects( effect &it )
                     add_effect( effect_downed, td );
                     add_effect( effect_stunned, td );
                     if( one_in( 3 ) ) {
-                        add_msg_if_player( m_bad, _( "You lose conciousness!" ) );
+                        add_msg_if_player( m_bad, _( "You lose consciousness!" ) );
                         fall_asleep( td );
                     }
                 }

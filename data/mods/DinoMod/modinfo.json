@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "ident": "DinoMod",
     "name": "DinoMod",
+    "maintainers": [ "damien" ],
     "description": "Adds dinosaurs.",
     "category": "creatures",
-    "dependencies": [ "dda" ],
-    "obsolete": false
+    "dependencies": [ "dda" ]
   }
 ]

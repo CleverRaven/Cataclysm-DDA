@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -80,7 +81,8 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        std::string last_construction;
+        cata::optional<std::string> last_construction;
+        construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;

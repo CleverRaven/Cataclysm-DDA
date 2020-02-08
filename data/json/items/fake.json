@@ -42,7 +42,7 @@
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],
       [ "PRY", 1 ],
-      [ "DRILL", 1 ],
+      [ "DRILL", 3 ],
       [ "BUTCHER", -38 ]
     ]
   },
@@ -50,8 +50,7 @@
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic goggles",
-    "name_plural": "bionic goggles",
+    "name": { "str": "bionic goggles", "str_pl": "bionic goggles" },
     "qualities": [ [ "GLARE", 2 ] ]
   },
   {
@@ -88,7 +87,7 @@
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",
-    "name": "acid spit gun",
+    "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
     "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
@@ -103,7 +102,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
-    "name": "reach bow",
+    "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": "steel",
@@ -158,7 +157,7 @@
     "id": "migo_bio_gun",
     "type": "GUN",
     "copy-from": "fake_item",
-    "name": "mi-go bio-gun",
+    "name": { "str": "mi-go bio-gun" },
     "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
     "flags": [ "NEVER_JAMS" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],

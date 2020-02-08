@@ -834,7 +834,6 @@ class JsonObject
 
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
-        std::set<std::string> get_member_names() const;
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;

@@ -413,12 +413,6 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
   },
   {
-    "result": "battletorch_done",
-    "type": "uncraft",
-    "time": "2 m",
-    "components": [ [ [ "bat", 1 ] ], [ [ "nomex", 5 ] ] ]
-  },
-  {
     "result": "bindle",
     "type": "uncraft",
     "time": "6 s",
@@ -3216,21 +3210,21 @@
     "type": "uncraft",
     "time": "2 m 3 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 35 ] ] ]
+    "components": [ [ [ "cardboard", 15 ] ] ]
   },
   {
     "result": "box_medium",
     "type": "uncraft",
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 70 ] ] ]
+    "components": [ [ [ "cardboard", 85 ] ] ]
   },
   {
     "result": "box_large",
     "type": "uncraft",
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 105 ] ] ]
+    "components": [ [ [ "cardboard", 125 ] ] ]
   },
   {
     "result": "washing_machine",
@@ -3423,7 +3417,7 @@
     "result": "styrofoam_cup",
     "type": "uncraft",
     "time": "6 s",
-    "components": [ [ [ "paper", 10 ] ], [ [ "plastic_chunk", 2 ] ] ],
+    "components": [ [ [ "cardboard", 2 ] ], [ [ "plastic_chunk", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

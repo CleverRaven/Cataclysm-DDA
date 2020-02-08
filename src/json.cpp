@@ -183,15 +183,6 @@ bool JsonObject::has_member( const std::string &name ) const
     return positions.count( name ) > 0;
 }
 
-std::set<std::string> JsonObject::get_member_names() const
-{
-    std::set<std::string> ret;
-    for( auto &elem : positions ) {
-        ret.insert( elem.first );
-    }
-    return ret;
-}
-
 std::string JsonObject::line_number() const
 {
     jsin->seek( start );
@@ -1744,7 +1735,7 @@ void JsonOut::end_pretty()
         indent_level -= 1;
         // Wrap after ending top level array and object.
         // Also wrap in the special case of exiting an array containing an object.
-        if( indent_level < 2 || need_wrap.back() ) {
+        if( indent_level < 1 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();
         } else {

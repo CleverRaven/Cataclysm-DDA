@@ -1,6 +1,25 @@
 [
   {
     "type": "GENERIC",
+    "id": "pitchfork",
+    "name": "pitchfork",
+    "category": "tools",
+    "description": "An agricultural tool with long wooden shaft and four spikes.  Is used to lift hay.",
+    "weight": "1000 g",
+    "to_hit": 1,
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "steel", "wood" ],
+    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
+    "volume": "1750 ml",
+    "bashing": 5,
+    "cutting": 18,
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "price": 2000
+  },
+  {
+    "type": "GENERIC",
     "id": "pointy_stick",
     "symbol": "/",
     "color": "brown",

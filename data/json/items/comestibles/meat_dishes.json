@@ -363,7 +363,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bologna",
-    "name": "bologna",
+    "name": { "str": "bologna", "str_pl": "bologna" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "brat %s", "str_pl": "brat %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "bleak %s", "str_pl": "bleak %s" } }
@@ -409,7 +409,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_spam",
-    "name": "SPAM",
+    "name": { "str": "SPAM", "str_pl": "SPAM" },
     "//": "SPAM comes in cans of six 2 oz slices.  Each charge is one slice.",
     "weight": "56 g",
     "color": "pink",
@@ -623,7 +623,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_salmon",
-    "name": "canned salmon",
+    "name": { "str": "canned salmon", "str_pl": "canned salmon" },
     "weight": "200 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -660,7 +660,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_herring",
-    "name": "pickled herring",
+    "name": { "str": "pickled herring", "str_pl": "pickled herring" },
     "weight": "232 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -978,7 +978,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fried_spam",
-    "name": "fried SPAM",
+    "name": { "str": "fried SPAM", "str_pl": "fried SPAM" },
     "copy-from": "can_spam",
     "color": "red",
     "quench": -6,

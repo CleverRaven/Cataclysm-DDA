@@ -390,5 +390,25 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     }
+  },
+  {
+    "id": "aura_stoneskin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "stoneskin coating",
+    "name_plural": "stoneskin coating",
+    "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
+    "weight": "10200 g",
+    "volume": "25 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 20,
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
   }
 ]

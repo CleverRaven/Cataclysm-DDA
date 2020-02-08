@@ -5,6 +5,7 @@
 #include <numeric>
 
 #include "calendar.h"
+#include "debug.h"
 #include "game_constants.h"
 #include "item.h"
 #include "itype.h"
@@ -25,6 +26,8 @@
 #include "string_id.h"
 #include "flat_set.h"
 #include "units.h"
+
+extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -100,6 +103,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_int( "time" ) ) {
+        // so we can specify moves that is not a multiple of 100
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
         time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
@@ -198,6 +202,16 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     const std::string type = jo.get_string( "type" );
 
+    // inline requirements are always replaced (cannot be inherited)
+    reqs_internal.clear();
+
+    // These cannot be inherited
+    check_blueprint_needs = false;
+    has_blueprint_needs = false;
+    time_blueprint = 0;
+    skills_blueprint.clear();
+    reqs_blueprint.clear();
+
     if( type == "recipe" ) {
         if( jo.has_string( "id_suffix" ) ) {
             if( abstract ) {
@@ -243,7 +257,40 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
-            assign( jo, "blueprint_autocalc", bp_autocalc );
+            if( jo.has_member( "blueprint_needs" ) ) {
+                has_blueprint_needs = true;
+                const JsonObject jneeds = jo.get_object( "blueprint_needs" );
+                if( jneeds.has_member( "time" ) ) {
+                    if( jneeds.has_int( "time" ) ) {
+                        // so we can specify moves that is not a multiple of 100
+                        time_blueprint = jneeds.get_int( "time" );
+                    } else {
+                        time_blueprint = to_moves<int>( read_from_json_string<time_duration>( *jneeds.get_raw( "time" ),
+                                                        time_duration::units ) );
+                    }
+                    time += time_blueprint;
+                }
+                if( jneeds.has_member( "skills" ) ) {
+                    for( JsonArray cur : jneeds.get_array( "skills" ) ) {
+                        skills_blueprint[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+                    }
+                    for( const std::pair<skill_id, int> &p : skills_blueprint ) {
+                        const auto it = required_skills.find( p.first );
+                        if( it == required_skills.end() ) {
+                            required_skills.emplace( p );
+                        } else {
+                            it->second = std::max( it->second, p.second );
+                        }
+                    }
+                }
+                if( jneeds.has_member( "inline" ) ) {
+                    const requirement_id req_id( "inline_blueprint_" + type + "_" + ident_.str() );
+                    requirement_data::load_requirement( jneeds.get_object( "inline" ), req_id );
+                    reqs_blueprint.emplace_back( req_id, 1 );
+                    reqs_internal.emplace_back( req_id, 1 );
+                }
+            }
+            check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -251,17 +298,17 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         jo.throw_error( "unknown recipe type", "type" );
     }
 
-    // inline requirements are always replaced (cannot be inherited)
-    const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
+    const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
     requirement_data::load_requirement( jo, req_id );
-    reqs_internal = { { req_id, 1 } };
+    reqs_internal.emplace_back( req_id, 1 );
 }
 
 void recipe::finalize()
 {
-    if( bp_autocalc ) {
-        add_bp_autocalc_requirements();
+    if( test_mode && check_blueprint_needs ) {
+        check_blueprint_requirements();
     }
+
     // concatenate both external and inline requirements
     add_requirements( reqs_external );
     add_requirements( reqs_internal );
@@ -269,8 +316,10 @@ void recipe::finalize()
     reqs_external.clear();
     reqs_internal.clear();
 
-    if( bp_autocalc ) {
-        requirements_.consolidate();
+    if( has_blueprint_needs ) {
+        time_blueprint = 0;
+        skills_blueprint.clear();
+        reqs_blueprint.clear();
     }
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
@@ -582,21 +631,63 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() co
     return bp_excludes;
 }
 
-void recipe::add_bp_autocalc_requirements()
+void recipe::check_blueprint_requirements()
 {
     build_reqs total_reqs;
     get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
-    time = total_reqs.time;
-    for( const auto &skill_data : total_reqs.skills ) {
-        if( required_skills.find( skill_data.first ) == required_skills.end() ) {
-            required_skills[skill_data.first] = skill_data.second;
+    requirement_data req_data_blueprint = std::accumulate(
+            reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
+    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+    requirement_data req_data_calc = std::accumulate(
+                                         total_reqs.reqs.begin(), total_reqs.reqs.end(), requirement_data(),
+    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+    // do not consolidate req_data_blueprint: it actually changes the meaning of the requirement.
+    // instead we enforce specifying the exact consolidated requirement.
+    req_data_calc.consolidate();
+    if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
+        || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
+        std::ostringstream os;
+        JsonOut jsout( os, /*pretty_print=*/true );
+
+        jsout.start_object();
+
+        jsout.member( "time" );
+        if( total_reqs.time % 100 == 0 ) {
+            dump_to_json_string( time_duration::from_turns( total_reqs.time / 100 ),
+                                 jsout, time_duration::units );
         } else {
-            required_skills[skill_data.first] = std::max( skill_data.second,
-                                                required_skills[skill_data.first] );
+            // cannot precisely represent the value using time_duration format,
+            // write integer instead.
+            jsout.write( total_reqs.time );
         }
-    }
-    for( const auto &req : total_reqs.reqs ) {
-        reqs_internal.emplace_back( std::make_pair( req.first, req.second ) );
+
+        jsout.member( "skills" );
+        jsout.start_array( /*wrap=*/!total_reqs.skills.empty() );
+        for( const std::pair<skill_id, int> &p : total_reqs.skills ) {
+            jsout.start_array();
+            jsout.write( p.first );
+            jsout.write( p.second );
+            jsout.end_array();
+        }
+        jsout.end_array();
+
+        jsout.member( "inline" );
+        req_data_calc.dump( jsout );
+
+        jsout.end_object();
+
+        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
+                  "Specify \"check_blueprint_needs\": false to disable the check or "
+                  "Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
+                  // mark it for the auto-update python script
+                  "~~~ auto-update-blueprint: %1$s\n"
+                  "%2$s\n"
+                  "~~~ end-auto-update",
+                  ident_.str(), os.str() );
     }
 }
 

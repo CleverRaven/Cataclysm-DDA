@@ -19,6 +19,7 @@
 #include "trap.h"
 #include "assign.h"
 #include "json.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -313,7 +314,7 @@ furn_t null_furniture_t()
     new_furniture.movecost = 0;
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
-    new_furniture.set_flag( "TRANSPARENT" );
+    new_furniture.set_flag( flag_TRANSPARENT );
     new_furniture.examine = iexamine_function_from_string( "none" );
     new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_furniture;
@@ -334,8 +335,8 @@ ter_t null_terrain_t()
     new_terrain.light_emitted = 0;
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
-    new_terrain.set_flag( "TRANSPARENT" );
-    new_terrain.set_flag( "DIGGABLE" );
+    new_terrain.set_flag( flag_TRANSPARENT );
+    new_terrain.set_flag( flag_DIGGABLE );
     new_terrain.examine = iexamine_function_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;

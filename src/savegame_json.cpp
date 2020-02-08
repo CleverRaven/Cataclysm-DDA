@@ -1926,6 +1926,8 @@ void monster::load( const JsonObject &data )
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
 
+    data.read( "udder_timer", udder_timer );
+
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
@@ -2008,6 +2010,7 @@ void monster::store( JsonOut &json ) const
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
+    json.member( "udder_timer", udder_timer );
 
     json.member( "summon_time_limit", summon_time_limit );
 
@@ -3745,7 +3748,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
-        jsout.write( elem.second.id );
+        jsout.write( elem.second.id.id() );
         jsout.start_array();
         for( auto &it : elem.second.components ) {
             jsout.write( it );
@@ -3757,13 +3760,13 @@ void submap::store( JsonOut &jsout ) const
     if( legacy_computer ) {
         // it's possible that no access to computers has been made and legacy_computer
         // is not cleared
-        jsout.member( "computers", legacy_computer->save_data() );
+        jsout.member( "computers", *legacy_computer );
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
         for( auto &elem : computers ) {
             jsout.write( elem.first );
-            jsout.write( elem.second.save_data() );
+            jsout.write( elem.second );
         }
         jsout.end_array();
     }
@@ -4016,7 +4019,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int k = jsin.get_int();
             tripoint pt = tripoint( i, j, k );
             pc.counter = jsin.get_int();
-            pc.id = jsin.get_int();
+            if( jsin.test_int() ) {
+                // Oops, int id incorrectly saved by legacy code, just load it and hope for the best
+                pc.id = construction_id( jsin.get_int() );
+            } else {
+                pc.id = construction_str_id( jsin.get_string() ).id();
+            }
             jsin.start_array();
             while( !jsin.end_array() ) {
                 item tmp;
@@ -4031,16 +4039,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                std::string computer_data = jsin.get_string();
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
-                new_comp_it->second.load_data( computer_data );
+                jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            std::string computer_data = jsin.get_string();
             legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-            legacy_computer->load_data( computer_data );
+            jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();

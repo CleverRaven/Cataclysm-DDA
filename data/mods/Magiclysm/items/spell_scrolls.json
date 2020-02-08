@@ -685,5 +685,85 @@
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druidic_regrowth",
+    "name": { "str": "Scroll of Sacrificial Regrowth", "str_pl": "Scrolls of Sacrificial Regrowth" },
+    "description": "Through giving of one's own life force, you restore withered and barren plant life nearby.  What remains will need time to regrow its full strength.",
+    "use_action": { "type": "learn_spell", "spells": [ "druidic_regrowth" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druidic_healing",
+    "name": { "str": "Scroll of Sacrificial Healing", "str_pl": "Scrolls of Sacrificial Healing" },
+    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druidic_healing" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_stoneskin",
+    "name": { "str": "Scroll of Stoneskin", "str_pl": "Scrolls of Stoneskin" },
+    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_pillar",
+    "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
+    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_paralytic_dart",
+    "name": { "str": "Scroll of Paralytic Dart", "str_pl": "Scrolls of Paralytic Dart" },
+    "description": "Spits a warped needle of sinew and bone, carrying with it a sting that slows your victim.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_paralytic_dart" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_visceral_projection",
+    "name": { "str": "Scroll of Visceral Projection", "str_pl": "Scrolls of Visceral Projection" },
+    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in in a field of twitching poisonous tendrils.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_visceral_projection" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_coagulant_weave",
+    "name": { "str": "Scroll of Coagulant Weave", "str_pl": "Scrolls of Coagulant Weave" },
+    "description": "Turns your biological mastery inwards, medically enhancing your flesh.  Rather than strength of healing, it staves off blood loss and purges wounds before they can turn septic, at the cost of increased hunger and thirst.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_coagulant_weave" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_ionization",
+    "name": { "str": "Scroll of Ionization", "str_pl": "Scrolls of Ionization" },
+    "description": "By manipulating the charge in the air, you can conjure a sharp snap of lightning over a wide area.  While its destructive potential is a far cry from natural lightning, the light and thunderclap produced will leave your foes reeling.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_ionization" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_wisps",
+    "name": { "str": "Scroll of Ignus Fatuus", "str_pl": "Scrolls of Ignus Fatuus" },
+    "description": "Summons ghostly foxfire worked from living marsh vapor, to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_wall_of_fog",
+    "name": { "str": "Scroll of Wall of Fog", "str_pl": "Scrolls of Wall of Fog" },
+    "description": "Draws forth a broad wall of thick fog.  While the sudden force of air pressure will floor any enemies caught in it, the conjuration is otherwise harmless.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_wall_of_fog" ] }
   }
 ]
