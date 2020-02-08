@@ -7264,7 +7264,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    ::fake_map fake_map( f_null, t_dirt, tr_null, fake_map_z );
+    ::fake_map fake_map( f_null, t_dirt, fake_map_z );
 
     oter_id any = oter_id( "field" );
     // just need a variable here, it doesn't need to be valid

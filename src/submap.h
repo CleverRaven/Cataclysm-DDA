@@ -52,8 +52,10 @@ struct maptile_soa {
     std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
     cata::colony<item> itm[sx][sy];  // Items on each square
     field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
     int                rad[sx][sy];  // Irradiation of each square
+
+    // Traps are relatively sparse, so use a map to save memory
+    std::unordered_map<point, trap_id> traps;
 
     void swap_soa_tile( const point &p1, const point &p2 );
     void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
@@ -65,12 +67,16 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         submap();
 
         trap_id get_trap( const point &p ) const {
-            return trp[p.x][p.y];
+            auto trap_it = traps.find( p );
+            if( trap_it == traps.end() ) {
+                return trap_id( "tr_null" );
+            }
+            return trap_it->second;
         }
 
         void set_trap( const point &p, trap_id trap ) {
             is_uniform = false;
-            trp[p.x][p.y] = trap;
+            traps[p] = trap;
         }
 
         furn_id get_furn( const point &p ) const {

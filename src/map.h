@@ -1845,8 +1845,7 @@ class fake_map : public tinymap
     private:
         std::vector<std::unique_ptr<submap>> temp_submaps_;
     public:
-        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                  int fake_map_z );
+        fake_map( const furn_id &fur_type, const ter_id &ter_type, int fake_map_z );
         ~fake_map() override;
 };
 #endif

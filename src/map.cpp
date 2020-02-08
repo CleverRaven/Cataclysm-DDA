@@ -7371,8 +7371,7 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                    const int fake_map_z )
+fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const int fake_map_z )
 {
     const tripoint tripoint_below_zero( 0, 0, fake_map_z );
 
@@ -7383,7 +7382,6 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
 
             std::uninitialized_fill_n( &sm->ter[0][0], SEEX * SEEY, ter_type );
             std::uninitialized_fill_n( &sm->frn[0][0], SEEX * SEEY, fur_type );
-            std::uninitialized_fill_n( &sm->trp[0][0], SEEX * SEEY, trap_type );
 
             setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );
 

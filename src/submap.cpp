@@ -17,8 +17,19 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
     std::swap( lum[p1.x][p1.y], lum[p2.x][p2.y] );
     std::swap( itm[p1.x][p1.y], itm[p2.x][p2.y] );
     std::swap( fld[p1.x][p1.y], fld[p2.x][p2.y] );
-    std::swap( trp[p1.x][p1.y], trp[p2.x][p2.y] );
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
+
+    auto p1_it = traps.find( p1 );
+    auto p2_it = traps.find( p2 );
+    if( p1_it != traps.end() && p2_it != traps.end() ) {
+        std::swap( p1_it->second, p2_it->second );
+    } else if( p1_it != traps.end() ) {
+        traps.emplace( p2, p1_it->second );
+        traps.erase( p1_it );
+    } else if( p2_it != traps.end() ) {
+        traps.emplace( p1, p2_it->second );
+        traps.erase( p2_it );
+    }
 }
 
 template<int sx, int sy>
@@ -29,8 +40,18 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &othe
     std::swap( lum[p.x][p.y], **other.lum );
     std::swap( itm[p.x][p.y], **other.itm );
     std::swap( fld[p.x][p.y], **other.fld );
-    std::swap( trp[p.x][p.y], **other.trp );
     std::swap( rad[p.x][p.y], **other.rad );
+
+    auto p_it = traps.find( p );
+    if( p_it != traps.end() && !other.traps.empty() ) {
+        std::swap( p_it->second, other.traps.begin()->second );
+    } else if( p_it != traps.end() ) {
+        other.traps.emplace( point_zero, p_it->second );
+        traps.erase( p_it );
+    } else if( !other.traps.empty() ) {
+        traps.emplace( p, other.traps.begin()->second );
+        other.traps.clear();
+    }
 }
 
 submap::submap()
@@ -40,7 +61,6 @@ submap::submap()
     std::uninitialized_fill_n( &ter[0][0], elements, t_null );
     std::uninitialized_fill_n( &frn[0][0], elements, f_null );
     std::uninitialized_fill_n( &lum[0][0], elements, 0 );
-    std::uninitialized_fill_n( &trp[0][0], elements, tr_null );
     std::uninitialized_fill_n( &rad[0][0], elements, 0 );
 
     is_uniform = false;

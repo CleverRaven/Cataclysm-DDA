@@ -3664,19 +3664,11 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "traps" );
     jsout.start_array();
-    for( int j = 0; j < SEEY; j++ ) {
-        for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
-            // Save traps
-            if( get_trap( p ) ) {
-                jsout.start_array();
-                jsout.write( p.x );
-                jsout.write( p.y );
-                // TODO: jsout should support writing an id like jsout.write( trap_id )
-                jsout.write( get_trap( p ).id().str() );
-                jsout.end_array();
-            }
-        }
+    for( auto kv : traps ) {
+        jsout.start_object();
+        jsout.member( "pos", kv.first );
+        jsout.member( "id", kv.second.id().str() );
+        jsout.end_object();
     }
     jsout.end_array();
 
@@ -3904,20 +3896,34 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         }
     } else if( member_name == "traps" ) {
         jsin.start_array();
-        while( !jsin.end_array() ) {
-            jsin.start_array();
-            int i = jsin.get_int();
-            int j = jsin.get_int();
-            const point p( i, j );
-            // TODO: jsin should support returning an id like jsin.get_id<trap>()
-            const trap_str_id trid( jsin.get_string() );
-            if( trid == "tr_brazier" ) {
-                frn[p.x][p.y] = furn_id( "f_brazier" );
-            } else {
-                trp[p.x][p.y] = trid.id();
+        // Determine if the save is legacy
+        if( jsin.test_array() ) {
+            // Legacy
+            while( !jsin.end_array() ) {
+                jsin.start_array();
+                int i = jsin.get_int();
+                int j = jsin.get_int();
+                const point p( i, j );
+                // TODO: jsin should support returning an id like jsin.get_id<trap>()
+                const trap_str_id trid( jsin.get_string() );
+                if( trid == "tr_brazier" ) {
+                    frn[p.x][p.y] = furn_id( "f_brazier" );
+                } else {
+                    traps.emplace( p, trid.id() );
+                }
+                // TODO: remove legacy brazier trap-to-furniture conversion after 0.D
+                jsin.end_array();
             }
-            // TODO: remove brazier trap-to-furniture conversion after 0.D
-            jsin.end_array();
+        } else {
+            // Not legacy
+            while( !jsin.end_array() ) {
+                JsonObject jo( jsin );
+                point pos;
+                jo.read( "pos", pos );
+                trap_str_id id;
+                jo.read( "id", id );
+                traps.emplace( pos, id.id() );
+            }
         }
     } else if( member_name == "fields" ) {
         jsin.start_array();
