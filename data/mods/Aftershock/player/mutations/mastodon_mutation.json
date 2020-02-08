@@ -457,7 +457,7 @@
   {
     "type": "mutation",
     "id": "FLUSH",
-    "name": "Water Needs",
+    "name": "High Thirst",
     "points": -2,
     "description": "Your body needs more water than usual to flush the denser waste products.",
     "starting_trait": true,
