@@ -50,4 +50,10 @@ Ncurses and tiles version available in [official repos](https://src.fedoraprojec
 
 `sudo dnf install cataclysm-dda`
 
+## Debian / Ubuntu
+
+Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda)
+
+`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
+
 [![Packaging status](https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg)](https://repology.org/project/cataclysm-dda/versions)
