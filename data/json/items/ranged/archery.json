@@ -669,25 +669,23 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
-  "type": "GENERIC",
-  "id": "throwing_knife",
-  "category": "weapons",
-  "price": 5200,
-  "name": "throwing knife",
-  "name_plural": "throwing knives",
-  "symbol": ";",
-  "color": "light_gray",
-  "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
-  "material": "steel",
-  "volume": "250 ml",
-  "weight": "268 g",
-  "bashing": 1,
-  "cutting": 10,
-  "thrown_damage": [
-    { "damage_type": "stab", "amount": 14 }
-  ],
-  "flags": "SHEATH_KNIFE"
-},
+    "type": "GENERIC",
+    "id": "throwing_knife",
+    "category": "weapons",
+    "price": 5200,
+    "name": "throwing knife",
+    "name_plural": "throwing knives",
+    "symbol": ";",
+    "color": "light_gray",
+    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "material": "steel",
+    "volume": "250 ml",
+    "weight": "268 g",
+    "bashing": 1,
+    "cutting": 10,
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "flags": "SHEATH_KNIFE"
+  },
   {
     "type": "GENERIC",
     "id": "throwing_axe",

@@ -28,12 +28,9 @@
     "symbol": "!",
     "color": "yellow",
     "use_action": {
-        "type": "consume_drug",
-        "activation_message": "You pop a melatonin tablet.",
-        "effects": [{
-            "id": "melatonin",
-            "duration": 960
-        }]
+      "type": "consume_drug",
+      "activation_message": "You pop a melatonin tablet.",
+      "effects": [ { "id": "melatonin", "duration": 960 } ]
     }
   },
   {
