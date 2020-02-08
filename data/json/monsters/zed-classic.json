@@ -403,7 +403,7 @@
     "id": "mon_zombie_swat",
     "type": "MONSTER",
     "name": "SWAT zombie",
-    "description": "This zombie was part of a specialized unit of law enforcement. It still wears a battered armor with the SWAT logo emblazoned at the front.",
+    "description": "This zombie was part of a specialized unit of law enforcement.  It still wears a battered armor with the SWAT logo emblazoned at the front.",
     "looks_like": "mon_zombie_cop",
     "bodytype": "human",
     "default_faction": "cop_zombie",
