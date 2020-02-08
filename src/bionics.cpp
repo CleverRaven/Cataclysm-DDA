@@ -301,7 +301,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         for( bionic &bio : *my_bionics ) {
             if( bio.id == bio_earplugs ) {
                 bio.powered = false;
-                add_msg_if_player( m_info, _( "Your %s automatically turns off." ),
+                add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
                                    bio.info().name );
             }
         }
