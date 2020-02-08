@@ -294,7 +294,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 15 ] ],
+    "using": [ [ "volatile_explosive", 18 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
