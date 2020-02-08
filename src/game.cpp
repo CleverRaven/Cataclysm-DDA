@@ -7725,9 +7725,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
 
                 if( m != nullptr ) {
-                    mvwprintz( w_monsters, point( 1, y ), name_color, m->name() );
+                    trim_and_print( w_monsters, point( 1, y ), width - 26, name_color, m->name() );
                 } else {
-                    mvwprintz( w_monsters, point( 1, y ), name_color, critter->disp_name() );
+                    trim_and_print( w_monsters, point( 1, y ), width - 26, name_color, critter->disp_name() );
                     is_npc = true;
                 }
 
