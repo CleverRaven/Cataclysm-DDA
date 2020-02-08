@@ -430,6 +430,7 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 15 ] ],
     "death_drops": "mon_zombie_swat_death_drops",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into": "mon_zombie_kevlar_1" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
