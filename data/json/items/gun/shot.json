@@ -186,7 +186,7 @@
     "looks_like": "mossberg_500",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
-    "barrel_length": 0,
+    "barrel_length": "0 ml",
     "clip_size": 9
   },
   {

@@ -1168,11 +1168,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     int converted_volume_scale = 0;
     const double converted_volume = round_up( convert_volume( volume().value(),
-                                    &converted_volume_scale ) * batch, 2 );
+                                    &converted_volume_scale ) * batch, 3 );
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
         if( converted_volume_scale != 0 ) {
-            f |= iteminfo::is_decimal;
+            f |= iteminfo::is_three_decimal;
         }
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
@@ -1728,7 +1728,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                _( "<num>" ), iteminfo::no_flags, range );
             int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
             info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
-                               iteminfo::is_decimal | iteminfo::lower_is_better, aim_mv );
+                               iteminfo::lower_is_better, aim_mv );
         }
     }
 
@@ -8053,7 +8053,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     sType = Type;
     sName = replace_colors( Name );
     sFmt = replace_colors( Fmt );
-    is_int = !( Flags & is_decimal );
+    is_int = !( Flags & is_decimal || Flags & is_three_decimal );
+    three_decimal = ( Flags & is_three_decimal );
     dValue = Value;
     bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
@@ -8062,6 +8063,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     }
     if( is_int ) {
         convert << std::setprecision( 0 );
+    } else if( three_decimal ) {
+        convert << std::setprecision( 3 );
     } else {
         convert << std::setprecision( 2 );
     }

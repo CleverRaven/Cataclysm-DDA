@@ -3266,7 +3266,7 @@ std::string give_item_to( npc &p, bool allow_use )
             }
         } else {
             reason += string_format(
-                          _( "My current weapon is better than this. \n(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                          _( "My current weapon is better than this.\n(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
                           cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead

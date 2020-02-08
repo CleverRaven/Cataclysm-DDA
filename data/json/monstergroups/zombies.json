@@ -53,7 +53,8 @@
     "default": "mon_zombie_scorched",
     "monsters": [
       { "monster": "mon_zombie_scorched", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_child_scorched", "freq": 10, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_child_scorched", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fiend", "freq": 5, "cost_multiplier": 5 }
     ]
   },
   {

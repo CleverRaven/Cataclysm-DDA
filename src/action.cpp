@@ -1090,7 +1090,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
         if( highlighted ) {
             wrefresh( g->w_terrain );
-        } else {
+        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
             add_msg( failure_message );
             return cata::nullopt;
         }
