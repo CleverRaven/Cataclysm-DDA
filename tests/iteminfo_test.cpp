@@ -16,6 +16,19 @@ static void iteminfo_test( const item &i, const iteminfo_query &q, const std::st
     CHECK( info == reference );
 }
 
+TEST_CASE( "show basic item info", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::DESCRIPTION, iteminfo_parts::BASE_CATEGORY,
+                        iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT } );
+    iteminfo_test(
+        item( "jug_plastic" ), q,
+        "A standard plastic jug used for milk and household cleaning chemicals.\n"
+        "--\n"
+        "Category: <color_c_magenta>CONTAINERS</color>"
+        "<color_c_white>Volume</color>: <color_c_yellow>3.750</color> L"
+        "  Weight: <color_c_yellow>0.42</color> lbs\n" );
+}
+
 TEST_CASE( "armor_info", "[item][iteminfo]" )
 {
     // Just a generic typical piece of clothing
@@ -99,3 +112,51 @@ TEST_CASE( "nutrient_ranges_for_recipe_exemplars", "[item][iteminfo]" )
         "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
         "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
 }
+
+TEST_CASE( "show item conductivity", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
+
+    SECTION( "non-conductive items" ) {
+        iteminfo_test(
+            item( "2x4" ), q,
+            "--\n"
+            "* This item <color_c_green>does not conduct</color> electricity.\n" );
+        iteminfo_test(
+            item( "fire_ax" ), q,
+            "--\n"
+            "* This item <color_c_green>does not conduct</color> electricity.\n" );
+    }
+
+    SECTION( "conductive items" ) {
+        iteminfo_test(
+            item( "pipe" ), q,
+            "--\n"
+            "* This item <color_c_red>conducts</color> electricity.\n" );
+        iteminfo_test(
+            item( "halligan" ), q,
+            "--\n"
+            "* This item <color_c_red>conducts</color> electricity.\n" );
+    }
+}
+
+TEST_CASE( "show item qualities", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::QUALITIES } );
+
+    SECTION( "screwdriver" ) {
+        iteminfo_test(
+            item( "screwdriver" ), q,
+            "--\n"
+            "Has level <color_c_cyan>1 screw driving</color> quality.\n" );
+    }
+
+    SECTION( "screwdriver_set" ) {
+        iteminfo_test(
+            item( "screwdriver_set" ), q,
+            "--\n"
+            "Has level <color_c_cyan>1 screw driving</color> quality.\n"
+            "Has level <color_c_cyan>1 fine screw driving</color> quality.\n" );
+    }
+}
+
