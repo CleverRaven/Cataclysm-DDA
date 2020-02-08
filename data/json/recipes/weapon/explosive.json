@@ -196,7 +196,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 15 ] ],
+    "using": [ [ "volatile_explosive", 18 ] ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
