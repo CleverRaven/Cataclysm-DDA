@@ -239,6 +239,12 @@ class TilesheetData(object):
                 except Vips.Error:
                     pass
 
+                try:
+                    if vips_image.get_typeof("icc-profile-data") != 0:
+                        vips_image = vips_image.icc_transform("srgb")
+                except Vips.Error:
+                    pass
+
                 if vips_image.width != self.width or vips_image.height != self.height:
                     size_msg = "{} is {}x{}, sheet sprites are {}x{}."
                     print(size_msg.format(png_pathname, vips_image.width, vips_image.height,

@@ -1728,7 +1728,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                _( "<num>" ), iteminfo::no_flags, range );
             int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
             info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
-                               iteminfo::is_decimal | iteminfo::lower_is_better, aim_mv );
+                               iteminfo::lower_is_better, aim_mv );
         }
     }
 
