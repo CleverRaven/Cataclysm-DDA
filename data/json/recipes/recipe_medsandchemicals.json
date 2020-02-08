@@ -1052,7 +1052,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "charges": 100,
-    "time": "1 h",
+    "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
