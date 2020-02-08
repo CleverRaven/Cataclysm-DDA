@@ -2097,7 +2097,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "plastic_chunk", 6 ] ],
-      [ [ "large_lcd_screen", 1 ] ]
+      [ [ "small_lcd_screen", 1 ] ]
     ]
   },
   {
