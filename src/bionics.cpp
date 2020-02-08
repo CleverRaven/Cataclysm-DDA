@@ -323,7 +323,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         int water_available = lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
             bio.powered = false;
-            add_msg_if_player( m_bad, _( "There is not enough humidity for your %s to function." ),
+            add_msg_if_player( m_bad, _( "There is not enough humidity in the air for your %s to function." ),
                                bio.info().name );
             return false;
         } else if( water_available == 1 ) {
@@ -1401,7 +1401,7 @@ void Character::process_bionic( int b )
             // At 16% relative humidity or less, the bionic will give up
             if( water_available == 0 ) {
                 add_msg_if_player( m_bad,
-                                   _( "There is not enough humidity for your %s to function." ),
+                                   _( "There is not enough humidity in the air for your %s to function." ),
                                    bio.info().name );
                 deactivate_bionic( b );
             } else if( water_available == 1 ) {
