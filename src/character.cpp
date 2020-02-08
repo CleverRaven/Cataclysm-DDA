@@ -2153,10 +2153,10 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( string_format( is_player() ?
+                return ret_val<bool>::make_failure( is_player() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
                                                     _( "My %s mutation prevents me from wearing this %s." ), branch.name(),
-                                                    it.type_name() ) );
+                                                    it.type_name() );
             }
         }
         if( it.covers( bp_head ) && !it.has_flag( "SEMITANGIBLE" ) &&
