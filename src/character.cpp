@@ -6474,6 +6474,9 @@ float Character::stamina_move_cost_modifier() const
     if( move_mode == CMM_CROUCH ) {
         stamina_modifier *= 0.5;
     }
+    if (move_mode == CMM_PRONE) {
+        stamina_modifier *= 0.25;
+    }
     return stamina_modifier;
 }
 

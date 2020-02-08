@@ -2639,6 +2639,10 @@ static void CheckMessages()
                 if( g->u.movement_mode_is( CMM_CROUCH ) ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
+                // If we're already prone, make it simple to toggle prone to off.
+                if (g->u.movement_mode_is(CMM_PRONE)) {
+                    actions.insert(ACTION_TOGGLE_PRONE);
+                }
 
                 // We're not already running or in combat, so remove cycle walk/run
                 if( std::find( actions.begin(), actions.end(), ACTION_CYCLE_MOVE ) == actions.end() ) {

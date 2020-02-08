@@ -7706,6 +7706,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
 
     const tripoint &p = g->u.pos();
     bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    bool is_prone = g->u.movement_mode_is( CMM_PRONE );
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be transparent
@@ -7716,6 +7717,11 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
             // If we're crouching behind an obstacle, we can't see past it.
             get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             get_cache( loc.z ).transparency_cache_dirty = true;
+            seen_cache_dirty = true;
+        } else if (is_prone && coverage(loc) >= 10) {
+            // If we're prone behind an obstacle, we can't see past it.
+            get_cache(loc.z).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            get_cache(loc.z).transparency_cache_dirty = true;
             seen_cache_dirty = true;
         }
     }

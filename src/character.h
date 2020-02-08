@@ -89,6 +89,7 @@ enum character_movemode : unsigned char {
     CMM_WALK = 0,
     CMM_RUN = 1,
     CMM_CROUCH = 2,
+    CMM_PRONE = 3,
     CMM_COUNT
 };
 

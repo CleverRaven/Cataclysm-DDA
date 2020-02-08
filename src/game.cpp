@@ -2279,6 +2279,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "reset_move" );
     ctxt.register_action( "toggle_run" );
     ctxt.register_action( "toggle_crouch" );
+    ctxt.register_action( "toggle_prone" );
     ctxt.register_action( "open_movement" );
     ctxt.register_action( "open" );
     ctxt.register_action( "close" );
@@ -8970,7 +8971,7 @@ bool game::walk_move( const tripoint &dest_loc )
             }
             if( u.movement_mode_is( CMM_RUN ) ) {
                 volume *= 1.5;
-            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( CMM_CROUCH ) || u.movement_mode_is(CMM_PRONE)) {
                 volume /= 2;
             }
             if( u.is_mounted() ) {

@@ -848,7 +848,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     int safe_player_follow_speed = 400;
     if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    } else if( g->u.movement_mode_is( CMM_CROUCH ) || g->u.movement_mode_is(CMM_PRONE)) {
         safe_player_follow_speed = 200;
     }
     if( follow_protocol ) {

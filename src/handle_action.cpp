@@ -1354,6 +1354,7 @@ static void open_movement_mode_menu()
     as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
     as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
     as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( 3, true, 'c', _( "Prone" ) );
     as_m.query();
 
     switch( as_m.ret ) {
@@ -1365,6 +1366,9 @@ static void open_movement_mode_menu()
             break;
         case 2:
             u.set_movement_mode( CMM_CROUCH );
+            break;
+        case 32:
+            u.set_movement_mode( CMM_PRONE );
             break;
         default:
             break;
@@ -1713,6 +1717,10 @@ bool game::handle_action()
 
             case ACTION_TOGGLE_CROUCH:
                 u.toggle_crouch_mode();
+                break;
+
+            case ACTION_TOGGLE_PRONE:
+                u.toggle_prone_mode();
                 break;
 
             case ACTION_OPEN_MOVEMENT:
