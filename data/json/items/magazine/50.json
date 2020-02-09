@@ -1,6 +1,7 @@
 [
   {
     "id": "belt50",
+    "looks_like": "stanag30",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": ".50 BMG ammo belt",
