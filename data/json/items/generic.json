@@ -92,11 +92,10 @@
     "id": "apparatus",
     "symbol": "$",
     "color": "red",
-    "name": "a smoking device and a source of flame",
-    "name_plural": "none",
+    "name": { "str": "a smoking device and a source of flame", "str_pl": "none" },
     "description": "seeing this is a bug",
     "price": 0,
-    "volume": 0,
+    "volume": "0 ml",
     "flags": [ "PSEUDO" ]
   },
   {
@@ -1960,8 +1959,7 @@
     "id": "mortar_adobe",
     "symbol": "%",
     "color": "brown",
-    "name": "adobe mortar",
-    "name_plural": "adobe mortar",
+    "name": { "str": "adobe mortar", "str_pl": "adobe mortar" },
     "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry.  Used to glue larger, heavier pieces of mud and clay together.",
     "category": "spare_parts",
     "container": "bag_canvas",
