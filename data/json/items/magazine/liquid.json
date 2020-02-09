@@ -1,7 +1,7 @@
 [
   {
     "id": "pressurized_tank",
-    "//": "Tileset whitelist for flame or chemical throwers."
+    "//": "Tileset whitelist for flame or chemical throwers.",
     "type": "MAGAZINE",
     "name": "pressurized fuel tank",
     "description": "A pressurized 3L canister designed to feed a flamethrower.",
