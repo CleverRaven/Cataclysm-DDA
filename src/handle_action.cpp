@@ -1367,7 +1367,7 @@ static void open_movement_mode_menu()
         case 2:
             u.set_movement_mode( CMM_CROUCH );
             break;
-        case 32:
+        case 3:
             u.set_movement_mode( CMM_PRONE );
             break;
         default:
