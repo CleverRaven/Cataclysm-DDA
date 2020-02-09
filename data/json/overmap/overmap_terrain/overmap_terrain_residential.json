@@ -1381,6 +1381,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_garage_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_garage2",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1395,6 +1400,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage2_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -1415,6 +1425,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_garage3_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_garage4",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1429,6 +1444,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage4_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -1449,6 +1469,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_garage5_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_garage6",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1463,6 +1488,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage6_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -1483,6 +1513,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_garage7_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_garage8",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1497,6 +1532,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_garage8_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
