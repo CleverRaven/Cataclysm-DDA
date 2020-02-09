@@ -5,7 +5,7 @@ permalink: /releases/
 ---
 
 # Latest Stable
-The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}. We recommend stable for the most bug-free experience possible. You can download it from the links below. Note: downloads with 'Curses' in the name include a version that can be played in console and has purely text-based display. Downloads with 'Tiles' in the name includes a version of the game that has sprite-based graphics.
+The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}. We recommend stable for the most bug-free experience possible. You can download it from the links below. Note: downloads with 'Curses' in the name include a version that can be played in console and has purely text-based display. Downloads with 'Tiles' in the name includes a version of the game that has sprite-based graphics. It can also be downloaded from many [package repositories]({{ site.baseurl }}{% link pages/packaging.md %}).
 
 # Latest Experimental
 Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features and any bugs that may come along with them, you can download the [latest experimental builds]({{ site.baseurl }}{% link pages/experimental.md %}).
@@ -35,25 +35,3 @@ Cataclysm: DDA is under constant development. As such, stable can lag behind wit
     {% endunless %}
 
 {% endfor %}
-
-# Packaging status
-
-## Arch Linux
-
-Ncurses and tiles version available in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
-
-`sudo pacman -S cataclysm-dda`
-
-## Fedora
-
-Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
-
-`sudo dnf install cataclysm-dda`
-
-## Debian / Ubuntu
-
-Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda)
-
-`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg)](https://repology.org/project/cataclysm-dda/versions)
