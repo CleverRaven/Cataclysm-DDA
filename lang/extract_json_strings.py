@@ -98,8 +98,7 @@ ignorable = {
     "TRAIT_BLACKLIST",
     "trait_group",
     "uncraft",
-    "vehicle_group",
-    "vehicle_placement",
+    "vehicle_group"
 }
 
 # these objects can have their strings automatically extracted.
@@ -160,7 +159,8 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help"
+    "help",
+	"cant_remove"
 }
 
 # for these objects a plural form is needed
@@ -1102,9 +1102,6 @@ def extract(item, infilename):
                 wrote = True
     if "footsteps" in item:
        writestr(outfile, item["footsteps"], **kwargs)
-       wrote = True
-    if "cant_remove" in item:
-       writestr(outfile, item["cant_remove"], **kwargs)
        wrote = True
     if not wrote and not "copy-from" in item:
         if not warning_supressed(infilename):
