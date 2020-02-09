@@ -3,12 +3,15 @@
 #define GAMEMODE_TUTORIAL_H
 
 #include "gamemode.h"
+#include "enum_conversions.h"
+
+#include <map>
 
 enum special_game_id : int;
 enum action_id : int;
 
-enum tut_lesson {
-    LESSON_INTRO,
+enum class tut_lesson : int {
+    LESSON_INTRO = 0,
     LESSON_MOVE, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,
     LESSON_WINDOW, LESSON_PICKUP, LESSON_EXAMINE, LESSON_INTERACT,
 
@@ -32,6 +35,23 @@ enum tut_lesson {
     NUM_LESSONS
 };
 
+template<>
+struct enum_traits<tut_lesson> {
+    static constexpr tut_lesson last = tut_lesson::NUM_LESSONS;
+};
+
+namespace std
+{
+
+template<>
+struct hash<tut_lesson> {
+    size_t operator()( const tut_lesson v ) const noexcept {
+        return static_cast<size_t>( v );
+    }
+};
+
+} // namespace std
+
 struct tutorial_game : public special_game {
         special_game_id id() override {
             return SGAME_TUTORIAL;
@@ -45,12 +65,9 @@ struct tutorial_game : public special_game {
     private:
         void add_message( tut_lesson lesson );
 
-        bool tutorials_seen[NUM_LESSONS] = {};
+        std::map<tut_lesson, bool> tutorials_seen;
 };
 
 class JsonObject;
-
-void load_tutorial_messages( const JsonObject &jo );
-void clear_tutorial_messages();
 
 #endif // GAMEMODE_TUTORIAL_H

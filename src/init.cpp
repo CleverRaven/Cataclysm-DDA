@@ -71,7 +71,6 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "trap.h"
-#include "gamemode_tutorial.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -325,7 +324,6 @@ void DynamicDataLoader::initialize()
     add( "technique", &load_technique );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "tutorial_messages", &load_tutorial_messages );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
@@ -492,7 +490,6 @@ void DynamicDataLoader::unload_data()
     mutation_branch::reset_all();
     spell_type::reset_all();
     reset_bionics();
-    clear_tutorial_messages();
     reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
