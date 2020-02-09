@@ -104,7 +104,6 @@ TEST_CASE( "nutrient_ranges_for_recipe_exemplars", "[item][iteminfo]" )
 TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo][recipes]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
-    const recipe *crowbar = &recipe_id( "makeshift_crowbar" ).obj();
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
     g->u.empty_traits();
 
