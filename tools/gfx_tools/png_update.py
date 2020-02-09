@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/end python
 
 # png_update.py
 # Rename a png and update all references to it.
