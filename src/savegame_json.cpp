@@ -920,45 +920,15 @@ void player::load( const JsonObject &data )
         add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
-        if( has_trait( trait_HYPEROPIC ) ) {
-            remove_mutation( trait_HYPEROPIC );
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
         }
-
-        if( has_trait( trait_MYOPIC ) ) {
-            remove_mutation( trait_MYOPIC );
-        }
-
-        if( has_trait( trait_URSINE_EYE ) ) {
-            remove_mutation( trait_URSINE_EYE );
-        }
-
-        if( has_trait( trait_NIGHTVISION ) ) {
-            remove_mutation( trait_NIGHTVISION );
-        }
-
-        if( has_trait( trait_NIGHTVISION2 ) ) {
-            remove_mutation( trait_NIGHTVISION2 );
-        }
-
-        if( has_trait( trait_NIGHTVISION3 ) ) {
-            remove_mutation( trait_NIGHTVISION3 );
-        }
-
-        if( has_trait( trait_BIRD_EYE ) ) {
-            remove_mutation( trait_BIRD_EYE );
-        }
-
-        if( has_trait( trait_COMPOUND_EYES ) ) {
-            remove_mutation( trait_COMPOUND_EYES );
-        }
-
-        if( has_trait( trait_LIZ_IR ) ) {
-            remove_mutation( trait_LIZ_IR );
-        }
-
     }
+
     if( data.has_array( "faction_warnings" ) ) {
         for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
             std::string fac_id = warning_data.get_string( "fac_warning_id" );
