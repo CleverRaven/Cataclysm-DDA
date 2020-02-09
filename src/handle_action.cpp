@@ -674,6 +674,25 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
+    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : m.field_at( smashp ) ) {
+        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
+        if( bash_info.str_min == -1 ) {
+            continue;
+        }
+        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+            // %s is the smashed field
+            add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
+        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
+            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+                           "field" );
+            m.remove_field( smashp, fd_to_smsh.first );
+        } else {
+            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+                           true, "smash",
+                           "field" );
+        }
+
+    }
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
         sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );

@@ -50,7 +50,12 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    enum map_object_type {
+        furniture = 0,
+        terrain,
+        field
+    };
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed

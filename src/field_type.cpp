@@ -243,6 +243,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
+
+    bash_info.load( jo, "bash", map_bash_info::field );
 }
 
 void field_type::finalize()
