@@ -7718,10 +7718,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
             get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             get_cache( loc.z ).transparency_cache_dirty = true;
             seen_cache_dirty = true;
-        } else if (is_prone && coverage(loc) >= 10) {
+        } else if( is_prone && coverage( loc ) >= 10 ) {
             // If we're prone behind an obstacle, we can't see past it.
-            get_cache(loc.z).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            get_cache(loc.z).transparency_cache_dirty = true;
+            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            get_cache( loc.z ).transparency_cache_dirty = true;
             seen_cache_dirty = true;
         }
     }

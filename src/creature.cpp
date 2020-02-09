@@ -203,8 +203,8 @@ bool Creature::sees( const Creature &critter ) const
     if( ch != nullptr ) {
         if( ch->movement_mode_is( CMM_CROUCH ) || ch->movement_mode_is( CMM_PRONE ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
-            const int minCoverage = ch->movement_mode_is(CMM_PRONE) ? 10 : 30;
-            if( coverage < minCoverage) {
+            const int minCoverage = ch->movement_mode_is( CMM_PRONE ) ? 10 : 30;
+            if( coverage < minCoverage ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
             float size_modifier = 1.0;

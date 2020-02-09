@@ -1412,12 +1412,11 @@ void avatar::set_movement_mode( character_movemode new_mode )
             break;
         }
         case CMM_PRONE: {
-            if (is_mounted()) {
-                add_msg(_("You cannot go prone whilst mounted."));
+            if( is_mounted() ) {
+                add_msg( _( "You cannot go prone whilst mounted." ) );
                 return;
-            }
-            else {
-                add_msg(_("You fall to a prone position."));
+            } else {
+                add_msg( _( "You fall to a prone position." ) );
             }
             break;
         }
@@ -1448,11 +1447,10 @@ void avatar::toggle_crouch_mode()
 
 void avatar::toggle_prone_mode()
 {
-    if (move_mode == CMM_PRONE) {
-        set_movement_mode(CMM_CROUCH);
-    }
-    else {
-        set_movement_mode(CMM_PRONE);
+    if( move_mode == CMM_PRONE ) {
+        set_movement_mode( CMM_CROUCH );
+    } else {
+        set_movement_mode( CMM_PRONE );
     }
 }
 

@@ -722,7 +722,7 @@ nc_color player::basic_symbol_color() const
     if( move_mode == CMM_RUN ) {
         return c_yellow;
     }
-    if( move_mode == CMM_CROUCH || move_mode == CMM_PRONE) {
+    if( move_mode == CMM_CROUCH || move_mode == CMM_PRONE ) {
         return c_light_gray;
     }
     return c_white;

@@ -371,10 +371,12 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // usage of any attached bipod is dependent upon terrain
-    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() ) || (g->m.has_flag_ter_or_furn("FLAT", pos()) && movement_mode_is(CMM_PRONE));
+    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() ) ||
+                 ( g->m.has_flag_ter_or_furn( "FLAT", pos() ) && movement_mode_is( CMM_PRONE ) );
     if( !bipod ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" ) || (vp->vehicle().has_part(pos(), "FLAT") && movement_mode_is(CMM_PRONE));
+            bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" ) || ( vp->vehicle().has_part( pos(), "FLAT" ) &&
+                    movement_mode_is( CMM_PRONE ) );
         }
     }
 

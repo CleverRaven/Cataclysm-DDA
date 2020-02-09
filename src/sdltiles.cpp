@@ -2640,8 +2640,8 @@ static void CheckMessages()
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
                 // If we're already prone, make it simple to toggle prone to off.
-                if (g->u.movement_mode_is(CMM_PRONE)) {
-                    actions.insert(ACTION_TOGGLE_PRONE);
+                if( g->u.movement_mode_is( CMM_PRONE ) ) {
+                    actions.insert( ACTION_TOGGLE_PRONE );
                 }
 
                 // We're not already running or in combat, so remove cycle walk/run
