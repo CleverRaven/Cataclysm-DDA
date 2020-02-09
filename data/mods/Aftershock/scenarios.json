@@ -1,0 +1,8 @@
+[
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": { "map_special": "mx_helicopter", "professions": [ "afs_affluent_executive", "afs_wraitheon_executive" ] },
+    "ident": "heli_crash"
+  }
+]

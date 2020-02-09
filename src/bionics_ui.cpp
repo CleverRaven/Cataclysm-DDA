@@ -12,6 +12,7 @@
 #include "translations.h"
 #include "options.h"
 #include "string_id.h"
+#include "cata_string_consts.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -65,8 +66,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
-            const item temp_fuel( fuel ) ;
-            if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+            const item temp_fuel( fuel );
+            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -75,6 +76,19 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
             }
             fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
                            c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
+        }
+        if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
+            const itype_id rem_fuel = p->find_remote_fuel( true );
+            if( !rem_fuel.empty() ) {
+                const item tmp_rem_fuel( rem_fuel );
+                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
+                    fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
+                } else {
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                                   c_green ) + " ";
+                }
+                found_fuel = true;
+            }
         }
     }
     if( !found_fuel ) {
@@ -101,9 +115,21 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         power_string = to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
     }
 
-    const int pwr_str_pos = right_print( window, 0, 1, c_white,
+    const int pwr_str_pos = right_print( window, 1, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
                                                  power_string, units::to_kilojoule( p->get_max_power_level() ) ) );
+
+    mvwputch( window, point( pwr_str_pos - 1, 1 ), BORDER_COLOR, LINE_XOXO ); // |
+    mvwputch( window, point( pwr_str_pos - 1, 2 ), BORDER_COLOR, LINE_XXOO ); // |_
+    for( int i = pwr_str_pos; i < getmaxx( window ); i++ ) {
+        mvwputch( window, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
+    }
+    for( int i = 0; i < getmaxx( window ); i++ ) {
+        mvwputch( window, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // -
+    }
+    mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
+    center_print( window, 0, c_light_red, _( " BIONICS " ) );
+
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -113,9 +139,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     } else if( mode == EXAMINING ) {
         desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
     }
-    int n_pt_y = 0;
-    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
-    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_string );
+
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
+    fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );
 }
 
@@ -145,10 +172,11 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.push_back( _( "(incapacitated)" ) );
     }
-    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
+    if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
+            bio.info().is_remote_fueled ) ) {
         properties.push_back( _( "(fuel saving ON)" ) );
     }
-    if( bio.is_auto_start_on() && !bio.info().fuel_opts.empty() ) {
+    if( bio.is_auto_start_on() && ( !bio.info().fuel_opts.empty() || bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(auto start < %d %%)" ),
                                   static_cast<int>( bio.get_auto_start_thresh() * 100 ) );
         properties.push_back( label );
@@ -221,7 +249,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
                              const int last_x, const bionic_id &bio_id )
 {
-    const int LIST_START_Y = 6;
+    const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
@@ -376,7 +404,7 @@ void player::power_bionics()
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
     //added title_tab_height for the tabbed bionic display
-    int TITLE_HEIGHT = 2;
+    int TITLE_HEIGHT = 4;
     int TITLE_TAB_HEIGHT = 3;
 
     // Main window
@@ -409,11 +437,11 @@ void player::power_bionics()
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
-    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
+    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT;
     catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
-                                 TITLE_START_Y ) );
+                                 START_Y ) );
 
-    const int TAB_START_Y = TITLE_START_Y + 2;
+    const int TAB_START_Y = TITLE_START_Y + 3;
     //w_tabs is the tab bar for passive and active bionic groups
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH,
                                 point( START_X, TAB_START_Y ) );
@@ -476,6 +504,7 @@ void player::power_bionics()
 
             werase( wBio );
             draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
+            mvwputch( wBio, point( getmaxx( wBio ) - 1, 2 ), BORDER_COLOR, LINE_XOXX ); // -|
 
             int max_width = 0;
             std::vector<std::string>bps;
@@ -666,7 +695,7 @@ void player::power_bionics()
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
-                if( !tmp->info().fuel_opts.empty() ) {
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
                     tmp->toggle_safe_fuel_mod();
                     g->refresh_all();
                     redraw = true;
@@ -681,7 +710,7 @@ void player::power_bionics()
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
-                if( !tmp->info().fuel_opts.empty() ) {
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
                     tmp->toggle_auto_start_mod();
                     g->refresh_all();
                     redraw = true;

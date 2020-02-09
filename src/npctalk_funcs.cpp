@@ -48,29 +48,11 @@
 #include "material.h"
 #include "monster.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-
-static const efftype_id effect_allow_sleep( "allow_sleep" );
-static const efftype_id effect_asked_for_item( "asked_for_item" );
-static const efftype_id effect_asked_personal_info( "asked_personal_info" );
-static const efftype_id effect_asked_to_follow( "asked_to_follow" );
-static const efftype_id effect_asked_to_lead( "asked_to_lead" );
-static const efftype_id effect_asked_to_train( "asked_to_train" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_currently_busy( "currently_busy" );
-static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_pet( "pet" );
-
-static const mtype_id mon_horse( "mon_horse" );
-static const mtype_id mon_cow( "mon_cow" );
-static const mtype_id mon_chicken( "mon_chicken" );
 
 void spawn_animal( npc &p, const mtype_id &mon );
 
@@ -145,6 +127,9 @@ void talk_function::clear_mission( npc &p )
     }
     if( miss->has_follow_up() ) {
         p.add_new_mission( mission::reserve_new( miss->get_follow_up(), p.getID() ) );
+        if( !p.chatbin.mission_selected ) {
+            p.chatbin.mission_selected = p.chatbin.missions.front();
+        }
     }
 }
 
@@ -181,7 +166,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
-        // @todo handle this gracefully (return the money, proper in-character message from npc)
+        // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }
@@ -193,12 +178,12 @@ void talk_function::start_trade( npc &p )
 
 void talk_function::sort_loot( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    p.assign_activity( ACT_MOVE_LOOT );
 }
 
 void talk_function::do_construction( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    p.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
 }
 
 void talk_function::do_read( npc &p )
@@ -217,7 +202,7 @@ void talk_function::find_mount( npc &p )
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
             // keep the horse still for some time, so that NPC can catch up to it nad mount it.
-            p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
+            p.assign_activity( ACT_FIND_MOUNT );
             p.chosen_mount = g->shared_from( critter );
             // we found one, thats all we need.
             return;
@@ -231,37 +216,37 @@ void talk_function::find_mount( npc &p )
 
 void talk_function::do_butcher( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+    p.assign_activity( ACT_MULTIPLE_BUTCHER );
 }
 
 void talk_function::do_chop_plank( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+    p.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
 }
 
 void talk_function::do_vehicle_deconstruct( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+    p.assign_activity( ACT_VEHICLE_DECONSTRUCTION );
 }
 
 void talk_function::do_vehicle_repair( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+    p.assign_activity( ACT_VEHICLE_REPAIR );
 }
 
 void talk_function::do_chop_trees( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+    p.assign_activity( ACT_MULTIPLE_CHOP_TREES );
 }
 
 void talk_function::do_farming( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+    p.assign_activity( ACT_MULTIPLE_FARM );
 }
 
 void talk_function::do_fishing( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_FISH" ) );
+    p.assign_activity( ACT_MULTIPLE_FISH );
 }
 
 void talk_function::revert_activity( npc &p )
@@ -293,7 +278,7 @@ void talk_function::goto_location( npc &p )
                                  iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
@@ -344,6 +329,15 @@ void talk_function::assign_guard( npc &p )
     p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
+}
+
+void talk_function::abandon_camp( npc &p )
+{
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->abandon_camp();
+    }
 }
 
 void talk_function::assign_camp( npc &p )
@@ -445,7 +439,7 @@ void talk_function::bionic_install( npc &p )
 
 void talk_function::bionic_remove( npc &p )
 {
-    bionic_collection all_bio = *g->u.my_bionics;
+    const bionic_collection all_bio = *g->u.my_bionics;
     if( all_bio.empty() ) {
         popup( _( "You don't have any bionics installed…" ) );
         return;
@@ -453,10 +447,10 @@ void talk_function::bionic_remove( npc &p )
 
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
-    for( auto &bio : all_bio ) {
+    for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
-            if( bio.id != bionic_id( "bio_power_storage" ) ||
-                bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+            if( bio.id != bio_power_storage ||
+                bio.id != bio_power_storage_mkII ) {
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
                     item tmp = item( bio.id.str(), 0 );
@@ -538,7 +532,7 @@ void talk_function::give_aid( npc &p )
         }
     }
     const int moves = to_moves<int>( 100_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
+    g->u.assign_activity( ACT_WAIT_NPC, moves );
     g->u.activity.str_values.push_back( p.name );
 }
 
@@ -613,7 +607,7 @@ void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
+    g->u.assign_activity( ACT_WAIT_NPC, moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut…" ), p.name );
 }
@@ -622,7 +616,7 @@ void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
+    g->u.assign_activity( ACT_WAIT_NPC, moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.name );
 }
@@ -636,7 +630,7 @@ void talk_function::morale_chat( npc &p )
 void talk_function::morale_chat_activity( npc &p )
 {
     const int moves = to_moves<int>( 10_minutes );
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), moves );
+    g->u.assign_activity( ACT_SOCIALIZE, moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
@@ -915,7 +909,7 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+    player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );

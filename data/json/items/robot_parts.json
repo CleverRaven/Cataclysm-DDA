@@ -57,7 +57,7 @@
   {
     "type": "GENERIC",
     "id": "ai_module",
-    "name": "AI core",
+    "name": { "str": "AI core" },
     "description": "This module is responsible for decision making, it basically runs the AI of the robot.",
     "copy-from": "robot_module_abstract"
   },

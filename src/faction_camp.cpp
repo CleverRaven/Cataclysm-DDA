@@ -73,25 +73,7 @@
 #include "point.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_mechanics( "mechanics" );
-static const skill_id skill_speech( "speech" );
-static const skill_id skill_traps( "traps" );
-static const skill_id skill_swimming( "swimming" );
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-static const zone_type_id z_camp_food( "CAMP_FOOD" );
+#include "cata_string_consts.h"
 
 struct mass_volume {
     units::mass wgt;
@@ -631,8 +613,8 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
         const std::string &title_e = dir_abbr + recipe_data.second;
         const std::string &entry = craft_description( recipe_data.first );
         const recipe &recp = recipe_data.first.obj();
-        bool craftable = recp.requirements().can_make_with_inventory( _inv,
-                         recp.get_component_filter() );
+        bool craftable = recp.deduped_requirements().can_make_with_inventory(
+                             _inv, recp.get_component_filter() );
         mission_key.add_start( id, title_e, dir, entry, craftable );
     }
 }
@@ -1266,6 +1248,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+        entry = _( "Notes:\nAbandon this camp" );
+        mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
     // Missions assigned to the central tile that could be done by an expansion
     get_available_missions_by_dir( mission_key, base_camps::base_dir );
@@ -1318,6 +1302,9 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Assign Jobs" ) {
         job_assignment_ui();
+    }
+    if( miss_id == "Abandon Camp" ) {
+        abandon_camp();
     }
 
     if( miss_id == "Expand Base" ) {
@@ -1533,8 +1520,14 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
-    if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
+    if( making.deduped_requirements().can_make_with_inventory(
+            _inv, making.get_component_filter() ) ) {
         bool must_feed = bldg != "faction_base_camp_1";
+
+        basecamp_action_components components( making, 1, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
 
         time_duration work_days = base_camps::to_workdays( making.batch_duration() );
         npc_ptr comp = nullptr;
@@ -1554,11 +1547,32 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
         if( comp == nullptr ) {
             return;
         }
-        consume_components( making, 1 );
+        components.consume_components();
         update_in_progress( bldg, dir );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::abandon_camp()
+{
+    validate_assignees();
+    npc_ptr random_guy;
+    for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
+        npc_companion_mission c_mission = guy->get_companion_mission();
+        if( c_mission.role_id != base_camps::id ) {
+            continue;
+        }
+        random_guy = guy;
+        const std::string return_msg = _( "responds to the emergency recall…" );
+        finish_return( *guy, false, return_msg, "menial", 0, true );
+    }
+    for( npc_ptr &guy : get_npcs_assigned() ) {
+        talk_function::stop_guard( *guy );
+    }
+    overmap_buffer.remove_camp( *this );
+    g->m.remove_submap_camp( random_guy->pos() );
+    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::job_assignment_ui()
@@ -1580,7 +1594,7 @@ void basecamp::job_assignment_ui()
         werase( w_jobs );
         // create a list of npcs stationed at this camp
         std::vector<npc *> stationed_npcs;
-        for( const auto elem : get_npcs_assigned() ) {
+        for( const auto &elem : get_npcs_assigned() ) {
             if( elem ) {
                 stationed_npcs.push_back( elem.get() );
             }
@@ -1670,7 +1684,7 @@ void basecamp::start_menial_labor()
     }
     validate_sort_points();
 
-    comp->assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    comp->assign_activity( ACT_MOVE_LOOT );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -1939,9 +1953,15 @@ void basecamp::start_fortifications( std::string &bldg_exp )
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
-        } else if( !making.requirements().can_make_with_inventory( _inv,
+        } else if( !making.deduped_requirements().can_make_with_inventory( _inv,
                    making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
             popup( _( "You don't have the material to build the fortification." ) );
+            return;
+        }
+
+        const int batch_size = fortify_om.size() * 2 - 2;
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
             return;
         }
 
@@ -1949,7 +1969,7 @@ void basecamp::start_fortifications( std::string &bldg_exp )
                                       _( "begins constructing fortifications…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, fortify_om.size() * 2 - 2 );
+            components.consume_components();
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
@@ -1999,8 +2019,8 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
     if( it != recipes.end() ) {
         const recipe &making = it->first.obj();
 
-        if( !making.requirements().can_make_with_inventory( _inv,
-                making.get_component_filter(), 1 ) ) {
+        if( !making.deduped_requirements().can_make_with_inventory(
+                _inv, making.get_component_filter() ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             return;
         }
@@ -2019,12 +2039,18 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             popup( _( "Your batch is too large!" ) );
             return;
         }
+
+        basecamp_action_components components( making, batch_size, *this );
+        if( !components.choose_components() ) {
+            return;
+        }
+
         time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
         npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true,
                                       _( "begins to work…" ), false, {},
                                       making.required_skills );
         if( comp != nullptr ) {
-            consume_components( making, batch_size );
+            components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
             }
@@ -2049,7 +2075,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter->has_flag( "PLOWABLE" );
+        return farm_ter->has_flag( flag_PLOWABLE );
     };
 
     std::set<std::string> plant_names;
@@ -2808,8 +2834,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
             time_duration work_days = base_camps::to_workdays( making.batch_duration(
                                           max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
-            bool can_make = making.requirements().can_make_with_inventory( _inv,
-                            making.get_component_filter(), max_batch + batch_size );
+            bool can_make = making.deduped_requirements().can_make_with_inventory(
+                                _inv, making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -2836,42 +2862,42 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
 {
     // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
-    hunting_targets.add( mtype_id( "mon_beaver" ), 10 );
-    hunting_targets.add( mtype_id( "mon_fox_red" ), 10 );
-    hunting_targets.add( mtype_id( "mon_fox_gray" ), 10 );
-    hunting_targets.add( mtype_id( "mon_mink" ), 5 );
-    hunting_targets.add( mtype_id( "mon_muskrat" ), 10 );
-    hunting_targets.add( mtype_id( "mon_otter" ), 10 );
-    hunting_targets.add( mtype_id( "mon_duck" ), 10 );
-    hunting_targets.add( mtype_id( "mon_cockatrice" ), 1 );
+    hunting_targets.add( mon_beaver, 10 );
+    hunting_targets.add( mon_fox_red, 10 );
+    hunting_targets.add( mon_fox_gray, 10 );
+    hunting_targets.add( mon_mink, 5 );
+    hunting_targets.add( mon_muskrat, 10 );
+    hunting_targets.add( mon_otter, 10 );
+    hunting_targets.add( mon_duck, 10 );
+    hunting_targets.add( mon_cockatrice, 1 );
     if( task == "_faction_camp_trapping" ) {
-        hunting_targets.add( mtype_id( "mon_black_rat" ), 40 );
-        hunting_targets.add( mtype_id( "mon_chipmunk" ), 30 );
-        hunting_targets.add( mtype_id( "mon_groundhog" ), 30 );
-        hunting_targets.add( mtype_id( "mon_hare" ), 20 );
-        hunting_targets.add( mtype_id( "mon_lemming" ), 40 );
-        hunting_targets.add( mtype_id( "mon_opossum" ), 10 );
-        hunting_targets.add( mtype_id( "mon_rabbit" ), 20 );
-        hunting_targets.add( mtype_id( "mon_squirrel" ), 20 );
-        hunting_targets.add( mtype_id( "mon_weasel" ), 20 );
-        hunting_targets.add( mtype_id( "mon_chicken" ), 10 );
-        hunting_targets.add( mtype_id( "mon_grouse" ), 10 );
-        hunting_targets.add( mtype_id( "mon_pheasant" ), 10 );
-        hunting_targets.add( mtype_id( "mon_turkey" ), 20 );
+        hunting_targets.add( mon_black_rat, 40 );
+        hunting_targets.add( mon_chipmunk, 30 );
+        hunting_targets.add( mon_groundhog, 30 );
+        hunting_targets.add( mon_hare, 20 );
+        hunting_targets.add( mon_lemming, 40 );
+        hunting_targets.add( mon_opossum, 10 );
+        hunting_targets.add( mon_rabbit, 20 );
+        hunting_targets.add( mon_squirrel, 20 );
+        hunting_targets.add( mon_weasel, 20 );
+        hunting_targets.add( mon_chicken, 10 );
+        hunting_targets.add( mon_grouse, 10 );
+        hunting_targets.add( mon_pheasant, 10 );
+        hunting_targets.add( mon_turkey, 20 );
     } else if( task == "_faction_camp_hunting" ) {
-        hunting_targets.add( mtype_id( "mon_chicken" ), 20 );
+        hunting_targets.add( mon_chicken, 20 );
         // good luck hunting upland game birds without dogs
-        hunting_targets.add( mtype_id( "mon_grouse" ), 2 );
-        hunting_targets.add( mtype_id( "mon_pheasant" ), 2 );
-        hunting_targets.add( mtype_id( "mon_turkey" ), 10 );
-        hunting_targets.add( mtype_id( "mon_bear" ), 1 );
-        hunting_targets.add( mtype_id( "mon_cougar" ), 5 );
-        hunting_targets.add( mtype_id( "mon_cow" ), 1 );
-        hunting_targets.add( mtype_id( "mon_coyote" ), 15 );
-        hunting_targets.add( mtype_id( "mon_deer" ), 2 );
-        hunting_targets.add( mtype_id( "mon_moose" ), 1 );
-        hunting_targets.add( mtype_id( "mon_pig" ), 1 );
-        hunting_targets.add( mtype_id( "mon_wolf" ), 10 );
+        hunting_targets.add( mon_grouse, 2 );
+        hunting_targets.add( mon_pheasant, 2 );
+        hunting_targets.add( mon_turkey, 10 );
+        hunting_targets.add( mon_bear, 1 );
+        hunting_targets.add( mon_cougar, 5 );
+        hunting_targets.add( mon_cow, 1 );
+        hunting_targets.add( mon_coyote, 15 );
+        hunting_targets.add( mon_deer, 2 );
+        hunting_targets.add( mon_moose, 1 );
+        hunting_targets.add( mon_pig, 1 );
+        hunting_targets.add( mon_wolf, 10 );
     }
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -2989,7 +3015,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.ter( p ).obj().has_flag( "TREE" ) && rng( 0, 100 ) < chance ) {
+        if( target_bay.ter( p ).obj().has_flag( flag_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
             if( estimate ) {
                 continue;
@@ -3429,8 +3455,9 @@ std::string basecamp::craft_description( const recipe_id &itm )
 
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
-    auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
+    const requirement_data &req = making.simple_requirements();
+    auto tools = req.get_folded_tools_list( pane, c_white, _inv, 1 );
+    auto comps = req.get_folded_components_list( pane, c_white, _inv,
                  making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
@@ -3479,7 +3506,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     }
     //More machine than man
     //Bionics count > 10, respect > 75
-    if( g->u.my_bionics->size() > 10 && camp_discipline() > 75 ) {
+    if( g->u.get_bionics().size() > 10 && camp_discipline() > 75 ) {
         sbonus += 10;
     }
     //Survival of the fittest
@@ -3529,7 +3556,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     if( item_group::group_is_defined( "gathering_" + bldg ) ) {
         itemlist = "gathering_" + bldg;
     } else {
-        itemlist = "forest" ;
+        itemlist = "forest";
     }
     std::string output;
 

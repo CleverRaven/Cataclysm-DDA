@@ -4238,6 +4238,7 @@ namespace Catch {
     {
         if( !IMutableContext::currentContext )
             IMutableContext::createContext();
+        // NOLINTNEXTLINE(clang-analyzer-core.uninitialized.UndefReturn)
         return *IMutableContext::currentContext;
     }
 
@@ -8179,8 +8180,8 @@ public:
 	public:
 		using difference_type = std::ptrdiff_t;
 		using value_type = std::string;
-		using pointer = value_type * ;
-		using reference = value_type & ;
+		using pointer = value_type *;
+		using reference = value_type &;
 		using iterator_category = std::forward_iterator_tag;
 
 		explicit iterator(Column const& column) : m_column(column) {
@@ -8305,8 +8306,8 @@ public:
 	public:
 		using difference_type = std::ptrdiff_t;
 		using value_type = std::string;
-		using pointer = value_type * ;
-		using reference = value_type & ;
+		using pointer = value_type *;
+		using reference = value_type &;
 		using iterator_category = std::forward_iterator_tag;
 
 		explicit iterator(Columns const& columns)
@@ -8916,7 +8917,7 @@ namespace detail {
 
         template<typename LambdaT>
         static auto makeRef(LambdaT const &lambda) -> std::shared_ptr<BoundValueRefBase> {
-            return std::make_shared<BoundLambda<LambdaT>>( lambda) ;
+            return std::make_shared<BoundLambda<LambdaT>>( lambda );
         }
 
     public:
@@ -9567,7 +9568,7 @@ namespace Catch {
     }
 
     std::string const& Config::getFilename() const {
-        return m_data.outputFilename ;
+        return m_data.outputFilename;
     }
 
     bool Config::listTests() const          { return m_data.listTests; }
@@ -14818,7 +14819,7 @@ namespace {
 
     std::string bothOrAll( std::size_t count ) {
         return count == 1 ? std::string() :
-               count == 2 ? "both " : "all " ;
+               count == 2 ? "both " : "all ";
     }
 
 } // anon namespace

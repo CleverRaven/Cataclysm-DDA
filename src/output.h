@@ -145,6 +145,7 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
@@ -322,8 +323,8 @@ int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
-void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption = "", int begin_y = 0 );
+void scrollable_text( const catacurses::window &w, const std::string &title,
+                      const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 

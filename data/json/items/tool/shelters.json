@@ -1,0 +1,86 @@
+[
+  {
+    "id": "damaged_shelter_kit",
+    "type": "TOOL",
+    "name": "damaged shelter kit",
+    "description": "This is a small shelter, made of sticks and skins.  Use it to place.  This shelter has been damaged, and needs repairs.",
+    "weight": "1360 g",
+    "volume": "7500 ml",
+    "price": 2000,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "wood", "leather" ],
+    "symbol": ";",
+    "color": "brown"
+  },
+  {
+    "id": "large_tent_kit",
+    "type": "TOOL",
+    "name": "large tent",
+    "description": "This is a family sized tent.  It provides a large amount of space, but is very bulky.",
+    "weight": "2266 g",
+    "volume": "10 L",
+    "price": 50000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 2,
+      "broken_type": "largebroketent",
+      "wall": "f_large_canvas_wall",
+      "floor": "f_large_groundsheet",
+      "floor_center": "f_center_groundsheet",
+      "door_opened": "f_large_canvas_door_o",
+      "door_closed": "f_large_canvas_door"
+    }
+  },
+  {
+    "id": "shelter_kit",
+    "type": "TOOL",
+    "name": "shelter kit",
+    "description": "This is a small shelter, made of sticks and skins.  Use it to place.",
+    "weight": "1360 g",
+    "volume": "7500 ml",
+    "price": 6500,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "wood", "leather" ],
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 1,
+      "broken_type": "damaged_shelter_kit",
+      "wall": "f_skin_wall",
+      "floor": "f_skin_groundsheet",
+      "door_opened": "f_skin_door_o",
+      "door_closed": "f_skin_door"
+    }
+  },
+  {
+    "id": "tent_kit",
+    "type": "TOOL",
+    "name": "tent",
+    "description": "This is a small personal tent, it's just big enough to fit you comfortably.",
+    "weight": "1133 g",
+    "volume": "2500 ml",
+    "price": 15000,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 1,
+      "broken_type": "broketent",
+      "wall": "f_canvas_wall",
+      "floor": "f_groundsheet",
+      "door_opened": "f_canvas_door_o",
+      "door_closed": "f_canvas_door"
+    }
+  }
+]

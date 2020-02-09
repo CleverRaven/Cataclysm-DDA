@@ -106,7 +106,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRIS_THEORIES",
-    "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field. I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while…",
+    "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field.  I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while…",
     "responses": [
       { "text": "What did you find?", "topic": "TALK_ISHERWOOD_CHRIS_MIGO_BASE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },

@@ -59,25 +59,7 @@
 #include "scent_block.h"
 #include "mongroup.h"
 #include "teleport.h"
-
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id INSECT( "INSECT" );
-static const species_id SPIDER( "SPIDER" );
-
-static const efftype_id effect_badpoison( "badpoison" );
-static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_corroding( "corroding" );
-static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_stung( "stung" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_teargas( "teargas" );
-static const efftype_id effect_webbed( "webbed" );
-
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
-static const trait_id trait_M_SKIN2( "M_SKIN2" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
+#include "cata_string_consts.h"
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
@@ -223,7 +205,7 @@ void map::gas_spread_to( field_entry &cur, maptile &dst )
     const int current_intensity = cur.get_field_intensity();
     field_entry *candidate_field = dst.find_field( current_type );
     // Nearby gas grows thicker, and ages are shared.
-    const time_duration age_fraction = current_age / current_intensity ;
+    const time_duration age_fraction = current_age / current_intensity;
     if( candidate_field != nullptr ) {
         candidate_field->set_field_intensity( candidate_field->get_field_intensity() + 1 );
         cur.set_field_intensity( current_intensity - 1 );
@@ -289,7 +271,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
     // Start at end_it + 1, then wrap around until all elements have been processed.
-    for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
+    for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const auto &neigh = neighs[i];
@@ -309,7 +291,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         } else {
             end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
             // Start at end_it + 1, then wrap around until all elements have been processed.
-            for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
+            for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
                  count != neighs.size();
                  i = ( i + 1 ) % neighs.size(), count++ ) {
                 const auto &neigh = neighs[i];
@@ -476,6 +458,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }
                 if( curtype == fd_fire ) {
+                    cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
                     // Entire objects for ter/frn for flags
                     const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                     bool sheltered = g->is_sheltered( p );
@@ -1084,11 +1067,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if( !spawn_details.name ) {
                             continue;
                         }
-                        if( const auto spawn_point = random_point( points_in_radius( p,
-                        cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
+                        if( const cata::optional<tripoint> spawn_point = random_point(
+                                    points_in_radius( p, cur.monster_spawn_radius() ),
+                        [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->xy() );
+                            add_spawn( spawn_details.name, spawn_details.pack_size, *spawn_point );
                         }
                     }
                 }
@@ -1278,10 +1262,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     const ter_t &ter = map_tile.get_ter_t();
                     const furn_t &frn = map_tile.get_furn_t();
                     const int intensity = cur.get_field_intensity();
-                    if( ter.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
+                    if( ter.has_flag( flag_FUNGUS ) && one_in( 10 / intensity ) ) {
                         ter_set( p, t_dirt );
                     }
-                    if( frn.has_flag( "FUNGUS" ) && one_in( 10 / intensity ) ) {
+                    if( frn.has_flag( flag_FUNGUS ) && one_in( 10 / intensity ) ) {
                         furn_set( p, f_null );
                     }
                 }
@@ -1356,7 +1340,7 @@ void map::player_in_field( player &u )
         if( ft == fd_web ) {
             // If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             // Moving through multiple webs stacks the effect.
-            if( !u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle ) {
+            if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
                 // Between 5 and 15 minus your current web level.
                 u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
                 // It is spent.
@@ -1372,7 +1356,7 @@ void map::player_in_field( player &u )
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if( !u.in_vehicle && !u.has_trait( trait_id( "ACIDPROOF" ) ) ) {
+            if( !u.in_vehicle && !u.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
                 const int intensity = cur.get_field_intensity();
                 // 1-3 at intensity, 1-4 at 2, 1-5 at 3
@@ -1427,7 +1411,7 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) && !u.is_wearing( "rm13_armor_on" ) ) {
+            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( "rm13_armor_on" ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1517,7 +1501,7 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_fungal_haze ) {
-            if( !u.has_trait( trait_id( "M_IMMUNE" ) ) && ( !inside || one_in( 4 ) ) ) {
+            if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
@@ -1546,7 +1530,7 @@ void map::player_in_field( player &u )
             if( !inside ) {
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
-                if( !u.has_active_bionic( bionic_id( "bio_heatsink" ) ) &&
+                if( !u.has_active_bionic( bio_heatsink ) &&
                     !u.is_wearing( "rm13_armor_on" ) ) {
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
@@ -1639,11 +1623,11 @@ void map::player_in_field( player &u )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( u.worn_with_flag( "GAS_PROOF" ) && u.get_env_resist( bp_mouth ) >= 15 &&
+                if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bp_mouth ) >= 15 &&
                        u.get_env_resist( bp_eyes ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
-                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ||
+                    if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
                                                          u.get_highest_category() == "SPIDER" ) ) ) {
                         inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
@@ -2031,7 +2015,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
     }
 }
 
-void map::propagate_field( const tripoint &center, const field_type_id type, int amount,
+void map::propagate_field( const tripoint &center, const field_type_id &type, int amount,
                            int max_intensity )
 {
     using gas_blast = std::pair<float, tripoint>;

@@ -340,7 +340,7 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "lye", 50 ] ]
+      [ [ "lye", 2 ], [ "lye_powder", 50 ] ]
     ]
   },
   {
@@ -550,11 +550,14 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
-    "difficulty": 6,
-    "time": "24 m",
-    "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 5 ], [ "isherwood_herbal_remedies", 4 ] ],
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "25 m",
+    "batch_time_factors": [ 90, 4 ],
+    "//": "another variation of chloralkali process, now used to produce bleach (sodium hypochlorite - or rather rough, technical grade hypochlorite/hydroxide/chloride mix), note we will not be heating anything and that the (mostly) electrochemical reaction easily scales in size, some hydrogen gas could be recoverable (optional byproduct)",
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "tools": [ [ [ "electrolysis_kit", 250 ] ] ],
     "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ] ] ]
   },
   {
@@ -577,15 +580,19 @@
   {
     "type": "recipe",
     "result": "oxy_powder",
+    "byproducts": [ [ "salt_water", 2 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
-    "difficulty": 8,
-    "time": "12 m",
-    "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "bleach", 1 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 7,
+    "time": "45 m",
+    "batch_time_factors": [ 60, 4 ],
+    "//": "abstracting using chloralkali process (hot solution, unpartitioned cell) to produce sodium chlorate, then perchlorate by anodic oxidation on platinum, then ammonia perchlorate by double decomposition from sodium perchlorate and ammonium chloride; while we can't directly use bleach here but we do end up recovering some brine",
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
+    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -746,18 +753,6 @@
   },
   {
     "type": "recipe",
-    "result": "soap_flakes",
-    "id_suffix": "fast_cut",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "cooking",
-    "time": "10 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "soap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "poppysyrup",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -819,6 +814,28 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "salt", 210 ] ], [ [ "chem_sulphuric_acid", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_muriatic_acid",
+    "id_suffix": "by_electrolysis",
+    "byproducts": [ [ "lye", 2 ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "skills_required": [ [ "electronics", 2 ], [ "mechanics", 2 ] ],
+    "difficulty": 6,
+    "time": "40 m",
+    "batch_time_factors": [ 50, 5 ],
+    "//": "abstracted chloralkali process, followed by 'burning' resulting chlorine and hydrogen with electric arc as uv source and crucible serving as reaction furnace, then dissolving resulting hydrogen chloride gas in water",
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [
+      [ [ "electrolysis_kit", 500 ] ],
+      [ [ "welder", 100 ], [ "welder_crude", 150 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
+    "components": [ [ [ "salt_water", 4 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1006,7 +1023,7 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chem_ammonium_nitrate", 90 ] ], [ [ "diesel", 500 ], [ "gasoline", 500 ] ] ]
+    "components": [ [ [ "chem_ammonium_nitrate", 90 ] ], [ [ "diesel", 500 ], [ "biodiesel", 500 ], [ "gasoline", 500 ] ] ]
   },
   {
     "type": "recipe",
@@ -1154,6 +1171,23 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "ash", 500 ] ] ]
+  },
+  {
+    "result": "lye",
+    "type": "recipe",
+    "id_suffix": "by_electrolysis",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 4 ],
+    "//": "chloralkali process, same as with bleach except we wont be washing gases",
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "electrolysis_kit", 250 ] ] ],
+    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ] ] ]
   },
   {
     "result": "anesthetic",

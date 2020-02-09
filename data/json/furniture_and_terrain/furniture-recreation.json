@@ -385,5 +385,65 @@
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dancing_pole",
+    "name": "dancing pole",
+    "description": "Tall metal pole meant for dancing, attached on bottom and top.",
+    "symbol": "i",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 5,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": {
+      "items": [ { "item": "scrap", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "pipe", "count": 2 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_roulette_table",
+    "name": "roulette table",
+    "symbol": "#",
+    "description": "A big, scratched roulette table.",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "felt_patch", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 10 ] },
+        { "item": "scrap", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "felt_patch", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 0, 1 ] }
+      ]
+    }
   }
 ]

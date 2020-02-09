@@ -50,8 +50,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wax",
-    "name": "wax",
-    "name_plural": "waxes",
+    "name": { "str_pl": "waxes", "str": "wax" },
     "weight": "97 g",
     "color": "white",
     "comestible_type": "FOOD",
@@ -110,8 +109,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_gel",
-    "name": "marloss gelatin",
-    "name_plural": "marloss gelatin",
+    "name": { "str": "marloss gelatin", "str_pl": "marloss gelatin" },
     "weight": "177 g",
     "color": "yellow",
     "addiction_type": "marloss_y",
@@ -122,10 +120,10 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 174,
-    "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-Cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
+    "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-Cataclysm Jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
-    "volume": 0,
+    "volume": "100 ml",
     "stack_size": 10,
     "fun": 30
   },
@@ -153,7 +151,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yeast",
-    "name": "yeast",
+    "name": { "str": "yeast", "str_pl": "yeast" },
     "weight": "11 g",
     "color": "white",
     "container": "bag_plastic",
@@ -172,7 +170,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_bone",
-    "name": "bone meal",
+    "name": { "str": "bone meal", "str_pl": "bone meal" },
     "weight": "112 g",
     "color": "white",
     "comestible_type": "FOOD",
@@ -188,7 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_bone_tainted",
-    "name": "tainted bone meal",
+    "name": { "str": "tainted bone meal", "str_pl": "tainted bone meal" },
     "weight": "112 g",
     "color": "white",
     "use_action": "POISON",
@@ -237,6 +235,24 @@
     "volume": "250 ml",
     "freezing_point": -490,
     "charges": 50,
+    "fun": -20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cardboard",
+    "name": "cardboard",
+    "looks_like": "paper",
+    "category": "spare_parts",
+    "weight": "10 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": "`",
+    "description": "A piece of cardboard.",
+    "price": 0,
+    "material": "cardboard",
+    "volume": "250 ml",
+    "freezing_point": -490,
+    "charges": 10,
     "fun": -20
   },
   {
@@ -349,8 +365,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_tofu",
-    "name": "dehydrated tofu",
-    "name_plural": "dehydrated tofu",
+    "name": { "str": "dehydrated tofu", "str_pl": "dehydrated tofu" },
     "weight": "65 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -380,7 +395,8 @@
     "price": 90,
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
+    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "smoking_result": "soy_nuts"
   },
   {
     "type": "COMESTIBLE",
@@ -397,7 +413,8 @@
     "price": 150,
     "fun": 1,
     "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
+    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "smoking_result": "edamame_roasted"
   },
   {
     "type": "COMESTIBLE",
@@ -465,8 +482,7 @@
     "type": "COMESTIBLE",
     "id": "coffee_raw_kentucky",
     "copy-from": "coffee_raw",
-    "name": "Kentucky coffee grounds",
-    "name_plural": "Kentucky coffee grounds",
+    "name": { "str": "Kentucky coffee grounds", "str_pl": "Kentucky coffee grounds" },
     "container": "bag_plastic",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
@@ -478,8 +494,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "yellow",
-    "name": "candied honey",
-    "name_plural": "candied honey",
+    "name": { "str": "candied honey", "str_pl": "candied honey" },
     "description": "Honey, that stuff the bees make.  This variant is \"candied honey\", a variant of very thick consistence.  This honey won't spoil and is good for your digestion.",
     "price": 800,
     "material": "honey",

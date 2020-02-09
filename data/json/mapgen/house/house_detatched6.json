@@ -1,0 +1,125 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "house_detatched6",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "....%.%.%....```p..%.%..",
+        ".##o#######o##]###o####.",
+        ".#     ,|5FO|y L|D  @@#.",
+        ".#H x   |2 7|   |d  @@#.",
+        ".#H x           |y    #.",
+        ".#H x           |||?||#.",
+        ".#      ||+||         o.",
+        ".#E    y|S-9|R> rrE   #.",
+        ".#||  |||8-t###########.",
+        ".#     y#####^%..%...%$.",
+        ".#H ll  #``.........%%$%",
+        ".#H ll  ]``.[.#}}}#}}}#%",
+        ".#H     }``...}===G===#.",
+        ".#sHHHR #`````{=~=~=~=#.",
+        ".###o####.....}=~===~=#.",
+        ".$^...........#=~===~=#.",
+        ".$.(((((&(&...}=~=~=~K#.",
+        ".$.&&&&&&&&...}/==~=~=#.",
+        ".$.((&(%(((...}//==G=K#.",
+        ".$.&&&&&&&&...#}}}#}}}#.",
+        ".$.(((&((&(..[........$.",
+        ".$.................[..$.",
+        ".$$$$$$$$$$$$$$$$$$$$$$.",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "K": "t_dirtfloor",
+        "G": "t_dirtfloor",
+        "=": "t_dirtfloor",
+        "/": "t_dirtmoundfloor",
+        "~": "t_dirtmoundfloor",
+        "&": "t_dirtmound",
+        "(": "t_dirt",
+        "`": "t_concrete",
+        "#": "t_adobe_brick_wall",
+        "t": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "-": "t_linoleum_gray",
+        "$": "t_privacy_fence",
+        ";": "t_privacy_fencegate_c",
+        "{": "t_reinforced_door_glass_c",
+        "}": "t_reinforced_glass_shutter",
+        ")": "t_wall_glass",
+        "]": "t_door_metal_pickable"
+      },
+      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_pinball_machine" },
+      "place_item": [
+        { "item": "television", "repeat": 1, "x": 4, "y": 4 },
+        { "item": "cannabis", "repeat": 1, "x": 18, "y": 14 },
+        { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 }
+      ],
+      "place_items": [
+        { "chance": 75, "item": "misc_smoking", "x": 4, "y": 13 },
+        { "chance": 75, "item": "misc_smoking", "x": 2, "y": 10 },
+        { "chance": 65, "item": "tools_earthworking", "x": 19, "y": 16 },
+        { "chance": 65, "item": "tools_earthworking", "x": 17, "y": 12 },
+        { "chance": 35, "item": "tools_home", "x": 21, "y": 18 },
+        { "chance": 35, "item": "tools_home", "x": 21, "y": 16 },
+        { "chance": 50, "item": "stoner", "x": 4, "y": 11 },
+        { "chance": 50, "item": "stoner", "x": 5, "y": [ 10, 11 ] },
+        { "chance": 50, "item": "stoner", "x": 4, "y": 5 }
+      ],
+      "sealed_item": {
+        "~": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" },
+        "&": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" }
+      },
+      "place_monsters": [
+        { "chance": 10, "density": 1, "monster": "GROUP_DOGS", "x": 14, "y": 15 },
+        { "chance": 8, "density": 1, "monster": "GROUP_DOGS", "x": 8, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched6_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |..:...N.....=.......3 ",
+        " |....................3 ",
+        " |..................&.3 ",
+        " |....................3 ",
+        " |..........5---------3 ",
+        " |......3---3           ",
+        " |......3               ",
+        " |..X...3     ......... ",
+        " |......3     .ooooooo. ",
+        " |......3     .ooooooo. ",
+        " |5-----3     .ooooooo. ",
+        "              .ooooooo. ",
+        "              .ooooooo. ",
+        "              .ooooooo. ",
+        "              .ooooooo. ",
+        "              ......... ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

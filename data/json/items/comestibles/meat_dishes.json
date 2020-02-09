@@ -91,6 +91,7 @@
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
     "symbol": "%",
+    "looks_like": "sausage",
     "quench": -1,
     "calories": 297,
     "description": "A type of German sausage made of finely chopped meat and meant to be pan fried or roasted.  Better eat it hot and fresh.",
@@ -330,7 +331,7 @@
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 470,
+    "calories": 748,
     "description": "A delicious golden brown serving of crispy fried fish.",
     "price": 500,
     "material": "flesh",
@@ -362,7 +363,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bologna",
-    "name": "bologna",
+    "name": { "str": "bologna", "str_pl": "bologna" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "brat %s", "str_pl": "brat %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "bleak %s", "str_pl": "bleak %s" } }
@@ -395,7 +396,7 @@
     "symbol": "%",
     "quench": -2,
     "healthy": 1,
-    "calories": 121,
+    "calories": 260,
     "description": "Lutefisk is preserved fish that has been dried in a lye solution.  Vile and soap-like yet highly nutritious, it is reminiscent of the afterbirth of a dog or the world's largest chunk of phlegm.",
     "price": 200,
     "material": "flesh",
@@ -408,7 +409,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_spam",
-    "name": "SPAM",
+    "name": { "str": "SPAM", "str_pl": "SPAM" },
     "//": "SPAM comes in cans of six 2 oz slices.  Each charge is one slice.",
     "weight": "56 g",
     "color": "pink",
@@ -622,7 +623,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_salmon",
-    "name": "canned salmon",
+    "name": { "str": "canned salmon", "str_pl": "canned salmon" },
     "weight": "200 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -659,7 +660,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_herring",
-    "name": "pickled herring",
+    "name": { "str": "pickled herring", "str_pl": "pickled herring" },
     "weight": "232 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -977,7 +978,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fried_spam",
-    "name": "fried SPAM",
+    "name": { "str": "fried SPAM", "str_pl": "fried SPAM" },
     "copy-from": "can_spam",
     "color": "red",
     "quench": -6,
@@ -1167,7 +1168,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 2,
-    "calories": 223,
+    "calories": 378,
     "description": "Delicious slivers of thinly sliced raw fish wrapped in tasty sushi rice and rolled up in a healthy green vegetable.",
     "price": 350,
     "material": [ "veggy", "flesh" ],
@@ -1206,6 +1207,7 @@
     "color": "white",
     "spoils_in": "12 hours",
     "healthy": 1,
+    "calories": 160,
     "description": "Delicious slivers of thinly sliced raw fish and tasty vegetables.",
     "price": 600,
     "material": [ "veggy", "flesh" ],

@@ -162,7 +162,8 @@ struct vehicle_part {
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
                      carried_flag = 4,
-                     carrying_flag = 8
+                     carrying_flag = 8,
+                     tracked_flag = 16 //carried vehicle part with tracking enabled
                    };
 
         vehicle_part(); /** DefaultConstructible */
@@ -745,7 +746,7 @@ class vehicle
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
         std::string get_owner_name() const;
-        void set_old_owner( faction_id temp_owner ) {
+        void set_old_owner( const faction_id &temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
         }
@@ -753,7 +754,7 @@ class vehicle
             theft_time = cata::nullopt;
             old_owner = faction_id::NULL_ID();
         }
-        void set_owner( faction_id new_owner ) {
+        void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );
@@ -778,7 +779,7 @@ class vehicle
         std::set<point> collision_check_points;
         void autopilot_patrol();
         double get_angle_from_targ( const tripoint &targ );
-        void drive_to_local_target( tripoint target, bool follow_protocol );
+        void drive_to_local_target( const tripoint &target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
         }
@@ -837,8 +838,10 @@ class vehicle
         bool remove_part( int p );
         void part_removal_cleanup();
 
-        // remove the carried flag from a vehicle after it has bee removed from a rack
+        // remove the carried flag from a vehicle after it has been removed from a rack
         void remove_carried_flag();
+        // remove the tracked flag from a tracked vehicle after it has been removed from a rack
+        void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( const std::vector<int> &carried_parts );
         // split the current vehicle into up to four vehicles if they have no connection other
@@ -1112,7 +1115,7 @@ class vehicle
         int total_wind_epower_w() const;
         // Total power currently being produced by all water wheels.
         int total_water_wheel_epower_w() const;
-        // Total power drain accross all vehicle accessories.
+        // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
         int net_battery_charge_rate_w() const;
@@ -1286,6 +1289,14 @@ class vehicle
         /** Returns roughly driving skill level at which there is no chance of fumbling. */
         float handling_difficulty() const;
 
+        /**
+         * Use grid traversal to enumerate all connected vehicles.
+         * @param connected_vehicles is an output map from vehicle pointers to
+         * a bool that is true if the vehicle is in the reality bubble.
+         * @param vehicle_list is a set of pointers to vehicles present in the reality bubble.
+         */
+        static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
+                                        std::set<vehicle *> &vehicle_list );
         // idle fuel consumption
         void idle( bool on_map = true );
         // continuous processing for running vehicle alarms
@@ -1526,6 +1537,7 @@ class vehicle
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;
+        bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;

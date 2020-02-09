@@ -3,469 +3,469 @@
     "type": "overmap_terrain",
     "id": "bandit_tower_1gate",
     "copy-from": "bandit_tower_1gate",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1ybe",
     "copy-from": "bandit_tower_1ybe",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1yle",
     "copy-from": "bandit_tower_1yle",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1yre",
     "copy-from": "bandit_tower_1yre",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1yte",
     "copy-from": "bandit_tower_1yte",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cyblc",
     "copy-from": "bandit_tower_1cyblc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cybrc",
     "copy-from": "bandit_tower_1cybrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cytlc",
     "copy-from": "bandit_tower_1cytlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cytrc",
     "copy-from": "bandit_tower_1cytrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1blc",
     "copy-from": "bandit_tower_1blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1brc",
     "copy-from": "bandit_tower_1brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1tlc",
     "copy-from": "bandit_tower_1tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1trc",
     "copy-from": "bandit_tower_1trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2blc",
     "copy-from": "bandit_tower_2blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2brc",
     "copy-from": "bandit_tower_2brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2tlc",
     "copy-from": "bandit_tower_2tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2trc",
     "copy-from": "bandit_tower_2trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3blc",
     "copy-from": "bandit_tower_3blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3brc",
     "copy-from": "bandit_tower_3brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3tlc",
     "copy-from": "bandit_tower_3tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3trc",
     "copy-from": "bandit_tower_3trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4blc",
     "copy-from": "bandit_tower_4blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4brc",
     "copy-from": "bandit_tower_4brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4tlc",
     "copy-from": "bandit_tower_4tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4trc",
     "copy-from": "bandit_tower_4trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_ublc",
     "copy-from": "bandit_tower_ublc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_ubrc",
     "copy-from": "bandit_tower_ubrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_utlc",
     "copy-from": "bandit_tower_utlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_utrc",
     "copy-from": "bandit_tower_utrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_umid",
     "copy-from": "estate_umid",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ube",
     "copy-from": "estate_ube",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ule",
     "copy-from": "estate_ule",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ure",
     "copy-from": "estate_ure",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ute",
     "copy-from": "estate_ute",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_mid",
     "copy-from": "estate_mid",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1be",
     "copy-from": "estate_1be",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1bloc",
     "copy-from": "estate_1bloc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1broc",
     "copy-from": "estate_1broc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1by",
     "copy-from": "estate_1by",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1ica",
     "copy-from": "estate_1ica",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1icb",
     "copy-from": "estate_1icb",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1icc",
     "copy-from": "estate_1icc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1icd",
     "copy-from": "estate_1icd",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1le",
     "copy-from": "estate_1le",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1re",
     "copy-from": "estate_1re",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1te",
     "copy-from": "estate_1te",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1tloc",
     "copy-from": "estate_1tloc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1troc",
     "copy-from": "estate_1troc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1ty",
     "copy-from": "estate_1ty",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2be",
     "copy-from": "estate_2be",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2bloc",
     "copy-from": "estate_2bloc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2broc",
     "copy-from": "estate_2broc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2ica",
     "copy-from": "estate_2ica",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2icb",
     "copy-from": "estate_2icb",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2icc",
     "copy-from": "estate_2icc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2icd",
     "copy-from": "estate_2icd",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2le",
     "copy-from": "estate_2le",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2re",
     "copy-from": "estate_2re",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2te",
     "copy-from": "estate_2te",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2tloc",
     "copy-from": "estate_2tloc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2troc",
     "copy-from": "estate_2troc",
-    "sym": "Ð"
+    "sym": "\u00D0"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_tlc",
     "copy-from": "factory_tlc",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_te",
     "copy-from": "factory_te",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_trc",
     "copy-from": "factory_trc",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_le",
     "copy-from": "factory_le",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_mid",
     "copy-from": "factory_mid",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_re",
     "copy-from": "factory_re",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_blc",
     "copy-from": "factory_blc",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_be",
     "copy-from": "factory_be",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_be_gate",
     "copy-from": "factory_be_gate",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_brc",
     "copy-from": "factory_brc",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ytlc",
     "copy-from": "mil_outpost_ytlc",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yte",
     "copy-from": "mil_outpost_yte",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ytrc",
     "copy-from": "mil_outpost_ytrc",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yle",
     "copy-from": "mil_outpost_yle",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yre",
     "copy-from": "mil_outpost_yre",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yblc",
     "copy-from": "mil_outpost_yblc",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ybe",
     "copy-from": "mil_outpost_ybe",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
@@ -477,535 +477,535 @@
     "type": "overmap_terrain",
     "id": "mil_outpost_ybrc",
     "copy-from": "mil_outpost_ybrc",
-    "sym": "¨"
+    "sym": "\u00A8"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1tlc",
     "copy-from": "mil_outpost_1tlc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1te",
     "copy-from": "mil_outpost_1te",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1trc",
     "copy-from": "mil_outpost_1trc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1le",
     "copy-from": "mil_outpost_1le",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1mid",
     "copy-from": "mil_outpost_1mid",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1re",
     "copy-from": "mil_outpost_1re",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1blc",
     "copy-from": "mil_outpost_1blc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1be",
     "copy-from": "mil_outpost_1be",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1brc",
     "copy-from": "mil_outpost_1brc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2tlc",
     "copy-from": "mil_outpost_2tlc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2te",
     "copy-from": "mil_outpost_2te",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2trc",
     "copy-from": "mil_outpost_2trc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2le",
     "copy-from": "mil_outpost_2le",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2re",
     "copy-from": "mil_outpost_2re",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2blc",
     "copy-from": "mil_outpost_2blc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2be",
     "copy-from": "mil_outpost_2be",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2brc",
     "copy-from": "mil_outpost_2brc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_3c",
     "copy-from": "mil_outpost_3c",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_utlc",
     "copy-from": "mil_outpost_utlc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_utea",
     "copy-from": "mil_outpost_utea",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_uteb",
     "copy-from": "mil_outpost_uteb",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_utrc",
     "copy-from": "mil_outpost_utrc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ule",
     "copy-from": "mil_outpost_ule",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_umid",
     "copy-from": "mil_outpost_umid",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_umid_finale",
     "copy-from": "mil_outpost_umid_finale",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ure",
     "copy-from": "mil_outpost_ure",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ublc",
     "copy-from": "mil_outpost_ublc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ubea",
     "copy-from": "mil_outpost_ubea",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ubeb",
     "copy-from": "mil_outpost_ubeb",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ubrc",
     "copy-from": "mil_outpost_ubrc",
-    "sym": "Å"
+    "sym": "\u00C5"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_first",
     "copy-from": "3storyA_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_second",
     "copy-from": "3storyA_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_third",
     "copy-from": "3storyA_third",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_basement",
     "copy-from": "3storyA_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_roof",
     "copy-from": "3storyA_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_first",
     "copy-from": "3storyB_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_second",
     "copy-from": "3storyB_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_third",
     "copy-from": "3storyB_third",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_basement",
     "copy-from": "3storyB_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_roof",
     "copy-from": "3storyB_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_first",
     "copy-from": "3storyC_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_second",
     "copy-from": "3storyC_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_third",
     "copy-from": "3storyC_third",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_basement",
     "copy-from": "3storyC_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_roof",
     "copy-from": "3storyC_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_first",
     "copy-from": "3storyD_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_second",
     "copy-from": "3storyD_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_third",
     "copy-from": "3storyD_third",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_basement",
     "copy-from": "3storyD_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_roof",
     "copy-from": "3storyD_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_first",
     "copy-from": "3storyE_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_second",
     "copy-from": "3storyE_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_third",
     "copy-from": "3storyE_third",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_basement",
     "copy-from": "3storyE_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_roof",
     "copy-from": "3storyE_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_first",
     "copy-from": "3storyF_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_second",
     "copy-from": "3storyF_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_third",
     "copy-from": "3storyF_third",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_basement",
     "copy-from": "3storyF_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_roof",
     "copy-from": "3storyF_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_first",
     "copy-from": "2storyA_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_second",
     "copy-from": "2storyA_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_basement",
     "copy-from": "2storyA_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_roof",
     "copy-from": "2storyA_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_first",
     "copy-from": "2storyB_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_second",
     "copy-from": "2storyB_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_basement",
     "copy-from": "2storyB_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_roof",
     "copy-from": "2storyB_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_first",
     "copy-from": "2storyC_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_second",
     "copy-from": "2storyC_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_basement",
     "copy-from": "2storyC_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_roof",
     "copy-from": "2storyC_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_first",
     "copy-from": "2storyD_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_second",
     "copy-from": "2storyD_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_basement",
     "copy-from": "2storyD_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_roof",
     "copy-from": "2storyD_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_first",
     "copy-from": "2storyE_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_second",
     "copy-from": "2storyE_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_basement",
     "copy-from": "2storyE_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_roof",
     "copy-from": "2storyE_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_first",
     "copy-from": "2storyF_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_second",
     "copy-from": "2storyF_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_basement",
     "copy-from": "2storyF_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_roof",
     "copy-from": "2storyF_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_first",
     "copy-from": "combohouseA_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_second",
     "copy-from": "combohouseA_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_basement",
     "copy-from": "combohouseA_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_roof",
     "copy-from": "combohouseA_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
@@ -1017,37 +1017,37 @@
     "type": "overmap_terrain",
     "id": "combogarageA_second",
     "copy-from": "combogarageA_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageA_roof",
     "copy-from": "combogarageA_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_first",
     "copy-from": "combohouseB_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_second",
     "copy-from": "combohouseB_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_basement",
     "copy-from": "combohouseB_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_roof",
     "copy-from": "combohouseB_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
@@ -1059,37 +1059,37 @@
     "type": "overmap_terrain",
     "id": "combogarageB_second",
     "copy-from": "combogarageB_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageB_roof",
     "copy-from": "combogarageB_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_first",
     "copy-from": "combohouseC_first",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_second",
     "copy-from": "combohouseC_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_basement",
     "copy-from": "combohouseC_basement",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_roof",
     "copy-from": "combohouseC_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
@@ -1101,384 +1101,384 @@
     "type": "overmap_terrain",
     "id": "combogarageC_second",
     "copy-from": "combogarageC_second",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageC_roof",
     "copy-from": "combogarageC_roof",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1gate",
     "copy-from": "refugee_tower_1gate",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1ybe",
     "copy-from": "refugee_tower_1ybe",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1yle",
     "copy-from": "refugee_tower_1yle",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1yre",
     "copy-from": "refugee_tower_1yre",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1yte",
     "copy-from": "refugee_tower_1yte",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cyblc",
     "copy-from": "refugee_tower_1cyblc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cybrc",
     "copy-from": "refugee_tower_1cybrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cytlc",
     "copy-from": "refugee_tower_1cytlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cytrc",
     "copy-from": "refugee_tower_1cytrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1blc",
     "copy-from": "refugee_tower_1blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1brc",
     "copy-from": "refugee_tower_1brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1tlc",
     "copy-from": "refugee_tower_1tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1trc",
     "copy-from": "refugee_tower_1trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2blc",
     "copy-from": "refugee_tower_2blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2brc",
     "copy-from": "refugee_tower_2brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2tlc",
     "copy-from": "refugee_tower_2tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2trc",
     "copy-from": "refugee_tower_2trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3blc",
     "copy-from": "refugee_tower_3blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3brc",
     "copy-from": "refugee_tower_3brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3tlc",
     "copy-from": "refugee_tower_3tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3trc",
     "copy-from": "refugee_tower_3trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4blc",
     "copy-from": "refugee_tower_4blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4brc",
     "copy-from": "refugee_tower_4brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4tlc",
     "copy-from": "refugee_tower_4tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4trc",
     "copy-from": "refugee_tower_4trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5blc",
     "copy-from": "refugee_tower_5blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5brc",
     "copy-from": "refugee_tower_5brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5tlc",
     "copy-from": "refugee_tower_5tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5trc",
     "copy-from": "refugee_tower_5trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_ublc",
     "copy-from": "refugee_tower_ublc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_ubrc",
     "copy-from": "refugee_tower_ubrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_utlc",
     "copy-from": "refugee_tower_utlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_utrc",
     "copy-from": "refugee_tower_utrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1gate",
     "copy-from": "tri_tower_1gate",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1ybe",
     "copy-from": "tri_tower_1ybe",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1yle",
     "copy-from": "tri_tower_1yle",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1yre",
     "copy-from": "tri_tower_1yre",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1yte",
     "copy-from": "tri_tower_1yte",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cyblc",
     "copy-from": "tri_tower_1cyblc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cybrc",
     "copy-from": "tri_tower_1cybrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cytlc",
     "copy-from": "tri_tower_1cytlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cytrc",
     "copy-from": "tri_tower_1cytrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1blc",
     "copy-from": "tri_tower_1blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1brc",
     "copy-from": "tri_tower_1brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1tlc",
     "copy-from": "tri_tower_1tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1trc",
     "copy-from": "tri_tower_1trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2blc",
     "copy-from": "tri_tower_2blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2brc",
     "copy-from": "tri_tower_2brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2tlc",
     "copy-from": "tri_tower_2tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2trc",
     "copy-from": "tri_tower_2trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3blc",
     "copy-from": "tri_tower_3blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3brc",
     "copy-from": "tri_tower_3brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3tlc",
     "copy-from": "tri_tower_3tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3trc",
     "copy-from": "tri_tower_3trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4blc",
     "copy-from": "tri_tower_4blc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4brc",
     "copy-from": "tri_tower_4brc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4tlc",
     "copy-from": "tri_tower_4tlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4trc",
     "copy-from": "tri_tower_4trc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_ublc",
     "copy-from": "tri_tower_ublc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_ubrc",
     "copy-from": "tri_tower_ubrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_utlc",
     "copy-from": "tri_tower_utlc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_utrc",
     "copy-from": "tri_tower_utrc",
-    "sym": "Ç"
+    "sym": "\u00C7"
   }
 ]

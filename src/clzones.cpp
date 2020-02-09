@@ -34,6 +34,7 @@
 #include "player.h"
 #include "vpart_position.h"
 #include "faction.h"
+#include "cata_string_consts.h"
 
 zone_manager::zone_manager()
 {
@@ -151,37 +152,37 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
-        return dynamic_cast<const plot_options *>( &options ) != nullptr ;
+        return dynamic_cast<const plot_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
-        return dynamic_cast<const blueprint_options *>( &options ) != nullptr ;
+        return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
-        return dynamic_cast<const loot_options *>( &options ) != nullptr ;
+        return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types
     return !options.has_options();
 }
 
-int blueprint_options::get_final_construction(
+construction_id blueprint_options::get_final_construction(
     const std::vector<construction> &list_constructions,
-    int idx,
-    std::set<int> &skip_index
+    const construction_id &idx,
+    std::set<construction_id> &skip_index
 )
 {
-    const construction &con = list_constructions[idx];
+    const construction &con = idx.obj();
     if( con.post_terrain.empty() ) {
         return idx;
     }
 
     for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
-        if( i == idx || skip_index.find( i ) != skip_index.end() ) {
+        if( construction_id( i ) == idx || skip_index.find( construction_id( i ) ) != skip_index.end() ) {
             continue;
         }
         const construction &con_next = list_constructions[i];
         if( con.description == con_next.description &&
             con.post_terrain == con_next.pre_terrain ) {
             skip_index.insert( idx );
-            return get_final_construction( list_constructions, i, skip_index );
+            return get_final_construction( list_constructions, construction_id( i ), skip_index );
         }
     }
 
@@ -190,13 +191,13 @@ int blueprint_options::get_final_construction(
 
 blueprint_options::query_con_result blueprint_options::query_con()
 {
-    int con_index = construction_menu( true );
-    if( con_index > -1 ) {
+    construction_id con_index = construction_menu( true );
+    if( con_index.is_valid() ) {
         const std::vector<construction> &list_constructions = get_constructions();
-        std::set<int> skip_index;
+        std::set<construction_id> skip_index;
         con_index = get_final_construction( list_constructions, con_index, skip_index );
 
-        const construction &chosen = list_constructions[con_index];
+        const construction &chosen = con_index.obj();
 
         const std::string &chosen_desc = chosen.description;
         const std::string &chosen_mark = chosen.post_terrain;
@@ -383,14 +384,19 @@ void blueprint_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
     json.member( "con", con );
-    json.member( "index", index );
+    json.member( "index", index.id() );
 }
 
 void blueprint_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
     jo_zone.read( "con", con );
-    jo_zone.read( "index", index );
+    if( jo_zone.has_int( "index" ) ) {
+        // Oops, saved incorrectly as an int id by legacy code. Just load it and hope for the best
+        index = construction_id( jo_zone.get_int( "index" ) );
+    } else {
+        index = construction_str_id( jo_zone.get_string( "index" ) ).id();
+    }
 }
 
 void plot_options::serialize( JsonOut &json ) const
@@ -561,7 +567,7 @@ void zone_manager::cache_vzones()
         const std::string &type_hash = elem->get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        // @todo looks very similar to the above cache_data - maybe merge it?
+        // TODO: looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
         for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
@@ -783,7 +789,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
-    if( it.has_flag( "FIREWOOD" ) ) {
+    if( it.has_flag( flag_FIREWOOD ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }

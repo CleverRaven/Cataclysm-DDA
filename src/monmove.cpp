@@ -40,34 +40,16 @@
 #include "string_id.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "cata_string_consts.h"
 
 #define MONSTER_FOLLOW_DIST 8
-
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id INSECT( "INSECT" );
-static const species_id SPIDER( "SPIDER" );
-
-static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_countdown( "countdown" );
-static const efftype_id effect_docile( "docile" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_dragging( "dragging" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_pushed( "pushed" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_harnessed( "harnessed" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
 
 bool monster::wander()
 {
     return ( goal == pos() );
 }
 
-bool monster::is_immune_field( const field_type_id fid ) const
+bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
@@ -91,6 +73,9 @@ bool monster::is_immune_field( const field_type_id fid ) const
     if( ft.has_elec ) {
         return has_flag( MF_ELECTRIC );
     }
+    if( ft.immune_mtypes.count( type->id ) > 0 ) {
+        return true;
+    }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
 }
@@ -100,21 +85,8 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-bool monster::can_move_to( const tripoint &p ) const
+bool monster::will_move_to( const tripoint &p ) const
 {
-    if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
-            // can't go through the roof
-            return false;
-        }
-    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
-            // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
-            return false;
-        }
-    }
-
     if( g->m.impassable( p ) ) {
         if( digging() ) {
             if( !g->m.has_flag( "BURROWABLE", p ) ) {
@@ -222,6 +194,28 @@ bool monster::can_move_to( const tripoint &p ) const
     }
 
     return true;
+}
+
+bool monster::can_reach_to( const tripoint &p ) const
+{
+    if( p.z > pos().z && z_is_valid( pos().z ) ) {
+        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+            // can't go through the roof
+            return false;
+        }
+    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
+        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
+            // can't go through the floor
+            // you would fall anyway if there was no floor, so no need to check for that here
+            return false;
+        }
+    }
+    return true;
+}
+
+bool monster::can_move_to( const tripoint &p ) const
+{
+    return can_reach_to( p ) && will_move_to( p );
 }
 
 void monster::set_dest( const tripoint &p )
@@ -486,8 +480,8 @@ void monster::plan()
             bool found_path_to_couch = false;
             tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
-            for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
-                    furn_id( "f_autodoc_couch" ) ) ) {
+            for( const auto &couch_pos : g->m.find_furnitures_with_flag_in_radius( pos(), 10,
+                    flag_AUTODOC_COUCH ) ) {
                 if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
                         tmp = couch_pos;
@@ -618,7 +612,7 @@ void monster::move()
         g->m.i_clear( pos() );
     }
     // record position before moving to put the player there if we're dragging
-    tripoint drag_to = pos();
+    tripoint drag_to = g->m.getabs( pos() );
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -815,6 +809,7 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            tripoint candidate_abs = g->m.getabs( candidate );
             if( candidate.z != posz() ) {
                 bool can_z_move = true;
                 if( !g->m.valid_move( pos(), candidate, false, true ) ) {
@@ -857,7 +852,7 @@ void monster::move()
                 if( att == A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
-                    next_step = candidate;
+                    next_step = candidate_abs;
                     break;
                 } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
                     continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
@@ -871,13 +866,11 @@ void monster::move()
 
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
-
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
                     continue;
                 }
-
                 const int estimate = g->m.bash_rating( bash_estimate(), candidate );
                 if( estimate <= 0 ) {
                     continue;
@@ -895,7 +888,7 @@ void monster::move()
             // Randomly pick one of the viable squares to move to weighted by distance.
             if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
                 moved = true;
-                next_step = candidate;
+                next_step = candidate_abs;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
@@ -909,13 +902,14 @@ void monster::move()
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
+    const tripoint local_next_step = g->m.getlocal( next_step );
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( next_step ) ) ||
-            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
-            ( !pacified && bash_at( next_step ) ) ||
-            ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
+            ( !pacified && attack_at( local_next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
+            ( !pacified && bash_at( local_next_step ) ) ||
+            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
+            move_to( local_next_step, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -925,8 +919,9 @@ void monster::move()
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
-            } else if( drag_to != pos() && g->critter_at( drag_to ) == nullptr ) {
-                dragged_foe->setpos( drag_to );
+            } else if( g->m.getlocal( drag_to ) != pos() &&
+                       g->critter_at( g->m.getlocal( drag_to ) ) == nullptr ) {
+                dragged_foe->setpos( g->m.getlocal( drag_to ) );
             }
         }
     } else {
@@ -971,7 +966,7 @@ void monster::nursebot_operate( player *dragged_foe )
         return;
     }
 
-    if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
+    if( rl_dist( pos(), goal ) == 1 && !g->m.has_flag_furn( flag_AUTODOC_COUCH, goal ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
@@ -980,7 +975,8 @@ void monster::nursebot_operate( player *dragged_foe )
 
             dragged_foe->setpos( goal );
 
-            add_effect( effect_countdown, 2_turns );// there's still time to get away
+            // There's still time to get away
+            add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
         } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
             sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
@@ -993,13 +989,13 @@ void monster::nursebot_operate( player *dragged_foe )
     if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) ) {
 
-            bionic_collection collec = *dragged_foe->my_bionics;
-            int index = rng( 0, collec.size() - 1 );
-            bionic target_cbm = collec[index];
+            const bionic_collection &collec = *dragged_foe->my_bionics;
+            const int index = rng( 0, collec.size() - 1 );
+            const bionic &target_cbm = collec[index];
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
-            float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                   static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+            const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                         static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
             g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
 
@@ -1063,6 +1059,7 @@ tripoint monster::scent_move()
     }
 
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
+    const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
 
     std::vector<tripoint> smoves;
 
@@ -1103,6 +1100,10 @@ tripoint monster::scent_move()
             if( !v_intersection.empty() ) {
                 right_scent = true;
             }
+        }
+        // is the monster actually ignoring this scent
+        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+            right_scent = false;
         }
 
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
@@ -1379,7 +1380,7 @@ bool monster::attack_at( const tripoint &p )
 
 static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
 {
-    for( const tripoint &candidate : closest_tripoints_first( 10, near_this ) ) {
+    for( const tripoint &candidate : closest_tripoints_first( near_this, 10 ) ) {
         if( g->m.has_flag( stair_type, candidate ) ) {
             return candidate;
         }
@@ -1398,7 +1399,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     tripoint destination = p;
 
     // This is stair teleportation hackery.
-    // @TODO: Remove this in favor of stair alignment
+    // TODO: Remove this in favor of stair alignment
     if( going_up ) {
         if( g->m.has_flag( TFLAG_GOES_UP, pos() ) ) {
             destination = find_closest_stair( p, TFLAG_GOES_DOWN );
@@ -1574,14 +1575,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
                 ammo["pressurized_tank"] -= 50;
             } else {
-                // TODO remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
                 // Not possible for now since flag check is done on type, not individual monster
             }
         }
     }
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
-            // TODO use same idea that limits napalm dripping
+            // TODO: use same idea that limits napalm dripping
             g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
@@ -1887,7 +1888,7 @@ bool monster::will_reach( const point &p )
 
 int monster::turns_to_reach( const point &p )
 {
-    // This function is a(n old) temporary hack that should soon be removed
+    // HACK: This function is a(n old) temporary hack that should soon be removed
     auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;

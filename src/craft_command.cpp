@@ -20,8 +20,7 @@
 #include "translations.h"
 #include "uistate.h"
 #include "type_id.h"
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+#include "cata_string_consts.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -122,7 +121,7 @@ void craft_command::execute( const tripoint &new_loc )
 
     if( need_selections ) {
         if( !crafter->can_make( rec, batch_size ) ) {
-            if( crafter->can_start_craft( rec, batch_size ) ) {
+            if( crafter->can_start_craft( rec, recipe_filter_flags::none, batch_size ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
                     return;
@@ -133,13 +132,27 @@ void craft_command::execute( const tripoint &new_loc )
             }
         }
 
-        item_selections.clear();
-        const auto needs = rec->requirements();
-        const auto filter = rec->get_component_filter();
+        flags = recipe_filter_flags::no_rotten;
 
-        for( const auto &it : needs.get_components() ) {
-            comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true,
-                                           filter );
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+            if( !query_yn( _( "This craft will use rotten components.\n"
+                              "Start crafting anyway?" ) ) ) {
+                return;
+            }
+            flags = recipe_filter_flags::none;
+        }
+
+        item_selections.clear();
+        const auto filter = rec->get_component_filter( flags );
+        const requirement_data *needs = rec->deduped_requirements().select_alternative(
+                                            *crafter, filter, batch_size, craft_flags::start_only );
+        if( !needs ) {
+            return;
+        }
+
+        for( const auto &it : needs->get_components() ) {
+            comp_selection<item_comp> is =
+                crafter->select_item_component( it, batch_size, map_inv, true, filter );
             if( is.use_from == cancel ) {
                 return;
             }
@@ -147,7 +160,7 @@ void craft_command::execute( const tripoint &new_loc )
         }
 
         tool_selections.clear();
-        for( const auto &it : needs.get_tools() ) {
+        for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
             it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
@@ -228,7 +241,7 @@ item craft_command::create_in_progress_craft()
         return item();
     }
 
-    const auto filter = rec->get_component_filter();
+    const auto filter = rec->get_component_filter( flags );
 
     for( const auto &it : item_selections ) {
         std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
@@ -273,7 +286,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 {
     std::vector<comp_selection<item_comp>> missing;
 
-    const auto filter = rec->get_component_filter();
+    const auto filter = rec->get_component_filter( flags );
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;

@@ -57,23 +57,7 @@
 #include "colony.h"
 #include "point.h"
 #include "weather.h"
-
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_survival( "survival" );
-
-static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
-static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
-static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
-static const efftype_id effect_riding( "riding" );
+#include "cata_string_consts.h"
 
 struct comp_rank {
     int industry;
@@ -1269,9 +1253,12 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
+    tripoint loot_location = g->u.global_omt_location();
+    // Only check at the ground floor.
+    loot_location.z = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "house",
-                              0, false );
+        const tripoint site = overmap_buffer.find_closest( loot_location, "house", 0, false,
+                              ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }
@@ -1775,7 +1762,7 @@ static int companion_industry_rank( const npc &p )
     for( const Skill &sk : Skill::skills ) {
         industry += p.get_skill_level( sk.ident() ) * sk.companion_industry_rank_factor();
     }
-    return industry * std::min( p.get_int(), 32 ) / 8 ;
+    return industry * std::min( p.get_int(), 32 ) / 8;
 }
 
 static bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
@@ -1792,7 +1779,7 @@ comp_list talk_function::companion_sort( comp_list available,
     }
     skill_id hardest_skill;
     int hardest_diff = -1;
-    for( const std::pair<skill_id, int> &req_skill : required_skills ) {
+    for( const std::pair<const skill_id, int> &req_skill : required_skills ) {
         if( req_skill.second > hardest_diff ) {
             hardest_diff = req_skill.second;
             hardest_skill = req_skill.first;
@@ -1924,7 +1911,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         } else {
             npc_desc = left_justify( npc_desc, 51 );
             bool first = true;
-            for( const std::pair<skill_id, int> &skill_tested : required_skills ) {
+            for( const std::pair<const skill_id, int> &skill_tested : required_skills ) {
                 if( first ) {
                     first = false;
                 } else {
@@ -2086,17 +2073,17 @@ void mission_data::add( const std::string &id, const std::string &name_display,
     add( id, name_display, cata::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
-                               const cata::optional<point> dir, const std::string &text, bool possible )
+                               const cata::optional<point> &dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, true, possible );
 }
 void mission_data::add_start( const std::string &id, const std::string &name_display,
-                              const cata::optional<point> dir, const std::string &text, bool possible )
+                              const cata::optional<point> &dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, false, possible );
 }
 void mission_data::add( const std::string &id, const std::string &name_display,
-                        const cata::optional<point> dir, const std::string &text,
+                        const cata::optional<point> &dir, const std::string &text,
                         bool priority, bool possible )
 {
     mission_entry miss;

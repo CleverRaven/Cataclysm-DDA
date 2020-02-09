@@ -27,6 +27,7 @@
     "vision_night": 20,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
+    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
@@ -74,6 +75,7 @@
     "vision_night": 20,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
+    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 0 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
@@ -122,6 +124,7 @@
     "vision_night": 20,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
+    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 2 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
@@ -144,7 +147,7 @@
     "id": "mon_mi_go_guard",
     "type": "MONSTER",
     "name": { "str": "mi-go guard" },
-    "description": "This, like the more common mi-go, is an alien creature; this one is more heavily armoured.  Its trunk is a shapeless mass of strange flesh encased in an iridescent carapace, from which sprout several appendages terminating in what appear to be devices of some sort.  Its pyramidal head is encrusted in barnacle-like armor, aside from the bristling antennae that serve as its - you must assume sensory devices and mouth.",
+    "description": "This, like the more common mi-go, is an alien creature; this one is more heavily armored.  Its trunk is a shapeless mass of strange flesh encased in an iridescent carapace, from which sprout several appendages terminating in what appear to be devices of some sort.  Its pyramidal head is encrusted in barnacle-like armor, aside from the bristling antennae that serve as its - you must assume sensory devices and mouth.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "NETHER" ],
@@ -169,6 +172,7 @@
     "vision_night": 20,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
+    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 5 ],
       [ "SHRIEK_ALERT", 5 ],
@@ -220,6 +224,7 @@
     "vision_night": 25,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
+    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 5 ],
       [ "LONGSWIPE", 12 ],
@@ -270,6 +275,7 @@
     "vision_night": 25,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50 },
+    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       {
         "type": "gun",

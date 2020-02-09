@@ -92,8 +92,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "yellow",
-    "name": "mustard",
-    "name_plural": "mustard",
+    "name": { "str": "mustard", "str_pl": "mustard" },
     "description": "A condiment made from the seeds of a mustard plant (/Brassica/ or /Sinapis/), vinegar, salt, and spices.",
     "price": 50,
     "material": "junk",
@@ -163,8 +162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vinegar",
-    "name": "vinegar",
-    "name_plural": "vinegar",
+    "name": { "str": "vinegar", "str_pl": "vinegar" },
     "weight": "15 g",
     "color": "white",
     "container": "jug_plastic",
@@ -209,7 +207,8 @@
     "copy-from": "cooking_oil",
     "name_plural": "animal cooking oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ]
+    "material": [ "flesh", "oil" ],
+    "flags": [  ]
   },
   {
     "type": "COMESTIBLE",
@@ -240,8 +239,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
-    "name": "horseradish",
-    "name_plural": "horseradish",
+    "name": { "str": "horseradish", "str_pl": "horseradish" },
     "description": "A spicy grated root vegetable packed in vinegared brine.",
     "price": 75,
     "material": "veggy",
@@ -259,8 +257,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_syrup",
-    "name": "coffee syrup",
-    "name_plural": "coffee syrup",
+    "name": { "str": "coffee syrup", "str_pl": "coffee syrup" },
     "weight": "32 g",
     "color": "brown",
     "addiction_type": "caffeine",

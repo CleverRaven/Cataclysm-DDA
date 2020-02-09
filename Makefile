@@ -40,6 +40,8 @@
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+#  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
@@ -90,10 +92,9 @@ WARNINGS = \
   -Wmissing-declarations \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wsuggest-override \
+  -Wno-unknown-warning-option \
   -Wpedantic
-ifndef CLANG
-  WARNINGS += -Wsuggest-override
-endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -171,12 +172,21 @@ ifndef BACKTRACE
     BACKTRACE = 1
   endif
 endif
+ifdef BACKTRACE
+  # Also enable libbacktrace on cross-compilation to Windows
+  ifndef LIBBACKTRACE
+    ifneq (,$(findstring mingw32,$(CROSS)))
+      LIBBACKTRACE = 1
+    endif
+  endif
+endif
 
 ifeq ($(RUNTESTS), 1)
   TESTS = tests
 endif
 
-# tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
+# tiles object directories are because gcc gets confused
+# Appears that the default value of $LD is unsuitable on most systems
 
 # when preprocessor defines change, but the source doesn't
 ODIR = $(BUILD_PREFIX)obj
@@ -185,7 +195,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -247,8 +257,9 @@ CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
-  CXXFLAGS += -fsanitize=$(SANITIZE)
-  LDFLAGS += -fsanitize=$(SANITIZE)
+  SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
+  CXXFLAGS += $(SANITIZE_FLAGS)
+  LDFLAGS += $(SANITIZE_FLAGS)
 endif
 
 # enable optimizations. slow to build
@@ -274,6 +285,7 @@ ifdef RELEASE
       OPTLEVEL = -Os
     endif
   endif
+
   ifdef LTO
     ifdef CLANG
       # LLVM's LTO will complain if the optimization level isn't between O0 and
@@ -284,7 +296,14 @@ ifdef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 
   ifdef LTO
-    LDFLAGS += -fuse-ld=gold
+    ifeq ($(NATIVE), osx)
+      ifdef CLANG
+        LTOFLAGS += -flto=full
+      endif
+    else
+      LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
+    endif
+
     ifdef CLANG
       LTOFLAGS += -flto
     else
@@ -294,6 +313,8 @@ ifdef RELEASE
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
+  
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -340,7 +361,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc
+BINDIST_EXTRAS += README.md data doc LICENSE.txt
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -666,11 +687,17 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
+    ifeq ($(LIBBACKTRACE),1)
+      LDFLAGS += -lbacktrace
+    endif
   endif
 endif
 
 ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
+  ifeq ($(LIBBACKTRACE),1)
+      DEFINES += -DLIBBACKTRACE
+  endif
 endif
 
 ifeq ($(LOCALIZE),1)

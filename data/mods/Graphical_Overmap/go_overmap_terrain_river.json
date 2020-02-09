@@ -1,0 +1,74 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_river",
+    "copy-from": "generic_water",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_river_bank",
+    "copy-from": "generic_river_bank",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_center",
+    "copy-from": "river_center",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river",
+    "copy-from": "river",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_ne",
+    "copy-from": "river_c_not_ne",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_nw",
+    "copy-from": "river_c_not_nw",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_se",
+    "copy-from": "river_c_not_se",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_sw",
+    "copy-from": "river_c_not_sw",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_ne",
+    "copy-from": "river_ne",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_se",
+    "copy-from": "river_se",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_sw",
+    "copy-from": "river_sw",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_nw",
+    "copy-from": "river_nw",
+    "sym": "\u00F7"
+  }
+]

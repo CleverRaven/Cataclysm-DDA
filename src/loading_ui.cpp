@@ -51,7 +51,9 @@ void loading_ui::proceed()
             menu->entries[menu->selected].text_color = c_green;
         }
 
-        menu->scrollby( 1 );
+        if( menu->selected + 1 < static_cast<int>( menu->entries.size() ) ) {
+            menu->scrollby( 1 );
+        }
     }
 
     show();

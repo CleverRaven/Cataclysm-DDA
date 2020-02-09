@@ -233,6 +233,24 @@
   },
   {
     "type": "terrain",
+    "id": "t_concrete_y",
+    "name": "concrete",
+    "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.  Covered with a streak of yellow paint.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_wall_y",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 15 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_floor_noroof",
     "name": "wooden floor",
     "description": "Wooden floor created from boards, packed tightly together and nailed down.  Common in patios.",
@@ -309,5 +327,17 @@
       "str_min_supported": 100,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirtfloor_no_roof",
+    "name": "dirt floor",
+    "description": "Floor consisting of finely mixed earth that has been tamped down.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "looks_like": "t_dirtfloor",
+    "flags": [ "TRANSPARENT", "FLAT", "DIGGABLE" ],
+    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   }
 ]

@@ -403,7 +403,6 @@ static void shadowcasting_3d_2d( const int iterations )
     REQUIRE( passed );
 }
 
-
 // T, O and V are 'T'ransparent, 'O'paque and 'V'isible.
 // X marks the player location, which is not set to visible by this algorithm.
 #define T LIGHT_TRANSPARENCY_CLEAR

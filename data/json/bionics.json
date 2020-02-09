@@ -43,6 +43,8 @@
     "name": "Alloy Plating - Arms",
     "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
+    "bash_protec": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
+    "cut_protec": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -52,6 +54,8 @@
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "env_protec": [ [ "EYES", 7 ] ],
+    "bash_protec": [ [ "EYES", 3 ] ],
+    "cut_protec": [ [ "EYES", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -60,6 +64,8 @@
     "name": "Alloy Plating - Head",
     "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "HEAD", 5 ], [ "MOUTH", 1 ] ],
+    "bash_protec": [ [ "HEAD", 3 ] ],
+    "cut_protec": [ [ "HEAD", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -68,6 +74,8 @@
     "name": "Alloy Plating - Legs",
     "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ],
+    "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -76,6 +84,8 @@
     "name": "Alloy Plating - Torso",
     "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "bash_protec": [ [ "TORSO", 3 ] ],
+    "cut_protec": [ [ "TORSO", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -141,6 +151,9 @@
     "name": "Cable Charger System",
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "is_remote_fueled": true,
+    "time": 1,
+    "fuel_efficiency": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
@@ -159,6 +172,30 @@
       [ "LEG_R", 3 ],
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
+    ],
+    "bash_protec": [
+      [ "TORSO", 2 ],
+      [ "HEAD", 2 ],
+      [ "ARM_L", 2 ],
+      [ "ARM_R", 2 ],
+      [ "HAND_L", 2 ],
+      [ "HAND_R", 2 ],
+      [ "LEG_L", 2 ],
+      [ "LEG_R", 2 ],
+      [ "FOOT_L", 2 ],
+      [ "FOOT_R", 2 ]
+    ],
+    "cut_protec": [
+      [ "TORSO", 4 ],
+      [ "HEAD", 4 ],
+      [ "ARM_L", 4 ],
+      [ "ARM_R", 4 ],
+      [ "HAND_L", 4 ],
+      [ "HAND_R", 4 ],
+      [ "LEG_L", 4 ],
+      [ "LEG_R", 4 ],
+      [ "FOOT_L", 4 ],
+      [ "FOOT_R", 4 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -860,6 +897,17 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
+    "id": "bio_synaptic_regen",
+    "type": "bionic",
+    "name": "Synaptic Regeneration System",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "TORSO", 1 ] ],
+    "act_cost": 0,
+    "react_cost": "1 kJ",
+    "time": 100
+  },
+  {
     "id": "bio_shock",
     "type": "bionic",
     "name": "Electroshock Unit",
@@ -1001,7 +1049,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": "Integrated Toolset",
-    "description": "Surgically implanted in your hands and fingers is a set of tools - screwdriver, hammer, wrench, hacksaw, hand drill, welder, and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder, and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "fake_item": "toolset",
     "included_bionics": [ "bio_tools_extend" ],

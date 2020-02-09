@@ -107,7 +107,8 @@
     "healthy": 2,
     "description": "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
     "price": 120,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 0
   },
   {
     "type": "COMESTIBLE",
@@ -133,7 +134,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cornmeal",
-    "name": "cornmeal",
+    "name": { "str": "cornmeal", "str_pl": "cornmeal" },
     "weight": "19 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -419,8 +420,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_canned",
-    "name": "canned veggy",
-    "name_plural": "canned veggies",
+    "name": { "str": "canned veggy", "str_pl": "canned veggies" },
     "weight": "259 g",
     "color": "green",
     "spoils_in": "2 days 12 hours",
@@ -505,7 +505,7 @@
     "description": "This is a delicious sautee of lovely diced onions and sauerkraut.  The smell alone is enough to make your mouth water.",
     "price": 500,
     "material": "veggy",
-    "//": "assumes the saurkraut and onions cook down to half their raw values.  vitamins and calories are the two added together",
+    "//": "assumes the sauerkraut and onions cook down to half their raw values.  vitamins and calories are the two added together",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
@@ -629,8 +629,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_rice",
-    "name": "sushi rice",
-    "name_plural": "sushi rice",
+    "name": { "str": "sushi rice", "str_pl": "sushi rice" },
     "weight": "55 g",
     "color": "white",
     "spoils_in": "3 days",
@@ -650,8 +649,7 @@
   {
     "type": "COMESTIBLE",
     "id": "onigiri",
-    "name": "onigiri",
-    "name_plural": "onigiri",
+    "name": { "str": "onigiri", "str_pl": "onigiri" },
     "weight": "99 g",
     "color": "white",
     "spoils_in": "1 day 12 hours",
@@ -671,8 +669,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_veggyroll",
-    "name": "vegetable hosomaki",
-    "name_plural": "vegetable hosomaki",
+    "name": { "str": "vegetable hosomaki", "str_pl": "vegetable hosomaki" },
     "weight": "312 g",
     "color": "green",
     "spoils_in": "1 day 12 hours",
@@ -703,8 +700,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauerkraut",
-    "name": "sauerkraut",
-    "name_plural": "sauerkraut",
+    "name": { "str": "sauerkraut", "str_pl": "sauerkraut" },
     "weight": "255 g",
     "color": "green",
     "spoils_in": "30 days",

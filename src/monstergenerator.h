@@ -27,13 +27,14 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 struct species_type {
     species_id id;
     bool was_loaded = false;
-    std::string footsteps;
+    translation description;
+    translation footsteps;
     enum_bitset<m_flag> flags;
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
     std::string get_footsteps() const {
-        return footsteps;
+        return footsteps.translated();
     }
 
     species_type(): id( species_id::NULL_ID() ) {

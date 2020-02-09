@@ -7,7 +7,8 @@
     "maintainers": [ "mugling" ],
     "description": "Removes far-future Sci-Fi items such as powered armor and energy weapons.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",
@@ -36,7 +37,9 @@
       "laser_pack",
       "12mm",
       "rebar_rail",
-      "steel_rail"
+      "steel_rail",
+      "plasma_gun",
+      "emp_gun"
     ]
   }
 ]

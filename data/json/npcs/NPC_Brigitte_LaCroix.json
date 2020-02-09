@@ -174,7 +174,7 @@
     "id": "TALK_BONE_SEER_OTHERS",
     "dynamic_line": "There are others who follow this cause. You'd do well to aid them, for though we may not be numerous, we are emboldened by the songs we carry.",
     "responses": [
-      { "text": "I will bear that in mind", "topic": "TALK_NONE" },
+      { "text": "I will bear that in mind.", "topic": "TALK_NONE" },
       { "text": "Cause?  Why do you gather these bones anyway?", "topic": "TALK_BONE_SEER_BONES" }
     ]
   },
@@ -211,7 +211,7 @@
   {
     "id": "MISSION_SEER_GATHER_BONE",
     "type": "mission_definition",
-    "name": "Gather bones for the Brigitte.  About 8 should do it.",
+    "name": "Gather bones for Brigitte LaCroix.  About 8 should do it.",
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",
@@ -226,12 +226,12 @@
     },
     "dialogue": {
       "describe": "There is always work to be done, song to be woven.",
-      "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song. Go out, butcher a creature and feel the power between your fingertips. Then bring me the bones and I shall carve them for you.",
-      "accepted": "Excellent. Now be on your way.",
-      "rejected": "I understand your reluctancy. Feel free to return when you see the way.",
-      "advice": "The shambling corpses we see all around move in discord. Their song can be used, but for an Acolyte, this would be needlessly hard. Be sure to carve an unspoiled living creature.",
+      "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song.  Go out, butcher a creature and feel the power between your fingertips.  Then bring me the bones and I shall carve them for you.",
+      "accepted": "Excellent.  Now be on your way.",
+      "rejected": "I understand your reluctancy.  Feel free to return when you see the way.",
+      "advice": "The shambling corpses we see all around move in discord.  Their song can be used, but for an Acolyte, this would be needlessly hard.  Be sure to carve an unspoiled living creature.",
       "inquire": "Have you felt the song in your hands yet?",
-      "success": "And so, another cycle ends. You have done well. I will now bestow my mark upon you, so that others may know the path you walk and aid you.",
+      "success": "And so, another cycle ends.  You have done well.  I will now bestow my mark upon you, so that others may know the path you walk and aid you.",
       "success_lie": "So you say, but the song sings otherwise.",
       "failure": "Then you shall try again, until you hear."
     }
@@ -241,12 +241,12 @@
     "type": "talk_topic",
     "dynamic_line": {
       "has_no_available_mission": {
-        "has_no_assigned_mission": "The song is… quiet for now. Perhaps with time, more notes will be etched in the bones of this world.",
+        "has_no_assigned_mission": "The song is… quiet for now.  Perhaps with time, more notes will be etched in the bones of this world.",
         "no": { "has_many_assigned_missions": "An acolyte should not take on too many songs at once.", "no": "That is all for now." }
       },
       "no": {
         "has_many_available_missions": {
-          "has_no_assigned_mission": "There are bones to etch, songs to sing. Wish to join me?",
+          "has_no_assigned_mission": "There are bones to etch, songs to sing.  Wish to join me?",
           "no": {
             "has_many_assigned_missions": "Do you wish to take on more songs?",
             "no": "Do you believe you can take on the burden of additional bones?"

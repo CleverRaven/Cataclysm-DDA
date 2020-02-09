@@ -16,8 +16,7 @@
 #include "enums.h"
 #include "type_id.h"
 #include "flat_set.h"
-
-static const std::string null_item_id( "null" );
+#include "cata_string_consts.h"
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -63,7 +62,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     } else if( type == S_NONE ) {
         return item( null_item_id, birthday );
     }
-    if( one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+    if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.item_tags.insert( "FIT" );
     }
     if( modifier ) {
@@ -157,6 +156,27 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
     return type == S_NONE;
 }
 
+bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    if( modifier ) {
+        if( modifier->replace_item( itemid, replacementid ) ) {
+            return true;
+        }
+    }
+    if( type == S_ITEM ) {
+        if( itemid == id ) {
+            id = replacementid;
+            return true;
+        }
+    } else if( type == S_ITEM_GROUP ) {
+        Item_spawn_data *isd = item_controller->get_group( id );
+        if( isd != nullptr ) {
+            isd->replace_item( itemid, replacementid );
+        }
+    }
+    return type == S_NONE;
+}
+
 bool Single_item_creator::has_item( const Item_tag &itemid ) const
 {
     return type == S_ITEM && itemid == id;
@@ -212,15 +232,15 @@ void Item_modifier::modify( item &new_item ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
     // no need for dirt if it's a bow
-    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) &&
-        !new_item.has_flag( "NON-FOULING" ) ) {
+    if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
+        !new_item.has_flag( flag_NON_FOULING ) ) {
         int random_dirt = rng( dirt.first, dirt.second );
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
             // chance to be unlubed, but only if it's not a laser or something
-        } else if( one_in( 10 ) && !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+        } else if( one_in( 10 ) && !new_item.has_flag( flag_NEEDS_NO_LUBE ) ) {
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
@@ -253,8 +273,8 @@ void Item_modifier::modify( item &new_item ) const
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
     int ch = -1;
     if( !charges_not_set ) {
-        int charges_min = charges.first;
-        int charges_max = charges.second;
+        int charges_min = charges.first == -1 ? 0 : charges.first;
+        int charges_max = charges.second == -1 ? max_capacity : charges.second;
 
         if( charges_min == -1 && charges_max != -1 ) {
             charges_min = 0;
@@ -371,6 +391,19 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     if( container != nullptr ) {
         if( container->remove_item( itemid ) ) {
             container.reset();
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Item_modifier::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    if( ammo != nullptr ) {
+        ammo->replace_item( itemid, replacementid );
+    }
+    if( container != nullptr ) {
+        if( container->replace_item( itemid, replacementid ) ) {
             return true;
         }
     }
@@ -496,9 +529,17 @@ bool Item_group::remove_item( const Item_tag &itemid )
     return items.empty();
 }
 
+bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+{
+    for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
+        ( elem )->replace_item( itemid, replacementid );
+    }
+    return items.empty();
+}
+
 bool Item_group::has_item( const Item_tag &itemid ) const
 {
-    for( const auto &elem : items ) {
+    for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         if( ( elem )->has_item( itemid ) ) {
             return true;
         }

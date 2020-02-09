@@ -106,6 +106,7 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_earphones( "earphones" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -124,6 +125,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
@@ -753,7 +756,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
         } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
+                for( const tripoint &candidate : closest_tripoints_first( critter.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
                         g->m.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
@@ -776,7 +779,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
+                for( const tripoint &candidate : closest_tripoints_first( p.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
@@ -1217,8 +1220,10 @@ void iexamine::safe( player &p, const tripoint &examp )
     if( p.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    }
-    if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
+    } else if( p.has_effect( effect_earphones ) ) {
+        add_msg( m_info, _( "You can't crack a safe with earbuds on!" ) );
+        return;
+    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
@@ -1238,22 +1243,21 @@ void iexamine::safe( player &p, const tripoint &examp )
  */
 void iexamine::gunsafe_ml( player &p, const tripoint &examp )
 {
-    if( !( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ||
-           p.has_amount( "fc_hairpin", 1 ) ||
-           p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
+    int pick_quality = 0;
+
+    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
+        pick_quality = 5;
+    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ) {
+        pick_quality = 3;
+    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
+        pick_quality = 1;
+    }
+
+    if( pick_quality == 0 ) {
         add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
         return;
     } else if( !query_yn( _( "Pick the gun safe?" ) ) ) {
         return;
-    }
-
-    int pick_quality = 1;
-    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
-        pick_quality = 5;
-    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
-        pick_quality = 1;
-    } else {
-        pick_quality = 3;
     }
 
     p.practice( skill_mechanics, 1 );
@@ -1875,7 +1879,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( 1, examp ) ) {
+        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
             } else if( g->place_critter_at( montype, p ) ) {
@@ -3571,8 +3575,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
-            const std::vector<construction> &list_constructions = get_constructions();
-            const construction &built = list_constructions[pc->id];
+            const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.description, pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
@@ -3722,7 +3725,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp );
     if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );
@@ -3752,6 +3755,8 @@ void iexamine::curtains( player &p, const tripoint &examp )
             g->m.ter_set( examp, t_window_no_curtains_open );
         } else if( ter == t_window_domestic_taped ) {
             g->m.ter_set( examp, t_window_no_curtains_taped );
+        } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
+            g->m.ter_set( examp, t_window_bars );
         }
 
         g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );
@@ -4285,8 +4290,7 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
                                 bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( couch_loc ) == couch ) {
+        if( g->m.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
@@ -4306,8 +4310,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
                                     Character &null_patient )
 {
     for( const auto &loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( loc ) != couch ) {
+        if( !g->m.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
             if( p.pos() == loc ) {
                 return p;
             }
@@ -4552,14 +4555,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case UNINSTALL_CBM: {
-            bionic_collection installed_bionics = *patient.my_bionics;
+            const bionic_collection &installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
                 popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
                                      _( "<npcname> doesn't have any bionics installed." ) );
                 return;
             }
 
-            for( auto &bio : installed_bionics ) {
+            for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bionic_id( "bio_power_storage" ) ||
                     bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
                     if( item::type_is_defined( bio.id.str() ) ) {// put cbm items in your inventory
@@ -4920,7 +4923,8 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
 
-                result.inherit_flags( it );
+                recipe rec;
+                result.inherit_flags( it, rec );
                 if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
                     // If the item has "cooks_like" it will be replaced by that item as a component.
                     if( !it.get_comestible()->cooks_like.empty() ) {
