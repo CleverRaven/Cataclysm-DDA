@@ -1902,7 +1902,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( sp.min_duration != 0 && sp.max_duration != 0 ) {
-        rows.emplace_back( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration );
+        rows.emplace_back( _( "Duration" ), sp.min_duration, static_cast<float>( sp.duration_increment ),
+                           sp.max_duration );
     }
 
     rows.emplace_back( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment,
