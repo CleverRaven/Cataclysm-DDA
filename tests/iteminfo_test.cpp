@@ -106,41 +106,21 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *crowbar = &recipe_id( "makeshift_crowbar" ).obj();
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    g->u.empty_skills();
+    g->u.empty_traits();
 
-    GIVEN( "character has a pipe and no skill" ) {
-        item &pipe = g->u.i_add( item( "pipe" ) );
-
-        REQUIRE( g->u.get_skill_level( crowbar->skill_used ) == 0 );
-
-        THEN( "they can craft a makeshift crowbar from it" ) {
-            iteminfo_test(
-                pipe, q,
-                "--\nYou could use it to craft: <color_c_dark_gray>makeshift crowbar</color>\n" );
-        }
-    }
-
-    GIVEN( "character has potassium iodide tablets" ) {
+    GIVEN( "character has a potassium iodide tablet and no skill" ) {
         item &iodine = g->u.i_add( item( "iodine" ) );
+        g->u.empty_skills();
 
-        WHEN( "they don't have skills or recipes" ) {
-            g->u.set_skill_level( purtab->skill_used, 0 );
-
-            REQUIRE( g->u.get_skill_level( purtab->skill_used ) == 0 );
-            REQUIRE_FALSE( g->u.get_available_recipes( g->u.crafting_inventory() ).contains( purtab ) );
-
-            THEN( "nothing is craftable from it" ) {
-                iteminfo_test(
-                    iodine, q,
-                    "--\nYou know of nothing you could craft with it.\n" );
-            }
+        THEN( "nothing is craftable from it" ) {
+            iteminfo_test(
+                iodine, q,
+                "--\nYou know of nothing you could craft with it.\n" );
         }
 
-        AND_WHEN( "they acquire the needed skill" ) {
+        WHEN( "they acquire the needed skills" ) {
             g->u.set_skill_level( purtab->skill_used, purtab->difficulty );
-
             REQUIRE( g->u.get_skill_level( purtab->skill_used ) == purtab->difficulty );
-            REQUIRE_FALSE( g->u.get_available_recipes( g->u.crafting_inventory() ).contains( purtab ) );
 
             THEN( "still nothing is craftable from it" ) {
                 iteminfo_test(
@@ -150,9 +130,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
 
             WHEN( "they have no book, but have the recipe memorized" ) {
                 g->u.learn_recipe( purtab );
-
                 REQUIRE( g->u.knows_recipe( purtab ) );
-                REQUIRE( g->u.get_available_recipes( g->u.crafting_inventory() ).contains( purtab ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     iteminfo_test(
@@ -164,11 +142,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                item &book = g->u.i_add( item( "textbook_chemistry" ) );
-                g->u.do_read( book );
-
-                REQUIRE_FALSE( g->u.knows_recipe( purtab ) );
-                REQUIRE( g->u.get_available_recipes( g->u.crafting_inventory() ).contains( purtab ) );
+                g->u.i_add( item( "textbook_chemistry" ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     iteminfo_test(
