@@ -1354,7 +1354,7 @@ static void open_movement_mode_menu()
     as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
     as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
     as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
-    as_m.entries.emplace_back( 3, true, 'c', _( "Prone" ) );
+    as_m.entries.emplace_back( 3, true, 'p', _( "Prone" ) );
     as_m.query();
 
     switch( as_m.ret ) {
