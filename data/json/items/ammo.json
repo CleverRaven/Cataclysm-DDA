@@ -4,12 +4,11 @@
     "id": "battery",
     "category": "spare_parts",
     "price": 12000,
-    "name": "battery",
-    "name_plural": "batteries",
+    "name": { "str": "battery", "str_pl": "batteries" },
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "material": "iron",
     "effects": [ "COOKOFF" ],
     "volume": "250 ml",
@@ -17,7 +16,7 @@
     "ammo_type": "battery",
     "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
-    "fuel": { "energy": 1 }
+    "fuel": { "energy": 1.0 }
   },
   {
     "type": "TOOL",
@@ -222,7 +221,7 @@
     "ammo_type": "plutonium",
     "count": 5,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
-    "fuel": { "energy": 10 }
+    "fuel": { "energy": 10.0 }
   },
   {
     "type": "AMMO",
@@ -343,8 +342,7 @@
     "type": "AMMO",
     "id": "bearing",
     "price": 100,
-    "name": "bearings",
-    "name_plural": "bearings",
+    "name": { "str": "bearings", "str_pl": "bearings" },
     "symbol": "=",
     "color": "dark_gray",
     "looks_like": "pebble",
@@ -474,8 +472,8 @@
     "flags": [ "UNRECOVERABLE" ],
     "fuel": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
-      "energy": 4000,
-      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+      "energy": 4000.0,
+      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1.0, "fiery": true, "size_factor": 0.15 }
     }
   },
   {
@@ -499,7 +497,7 @@
     "id": "gunpowder",
     "category": "chems",
     "price": 500,
-    "name": "mixed gunpowder",
+    "name": "mixed smokeless gunpowder",
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
@@ -829,8 +827,7 @@
     "id": "cac2powder",
     "category": "spare_parts",
     "price": 200,
-    "name": "calcium carbide premix",
-    "name_plural": "calcium carbide premix",
+    "name": { "str": "calcium carbide premix", "str_pl": "calcium carbide premix" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
@@ -859,7 +856,7 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": { "energy": 30 }
+    "fuel": { "energy": 30.0 }
   },
   {
     "type": "AMMO",
@@ -1154,8 +1151,7 @@
     "type": "AMMO",
     "id": "RPG_die",
     "price": 10,
-    "name": "RPG die",
-    "name_plural": "RPG dice",
+    "name": { "str": "RPG die", "str_pl": "RPG dice" },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "marble",
@@ -1198,8 +1194,7 @@
     "id": "scrap_bronze",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "bronze",
-    "name_plural": "bronze",
+    "name": { "str": "bronze", "str_pl": "bronze" },
     "description": "Decent-sized chunks of bronze, for fashioning some old-school items.",
     "weight": "218 g",
     "volume": "250 ml",

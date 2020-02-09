@@ -95,7 +95,7 @@ static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
 {
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
-        auto &faction = faction_list[faction_id];
+        auto &faction = faction_list[faction_id.to_i()];
         if( faction.attitude_map.count( pair.first ) == 0 ) {
             faction.attitude_map.insert( pair );
         }
@@ -140,7 +140,7 @@ void monfactions::finalize()
         }
 
         // Point parent to children
-        if( faction.base_faction >= 0 ) {
+        if( faction.base_faction.to_i() >= 0 ) {
             child_map.insert( std::make_pair( faction.base_faction, faction.loadid ) );
         }
 
@@ -159,7 +159,7 @@ void monfactions::finalize()
     // If more than one root exists, use the first one.
     const auto root = queue.front();
     for( auto &faction : faction_list ) {
-        if( faction.base_faction < 0 ) {
+        if( faction.base_faction.to_i() < 0 ) {
             faction.base_faction = root;
             // If it is the (new) root, connecting it to own parent (self) would create a cycle.
             // So only try to connect it to the parent if it isn't own parent.
@@ -193,7 +193,7 @@ void monfactions::finalize()
         for( auto &fac : unloaded ) {
             names.append( fac.id().str() );
             names.append( " " );
-            auto &the_faction = faction_list[fac];
+            auto &the_faction = faction_list[fac.to_i()];
             the_faction.base_faction = root;
         }
 
@@ -240,7 +240,7 @@ void monfactions::load_monster_faction( const JsonObject &jo )
     std::string base_faction = jo.get_string( "base_faction", "" );
     mfaction_id base_id = get_or_add_faction( mfaction_str_id( base_faction ) );
     // Don't get the reference until here (to avoid vector reallocation messing it up)
-    monfaction &faction = faction_list[cur_id];
+    monfaction &faction = faction_list[cur_id.to_i()];
     faction.base_faction = base_id;
 
     add_to_attitude_map( by_mood, faction.attitude_map, MFA_BY_MOOD );

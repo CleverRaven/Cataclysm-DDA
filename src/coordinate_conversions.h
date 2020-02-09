@@ -49,7 +49,7 @@
 @endcode
  * Functions ending with _copy return the translated coordinates,
  * other functions change the parameters itself and don't return anything.
- * Functions ending with _remain return teh translated coordinates and
+ * Functions ending with _remain return the translated coordinates and
  * store the remainder in the parameters.
  */
 

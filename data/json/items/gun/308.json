@@ -4,8 +4,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "FN FAL",
-    "name_plural": "FN FAL",
+    "name": { "str": "FN FAL", "str_pl": "FN FAL" },
     "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
     "weight": "4250 g",
     "volume": "2 L",
@@ -21,7 +20,7 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
   },
   {
@@ -81,8 +80,7 @@
     "id": "m14ebr",
     "copy-from": "m1a",
     "type": "GUN",
-    "name": "M14 EBR-RI",
-    "name_plural": "M14 EBR-RI",
+    "name": { "str": "M14 EBR-RI", "str_pl": "M14 EBR-RI" },
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": "5070 g",
     "price": 195000,
@@ -124,7 +122,7 @@
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -239,7 +237,7 @@
     "durability": 6,
     "blackpowder_tolerance": 60,
     "reload": 200,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -277,7 +275,7 @@
     "durability": 9,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
-    "barrel_length": 3,
+    "barrel_length": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },
   {
@@ -285,8 +283,7 @@
     "copy-from": "scar_l",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "FN SCAR-H",
-    "name_plural": "FN SCAR-H",
+    "name": { "str": "FN SCAR-H", "str_pl": "FN SCAR-H" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "weight": "3640 g",
     "ammo": "308",
@@ -315,7 +312,7 @@
     "dispersion": 85,
     "durability": 9,
     "min_cycle_recoil": 2700,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "default_mods": [ "rifle_scope", "cheek_pad" ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ],
     "valid_mod_locations": [

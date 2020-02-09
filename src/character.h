@@ -458,8 +458,12 @@ class Character : public Creature, public visitable<Character>
         /** Equalizes heat between body parts */
         void temp_equalizer( body_part bp1, body_part bp2 );
 
+        struct comfort_response_t {
+            comfort_level level;
+            const item *aid = nullptr;
+        };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_level base_comfort_value( const tripoint &p ) const;
+        comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
@@ -1296,7 +1300,11 @@ class Character : public Creature, public visitable<Character>
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         /** Returns the player's skill rust rate */
-        int rust_rate( bool return_stat_effect = true ) const;
+        int rust_rate() const;
+
+        // Mental skills and stats
+        /** Returns the player's reading speed */
+        int read_speed( bool return_stat_effect = true ) const;
 
         // --------------- Other Stuff ---------------
 

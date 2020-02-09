@@ -1,6 +1,7 @@
 [
   {
     "id": "762R_clip",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "7.62x54mmR clip",
     "//": "Provisional.",

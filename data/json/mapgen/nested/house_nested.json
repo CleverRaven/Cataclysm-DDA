@@ -1642,6 +1642,34 @@
     "type": "mapgen",
     "method": "json",
     "//": "a nested map for lawns",
+    "nested_mapgen_id": "shed_6x6_bike",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|    +",
+        "|   B|",
+        "|   B|",
+        "+   S|",
+        "||||||"
+      ],
+      "terrain": {
+        "|": "t_scrap_wall",
+        "+": "t_door_metal_pickable",
+        " ": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "B": "t_thconc_floor"
+      },
+      "furniture": { "T": "f_trashcan", "S": "f_utility_shelf", "B": "f_workbench" },
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 270, "chance": 50 } ],
+      "place_items": [ { "item": "bikeshop_tools", "x": 4, "y": [ 2, 4 ], "chance": 10, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
     "nested_mapgen_id": "pond_6x6",
     "object": {
       "mapgensize": [ 6, 6 ],
