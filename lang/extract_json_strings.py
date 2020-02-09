@@ -98,7 +98,8 @@ ignorable = {
     "TRAIT_BLACKLIST",
     "trait_group",
     "uncraft",
-    "vehicle_group"
+    "vehicle_group",
+    "vehicle_placement",
 }
 
 # these objects can have their strings automatically extracted.
@@ -159,8 +160,7 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help",
-	"cant_remove"
+    "help"
 }
 
 # for these objects a plural form is needed
