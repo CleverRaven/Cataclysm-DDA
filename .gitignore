@@ -172,3 +172,6 @@ Xcode/
 
 # gdb
 .gdb_history
+
+# gem directory for jekyll site
+vendor/
