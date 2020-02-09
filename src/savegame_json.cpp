@@ -93,15 +93,12 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 struct oter_type_t;
 struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -924,14 +921,44 @@ void player::load( const JsonObject &data )
     }
 
     // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        if( has_trait( trait_HYPEROPIC ) ) {
+            remove_mutation( trait_HYPEROPIC );
+        }
 
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
-    }
+        if( has_trait( trait_MYOPIC ) ) {
+            remove_mutation( trait_MYOPIC );
+        }
 
+        if( has_trait( trait_URSINE_EYE ) ) {
+            remove_mutation( trait_URSINE_EYE );
+        }
+
+        if( has_trait( trait_NIGHTVISION ) ) {
+            remove_mutation( trait_NIGHTVISION );
+        }
+
+        if( has_trait( trait_NIGHTVISION2 ) ) {
+            remove_mutation( trait_NIGHTVISION2 );
+        }
+
+        if( has_trait( trait_NIGHTVISION3 ) ) {
+            remove_mutation( trait_NIGHTVISION3 );
+        }
+
+        if( has_trait( trait_BIRD_EYE ) ) {
+            remove_mutation( trait_BIRD_EYE );
+        }
+
+        if( has_trait( trait_COMPOUND_EYES ) ) {
+            remove_mutation( trait_COMPOUND_EYES );
+        }
+
+        if( has_trait( trait_LIZ_IR ) ) {
+            remove_mutation( trait_LIZ_IR );
+        }
+
+    }
     if( data.has_array( "faction_warnings" ) ) {
         for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
             std::string fac_id = warning_data.get_string( "fac_warning_id" );

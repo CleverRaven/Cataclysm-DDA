@@ -580,6 +580,14 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
         // We already have this mutation or something that replaces it.
         return false;
     }
+
+    if( has_bionic( bio_eye_optic ) && (
+            mutation == trait_HYPEROPIC || mutation == trait_MYOPIC || mutation == trait_URSINE_EYE ||
+            mutation == trait_NIGHTVISION || mutation == trait_NIGHTVISION2 || mutation == trait_NIGHTVISION3 ||
+            mutation == trait_BIRD_EYE || mutation == trait_COMPOUND_EYES || mutation == trait_LIZ_IR ) ) {
+        return false;
+    }
+
     const mutation_branch &mdata = mutation.obj();
     if( force_bad && mdata.points > 0 ) {
         // This is a good mutation, and we're due for a bad one.
