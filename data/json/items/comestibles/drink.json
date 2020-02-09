@@ -69,8 +69,7 @@
   {
     "type": "COMESTIBLE",
     "id": "atomic_coffee",
-    "name": "atomic coffee",
-    "name_plural": "atomic coffee",
+    "name": { "str": "atomic coffee", "str_pl": "atomic coffee" },
     "copy-from": "coffee",
     "addiction_type": "caffeine",
     "use_action": "ATOMIC_CAFF",
@@ -87,8 +86,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bee_balm_tea",
-    "name": "bee balm tea",
-    "name_plural": "bee balm tea",
+    "name": { "str": "bee balm tea", "str_pl": "bee balm tea" },
     "copy-from": "tea",
     "color": "green",
     "use_action": "FLUMED",
