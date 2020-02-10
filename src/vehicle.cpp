@@ -974,11 +974,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist = 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size;
-            dist = clamp( dist, 0.0f, 1.0f );
-            if( damage_size == 0 ) {
-                dist = 1.0f;
-            }
+            float dist =  damage_size == 0.0f ? 1.0f :
+                          clamp( 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
