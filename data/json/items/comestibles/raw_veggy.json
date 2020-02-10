@@ -38,8 +38,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broccoli",
-    "name": "broccoli",
-    "name_plural": "broccoli",
+    "name": { "str": "broccoli", "str_pl": "broccoli" },
     "weight": "96 g",
     "color": "green",
     "spoils_in": "6 days 16 hours",

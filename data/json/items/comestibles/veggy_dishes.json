@@ -737,8 +737,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_boiled",
-    "name": "boiled fiddleheads",
-    "name_plural": "boiled fiddleheads",
+    "name": { "str": "boiled fiddleheads", "str_pl": "boiled fiddleheads" },
     "weight": "50 g",
     "flags": [ "FREEZERBURN", "EATEN_HOT" ],
     "color": "light_green",
