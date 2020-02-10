@@ -1,6 +1,7 @@
 [
   {
     "id": "ak74mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "AK-74M magazine",
     "description": "A standard magazine made for the AK-74M rifle, made of steel-reinforced polymer.  Holds 30 rounds.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "rpk74mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "AK-74M extended magazine",
     "//": "Technically it's meant for the RPK-74, but can always rename if we add an RPK.",

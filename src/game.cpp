@@ -5516,7 +5516,9 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
-            Pickup::pick_up( examp, 0 );
+            if( !u.is_mounted() ) {
+                Pickup::pick_up( examp, 0 );
+            }
         }
     }
 }
