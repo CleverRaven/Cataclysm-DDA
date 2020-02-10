@@ -5542,6 +5542,10 @@ void vehicle::do_towing_move()
         debugmsg( "tried to do towing move but towed vehicle has no towing part" );
         invalidate = true;
     }
+    if( towed_veh.global_pos3().z != global_pos3().z ) {
+        // how the hellicopter did this happen?
+        invalidate = true;
+    }
     if( invalidate ) {
         invalidate_towing();
         return;
