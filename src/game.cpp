@@ -871,8 +871,7 @@ void game::place_starting_vehicle( cata::optional<vproto_id> starting_vehicle )
 
 }
 
-void game::find_location_for_starting_vehicle( vproto_id id,
-        const std::vector<std::string> &omt_search_types )
+void game::find_location_for_starting_vehicle( const vproto_id id, std::vector<std::string> &omt_search_types )
 {
     for( const std::string &search_type : omt_search_types ) {
         omt_find_params find_params;
@@ -894,7 +893,8 @@ void game::find_location_for_starting_vehicle( vproto_id id,
                     target_map.load( omt_to_sm_copy( goal ), false );
                     tripoint origin = target_map.getlocal( sm_to_ms_copy( omt_to_sm_copy( goal ) ) ) + point(
                                           SEEX, SEEY );
-                    vehicle *veh = target_map.add_vehicle( id, origin, rng( -90, 90 ), rng( 50, 80 ),
+                    std::vector<int> angles = {0, 90, 180, 270};
+                    vehicle *veh = target_map.add_vehicle( id, origin, random_entry( angles ), rng( 50, 80 ),
                                                            0,
                                                            false );
                     if( veh ) {
