@@ -154,8 +154,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_sauce",
-    "name": "boring sandwich",
-    "name_plural": "boring sandwiches",
+    "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "copy-from": "bread",
     "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
     "color": "brown",

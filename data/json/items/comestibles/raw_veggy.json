@@ -38,8 +38,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broccoli",
-    "name": "broccoli",
-    "name_plural": "broccoli",
+    "name": { "str": "broccoli", "str_pl": "broccoli" },
     "weight": "96 g",
     "color": "green",
     "spoils_in": "6 days 16 hours",
@@ -58,8 +57,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat",
-    "name": "buckwheat",
-    "name_plural": "buckwheat",
+    "name": { "str": "buckwheat", "str_pl": "buckwheat" },
     "weight": "180 g",
     "color": "brown",
     "comestible_type": "FOOD",
