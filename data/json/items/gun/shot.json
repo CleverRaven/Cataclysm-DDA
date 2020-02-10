@@ -311,7 +311,7 @@
     "sight_dispersion": 750,
     "clip_size": 4,
     "price": 53800,
-    "barrel_length": 0,
+    "barrel_length": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
