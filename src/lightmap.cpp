@@ -107,7 +107,7 @@ bool map::build_transparency_cache( const int zlev )
                     }
 
                     if( !( cur_submap->get_ter( { sx, sy } ).obj().transparent &&
-                           cur_submap->frn[sx][sy].obj().transparent ) ) {
+                           cur_submap->get_furn( {sx, sy } ).obj().transparent ) ) {
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
@@ -326,7 +326,7 @@ void map::generate_lightmap( const int zlev )
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
-                    const furn_id furniture = cur_submap->frn[sx][sy];
+                    const furn_id furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
                         add_light_source( p, furniture->light_emitted );
                     }

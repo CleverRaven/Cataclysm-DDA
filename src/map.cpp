@@ -7395,7 +7395,7 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );
-            std::uninitialized_fill_n( &sm->frn[0][0], SEEX * SEEY, fur_type );
+            sm->set_all_furn( fur_type );
             std::uninitialized_fill_n( &sm->trp[0][0], SEEX * SEEY, trap_type );
 
             setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );

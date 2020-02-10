@@ -82,6 +82,11 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             frn[p.x][p.y] = furn;
         }
 
+        void set_all_furn( const furn_id &furn ) {
+            constexpr size_t block_size = SEEX * SEEY;
+            std::uninitialized_fill_n( &frn[0][0], block_size, furn );
+        }
+
         ter_id get_ter( const point &p ) const {
             return ter[p.x][p.y];
         }
