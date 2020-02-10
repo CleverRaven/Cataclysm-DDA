@@ -398,7 +398,7 @@
     "id": "any_butter_or_oil",
     "type": "requirement",
     "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",
-    "components": [ [ [ "cooking_oil1", 1 ], [ "cooking_oil2", 1 ], [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
+    "components": [ [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
   },
   {
     "id": "seasoning_mild",
