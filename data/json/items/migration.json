@@ -983,5 +983,10 @@
     "id": "angular_grinder",
     "type": "MIGRATION",
     "replace": "angle_grinder"
+  },
+  {
+    "id": "40mm_casing",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m118_casing"
   }
 ]

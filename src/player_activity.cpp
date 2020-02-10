@@ -81,7 +81,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
                 if( skill && u.get_skill_level( skill ) < reading->level &&
-                    u.get_skill_level_object( skill ).can_train() ) {
+                    u.get_skill_level_object( skill ).can_train() && u.has_identified( book->typeId() ) ) {
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
                     //~ skill_name current_skill_level -> next_skill_level (% to next level)
                     extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),

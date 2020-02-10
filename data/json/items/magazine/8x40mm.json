@@ -1,6 +1,7 @@
 [
   {
     "id": "8x40_100_mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "RMGB100 8x40mm magazine",
     "description": "A 100 round box magazine for use with Rivtech 8x40mm caseless firearms.",
@@ -18,6 +19,7 @@
   },
   {
     "id": "8x40_10_mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "RMGP10 8x40mm stick magazine",
     "description": "A 10 round stick magazine for use with Rivtech 8x40mm caseless firearms.",
@@ -35,6 +37,7 @@
   },
   {
     "id": "8x40_250_mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "RMGD250 8x40mm drum magazine",
     "description": "A 250 round drum magazine for use with Rivtech 8x40mm caseless firearms.",
@@ -51,6 +54,7 @@
   },
   {
     "id": "8x40_25_mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "RMGP25 8x40mm stick magazine",
     "description": "A 25 round stick magazine for use with Rivtech 8x40mm caseless firearms.",
@@ -68,6 +72,7 @@
   },
   {
     "id": "8x40_500_mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "RMGB500 8x40mm drum magazine",
     "description": "A 500 round drum magazine for use with Rivtech 8x40mm caseless firearms.",
@@ -83,6 +88,7 @@
   },
   {
     "id": "8x40_50_mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "RMGB50 8x40mm magazine",
     "description": "A 50 round box magazine for use with Rivtech 8x40mm caseless firearms.",
@@ -100,6 +106,7 @@
   },
   {
     "id": "8x40_speedloader5",
+    "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": "RMGS5 8x40mm speedloader",
     "description": "This speedloader, made by Rivtech for use with RM99 revolver, can hold 5 rounds of 8x40mm caseless rounds and quickly reload a compatible revolver.",

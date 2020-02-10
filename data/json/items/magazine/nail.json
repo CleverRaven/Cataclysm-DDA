@@ -1,6 +1,7 @@
 [
   {
     "id": "nailmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "nail rifle magazine",
     "description": "An improvised magazine for use with a nail rifle.  Little more than a tin can, spring and some duct tape it is awkward to reload and not especially reliable.",

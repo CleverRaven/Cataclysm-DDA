@@ -101,6 +101,12 @@ struct bionic_data {
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
+
+    /**Amount of bash protection offered by this bionic*/
+    std::map<body_part, size_t> bash_protec;
+    /**Amount of cut protection offered by this bionic*/
+    std::map<body_part, size_t> cut_protec;
+
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
