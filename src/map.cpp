@@ -6554,12 +6554,11 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
     dbg( D_INFO ) << "generate_uniform p: " << p
                   << "  terrain_type: " << terrain_type.id().str();
 
-    constexpr size_t block_size = SEEX * SEEY;
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
             submap *sm = new submap();
             sm->is_uniform = true;
-            std::uninitialized_fill_n( &sm->ter[0][0], block_size, terrain_type );
+            sm->set_all_ter( terrain_type );
             sm->last_touched = calendar::turn;
             MAPBUFFER.add_submap( p + point( xd, yd ), sm );
         }
@@ -7095,21 +7094,21 @@ void map::add_roofs( const tripoint &grid )
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            const ter_id ter_here = sub_here->ter[x][y];
+            const ter_id ter_here = sub_here->get_ter( { x, y } );
             if( ter_here != t_open_air ) {
                 continue;
             }
 
             if( !check_roof ) {
                 // Make sure we don't have open air at lowest z-level
-                sub_here->ter[x][y] = t_rock_floor;
+                sub_here->set_ter( { x, y }, t_rock_floor );
                 continue;
             }
 
-            const ter_t &ter_below = sub_below->ter[x][y].obj();
+            const ter_t &ter_below = sub_below->get_ter( { x, y } ).obj();
             if( ter_below.roof ) {
                 // TODO: Make roof variable a ter_id to speed this up
-                sub_here->ter[x][y] = ter_below.roof.id();
+                sub_here->set_ter( { x, y }, ter_below.roof.id() );
             }
         }
     }
@@ -7395,7 +7394,7 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
-            std::uninitialized_fill_n( &sm->ter[0][0], SEEX * SEEY, ter_type );
+            sm->set_all_ter( ter_type );
             std::uninitialized_fill_n( &sm->frn[0][0], SEEX * SEEY, fur_type );
             std::uninitialized_fill_n( &sm->trp[0][0], SEEX * SEEY, trap_type );
 
@@ -7857,12 +7856,11 @@ void map::draw_fill_background( const ter_id &type )
     set_pathfinding_cache_dirty( abs_sub.z );
 
     // Fill each submap rather than each tile
-    constexpr size_t block_size = SEEX * SEEY;
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             auto sm = get_submap_at_grid( {gridx, gridy} );
             sm->is_uniform = true;
-            std::uninitialized_fill_n( &sm->ter[0][0], block_size, type );
+            sm->set_all_ter( type );
         }
     }
 }

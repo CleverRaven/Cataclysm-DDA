@@ -91,6 +91,11 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             ter[p.x][p.y] = terr;
         }
 
+        void set_all_ter( const ter_id &terr ) {
+            constexpr size_t block_size = SEEX * SEEY;
+            std::uninitialized_fill_n( &ter[0][0], block_size, terr );
+        }
+
         int get_radiation( const point &p ) const {
             return rad[p.x][p.y];
         }

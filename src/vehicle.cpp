@@ -6203,7 +6203,7 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
         return false;
     }
 
-    return ( sm->ter[px][py].obj().has_flag( TFLAG_CURRENT ) ||
+    return ( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_CURRENT ) ||
              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
@@ -6224,7 +6224,7 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
         return false;
     }
 
-    return !( sm->ter[px][py].obj().has_flag( TFLAG_INDOORS ) ||
+    return !( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_INDOORS ) ||
               sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
 }
 

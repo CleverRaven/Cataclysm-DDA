@@ -106,7 +106,7 @@ bool map::build_transparency_cache( const int zlev )
                         continue;
                     }
 
-                    if( !( cur_submap->ter[sx][sy].obj().transparent &&
+                    if( !( cur_submap->get_ter( { sx, sy } ).obj().transparent &&
                            cur_submap->frn[sx][sy].obj().transparent ) ) {
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
@@ -322,7 +322,7 @@ void map::generate_lightmap( const int zlev )
                         add_light_from_items( p, items.begin(), items.end() );
                     }
 
-                    const ter_id terrain = cur_submap->ter[sx][sy];
+                    const ter_id terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
