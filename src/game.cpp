@@ -871,7 +871,8 @@ void game::place_starting_vehicle( cata::optional<vproto_id> starting_vehicle )
 
 }
 
-void game::find_location_for_starting_vehicle( const vproto_id id, std::vector<std::string> &omt_search_types )
+void game::find_location_for_starting_vehicle( const vproto_id id,
+        std::vector<std::string> &omt_search_types )
 {
     for( const std::string &search_type : omt_search_types ) {
         omt_find_params find_params;
