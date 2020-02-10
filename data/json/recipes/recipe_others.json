@@ -772,7 +772,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
+      [ [ "copper_scrap_equivalent", 40, "LIST" ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
@@ -2219,7 +2219,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "scrap_copper", 5 ], [ "copper", 500 ] ], [ [ "tin", 30 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ], [ [ "tin", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -2235,7 +2235,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "scrap_copper", 5 ], [ "copper", 500 ] ],
+      [ [ "copper_scrap_equivalent", 20, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "acid", 1 ] ]
@@ -3246,7 +3246,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "scrap_copper", 7 ], [ "copper", 175 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 7, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4166,7 +4166,7 @@
     "tools": [ [ [ "hotplate", 100 ], [ "toolset", 100 ] ] ],
     "components": [
       [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
-      [ [ "copper", 50 ] ],
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
       [ [ "acid", 1 ] ],
       [ [ "bleach", 2 ] ],
       [ [ "oxy_powder", 50 ] ],
@@ -4486,7 +4486,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "tin", 12 ] ], [ [ "copper", 50 ] ] ]
+    "components": [ [ [ "tin", 12 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
