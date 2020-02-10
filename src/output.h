@@ -310,6 +310,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
+std::string trim_and_return( int width, const std::string &text );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
