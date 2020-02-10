@@ -600,8 +600,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_tuna",
-    "name": "canned tuna fish",
-    "name_plural": "canned tuna fish",
+    "name": { "str": "canned tuna fish", "str_pl": "canned tuna fish" },
     "weight": "154 g",
     "color": "light_gray",
     "spoils_in": "1 day",
