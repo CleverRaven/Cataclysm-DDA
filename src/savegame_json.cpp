@@ -3030,7 +3030,11 @@ void activity_reason_info::serialize( JsonOut &json ) const
     json.member( "reason" );
     json.write_as_string( reason );
     json.member( "can_do", can_do );
-    json.member( "con_idx", con_idx );
+    if( con_idx ) {
+        json.member( "con_idx", con_idx->id() );
+    } else {
+        json.member( "con_idx", -1 );
+    }
     json.member( "added_reason", added_reason );
     json.end_object();
 }
@@ -3040,7 +3044,12 @@ void activity_reason_info::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     reason = jo.get_enum_value<do_activity_reason>( "reason" );
     jo.read( "can_do", can_do );
-    jo.read( "con_idx", con_idx );
+    if( jo.has_int( "index " ) ) {
+        // optional index not there
+        con_idx = cata::nullopt;
+    } else {
+        con_idx = construction_str_id( jo.get_string( "con_idx" ) ).id();
+    }
     jo.read( "added_reason", added_reason );
 }
 
