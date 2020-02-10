@@ -74,8 +74,7 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         void set_all_traps( const trap_id &trap ) {
-            constexpr size_t block_size = SEEX * SEEY;
-            std::uninitialized_fill_n( &trp[0][0], block_size, trap );
+            std::uninitialized_fill_n( &trp[0][0], elements, trap );
         }
 
         furn_id get_furn( const point &p ) const {
@@ -88,8 +87,7 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         void set_all_furn( const furn_id &furn ) {
-            constexpr size_t block_size = SEEX * SEEY;
-            std::uninitialized_fill_n( &frn[0][0], block_size, furn );
+            std::uninitialized_fill_n( &frn[0][0], elements, furn );
         }
 
         ter_id get_ter( const point &p ) const {
@@ -102,8 +100,7 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         void set_all_ter( const ter_id &terr ) {
-            constexpr size_t block_size = SEEX * SEEY;
-            std::uninitialized_fill_n( &ter[0][0], block_size, terr );
+            std::uninitialized_fill_n( &ter[0][0], elements, terr );
         }
 
         int get_radiation( const point &p ) const {
@@ -251,6 +248,8 @@ class submap : maptile_soa<SEEX, SEEY>
         int temperature = 0;
 
         void update_legacy_computer();
+
+        static constexpr size_t elements = SEEX * SEEY;
 };
 
 /**
