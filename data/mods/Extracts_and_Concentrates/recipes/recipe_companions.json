@@ -2,14 +2,14 @@
   {
     "type": "recipe",
     "result": "hi_q_shatter",
-	"id_suffix": "shatter_f",
-	"category": "CC_CHEM",
+    "id_suffix": "shatter_f",
+    "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
     "charges": 4,
-	"skill_used": "fabrication",
+    "skill_used": "fabrication",
     "time": "4320 m",
     "autolearn": false,
     "never_learn": true,
-	"components": [ [ [ "hi_q_crude_oil", 1 ] ] ]
+    "components": [ [ [ "hi_q_crude_oil", 1 ] ] ]
   }
 ]

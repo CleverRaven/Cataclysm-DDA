@@ -6,7 +6,7 @@
   },
   {
     "type": "tool_quality",
-	"id": "FILTER",
-	"name": "filtration"
+    "id": "FILTER",
+    "name": "filtration"
   }
 ]

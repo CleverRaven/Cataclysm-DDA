@@ -10,28 +10,24 @@
     "coverage": 40,
     "required_str": -1,
     "looks_like": "f_glass_fridge",
-	"max_volume": "672 ml",
-	"crafting_pseudo_item": "vac_oven_large",
-	"flags": [ "CONTAINER", "ALLOWS_REMOTE_USE", "LIQUIDCONT", "PLACE_ITEM" ],
+    "max_volume": "672 ml",
+    "crafting_pseudo_item": "vac_oven_large",
+    "flags": [ "CONTAINER", "ALLOWS_REMOTE_USE", "LIQUIDCONT", "PLACE_ITEM" ],
     "deconstruct": {
-	  "items": [
-	   { "item": "metal_tank", "count": 3 },
-	   { "item": "pipe", "count": 2 },
-	   { "item": "hose", "count": 2 },
-	   { "item": "vac_pump", "count": 3 }
-	  ]
-	},
+      "items": [
+        { "item": "metal_tank", "count": 3 },
+        { "item": "pipe", "count": 2 },
+        { "item": "hose", "count": 2 },
+        { "item": "vac_pump", "count": 3 }
+      ]
+    },
     "bash": {
       "str_min": 25,
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [
-	    { "item": "metal_tank", "count": 1 },
-	   { "item": "pipe", "count": 1 },
-	   { "item": "hose", "count": 1 }
-	  ]
-	}
+      "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 }, { "item": "hose", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",
@@ -44,25 +40,21 @@
     "coverage": 40,
     "required_str": -1,
     "looks_like": "f_glass_fridge",
-	"flags": [ "ALLOWS_REMOTE_USE", "LIQUIDCONT", "CONTAINER", "PLACE_ITEM" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "LIQUIDCONT", "CONTAINER", "PLACE_ITEM" ],
     "deconstruct": {
-	  "items": [
-	   { "item": "metal_tank", "count": 3 },
-	   { "item": "pipe", "count": 2 },
-	   { "item": "hose", "count": 2 },
-	   { "item": "vac_pump", "count": 3 }
-	  ]
-	},
+      "items": [
+        { "item": "metal_tank", "count": 3 },
+        { "item": "pipe", "count": 2 },
+        { "item": "hose", "count": 2 },
+        { "item": "vac_pump", "count": 3 }
+      ]
+    },
     "bash": {
       "str_min": 25,
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [
-	    { "item": "metal_tank", "count": 1 },
-	   { "item": "pipe", "count": 1 },
-	   { "item": "hose", "count": 1 }
-	  ]
-	}
+      "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 }, { "item": "hose", "count": 1 } ]
+    }
   }
 ]

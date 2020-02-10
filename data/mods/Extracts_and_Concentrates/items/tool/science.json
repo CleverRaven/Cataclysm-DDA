@@ -7,7 +7,7 @@
     "description": "A small machine used for extracting essential oils from organic material producing a high quality extract. It consists of a 6in x 4ft metal tube clamped onto a 5gal steel honey pot. You pack the organic material in the tube, run solvent through the material, then collect the essential oils from the honey pot",
     "symbol": "E",
     "color": "dark_gray",
-    "looks_like": "still", 
+    "looks_like": "still",
     "weight": "36000 g",
     "volume": "60 L",
     "price": 500000,
@@ -15,25 +15,20 @@
     "bashing": 40,
     "material": "steel",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-	"ammo": "battery",
-	"power_draw": 1500000,
-	"charges_per_use": 1,
-	"use_action": {
+    "ammo": "battery",
+    "power_draw": 1500000,
+    "charges_per_use": 1,
+    "use_action": {
       "target": "eac_extractor_small_on",
       "msg": "You turn on the small closed loop extractor.",
       "menu_text": "turn on",
-	  "active": true,
+      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The small closed loop extractor's batteries need more charge. ",
       "type": "transform"
     },
-	"magazines": [
-      [
-        "battery",
-        [ "medium_storage_battery", "large_storage_battery", "storage_battery" ]
-      ]
-    ],
-	"qualities": [ [ "EXTRACT", 2 ] ]
+    "magazines": [ [ "battery", [ "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "qualities": [ [ "EXTRACT", 2 ] ]
   },
   {
     "id": "eac_extractor_small_on",
@@ -43,7 +38,7 @@
     "description": "A small machine used for extracting essential oils from organic material producing a high quality extract. It consists of a 6in x 4ft metal tube clamped onto a 5gal steel honey pot. You pack the organic material in the tube, run solvent through the material, then collect the essential oils from the honey pot",
     "symbol": "E",
     "color": "dark_gray",
-    "looks_like": "still", 
+    "looks_like": "still",
     "weight": "36000 g",
     "volume": "60 L",
     "price": 500000,
@@ -51,11 +46,11 @@
     "bashing": 40,
     "material": "steel",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-	"ammo": "battery",
-	"power_draw": 1500000,
-	"revert_to": "eac_extractor_small",
-	"charges_per_use": 1,
-	"use_action": {
+    "ammo": "battery",
+    "power_draw": 1500000,
+    "revert_to": "eac_extractor_small",
+    "charges_per_use": 1,
+    "use_action": {
       "target": "eac_extractor_small",
       "msg": "You turn off the small closed loop extractor.",
       "menu_text": "turn off",
@@ -63,13 +58,8 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge. ",
       "type": "transform"
     },
-	"magazines": [
-      [
-        "battery",
-        [ "medium_storage_battery", "large_storage_battery", "storage_battery" ]
-      ]
-    ],
-	"qualities": [ [ "EXTRACT", 2 ] ]
+    "magazines": [ [ "battery", [ "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "qualities": [ [ "EXTRACT", 2 ] ]
   },
   {
     "id": "eac_extractor_large",
@@ -78,7 +68,7 @@
     "name_plural": "large closed loop extractors",
     "description": "A large machine used for extracting essential oils from large batches of organic material producing a low quality crude oil. It consists of three 6in x 4ft metal tubes funneled into a 30gal drum thats set horizontally. A series of hoses and tubes come out of the machine going to different valves. It is quite intimidating",
     "looks_like": "still",
-	"weight": "181600 g",
+    "weight": "181600 g",
     "volume": "240 L",
     "price": 2000000,
     "to_hit": -10,
@@ -87,24 +77,19 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-	"ammo": "battery",
-	"charges_per_use": 1,
-	"magazines": [
-      [
-        "battery",
-        [ "medium_storage_battery", "large_storage_battery", "storage_battery" ]
-      ]
-    ],
-	"use_action": {
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "magazines": [ [ "battery", [ "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "use_action": {
       "target": "eac_extractor_large_on",
       "msg": "You turn on the large closed loop extractor.",
       "menu_text": "turn on",
-	  "active": true,
+      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The large closed loop extractor's batteries need more charge. ",
       "type": "transform"
     },
-	"qualities": [ [ "EXTRACT", 1 ] ]
+    "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
     "id": "eac_extractor_large_on",
@@ -113,7 +98,7 @@
     "name_plural": "large closed loop extractors (on)",
     "description": "A large machine used for extracting essential oils from large batches of organic material producing a low quality crude oil. It consists of three 6in x 4ft metal tubes funneled into a 30gal drum thats set horizontally. A series of hoses and tubes come out of the machine going to different valves. It is quite intimidating",
     "looks_like": "still",
-	"weight": "181600 g",
+    "weight": "181600 g",
     "volume": "240 L",
     "price": 2000000,
     "to_hit": -10,
@@ -122,17 +107,12 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-	"ammo": "battery",
-	"power_draw": 1500000,
-	"revert_to": "eac_extractor_large",
-	"charges_per_use": 1,
-	"magazines": [
-      [
-        "battery",
-        [ "medium_storage_battery", "large_storage_battery", "storage_battery" ]
-      ]
-    ],
-	"use_action": {
+    "ammo": "battery",
+    "power_draw": 1500000,
+    "revert_to": "eac_extractor_large",
+    "charges_per_use": 1,
+    "magazines": [ [ "battery", [ "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "use_action": {
       "target": "eac_extractor_large",
       "msg": "You turn off the large closed loop extractor.",
       "menu_text": "turn off",
@@ -140,7 +120,7 @@
       "need_charges_msg": "The large closed loop extractor's batteries need more charge. ",
       "type": "transform"
     },
-	"qualities": [ [ "EXTRACT", 1 ] ]
+    "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
     "id": "eac_extractor_ethanol_crude",
@@ -150,141 +130,143 @@
     "description": "A makeshift extraction system. It's pretty much just a 55gal drum, a pipe to stir the solution, and a faucet at the bottom to drain the extractor. Not the most ideal piece of equipment but it will do for now",
     "symbol": "E",
     "color": "dark_gray",
-    "looks_like": "55gal_drum", 
+    "looks_like": "55gal_drum",
     "weight": "22700 g",
     "volume": "210 L",
     "price": 20000,
-	"to_hit": -5,
+    "to_hit": -5,
     "bashing": 8,
     "material": "steel",
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
     "id": "filter_paper_qualitative",
-	"type": "TOOL",
-	"name": "qualitative filter paper",
-	"name_plural": "qualitative filter paper",
-	"description": "filter paper for seperating solids from liquids. This filter paper has a rating of 2 microns, seperating more solids out than quantitative filter paper but the process takes longer",
-	"symbol": "E",
-	"color": "dark_gray",
-	"looks_like": "paper",
-	"weight": "149 g",
-	"volume": "250 ml",
-	"price": 100,
-	"to_hit": 10,
-	"cutting": 1,
-	"material": "paper",
-	"qualities": [ [ "FILTER", 2 ] ]
+    "type": "TOOL",
+    "name": "qualitative filter paper",
+    "name_plural": "qualitative filter paper",
+    "description": "filter paper for seperating solids from liquids. This filter paper has a rating of 2 microns, seperating more solids out than quantitative filter paper but the process takes longer",
+    "symbol": "E",
+    "color": "dark_gray",
+    "looks_like": "paper",
+    "weight": "149 g",
+    "volume": "250 ml",
+    "price": 100,
+    "to_hit": 10,
+    "cutting": 1,
+    "material": "paper",
+    "qualities": [ [ "FILTER", 2 ] ]
   },
   {
     "id": "filter_paper_quantitative",
-	"type": "TOOL",
-	"name": "quantitative filter paper",
-	"name_plural": "quantitative filter paper",
-	"description": "filter paper for seperating solids from liquids. This filter paper has a rating of 20 microns, seperating less solids out than qualitative filter paper but the process is much faster",
-	"symbol": "E",
-	"color": "dark_gray",
-	"looks_like": "paper",
-	"weight": "149 g",
-	"volume": "250 ml",
-	"price": 100,
-	"to_hit": 10,
-	"cutting": 1,
-	"material": "paper",
-	"qualities": [ [ "FILTER", 1 ] ]
+    "type": "TOOL",
+    "name": "quantitative filter paper",
+    "name_plural": "quantitative filter paper",
+    "description": "filter paper for seperating solids from liquids. This filter paper has a rating of 20 microns, seperating less solids out than qualitative filter paper but the process is much faster",
+    "symbol": "E",
+    "color": "dark_gray",
+    "looks_like": "paper",
+    "weight": "149 g",
+    "volume": "250 ml",
+    "price": 100,
+    "to_hit": 10,
+    "cutting": 1,
+    "material": "paper",
+    "qualities": [ [ "FILTER", 1 ] ]
   },
   {
     "id": "vac_pump",
-	"type": "TOOL",
-	"name": "vacuum pump",
-	"name_plural": "vacuum pumps",
-	"description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns)",
-	"symbol": "E",
-	"color": "dark_gray",
-	"looks_like": "motor",
-	"weight": "22700 g",
-	"volume": "6 L",
-	"price": 200000,
-	"to_hit": -5,
-	"bashing": 10,
-	"material": "iron",
-	"flags": [ "ALLOWS_REMOTE_USE" ],
-	"ammo": "battery",
-	"charges_per_use": 1,
-	"use_action": {
+    "type": "TOOL",
+    "name": "vacuum pump",
+    "name_plural": "vacuum pumps",
+    "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns)",
+    "symbol": "E",
+    "color": "dark_gray",
+    "looks_like": "motor",
+    "weight": "22700 g",
+    "volume": "6 L",
+    "price": 200000,
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "iron",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": {
       "target": "vac_pump_on",
       "msg": "You turn on the vacuum pump.",
       "menu_text": "turn on",
-	  "active": true,
+      "active": true,
       "need_charges": 1,
       "need_charges_msg": "The vacuum pump's batteries need more charge. ",
       "type": "transform"
     },
-	"magazines": [
+    "magazines": [
       [
         "battery",
-        [ "medium_storage_battery", "large_storage_battery", "storage_battery", "heavy_battery_cell", "heavy_disposable_cell", "medium_disposable_cell" ]
+        [
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery",
+          "heavy_battery_cell",
+          "heavy_disposable_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ]
   },
   {
     "id": "vac_pump_on",
-	"type": "TOOL",
-	"name": "vacuum pump (on)",
-	"name_plural": "vacuum pumps (on) ",
-	"description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns)",
-	"symbol": "E",
-	"color": "dark_gray",
-	"looks_like": "motor",
-	"weight": "22700 g",
-	"volume": "6 L",
-	"price": 200000,
-	"to_hit": -5,
-	"bashing": 10,
-	"material": "iron",
-	"ammo": "battery",
-	"power_draw": 600000,
-	"charges_per_use": 1,
-	"flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
-	"revert_to": "vac_pump",
-	"use_action": {
+    "type": "TOOL",
+    "name": "vacuum pump (on)",
+    "name_plural": "vacuum pumps (on) ",
+    "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns)",
+    "symbol": "E",
+    "color": "dark_gray",
+    "looks_like": "motor",
+    "weight": "22700 g",
+    "volume": "6 L",
+    "price": 200000,
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "iron",
+    "ammo": "battery",
+    "power_draw": 600000,
+    "charges_per_use": 1,
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
+    "revert_to": "vac_pump",
+    "use_action": {
       "target": "vac_pump",
       "msg": "You turn off the vacuum pump.",
       "menu_text": "turn off",
-	  "active": false,
+      "active": false,
       "need_charges": 1,
       "need_charges_msg": "The vacuum pump's batteries need more charge. ",
       "type": "transform"
     },
-	"magazines": [
-      [
-        "battery",
-        [ "medium_storage_battery", "large_storage_battery", "storage_battery" ]
-      ]
-    ]
+    "magazines": [ [ "battery", [ "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ]
   },
   {
     "id": "recovery_pump",
-	"type": "TOOL",
-	"name": "recovery pump",
-	"name_plural": "recovery pumps",
-	"description": "A medium sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils",
-	"symbol": "E",
-	"color": "dark_gray",
-	"looks_like": "well_pump",
-	"weight": "27240 g",
-	"volume": "8 L",
-	"price": 280000,
-	"to_hit": -5,
-	"bashing": 10,
-	"material": "steel"
+    "type": "TOOL",
+    "name": "recovery pump",
+    "name_plural": "recovery pumps",
+    "description": "A medium sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils",
+    "symbol": "E",
+    "color": "dark_gray",
+    "looks_like": "well_pump",
+    "weight": "27240 g",
+    "volume": "8 L",
+    "price": 280000,
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "steel"
   },
   {
     "id": "butane_tank",
     "type": "TOOL",
     "name": "butane tank",
     "name_plural": "tanks of butane",
-	"description": "This is a tank of compressed butane. It can be used to extract essential oils from organic material.",
+    "description": "This is a tank of compressed butane. It can be used to extract essential oils from organic material.",
     "weight": "22700 g",
     "volume": "18950 ml",
     "price": 25000,
@@ -297,68 +279,54 @@
     "max_charges": 20,
     "charges_per_use": 1,
     "looks_like": "oxygen_tank",
-	"flags": [ "EXPLOSIVE", "EXPLODES" ],
-	"explosion": {
+    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "explosion": {
       "power": 90100,
       "distance_factor": 0.5,
       "fire": true,
-      "shrapnel": {
-        "casing_mass": 200,
-        "fragment_mass": 1,
-        "recovery": 0
-	    }
-	},
-	"explode_in_fire": true
+      "shrapnel": { "casing_mass": 200, "fragment_mass": 1, "recovery": 0 }
+    },
+    "explode_in_fire": true
   },
   {
     "id": "vac_oven_small",
-	"type": "TOOL",
+    "type": "TOOL",
     "name": "small vacuum oven",
     "name_plural": "small vacuum ovens",
     "description": "A small 0.9 cubic foot vacuum oven used to purge residual solvents out of liquids and solid. Looks kind of like a microwave.",
     "looks_like": "microwave",
-	"weight": "40860 g",
+    "weight": "40860 g",
     "ammo": "battery",
-	"charges_per_use": 1,
-	"magazines": [
-	  [
-	    "battery",
-		  [ "large_storage_battery", "storage_battery" ]
-	  ]
-	],
-	"volume": "27 L",
-	"price": 100000,
-	"to_hit": -10,
-    "bashing": 10,
-    "material": "steel",
-    "symbol": "E",
-	"flags": [ "ALLOWS_REMOTE_USE" ],
-	"color": "dark_gray"
-  },
-  {
-    "id": "vac_oven_small_full",
-	"type": "TOOL",
-    "name": "filled small vacuum oven",
-    "name_plural": "small vacuum ovens",
-    "description": "A small vacuum oven filled with extract ready to be purged of residual solvents.",
-    "looks_like": "microwave",
-	"weight": "40860 g",
+    "charges_per_use": 1,
+    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
     "volume": "27 L",
     "price": 100000,
     "to_hit": -10,
     "bashing": 10,
     "material": "steel",
-	"ammo": "battery",
-	"charges_per_use": 1,
-	"magazines": [
-	  [
-	    "battery",
-		  [ "large_storage_battery", "storage_battery" ]
-	  ]
-	],
-	"symbol": "E",
+    "symbol": "E",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "color": "dark_gray"
+  },
+  {
+    "id": "vac_oven_small_full",
+    "type": "TOOL",
+    "name": "filled small vacuum oven",
+    "name_plural": "small vacuum ovens",
+    "description": "A small vacuum oven filled with extract ready to be purged of residual solvents.",
+    "looks_like": "microwave",
+    "weight": "40860 g",
+    "volume": "27 L",
+    "price": 100000,
+    "to_hit": -10,
+    "bashing": 10,
+    "material": "steel",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "symbol": "E",
     "color": "dark_gray",
-	"use_action": {
+    "use_action": {
       "target": "vac_oven_small_on",
       "msg": "You turn on the vacuum oven and pump.",
       "active": true,
@@ -366,76 +334,66 @@
       "need_charges_msg": "The vacuum oven's batteries need more charge. ",
       "type": "transform"
     },
-	"flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "vac_oven_small_on",
-	"type": "TOOL",
+    "type": "TOOL",
     "name": "small vacuum oven (on) ",
     "name_plural": "small vacuum ovens",
     "description": "A small vacuum oven filled with extract currently purging out all residual solvents. This process takes about 72hrs.",
     "looks_like": "microwave",
-	"weight": "40952 g",
+    "weight": "40952 g",
     "volume": "27 L",
     "price": 100000,
     "to_hit": -10,
     "bashing": 10,
-	"ammo": "battery",
-	"power_draw": 1200000,
-	"revert_to": "vac_oven_small_full",
-	"charges_per_use": 1,
-	"magazines": [
-	  [
-	    "battery",
-		  [ "large_storage_battery", "storage_battery" ]
-	  ]
-	],
-	"material": "steel",
-	"symbol": "E",
+    "ammo": "battery",
+    "power_draw": 1200000,
+    "revert_to": "vac_oven_small_full",
+    "charges_per_use": 1,
+    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "material": "steel",
+    "symbol": "E",
     "color": "dark_gray",
-	"use_action": {
+    "use_action": {
       "target": "vac_oven_small_done",
       "msg": "The vacuum oven is done purging. Your shatter is ready!",
-	  "moves": 0,
+      "moves": 0,
       "type": "delayed_transform",
       "transform_age": 259200,
       "not_ready_msg": "The vacuum oven is still purging."
     },
-	"flags": [ "TRADER_AVOID", "NO_UNLOAD", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "NO_UNLOAD", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "vac_oven_small_done",
-	"type": "TOOL",
+    "type": "TOOL",
     "name": "finished small vacuum oven",
     "name_plural": "small vacuum ovens",
     "description": "A small vacuum oven filled with extract ready to package up for consumption. WooHoo! ",
     "looks_like": "microwave",
-	"weight": "40944 g",
+    "weight": "40944 g",
     "volume": "27 L",
-	"price": 100000,
+    "price": 100000,
     "to_hit": -10,
     "bashing": 10,
     "ammo": "battery",
-	"charges_per_use": 1,
-	"magazines": [
-	  [
-	    "battery",
-		  [ "large_storage_battery", "storage_battery" ]
-	  ]
-	],
-	"material": "steel",
+    "charges_per_use": 1,
+    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "material": "steel",
     "symbol": "E",
     "color": "dark_gray",
-	"flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "vac_oven_large",
-	"type": "TOOL",
+    "type": "TOOL",
     "name": "(TEMPORARILY OUT OF ORDER)large vacuum oven",
     "name_plural": "large vacuum ovens",
     "description": "A large 6ft tall, 7.2 cubic foot vacuum oven used to purge residual solvents out of liquids and solid. Looks kind of like a big refridgerator.",
     "looks_like": "f_glass_fridge",
-	"weight": "317800 g",
+    "weight": "317800 g",
     "volume": "204 L",
     "price": 800000,
     "to_hit": -10,
@@ -444,38 +402,32 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-	"ammo": "battery",
-	"magazines": [
-      [
-        "battery",
-        [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      ]
+    "ammo": "battery",
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ]
   },
   {
     "id": "vac_oven_large_full",
-	"type": "TOOL",
-	"category": "tools",
+    "type": "TOOL",
+    "category": "tools",
     "name": "(TEMPORARILY OUT OF ORDER)filled large vacuum oven",
     "description": "A vacuum oven filled with extract ready to be purged of residual solvents.",
     "looks_like": "f_glass_fridge",
-	"weight": "319162 g",
+    "weight": "319162 g",
     "volume": "204 L",
     "price": 800000,
     "to_hit": -10,
     "bashing": 40,
-	"material": [ "steel" ],
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
     "ammo": "battery",
-	"magazine_well": 4,
-	"magazines": [
-      [
-        "battery",
-        [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      ]
+    "magazine_well": 4,
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-	"use_action": {
+    "use_action": {
       "target": "vac_oven_large_on",
       "msg": "You turn on the vacuum oven and pump.",
       "active": true,
@@ -483,35 +435,32 @@
       "need_charges_msg": "The vacuum oven's batteries need more charge. ",
       "type": "transform"
     },
-	"flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "vac_oven_large_on",
-	"type": "TOOL",
-	"category": "tools",
+    "type": "TOOL",
+    "category": "tools",
     "name": "(TEMPORARILY OUT OF ORDER)large vacuum oven (on)",
     "description": "A vacuum oven filled with extract currently purging out all residual solvents. This process takes about 72hrs. ",
     "looks_like": "f_glass_fridge",
-	"weight": "319162 g",
+    "weight": "319162 g",
     "volume": "204 L",
     "price": 800000,
     "to_hit": -10,
     "bashing": 40,
-	"material": [ "steel" ],
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
     "ammo": "battery",
-	"magazine_well": 4,
-	"magazines": [
-      [
-        "battery",
-        [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      ]
+    "magazine_well": 4,
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-	"use_action": {
+    "use_action": {
       "target": "vac_oven_large_done",
       "msg": "The vacuum oven is done purging. Your shatter is ready!",
-	  "moves": 0,
+      "moves": 0,
       "type": "delayed_transform",
       "transform_age": 259200,
       "not_ready_msg": "The vacuum oven is still purging."
@@ -520,12 +469,12 @@
   },
   {
     "id": "vac_oven_large_done",
-	"type": "TOOL",
+    "type": "TOOL",
     "name": "(TEMPORARILY OUT OF ORDER)finished large vacuum oven ",
     "name_plural": "finished large vacuum ovens",
     "description": "A large 6ft tall, 7.2 cubic foot vacuum oven used to purge residual solvents out of liquids and solid. The process has finished",
     "looks_like": "f_glass_fridge",
-	"weight": "319162 g",
+    "weight": "319162 g",
     "volume": "204 L",
     "price": 800000,
     "to_hit": -10,
@@ -534,13 +483,10 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
-	"ammo": "battery",
-	"magazine_well": 4,
-	"magazines": [
-      [
-        "battery",
-        [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
-      ]
+    "ammo": "battery",
+    "magazine_well": 4,
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ]
   }
 ]

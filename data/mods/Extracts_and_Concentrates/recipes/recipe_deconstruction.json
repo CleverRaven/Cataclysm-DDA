@@ -17,10 +17,10 @@
   },
   {
     "result": "dab_pen_full",
-	"type": "uncraft",
-	"skill_used": "fabrication",
+    "type": "uncraft",
+    "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
-	"components": [ [ [ "dab_pen_empty", 1 ] ] ]
+    "components": [ [ [ "dab_pen_empty", 1 ] ] ]
   }
 ]
