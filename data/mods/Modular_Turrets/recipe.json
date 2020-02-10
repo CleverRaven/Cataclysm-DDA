@@ -7,7 +7,7 @@
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 4 ], [ "computer", 5 ] ],
     "difficulty": 6,
-    "time": 25000,
+    "time": "25 m",
     "reversible": false,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
@@ -33,6 +33,7 @@
   {
     "type": "recipe",
     "result": "bot_manhack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "components": [
       [ [ "broken_manhack", 1 ] ],
@@ -46,9 +47,10 @@
   {
     "type": "recipe",
     "result": "bot_grenade_hack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_grenade_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_grenade_hack", 1 ] ],
       [ [ "grenade", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -59,9 +61,10 @@
   {
     "type": "recipe",
     "result": "bot_gasbomb_hack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_gasbomb_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_gasbomb_hack", 1 ] ],
       [ [ "gasbomb", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -72,9 +75,10 @@
   {
     "type": "recipe",
     "result": "bot_flashbang_hack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_flashbang_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_flashbang_hack", 1 ] ],
       [ [ "flashbang", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -85,10 +89,11 @@
   {
     "type": "recipe",
     "result": "bot_EMP_hack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_EMP_hack", 1 ] ],
-      [ [ "EMPbomb", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_EMP_hack", 1 ] ],
+      [ [ "grenade_emp", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -98,9 +103,10 @@
   {
     "type": "recipe",
     "result": "bot_c4_hack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_c4_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_c4_hack", 1 ] ],
       [ [ "c4", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -111,14 +117,15 @@
   {
     "type": "recipe",
     "result": "bot_mininuke_hack",
+    "id_suffix": "repair",
     "copy-from": "bot_hack_base",
     "difficulty": 7,
-    "time": 35000,
+    "time": "35 m",
     "reversible": false,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 8 ] ],
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_mininuke_hack", 1 ] ],
+      [ [ "broken_manhack", 1 ], [ "broken_mininuke_hack", 1 ] ],
       [ [ "mininuke", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
@@ -134,7 +141,7 @@
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 2 ], [ "computer", 2 ] ],
     "difficulty": 2,
-    "time": 10000,
+    "time": "10 m",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
@@ -145,14 +152,49 @@
     "result": "bot_turret_disarmed",
     "copy-from": "bot_turret_base",
     "skills_required": [ [ "mechanics", 4 ], [ "computer", 5 ] ],
+    "difficulty": 6,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 5 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_turret_disarmed",
+    "id_suffix": "repair",
+    "copy-from": "bot_turret_base",
+    "skills_required": [ [ "mechanics", 4 ], [ "computer", 5 ] ],
     "difficulty": 5,
-    "time": 20000,
+    "time": "20 m",
     "reversible": false,
     "autolearn": false,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 5 ] ],
     "tools": [ [ [ "electrohack", 50 ] ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "broken_turret_disarmed", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -165,15 +207,50 @@
     "type": "recipe",
     "result": "bot_milturret_disarmed",
     "copy-from": "bot_turret_base",
-    "skills_required": [ [ "mechanics", 4 ], [ "computer", 5 ] ],
+    "skills_required": [ [ "mechanics", 5 ], [ "computer", 6 ] ],
+    "difficulty": 7,
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 6,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 6 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_milturret_disarmed",
+    "id_suffix": "repair",
+    "copy-from": "bot_turret_base",
+    "skills_required": [ [ "mechanics", 5 ], [ "computer", 6 ] ],
     "difficulty": 6,
-    "time": 30000,
+    "time": "30 m",
     "reversible": false,
     "autolearn": false,
     "decomp_learn": 6,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 6 ] ],
     "tools": [ [ [ "electrohack", 50 ] ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "broken_milturret_disarmed", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -186,15 +263,50 @@
     "type": "recipe",
     "result": "bot_advturret_disarmed",
     "copy-from": "bot_turret_base",
-    "skills_required": [ [ "mechanics", 4 ], [ "computer", 6 ] ],
-    "difficulty": 7,
-    "time": 40000,
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 8 ] ],
+    "difficulty": 8,
+    "time": "50 m",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_advturret_disarmed",
+    "id_suffix": "repair",
+    "copy-from": "bot_turret_base",
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 8 ] ],
+    "difficulty": 8,
+    "time": "40 m",
     "reversible": false,
     "autolearn": false,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 7 ] ],
     "tools": [ [ [ "electrohack", 50 ] ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "broken_advturret_disarmed", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -331,7 +443,7 @@
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 1000,
+    "time": "1 m",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "bot_turret_9mm", 1 ] ], [ [ "duct_tape", 10 ] ], [ [ "garden_gnome", 1 ] ] ]

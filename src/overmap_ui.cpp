@@ -59,6 +59,7 @@
 #include "enums.h"
 #include "map.h"
 #include "player_activity.h"
+#include "cata_string_consts.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -118,7 +119,7 @@ static std::tuple<char, nc_color, size_t> get_note_display_info( const std::stri
 static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
 
     std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
@@ -343,6 +344,28 @@ class map_notes_callback : public uilist_callback
                     menu->ret = UILIST_MAP_NOTE_EDITED;
                     return true;
                 }
+                if( action == "MARK_DANGER" ) {
+                    // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                    if( query_yn( _( "Mark area as dangerous ( to avoid on automove paths? )" ) ) ) {
+                        const int max_amount = 20;
+                        // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                        const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
+                        int amount = string_input_popup()
+                                     .title( popupmsg )
+                                     .width( 20 )
+                                     .text( to_string( 0 ) )
+                                     .only_digits( true )
+                                     .query_int();
+                        if( amount > -1 && amount <= max_amount ) {
+                            overmap_buffer.mark_note_dangerous( note_location(), amount, true );
+                            menu->ret = UILIST_MAP_NOTE_EDITED;
+                            return true;
+                        }
+                    } else if( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               query_yn( _( "Remove dangerous mark?" ) ) ) {
+                        overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                    }
+                }
             }
             return false;
         }
@@ -376,11 +399,13 @@ static point draw_notes( const tripoint &origin )
         nmenu.input_category = "OVERMAP_NOTES";
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", "" );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", "" );
+        nmenu.additional_actions.emplace_back( "MARK_DANGER", "" );
         const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
-                         _( "<%s> - center on note, <%s> - edit note, <%s> - delete note, <%s> - close window" ),
+                         _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),
                          colorize( ctxt.key_bound_to( "EDIT_NOTE" ), c_yellow ),
+                         colorize( ctxt.key_bound_to( "MARK_DANGER" ), c_red ),
                          colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
                          colorize( "ESCAPE", c_yellow )
                      );
@@ -404,11 +429,13 @@ static point draw_notes( const tripoint &origin )
             const point p_om = omt_to_om_remain( p_omt );
             const std::string location_desc =
                 overmap_buffer.get_description_at( tripoint( sm_pos, origin.z ) );
+            const bool is_dangerous = overmap_buffer.is_marked_dangerous( tripoint( p, origin.z ) );
             nmenu.addentry_desc( string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ),
                                                 note_text ),
                                  string_format(
-                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d</color>)" ),
-                                     origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player ) );
+                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d</color>) <color_red>%s</color>" ),
+                                     origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player,
+                                     is_dangerous ? "DANGEROUS AREA!" : "" ) );
             nmenu.entries[row].ctxt = string_format(
                                           _( "<color_light_gray>Distance: </color><color_white>%d</color>" ), distance_player );
             row++;
@@ -443,7 +470,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     bool csee = false;
     oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
@@ -704,7 +731,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
                     for( auto &mgp : groups ) {
-                        if( mgp->type == mongroup_id( "GROUP_FOREST" ) ) {
+                        if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
                         }
@@ -815,6 +842,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             if( pos != std::string::npos ) {
                 corner_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
             }
+            if( overmap_buffer.is_marked_dangerous( center ) ) {
+                corner_text.emplace_back( c_red, _( "DANGEROUS AREA!" ) );
+            }
         }
     }
 
@@ -831,7 +861,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
-            maxlen = std::max( maxlen, utf8_width( line.second ) );
+            maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
         mvwputch( w, point_south_east, c_white, LINE_OXXO );
@@ -1198,13 +1228,22 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
         for( const oter_t &oter : overmap_terrains::get_all() ) {
-            pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
+            const std::string entry_text = string_format(
+                                               _( "sym: [ %s %s ], color: [ %s %s], name: [ %s ], id: [ %s ]" ),
+                                               colorize( oter.get_symbol(), oter.get_color() ),
+                                               colorize( oter.get_symbol( true ), oter.get_color( true ) ),
+                                               colorize( string_from_color( oter.get_color() ), oter.get_color() ),
+                                               colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
+                                               colorize( oter.get_name(), oter.get_color() ),
+                                               colorize( oter.id.str(), c_white ) );
+            pmenu.addentry( oter.id.id().to_i(), true, 0, entry_text );
         }
     } else {
         pmenu.title = _( "Select special to place:" );
         for( const overmap_special &elem : overmap_specials::get_all() ) {
             oslist.push_back( &elem );
-            pmenu.addentry( oslist.size() - 1, true, 0, elem.id.str() );
+            const std::string entry_text = elem.id.str();
+            pmenu.addentry( oslist.size() - 1, true, 0, entry_text );
         }
     }
     pmenu.query();
@@ -1329,7 +1368,6 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     if( data.select != tripoint( -1, -1, -1 ) ) {
         curs = tripoint( data.select );
     }
-    bool chosen_water_option = false;
     // Configure input context for navigating the map.
     input_context ictxt( "OVERMAP" );
     ictxt.register_action( "ANY_INPUT" );
@@ -1429,6 +1467,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
             path_type ptype;
+            ptype.avoid_danger = true;
             bool in_vehicle = g->u.in_vehicle && g->u.controlling_vehicle;
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
             if( vp && in_vehicle ) {
@@ -1437,14 +1476,9 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 ptype.only_road = !ptype.only_water;
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
-                // if we choose a water tile, then we dont need to be prompted if we want to swim
-                if( is_river_or_lake( oter ) ) {
+                // going to or coming from a water tile
+                if( is_river_or_lake( oter ) || g->m.has_flag( "SWIMMABLE", g->u.pos() ) ) {
                     ptype.amphibious = true;
-                } else if( !chosen_water_option ) {
-                    if( query_yn( _( "Allow swimming to get to destination?" ) ) ) {
-                        ptype.amphibious = true;
-                    }
-                    chosen_water_option = true;
                 }
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
@@ -1456,10 +1490,10 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
                         player_veh->is_autodriving = true;
-                        g->u.assign_activity( activity_id( "ACT_AUTODRIVE" ) );
+                        g->u.assign_activity( ACT_AUTODRIVE );
                     } else {
                         g->u.reset_move_mode();
-                        g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                        g->u.assign_activity( ACT_TRAVELLING );
                     }
                     action = "QUIT";
                 }

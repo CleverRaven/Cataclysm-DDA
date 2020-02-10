@@ -834,7 +834,6 @@ class JsonObject
 
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
-        std::set<std::string> get_member_names() const;
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
@@ -1281,7 +1280,7 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
         return res;
     }
 
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 
@@ -1306,7 +1305,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     }
 
     // otherwise assume it's an array and error if it isn't.
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 

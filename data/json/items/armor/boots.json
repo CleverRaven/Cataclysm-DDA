@@ -71,6 +71,7 @@
   },
   {
     "id": "boots_bunker",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of turnout boots",
@@ -122,8 +123,7 @@
     "id": "boots_acidchitin",
     "copy-from": "boots_chitin",
     "type": "ARMOR",
-    "name": "pair of biosilicified chitin boots",
-    "name_plural": "pairs of biosilicified chitin boots",
+    "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
     "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
@@ -131,6 +131,7 @@
   },
   {
     "id": "boots_combat",
+    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of combat boots",
@@ -230,6 +231,7 @@
   },
   {
     "id": "boots_hiking",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of hiking boots",
     "name_plural": "pairs of hiking boots",
@@ -259,7 +261,7 @@
     "name": "pair of heavy survivor boots",
     "name_plural": "pairs of heavy survivor boots",
     "description": "A pair of customized kevlar boots, heavily armored with steel and modified to provide maximum protection from harm, even when knee-deep in the dead.",
-    "weight": "1610 g",
+    "weight": "2254 g",
     "volume": "3 L",
     "price": 24000,
     "price_postapoc": 24000,
@@ -306,8 +308,7 @@
     "id": "boots_lsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "pair of light survivor boots",
-    "name_plural": "pairs of light survivor boots",
+    "name": { "str": "pair of light survivor boots", "str_pl": "pairs of light survivor boots" },
     "description": "A pair of customized, kevlar armored cloth boots, modified to provide maximum protection from harm, even when knee-deep in the dead.",
     "weight": "1120 g",
     "volume": "2 L",
@@ -354,6 +355,7 @@
   },
   {
     "id": "boots_rubber",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of rubber boots",
     "name_plural": "pairs of rubber boots",
@@ -401,6 +403,7 @@
   },
   {
     "id": "boots_steel",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": "pair of steeltoed boots",
@@ -453,8 +456,7 @@
     "id": "boots_western",
     "copy-from": "boots",
     "type": "ARMOR",
-    "name": "pair of western boots",
-    "name_plural": "pairs of western boots",
+    "name": { "str": "pair of western boots", "str_pl": "pairs of western boots" },
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but aren't made for running.  Each boot is large enough to conceal a small holdout pistol.",
     "coverage": 95,
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
@@ -536,6 +538,7 @@
   },
   {
     "id": "cleats",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of cleats",
     "name_plural": "pairs of cleats",
@@ -558,9 +561,9 @@
   },
   {
     "id": "golf_shoes",
+    "repairs_like": "boots",
     "type": "ARMOR",
-    "name": "pair of golf shoes",
-    "name_plural": "pairs of golf shoes",
+    "name": { "str": "pair of golf shoes", "str_pl": "pairs of golf shoes" },
     "description": "Snug fit sport shoes with hard ridges on the bottom.",
     "weight": "820 g",
     "volume": "1500 ml",
@@ -604,6 +607,7 @@
   },
   {
     "id": "clownshoes",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of clown shoes",
     "name_plural": "pairs of clown shoes",
@@ -651,6 +655,7 @@
   },
   {
     "id": "dress_shoes",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of dress shoes",
     "name_plural": "pairs of dress shoes",
@@ -803,6 +808,7 @@
   },
   {
     "id": "heels",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of heels",
     "name_plural": "pairs of heels",
@@ -825,6 +831,7 @@
   },
   {
     "id": "knee_high_boots",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of knee-high boots",
     "name_plural": "pairs of knee-high boots",
@@ -870,6 +877,7 @@
   },
   {
     "id": "lowtops",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of lowtop tennis shoes",
     "name_plural": "pairs of lowtop tennis shoes",
@@ -912,6 +920,7 @@
   },
   {
     "id": "motorbike_boots",
+    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "name": "pair of motorcycle boots",
     "name_plural": "pairs of motorcycle boots",
@@ -927,14 +936,15 @@
     "color": "dark_gray",
     "covers": [ "FEET" ],
     "coverage": 95,
-    "encumbrance": 18,
+    "encumbrance": 30,
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "roller_blades",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of rollerblades",
     "name_plural": "pairs of rollerblades",
@@ -958,6 +968,7 @@
   },
   {
     "id": "rollerskates",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of rollerskates",
     "name_plural": "pairs of rollerskates",
@@ -1003,6 +1014,7 @@
   },
   {
     "id": "shoes_bowling",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of bowling shoes",
     "name_plural": "pairs of bowling shoes",
@@ -1024,6 +1036,7 @@
   },
   {
     "id": "slippers",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of slippers",
     "name_plural": "pairs of slippers",
@@ -1046,6 +1059,7 @@
   },
   {
     "id": "sneakers",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of sneakers",
     "name_plural": "pairs of sneakers",
@@ -1109,6 +1123,7 @@
   },
   {
     "id": "thigh_high_boots",
+    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": "pair of thigh-high boots",
     "name_plural": "pairs of thigh-high boots",
@@ -1155,6 +1170,7 @@
   },
   {
     "id": "roller_shoes_off",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of heelys (off)",
     "name_plural": "pairs of heelys (off)",
@@ -1201,8 +1217,7 @@
     "id": "chainmail_feet",
     "type": "ARMOR",
     "category": "armor",
-    "name": "pair of chainmail chausses",
-    "name_plural": "pairs of chainmail chausses",
+    "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "weight": "2006 g",
     "volume": "500 ml",
@@ -1317,6 +1332,7 @@
   },
   {
     "id": "socks_bowling",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of disposable bowling socks",
     "name_plural": "pairs of disposable bowling socks",
@@ -1414,6 +1430,7 @@
   },
   {
     "id": "tabi_gi",
+    "repairs_like": "boots",
     "type": "ARMOR",
     "name": "pair of gi tabi",
     "name_plural": "pairs of gi tabi",

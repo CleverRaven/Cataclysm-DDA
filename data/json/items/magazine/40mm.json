@@ -1,6 +1,7 @@
 [
   {
     "id": "belt40mm",
+    "//": "Tileset whitelist for explosive launchers.",
     "type": "MAGAZINE",
     "name": "grenade belt",
     "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.  This one holds 40mm grenades and is too bulky to be worn like other ammo belts.",

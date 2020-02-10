@@ -28,11 +28,12 @@
 #include "cursesdef.h"
 #include "iuse.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 struct tripoint;
 
 static item_action nullaction;
-static const std::string errstring( "ERROR" );
+
 
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
@@ -214,15 +215,15 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    // A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
+    // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
     item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+    if( u.has_active_bionic( bio_tools ) ) {
         pseudos.push_back( &toolset );
     }
-    item bio_claws( "bio_claws_weapon", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_claws" ) ) ) {
-        pseudos.push_back( &bio_claws );
+    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
+    if( u.has_active_bionic( bio_claws ) ) {
+        pseudos.push_back( &bio_claws_item );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );

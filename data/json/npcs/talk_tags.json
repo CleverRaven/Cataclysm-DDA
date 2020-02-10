@@ -1155,7 +1155,7 @@
   {
     "type": "snippet",
     "category": "<done_conversation_section>",
-    "//": "Avatar response to an NPC that can be used for TALK_NONE responses.  Could be used in a lot more dialouges.  Could also use a lot more variety.",
+    "//": "Avatar response to an NPC that can be used for TALK_NONE responses.  Could be used in a lot more dialogs.  Could also use a lot more variety.",
     "text": [
       "Let's talk about something else.",
       "Let's change the subject.",
@@ -1167,13 +1167,13 @@
   {
     "type": "snippet",
     "category": "<end_talking>",
-    "//": "Avatar response indicated that the conversation is over via TALK_DONE.  Could be used in a lot more dialouges.  Could also use a lot more variety.",
+    "//": "Avatar response indicated that the conversation is over via TALK_DONE.  Could be used in a lot more dialogs.  Could also use a lot more variety.",
     "text": [
       "We should probably get going.",
       "We'd better get moving.",
       "Let's head out.",
       "Time's a-wasting.  Let's head out.",
-      "Come on. We got stuff to do.",
+      "Come on.  We got stuff to do.",
       "Let's hit the road.",
       "We'll pick this up another time.  Let's go.",
       "Let's put a pin in this chat for now.",
@@ -1251,7 +1251,7 @@
   {
     "type": "snippet",
     "category": "<run_away>",
-    "//": "NPC complaint when the NPC intends to run away from overhwelming threats.",
+    "//": "NPC complaint when the NPC intends to run away from overwhelming threats.",
     "text": [
       "They'll kill us!  Run away!",
       "We're going to die!  Fall back!",

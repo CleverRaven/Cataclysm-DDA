@@ -93,15 +93,12 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 struct oter_type_t;
 struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -464,7 +461,7 @@ void Character::load( const JsonObject &data )
     }
 
     JsonObject vits = data.get_object( "vitamin_levels" );
-    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         int lvl = vits.get_int( v.first.str(), 0 );
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
@@ -614,7 +611,7 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    for( const JsonMember &member : data.get_object( "skills" ) ) {
+    for( const JsonMember member : data.get_object( "skills" ) ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
@@ -772,7 +769,7 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }
@@ -855,7 +852,7 @@ void player::store( JsonOut &json ) const
     // faction warnings
     json.member( "faction_warnings" );
     json.start_array();
-    for( const auto elem : warning_record ) {
+    for( const auto &elem : warning_record ) {
         json.start_object();
         json.member( "fac_warning_id", elem.first );
         json.member( "fac_warning_num", elem.second.first );
@@ -923,13 +920,13 @@ void player::load( const JsonObject &data )
         add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
     }
 
     if( data.has_array( "faction_warnings" ) ) {
@@ -1642,8 +1639,8 @@ void npc::load( const JsonObject &data )
         last_updated = calendar::turn;
     }
     complaints.clear();
-    for( const JsonMember &member : data.get_object( "complaints" ) ) {
-        // @TODO: time_point does not have a default constructor, need to read in the map manually
+    for( const JsonMember member : data.get_object( "complaints" ) ) {
+        // TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
         member.read( p );
         complaints.emplace( member.name(), p );
@@ -1750,7 +1747,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
-            for( const JsonMember &member : jo ) {
+            for( const JsonMember member : jo ) {
                 std::string invlets;
                 for( const int i : member.get_array() ) {
                     invlets.push_back( i );
@@ -1873,7 +1870,7 @@ void monster::load( const JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+        for( const JsonMember member : data.get_object( "special_attacks" ) ) {
             JsonObject saobject = member.get_object();
             auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
@@ -1925,6 +1922,8 @@ void monster::load( const JsonObject &data )
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
+
+    data.read( "udder_timer", udder_timer );
 
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
@@ -2008,6 +2007,7 @@ void monster::store( JsonOut &json ) const
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
+    json.member( "udder_timer", udder_timer );
 
     json.member( "summon_time_limit", summon_time_limit );
 
@@ -2151,7 +2151,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "snippet_id", snippet_id, io::default_tag() );
+    archive.io( "snip_id", snip_id, snippet_id::NULL_ID() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2230,7 +2230,12 @@ void item::io( Archive &archive )
     item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
-        snippet_id = SNIPPET.migrate_hash_to_id( note );
+        snip_id = SNIPPET.migrate_hash_to_id( note );
+    } else {
+        cata::optional<std::string> snip;
+        if( archive.read( "snippet_id", snip ) && snip ) {
+            snip_id = snippet_id( snip.value() );
+        }
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -3383,7 +3388,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "type", expansion.second.type );
             json.member( "provides" );
             json.start_array();
-            for( const auto provide : expansion.second.provides ) {
+            for( const auto &provide : expansion.second.provides ) {
                 json.start_object();
                 json.member( "id", provide.first );
                 json.member( "amount", provide.second );
@@ -3392,7 +3397,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_array();
             json.member( "in_progress" );
             json.start_array();
-            for( const auto working : expansion.second.in_progress ) {
+            for( const auto &working : expansion.second.in_progress ) {
                 json.start_object();
                 json.member( "id", working.first );
                 json.member( "amount", working.second );
@@ -3490,11 +3495,11 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    for( const JsonMember &member : data.get_object( "kills" ) ) {
+    for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
     }
 
-    for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+    for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
         npc_kills.push_back( npc_name );
     }
 }
@@ -3740,7 +3745,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
-        jsout.write( elem.second.id );
+        jsout.write( elem.second.id.id() );
         jsout.start_array();
         for( auto &it : elem.second.components ) {
             jsout.write( it );
@@ -3752,13 +3757,13 @@ void submap::store( JsonOut &jsout ) const
     if( legacy_computer ) {
         // it's possible that no access to computers has been made and legacy_computer
         // is not cleared
-        jsout.member( "computers", legacy_computer->save_data() );
+        jsout.member( "computers", *legacy_computer );
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
         for( auto &elem : computers ) {
             jsout.write( elem.first );
-            jsout.write( elem.second.save_data() );
+            jsout.write( elem.second );
         }
         jsout.end_array();
     }
@@ -4011,7 +4016,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int k = jsin.get_int();
             tripoint pt = tripoint( i, j, k );
             pc.counter = jsin.get_int();
-            pc.id = jsin.get_int();
+            if( jsin.test_int() ) {
+                // Oops, int id incorrectly saved by legacy code, just load it and hope for the best
+                pc.id = construction_id( jsin.get_int() );
+            } else {
+                pc.id = construction_str_id( jsin.get_string() ).id();
+            }
             jsin.start_array();
             while( !jsin.end_array() ) {
                 item tmp;
@@ -4026,16 +4036,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                std::string computer_data = jsin.get_string();
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
-                new_comp_it->second.load_data( computer_data );
+                jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            std::string computer_data = jsin.get_string();
             legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-            legacy_computer->load_data( computer_data );
+            jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();

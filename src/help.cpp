@@ -146,7 +146,7 @@ void help::display_help()
     std::string action;
 
     do {
-        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
+        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
         wrefresh( w_help_border );
         draw_menu( w_help );
         catacurses::refresh();
@@ -179,7 +179,14 @@ void help::display_help()
                         return line_proc;
                     } );
 
-                    multipage( w_help, i18n_help_texts );
+                    if( !i18n_help_texts.empty() ) {
+                        scrollable_text( w_help_border, _( " HELP " ),
+                                         std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
+                                                          i18n_help_texts.front(),
+                        []( const std::string & lhs, const std::string & rhs ) {
+                            return lhs + "\n\n" + rhs;
+                        } ) );
+                    }
                     action = "CONFIRM";
                     break;
                 }

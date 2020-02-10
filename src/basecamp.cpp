@@ -36,8 +36,7 @@
 #include "type_id.h"
 #include "flat_set.h"
 #include "line.h"
-
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+#include "cata_string_consts.h"
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -263,7 +262,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> dir,
+bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {

@@ -106,6 +106,7 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_earphones( "earphones" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -755,7 +756,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
         } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
+                for( const tripoint &candidate : closest_tripoints_first( critter.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
                         g->m.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
@@ -778,7 +779,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
+                for( const tripoint &candidate : closest_tripoints_first( p.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
@@ -1219,8 +1220,10 @@ void iexamine::safe( player &p, const tripoint &examp )
     if( p.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    }
-    if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
+    } else if( p.has_effect( effect_earphones ) ) {
+        add_msg( m_info, _( "You can't crack a safe with earbuds on!" ) );
+        return;
+    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
@@ -1876,7 +1879,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( 1, examp ) ) {
+        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
             } else if( g->place_critter_at( montype, p ) ) {
@@ -3572,8 +3575,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
-            const std::vector<construction> &list_constructions = get_constructions();
-            const construction &built = list_constructions[pc->id];
+            const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.description, pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
@@ -3723,7 +3725,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp );
     if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );
@@ -4921,7 +4923,8 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
 
-                result.inherit_flags( it );
+                recipe rec;
+                result.inherit_flags( it, rec );
                 if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
                     // If the item has "cooks_like" it will be replaced by that item as a component.
                     if( !it.get_comestible()->cooks_like.empty() ) {

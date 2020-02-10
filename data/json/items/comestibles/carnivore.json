@@ -18,7 +18,7 @@
     "name": "fillet of fish",
     "name_plural": "fillets of fish",
     "description": "Freshly caught fish.  Makes a passable meal raw.",
-    "//": "Nutrition information based on cod",
+    "//": "Nutrition information based on whitefish",
     "weight": "148 g",
     "volume": "250 ml",
     "price": 500,
@@ -26,7 +26,7 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
-    "calories": 121
+    "calories": 260
   },
   {
     "id": "fish_cooked",
@@ -60,8 +60,7 @@
     "id": "human_fat",
     "copy-from": "fat",
     "type": "COMESTIBLE",
-    "name": "chunk of human fat",
-    "name_plural": "chunks of human fat",
+    "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "Freshly harvested from a human body.",
     "material": "hflesh"
   },
@@ -87,8 +86,7 @@
     "copy-from": "meat",
     "type": "COMESTIBLE",
     "cooks_like": "human_cooked",
-    "name": "human flesh",
-    "name_plural": "human fleshes",
+    "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
     "material": "hflesh"
   },
@@ -375,7 +373,7 @@
     "quench": -5,
     "fun": 4,
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
-    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 },
+    "proportional": { "price": 2.0, "volume": 0.28, "weight": 0.28 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -543,11 +541,10 @@
   {
     "type": "COMESTIBLE",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str": "blood", "str_pl": "blood" },
     "weight": "265 g",
     "color": "red",
-    "container": "flask_glass",
+    "container": "bag_iv",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 5,
@@ -577,8 +574,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fat",
-    "name": "chunk of fat",
-    "name_plural": "chunks of fat",
+    "name": { "str": "chunk of fat", "str_pl": "chunks of fat" },
     "weight": "220 g",
     "color": "pink",
     "spoils_in": "7 days",
@@ -605,7 +601,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
-    "healthy": -5,
+    "healthy": -1,
     "calories": 992,
     "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
@@ -656,8 +652,7 @@
     "id": "mutant_human_fat",
     "type": "COMESTIBLE",
     "copy-from": "mutant_fat",
-    "name": "chunk of mutant humanoid fat",
-    "name_plural": "chunks of mutant humanoid fat",
+    "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Freshly butchered fat from a heavily mutated humanoid.",
     "material": "hflesh"
   },

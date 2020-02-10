@@ -1165,7 +1165,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
-        for( const std::string &id : jo.get_array( "materials" ) ) {
+        for( const std::string id : jo.get_array( "materials" ) ) {
             materials.push_back( material_id( id ) );
         }
     }
@@ -1184,7 +1184,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
 
     // Artifacts in older saves store ammo as string.
     if( jo.has_array( "ammo" ) ) {
-        for( const std::string &id : jo.get_array( "ammo" ) ) {
+        for( const std::string id : jo.get_array( "ammo" ) ) {
             tool->ammo_id.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
@@ -1223,14 +1223,14 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     if( !jo.has_array( "dream_unmet" ) ) {
         artifact->dream_msg_unmet = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_unmet;
     } else {
-        for( const std::string &line : jo.get_array( "dream_unmet" ) ) {
+        for( const std::string line : jo.get_array( "dream_unmet" ) ) {
             artifact->dream_msg_unmet.push_back( line );
         }
     }
     if( !jo.has_array( "dream_met" ) ) {
         artifact->dream_msg_met   = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_met;
     } else {
-        for( const std::string &line : jo.get_array( "dream_met" ) ) {
+        for( const std::string line : jo.get_array( "dream_met" ) ) {
             artifact->dream_msg_met.push_back( line );
         }
     }
@@ -1273,7 +1273,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
-        for( const std::string &id : jo.get_array( "materials" ) ) {
+        for( const std::string id : jo.get_array( "materials" ) ) {
             materials.push_back( material_id( id ) );
         }
     }

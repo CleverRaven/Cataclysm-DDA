@@ -1,6 +1,7 @@
 [
   {
     "id": "makarovmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Makarov PM magazine",
     "description": "The standard magazine for the Pistolet Makarova, holds 8 rounds.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "skorpion82mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "Skorpion Vz. 82 magazine",
     "description": "A standard 20-round magazine for the Skorpion Vz. 82, in 9x18mm Makarov.",

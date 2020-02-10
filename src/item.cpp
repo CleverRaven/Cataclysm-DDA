@@ -158,24 +158,34 @@ item &null_item_reference()
 namespace item_internal
 {
 bool goes_bad_temp_cache = false;
-bool goes_bad_temp_cache_set = false;
+const item *goes_bad_temp_cache_for = nullptr;
 inline bool goes_bad_cache_fetch()
 {
     return goes_bad_temp_cache;
 }
-inline void goes_bad_cache_set( bool v )
+inline void goes_bad_cache_set( const item *i )
 {
-    goes_bad_temp_cache = v;
-    goes_bad_temp_cache_set = true;
+    goes_bad_temp_cache = i->goes_bad();
+    goes_bad_temp_cache_for = i;
 }
 inline void goes_bad_cache_unset()
 {
-    goes_bad_temp_cache_set = goes_bad_temp_cache = false;
+    goes_bad_temp_cache = false;
+    goes_bad_temp_cache_for = nullptr;
 }
-inline bool goes_bad_cache_is_set()
+inline bool goes_bad_cache_is_for( const item *i )
 {
-    return goes_bad_temp_cache_set;
+    return goes_bad_temp_cache_for == i;
 }
+
+struct scoped_goes_bad_cache {
+    scoped_goes_bad_cache( item *i ) {
+        goes_bad_cache_set( i );
+    }
+    ~scoped_goes_bad_cache() {
+        goes_bad_cache_unset();
+    }
+};
 } // namespace item_internal
 
 const int item::INFINITE_CHARGES = INT_MAX;
@@ -236,7 +246,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( !type->snippet_category.empty() ) {
-        snippet_id = SNIPPET.random_id_from_category( type->snippet_category );
+        snip_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
     if( current_phase == PNULL ) {
@@ -1109,6 +1119,34 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
+    if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
+        const std::map<std::string, std::string>::const_iterator idescription =
+            item_vars.find( "description" );
+        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
+        if( snippet.has_value() ) {
+            // Just use the dynamic description
+            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
+        } else if( idescription != item_vars.end() ) {
+            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
+        } else {
+            if( has_flag( "MAGIC_FOCUS" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "This item is a <info>magical focus</info>.  "
+                                             "You can cast spells with it in your hand." ) ) );
+            }
+            if( is_craft() ) {
+                const std::string desc = _( "This is an in progress %s.  "
+                                            "It is %d percent complete." );
+                const int percent_progress = item_counter / 100000;
+                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
+                                          craft_data_->making->result_name(),
+                                          percent_progress ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
+            }
+        }
+        insert_separation_line( info );
+    }
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
@@ -1130,11 +1168,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     int converted_volume_scale = 0;
     const double converted_volume = round_up( convert_volume( volume().value(),
-                                    &converted_volume_scale ) * batch, 2 );
+                                    &converted_volume_scale ) * batch, 3 );
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
         if( converted_volume_scale != 0 ) {
-            f |= iteminfo::is_decimal;
+            f |= iteminfo::is_three_decimal;
         }
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
@@ -1199,7 +1237,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
-        for( const std::pair<skill_id, int> &sk : type->min_skills ) {
+        for( const std::pair<const skill_id, int> &sk : type->min_skills ) {
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
@@ -1690,7 +1728,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                _( "<num>" ), iteminfo::no_flags, range );
             int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
             info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
-                               iteminfo::is_decimal | iteminfo::lower_is_better, aim_mv );
+                               iteminfo::lower_is_better, aim_mv );
         }
     }
 
@@ -1821,7 +1859,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
         std::vector<std::string> fm;
-        for( const std::pair<gun_mode_id, gun_mode> &e : fire_modes ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", e.second.tname(), e.second.qty ) );
             }
@@ -2555,7 +2593,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     };
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
-        for( const std::pair<quality_id, int> &q : type->qualities ) {
+        for( const std::pair<const quality_id, int> &q : type->qualities ) {
             name_quality( q );
         }
     }
@@ -2568,7 +2606,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
         std::map<quality_id, int> most_quality;
         for( const item &e : contents ) {
-            for( const std::pair<quality_id, int> &q : e.type->qualities ) {
+            for( const std::pair<const quality_id, int> &q : e.type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
                 if( !emplace_result.second &&
                     most_quality.at( emplace_result.first->first ) < q.second ) {
@@ -2576,7 +2614,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                 }
             }
         }
-        for( const std::pair<quality_id, int> &q : most_quality ) {
+        for( const std::pair<const quality_id, int> &q : most_quality ) {
             name_quality( q );
         }
     }
@@ -2593,36 +2631,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
     const std::string space = "  ";
 
-    if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
-        insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
-            item_vars.find( "description" );
-        const cata::optional<translation> snippet = snippet_id.has_value()
-                ? SNIPPET.get_snippet_by_id( snippet_id.value() )
-                : cata::nullopt;
-        if( snippet.has_value() ) {
-            // Just use the dynamic description
-            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
-        } else if( idescription != item_vars.end() ) {
-            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
-        } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item is a <info>magical focus</info>.  "
-                                             "You can cast spells with it in your hand." ) ) );
-            }
-            if( is_craft() ) {
-                const std::string desc = _( "This is an in progress %s.  "
-                                            "It is %d percent complete." );
-                const int percent_progress = item_counter / 100000;
-                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                          craft_data_->making->result_name(),
-                                          percent_progress ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
-            }
-        }
-    }
     std::set<matec_id> all_techniques = type->techniques;
     all_techniques.insert( techniques.begin(), techniques.end() );
     if( !all_techniques.empty() && parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
@@ -2708,7 +2716,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-        for( const std::pair<std::string, use_function> &method : type->use_methods ) {
+        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
             insert_separation_line( info );
             method.second.dump_info( *this, info );
         }
@@ -3031,7 +3039,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "<bold>Environmental Protection:</bold> " ),
                                       iteminfo::no_newline ) );
-            for( const auto &element : bid->env_protec ) {
+            for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
+                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                          " <num> ", iteminfo::no_newline, element.second ) );
+            }
+        }
+
+        if( !bid->bash_protec.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "<bold>Bash Protection:</bold> " ),
+                                      iteminfo::no_newline ) );
+            for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
+                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                          " <num> ", iteminfo::no_newline, element.second ) );
+            }
+        }
+        if( !bid->cut_protec.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "<bold>Cut Protection:</bold> " ),
+                                      iteminfo::no_newline ) );
+            for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                           " <num> ", iteminfo::no_newline, element.second ) );
             }
@@ -3268,39 +3295,41 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     // list recipes you could use it in
-    itype_id tid;
-    if( contents.empty() ) { // use this item
-        tid = typeId();
-    } else { // use the contained item
-        tid = contents.front().typeId();
-    }
-    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-    if( !known_recipes.empty() && parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
-        const inventory &inv = g->u.crafting_inventory();
+    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
+        itype_id tid = contents.empty() ? typeId() : contents.front().typeId();
+        const inventory &crafting_inv = g->u.crafting_inventory();
+        const recipe_subset available_recipe_subset = g->u.get_available_recipes( crafting_inv );
+        const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
-        if( known_recipes.size() > 24 ) {
+        if( item_recipes.empty() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You know dozens of things you could craft with it." ) ) );
-        } else if( known_recipes.size() > 12 ) {
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You could use it to craft various other things." ) ) );
+                                      _( "You know of nothing you could craft with it." ) ) );
         } else {
-            const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
-            [ &inv ]( const recipe * r ) {
-                if( r->deduped_requirements().can_make_with_inventory(
-                        inv, r->get_component_filter() ) ) {
-                    return r->result_name();
-                } else {
-                    return string_format( "<dark>%s</dark>", r->result_name() );
-                }
-            } );
-            if( !recipes.empty() ) {
+            if( item_recipes.size() > 24 ) {
                 insert_separation_line( info );
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "You could use it to craft: %s" ),
-                                                  recipes ) ) );
+                                          _( "You know dozens of things you could craft with it." ) ) );
+            } else if( item_recipes.size() > 12 ) {
+                insert_separation_line( info );
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "You could use it to craft various other things." ) ) );
+            } else {
+                const std::string recipes = enumerate_as_string( item_recipes.begin(), item_recipes.end(),
+                [ &crafting_inv ]( const recipe * r ) {
+                    if( r->deduped_requirements().can_make_with_inventory(
+                            crafting_inv, r->get_component_filter() ) ) {
+                        return r->result_name();
+                    } else {
+                        return string_format( "<dark>%s</dark>", r->result_name() );
+                    }
+                } );
+                if( !recipes.empty() ) {
+                    insert_separation_line( info );
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              string_format( _( "You could use it to craft: %s" ),
+                                                      recipes ) ) );
+                }
             }
         }
     }
@@ -3382,7 +3411,7 @@ std::map<gunmod_location, int> item::get_mod_locations() const
         if( !mod->type->gunmod->add_mod.empty() ) {
             std::map<gunmod_location, int> add_locations = mod->type->gunmod->add_mod;
 
-            for( const std::pair<gunmod_location, int> &add_location : add_locations ) {
+            for( const std::pair<const gunmod_location, int> &add_location : add_locations ) {
                 mod_locations[add_location.first] += add_location.second;
             }
         }
@@ -3434,7 +3463,7 @@ nc_color item::color_in_inventory() const
         const use_function *iuse = get_use( "learn_spell" );
         const learn_spell_actor *actor_ptr =
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
-        for( const std::string spell_id_str : actor_ptr->spells ) {
+        for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
             if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
@@ -4109,7 +4138,7 @@ std::string item::display_name( unsigned int quantity ) const
         amt = " (" + ammotext + ")";
     }
 
-    // This is a hack to prevent possible crashing when displaying maps as items during character creation
+    // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
                         g->u.global_omt_location() ) ) ).city;
@@ -4450,7 +4479,7 @@ int item::damage_melee( damage_type dt ) const
     // consider any melee gunmods
     if( is_gun() ) {
         std::vector<int> opts = { res };
-        for( const std::pair<gun_mode_id, gun_mode> &e : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
             if( e.second.target != this && e.second.melee() ) {
                 opts.push_back( e.second.target->damage_melee( dt ) );
             }
@@ -4493,7 +4522,7 @@ int item::reach_range( const player &p ) const
 
     // for guns consider any attached gunmods
     if( is_gun() && !is_gunmod() ) {
-        for( const std::pair<gun_mode_id, gun_mode> &m : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &m : gun_all_modes() ) {
             if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
                 continue;
             }
@@ -4511,7 +4540,7 @@ void item::unset_flags()
     item_tags.clear();
 }
 
-bool item::has_fault( const fault_id fault ) const
+bool item::has_fault( const fault_id &fault ) const
 {
     return faults.count( fault );
 }
@@ -4627,7 +4656,7 @@ int item::get_quality( const quality_id &id ) const
         return INT_MIN;
     }
 
-    for( const std::pair<quality_id, int> &quality : type->qualities ) {
+    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
         if( quality.first == id ) {
             return_quality = quality.second;
         }
@@ -4706,7 +4735,7 @@ int item::get_comestible_fun() const
 
 bool item::goes_bad() const
 {
-    if( item_internal::goes_bad_cache_is_set() ) {
+    if( item_internal::goes_bad_cache_is_for( this ) ) {
         return item_internal::goes_bad_cache_fetch();
     }
     if( has_flag( "PROCESSING" ) ) {
@@ -5034,7 +5063,7 @@ int item::get_encumber_when_containing(
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
-    //TODO: Should probably have sizing affect coverage
+    // TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p, encumber != 0 );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
@@ -7085,7 +7114,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
 gun_mode item::gun_get_mode( const gun_mode_id &mode ) const
 {
     if( is_gun() ) {
-        for( const std::pair<gun_mode_id, gun_mode> &e : gun_all_modes() ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
             if( e.first == mode ) {
                 return e.second;
             }
@@ -7808,7 +7837,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     float new_specific_energy;
 
     if( new_temperature <= freezing_temperature ) {
-        new_specific_energy = specific_heat_solid * new_temperature ;
+        new_specific_energy = specific_heat_solid * new_temperature;
     } else {
         new_specific_energy = completely_liquid_energy + specific_heat_liquid *
                               ( new_temperature - freezing_temperature );
@@ -7894,7 +7923,7 @@ void item::fill_with( item &liquid, int amount )
             debugmsg( "Poured item has no defined temperature" );
         }
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                cts.weight() ) + to_gram( liquid.weight() ) ) ;
+                cts.weight() ) + to_gram( liquid.weight() ) );
         cts.set_item_specific_energy( combined_specific_energy );
         //use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
@@ -7990,21 +8019,16 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     return destroy;
 }
 
-void item::set_snippet( const std::string &id )
+void item::set_snippet( const snippet_id &id )
 {
     if( is_null() ) {
         return;
     }
-    if( type->snippet_category.empty() ) {
-        debugmsg( "can not set description for item %s without snippet category", typeId().c_str() );
+    if( !id.is_valid() ) {
+        debugmsg( "there's no snippet with id %s", id.str() );
         return;
     }
-    if( !SNIPPET.get_snippet_by_id( id ).has_value() ) {
-        debugmsg( "snippet id %s is not contained in snippet category %s", id,
-                  type->snippet_category );
-        return;
-    }
-    snippet_id = id;
+    snip_id = id;
 }
 
 const item_category &item::get_category() const
@@ -8023,7 +8047,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     sType = Type;
     sName = replace_colors( Name );
     sFmt = replace_colors( Fmt );
-    is_int = !( Flags & is_decimal );
+    is_int = !( Flags & is_decimal || Flags & is_three_decimal );
+    three_decimal = ( Flags & is_three_decimal );
     dValue = Value;
     bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
@@ -8032,6 +8057,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     }
     if( is_int ) {
         convert << std::setprecision( 0 );
+    } else if( three_decimal ) {
+        convert << std::setprecision( 3 );
     } else {
         convert << std::setprecision( 2 );
     }
@@ -8280,7 +8307,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::goes_bad_cache_set( goes_bad() );
+    item_internal::scoped_goes_bad_cache _( this );
     if( goes_bad() ) {
         time = std::min( last_rot_check, last_temp_check );
     } else {
@@ -8359,7 +8386,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
-                    item_internal::goes_bad_cache_unset();
                     return;
                 }
             }
@@ -8371,7 +8397,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         calc_rot( now, temp );
-        item_internal::goes_bad_cache_unset();
         return;
     }
 
@@ -8379,7 +8404,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
-    item_internal::goes_bad_cache_unset();
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )

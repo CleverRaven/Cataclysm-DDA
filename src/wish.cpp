@@ -413,7 +413,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &p : closest_tripoints_first( cb.group, *spawn ) ) {
+                for( const tripoint &p : closest_tripoints_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, p );
                     if( !mon ) {
                         continue;
@@ -672,6 +672,7 @@ void debug_menu::wishskill( player *p )
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),
                             skill.name() );
+                    p->get_skill_level_object( skill.ident() ).practice();
                     skmenu.entries[skill_id + skoffset].text_color =
                         p->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
                 }

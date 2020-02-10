@@ -40,6 +40,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "line.h"
+#include "cata_string_consts.h"
 
 namespace io
 {
@@ -324,7 +325,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+    for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
@@ -429,7 +430,7 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, translation alt_msg ) :
+spell::spell( spell_id sp, const translation &alt_msg ) :
     type( sp ),
     alt_message( alt_msg )
 {}
@@ -582,7 +583,7 @@ bool spell::is_max_level() const
 
 bool spell::can_learn( const player &p ) const
 {
-    if( type->spell_class == trait_id( "NONE" ) ) {
+    if( type->spell_class == trait_NONE ) {
         return true;
     }
     return p.has_trait( type->spell_class );
@@ -1048,7 +1049,7 @@ std::string spell::enumerate_targets() const
         return all_valid_targets[0];
     }
     std::string ret;
-    // @TODO: if only we had a function to enumerate strings and concatenate them...
+    // TODO: if only we had a function to enumerate strings and concatenate them...
     for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
         if( iter + 1 == all_valid_targets.end() ) {
             ret = string_format( _( "%s and %s" ), ret, *iter );
@@ -1058,6 +1059,22 @@ std::string spell::enumerate_targets() const
             ret = string_format( _( "%s, %s" ), ret, *iter );
         }
     }
+    return ret;
+}
+
+std::string spell::list_targeted_monster_names() const
+{
+    if( type->targeted_monster_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_monster_names;
+    for( const mtype_id &mon_id : type->targeted_monster_ids ) {
+        all_valid_monster_names.emplace_back( mon_id->nname() );
+    }
+    //remove repeat names
+    all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
+                                   all_valid_monster_names.end() ), all_valid_monster_names.end() );
+    std::string ret = enumerate_as_string( all_valid_monster_names );
     return ret;
 }
 
@@ -1257,7 +1274,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( !force && sp->spell_class != trait_id( "NONE" ) ) {
+    if( !force && sp->spell_class != trait_NONE ) {
         if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
             std::string trait_cancel;
             for( const trait_id &cancel : sp->spell_class->cancels ) {
@@ -1313,7 +1330,7 @@ void known_magic::forget_spell( const spell_id &sp )
 bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
 {
     const spell_type &sp_t = sp.obj();
-    if( sp_t.spell_class == trait_id( "NONE" ) ) {
+    if( sp_t.spell_class == trait_NONE ) {
         return true;
     }
     return !p.has_opposite_trait( sp_t.spell_class );
@@ -1552,7 +1569,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     nc_color yellow = c_yellow;
 
     print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
-                        sp.spell_class() == trait_id( "NONE" ) ? _( "Classless" ) : sp.spell_class()->name() );
+                        sp.spell_class() == trait_NONE ? _( "Classless" ) : sp.spell_class()->name() );
 
     line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray, sp.description() );
 
@@ -1614,6 +1631,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), targets ) );
+
+    std::string target_ids;
+    target_ids = sp.list_targeted_monster_names();
+    if( !target_ids.empty() ) {
+        fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray,
+                        _( "Only affects the monsters: %s" ), target_ids );
+    }
 
     if( line <= win_height * 3 / 4 ) {
         line++;
@@ -1691,7 +1715,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     if( found != invlets.end() ) {
         return found->second;
     }
-    for( const std::pair<spell_id, int> &invlet_pair : invlets ) {
+    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
         used_invlets.emplace( invlet_pair.second );
     }
     for( int i = 'a'; i <= 'z'; i++ ) {
@@ -1748,7 +1772,7 @@ int known_magic::select_spell( const player &p )
 
 void known_magic::on_mutation_gain( const trait_id &mid, player &p )
 {
-    for( const std::pair<spell_id, int> &sp : mid->spells_learned ) {
+    for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
         learn_spell( sp.first, p, true );
         spell &temp_sp = get_spell( sp.first );
         for( int level = 0; level < sp.second; level++ ) {
@@ -1812,7 +1836,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const spell fake_spell( sp.id );
 
     const std::string spell_name = colorize( sp.name, c_light_green );
-    const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
+    const std::string spell_class = sp.spell_class == trait_NONE ? _( "Classless" ) :
                                     sp.spell_class->name();
     print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
     print_colored_text( w, point( menu->pad_left - utf8_width( spell_class ) - 1, line++ ), yellow,
@@ -1878,7 +1902,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( sp.min_duration != 0 && sp.max_duration != 0 ) {
-        rows.emplace_back( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration );
+        rows.emplace_back( _( "Duration" ), sp.min_duration, static_cast<float>( sp.duration_increment ),
+                           sp.max_duration );
     }
 
     rows.emplace_back( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment,

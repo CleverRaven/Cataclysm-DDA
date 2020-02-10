@@ -60,66 +60,11 @@
 #include "enums.h"
 #include "overmap.h"
 #include "stomach.h"
+#include "cata_string_consts.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
-
-static const skill_id skill_firstaid( "firstaid" );
-
-static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_bandaged( "bandaged" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_catch_up( "catch_up" );
-static const efftype_id effect_disinfected( "disinfected" );
-static const efftype_id effect_hallu( "hallu" );
-static const efftype_id effect_hit_by_player( "hit_by_player" );
-static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_npc_run_away( "npc_run_away" );
-static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
-static const efftype_id effect_npc_flee_player( "npc_flee_player" );
-static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
-
-// power source CBMs
-static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
-
-// active defense CBMs - activate when in danger
-static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
-static const bionic_id bio_heat_sink( "bio_heatsink" );
-static const bionic_id bio_ods( "bio_ods" );
-static const bionic_id bio_shock( "bio_shock" );
-
-// special health CBMs - activate as needed
-static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_nanobots( "bio_nanobots" );
-static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_soporific( "bio_soporific" );
-
-// health CBMs - always activate
-static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_plutfilter( "bio_plutfilter" );
-
-// melee CBMs - activate for melee combat
-static const bionic_id bio_hydraulics( "bio_hydraulics" );
-
-// weapon CBMs - activate in combat if they're better than what we have
-static const bionic_id bio_lightning( "bio_chain_lightning" );
-static const bionic_id bio_laser( "bio_laser" );
-static const bionic_id bio_blade( "bio_blade" );
-static const bionic_id bio_claws( "bio_claws" );
-
-static const ammotype reactor_slurry( "reactor_slurry" );
-static const ammotype plutonium( "plutonium" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -154,7 +99,7 @@ const std::vector<bionic_id> defense_cbms = { {
         bio_ads,
         bio_faraday,
         bio_heat_absorb,
-        bio_heat_sink,
+        bio_heatsink,
         bio_ods,
         bio_shock
     }
@@ -236,7 +181,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         float rating = threat_val;
         for( const auto &e : g->m.field_at( pt ) ) {
             if( is_dangerous_field( e.second ) ) {
-                // @TODO: Rate fire higher than smoke
+                // TODO: Rate fire higher than smoke
                 rating += e.second.get_field_intensity();
             }
         }
@@ -466,7 +411,7 @@ void npc::assess_danger()
         bool is_too_close = dist <= def_radius;
         const auto test_too_close = [critter, def_radius,
                  &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
-            // Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
+            // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I dont know why.
             // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
@@ -512,7 +457,7 @@ void npc::assess_danger()
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
-        for( const weak_ptr_fast<Creature> guy : ai_cache.friends ) {
+        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
             is_too_close |= too_close( foe.pos(), guy.lock()->pos(), def_radius );
             if( is_too_close ) {
                 break;
@@ -973,8 +918,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             int best_sleepy = sleep_spot( pos() );
             tripoint best_spot = pos();
-            const auto points = closest_tripoints_first( 6, pos() );
-            for( const tripoint &p : points ) {
+            for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1655,8 +1599,8 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const itype_id fid : bid->fuel_opts ) {
-                    return it.typeId() == fid;
+                for( const itype_id &fid : bid->fuel_opts ) {
+                    return it.typeId() == fid || ( !it.is_container_empty() && it.contents.front().typeId() == fid );
                 }
                 return false;
             };
@@ -1696,8 +1640,8 @@ bool npc::recharge_cbm()
 
     if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
         const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == plutonium ||
-                                     it.ammo_type() == reactor_slurry );
+            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
+                                     it.ammo_type() == ammo_reactor_slurry );
         };
         if( consume_cbm_items( reactor_filter ) ) {
             return true;
@@ -2444,7 +2388,7 @@ void npc::avoid_friendly_fire()
     center.y = round( center.y / friend_count );
     center.z = round( center.z / friend_count );
 
-    auto candidates = closest_tripoints_first( 1, pos() );
+    std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint & l, const tripoint & r ) {
@@ -2558,7 +2502,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
 
     // We need to path to adjacent tile, not the exact one
     // Let's pick the closest one to us that is passable
-    auto candidates = closest_tripoints_first( 1, p );
+    std::vector<tripoint> candidates = closest_tripoints_first( p, 1 );
     std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint & l,
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
@@ -2627,7 +2571,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
-    for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
+    for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : g->m.i_at( p ) ) {
                 if( one_in( 100 ) && ( it.typeId() == object ) ) {
@@ -2728,7 +2672,7 @@ void npc::find_item()
         }
     };
 
-    for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
+    for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( no_pickup, p ) ) {
@@ -3182,7 +3126,7 @@ bool npc::do_pulp()
     }
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
-    assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+    assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
     activity.placement = g->m.getabs( *pulp_location );
     activity.do_turn( *this );
     return moves != old_moves;
@@ -3468,7 +3412,7 @@ void npc::activate_item( int item_index )
     }
 
     if( moves == oldmoves ) {
-        // A hack to prevent debugmsgs when NPCs activate 0 move items
+        // HACK: A hack to prevent debugmsgs when NPCs activate 0 move items
         // while not removing the debugmsgs for other 0 move actions
         moves--;
     }

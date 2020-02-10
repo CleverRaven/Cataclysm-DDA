@@ -22,6 +22,11 @@ class safemode
             MAX_TAB
         };
 
+        enum Categories : int {
+            HOSTILE_SPOTTED,
+            SOUND
+        };
+
         class rules_class
         {
             public:
@@ -30,13 +35,14 @@ class safemode
                 bool whitelist;
                 Creature::Attitude attitude;
                 int proximity;
+                Categories category;
 
                 rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
-                    proximity( 0 ) {}
+                    proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
-                             Creature::Attitude attitude_in, int proximity_in ) : rule( rule_in ),
+                             Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
                     active( active_in ), whitelist( whitelist_in ),
-                    attitude( attitude_in ), proximity( proximity_in ) {}
+                    attitude( attitude_in ), proximity( proximity_in ), category( cat ) {}
         };
 
         class rule_state_class
@@ -46,7 +52,7 @@ class safemode
                 int proximity;
 
                 rule_state_class() : state( RULE_NONE ), proximity( 0 ) {}
-                rule_state_class( rule_state state_in, int proximity_in ) : state( state_in ),
+                rule_state_class( rule_state state_in, int proximity_in, Categories ) : state( state_in ),
                     proximity( proximity_in ) {}
         };
 
@@ -57,7 +63,8 @@ class safemode
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
-        std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules;
+        std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules_hostile;
+        std::vector < rules_class > safemode_rules_sound;
 
         /**
          * current rules for global and character tab
@@ -86,6 +93,8 @@ class safemode
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
                                   int proximity_in ) const;
+
+        bool is_sound_safe( const std::string &sound_name_in, int proximity_in ) const;
 
         std::string npc_type_name();
 

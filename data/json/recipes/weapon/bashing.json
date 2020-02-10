@@ -13,29 +13,6 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
   },
   {
-    "result": "battletorch",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "bat", 1 ] ],
-      [ [ "nomex", 5 ] ],
-      [
-        [ "lamp_oil", 50 ],
-        [ "motor_oil", 50 ],
-        [ "chem_ethanol", 100 ],
-        [ "denat_alcohol", 100 ],
-        [ "gasoline", 250 ],
-        [ "diesel", 250 ]
-      ]
-    ]
-  },
-  {
     "type": "recipe",
     "result": "shillelagh",
     "category": "CC_WEAPON",

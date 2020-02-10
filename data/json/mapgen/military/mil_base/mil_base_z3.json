@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mil_base_3i3" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    Z''''Z              ",
+        "    '    '              ",
+        "    x    '              ",
+        "    '    x              ",
+        "    '><  '              ",
+        "    Z''''Z              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "mil_base_roof_palette" ]
+    }
+  }
+]

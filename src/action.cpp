@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "translations.h"
@@ -31,6 +32,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 class inventory;
 
@@ -287,8 +289,8 @@ std::string action_ident( action_id act )
             return "quicksave";
         case ACTION_QUICKLOAD:
             return "quickload";
-        case ACTION_QUIT:
-            return "quit";
+        case ACTION_SUICIDE:
+            return "SUICIDE";
         case ACTION_PL_INFO:
             return "player_data";
         case ACTION_MAP:
@@ -362,7 +364,7 @@ std::string action_ident( action_id act )
         case ACTION_MAIN_MENU:
             return "main_menu";
         case ACTION_KEYBINDINGS:
-            return "open_keybindings";
+            return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:
             return "open_options";
         case ACTION_AUTOPICKUP:
@@ -404,7 +406,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
         case ACTION_QUICKLOAD:
-        case ACTION_QUIT:
+        case ACTION_SUICIDE:
         // Info Screens
         case ACTION_PL_INFO:
         case ACTION_MAP:
@@ -501,6 +503,15 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
+cata::optional<std::string> press_x_if_bound( action_id act )
+{
+    input_context ctxt = get_default_mode_input_context();
+    std::string description = action_ident( act );
+    if( ctxt.keys_bound_to( description ).empty() ) {
+        return cata::nullopt;
+    }
+    return press_x( act );
+}
 
 action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
 {
@@ -568,8 +579,8 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
+    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factorD = g->u.max_quality( qual_CUT_FINE );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -590,18 +601,18 @@ bool can_butcher_at( const tripoint &p )
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
     // TODO: unify this with game::move_vertical
-    if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( g->m.has_flag( flag_SWIMMABLE, p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
+            return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
             return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
         }
     }
 
     if( movez == -1 ) {
-        return g->m.has_flag( "GOES_DOWN", p );
+        return g->m.has_flag( flag_GOES_DOWN, p );
     } else {
-        return g->m.has_flag( "GOES_UP", p );
+        return g->m.has_flag( flag_GOES_UP, p );
     }
 }
 
@@ -610,7 +621,7 @@ bool can_examine_at( const tripoint &p )
     if( g->m.veh_at( p ) ) {
         return true;
     }
-    if( g->m.has_flag( "CONSOLE", p ) ) {
+    if( g->m.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
     if( g->m.has_items( p ) ) {
@@ -622,6 +633,11 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
     } else if( xter_t.examine != &iexamine::none ) {
+        return true;
+    }
+
+    Creature *c = g->critter_at( p );
+    if( c != nullptr && p != g->u.pos() ) {
         return true;
     }
 
@@ -692,7 +708,7 @@ action_id handle_action_menu()
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
@@ -777,8 +793,8 @@ action_id handle_action_menu()
             if( hotkey_for_action( ACTION_QUICKLOAD ) > -1 ) {
                 REGISTER_ACTION( ACTION_QUICKLOAD );
             }
-            if( hotkey_for_action( ACTION_QUIT ) > -1 ) {
-                REGISTER_ACTION( ACTION_QUIT );
+            if( hotkey_for_action( ACTION_SUICIDE ) > -1 ) {
+                REGISTER_ACTION( ACTION_SUICIDE );
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
@@ -1044,17 +1060,17 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action, const bool allow_vertical )
+        const std::string &failure_message, const action_id action, bool allow_vertical )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical, const bool auto_select_if_single )
+        const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
+        const bool allow_vertical )
 {
     // Highlight nearby terrain according to the highlight function
     if( allowed != nullptr ) {
@@ -1074,8 +1090,11 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
         if( highlighted ) {
             wrefresh( g->w_terrain );
+        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
+            add_msg( failure_message );
+            return cata::nullopt;
         }
-        if( auto_select_if_single && single ) {
+        if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) && single ) {
             return single;
         }
     }

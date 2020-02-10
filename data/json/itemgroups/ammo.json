@@ -429,6 +429,33 @@
     ]
   },
   {
+    "id": "casings",
+    "//": "casings list for shooting range.",
+    "type": "item_group",
+    "items": [
+      [ "9mm_casing", 100 ],
+      [ "22_casing", 95 ],
+      [ "38_casing", 75 ],
+      [ "40_casing", 80 ],
+      [ "44_casing", 35 ],
+      [ "45_casing", 65 ],
+      [ "454_casing", 10 ],
+      [ "500_casing", 10 ],
+      [ "57mm_casing", 10 ],
+      [ "46mm_casing", 10 ],
+      [ "762_casing", 85 ],
+      [ "762_51_casing", 50 ],
+      [ "223_casing", 85 ],
+      [ "3006_casing", 40 ],
+      [ "308_casing", 50 ],
+      [ "50_casing", 30 ],
+      [ "700nx_casing", 10 ],
+      [ "300_casing", 60 ],
+      [ "762R_casing", 10 ],
+      [ "32_casing", 70 ]
+    ]
+  },
+  {
     "id": "ammo_casings_bulk",
     "type": "item_group",
     "items": [ { "group": "ammo_casings", "charges-min": 10, "charges-max": 20 } ]

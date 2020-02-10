@@ -449,6 +449,11 @@ class inventory_selector
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
 
+        /** Apply filter string to all columns */
+        void set_filter( const std::string &str );
+        /** Get last filter string set by set_filter or entered by player */
+        std::string get_filter() const;
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
@@ -531,7 +536,7 @@ class inventory_selector
 
     public:
 
-        void update();
+        void update( bool &need_refresh );
 
         /**
          * Select a location

@@ -36,20 +36,7 @@
 #include "type_id.h"
 #include "pimpl.h"
 #include "point.h"
-
-static const species_id ZOMBIE( "ZOMBIE" );
-
-static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_has_bag( "has_bag" );
-static const efftype_id effect_milked( "milked" );
-static const efftype_id effect_monster_armor( "monster_armor" );
-static const efftype_id effect_paid( "paid" );
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_saddled( "monster_saddled" );
-static const skill_id skill_survival( "survival" );
+#include "cata_string_consts.h"
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -621,7 +608,7 @@ void monexamine::remove_armor( monster &z )
 void monexamine::play_with( monster &z )
 {
     std::string pet_name = z.get_name();
-    g->u.assign_activity( activity_id( "ACT_PLAY_WITH_PET" ), rng( 50, 125 ) * 100 );
+    g->u.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
     g->u.activity.str_values.push_back( pet_name );
 }
 
@@ -681,39 +668,24 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.type->starting_ammo.find( "milk_raw" );
-    if( milked_item == source_mon.type->starting_ammo.end() ) {
+    const auto milked_item = source_mon.ammo.find( "milk_raw" );
+    if( milked_item == source_mon.ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
                   source_mon.get_name() );
         return;
     }
-    const int milk_per_day = milked_item->second;
-    const time_duration milking_freq = 1_days / milk_per_day;
-
-    int remaining_milk = milk_per_day;
-    if( source_mon.has_effect( effect_milked ) ) {
-        remaining_milk -= source_mon.get_effect_dur( effect_milked ) / milking_freq;
-    }
-
-    if( remaining_milk > 0 ) {
+    if( milked_item->second > 0 ) {
+        const int moves = to_moves<int>( time_duration::from_minutes( milked_item->second / 2 ) );
+        g->u.assign_activity( ACT_MILK, moves, -1 );
+        g->u.activity.coords.push_back( g->m.getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, num_bp, true );
+            g->u.activity.str_values.push_back( "temp_tie" );
         }
-
-        item milk( milked_item->first, calendar::turn, remaining_milk );
-        milk.set_item_temperature( 311.75 );
-        if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
-            add_msg( _( "You milk the %s." ), source_mon.get_name() );
-            int transferred_milk = remaining_milk - milk.charges;
-            source_mon.add_effect( effect_milked, milking_freq * transferred_milk );
-            g->u.mod_moves( -to_moves<int>( transferred_milk * 1_minutes / 5 ) );
-        }
-        if( temp_tie ) {
-            source_mon.remove_effect( effect_tied );
-        }
+        add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
-        add_msg( _( "The %s's udders run dry." ), source_mon.get_name() );
+        add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
     }
 }

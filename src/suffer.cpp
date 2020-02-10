@@ -827,7 +827,7 @@ void Character::suffer_from_albinism()
     body_part max_affected_bp = num_bp;
     float max_affected_bp_percent = 0;
     int count_affected_bp = 0;
-    for( const std::pair<body_part, float> &it : open_percent ) {
+    for( const std::pair<const body_part, float> &it : open_percent ) {
         const body_part &bp = it.first;
         const float &p = it.second;
 
@@ -1343,7 +1343,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
                     break;
                 case 3:
                     add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
-                                           _( "<npcname> streches their back." ) );
+                                           _( "<npcname> stretches their back." ) );
                     break;
                 case 4:
                     add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),

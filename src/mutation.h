@@ -153,8 +153,8 @@ struct mutation_branch {
         /**What do you smell like*/
         cata::optional<scenttype_id> scent_typeid;
 
-        /**Map of glowing bodypart and there intensity*/
-        std::map<body_part, int> lumination;
+        /**Map of glowing body parts and their glow intensity*/
+        std::map<body_part, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
@@ -189,6 +189,9 @@ struct mutation_branch {
         // Multiplier for map memory capacity, defaulting to 1.
         float map_memory_capacity_multiplier = 1.0f;
 
+        // Multiplier for reading speed, defaulting to 1.
+        float reading_speed_multiplier = 1.0f;
+
         // Multiplier for skill rust, defaulting to 1.
         float skill_rust_multiplier = 1.0f;
 
@@ -200,6 +203,9 @@ struct mutation_branch {
 
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
+
+        /**Map of angered species and there intensity*/
+        std::map<species_id, int> anger_relations;
 
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;

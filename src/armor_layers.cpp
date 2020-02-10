@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "debug.h"
 #include "enums.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -71,7 +72,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( "SEMITANGIBLE" );
+            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );
@@ -247,17 +248,17 @@ std::string clothing_layer( const item &worn_item )
 {
     std::string layer;
 
-    if( worn_item.has_flag( "PERSONAL" ) ) {
+    if( worn_item.has_flag( flag_PERSONAL ) ) {
         layer = _( "This is in your personal aura." );
-    } else if( worn_item.has_flag( "SKINTIGHT" ) ) {
+    } else if( worn_item.has_flag( flag_SKINTIGHT ) ) {
         layer = _( "This is worn next to the skin." );
-    } else if( worn_item.has_flag( "WAIST" ) ) {
+    } else if( worn_item.has_flag( flag_WAIST ) ) {
         layer = _( "This is worn on or around your waist." );
-    } else if( worn_item.has_flag( "OUTER" ) ) {
+    } else if( worn_item.has_flag( flag_OUTER ) ) {
         layer = _( "This is worn over your other clothes." );
-    } else if( worn_item.has_flag( "BELTED" ) ) {
+    } else if( worn_item.has_flag( flag_BELTED ) ) {
         layer = _( "This is strapped onto you." );
-    } else if( worn_item.has_flag( "AURA" ) ) {
+    } else if( worn_item.has_flag( flag_AURA ) ) {
         layer = _( "This is an aura around you." );
     }
 
@@ -308,40 +309,40 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
 {
     std::vector<std::string> description_stack;
 
-    if( worn_item.has_flag( "FIT" ) ) {
+    if( worn_item.has_flag( flag_FIT ) ) {
         description_stack.push_back( _( "It fits you well." ) );
     } else if( worn_item.has_flag( "VARSIZE" ) ) {
         description_stack.push_back( _( "It could be refitted." ) );
     }
 
-    if( worn_item.has_flag( "HOOD" ) ) {
+    if( worn_item.has_flag( flag_HOOD ) ) {
         description_stack.push_back( _( "It has a hood." ) );
     }
-    if( worn_item.has_flag( "POCKETS" ) ) {
+    if( worn_item.has_flag( flag_POCKETS ) ) {
         description_stack.push_back( _( "It has pockets." ) );
     }
-    if( worn_item.has_flag( "WATERPROOF" ) ) {
+    if( worn_item.has_flag( flag_WATERPROOF ) ) {
         description_stack.push_back( _( "It is waterproof." ) );
     }
-    if( worn_item.has_flag( "WATER_FRIENDLY" ) ) {
+    if( worn_item.has_flag( flag_WATER_FRIENDLY ) ) {
         description_stack.push_back( _( "It is water friendly." ) );
     }
-    if( worn_item.has_flag( "FANCY" ) ) {
+    if( worn_item.has_flag( flag_FANCY ) ) {
         description_stack.push_back( _( "It looks fancy." ) );
     }
-    if( worn_item.has_flag( "SUPER_FANCY" ) ) {
+    if( worn_item.has_flag( flag_SUPER_FANCY ) ) {
         description_stack.push_back( _( "It looks really fancy." ) );
     }
-    if( worn_item.has_flag( "FLOTATION" ) ) {
+    if( worn_item.has_flag( flag_FLOTATION ) ) {
         description_stack.push_back( _( "You will not drown today." ) );
     }
-    if( worn_item.has_flag( "OVERSIZE" ) ) {
+    if( worn_item.has_flag( flag_OVERSIZE ) ) {
         description_stack.push_back( _( "It is very bulky." ) );
     }
-    if( worn_item.has_flag( "SWIM_GOGGLES" ) ) {
+    if( worn_item.has_flag( flag_SWIM_GOGGLES ) ) {
         description_stack.push_back( _( "It helps you to see clearly underwater." ) );
     }
-    if( worn_item.has_flag( "SEMITANGIBLE" ) ) {
+    if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
         description_stack.push_back( _( "It can occupy the same space as other things." ) );
     }
 
@@ -491,7 +492,7 @@ void player::sort_armor()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     auto do_return_entry = []() {
-        g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
+        g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
         g->u.activity.auto_resume = true;
         g->u.activity.moves_left = INT_MAX;
     };
@@ -795,7 +796,7 @@ void player::sort_armor()
                     do_return_entry();
                     // remove the item, asking to drop it if necessary
                     takeoff( *tmp_worn[leftListIndex] );
-                    if( !g->u.has_activity( activity_id( "ACT_ARMOR_LAYERS" ) ) ) {
+                    if( !g->u.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.
                         return;
