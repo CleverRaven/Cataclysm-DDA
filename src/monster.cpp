@@ -1941,8 +1941,12 @@ void monster::process_turn()
 {
     decrement_summon_timer();
     if( !is_hallucination() ) {
-        for( const auto &e : type->emit_fields ) {
-            if( e == emit_id( "emit_shock_cloud" ) ) {
+        for( const std::pair<emit_id, time_duration> &e : type->emit_fields ) {
+            if( !calendar::once_every( e.second ) ) {
+                continue;
+            }
+            const emit_id emid = e.first;
+            if( emid == emit_id( "emit_shock_cloud" ) ) {
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
                 } else if( has_effect( effect_supercharged ) ) {
@@ -1950,7 +1954,7 @@ void monster::process_turn()
                     continue;
                 }
             }
-            g->m.emit_field( pos(), e );
+            g->m.emit_field( pos(), emid );
         }
     }
 

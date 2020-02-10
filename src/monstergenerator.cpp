@@ -760,7 +760,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         dies.push_back( mdeath::normal );
     }
 
-    assign( jo, "emit_fields", emit_fields );
+    for( JsonArray ja : jo.get_array( "emit_fields" ) ) {
+        emit_fields.emplace( ja.get_string( 0 ), read_from_json_string<time_duration>( ja.get_string( 1 ),
+                             time_duration::units ) );
+    }
 
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
@@ -1149,9 +1152,10 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const auto &e : mon.emit_fields ) {
-            if( !e.is_valid() ) {
-                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
+        for( const std::pair<emit_id, time_duration> &e : mon.emit_fields ) {
+            const emit_id emid = e.first;
+            if( !emid.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );
             }
         }
 

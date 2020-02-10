@@ -353,7 +353,7 @@ struct mtype {
         int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
-        std::set<emit_id> emit_fields;
+        std::map<emit_id, time_duration> emit_fields;
 
         pathfinding_settings path_settings;
 
