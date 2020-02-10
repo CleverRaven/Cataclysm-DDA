@@ -1,0 +1,68 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_vac_oven_large",
+    "name": "(TEMPORARILY OUT OF ORDER)large vacuum oven",
+    "description": " (TEMPORARILY OUT OF ORDER) A large 6ft tall, 7.2 cubic foot vacuum oven used to purge residual solvents out of liquids and solid. Looks kind of like a big refridgerator.",
+    "symbol": "E",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "looks_like": "f_glass_fridge",
+	"max_volume": "672 ml",
+	"crafting_pseudo_item": "vac_oven_large",
+	"flags": [ "CONTAINER", "ALLOWS_REMOTE_USE", "LIQUIDCONT", "PLACE_ITEM" ],
+    "deconstruct": {
+	  "items": [
+	   { "item": "metal_tank", "count": 3 },
+	   { "item": "pipe", "count": 2 },
+	   { "item": "hose", "count": 2 },
+	   { "item": "vac_pump", "count": 3 }
+	  ]
+	},
+    "bash": {
+      "str_min": 25,
+      "str_max": 180,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [
+	    { "item": "metal_tank", "count": 1 },
+	   { "item": "pipe", "count": 1 },
+	   { "item": "hose", "count": 1 }
+	  ]
+	}
+  },
+  {
+    "type": "furniture",
+    "id": "f_vac_oven_large_full",
+    "name": "(TEMPORARILY OUT OF ORDER)filled large vacuum oven",
+    "description": "(TEMPORARILY OUT OF ORDER)A vacuum oven filled with extract ready to be purged of residual solvents.",
+    "symbol": "E",
+    "color": "brown_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "looks_like": "f_glass_fridge",
+	"flags": [ "ALLOWS_REMOTE_USE", "LIQUIDCONT", "CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": {
+	  "items": [
+	   { "item": "metal_tank", "count": 3 },
+	   { "item": "pipe", "count": 2 },
+	   { "item": "hose", "count": 2 },
+	   { "item": "vac_pump", "count": 3 }
+	  ]
+	},
+    "bash": {
+      "str_min": 25,
+      "str_max": 180,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [
+	    { "item": "metal_tank", "count": 1 },
+	   { "item": "pipe", "count": 1 },
+	   { "item": "hose", "count": 1 }
+	  ]
+	}
+  }
+]

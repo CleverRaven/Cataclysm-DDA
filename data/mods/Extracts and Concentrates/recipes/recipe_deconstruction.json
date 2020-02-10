@@ -1,0 +1,26 @@
+[
+  {
+    "result": "vac_oven_large_done",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "components": [ [ [ "hi_q_shatter", 3025 ] ], [ [ "vac_oven_large", 1 ] ] ]
+  },
+  {
+    "result": "vac_oven_small_done",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "components": [ [ [ "hi_q_shatter", 420 ] ], [ [ "vac_oven_small", 1 ] ] ]
+  },
+  {
+    "result": "dab_pen_full",
+	"type": "uncraft",
+	"skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+	"components": [ [ [ "dab_pen_empty", 1 ] ] ]
+  }
+]

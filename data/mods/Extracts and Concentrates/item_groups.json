@@ -1,0 +1,21 @@
+[
+  {
+    "type": "item_group",
+    "id": "science",
+    "charges-min": 5,
+	"ammo": 50,
+    "magazine": 100,
+    "items": [
+	  [ "recovery_pump", 5 ],
+	  [ "vac_pump", 5 ],
+	  [ "textbook_extraction", 12 ],
+	  [ "filter_paper_qualitative", 10 ],
+	  [ "filter_paper_quantitative", 10 ],
+	  [ "butane_tank", 20 ],
+	  [ "flask_buchner", 10 ],
+	  [ "gasket_plastic", 10 ],
+	  [ "vac_oven_large", 5 ],
+	  [ "vac_oven_small", 5 ]
+	]
+  }
+]

@@ -1,0 +1,45 @@
+{
+    "id": "dab_pen",
+    "type": "TOOL",
+    "comestible_type": "tools",
+    "name": "dab pen",
+    "description": "Concentrated cannabis extract. This style of extract goes through the most processing, eliminating most if not all harmful ingredients. Normal cannabis contains around 20%THC, this distillate should be around 88%THC. Can be smoked in a bowl or you can make a dab pen with it. ",
+    "looks_like": "honey_gold",
+	"weight": "1 g",
+    "volume": "1 ml",
+	"price": 5000,
+    "symbol": "!",
+    "color": "green",
+    "quench": -5,
+    "stim": -3,
+    "healthy": 0,
+	"ammo": "battery",
+	"magazines": [
+	  [
+	    "battery",
+		  [ "light_minus_battery_cell", "light_minus_disposable_cell" ]
+	  ]
+	],
+	"charges_per_use": 1,
+	"power_draw": 7500,
+	"fun": 15,
+	"addiction_potential": 5,
+    "flags": [ "NO_INGEST" ],
+    "use_action": {
+	  "type" : "consume_drug",
+      "activation_message" : "You take a dab of some distillate. Sooooo smooth... ",
+      "effects": [
+		{ "id": "weed_high", "duration": "180 m" },
+		{ "id": "pkill1", "duration": "120 m" },
+		{ "id": "pkill2", "duration": "5 m" },
+		{ "id": "high", "duration": "60 m" },
+		{ "id": "smoke", "duration": "1 m" }
+	  ],
+      "stat_adjustments": { "hunger": 4, "thirst": 6 },
+      "fields_produced": { "fd_weedsmoke": 2 },
+	  "need_charges": 1,
+	  "charges_needed": { "hi_q_distillate": 1 },
+	  "need_charges_msg": "It's empty. ",
+      "moves": 1500
+	}
+  }	

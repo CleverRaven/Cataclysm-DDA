@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "extracts_and_concentrates",
+    "name": "Extracts and Concentrates",
+    "authors": [ "NastyNate2612" ],
+    "maintainer": [ "NastyNate2612" ],
+	"description": "Regular cannabis not strong enough? Tolerance too high? Try extracts! Adds all the equipment needed for manufacturing essential oils and recipes for making shatter, wax, crumble, and distillate from cannabis + more",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]
