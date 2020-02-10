@@ -2979,6 +2979,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
       "sound": "shwip", // sound on success
       "sound_fail": "shwomp", // sound on failure
       "msg_succes": "You brush the gum web aside.", // message on success
+      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
       "items": [                                   // item dropped upon succesfull bashing
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
