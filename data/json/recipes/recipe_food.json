@@ -384,7 +384,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [
         [ "lemon", 1 ],
@@ -1080,7 +1080,7 @@
     "components": [
       [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ]
+      [ [ "fry_oil", 2, "LIST" ] ]
     ]
   },
   {
@@ -1170,7 +1170,7 @@
     "components": [
       [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ]
+      [ [ "fry_oil", 4, "LIST" ] ]
     ]
   },
   {

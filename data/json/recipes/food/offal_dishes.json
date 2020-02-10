@@ -94,7 +94,7 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "liver", 3 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
