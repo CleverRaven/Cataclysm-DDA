@@ -258,8 +258,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_beans",
-    "name": "canned beans",
-    "name_plural": "beans",
+    "name": { "str": "canned beans", "str_pl": "beans" },
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
