@@ -73,6 +73,11 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             trp[p.x][p.y] = trap;
         }
 
+        void set_all_traps( const trap_id &trap ) {
+            constexpr size_t block_size = SEEX * SEEY;
+            std::uninitialized_fill_n( &trp[0][0], block_size, trap );
+        }
+
         furn_id get_furn( const point &p ) const {
             return frn[p.x][p.y];
         }
