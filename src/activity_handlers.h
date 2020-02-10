@@ -82,7 +82,7 @@ struct activity_reason_info {
         con_idx( cata::nullopt ), added_reason( std::string() ) {
     }
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt,
+                          cata::optional<construction_id> con_idx_ = cata::nullopt,
                           std::string added_reason_ = std::string() ) :
         reason( reason_ ),
         can_do( can_do_ ),
