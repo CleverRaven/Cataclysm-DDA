@@ -149,6 +149,14 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             }
         }
 
+        cata::colony<item> &get_items( const point &p ) {
+            return itm[p.x][p.y];
+        }
+
+        const cata::colony<item> &get_items( const point &p ) const {
+            return itm[p.x][p.y];
+        }
+
         struct cosmetic_t {
             point pos;
             std::string type;
@@ -314,12 +322,12 @@ struct maptile {
 
         // For map::draw_maptile
         size_t get_item_count() const {
-            return sm->itm[x][y].size();
+            return sm->get_items( pos() ).size();
         }
 
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return *std::prev( sm->itm[x][y].cend() );
+            return *std::prev( sm->get_items( pos() ).cend() );
         }
 };
 
