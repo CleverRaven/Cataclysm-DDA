@@ -680,12 +680,12 @@ static void smash()
             continue;
         }
         if( smashskill < bash_info.str_min && one_in( 10 ) ) {
-            // %s is the smashed field
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
         } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
             sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
                            "field" );
             m.remove_field( smashp, fd_to_smsh.first );
+            g->m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
         } else {
             sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
                            true, "smash",
