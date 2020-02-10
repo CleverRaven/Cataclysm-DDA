@@ -762,14 +762,11 @@ Check text style in json strings loaded with class translation.
 gfx tools improvements.
 Check text style in macro expansions.
 compose: handle multiple entries in a single `tile_entry.json` file
-Update Android precompiled dependencies
 Document how to build and run the custom clang-tidy checks on Windows
-Bump SDK version to 28
 Provide NOOPT=1 build option for make
 Made JSON formatter conserve escape sequences
 Use libbacktrace to generate readable backtrace on Windows
-fix -Wrange-loop-analysis warnings with Clang 10.x
-fix new -Wrange-loop-analysis warnings introduced since a few days ago
+Fix -Wrange-loop-analysis warnings with Clang 10.x
 
 ## I18N and A11Y:
 Use translation markers to increase performance.
