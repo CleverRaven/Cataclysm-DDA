@@ -126,7 +126,7 @@ bool map::build_transparency_cache( const int zlev )
                         zero_value = value;
                         continue;
                     }
-                    for( const auto &fld : cur_submap->fld[sx][sy] ) {
+                    for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry &cur = fld.second;
                         if( cur.is_transparent() ) {
                             continue;
@@ -331,7 +331,7 @@ void map::generate_lightmap( const int zlev )
                         add_light_source( p, furniture->light_emitted );
                     }
 
-                    for( auto &fld : cur_submap->fld[sx][sy] ) {
+                    for( auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
                         const int light_emitted = cur->light_emitted();
                         if( light_emitted > 0 ) {

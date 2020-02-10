@@ -157,6 +157,14 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             return itm[p.x][p.y];
         }
 
+        field &get_field( const point &p ) {
+            return fld[p.x][p.y];
+        }
+
+        const field &get_field( const point &p ) const {
+            return fld[p.x][p.y];
+        }
+
         struct cosmetic_t {
             point pos;
             std::string type;
@@ -283,16 +291,16 @@ struct maptile {
         }
 
         const field &get_field() const {
-            return sm->fld[x][y];
+            return sm->get_field( pos() );
         }
 
         field_entry *find_field( const field_type_id &field_to_find ) {
-            return sm->fld[x][y].find_field( field_to_find );
+            return sm->get_field( pos() ).find_field( field_to_find );
         }
 
         bool add_field( const field_type_id &field_to_add, const int new_intensity,
                         const time_duration &new_age ) {
-            const bool ret = sm->fld[x][y].add_field( field_to_add, new_intensity, new_age );
+            const bool ret = sm->get_field( pos() ).add_field( field_to_add, new_intensity, new_age );
             if( ret ) {
                 sm->field_count++;
             }
