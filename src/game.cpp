@@ -838,7 +838,9 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
-    place_starting_vehicle( u.starting_vehicle );
+    if( u.starting_vehicle ) {
+        place_starting_vehicle( u.starting_vehicle );
+    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -849,11 +851,8 @@ bool game::start_game()
     return true;
 }
 
-void game::place_starting_vehicle( cata::optional<vproto_id> starting_vehicle )
+void game::place_starting_vehicle( const cata::optional<vproto_id> &starting_vehicle )
 {
-    if( !starting_vehicle ) {
-        return;
-    }
     vehicle veh( *starting_vehicle );
     std::vector<std::string> omt_search_types;
     if( veh.can_float() ) {
