@@ -144,8 +144,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn3",
-    "name": "buttered popcorn",
-    "name_plural": "buttered popcorn",
+    "name": { "str": "buttered popcorn", "str_pl": "buttered popcorn" },
     "copy-from": "popcorn",
     "healthy": -1,
     "description": "Popcorn with a light covering of butter for extra flavor.",
