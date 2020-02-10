@@ -2593,7 +2593,7 @@
     "color": "blue",
     "name": { "str": "shooter's earmuffs", "str_pl": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  Without batteries or when turned off they function like normal earmuffs and block all sound.  They will block sounds over a certain decibel amount when turned on.  The earmuffs are currently off.",
-    "flags": [ "DEAFEN", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "DEAF", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "price": 12500,
     "material": [ "plastic" ],
     "weight": "179 g",
