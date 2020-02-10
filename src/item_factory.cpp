@@ -420,7 +420,7 @@ void Item_factory::finalize_post( itype &obj )
 
     for( std::string &line : obj.ascii_picture ) {
         if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
-            line = line.substr( 0, ascii_art_width );
+            line = trim_and_return( ascii_art_width, line );
             debugmsg( "ascii_picture in %s contains a line too long to be displayed (>%i char).", obj.id,
                       ascii_art_width );
         }
