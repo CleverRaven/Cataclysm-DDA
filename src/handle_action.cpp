@@ -681,18 +681,23 @@ static void smash()
         }
         if( smashskill < bash_info.str_min && one_in( 10 ) ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
+            return;
         } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
             sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
                            "field" );
             m.remove_field( smashp, fd_to_smsh.first );
             g->m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
+            u.mod_moves( - bash_info.fd_bash_move_cost );
+            add_msg( m_info, _( bash_info.field_bash_msg_succes ) );
+            return;
         } else {
             sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
                            true, "smash",
                            "field" );
+            return;
         }
-
     }
+
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
         sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
