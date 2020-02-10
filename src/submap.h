@@ -59,7 +59,7 @@ struct maptile_soa {
     void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
 };
 
-class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritance.
+class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
@@ -154,6 +154,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             }
         }
 
+        // TODO: Replace this as it essentially makes itm public
         cata::colony<item> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
@@ -162,6 +163,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             return itm[p.x][p.y];
         }
 
+        // TODO: Replace this as it essentially makes fld public
         field &get_field( const point &p ) {
             return fld[p.x][p.y];
         }
