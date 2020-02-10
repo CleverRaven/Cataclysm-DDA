@@ -1751,6 +1751,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "basement_messed",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_crack1_roof",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1774,6 +1779,11 @@
     "color": "light_green",
     "see_cost": 2,
     "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_crack3_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
