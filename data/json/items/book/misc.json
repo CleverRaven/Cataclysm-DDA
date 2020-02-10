@@ -61,9 +61,9 @@
     "abstract": "paperback_romance_vanilla",
     "type": "BOOK",
     "name": "Vanilla Romance Novel",
-    "description": "Vanilla Media is a mainstream imprint providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventially uplifting moral.",
+    "description": "Vanilla Media is a mainstream imprint providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
     "copy-from": "paperback_novel",
-    "relative": { "price_post": -100 }
+    "relative": { "price_post": -100, "intelligence": -1 }
   },
   {
     "abstract": "holybook_abstract",
@@ -749,6 +749,14 @@
     "name": "romance novel",
     "description": "Drama and mild smut.",
     "copy-from": "paperback_novel"
+  },
+  {
+    "id": "paperback_romance_diodes",
+    "type": "BOOK",
+    "name": "Blood Diodes",
+    "description": "He is an automaton, she is a reformed vampire, can love find a way?  In this edgy romance by acclaimed author Kea Dekker, heartbreak is just the beginning.",
+    "copy-from": "paperback_romance_lnl",
+    "relative": { "chapters": 1 }
   },
   {
     "id": "novel_samurai",
