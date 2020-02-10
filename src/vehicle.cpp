@@ -3663,6 +3663,8 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
         return water_acceleration( fueled, at_vel_in_vmi );
     } else if( is_rotorcraft() && is_flying ) {
         return rotor_acceleration( fueled, at_vel_in_vmi );
+    } else if( is_hot_air_balloon() && is_flying ){
+        return 0;
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
 }
@@ -3744,6 +3746,8 @@ int vehicle::max_velocity( const bool fueled ) const
         return max_rotor_velocity( fueled );
     } else if( is_watercraft() ) {
         return max_water_velocity( fueled );
+    } else if( is_flying && is_hot_air_balloon() ){
+        return 0;
     } else {
         return max_ground_velocity( fueled );
     }
@@ -3782,6 +3786,8 @@ int vehicle::safe_velocity( const bool fueled ) const
         return safe_rotor_velocity( fueled );
     } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
+    } else if( is_flying && is_hot_air_balloon() ) {
+        return 0;
     } else {
         return safe_ground_velocity( fueled );
     }
@@ -4193,6 +4199,69 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
     return lift_thrust * 4.45;
 }
 
+static double air_density( int temperature, int humidity, int pressure, bool dry )
+{
+    // saturation vapor pressure of surrounding air.
+    int local_humidity = dry ? 0 : humidity;
+    const double local_temp_kelvin = temp_to_kelvin( temperature );
+    const double local_temp_celsius = temp_to_celsius( temperature );
+    std::cout << "local temp kelvin = " << std::to_string( local_temp_kelvin ) << std::endl;
+    const double saturation_pressure = 6.1078 * pow( 10, ( 7.5 * local_temp_celsius / (local_temp_celsius + 237.3)) );
+    std::cout << "saturation_pressure = " << std::to_string( saturation_pressure ) << std::endl;
+    const double actual_vapor_pressure = saturation_pressure * ( local_humidity / 100.0 );
+    std::cout << "actual_vapor_pressure = " << std::to_string( actual_vapor_pressure ) << std::endl;
+    const double dry_pressure = pressure - actual_vapor_pressure;
+    std::cout << "dry_pressure = " << std::to_string( dry_pressure ) << std::endl;
+    double density = (dry_pressure / (287.0 * local_temp_kelvin)) + (actual_vapor_pressure / ( 461.0 * local_temp_kelvin));
+    // convert to kg/m3
+    return density * 100.0;
+}
+
+// Fl = V (ρc - ρh) ag
+//where
+//Fl = lifting force (N)
+//V = balloon volume (m3)
+//ρc = density cold surrounding air (kg/m3)
+//ρh = density hot balloon air (kg/m3)
+//ag = acceleration of gravity (9.8 m/s2)
+
+double vehicle::lift_of_balloon() const
+{
+    int total_volume = 0;
+    for( const vpart_reference &vp : get_avail_parts( "BALLOON" ) ) {
+        const size_t p = vp.part_index();
+        total_volume += part_info( p ).balloon_volume();
+    }
+    if( total_volume == 0 ){
+        return 0.0;
+    }
+    std::cout << "total volume = " << std::to_string( total_volume ) << std::endl;
+    // assume max operating temp for a balloon
+    // assume player heats it to this temp, when they want to climb.
+    const int total_temp = 250;
+    const w_point weather_point = *g->weather.weather_precise;
+    // dont need precision of the double for what comes next.
+    const int local_temp_fahrenheit = static_cast<int>( weather_point.temperature );
+    std::cout << "local temp fahr = " << std::to_string( local_temp_fahrenheit ) << std::endl;
+    const int local_humidity = static_cast<int>( weather_point.humidity );
+    std::cout << "local humidity= " << std::to_string( local_humidity ) << std::endl;
+    const int local_pressure = static_cast<int>( weather_point.pressure );
+    std::cout << "local local_pressure= " << std::to_string( local_pressure ) << std::endl;
+    const double density_outside = air_density( local_temp_fahrenheit, local_humidity, local_pressure, false );
+    std::cout << "density_outside= " << std::to_string( density_outside ) << std::endl;
+    const double density_inside = air_density( total_temp, local_humidity, local_pressure, true );
+    std::cout << "density_inside= " << std::to_string( density_inside ) << std::endl;
+    // now we have outside air density.
+    // now we calculate the lift.
+    std::cout << "lift = " << std::to_string( total_volume * (density_outside - density_inside) * 9.8 ) << std::endl;
+    return total_volume * (density_outside - density_inside) * 9.8;
+}
+
+bool vehicle::has_sufficient_balloon_lift() const
+{
+    return lift_of_balloon() > to_kilogram( total_mass() ) * 9.8;
+}
+
 bool vehicle::has_sufficient_rotorlift() const
 {
     // comparison of newton to newton - convert kg to newton.
@@ -4202,6 +4271,16 @@ bool vehicle::has_sufficient_rotorlift() const
 bool vehicle::is_rotorcraft() const
 {
     return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+}
+
+bool vehicle::is_hot_air_balloon() const
+{
+    return has_part( "BALLOON" ) && has_part( "BURNER" ) && has_sufficient_balloon_lift();
+}
+
+bool vehicle::is_airworthy() const
+{
+    return is_rotorcraft() || is_hot_air_balloon();
 }
 
 int vehicle::get_z_change() const
@@ -4285,7 +4364,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return can_float() ? 1.0f : -1.0f;
     }
     if( is_flying ) {
-        return is_rotorcraft() ? 1.0f : -1.0f;
+        return is_rotorcraft() || is_hot_air_balloon() ? 1.0f : -1.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;

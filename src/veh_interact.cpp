@@ -707,7 +707,10 @@ bool veh_interact::can_install_part()
             }
         }
     }
-
+    bool already_balloon = false;
+    if( sel_vpart_info->has_flag( "BALLOON" ) && veh->has_part( "BALLOON" ) ){
+        already_balloon = true;
+    }
     int dif_steering = 0;
     if( sel_vpart_info->has_flag( "STEERABLE" ) ) {
         std::set<int> axles;
@@ -730,9 +733,11 @@ bool veh_interact::can_install_part()
     std::string msg;
     bool ok = format_reqs( msg, reqs, sel_vpart_info->install_skills,
                            sel_vpart_info->install_time( g->u ) );
-
     msg += _( "<color_white>Additional requirements:</color>\n" );
-
+    if( already_balloon ){
+        msg += _( "<color_red>Cannot install more than one balloon envelope." );
+        ok = false;
+    }
     if( dif_eng > 0 ) {
         if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;

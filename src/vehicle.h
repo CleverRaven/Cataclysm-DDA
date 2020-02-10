@@ -362,6 +362,7 @@ struct vehicle_part {
         /** parts are available if they aren't unavailable */
         bool is_available( bool carried = true ) const;
 
+
         /** how much blood covers part (in turns). */
         int blood = 0;
 
@@ -1285,10 +1286,14 @@ class vehicle
          */
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
+        double lift_of_balloon() const;
+        bool has_sufficient_balloon_lift() const;
         int get_z_change() const;
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
         bool is_rotorcraft() const;
+        bool is_hot_air_balloon() const;
+        bool is_airworthy() const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1373,8 +1378,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_heli_descend( player &p );
-        bool check_heli_ascend( player &p );
+        bool check_aircraft_descend( player &p );
+        bool check_aircraft_ascend( player &p );
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle
@@ -1553,6 +1558,7 @@ class vehicle
         void operate_planter();
         std::string tracking_toggle_string();
         void autopilot_patrol_check();
+        void operate_burner();
         void toggle_autopilot();
         void enable_patrol();
         void toggle_tracking();

@@ -467,25 +467,44 @@ static void pldrive( int x, int y, int z = 0 )
             return;
         }
     }
-    if( !remote && z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+    if( !remote && z != 0 && ( veh->is_rotorcraft() && !u.has_trait( trait_PROF_HELI_PILOT ) ) ) {
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
     }
-    if( z != 0 && !g->m.has_zlevels() ) {
+    if( z != 0 && ( !g->m.has_zlevels() || !veh->is_airworthy() ) ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
         return;
     }
-    if( z == -1 ) {
-        if( veh->check_heli_descend( u ) ) {
-            u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
+    if( z != 0 ) {
+        std::string msg;
+        bool ascend = z == 1 ? true : false;
+        if( veh->is_rotorcraft() ){
+            if( ascend ){
+                msg = _( "You steer the vehicle into a ascent." );
+            } else {
+                msg = _( "You steer the vehicle into a descent." );
+            }
+        } else if( veh->is_hot_air_balloon() ){
+            if( ascend ){
+                msg = _( "You burn some hot air to ascend.");
+            } else {
+                msg = _( "You let out some hot air to descend.");
+            }
         } else {
             return;
         }
-    } else if( z == 1 ) {
-        if( veh->check_heli_ascend( u ) ) {
-            u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
+        if( ascend ){
+            if( veh->check_aircraft_ascend( u ) ){
+                u.add_msg_if_player( m_info, msg );
+            } else {
+                return;
+            }
         } else {
-            return;
+            if( veh->check_aircraft_descend( u ) ){
+                u.add_msg_if_player( m_info, msg );
+            } else {
+                return;
+            }
         }
     }
     veh->pldrive( point( x, y ), z );
@@ -1798,7 +1817,7 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
-                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                } else if( veh_ctrl && vp->vehicle().is_airworthy() ) {
                     pldrive( 0, 0, -1 );
                 }
                 break;
@@ -1813,7 +1832,7 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
-                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                } else if( veh_ctrl && vp->vehicle().is_airworthy() ) {
                     pldrive( 0, 0, 1 );
                 }
                 break;

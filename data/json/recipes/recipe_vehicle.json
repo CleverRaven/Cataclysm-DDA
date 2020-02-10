@@ -231,6 +231,26 @@
     ]
   },
   {
+    "result": "balloon_burner",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 3,
+    "time": "70 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "reversible": true,
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pilot_light", 1 ] ],
+      [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "pipe", 3 ] ]
+    ]
+  },
+  {
     "result": "mountable_heater",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -400,6 +420,42 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "small_hot_air_balloon",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "1440 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 1000 ] ],
+    "components": [ [ [ "scrap_nylon", 100 ] ], [ [ "cordage", 30, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "medium_hot_air_balloon",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "time": "2880 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 2000 ] ],
+    "components": [ [ [ "scrap_nylon", 200 ] ], [ [ "cordage", 60, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "small_hot_air_balloon",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "7000 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 3000 ] ],
+    "components": [ [ [ "scrap_nylon", 300 ] ], [ [ "cordage", 90, "LIST" ] ] ]
   },
   {
     "type": "recipe",

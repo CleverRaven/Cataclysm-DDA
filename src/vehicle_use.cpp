@@ -668,7 +668,10 @@ void vehicle::use_controls( const tripoint &pos )
             } );
         }
     }
-
+    if( has_part( "BURNER" ) ) {
+        options.emplace_back( _( "Operate balloon burner" ), keybind( "TOGGLE_ENGINE" ) );
+        actions.push_back( [&] {operate_burner(); refresh();});
+    }
     if( has_part( "HORN" ) ) {
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
         actions.push_back( [&] { honk_horn(); refresh(); } );
@@ -1070,6 +1073,11 @@ void vehicle::enable_patrol()
     autodrive_local_target = tripoint_zero;
     start_engines();
     refresh();
+}
+
+void vehicle::operate_burner()
+{
+    g->u.controlling_vehicle = true;
 }
 
 void vehicle::honk_horn()

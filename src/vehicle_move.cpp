@@ -119,7 +119,7 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( in_water && can_float() ) || ( is_airworthy() && ( z != 0 || is_flying ) ) ) {
         // we're good
     } else if( is_floating && !can_float() ) {
         stop();
@@ -226,7 +226,7 @@ void vehicle::thrust( int thd, int z )
         //make noise and consume fuel
         noise_and_smoke( load );
         consume_fuel( load, 1 );
-        if( z != 0 && is_rotorcraft() ) {
+        if( z != 0 && is_airworthy() ) {
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
@@ -383,7 +383,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const bool vertical = bash_floor || dp.z != 0;
     const int &coll_velocity = vertical ? vertical_velocity : velocity;
     if( !just_detect && coll_velocity == 0 ) {
-        if( is_rotorcraft() ) {
+        if( is_airworthy() ) {
             return false;
         }
         just_detect = true;
@@ -960,9 +960,9 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( player &p )
+bool vehicle::check_aircraft_descend( player &p )
 {
-    if( !is_rotorcraft() ) {
+    if( !is_airworthy() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
@@ -988,9 +988,9 @@ bool vehicle::check_heli_descend( player &p )
 
 }
 
-bool vehicle::check_heli_ascend( player &p )
+bool vehicle::check_aircraft_ascend( player &p )
 {
-    if( !is_rotorcraft() ) {
+    if( !is_airworthy() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
@@ -1004,7 +1004,7 @@ bool vehicle::check_heli_ascend( player &p )
 void vehicle::pldrive( const point &p, int z )
 {
     player &u = g->u;
-    if( z != 0 && is_rotorcraft() ) {
+    if( z != 0 && is_airworthy() ) {
         u.moves = std::min( u.moves, 0 );
         thrust( 0, z );
     }
@@ -1432,7 +1432,7 @@ vehicle *vehicle::act_on_map()
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
     bool falling_only = false;
-    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) || !is_rotorcraft() ) ) {
+    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) || !is_airworthy() ) ) {
         if( !should_fall ) {
             of_turn_carry = of_turn;
             of_turn = 0;
@@ -1517,7 +1517,7 @@ vehicle *vehicle::act_on_map()
     } else {
         dp.z = requested_z_change;
         requested_z_change = 0;
-        if( dp.z > 0 && is_rotorcraft() ) {
+        if( dp.z > 0 && is_airworthy() ) {
             is_flying = true;
         }
     }
@@ -1541,7 +1541,7 @@ void vehicle::check_falling_or_floating()
 
     is_falling = g->m.has_zlevels();
 
-    if( is_flying && is_rotorcraft() ) {
+    if( is_flying && is_airworthy() ) {
         is_falling = false;
     } else {
         is_flying = false;
