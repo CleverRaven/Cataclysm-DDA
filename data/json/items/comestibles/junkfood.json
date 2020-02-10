@@ -144,8 +144,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn3",
-    "name": "buttered popcorn",
-    "name_plural": "buttered popcorn",
+    "name": { "str": "buttered popcorn", "str_pl": "buttered popcorn" },
     "copy-from": "popcorn",
     "healthy": -1,
     "description": "Popcorn with a light covering of butter for extra flavor.",
@@ -528,8 +527,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fresh_fries",
-    "name": "French fries",
-    "name_plural": "French fries",
+    "name": { "str": "French fries", "str_pl": "French fries" },
     "copy-from": "fries",
     "spoils_in": "3 days",
     "description": "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
@@ -559,8 +557,7 @@
   {
     "type": "COMESTIBLE",
     "id": "neccowafers",
-    "name": "Necco wafers",
-    "name_plural": "Necco wafers",
+    "name": { "str": "Necco wafers", "str_pl": "Necco wafers" },
     "weight": "60 g",
     "color": "magenta",
     "spoils_in": "180 days",

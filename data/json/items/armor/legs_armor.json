@@ -93,7 +93,7 @@
   },
   {
     "id": "fencing_pants",
-    "repairs_like": "miner_hat",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": "fencing pants",
     "name_plural": "fencing pants",
@@ -316,8 +316,7 @@
     "id": "pants_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "survivor cargo pants",
-    "name_plural": "survivor cargo pants",
+    "name": { "str": "survivor cargo pants", "str_pl": "survivor cargo pants" },
     "description": "A pair of Kevlar armored pants covered with pouches and pockets.  Custom built to be durable, comfortable, and easy to wear.",
     "weight": "2100 g",
     "volume": "3 L",

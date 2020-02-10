@@ -1,6 +1,7 @@
 [
   {
     "id": "762x39_clip",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "7.62x39mm clip",
     "//": "Provisional.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "akmbigmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "AKM extended magazine",
     "description": "A 40-round, 7.62x39mm magazine initially designed for the RPK but compatible with the AKM rifle.",
@@ -34,6 +36,7 @@
   },
   {
     "id": "akmmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "AKM magazine",
     "description": "A standard 30-round magazine made for the AKM rifle, made of stamped sheet metal.",

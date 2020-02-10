@@ -4,8 +4,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "Calico M960",
-    "name_plural": "Calico M960",
+    "name": { "str": "Calico M960", "str_pl": "Calico M960" },
     "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
     "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
     "weight": "2270 g",
@@ -63,7 +62,7 @@
     "dispersion": 180,
     "durability": 10,
     "min_cycle_recoil": 450,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -264,7 +263,7 @@
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -390,7 +389,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": 3,
+    "barrel_length": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -428,7 +427,7 @@
     "min_cycle_recoil": 380,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],

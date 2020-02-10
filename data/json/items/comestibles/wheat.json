@@ -84,8 +84,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_cooked",
-    "name": "boiled noodles",
-    "name_plural": "boiled noodles",
+    "name": { "str": "boiled noodles", "str_pl": "boiled noodles" },
     "weight": "148 g",
     "color": "yellow",
     "spoils_in": "20 hours",
@@ -284,8 +283,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frenchtoast",
-    "name": "French toast",
-    "name_plural": "French toasts",
+    "name": { "str": "French toast", "str_pl": "French toasts" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "10 days",

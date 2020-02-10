@@ -80,8 +80,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bratwurst_sausage",
-    "name": "bratwurst",
-    "name_plural": "bratwursts",
+    "name": { "str": "bratwurst" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannbrat" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "baleful %s", "str_pl": "baleful %s" } }
@@ -124,8 +123,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bacon",
-    "name": "bacon",
-    "name_plural": "pieces of bacon",
+    "name": { "str": "bacon", "str_pl": "pieces of bacon" },
     "weight": "85 g",
     "color": "pink",
     "spoils_in": "24 days",
@@ -323,8 +321,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_fried",
-    "name": "batter fried fish",
-    "name_plural": "batter fried fish",
+    "name": { "str": "batter fried fish", "str_pl": "batter fried fish" },
     "weight": "201 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -724,8 +721,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_beans",
-    "name": "baked beans",
-    "name_plural": "baked beans",
+    "name": { "str": "baked beans", "str_pl": "baked beans" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "ork and beans", "str_pl": "ork and beans" } } ],
     "weight": "293 g",
     "color": "brown",

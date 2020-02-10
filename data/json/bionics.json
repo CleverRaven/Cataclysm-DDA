@@ -396,7 +396,29 @@
     "name": "Telescopic Eyes",
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "EYES", 2 ] ],
-    "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ]
+    "canceled_mutations": [
+      "HYPEROPIC",
+      "MYOPIC",
+      "URSINE_EYE",
+      "NIGHTVISION3",
+      "NIGHTVISION2",
+      "NIGHTVISION",
+      "BIRD_EYE",
+      "COMPOUND_EYES",
+      "LIZ_IR",
+      "EAGLEEYED",
+      "CEPH_VISION",
+      "CEPH_EYES",
+      "ELFA_FNV",
+      "ELFA_NV",
+      "ELFAEYES",
+      "FEL_NV",
+      "FEL_EYE",
+      "INFRARED",
+      "LIZ_EYE",
+      "EYEBULGE",
+      "SEESLEEP"
+    ]
   },
   {
     "id": "bio_face_mask",

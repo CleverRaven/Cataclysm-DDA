@@ -187,8 +187,7 @@
     "id": "bfipowder",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antiseptic powder",
-    "name_plural": "antiseptic powder",
+    "name": { "str": "antiseptic powder", "str_pl": "antiseptic powder" },
     "description": "A powdered form of chemical antiseptic, this bismuth formic iodide cleans wounds quickly and painlessly.",
     "weight": "6 g",
     "volume": "250 ml",
@@ -1323,8 +1322,7 @@
     "id": "disinrag",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antiseptic soaked rag",
-    "name_plural": "antiseptic soaked rags",
+    "name": { "str": "antiseptic soaked rag" },
     "description": "A rag soaked in antiseptic.  Useful for light wounds, probably won't help with deep bites.",
     "weight": "80 g",
     "//": "Can't copy-from rag, it breaks the stacking for some reason!",
@@ -1346,8 +1344,7 @@
     "id": "disincotton_ball",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "antiseptic soaked cotton balls",
-    "name_plural": "antiseptic soaked cotton balls",
+    "name": { "str": "antiseptic soaked cotton balls", "str_pl": "antiseptic soaked cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Now soaked with antiseptic, they are somewhat useful to disinfect a wound.",
     "weight": "25 g",
     "//": "Can't copy-from cotton_ball, breaks volume",
@@ -1370,8 +1367,7 @@
     "id": "weak_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "Atreyupan",
-    "name_plural": "Atreyupan",
+    "name": { "str": "Atreyupan", "str_pl": "Atreyupan" },
     "description": "A broad-spectrum antibiotic used to suppress infections and prevent them from setting in.  It isn't strong enough to purge infections outright, but it boosts the body's resistance against them.  One dose lasts twelve hours.",
     "weight": "15 g",
     "volume": "250 ml",
@@ -1383,7 +1379,7 @@
     "color": "white",
     "healthy": -2,
     "use_action": "WEAK_ANTIBIOTIC",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "pepto",
@@ -1410,8 +1406,7 @@
     "id": "panacea",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "Panaceus",
-    "name_plural": "Panaceii",
+    "name": { "str": "Panaceus", "str_pl": "Panaceii" },
     "description": "An apple-red gel capsule the size of your thumbnail, filled with a thick oily liquid that shifts from black to purple at unpredictable intervals, flecked with tiny gray dots.  Given the place you got it from, it's either very potent, or highly experimental.  Holding it, all the little aches and pains seem to fade, just for a moment…",
     "weight": "15 g",
     "volume": "5 ml",
@@ -1422,7 +1417,7 @@
     "color": "red",
     "healthy": 25,
     "use_action": "PANACEA",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "cattail_jelly",
