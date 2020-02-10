@@ -110,6 +110,15 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             rad[p.x][p.y] = radiation;
         }
 
+        uint8_t get_lum( const point &p ) const {
+            return lum[p.x][p.y];
+        }
+
+        void set_lum( const point &p, uint8_t luminance ) {
+            is_uniform = false;
+            lum[p.x][p.y] = luminance;
+        }
+
         void update_lum_add( const point &p, const item &i ) {
             is_uniform = false;
             if( i.is_emissive() && lum[p.x][p.y] < 255 ) {

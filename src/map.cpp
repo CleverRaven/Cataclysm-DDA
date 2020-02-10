@@ -3942,7 +3942,7 @@ void map::i_clear( const tripoint &p )
         submaps_with_active_items.erase( tripoint( abs_sub.x + p.x / SEEX, abs_sub.y + p.y / SEEY, p.z ) );
     }
 
-    current_submap->lum[l.x][l.y] = 0;
+    current_submap->set_lum( l, 0 );
     current_submap->itm[l.x][l.y].clear();
 }
 
