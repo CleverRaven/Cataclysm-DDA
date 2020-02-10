@@ -687,6 +687,10 @@ class map
          */
         bool has_nearby_table( const tripoint &p, int radius = 1 );
         /**
+         * Check whether a chair or vehicle seat is nearby.
+         */
+        bool has_nearby_chair( const tripoint &p, int radius = 1 );
+        /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
          * - check for SEALED flag (sealed furniture/terrain makes
