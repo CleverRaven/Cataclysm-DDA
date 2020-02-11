@@ -1624,7 +1624,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( ammo.ammo_effects.count( "INCENDIARY" ) &&
-        parts->test( iteminfo_parts::AMMO_FX_INDENDIARY ) ) {
+        parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
     }
     if( !fx.empty() ) {
@@ -3103,7 +3103,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     bionic_info( info, parts, batch, debug );
-
 
     if( is_gun() && has_flag( "FIRE_TWOHAND" ) &&
         parts->test( iteminfo_parts::DESCRIPTION_TWOHANDED ) ) {
