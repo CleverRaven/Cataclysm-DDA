@@ -65,7 +65,7 @@
       "sound_fail_vol": 2,
       "sound": "shwip",
       "sound_fail": "shwomp",
-      "msg_succes": "You brush the gum web aside."
+      "msg_success": "You brush the gum web aside."
     },
     "display_items": false,
     "display_field": true

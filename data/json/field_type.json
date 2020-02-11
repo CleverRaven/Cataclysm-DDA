@@ -88,7 +88,7 @@
       "sound_vol": 2,
       "sound_fail_vol": 2,
       "sound": "hsh!",
-      "msg_succes": "You brush aside some webs."
+      "msg_success": "You brush aside some webs."
     },
     "display_field": true
   },
