@@ -27,7 +27,8 @@
     "bashing": 1,
     "material": "plastic",
     "symbol": "/",
-    "color": "light_gray"
+    "color": "light_gray",
+    "use_action": "WASH_HARD_ITEMS"
   },
   {
     "id": "elec_hairtrimmer",

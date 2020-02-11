@@ -627,7 +627,7 @@
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
-      "explosion": { "power": 185, "shrapnel": 212 }
+      "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.15 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
