@@ -1410,20 +1410,14 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     const point pt = parts[p].mount;
     std::vector<int> parts_here = parts_at_relative( pt, false );
 
-    std::set<std::string> flags_that_require;
     for( auto &elem : parts_here ) {
         for( const std::string &flag : part_info( elem ).get_flags() ) {
-            if( json_flag::get( flag ).requires_flag() != "" ) {
-                flags_that_require.insert( flag );
+            if( !json_flag::get( flag ).requires_flag().empty() ) {
+                if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                    reason = string_format( _( "Remove the attached %s first" ), part_info( elem ).name() );
+                    return false;
+                }
             }
-        }
-    }
-
-    // Check if this part has any of the required flags
-    for( const std::string flag : flags_that_require ) {
-        if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
-            reason =  json_flag::get( flag ).remove_message();
-            return false;
         }
     }
 

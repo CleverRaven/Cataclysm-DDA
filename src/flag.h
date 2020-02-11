@@ -40,9 +40,6 @@ class json_flag
         std::string requires_flag() const {
             return requires_flag_;
         }
-        std::string remove_message() const {
-            return cant_remove_.translated();
-        }
 
         /** The flag's modifier on the fun value of comestibles */
         int taste_mod() const {
