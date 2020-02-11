@@ -333,6 +333,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "rural_house2_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "apartments_tower_any",
     "name": "apartment tower",
     "sym": "A",
@@ -1224,6 +1229,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_toolshed_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_quiverfull",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1285,6 +1295,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_rv_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_porch",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1302,6 +1317,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_porch_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_patio",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1316,6 +1336,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_patio_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -1342,6 +1367,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_modern_1_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -1376,6 +1406,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_gardener_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
