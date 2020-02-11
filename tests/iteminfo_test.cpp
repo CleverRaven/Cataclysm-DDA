@@ -267,13 +267,6 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo]" )
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
     iteminfo_test(
-        item( "longshirt" ), q,
-        "--\n"
-        "<color_c_white>Repaired with</color>: bone needle, wooden needle, sewing kit, or tailor's kit\n"
-        "--\n"
-        "* This item can be <color_c_green>reinforced</color>.\n" );
-
-    iteminfo_test(
         item( "halligan" ), q,
         "--\n"
         "<color_c_white>Repaired with</color>: extended toolset, arc welder, or makeshift arc welder\n" );
