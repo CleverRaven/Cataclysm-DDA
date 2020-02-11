@@ -524,5 +524,26 @@
     "max_level": 4,
     "intelligence": 7,
     "copy-from": "cookbook_liverforkids"
+  },
+  {
+    "id": "cookbook_indian",
+    "type": "BOOK",
+    "name": { "str": "Tasting India", "str_pl": "copies of Tasting India" },
+    "//": "Statistics derived from a real book.",
+    "description": "A thick hardcover book as much about Indian culture as it is a cookbook, clearly written with adoration.",
+    "weight": "2950 g",
+    "volume": "3215 ml",
+    "price": 6000,
+    "price_postapoc": 10000,
+    "bashing": 7,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "yellow",
+    "skill": "cooking",
+    "required_level": 1,
+    "max_level": 3,
+    "intelligence": 7,
+    "time": "20 m",
+    "fun": 1
   }
 ]
