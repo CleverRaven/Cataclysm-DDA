@@ -1,6 +1,7 @@
 [
   {
     "id": "p226mag_15rd_357sig",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "P226 .357 SIG magazine",
     "description": "A 15 round double stack box magazine for a SIG P226 chambered for .357 SIG rounds.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "p320mag_14rd_357sig",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "P320 .357 SIG magazine",
     "description": "A 14 round double stack box magazine for the SIG Sauer P320.",

@@ -1,6 +1,7 @@
 [
   {
     "id": "kp3atmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Kel-Tec P3AT magazine",
     "description": "A standard 6-round steel box magazine for the Kel-Tec P3AT.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "fn1910mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "FN 1910 magazine",
     "description": "A standard 6-round steel box magazine for the FN 1910.  It looks a bit old.",
@@ -33,6 +35,7 @@
   },
   {
     "id": "rugerlcpmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Ruger LCP magazine",
     "description": "A standard 6-round capacity magazine for the Ruger LCP pistol.",
@@ -49,6 +52,7 @@
   },
   {
     "id": "mac11mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "MAC-11 magazine",
     "description": "A cheap 32-round steel box magazine for use with the MAC-11 SMG.",
@@ -65,6 +69,7 @@
   },
   {
     "id": "hptcf380mag_8rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "CF-380 8-round magazine",
     "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.",
@@ -81,6 +86,7 @@
   },
   {
     "id": "hptcf380mag_10rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "CF-380 10-round magazine",
     "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.",
@@ -97,6 +103,7 @@
   },
   {
     "id": "taurus_spectrum_mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Taurus Spectrum magazine",
     "description": "A compact, 6-round steel box magazine for use with the Taurus Spectrum.",

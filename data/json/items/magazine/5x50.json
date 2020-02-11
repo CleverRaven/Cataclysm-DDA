@@ -1,6 +1,7 @@
 [
   {
     "id": "5x50_100_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "RMFB100 5x50mm extended magazine",
     "description": "A 100 round box magazine for use with 5x50mm flechette firearms.",
@@ -18,6 +19,7 @@
   },
   {
     "id": "5x50_50_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "RMFB50 5x50mm magazine",
     "description": "A 50 round box magazine for use with 5x50mm flechette firearms.",

@@ -2601,6 +2601,20 @@ bool map::has_nearby_table( const tripoint &p, int radius )
     return false;
 }
 
+bool map::has_nearby_chair( const tripoint &p, int radius )
+{
+    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+        const optional_vpart_position vp = veh_at( pt );
+        if( has_flag( "CAN_SIT", pt ) ) {
+            return true;
+        }
+        if( vp && vp->vehicle().has_part( "SEAT" ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::mop_spills( const tripoint &p )
 {
     bool retval = false;

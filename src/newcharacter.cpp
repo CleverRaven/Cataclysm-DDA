@@ -467,6 +467,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     } while( true );
 
     if( tab < 0 ) {
+        catacurses::clear();
+        catacurses::refresh();
         return false;
     }
 
@@ -1631,7 +1633,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( remaining_points_length + 9, 3 ), c_light_gray,
-                   std::string( getmaxx( w ) - remaining_points_length - 4, ' ' ) );
+                   std::string( getmaxx( w ) - remaining_points_length - 10, ' ' ) );
 
         // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
