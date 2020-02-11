@@ -122,8 +122,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chai_tea",
-    "name": "chai tea",
-    "name_plural": "chai tea",
+    "name": { "str": "chai tea", "str_pl": "chai tea" },
     "weight": "259 g",
     "color": "brown",
     "spoils_in": "12 hours",

@@ -307,8 +307,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_canned",
-    "name": "canned fish",
-    "name_plural": "canned fish",
+    "name": { "str": "canned fish", "str_pl": "canned fish" },
     "copy-from": "fish_cooked",
     "color": "light_gray",
     "spoils_in": "1 day 16 hours",
@@ -601,8 +600,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_tuna",
-    "name": "canned tuna fish",
-    "name_plural": "canned tuna fish",
+    "name": { "str": "canned tuna fish", "str_pl": "canned tuna fish" },
     "weight": "154 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -676,8 +674,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_clams",
-    "name": "canned clam",
-    "name_plural": "canned clams",
+    "name": { "str": "canned clam" },
     "weight": "169 g",
     "color": "light_gray",
     "spoils_in": "1 day",
