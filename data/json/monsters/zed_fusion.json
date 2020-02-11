@@ -241,7 +241,7 @@
     "weight": "500 kg",
     "species": [ "ZOMBIE", "ABERRATION" ],
     "diff": 0,
-    "hp": 400,
+    "hp": 150,
     "speed": 25,
     "material": [ "flesh" ],
     "symbol": "O",
@@ -256,6 +256,7 @@
     "vision_night": 30,
     "armor_bash": 15,
     "armor_cut": 15,
+    "regenerates": 10,
     "harvest": "zombie",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
