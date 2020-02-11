@@ -1579,7 +1579,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
             std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
             std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part (%s) first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove the attached %s first." ) ),
             std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
             std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
             std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
