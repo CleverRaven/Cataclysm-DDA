@@ -1294,6 +1294,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                              formatted_text( text, catacurses::red, NORTH ) );
                 }
             }
+            if( !p.invisible[0] ) {
+                g->m.check_and_set_seen_cache( p.pos );
+            }
         }
     }
     // tile overrides are already drawn in the previous code
@@ -1353,8 +1356,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                    would_apply_vision_effects( g->m.get_visibility( ch.visibility_cache[np.x][np.y], cache ) );
             }
             //calling draw to memorize everything.
+            //bypass cache check in case we learn something new about the terrain's connections
+            draw_terrain( p, lighting, height_3d, invisible );
             if( g->m.check_seen_cache( p ) ) {
-                draw_terrain( p, lighting, height_3d, invisible );
                 draw_furniture( p, lighting, height_3d, invisible );
                 draw_trap( p, lighting, height_3d, invisible );
                 draw_vpart( p, lighting, height_3d, invisible );
@@ -2181,6 +2185,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         int connect_group = 0;
         if( t.obj().connects( connect_group ) ) {
             get_connect_values( p, subtile, rotation, connect_group, {} );
+            // re-memorize previously seen terrain in case new connections have been seen
+            g->m.set_memory_seen_cache_dirty( p );
         } else {
             get_terrain_orientation( p, rotation, subtile, {}, invisible );
             // do something to get other terrain orientation values
