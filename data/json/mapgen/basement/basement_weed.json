@@ -12,10 +12,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
-    "weight": 250,
+    "om_terrain": [ "basement_weed" ],
+    "//": "matches house_28",
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -36,7 +35,7 @@
         "   ||||||||__||||       ",
         "          |++|          ",
         "          |..|          ",
-        "          |<<|          ",
+        "          |.<|          ",
         "          ||||          ",
         "                        ",
         "                        ",
