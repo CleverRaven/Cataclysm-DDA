@@ -1241,7 +1241,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             req.push_back( string_format( "%s %d", skill_id( sk.first )->name(), sk.second ) );
         }
         if( !req.empty() ) {
-            info.emplace_back( "BASE", _( "<bold>Minimum requirements:</bold>" ) );
+            info.emplace_back( "BASE", _( "<bold>Minimum requirements</bold>:" ) );
             info.emplace_back( "BASE", enumerate_as_string( req ) );
             insert_separation_line( info );
         }
@@ -1660,7 +1660,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 const std::string fmt = string_format( ngettext( "<num> round of %s",
                                                        "<num> rounds of %s",
                                                        mod->ammo_capacity() ), at->name() );
-                info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
+                info.emplace_back( "GUN", _( "<bold>Capacity</bold>: " ), fmt, iteminfo::no_flags,
                                    mod->ammo_capacity() );
             }
         }
@@ -1866,7 +1866,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
         if( !fm.empty() ) {
             insert_separation_line( info );
-            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ) +
+            info.emplace_back( "GUN", _( "<bold>Fire modes</bold>: " ) +
                                enumerate_as_string( fm ) );
         }
     }
@@ -1874,7 +1874,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
         const std::set<std::string> compat = magazine_compatible();
-        info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ) +
+        info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
         enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
             return item::nname( id );
         } ) );
@@ -1883,7 +1883,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( !gun.valid_mod_locations.empty() && parts->test( iteminfo_parts::DESCRIPTION_GUN_MODS ) ) {
         insert_separation_line( info );
 
-        std::string mod_str = _( "<bold>Mods:</bold> " );
+        std::string mod_str = _( "<bold>Mods</bold>: " );
 
         std::map<gunmod_location, int> mod_locations = get_mod_locations();
 
@@ -2472,13 +2472,13 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
 
     std::string info_string;
     if( type->battery->max_capacity < 1_J ) {
-        info_string = string_format( _( "<bold>Capacity:</bold> %dmJ" ),
+        info_string = string_format( _( "<bold>Capacity</bold>: %dmJ" ),
                                      to_millijoule( type->battery->max_capacity ) );
     } else if( type->battery->max_capacity < 1_kJ ) {
-        info_string = string_format( _( "<bold>Capacity:</bold> %dJ" ),
+        info_string = string_format( _( "<bold>Capacity</bold>: %dJ" ),
                                      to_joule( type->battery->max_capacity ) );
     } else if( type->battery->max_capacity >= 1_kJ ) {
-        info_string = string_format( _( "<bold>Capacity:</bold> %dkJ" ),
+        info_string = string_format( _( "<bold>Capacity</bold>: %dkJ" ),
                                      to_kilojoule( type->battery->max_capacity ) );
     }
     insert_separation_line( info );
@@ -2507,7 +2507,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
             insert_separation_line( info );
             const std::set<std::string> compat = magazine_compatible();
-            info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
+            info.emplace_back( "TOOL", _( "<bold>Compatible magazines</bold>: " ),
             enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
                 return item::nname( id );
             } ) );
@@ -2637,7 +2637,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
         enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
-            return string_format( "<stat>%s:</stat> <info>%s</info>", _( tid.obj().name ),
+            return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
                                   _( tid.obj().description ) );
         } ) ) );
     }
@@ -2668,7 +2668,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         int attack_cost = g->u.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
-            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage:</bold>" ) ) );
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) ) );
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -3019,7 +3019,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
 
         if( bid->capacity > 0_mJ ) {
-            info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity:</bold>" ), _( " <num> mJ" ),
+            info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> mJ" ),
                                       iteminfo::no_newline,
                                       units::to_millijoule( bid->capacity ) ) );
         }
@@ -3027,7 +3027,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
 
         if( !bid->encumbrance.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                       iteminfo::no_newline ) );
             for( const auto &element : bid->encumbrance ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
@@ -3037,7 +3037,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( !bid->env_protec.empty() ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "<bold>Environmental Protection:</bold> " ),
+                                      _( "<bold>Environmental Protection</bold>: " ),
                                       iteminfo::no_newline ) );
             for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
@@ -3047,7 +3047,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( !bid->bash_protec.empty() ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "<bold>Bash Protection:</bold> " ),
+                                      _( "<bold>Bash Protection</bold>: " ),
                                       iteminfo::no_newline ) );
             for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
@@ -3056,7 +3056,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
         if( !bid->cut_protec.empty() ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "<bold>Cut Protection:</bold> " ),
+                                      _( "<bold>Cut Protection</bold>: " ),
                                       iteminfo::no_newline ) );
             for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
@@ -3065,7 +3065,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         if( !bid->stat_bonus.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus</bold>: " ),
                                       iteminfo::no_newline ) );
             for( const auto &element : bid->stat_bonus ) {
                 info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ",
@@ -3185,7 +3185,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
         insert_separation_line( info );
-        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in:</bold> " ) +
+        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
                            enumerate_as_string( holsters.begin(), holsters.end(),
         []( const itype * e ) {
             return e->nname( 1 );
