@@ -128,7 +128,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "Reload time: <color_c_yellow>110</color> moves\n" );
+            "Reload time: <color_c_yellow>110</color> moves \n" ); // NOLINT(cata-text-style)
     }
 
     SECTION( "firing modes" ) {
