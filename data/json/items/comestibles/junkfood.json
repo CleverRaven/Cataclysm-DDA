@@ -1066,8 +1066,7 @@
   {
     "id": "hotdogs_campfire",
     "type": "COMESTIBLE",
-    "name": "campfire hot dog",
-    "name_plural": "campfire hot dogs",
+    "name": { "str": "campfire hot dog" },
     "copy-from": "hotdogs_frozen",
     "description": "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
     "stack_size": 4,
