@@ -13,7 +13,6 @@
     "looks_like": "story_book",
     "color": "light_cyan",
     "flags": [ "TINDER", "FLAMMABLE" ],
-    "intelligence": 4,
     "time": "15 m",
     "chapters": 16,
     "fun": 2
@@ -33,8 +32,7 @@
     "color": "green",
     "intelligence": 7,
     "time": "18 m",
-    "chapters": 28,
-    "fun": 2
+    "chapters": 28
   },
   {
     "id": "black_box_transcript",
@@ -649,8 +647,7 @@
     "symbol": "?",
     "color": "pink",
     "time": "10 m",
-    "chapters": 4,
-    "fun": 1
+    "chapters": 4
   },
   {
     "id": "necropolis_freq",
@@ -682,9 +679,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "intelligence": 5,
-    "time": "5 m",
-    "fun": 1
+    "time": "5 m"
   },
   {
     "id": "novel_adventure",
@@ -720,10 +715,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_blue",
-    "intelligence": 4,
-    "time": "20 m",
-    "chapters": 16,
-    "fun": 2
+    "time": "20 m"
   },
   {
     "id": "novel_coa2",
@@ -897,8 +889,7 @@
     "color": "light_blue",
     "intelligence": 7,
     "time": "36 m",
-    "chapters": 28,
-    "fun": 2
+    "chapters": 28
   },
   {
     "id": "novel_scifi",
@@ -1346,7 +1337,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "yellow",
-    "intelligence": 4,
     "time": "1 m",
     "chapters": 200,
     "fun": -5
@@ -1384,8 +1374,7 @@
     "color": "light_blue",
     "intelligence": 9,
     "time": "18 m",
-    "chapters": 36,
-    "fun": 2
+    "chapters": 36
   },
   {
     "id": "poetry_book",
@@ -1402,8 +1391,7 @@
     "color": "light_blue",
     "intelligence": 9,
     "time": "18 m",
-    "chapters": 36,
-    "fun": 2
+    "chapters": 36
   },
   {
     "id": "priest_diary",
@@ -1474,7 +1462,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "intelligence": 4,
     "time": "30 m",
     "fun": -1
   },
@@ -1530,7 +1517,6 @@
     "color": "light_cyan",
     "intelligence": 6,
     "time": "30 m",
-    "fun": 2,
     "flags": [ "INSPIRATIONAL" ]
   },
   {

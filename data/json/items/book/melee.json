@@ -5,7 +5,6 @@
     "type": "BOOK",
     "name": { "str": "CQB Monthly", "str_pl": "CQB Monthlies" },
     "description": "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section.",
-    "weight": "70 g",
     "volume": "250 ml",
     "price": 450,
     "price_postapoc": 1900,
@@ -13,8 +12,6 @@
     "symbol": "?",
     "color": "pink",
     "skill": "melee",
-    "max_level": 1,
-    "intelligence": 5,
     "time": "8 m",
     "fun": 2
   },
@@ -33,7 +30,6 @@
     "color": "green",
     "skill": "melee",
     "max_level": 3,
-    "intelligence": 4,
     "time": "18 m"
   }
 ]

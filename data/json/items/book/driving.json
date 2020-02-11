@@ -15,8 +15,7 @@
     "skill": "driving",
     "max_level": 3,
     "intelligence": 6,
-    "time": "30 m",
-    "fun": 2
+    "time": "30 m"
   },
   {
     "id": "mag_cars",
@@ -32,10 +31,8 @@
     "symbol": "?",
     "color": "pink",
     "skill": "driving",
-    "max_level": 1,
     "intelligence": 2,
-    "time": "8 m",
-    "fun": 1
+    "time": "8 m"
   },
   {
     "id": "manual_driving",

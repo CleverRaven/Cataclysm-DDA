@@ -34,10 +34,8 @@
     "symbol": "?",
     "color": "pink",
     "skill": "firstaid",
-    "max_level": 1,
     "intelligence": 1,
-    "time": "8 m",
-    "fun": 1
+    "time": "8 m"
   },
   {
     "id": "manual_first_aid",
@@ -128,7 +126,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "intelligence": 4,
     "time": "30 m",
     "fun": -2
   },
@@ -146,7 +143,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "intelligence": 4,
     "time": "30 m"
   }
 ]

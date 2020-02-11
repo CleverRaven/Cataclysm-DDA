@@ -54,10 +54,7 @@
     "symbol": "?",
     "color": "pink",
     "skill": "survival",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "24 m",
-    "fun": 1
+    "time": "24 m"
   },
   {
     "id": "mag_survival",
@@ -73,8 +70,6 @@
     "symbol": "?",
     "color": "pink",
     "skill": "survival",
-    "max_level": 1,
-    "intelligence": 5,
     "time": "8 m",
     "fun": 2
   },
@@ -93,7 +88,6 @@
     "color": "green",
     "skill": "survival",
     "max_level": 3,
-    "intelligence": 4,
     "time": "18 m"
   },
   {

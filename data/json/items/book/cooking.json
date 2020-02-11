@@ -56,7 +56,6 @@
     "color": "green",
     "skill": "cooking",
     "max_level": 3,
-    "intelligence": 4,
     "time": "10 m"
   },
   {
@@ -76,7 +75,6 @@
     "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
-    "intelligence": 4,
     "time": "10 m",
     "fun": -5
   },
@@ -154,10 +152,7 @@
     "symbol": "?",
     "color": "pink",
     "skill": "cooking",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "time": "8 m"
   },
   {
     "id": "mag_glam",
@@ -173,10 +168,7 @@
     "symbol": "?",
     "color": "pink",
     "skill": "cooking",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "24 m",
-    "fun": 1
+    "time": "24 m"
   },
   {
     "id": "modern_tanner",
@@ -194,7 +186,6 @@
     "skill": "cooking",
     "required_level": 3,
     "max_level": 4,
-    "intelligence": 4,
     "time": "18 m"
   },
   {
@@ -415,7 +406,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "intelligence": 4,
     "time": "30 m",
     "fun": -2
   },
@@ -489,7 +479,6 @@
     "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
-    "intelligence": 4,
     "time": "14 m"
   },
   {

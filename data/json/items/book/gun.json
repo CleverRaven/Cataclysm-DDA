@@ -13,10 +13,8 @@
     "symbol": "?",
     "color": "pink",
     "skill": "gun",
-    "max_level": 1,
     "intelligence": 2,
-    "time": "7 m",
-    "fun": 1
+    "time": "7 m"
   },
   {
     "id": "manual_gun",
