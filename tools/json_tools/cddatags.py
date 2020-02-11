@@ -35,7 +35,7 @@ e.g. ctags.""")
             if filename.endswith('.json'):
                 full_path = os.path.join(dirpath, filename)
                 assert full_path.startswith(TOP_DIR)
-                relative_path = full_path[len(TOP_DIR):].lstrip('/')
+                relative_path = full_path[len(TOP_DIR):].lstrip(os.path.sep)
                 with open(full_path) as file:
                     try:
                         json_data = json.load(file)
