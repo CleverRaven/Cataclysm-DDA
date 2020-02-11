@@ -390,7 +390,7 @@ static void WinCreate()
     }
 #endif
 
-    int display = get_option<int>( "DISPLAY" );
+    int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
         display = 0;
     }
@@ -923,23 +923,6 @@ static void try_sdl_update()
 void set_displaybuffer_rendertarget()
 {
     SetRenderTarget( renderer, display_buffer );
-}
-
-// Populate a map with the available video displays and their name
-static void find_videodisplays()
-{
-    std::vector< std::tuple<int, std::string> > displays;
-
-    int numdisplays = SDL_GetNumVideoDisplays();
-    for( int i = 0 ; i < numdisplays ; i++ ) {
-        displays.push_back( std::make_tuple( i, std::string( SDL_GetDisplayName( i ) ) ) );
-    }
-
-    int current_display = get_option<int>( "DISPLAY" );
-    get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
-                       translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
-                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
-                     );
 }
 
 // line_id is one of the LINE_*_C constants
@@ -3528,8 +3511,6 @@ void catacurses::init_interface()
     ::fontheight = fl.fontheight;
 
     InitSDL();
-
-    find_videodisplays();
 
     init_term_size_and_scaling_factor();
 

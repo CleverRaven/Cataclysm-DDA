@@ -3618,4 +3618,19 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
     return renderer_names.empty() ? default_renderer_names : renderer_names;
 }
 
+std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
+{
+    std::vector<options_manager::id_and_option> display_names;
+    std::vector<options_manager::id_and_option> default_display_names = {
+        { "0", translate_marker( "Display 0" ) }
+    };
+
+    int numdisplays = SDL_GetNumVideoDisplays();
+    for( int i = 0 ; i < numdisplays ; i++ ) {
+        display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
+    }
+
+    return display_names.empty() ? default_display_names : display_names;
+}
+
 #endif // SDL_TILES
