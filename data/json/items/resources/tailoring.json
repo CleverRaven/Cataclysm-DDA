@@ -18,8 +18,7 @@
     "id": "scrap_faux_fur",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "faux fur scraps",
-    "name_plural": "faux fur scraps",
+    "name": { "str": "faux fur scraps", "str_pl": "faux fur scraps" },
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "faux_fur"
@@ -28,8 +27,7 @@
     "id": "scrap_felt",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "felt scraps",
-    "name_plural": "felt scraps",
+    "name": { "str": "felt scraps", "str_pl": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
     "material": "wool"
   },
@@ -37,8 +35,7 @@
     "id": "scrap_fur",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "fur scraps",
-    "name_plural": "fur scraps",
+    "name": { "str": "fur scraps", "str_pl": "fur scraps" },
     "description": "Oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "fur"
