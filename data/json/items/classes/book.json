@@ -7,6 +7,7 @@
     "volume": "250 ml",
     "material": "paper",
     "symbol": "?",
+    "looks-like": "paperback_novel",
     "color": "pink",
     "max_level": 1,
     "intelligence": 5,
@@ -23,6 +24,7 @@
     "price": 20000,
     "material": "paper",
     "symbol": "?",
+    "looks-like": "paperback_novel",
     "color": "green",
     "use_action": "MA_MANUAL",
     "book_data": { "time": 10, "intelligence": 9 }

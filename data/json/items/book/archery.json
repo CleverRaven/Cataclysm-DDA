@@ -1,6 +1,7 @@
 [
   {
     "id": "book_archery",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Lessons for the Novice Bowhunter", "str_pl": "copies of Lessons for the Novice Bowhunter" },
     "description": "This hefty paperback book contains all the information needed for novice archers to get started hunting with a variety of bows and crossbows.",
@@ -18,6 +19,7 @@
   },
   {
     "id": "mag_archery",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Archery for Kids", "str_pl": "issues of Archery for Kids" },
     "description": "Will you be able to place the arrow right into the bullseye?  It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
@@ -36,6 +38,7 @@
   },
   {
     "id": "manual_archery",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Zen and the Art of Archery", "str_pl": "copies of Zen and the Art of Archery" },
     "description": "This massive book contains a wealth of vital information for the novice archer.",

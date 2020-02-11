@@ -1,6 +1,7 @@
 [
   {
     "id": "mag_melee",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "CQB Monthly", "str_pl": "CQB Monthlies" },
     "description": "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "manual_melee",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Close Quarter Fighting Manual", "str_pl": "copies of Close Quarter Fighting Manual" },
     "description": "A well-thumbed hardbound book which illustrates simple strategies and techniques for close quarters combat encounters.",

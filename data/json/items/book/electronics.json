@@ -1,6 +1,7 @@
 [
   {
     "id": "advanced_electronics",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Advanced Electronics", "str_pl": "copies of Advanced Electronics" },
     "description": "A college textbook on circuit design.",
@@ -21,6 +22,7 @@
   },
   {
     "id": "mag_electronics",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Ham Radio Illustrated", "str_pl": "issues of Ham Radio Illustrated" },
     "description": "An amusing magazine about ham radio, with lots of diagrams and illustrations for making your own electronic devices.",
@@ -39,6 +41,7 @@
   },
   {
     "id": "manual_electronics",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "What's a Transistor?", "str_pl": "copies of What's a Transistor?" },
     "description": "A basic manual of electronics and circuit design.",
@@ -56,6 +59,7 @@
   },
   {
     "id": "radio_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Amateur Home Radio for Enthusiasts", "str_pl": "copies of Amateur Home Radio for Enthusiasts" },
     "description": "A book about ham radio and citizen's band radio.  It contains numerous diagrams and illustrations explaining the science behind the electronics.",
@@ -76,6 +80,7 @@
   },
   {
     "id": "recipe_atomic_battery",
+    "copy-from": "flyer",
     "type": "BOOK",
     "name": "computer printout",
     "description": "One side of this sheet is printed with a meaningless jumble of characters, but the other side shows a complicated, hand-drawn circuit diagram.",
@@ -95,6 +100,7 @@
   },
   {
     "id": "recipe_augs",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
     "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
@@ -114,6 +120,7 @@
   },
   {
     "id": "recipe_lab_elec",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "lab journal-Herrera", "str_pl": "lab journals-Herrera" },
     "description": "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some of the diagrams use symbols you've not seen before…",
@@ -133,6 +140,7 @@
   },
   {
     "id": "recipe_mil_augs",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "2XI design binder-CLASSIFIED", "str_pl": "2XI design binders-CLASSIFIED" },
     "description": "This Doubletech Industries binder has several intimidating security warnings on the cover.  Probably because it contains complete design specs, technical drawings, and test results for their military-grade bionic implants.",
@@ -152,6 +160,7 @@
   },
   {
     "id": "repeater_mod_guide",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "plans for a radio repeater mod", "str_pl": "plans for a radio repeater mod" },
     "description": "Instructions on how to create a mod for a radio station terminal which converts the entire system into a repeater.",
@@ -171,6 +180,7 @@
   },
   {
     "id": "textbook_electronics",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Electronic Circuit Theory", "str_pl": "copies of Electronic Circuit Theory" },
     "description": "An advanced college textbook on circuit theory, design, and organization.",
@@ -191,6 +201,7 @@
   },
   {
     "id": "textbook_robots",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Robots for Fun & Profit", "str_pl": "copies of Robots for Fun & Profit" },
     "description": "A rare book on the design of robots, with lots of helpful step-by-step guides.",

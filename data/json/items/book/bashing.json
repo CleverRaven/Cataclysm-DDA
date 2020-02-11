@@ -1,6 +1,7 @@
 [
   {
     "id": "mag_bashing",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Batter Up!", "str_pl": "issues of Batter Up!" },
     "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "manual_bashing",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "tactical baton defense manual",
     "description": "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",

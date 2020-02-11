@@ -1,6 +1,7 @@
 [
   {
     "id": "mag_pistol",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Tactical Handgun Digest", "str_pl": "issues of Tactical Handgun Digest" },
     "description": "A glossy magazine all about handguns and shooting.  There is a good article about proper sighting near the middle.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "manual_pistol",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Tao of the Handgun", "str_pl": "copies of The Tao of the Handgun" },
     "description": "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",

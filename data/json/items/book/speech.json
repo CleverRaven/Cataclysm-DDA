@@ -1,6 +1,7 @@
 [
   {
     "id": "mag_tv",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "US Weekly", "str_pl": "US Weeklies" },
     "description": "Weekly news about a bunch of famous people who're all (un)dead now.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "manual_speech",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Self-Esteem for Dummies", "str_pl": "copies of Self-Esteem for Dummies" },
     "description": "Full of useful tips for showing confidence in your speech.",
@@ -36,6 +38,7 @@
   },
   {
     "id": "textbook_speech",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Principles of Effective Communication", "str_pl": "copies of Principles of Effective Communication" },
     "description": "A hardbound book devoted to being an effective and persuasive speaker.",
@@ -55,6 +58,7 @@
   },
   {
     "id": "dnd_handbook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Dungeon Master's Guide: 6th Edition", "str_pl": "copies of Dungeon Master's Guide: 6th Edition" },
     "description": "A thick, hardcover volume with everything needed to weave legendary stories.  It's full of information, but finding the things you're looking for can be a chore.",

@@ -20,6 +20,7 @@
   },
   {
     "id": "ZSG",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
     "description": "While this seems like it would be very useful in this situation, the sheer amount of misinformation present makes it practically useless.",
@@ -37,6 +38,7 @@
   },
   {
     "id": "black_box_transcript",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "black box transcript",
     "//": "ooh, military records, probably Classified!",
@@ -55,6 +57,7 @@
   },
   {
     "id": "child_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "children's book",
     "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
@@ -71,6 +74,7 @@
   },
   {
     "id": "commune_prospectus",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Ranch Prospectus", "str_pl": "Ranch Prospectus" },
     "description": "A short paper of the economic viability of constructing an agricultural outpost.",
@@ -87,6 +91,7 @@
   },
   {
     "id": "decoy_elfa",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "standpipe maintenance log",
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.",
@@ -103,6 +108,7 @@
   },
   {
     "id": "essay_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "book of essays", "str_pl": "books of essays" },
     "description": "A collection of essays by various authors from around the world, including works by Churchill, Mailer, Eco, and Voltaire.",
@@ -120,6 +126,7 @@
   },
   {
     "id": "fairy_tales",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
     "description": "An amusing collection of folklore featuring the usual cast of fairies, goblins, and trolls.",
@@ -218,6 +225,7 @@
   },
   {
     "id": "guidebook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Hitchhiker's Guide to the Cataclysm", "str_pl": "copies of The Hitchhiker's Guide to the Cataclysm" },
     "description": "Inscribed on the cover in large, friendly letters, is the message \"Don't Panic\".",
@@ -234,6 +242,7 @@
   },
   {
     "id": "mycenacean_hymns",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
     "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
@@ -251,6 +260,7 @@
   },
   {
     "id": "holybook_bible1",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "King James Bible", "str_pl": "copies of King James Bible" },
     "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
@@ -268,6 +278,7 @@
   },
   {
     "id": "holybook_bible2",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
     "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
@@ -285,6 +296,7 @@
   },
   {
     "id": "holybook_bible3",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
     "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
@@ -302,6 +314,7 @@
   },
   {
     "id": "holybook_granth",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
     "description": "A single-volume copy of the central religious texts of Sikhism.",
@@ -319,6 +332,7 @@
   },
   {
     "id": "holybook_hadith",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Hadith", "str_pl": "copies of Hadith" },
     "description": "A Muslim religious text containing an account of the sayings and actions of the prophet Muhammad.",
@@ -336,6 +350,7 @@
   },
   {
     "id": "holybook_kallisti",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Principia Discordia", "str_pl": "copies of Principia Discordia" },
     "description": "A book that embodies the main beliefs of Discordianism.  It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
@@ -353,6 +368,7 @@
   },
   {
     "id": "holybook_kojiki",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Kojiki", "str_pl": "copies of The Kojiki" },
     "description": "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
@@ -370,6 +386,7 @@
   },
   {
     "id": "holybook_mormon",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
     "description": "The sacred text of the Latter Day Saint movement of Christianity, originally published in 1830 by Joseph Smith.",
@@ -387,6 +404,7 @@
   },
   {
     "id": "holybook_pastafarian",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": {
       "str": "The Gospel of the Flying Spaghetti Monster",
@@ -407,6 +425,7 @@
   },
   {
     "id": "holybook_quran",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Quran", "str_pl": "copies of Quran" },
     "description": "An English translation of the Muslim book of holy scriptures, with explanatory notes and commentaries to aid in understanding.",
@@ -424,6 +443,7 @@
   },
   {
     "id": "holybook_scientology",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
     "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
@@ -441,6 +461,7 @@
   },
   {
     "id": "holybook_slack",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Book of the SubGenius", "str_pl": "copies of The Book of the SubGenius" },
     "description": "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
@@ -458,6 +479,7 @@
   },
   {
     "id": "holybook_sutras",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
     "description": "A collection of discourses attributed to the Buddha and his close disciples.",
@@ -475,6 +497,7 @@
   },
   {
     "id": "holybook_talmud",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Talmud", "str_pl": "copies of Talmud" },
     "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
@@ -492,6 +515,7 @@
   },
   {
     "id": "holybook_tanakh",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Tanakh", "str_pl": "copies of Tanakh" },
     "description": "A single-volume book containing the complete canon of the Jewish Bible.",
@@ -509,6 +533,7 @@
   },
   {
     "id": "holybook_tripitaka",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Tripitaka", "str_pl": "copies of The Tripitaka" },
     "description": "A collection of sacred Buddhist writings describing their canons of scriptures.",
@@ -526,6 +551,7 @@
   },
   {
     "id": "holybook_upanishads",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Upanishads", "str_pl": "copies of The Upanishads" },
     "description": "A collection of sacred Hindu writings regarding the nature of reality and describing the character and form of human salvation.",
@@ -543,6 +569,7 @@
   },
   {
     "id": "holybook_vedas",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Four Vedas", "str_pl": "copies of The Four Vedas" },
     "description": "A single volume containing all four Vedas, which are the oldest scriptures of Hinduism.",
@@ -560,6 +587,7 @@
   },
   {
     "id": "mag_comic",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": "comic book",
     "description": "A super-hero comic.",
@@ -575,6 +603,7 @@
   },
   {
     "id": "mag_gaming",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Computer Gaming", "str_pl": "issues of Computer Gaming" },
     "description": "Reviews of recently released computer games and previews of upcoming titles.",
@@ -591,6 +620,7 @@
   },
   {
     "id": "mag_news",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": "TIME magazine",
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
@@ -607,6 +637,7 @@
   },
   {
     "id": "mag_porn",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Playboy", "str_pl": "issues of Playboy" },
     "description": "You can read it for the articles.  Or not.",
@@ -623,6 +654,7 @@
   },
   {
     "id": "necropolis_freq",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "frequency list",
     "description": "A notepad with a number of frequencies scribbled on it.",
@@ -639,6 +671,7 @@
   },
   {
     "id": "news_regional",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Rural Digest-Examiner", "str_pl": "issues of Rural Digest-Examiner" },
     "description": "A newsweekly covering regional events.  There is an article on the winter's snowstorms and several letters to the editor concerning the community response.",
@@ -676,6 +709,7 @@
   },
   {
     "id": "novel_coa",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "coming of age novel",
     "description": "A classic tale about growing up, portraying one young man's funny and poignant experiences with life, love, and sex.",
@@ -701,6 +735,7 @@
   },
   {
     "id": "novel_crime",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "crime novel",
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
@@ -831,6 +866,7 @@
   },
   {
     "id": "novel_samurai",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "samurai novel",
     "description": "The classic tale of a wandering swordsman who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
@@ -848,6 +884,7 @@
   },
   {
     "id": "novel_satire",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "satire novel",
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
@@ -865,6 +902,7 @@
   },
   {
     "id": "novel_scifi",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "scifi novel",
     "description": "Aliens, ray guns, and space ships.",
@@ -1129,6 +1167,7 @@
   },
   {
     "id": "philosophy_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "book of philosophy", "str_pl": "books of philosophy" },
     "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
@@ -1295,6 +1334,7 @@
   },
   {
     "id": "phonebook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "phone book",
     "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities in the nearby area, pretty useless during the apocalypse and all.",
@@ -1313,6 +1353,7 @@
   },
   {
     "id": "photo_album",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "photo album",
     "description": "A leather album full of photos of somebody's family.  You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
@@ -1330,6 +1371,7 @@
   },
   {
     "id": "plays_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "book of plays", "str_pl": "books of plays" },
     "description": "A collection of plays by various authors from around the world, including scripts by Wilde, Beckett, Checkov, and Shakespeare.",
@@ -1347,6 +1389,7 @@
   },
   {
     "id": "poetry_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "book of poetry", "str_pl": "books of poetry" },
     "description": "A collection of poetry by various authors from around the world, including writings by Dickinson, Goethe, Thoreau, and Yeats.",
@@ -1364,6 +1407,7 @@
   },
   {
     "id": "priest_diary",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "priest's diary", "str_pl": "priests' diaries" },
     "description": "A small book filled with journal entries in Latin.",
@@ -1382,6 +1426,7 @@
   },
   {
     "id": "record_accounting",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "corporate accounting ledger",
     "description": "If you knew what to look for something might stand out…",
@@ -1399,6 +1444,7 @@
   },
   {
     "id": "record_patient",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "patient treatment records", "str_pl": "patient treatment records" },
     "description": "A massive stack of medical records that contain every gory detail.",
@@ -1416,6 +1462,7 @@
   },
   {
     "id": "record_weather",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "national weather transcripts", "str_pl": "national weather transcripts" },
     "description": "Old weather records are about as interesting as a rock.",
@@ -1433,6 +1480,7 @@
   },
   {
     "id": "story_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "big book of short stories", "str_pl": "big books of short stories" },
     "description": "This humongous volume contains a vast collection of short stories by different authors, spanning a wide variety of topics and genres.",
@@ -1450,6 +1498,7 @@
   },
   {
     "id": "tall_tales",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "book of tall tales", "str_pl": "books of tall tales" },
     "description": "An entertaining collection of early American folklore, featuring tales of larger than life individuals and their amazing adventures.",
@@ -1467,6 +1516,7 @@
   },
   {
     "id": "visions_solitude",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Visions in Solitude", "str_pl": "copies of Visions in Solitude" },
     "description": "A small book detailing 'visions' a prisoner had on death row.",
@@ -1485,6 +1535,7 @@
   },
   {
     "id": "holybook_havamal",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Hávamál", "str_pl": "copies of Hávamál" },
     "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
@@ -1503,6 +1554,7 @@
   {
     "type": "BOOK",
     "id": "classic_literature",
+    "copy-from": "paperback_novel",
     "name": { "str": "book of classic literature", "str_pl": "books of classic literature" },
     "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
     "snippet_category": [
@@ -1619,6 +1671,7 @@
   {
     "type": "BOOK",
     "id": "collector_book",
+    "copy-from": "paperback_novel",
     "name": { "str": "collector's edition book", "str_pl": "collector's edition books" },
     "description": "A unique, valuable book that has been kept as a collector's item.",
     "snippet_category": [

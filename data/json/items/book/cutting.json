@@ -1,6 +1,7 @@
 [
   {
     "id": "mag_cutting",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "All About Swords", "str_pl": "issues of All About Swords" },
     "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "manual_cutting",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "knife fighter's notes", "str_pl": "knife fighter's notes" },
     "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral- bound paper.  Still, there are lots of useful tips for beginners.",
@@ -36,6 +38,7 @@
   },
   {
     "id": "manual_knives",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Spetsnaz Knife Techniques", "str_pl": "copies of Spetsnaz Knife Techniques" },
     "description": "A classic Soviet text on the art of attacking with a blade.",

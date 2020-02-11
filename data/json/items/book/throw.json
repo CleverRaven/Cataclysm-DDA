@@ -1,6 +1,7 @@
 [
   {
     "id": "mag_throwing",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Diskobolus", "str_pl": "issues of Diskobolus" },
     "description": "A biannual magazine devoted to the art and science of discus-throwing.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "manual_throw",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Complete Guide to Pitching", "str_pl": "copies of The Complete Guide to Pitching" },
     "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching.",

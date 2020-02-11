@@ -1,6 +1,7 @@
 [
   {
     "id": "howto_traps",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "How to Trap Anything", "str_pl": "copies of How to Trap Anything" },
     "description": "A worn manual that describes how to set and disarm a wide variety of traps.",
@@ -18,6 +19,7 @@
   },
   {
     "id": "mag_traps",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Trapper's Life", "str_pl": "issues of Trapper's Life" },
     "description": "An in-depth magazine about trapping game.  There are lots of articles and diagrams that explain simple trap designs.",
@@ -35,6 +37,7 @@
   },
   {
     "id": "manual_traps",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Modern Trapper", "str_pl": "copies of The Modern Trapper" },
     "description": "An extensive volume that details numerous methods of trapping game.",
@@ -52,6 +55,7 @@
   },
   {
     "id": "textbook_traps",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": {
       "//~": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
@@ -75,6 +79,7 @@
   },
   {
     "id": "trappers_companion",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Trapper's Companion", "str_pl": "copies of The Trapper's Companion" },
     "description": "A folksy guide to trapping wild game using time-tested methods.  A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",

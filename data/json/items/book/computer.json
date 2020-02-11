@@ -1,6 +1,7 @@
 [
   {
     "id": "SICP",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "SICP", "str_pl": "copies of SICP" },
     "description": "A classic text, \"The Structure and Interpretation of Computer Programs.\" Written with examples in LISP, but applicable to any language.",
@@ -21,6 +22,7 @@
   },
   {
     "id": "computer_science",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Computer Science 301", "str_pl": "copies of Computer Science 301" },
     "description": "A college textbook on computer science.",
@@ -41,6 +43,7 @@
   },
   {
     "id": "howto_computer",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "How to Browse the Web", "str_pl": "copies of How to Browse the Web" },
     "description": "Very beginner-level information about computers.",
@@ -58,6 +61,7 @@
   },
   {
     "id": "mag_computer",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Computer World", "str_pl": "issues of Computer World" },
     "description": "An informative magazine all about computers, both hardware and software.",
@@ -75,6 +79,7 @@
   },
   {
     "id": "manual_computers",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Computer Science 101", "str_pl": "copies of Computer Science 101" },
     "//": "College-level textbooks are Cheap at $60.",
@@ -93,6 +98,7 @@
   },
   {
     "id": "textbook_computer",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Principles of Advanced Programming", "str_pl": "copies of Principles of Advanced Programming" },
     "description": "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",

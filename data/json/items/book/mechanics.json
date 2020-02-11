@@ -1,6 +1,7 @@
 [
   {
     "id": "book_icef",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Internal Combustion Fundamentals", "str_pl": "copies of Internal Combustion Fundamentals" },
     "description": "A college-level textbook that details the operation, maintenance, and repair of internal combustion engines.",
@@ -29,6 +30,7 @@
   },
   {
     "id": "mag_mechanics",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Popular Mechanics", "str_pl": "issues of Popular Mechanics" },
     "description": "A magazine about mechanical innovations.  Full of entertaining articles and advertisements for esoteric gadgets.",
@@ -47,6 +49,7 @@
   },
   {
     "id": "manual_mechanics",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Under the Hood", "str_pl": "copies of Under the Hood" },
     "description": "An advanced mechanics manual, covering all sorts of topics.",
@@ -73,6 +76,7 @@
   },
   {
     "id": "textbook_biodiesel",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Biodiesel: Renewable Fuel Resource", "str_pl": "copies of Biodiesel: Renewable Fuel Resource" },
     "description": "A large textbook for college students about biodiesel.",
@@ -92,6 +96,7 @@
   },
   {
     "id": "textbook_mechanics",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Mechanical Mastery", "str_pl": "copies of Mechanical Mastery" },
     "description": "An advanced guide on mechanics and welding, covering topics like \"Grinding off rust\" and \"Making cursive E's\".",

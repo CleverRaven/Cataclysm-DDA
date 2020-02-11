@@ -1,6 +1,7 @@
 [
   {
     "id": "adv_chemistry",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
     "description": "A university-level textbook on advanced principles of chemistry, both organic and inorganic.",
@@ -21,6 +22,7 @@
   },
   {
     "id": "brewing_cookbook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Homebrewer's Bible", "str_pl": "copies of The Homebrewer's Bible" },
     "description": "A book full of easy-to-follow recipes and useful advice on homebrewing, malting, and fermenting.  It even smells faintly of booze.",
@@ -41,6 +43,7 @@
   },
   {
     "id": "cookbook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Cooking on a Budget", "str_pl": "copies of Cooking on a Budget" },
     "description": "A nice cook book that goes beyond recipes and into the chemistry of food.",
@@ -58,6 +61,7 @@
   },
   {
     "id": "cookbook_human",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "To Serve Man", "str_pl": "copies of To Serve Man" },
     "//": "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
@@ -78,6 +82,7 @@
   },
   {
     "id": "cookbook_italian",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Cucina Italiana", "str_pl": "copies of Cucina Italiana" },
     "description": "This cookbook is written in Italian, but handily illustrated with step by step photo instructions.",
@@ -96,6 +101,7 @@
   },
   {
     "id": "cookbook_sushi",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Sushi Made Easy", "str_pl": "copies of Sushi Made Easy" },
     "description": "A simple text for the aspiring sushi lover, this easy to read guide is filled with lots of helpful illustrations for everything from basic rice preparation to setting a proper Japanese table.",
@@ -115,6 +121,7 @@
   },
   {
     "id": "family_cookbook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "family cookbook",
     "description": "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
@@ -135,6 +142,7 @@
   },
   {
     "id": "mag_cooking",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Bon Appetit", "str_pl": "issues of Bon Appetit" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
@@ -153,6 +161,7 @@
   },
   {
     "id": "mag_glam",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
     "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
@@ -171,6 +180,7 @@
   },
   {
     "id": "modern_tanner",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Modern Tanner", "str_pl": "copies of The Modern Tanner" },
     "description": "An in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
@@ -189,6 +199,7 @@
   },
   {
     "id": "recipe_alpha",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "PE050 \"Alpha\": Preliminary Report", "str_pl": "copies of PE050 \"Alpha\": Preliminary Report" },
     "description": "This sheaf of papers--dated two weeks before all this started--describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
@@ -208,6 +219,7 @@
   },
   {
     "id": "recipe_animal",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "lab journal-Dionne", "str_pl": "lab journals-Dionne" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna.  The team seems quite enthusiastic--if not eager--about their results.",
@@ -227,6 +239,7 @@
   },
   {
     "id": "recipe_chimera",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "PE065 \"Chimera\": Best Practices", "str_pl": "copies of PE065 \"Chimera\": Best Practices" },
     "description": "This sheaf of papers describes a new chemical formula in detail and supplies instructions for its use as some sort of… crowd-control catalyst?  That can't be right…",
@@ -246,6 +259,7 @@
   },
   {
     "id": "recipe_creepy",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "lab journal-Smythe", "str_pl": "lab journals-Smythe" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037.  The results look promising but the procurement methods seem awfully vague…",
@@ -265,6 +279,7 @@
   },
   {
     "id": "recipe_elfa",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "standpipe maintenance log",
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
@@ -284,6 +299,7 @@
   },
   {
     "id": "recipe_labchem",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "chemical reference-CLASSIFIED", "str_pl": "chemical references-CLASSIFIED" },
     "description": "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
@@ -303,6 +319,7 @@
   },
   {
     "id": "recipe_maiar",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "lab journal-x-|xp", "str_pl": "lab journals-x-|xp" },
     "description": "This damaged team logbook lacks (deliberately?) any identifying information, but still contains useful information on several types of mutagen and their development.",
@@ -322,6 +339,7 @@
   },
   {
     "id": "recipe_medicalmut",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": {
       "str": "PE023 \"Medical\": Application and Findings",
@@ -345,6 +363,7 @@
   },
   {
     "id": "recipe_raptor",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "PE070 \"Raptor\": Proposal", "str_pl": "copies of PE070 \"Raptor\": Proposal" },
     "description": "This sheaf of papers is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
@@ -364,6 +383,7 @@
   },
   {
     "id": "recipe_serum",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Best Practices for Compound Delivery", "str_pl": "copies of Best Practices for Compound Delivery" },
     "description": "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good health, as the concentrated serums draw heavily on subjects' bodies.",
@@ -383,6 +403,7 @@
   },
   {
     "id": "reference_cooking",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "CRC-Merck Handbook, 4th edition", "str_pl": "copies of CRC-Merck Handbook, 4th edition" },
     "description": "This huge hardbound book is a collection of reference data and formulae pertinent to many technical disciplines.  If poring over tables of chemical and physical data is your thing, this is the book for you.",
@@ -400,6 +421,7 @@
   },
   {
     "id": "scots_cookbook",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": {
       "//~": "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
@@ -424,6 +446,7 @@
   },
   {
     "id": "textbook_chemistry",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": "chemistry textbook",
     "description": "A college textbook on chemistry.",
@@ -452,6 +475,7 @@
   },
   {
     "id": "offalcooking",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },
     "description": "Offal Holiday Cooking, by Evelyn Turncoat, is a book of holiday recipes that utilize organ meats from various animals.  For the true nose-to-tail cook.",
@@ -470,6 +494,7 @@
   },
   {
     "id": "cookbook_liverforkids",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Liver-Licious Recipes Your Kids Will Love", "str_pl": "copies of Liver-Licious Recipes" },
     "description": "This cookbook is written by liver enthusiast Tamsyn Beckerleg.  Inside you'll find a great deal of anecdotes about the near-certain ruination of children who refuse to eat their liver.",

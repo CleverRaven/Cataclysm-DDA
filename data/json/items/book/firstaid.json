@@ -1,6 +1,7 @@
 [
   {
     "id": "emergency_book",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Guide to Advanced Emergency Care", "str_pl": "copies of Guide to Advanced Emergency Care" },
     "description": "A thick textbook for paramedics describing advanced lifesaving procedures and field-expedient care methods.",
@@ -21,6 +22,7 @@
   },
   {
     "id": "mag_firstaid",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": { "str": "Paramedics", "str_pl": "issues of Paramedics" },
     "description": "An educational magazine for EMTs.",
@@ -39,6 +41,7 @@
   },
   {
     "id": "manual_first_aid",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Big Book of First Aid", "str_pl": "copies of The Big Book of First Aid" },
     "description": "It's big and heavy, but full of great information about first aid.",
@@ -56,6 +59,7 @@
   },
   {
     "id": "pocket_firstaid",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Pocket Guide to First Aid", "str_pl": "copies of Pocket Guide to First Aid" },
     "description": "This pocket-sized leather-bound guide to first aid combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
@@ -73,6 +77,7 @@
   },
   {
     "id": "textbook_firstaid",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "First Responder Handbook", "str_pl": "copies of First Responder Handbook" },
     "//": "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
@@ -93,6 +98,7 @@
   },
   {
     "id": "booklet_firstaid",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "First Aid Kit Instruction Booklet", "str_pl": "copies of First Aid Kit Instruction Booklet" },
     "description": "Illustrated how-to guide for your first aid kit.",
@@ -110,6 +116,7 @@
   },
   {
     "id": "reference_firstaid1",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Physicians' Desk Reference", "str_pl": "copies of Physicians' Desk Reference" },
     "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like Medisoft.  At least it doesn't need power to be used.",
@@ -127,6 +134,7 @@
   },
   {
     "id": "reference_firstaid2",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "Merck Veterinary Manual", "str_pl": "copies of Merck Veterinary Manual" },
     "description": "This expansive text covers 'all domestic species and diseases in veterinary medicine worldwide'.  Should you need information regarding zoonotic diseases, off-label use of medication for animals, common dysfunctions and diseases of animals, or any other veterinary reference info, this is your book.  There are some interesting new chapters on animal cloning in this edition.",

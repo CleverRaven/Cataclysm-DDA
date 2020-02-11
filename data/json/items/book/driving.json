@@ -1,6 +1,7 @@
 [
   {
     "id": "decoy_anarch",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
@@ -19,6 +20,7 @@
   },
   {
     "id": "mag_cars",
+    "copy-from": "book_magazine",
     "type": "BOOK",
     "name": "Top Gear magazine",
     "description": "Lots of articles about cars and driving techniques.",
@@ -37,6 +39,7 @@
   },
   {
     "id": "manual_driving",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
     "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
@@ -54,6 +57,7 @@
   },
   {
     "id": "textbook_anarch",
+    "copy-from": "paperback_novel",
     "type": "BOOK",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
