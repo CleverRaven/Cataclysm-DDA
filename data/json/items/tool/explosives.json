@@ -1071,7 +1071,7 @@
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 4 } }
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1255,7 +1255,7 @@
     "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
