@@ -233,14 +233,14 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
 
-        bool conflicting_traits = scenario_traits_conflict_with_profession_traits(p);
+        bool conflicting_traits = scenario_traits_conflict_with_profession_traits( p );
 
         if( blacklist || professions.empty() ) {
             if( !present && !p.has_flag( "SCEN_ONLY" ) && !conflicting_traits ) {
                 res.push_back( p.ident() );
             }
         } else if( present ) {
-            if ( !conflicting_traits ) {
+            if( !conflicting_traits ) {
                 res.push_back( p.ident() );
             } else {
                 debugmsg( "Scenario %s and profession %s have conflicting trait requirements",
@@ -260,16 +260,16 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     return res;
 }
 
-bool scenario::scenario_traits_conflict_with_profession_traits(const profession& p) const
+bool scenario::scenario_traits_conflict_with_profession_traits( const profession &p ) const
 {
-    for ( auto &pt : p.get_forbidden_traits() ) {
-        if ( is_locked_trait(pt) ) {
+    for( auto &pt : p.get_forbidden_traits() ) {
+        if( is_locked_trait( pt ) ) {
             return true;
         }
     }
 
-    for ( auto &pt : p.get_locked_traits() ) {
-        if ( is_forbidden_trait(pt) ) {
+    for( auto &pt : p.get_locked_traits() ) {
+        if( is_forbidden_trait( pt ) ) {
             return true;
         }
     }
@@ -277,10 +277,9 @@ bool scenario::scenario_traits_conflict_with_profession_traits(const profession&
     //  check if:
     //  locked traits for scenario prevent taking locked traits for professions
     //  locked traits for professions prevent taking locked traits for scenario
-    for ( auto &st : get_locked_traits() ) {
-        for ( auto &pt : p.get_locked_traits() ) {
-            if ( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ))
-            {
+    for( auto &st : get_locked_traits() ) {
+        for( auto &pt : p.get_locked_traits() ) {
+            if( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ) ) {
                 return true;
             }
         }

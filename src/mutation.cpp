@@ -1413,25 +1413,25 @@ bool are_conflicting_traits( const trait_id &trait_1, const trait_id &trait_2 )
 
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return contains_trait( trait_a->cancels, trait_b);
+    return contains_trait( trait_a->cancels, trait_b );
 }
 
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return contains_trait( trait_a->prereqs, trait_b);
+    return contains_trait( trait_a->prereqs, trait_b );
 }
 
 bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return contains_trait( trait_a->replacements, trait_b);
+    return contains_trait( trait_a->replacements, trait_b );
 }
 
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return contains_trait( get_mutations_in_types( trait_a->types ), trait_b);
+    return contains_trait( get_mutations_in_types( trait_a->types ), trait_b );
 }
 
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
-    return std::find(traits.begin(), traits.end(), trait) != traits.end();
+    return std::find( traits.begin(), traits.end(), trait ) != traits.end();
 }
