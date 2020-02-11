@@ -850,7 +850,7 @@
     "symbol": "*",
     "color": "green",
     "explode_in_fire": true,
-    "explosion": { "power": 175, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.8 } },
+    "explosion": { "power": 175, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } },
     "use_action": {
       "target": "makeshift_grenade_act",
       "msg": "You pull the pin on the makeshift grenade.",
