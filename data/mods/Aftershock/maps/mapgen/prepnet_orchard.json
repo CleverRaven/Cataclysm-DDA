@@ -68,7 +68,9 @@
         { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 4, "friendly": true }
       ],
       "place_npcs": [ { "class": "prepnet_gardener", "x": 10, "y": 9 } ]
-    }
+    },
+    "place_loot": [ { "group": "prepnet_orchard_trade", "chance": 100, "x": [ 12, 14], "y": [ 8, 10 ], "repeat": [ 9, 15 ] } ]
+  }
   },
   {
     "type": "mapgen",
