@@ -2032,8 +2032,50 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
-                       bool /* debug */ ) const
+void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                  int /*batch*/,
+                                  bool /*debug*/ ) const
+{
+    if( !is_armor() && !is_pet_armor() ) {
+        return;
+    }
+
+    const std::string space = "  ";
+
+    if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
+                                  iteminfo::no_newline, bash_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), cut_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
+                                  iteminfo::no_newline, acid_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                  iteminfo::no_newline, fire_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                  get_base_env_resist( *this ) ) );
+        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
+            info.push_back( iteminfo( "ARMOR",
+                                      _( "<bold>Protection when active</bold>: " ) ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
+                                      iteminfo::no_newline,
+                                      acid_resist( false, get_base_env_resist_w_filter() ) ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
+                                      iteminfo::no_newline,
+                                      fire_resist( false, get_base_env_resist_w_filter() ) ) );
+            info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
+                                      get_env_resist( get_base_env_resist_w_filter() ) ) );
+        }
+
+        if( damage() > 0 ) {
+            info.push_back( iteminfo( "ARMOR",
+                                      _( "Protection values are <bad>reduced by damage</bad> and "
+                                         "you may be able to <info>improve them by repairing this "
+                                         "item</info>." ) ) );
+        }
+    }
+}
+
+void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool debug ) const
 {
     if( !is_armor() ) {
         return;
@@ -2183,36 +2225,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     // Whatever the last entry was, we want a newline at this point
     info.back().bNewLine = true;
 
-    if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) && covers_anything ) {
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
-                                  iteminfo::no_newline, bash_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), cut_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                  iteminfo::no_newline, acid_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                  iteminfo::no_newline, fire_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                  get_base_env_resist( *this ) ) );
-        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
-            info.push_back( iteminfo( "ARMOR",
-                                      _( "<bold>Protection when active</bold>: " ) ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                      iteminfo::no_newline,
-                                      acid_resist( false, get_base_env_resist_w_filter() ) ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                      iteminfo::no_newline,
-                                      fire_resist( false, get_base_env_resist_w_filter() ) ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                      get_env_resist( get_base_env_resist_w_filter() ) ) );
-        }
-
-        if( damage() > 0 ) {
-            info.push_back( iteminfo( "ARMOR",
-                                      _( "Protection values are <bad>reduced by damage</bad> and "
-                                         "you may be able to <info>improve them by repairing this "
-                                         "item</info>." ) ) );
-        }
+    if( covers_anything ) {
+        armor_protection_info( info, parts, batch, debug );
     }
+
     const units::mass weight_bonus = get_weight_capacity_bonus();
     const float weight_modif = get_weight_capacity_modifier();
     if( weight_modif != 1 ) {
@@ -2239,9 +2255,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 }
 
-void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                              int /* batch */,
-                              bool /* debug */ ) const
+void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                              bool debug ) const
 {
     if( !is_pet_armor() ) {
         return;
@@ -2262,35 +2277,162 @@ void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query 
     // Whatever the last entry was, we want a newline at this point
     info.back().bNewLine = true;
 
-    if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
-                                  iteminfo::no_newline, bash_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), cut_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                  iteminfo::no_newline, acid_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                  iteminfo::no_newline, fire_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                  get_base_env_resist( *this ) ) );
-        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
-            info.push_back( iteminfo( "ARMOR",
-                                      _( "<bold>Protection when active</bold>: " ) ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                      iteminfo::no_newline,
-                                      acid_resist( false, get_base_env_resist_w_filter() ) ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                      iteminfo::no_newline,
-                                      fire_resist( false, get_base_env_resist_w_filter() ) ) );
-            info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
-                                      get_env_resist( get_base_env_resist_w_filter() ) ) );
-        }
+    armor_protection_info( info, parts, batch, debug );
+}
 
-        if( damage() > 0 ) {
-            info.push_back( iteminfo( "ARMOR",
-                                      _( "Protection values are <bad>reduced by damage</bad> and "
-                                         "you may be able to <info>improve them by repairing this "
-                                         "item</info>." ) ) );
+void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
+                           bool /*debug*/ ) const
+{
+    if( !is_armor() ) {
+        return;
+    }
+
+    int encumbrance = get_encumber( g->u );
+    const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
+
+    if( has_flag( "HELMET_COMPAT" ) && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This item can be <info>worn with a "
+                                     "helmet</info>." ) ) );
+    }
+
+    if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
+        switch( sizing_level ) {
+            case sizing::human_sized_human_char:
+                if( has_flag( "FIT" ) ) {
+                    info.emplace_back( "DESCRIPTION",
+                                       _( "* This clothing <info>fits</info> you perfectly." ) );
+                }
+                break;
+            case sizing::big_sized_big_char:
+                if( has_flag( "FIT" ) ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
+                                                         "your large frame perfectly." ) );
+                }
+                break;
+            case sizing::small_sized_small_char:
+                if( has_flag( "FIT" ) ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
+                                                         "your small frame perfectly." ) );
+                }
+                break;
+            case sizing::big_sized_human_char:
+                info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>oversized</bad> "
+                                                     "and does <bad>not fit</bad> you." ) );
+                break;
+            case sizing::big_sized_small_char:
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This clothing is hilariously <bad>oversized</bad> "
+                                      "and does <bad>not fit</bad> your <info>abnormally "
+                                      "small mutated anatomy</info>." ) );
+                break;
+            case sizing::human_sized_big_char:
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This clothing is <bad>normal sized</bad> and does "
+                                      "<bad>not fit</info> your <info>abnormally large "
+                                      "mutated anatomy</info>." ) );
+                break;
+            case sizing::human_sized_small_char:
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This clothing is <bad>normal sized</bad> and does "
+                                      "<bad>not fit</bad> your <info>abnormally small "
+                                      "mutated anatomy</info>." ) );
+                break;
+            case sizing::small_sized_big_char:
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This clothing is hilariously <bad>undersized</bad> "
+                                      "and does <bad>not fit</bad> your <info>abnormally "
+                                      "large mutated anatomy</info>." ) );
+                break;
+            case sizing::small_sized_human_char:
+                info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>undersized</bad> "
+                                                     "and does <bad>not fit</bad> you." ) );
+                break;
+            default:
+                break;
         }
+    }
+
+    if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE ) ) {
+        if( has_flag( "VARSIZE" ) ) {
+            std::string resize_str;
+            if( has_flag( "FIT" ) ) {
+                switch( sizing_level ) {
+                    case sizing::small_sized_human_char:
+                        resize_str = _( "<info>can be upsized</info>" );
+                        break;
+                    case sizing::human_sized_small_char:
+                        resize_str = _( "<info>can be downsized</info>" );
+                        break;
+                    case sizing::big_sized_human_char:
+                    case sizing::big_sized_small_char:
+                        resize_str = _( "<bad>can not be downsized</bad>" );
+                        break;
+                    case sizing::small_sized_big_char:
+                    case sizing::human_sized_big_char:
+                        resize_str = _( "<bad>can not be upsized</bad>" );
+                        break;
+                    default:
+                        break;
+                }
+                if( !resize_str.empty() ) {
+                    std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
+                    info.push_back( iteminfo( "DESCRIPTION", info_str ) );
+                }
+            } else {
+                switch( sizing_level ) {
+                    case sizing::small_sized_human_char:
+                        resize_str = _( " and <info>upsized</info>" );
+                        break;
+                    case sizing::human_sized_small_char:
+                        resize_str = _( " and <info>downsized</info>" );
+                        break;
+                    case sizing::big_sized_human_char:
+                    case sizing::big_sized_small_char:
+                        resize_str = _( " but <bad>not downsized</bad>" );
+                        break;
+                    case sizing::small_sized_big_char:
+                    case sizing::human_sized_big_char:
+                        resize_str = _( " but <bad>not upsized</bad>" );
+                        break;
+                    default:
+                        break;
+                }
+                std::string info_str = string_format( _( "* This clothing <info>can be "
+                                                      "refitted</info>%s." ), resize_str );
+                info.push_back( iteminfo( "DESCRIPTION", info_str ) );
+            }
+        } else {
+            info.emplace_back( "DESCRIPTION", _( "* This clothing <bad>can not be refitted, "
+                                                 "upsized, or downsized</bad>." ) );
+        }
+    }
+
+    if( is_sided() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_SIDED ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This item can be worn on <info>either side</info> of "
+                                     "the body." ) ) );
+    }
+    if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This gear is a part of power armor." ) ) );
+        if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
+            if( covers( bp_head ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* When worn with a power armor suit, it will "
+                                             "<good>fully protect</good> you from "
+                                             "<info>radiation</info>." ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* When worn with a power armor helmet, it will "
+                                             "<good>fully protect</good> you from " "<info>radiation</info>." ) ) );
+            }
+        }
+    }
+    if( typeId() == "rad_badge" && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  string_format( _( "* The film strip on the badge is %s." ),
+                                          rad_badge_color( irradiation ) ) ) );
     }
 }
 
@@ -2621,14 +2763,12 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 }
 
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                       bool /*debug*/ ) const
+                       bool debug ) const
 {
     if( is_null() ) {
         return;
     }
 
-    int encumbrance = get_encumber( g->u );
-    const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
     const std::string space = "  ";
 
     std::set<matec_id> all_techniques = type->techniques;
@@ -2781,152 +2921,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( is_armor() ) {
-        if( has_flag( "HELMET_COMPAT" ) && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This item can be <info>worn with a "
-                                         "helmet</info>." ) ) );
-        }
-
-        if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
-            switch( sizing_level ) {
-                case sizing::human_sized_human_char:
-                    if( has_flag( "FIT" ) ) {
-                        info.emplace_back( "DESCRIPTION",
-                                           _( "* This clothing <info>fits</info> you perfectly." ) );
-                    }
-                    break;
-                case sizing::big_sized_big_char:
-                    if( has_flag( "FIT" ) ) {
-                        info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
-                                                             "your large frame perfectly." ) );
-                    }
-                    break;
-                case sizing::small_sized_small_char:
-                    if( has_flag( "FIT" ) ) {
-                        info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
-                                                             "your small frame perfectly." ) );
-                    }
-                    break;
-                case sizing::big_sized_human_char:
-                    info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>oversized</bad> "
-                                                         "and does <bad>not fit</bad> you." ) );
-                    break;
-                case sizing::big_sized_small_char:
-                    info.emplace_back( "DESCRIPTION",
-                                       _( "* This clothing is hilariously <bad>oversized</bad> "
-                                          "and does <bad>not fit</bad> your <info>abnormally "
-                                          "small mutated anatomy</info>." ) );
-                    break;
-                case sizing::human_sized_big_char:
-                    info.emplace_back( "DESCRIPTION",
-                                       _( "* This clothing is <bad>normal sized</bad> and does "
-                                          "<bad>not fit</info> your <info>abnormally large "
-                                          "mutated anatomy</info>." ) );
-                    break;
-                case sizing::human_sized_small_char:
-                    info.emplace_back( "DESCRIPTION",
-                                       _( "* This clothing is <bad>normal sized</bad> and does "
-                                          "<bad>not fit</bad> your <info>abnormally small "
-                                          "mutated anatomy</info>." ) );
-                    break;
-                case sizing::small_sized_big_char:
-                    info.emplace_back( "DESCRIPTION",
-                                       _( "* This clothing is hilariously <bad>undersized</bad> "
-                                          "and does <bad>not fit</bad> your <info>abnormally "
-                                          "large mutated anatomy</info>." ) );
-                    break;
-                case sizing::small_sized_human_char:
-                    info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>undersized</bad> "
-                                                         "and does <bad>not fit</bad> you." ) );
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE ) ) {
-            if( has_flag( "VARSIZE" ) ) {
-                std::string resize_str;
-                if( has_flag( "FIT" ) ) {
-                    switch( sizing_level ) {
-                        case sizing::small_sized_human_char:
-                            resize_str = _( "<info>can be upsized</info>" );
-                            break;
-                        case sizing::human_sized_small_char:
-                            resize_str = _( "<info>can be downsized</info>" );
-                            break;
-                        case sizing::big_sized_human_char:
-                        case sizing::big_sized_small_char:
-                            resize_str = _( "<bad>can not be downsized</bad>" );
-                            break;
-                        case sizing::small_sized_big_char:
-                        case sizing::human_sized_big_char:
-                            resize_str = _( "<bad>can not be upsized</bad>" );
-                            break;
-                        default:
-                            break;
-                    }
-                    if( !resize_str.empty() ) {
-                        std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
-                        info.push_back( iteminfo( "DESCRIPTION", info_str ) );
-                    }
-                } else {
-                    switch( sizing_level ) {
-                        case sizing::small_sized_human_char:
-                            resize_str = _( " and <info>upsized</info>" );
-                            break;
-                        case sizing::human_sized_small_char:
-                            resize_str = _( " and <info>downsized</info>" );
-                            break;
-                        case sizing::big_sized_human_char:
-                        case sizing::big_sized_small_char:
-                            resize_str = _( " but <bad>not downsized</bad>" );
-                            break;
-                        case sizing::small_sized_big_char:
-                        case sizing::human_sized_big_char:
-                            resize_str = _( " but <bad>not upsized</bad>" );
-                            break;
-                        default:
-                            break;
-                    }
-                    std::string info_str = string_format( _( "* This clothing <info>can be "
-                                                          "refitted</info>%s." ), resize_str );
-                    info.push_back( iteminfo( "DESCRIPTION", info_str ) );
-                }
-            } else {
-                info.emplace_back( "DESCRIPTION", _( "* This clothing <bad>can not be refitted, "
-                                                     "upsized, or downsized</bad>." ) );
-            }
-        }
-
-        if( is_sided() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_SIDED ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This item can be worn on <info>either side</info> of "
-                                         "the body." ) ) );
-        }
-        if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This gear is a part of power armor." ) ) );
-            if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-                if( covers( bp_head ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* When worn with a power armor suit, it will "
-                                                 "<good>fully protect</good> you from "
-                                                 "<info>radiation</info>." ) ) );
-                } else {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* When worn with a power armor helmet, it will "
-                                                 "<good>fully protect</good> you from " "<info>radiation</info>." ) ) );
-                }
-            }
-        }
-        if( typeId() == "rad_badge" && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "* The film strip on the badge is %s." ),
-                                              rad_badge_color( irradiation ) ) ) );
-        }
-    }
+    armor_fit_info( info, parts, batch, debug );
 
     if( is_tool() ) {
         if( has_flag( "USE_UPS" ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
