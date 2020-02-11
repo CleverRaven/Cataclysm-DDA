@@ -19,7 +19,7 @@
     "dispersion": 180,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -97,7 +97,7 @@
     "dispersion": 90,
     "durability": 8,
     "clip_size": 10,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

@@ -1,6 +1,7 @@
 [
   {
     "id": "40_speedloader6",
+    "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": ".40 6-round speedloader",
     "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
@@ -16,6 +17,7 @@
   },
   {
     "id": "glock40bigmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Glock 22 extended magazine",
     "description": "An extended 22-round magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
@@ -33,6 +35,7 @@
   },
   {
     "id": "glock40mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Glock 22 magazine",
     "description": "A compact light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
@@ -49,6 +52,7 @@
   },
   {
     "id": "sig40mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "SIG Pro .40 magazine",
     "description": "A compact and reliable magazine for use with the SIG Pro .40 pistol.",
@@ -65,6 +69,7 @@
   },
   {
     "id": "smg_40_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "makeshift .40 20-round magazine",
     "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachinegun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W.",
@@ -82,6 +87,7 @@
   },
   {
     "id": "bhp40mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Hi-Power .40 S&W magazine",
     "description": "A 10 round steel box magazine for the Browning Hi-Power .40 S&W.",
@@ -98,6 +104,7 @@
   },
   {
     "id": "ppq40mag_10rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "PPQ .40 S&W 10-round magazine",
     "description": "A 10 round steel box magazine for the Walther PPQ .40 S&W.",
@@ -114,6 +121,7 @@
   },
   {
     "id": "ppq40mag_12rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "PPQ .40 S&W 12-round magazine",
     "description": "A 12 round steel box magazine for the Walther PPQ .40 S&W.",
@@ -130,6 +138,7 @@
   },
   {
     "id": "ppq40mag_14rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "PPQ .40 S&W 14-round magazine",
     "description": "A 14 round steel box magazine for the Walther PPQ .40 S&W.",
@@ -146,6 +155,7 @@
   },
   {
     "id": "hptjcpmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Model JCP magazine",
     "description": "A 10-round steel box magazine for use with the Hi-Point Model JCP.",

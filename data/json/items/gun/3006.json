@@ -96,7 +96,7 @@
     "durability": 8,
     "blackpowder_tolerance": 60,
     "clip_size": 5,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -135,7 +135,7 @@
     "durability": 8,
     "min_cycle_recoil": 3420,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "barrel_length": 4,
+    "barrel_length": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

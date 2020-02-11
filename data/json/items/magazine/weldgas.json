@@ -1,6 +1,7 @@
 [
   {
     "id": "tinyweldtank",
+    "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
     "name": "small welding tank",
     "description": "A compact steel cylinder designed for holding pressurized welding gases.  It is marked with several faded and now unreadable symbols.",
@@ -18,6 +19,7 @@
   },
   {
     "id": "weldtank",
+    "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
     "name": "welding tank",
     "description": "A large steel cylinder designed for holding pressurized welding gases.  It is marked with several faded and now unreadable symbols.",

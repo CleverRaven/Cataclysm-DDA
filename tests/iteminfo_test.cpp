@@ -9,6 +9,7 @@
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "recipe_dictionary.h"
 
 static void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
 {
@@ -306,5 +307,59 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
         "* This piece of clothing is designed to keep you <color_c_cyan>dry</color> in the rain.\n"
         "* This clothing <color_c_cyan>won't let water through</color>."
         "  Unless you jump in the river or something like that.\n" );
+}
+
+TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo][recipes]" )
+{
+    iteminfo_query q( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
+    const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
+    g->u.empty_traits();
+
+    GIVEN( "character has a potassium iodide tablet and no skill" ) {
+        item &iodine = g->u.i_add( item( "iodine" ) );
+        g->u.empty_skills();
+
+        THEN( "nothing is craftable from it" ) {
+            iteminfo_test(
+                iodine, q,
+                "--\nYou know of nothing you could craft with it.\n" );
+        }
+
+        WHEN( "they acquire the needed skills" ) {
+            g->u.set_skill_level( purtab->skill_used, purtab->difficulty );
+            REQUIRE( g->u.get_skill_level( purtab->skill_used ) == purtab->difficulty );
+
+            THEN( "still nothing is craftable from it" ) {
+                iteminfo_test(
+                    iodine, q,
+                    "--\nYou know of nothing you could craft with it.\n" );
+            }
+
+            WHEN( "they have no book, but have the recipe memorized" ) {
+                g->u.learn_recipe( purtab );
+                REQUIRE( g->u.knows_recipe( purtab ) );
+
+                THEN( "they can use potassium iodide tablets to craft it" ) {
+                    iteminfo_test(
+                        iodine, q,
+                        "--\n"
+                        "You could use it to craft: "
+                        "<color_c_dark_gray>water purification tablet</color>\n" );
+                }
+            }
+
+            WHEN( "they have the recipe in a book, but not memorized" ) {
+                g->u.i_add( item( "textbook_chemistry" ) );
+
+                THEN( "they can use potassium iodide tablets to craft it" ) {
+                    iteminfo_test(
+                        iodine, q,
+                        "--\n"
+                        "You could use it to craft: "
+                        "<color_c_dark_gray>water purification tablet</color>\n" );
+                }
+            }
+        }
+    }
 }
 
