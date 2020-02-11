@@ -13,6 +13,17 @@
 #include "itype.h"
 #include "skill.h"
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -27,6 +38,24 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
     actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
 {
+}
+
+void player_activity::migrate_item_position( Character &guy )
+{
+    const bool simple_action_replace =
+        type == ACT_FIRSTAID || type == ACT_GAME ||
+        type == ACT_PICKAXE || type == ACT_START_FIRE ||
+        type == ACT_HAND_CRANK || type == ACT_VIBE ||
+        type == ACT_OXYTORCH || type == ACT_FISH ||
+        type == ACT_ATM;
+
+    if( simple_action_replace ) {
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+    } else if( type == ACT_GUNMOD_ADD ) {
+        // this activity has two indices; "position" = gun and "values[0]" = mod
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+    }
 }
 
 void player_activity::set_to_null()

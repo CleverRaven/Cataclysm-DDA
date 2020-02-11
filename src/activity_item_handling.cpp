@@ -2828,7 +2828,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.activity = player_activity();
         item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                           p.get_item_position( best_rod ), best_rod->tname() );
+                           0, best_rod->tname() );
+        p.activity.targets.push_back( item_location( p, best_rod ) );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == NEEDS_MINING ) {

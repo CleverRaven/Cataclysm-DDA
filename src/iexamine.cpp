@@ -552,7 +552,7 @@ class atm_menu
             item *dst;
             if( u.activity.id() == ACT_ATM ) {
                 u.activity.set_to_null(); // stop for now, if required, it will be created again.
-                dst = &u.i_at( u.activity.position );
+                dst = u.activity.targets.front().get_item();
                 if( dst->is_null() || dst->typeId() != "cash_card" ) {
                     return false;
                 }
@@ -573,7 +573,8 @@ class atm_menu
                     // Money from `*i` could be transferred, but we're out of moves, schedule it for
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
-                    u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                    u.assign_activity( ACT_ATM, 0, transfer_all_money );
+                    u.activity.targets.push_back( item_location( u, dst ) );
                     break;
                 }
 

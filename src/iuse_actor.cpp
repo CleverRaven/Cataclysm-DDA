@@ -1454,8 +1454,8 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int potential_skill_gain =
         moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
-                       p.get_item_position( &it ),
-                       it.tname() );
+                       0, it.tname() );
+    p.activity.targets.push_back( item_location( p, &it ) );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
     // charges to use are handled by the activity
@@ -3621,7 +3621,8 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
         /** @EFFECT_FIRSTAID speeds up firstaid activity */
-        p.assign_activity( ACT_FIRSTAID, cost, 0, p.get_item_position( &it ), it.tname() );
+        p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
+        p.activity.targets.push_back( item_location( p, &it ) );
         p.activity.values.push_back( hpp );
         p.moves = 0;
         return 0;
