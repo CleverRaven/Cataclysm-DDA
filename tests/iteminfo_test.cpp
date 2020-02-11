@@ -128,7 +128,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "Reload time: <color_c_yellow>110</color> moves \n" );
+            "Reload time: <color_c_yellow>110</color> moves\n" );
     }
 
     SECTION( "firing modes" ) {
@@ -362,4 +362,3 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
         }
     }
 }
-
