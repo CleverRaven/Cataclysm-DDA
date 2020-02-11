@@ -1,0 +1,59 @@
+[
+  {
+    "id": "small_hot_air_balloon",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "small hot air balloon envelope",
+    "description": "A small folded up nylon envelope for use in a hot air balloon.",
+    "price": 600,
+    "weight": "45359 g",
+    "volume": "45359 ml",
+    "looks_like": "tarp",
+    "material": [ "nylon" ],
+    "symbol": "O",
+    "color": "dark_gray"
+  },
+  {
+    "id": "medium_hot_air_balloon",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "medium hot air balloon envelope",
+    "description": "A folded up nylon envelope for use in a hot air balloon.",
+    "price": 800,
+    "weight": "113398 g",
+    "volume": "113398 ml",
+    "looks_like": "tarp",
+    "material": [ "nylon" ],
+    "symbol": "O",
+    "color": "blue"
+  },
+  {
+    "id": "large_hot_air_balloon",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "large hot air balloon envelope",
+    "description": "A large folded up nylon envelope for use in a hot air balloon.",
+    "price": 1200,
+    "weight": "544310 g",
+    "volume": "544310 ml",
+    "looks_like": "tarp",
+    "material": [ "nylon" ],
+    "symbol": "O",
+    "color": "blue"
+  },
+  {
+    "id": "balloon_burner",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "hot air balloon burner",
+    "description": "A hot air balloon burner, operating this outside of its intended use would be a bad idea.",
+    "weight": "12500 g",
+    "to_hit": -4,
+    "color": "red",
+    "symbol": ";",
+    "material": [ "steel" ],
+    "volume": "7500 ml",
+    "bashing": 5,
+    "price": 1200
+  }
+]

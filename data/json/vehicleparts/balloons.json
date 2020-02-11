@@ -1,0 +1,72 @@
+[
+  {
+    "abstract": "hot_air_balloon",
+    "type": "vehicle_part",
+    "location": "on_roof",
+    "symbol": "O",
+    "color": "light_blue",
+    "broken_symbol": "s",
+    "broken_color": "light_gray",
+    "flags": [ "BALLOON" ],
+    "description": "A synthetic fabric balloon, designed to be filled with hot air, to make it rise, hopefully taking people with it."
+  },
+  {
+    "id": "small_hot_air_balloon",
+    "copy-from": "hot_air_balloon",
+    "type": "vehicle_part",
+    "name": "small hot air balloon",
+    "item": "small_hot_air_balloon",
+    "//": "balloon volume is in meters cubed",
+    "balloon_volume": 1000,
+    "difficulty": 4,
+    "durability": 30,
+    "description": "A small synthetic fabric balloon, designed to be filled with hot air, to make it rise, hopefully taking people with it.",
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "scrap_nylon", "count": [ 20, 80 ] } ]
+  },
+  {
+    "id": "medium_hot_air_balloon",
+    "copy-from": "hot_air_balloon",
+    "type": "vehicle_part",
+    "name": "medium hot air balloon",
+    "item": "medium_hot_air_balloon",
+    "//": "balloon volume is in meters cubed",
+    "balloon_volume": 2800,
+    "difficulty": 5,
+    "durability": 30,
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "scrap_nylon", "count": [ 60, 240 ] } ]
+  },
+  {
+    "id": "large_hot_air_balloon",
+    "copy-from": "hot_air_balloon",
+    "type": "vehicle_part",
+    "name": "large hot air balloon",
+    "item": "large_hot_air_balloon",
+    "//": "balloon volume is in meters cubed",
+    "description": "A large synthetic fabric balloon, designed to be filled with hot air, to make it rise, hopefully taking people with it.",
+    "balloon_volume": 12000,
+    "difficulty": 6,
+    "durability": 30,
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "scrap_nylon", "count": [ 240, 500 ] } ]
+  },
+  {
+    "id": "balloon_burner",
+    "type": "vehicle_part",
+    "name": "balloon burner",
+    "item": "balloon_burner",
+    "location": "center",
+    "symbol": "Y",
+    "broken_symbol": "y",
+    "color": "red",
+    "durability": 400,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "flags": [ "BURNER" ]
+  }
+]
