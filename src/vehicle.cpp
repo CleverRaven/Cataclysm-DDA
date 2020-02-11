@@ -1414,7 +1414,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         for( const std::string &flag : part_info( elem ).get_flags() ) {
             if( !json_flag::get( flag ).requires_flag().empty() ) {
                 if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
-                    reason = string_format( _( "Remove the attached %s first" ), part_info( elem ).name() );
+                    reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
                     return false;
                 }
             }
