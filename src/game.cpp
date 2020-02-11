@@ -5173,7 +5173,7 @@ void game::control_vehicle()
             veh_part = vp->part_index();
         }
     }
-    if( veh != nullptr ){
+    if( veh != nullptr ) {
         veh->has_sufficient_balloon_lift();
     }
     if( veh != nullptr && veh->player_in_control( u ) &&

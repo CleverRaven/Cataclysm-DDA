@@ -1043,7 +1043,8 @@ class vehicle
         std::vector<int> boarded_parts() const;
 
         // get a list of part indices and Creature pointers with a rider
-        std::vector<rider_data> get_riders() const;
+        // @param include_non_boardable is for z_changes where you cant really leave people behind.
+        std::vector<rider_data> get_riders( bool include_non_boardable = false ) const;
 
         // get passenger at part p
         player *get_passenger( int p ) const;
@@ -1292,7 +1293,12 @@ class vehicle
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
         bool is_rotorcraft() const;
+        bool has_burner_fuel() const;
+        bool is_burner_fuel( itype_id fuel ) const;
+        void control_burner();
         bool is_hot_air_balloon() const;
+        void wind_movement();
+        void balloon_vertical_movement();
         bool is_airworthy() const;
         /**
          * Traction coefficient of the vehicle.
@@ -1378,8 +1384,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_aircraft_descend( player &p );
-        bool check_aircraft_ascend( player &p );
+        bool check_heli_descend( player &p );
+        bool check_heli_ascend( player &p );
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle
@@ -1558,7 +1564,6 @@ class vehicle
         void operate_planter();
         std::string tracking_toggle_string();
         void autopilot_patrol_check();
-        void operate_burner();
         void toggle_autopilot();
         void enable_patrol();
         void toggle_tracking();
@@ -1733,6 +1738,7 @@ class vehicle
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
         tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
+        int desired_altitude = 0;
 
     public:
         // Subtract from parts.size() to get the real part count.

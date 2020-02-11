@@ -708,7 +708,7 @@ bool veh_interact::can_install_part()
         }
     }
     bool already_balloon = false;
-    if( sel_vpart_info->has_flag( "BALLOON" ) && veh->has_part( "BALLOON" ) ){
+    if( sel_vpart_info->has_flag( "BALLOON" ) && veh->has_part( "BALLOON" ) ) {
         already_balloon = true;
     }
     int dif_steering = 0;
@@ -734,7 +734,7 @@ bool veh_interact::can_install_part()
     bool ok = format_reqs( msg, reqs, sel_vpart_info->install_skills,
                            sel_vpart_info->install_time( g->u ) );
     msg += _( "<color_white>Additional requirements:</color>\n" );
-    if( already_balloon ){
+    if( already_balloon ) {
         msg += _( "<color_red>Cannot install more than one balloon envelope." );
         ok = false;
     }

@@ -3230,16 +3230,28 @@ std::vector<int> vehicle::boarded_parts() const
     return res;
 }
 
-std::vector<rider_data> vehicle::get_riders() const
+std::vector<rider_data> vehicle::get_riders( bool include_non_boardable ) const
 {
     std::vector<rider_data> res;
-    for( const vpart_reference &vp : get_avail_parts( VPFLAG_BOARDABLE ) ) {
-        Creature *rider = g->critter_at( vp.pos() );
-        if( rider ) {
-            rider_data r;
-            r.prt = vp.part_index();
-            r.psg = rider;
-            res.emplace_back( r );
+    if( include_non_boardable ) {
+        for( const vpart_reference &vp : get_all_parts() ) {
+            Creature *rider = g->critter_at( vp.pos() );
+            if( rider ) {
+                rider_data r;
+                r.prt = vp.part_index();
+                r.psg = rider;
+                res.emplace_back( r );
+            }
+        }
+    } else {
+        for( const vpart_reference &vp : get_avail_parts( VPFLAG_BOARDABLE ) ) {
+            Creature *rider = g->critter_at( vp.pos() );
+            if( rider ) {
+                rider_data r;
+                r.prt = vp.part_index();
+                r.psg = rider;
+                res.emplace_back( r );
+            }
         }
     }
     return res;
@@ -3663,7 +3675,7 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
         return water_acceleration( fueled, at_vel_in_vmi );
     } else if( is_rotorcraft() && is_flying ) {
         return rotor_acceleration( fueled, at_vel_in_vmi );
-    } else if( is_hot_air_balloon() && is_flying ){
+    } else if( is_hot_air_balloon() && is_flying ) {
         return 0;
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
@@ -3746,7 +3758,7 @@ int vehicle::max_velocity( const bool fueled ) const
         return max_rotor_velocity( fueled );
     } else if( is_watercraft() ) {
         return max_water_velocity( fueled );
-    } else if( is_flying && is_hot_air_balloon() ){
+    } else if( is_flying && is_hot_air_balloon() ) {
         return 0;
     } else {
         return max_ground_velocity( fueled );
@@ -3973,6 +3985,7 @@ struct drag_column {
     int panel = minrow;
     int windmill = minrow;
     int sail = minrow;
+    int balloon = minrow;
     int rotor = minrow;
     int last = maxrow;
 };
@@ -3989,6 +4002,7 @@ double vehicle::coeff_air_drag() const
     constexpr double fullboard_height = 0.5;
     constexpr double roof_height = 0.1;
     constexpr double windmill_height = 0.7;
+    constexpr double balloon_height = 1.2;
     constexpr double sail_height = 0.8;
     constexpr double rotor_height = 0.6;
 
@@ -4045,6 +4059,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
+            d_check_max( drag[col].balloon, pa, pa.info().has_flag( "BALLOON" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
@@ -4078,6 +4093,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
+        // balloons are some of the worst things possible for drag!
+        c_air_drag_c += ( dc.balloon > minrow ) ? 9 * c_air_mod : 0;
         // rotors are not great for drag!
         c_air_drag_c += ( dc.rotor > minrow ) ? 6 * c_air_mod : 0;
         // having a sail is terrible for your drag
@@ -4097,6 +4114,7 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
         // windmills are tall, too
         c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
+        c_height += ( dc.balloon > minrow ) ? balloon_height : 0;
         c_height += ( dc.rotor > minrow ) ? rotor_height : 0;
         // sails are tall, too
         c_height += ( dc.sail > minrow ) ? sail_height : 0;
@@ -4205,14 +4223,12 @@ static double air_density( int temperature, int humidity, int pressure, bool dry
     int local_humidity = dry ? 0 : humidity;
     const double local_temp_kelvin = temp_to_kelvin( temperature );
     const double local_temp_celsius = temp_to_celsius( temperature );
-    std::cout << "local temp kelvin = " << std::to_string( local_temp_kelvin ) << std::endl;
-    const double saturation_pressure = 6.1078 * pow( 10, ( 7.5 * local_temp_celsius / (local_temp_celsius + 237.3)) );
-    std::cout << "saturation_pressure = " << std::to_string( saturation_pressure ) << std::endl;
+    const double saturation_pressure = 6.1078 * pow( 10,
+                                       ( 7.5 * local_temp_celsius / ( local_temp_celsius + 237.3 ) ) );
     const double actual_vapor_pressure = saturation_pressure * ( local_humidity / 100.0 );
-    std::cout << "actual_vapor_pressure = " << std::to_string( actual_vapor_pressure ) << std::endl;
     const double dry_pressure = pressure - actual_vapor_pressure;
-    std::cout << "dry_pressure = " << std::to_string( dry_pressure ) << std::endl;
-    double density = (dry_pressure / (287.0 * local_temp_kelvin)) + (actual_vapor_pressure / ( 461.0 * local_temp_kelvin));
+    double density = ( dry_pressure / ( 287.0 * local_temp_kelvin ) ) + ( actual_vapor_pressure /
+                     ( 461.0 * local_temp_kelvin ) );
     // convert to kg/m3
     return density * 100.0;
 }
@@ -4228,33 +4244,35 @@ static double air_density( int temperature, int humidity, int pressure, bool dry
 double vehicle::lift_of_balloon() const
 {
     int total_volume = 0;
+    double total_condition = 0.0;
+    double average_condition = 0.0;
+    int balloon_count = 0;
     for( const vpart_reference &vp : get_avail_parts( "BALLOON" ) ) {
         const size_t p = vp.part_index();
+        if( parts[p].is_broken() || parts[p].removed ) {
+            continue;
+        }
+        total_condition += vp.part().health_percent();
+        balloon_count++;
         total_volume += part_info( p ).balloon_volume();
     }
-    if( total_volume == 0 ){
+    if( total_volume == 0 ) {
         return 0.0;
     }
-    std::cout << "total volume = " << std::to_string( total_volume ) << std::endl;
+    average_condition = total_condition / balloon_count;
     // assume max operating temp for a balloon
     // assume player heats it to this temp, when they want to climb.
     const int total_temp = 250;
     const w_point weather_point = *g->weather.weather_precise;
-    // dont need precision of the double for what comes next.
     const int local_temp_fahrenheit = static_cast<int>( weather_point.temperature );
-    std::cout << "local temp fahr = " << std::to_string( local_temp_fahrenheit ) << std::endl;
     const int local_humidity = static_cast<int>( weather_point.humidity );
-    std::cout << "local humidity= " << std::to_string( local_humidity ) << std::endl;
     const int local_pressure = static_cast<int>( weather_point.pressure );
-    std::cout << "local local_pressure= " << std::to_string( local_pressure ) << std::endl;
-    const double density_outside = air_density( local_temp_fahrenheit, local_humidity, local_pressure, false );
-    std::cout << "density_outside= " << std::to_string( density_outside ) << std::endl;
+    const double density_outside = air_density( local_temp_fahrenheit, local_humidity, local_pressure,
+                                   false );
     const double density_inside = air_density( total_temp, local_humidity, local_pressure, true );
-    std::cout << "density_inside= " << std::to_string( density_inside ) << std::endl;
     // now we have outside air density.
     // now we calculate the lift.
-    std::cout << "lift = " << std::to_string( total_volume * (density_outside - density_inside) * 9.8 ) << std::endl;
-    return total_volume * (density_outside - density_inside) * 9.8;
+    return ( total_volume * ( density_outside - density_inside ) * 9.8 ) * average_condition;
 }
 
 bool vehicle::has_sufficient_balloon_lift() const
@@ -4275,7 +4293,7 @@ bool vehicle::is_rotorcraft() const
 
 bool vehicle::is_hot_air_balloon() const
 {
-    return has_part( "BALLOON" ) && has_part( "BURNER" ) && has_sufficient_balloon_lift();
+    return has_part( "BALLOON" ) && has_part( "BURNER", true ) && has_sufficient_balloon_lift();
 }
 
 bool vehicle::is_airworthy() const
@@ -5162,6 +5180,9 @@ void vehicle::do_engine_damage( size_t e, int strain )
 void vehicle::idle( bool on_map )
 {
     power_parts();
+    if( on_map && has_part( "BALLOON" ) && is_airworthy() && desired_altitude != sm_pos.z ) {
+        balloon_vertical_movement();
+    }
     if( engine_on && total_power_w() > 0 ) {
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
@@ -5217,6 +5238,56 @@ void vehicle::idle( bool on_map )
 
     if( is_alarm_on ) {
         alarm();
+    }
+}
+
+void vehicle::balloon_vertical_movement()
+{
+    itype_id most_fuel = "null";
+    int most_fuel_amount = 0;
+    bool out_of_fuel = false;
+    for( const auto &p : parts ) {
+        if( p.is_fuel_store() && is_burner_fuel( p.ammo_current() ) &&
+            p.ammo_remaining() > most_fuel_amount ) {
+            most_fuel = p.ammo_current();
+            most_fuel_amount = p.ammo_remaining();
+        }
+    }
+    if( most_fuel == "null" || most_fuel_amount == 0 ) {
+        out_of_fuel = true;
+        add_msg( _( "The burner is out of fuel!" ) );
+    }
+    if( ( desired_altitude > sm_pos.z || desired_altitude == sm_pos.z ) && !out_of_fuel ) {
+        time_duration time_between_burns = 1_minutes;
+        if( desired_altitude == sm_pos.z ) {
+            // maintain altitude
+            time_between_burns = 10_minutes;
+        }
+        if( calendar::once_every( time_between_burns ) ) {
+            if( desired_altitude > sm_pos.z ) {
+                requested_z_change = 1;
+                if( !is_flying ) {
+                    is_flying = true;
+                }
+            } else {
+                requested_z_change = 0;
+            }
+            for( vehicle_part &p : parts ) {
+                if( p.is_fuel_store() && p.ammo_current() == most_fuel ) {
+                    p.ammo_consume( 50, global_part_pos3( p ) );
+                }
+            }
+        }
+    } else if( desired_altitude < sm_pos.z ) {
+        requested_z_change = 0;
+        if( calendar::once_every( 1_minutes ) ) {
+            requested_z_change = -1;
+        }
+    } else if( out_of_fuel ) {
+        requested_z_change = 0;
+        if( calendar::once_every( 5_minutes ) ) {
+            requested_z_change = -1;
+        }
     }
 }
 
@@ -6326,6 +6397,26 @@ std::map<itype_id, int> vehicle::fuels_left() const
         }
     }
     return result;
+}
+
+bool vehicle::is_burner_fuel( itype_id fuel ) const
+{
+    if( fuel == "gasoline" || fuel == "diesel" || fuel == "lamp_oil" || fuel == "jp8" ||
+        fuel == "motor_oil" || fuel == "avgas" ) {
+        return true;
+    }
+    return false;
+}
+
+bool vehicle::has_burner_fuel() const
+{
+    std::map<itype_id, int> fuels = fuels_left();
+    for( const std::pair<itype_id, int> fuel : fuels ) {
+        if( is_burner_fuel( fuel.first ) && fuel.second > 10 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool vehicle::is_foldable() const

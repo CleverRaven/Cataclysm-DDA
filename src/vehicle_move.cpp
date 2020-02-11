@@ -144,7 +144,7 @@ void vehicle::thrust( int thd, int z )
     // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = current_acceleration() * traction;
-    if( thrusting && accel == 0 ) {
+    if( thrusting && accel == 0 && z != 0 && !is_hot_air_balloon() ) {
         if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
         }
@@ -226,7 +226,7 @@ void vehicle::thrust( int thd, int z )
         //make noise and consume fuel
         noise_and_smoke( load );
         consume_fuel( load, 1 );
-        if( z != 0 && is_airworthy() ) {
+        if( z != 0 && is_rotorcraft() ) {
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
@@ -960,7 +960,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_aircraft_descend( player &p )
+bool vehicle::check_heli_descend( player &p )
 {
     if( !is_airworthy() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -988,7 +988,7 @@ bool vehicle::check_aircraft_descend( player &p )
 
 }
 
-bool vehicle::check_aircraft_ascend( player &p )
+bool vehicle::check_heli_ascend( player &p )
 {
     if( !is_airworthy() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1354,6 +1354,26 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
     // allow turn for vehicles with wheel distance < 4 when moving backwards
 }
 
+void vehicle::wind_movement()
+{
+    int windspeed = static_cast<int>( g->weather.windspeed );
+    if( sm_pos.z > 0 ) {
+        windspeed = windspeed + ( sm_pos.z * std::min( 5, windspeed ) );
+    }
+    if( windspeed < 3 || !x_in_y( std::min( windspeed / 2, 20 ), 40 ) ) {
+        velocity = 0;
+        return;
+    }
+    int winddirection = g->weather.winddirection;
+    winddirection += 90;
+    winddirection -= 360. * std::floor( winddirection * ( 1. / 360. ) );
+    skidding = true;
+    tileray mdir;
+    mdir.init( winddirection );
+    move = mdir;
+    velocity = windspeed * 8;
+}
+
 vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
@@ -1404,7 +1424,10 @@ vehicle *vehicle::act_on_map()
         // Not actually falling, was just marked for fall test
         is_falling = false;
     }
-
+    // no other forces acting on vehicle, and is drifing in the wind.
+    if( is_hot_air_balloon() && is_flying ) {
+        wind_movement();
+    }
     // Low enough for bicycles to go in reverse.
     // If the movement is due to a change in z-level, i.e a helicopter then the lateral movement will often be zero.
     if( !should_fall && abs( velocity ) < 20 && requested_z_change == 0 ) {
@@ -1468,7 +1491,7 @@ vehicle *vehicle::act_on_map()
         }
     }
 
-    if( skidding && one_in( 4 ) ) {
+    if( skidding && !is_hot_air_balloon() && one_in( 4 ) ) {
         // Might turn uncontrollably while skidding
         turn( one_in( 2 ) ? -15 : 15 );
     }
@@ -1521,7 +1544,6 @@ vehicle *vehicle::act_on_map()
             is_flying = true;
         }
     }
-
     return g->m.move_vehicle( *this, dp, mdir );
 }
 

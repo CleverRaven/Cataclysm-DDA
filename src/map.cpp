@@ -410,7 +410,7 @@ bool map::vehproceed( VehicleList &vehicle_list )
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
         for( wrapped_vehicle &vehs_v : vehicle_list ) {
-            if( vehs_v.v->is_falling || ( vehs_v.v->is_airworthy() && vehs_v.v->get_z_change() != 0 ) ) {
+            if( vehs_v.v->is_falling || ( vehs_v.v->get_z_change() != 0 && vehs_v.v->is_airworthy() ) ) {
                 cur_veh = &vehs_v;
                 break;
             }
@@ -483,7 +483,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Split into vertical and horizontal movement
     const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
     const int velocity_before = coll_velocity;
-    if( velocity_before == 0 && !veh.is_airworthy() && !veh.is_flying_in_air() ) {
+    if( velocity_before == 0 && !veh.is_flying_in_air() && !veh.is_airworthy() ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name, vertical ? "vertically" : "horizontally" );
         return &veh;
@@ -1022,7 +1022,6 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
                  src.x, src.y, src.z, dst.x, dst.y, dst.z );
         return false;
     }
-
     point src_offset;
     point dst_offset;
     submap *src_submap = get_submap_at( src, src_offset );
@@ -1064,7 +1063,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
     const bool remote = veh.remote_controlled( g->u );
 
     // record every passenger and pet inside
-    std::vector<rider_data> riders = veh.get_riders();
+    std::vector<rider_data> riders = veh.get_riders( dp.z != 0 );
 
     bool need_update = false;
     int z_change = 0;

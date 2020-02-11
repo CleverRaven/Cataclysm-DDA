@@ -520,6 +520,22 @@ void vehicle::autopilot_patrol_check()
     }
 }
 
+void vehicle::control_burner()
+{
+    const std::string formatted = _( "Select a desired altitude: ( 0 - 10 )" );
+    const int amount = string_input_popup()
+                       .title( formatted )
+                       .width( 20 )
+                       .only_digits( true )
+                       .query_int();
+    desired_altitude = clamp( amount, 0, 10 );
+    if( desired_altitude > sm_pos.z ) {
+        add_msg( m_info, _( "You start burning to raise altitude" ) );
+    } else if( desired_altitude < sm_pos.z ) {
+        add_msg( m_info, _( "You start letting out hot air to descend" ) );
+    }
+}
+
 void vehicle::toggle_autopilot()
 {
     uilist smenu;
@@ -668,10 +684,6 @@ void vehicle::use_controls( const tripoint &pos )
             } );
         }
     }
-    if( has_part( "BURNER" ) ) {
-        options.emplace_back( _( "Operate balloon burner" ), keybind( "TOGGLE_ENGINE" ) );
-        actions.push_back( [&] {operate_burner(); refresh();});
-    }
     if( has_part( "HORN" ) ) {
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
         actions.push_back( [&] { honk_horn(); refresh(); } );
@@ -681,6 +693,18 @@ void vehicle::use_controls( const tripoint &pos )
         options.emplace_back( _( "Control autopilot" ),
                               keybind( "CONTROL_AUTOPILOT" ) );
         actions.push_back( [&] { toggle_autopilot(); refresh(); } );
+    }
+    if( has_part( "BURNER" ) ) {
+        std::string msg;
+        if( has_burner_fuel() ) {
+            actions.push_back( [&] { control_burner(); refresh(); } );
+            msg = string_format(
+                      _( "Set desired altitude for balloon : current desired altitude = %d, current altitude = %d" ),
+                      desired_altitude, sm_pos.z );
+        } else {
+            msg = _( "The burner has no fuel left!" );
+        }
+        options.emplace_back( msg, has_burner_fuel() );
     }
 
     options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
@@ -1073,11 +1097,6 @@ void vehicle::enable_patrol()
     autodrive_local_target = tripoint_zero;
     start_engines();
     refresh();
-}
-
-void vehicle::operate_burner()
-{
-    g->u.controlling_vehicle = true;
 }
 
 void vehicle::honk_horn()
