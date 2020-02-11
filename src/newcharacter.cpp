@@ -468,6 +468,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     if( tab < 0 ) {
         catacurses::clear();
+        catacurses::refresh();
         return false;
     }
 
