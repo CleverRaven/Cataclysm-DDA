@@ -48,6 +48,7 @@
     "charges": 1,
     "time": "20 m",
     "book_learn": [ [ "cookbook_indian", 1 ] ],
+    "time": "30 m",
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [
