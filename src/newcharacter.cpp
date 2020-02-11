@@ -736,7 +736,7 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
     unsigned char sel = 1;
-    const int iSecondColumn = utf8_width( points.to_string(), true ) + 9;
+    const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
     ctxt.register_cardinal();
     ctxt.register_action( "PREV_TAB" );
