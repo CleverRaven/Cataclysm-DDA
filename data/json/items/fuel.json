@@ -84,8 +84,7 @@
   {
     "id": "gasoline",
     "type": "AMMO",
-    "name": "gasoline",
-    "name_plural": "gasoline",
+    "name": { "str": "gasoline", "str_pl": "gasoline" },
     "description": "Gasoline is a highly flammable liquid.  When under pressure, it has the potential for violent explosion.",
     "category": "fuel",
     "weight": "1 g",
@@ -194,8 +193,7 @@
   {
     "id": "gelled_gasoline",
     "type": "AMMO",
-    "name": "gelled gasoline",
-    "name_plural": "gelled gasoline",
+    "name": { "str": "gelled gasoline", "str_pl": "gelled gasoline" },
     "copy-from": "gasoline",
     "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm b.  It's meant to be used with a flamethrower.",
     "price": 400,
