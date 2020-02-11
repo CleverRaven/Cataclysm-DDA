@@ -257,12 +257,12 @@ void scen_blacklist::load( const JsonObject &jo, const std::string & )
 
 void scen_blacklist::finalize()
 {
-    std::vector<string_id<scenario>> all_scenarios;
+    std::vector<string_id<scenario>> all_scens;
     for( const scenario &scen : scenario::get_all() ) {
-        all_scenarios.emplace_back( scen.ident() );
+        all_scens.emplace_back( scen.ident() );
     }
     for( const string_id<scenario> &sc : sc_blacklist.scenarios ) {
-        if( std::find( all_scenarios.begin(), all_scenarios.end(), sc ) == all_scenarios.end() ) {
+        if( std::find( all_scens.begin(), all_scens.end(), sc ) == all_scens.end() ) {
             debugmsg( "Scenario blacklist contains invalid scenario" );
         }
     }
@@ -281,6 +281,11 @@ void scen_blacklist::finalize()
             }
         }
     }
+}
+
+void reset_scenarios_blacklist()
+{
+    sc_blacklist.scenarios.clear();
 }
 
 std::vector<string_id<profession>> scenario::permitted_professions() const

@@ -512,6 +512,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    reset_scenarios_blacklist();
     overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
