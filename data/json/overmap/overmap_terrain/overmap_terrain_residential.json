@@ -21,6 +21,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "basement_bionic_decoy",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "basement_hidden_lab_stairs",
     "copy-from": "generic_city_house_basement",
     "extend": { "flags": [ "NO_ROTATE" ] }
@@ -732,6 +737,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_08_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_09",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -763,6 +773,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_10_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -956,6 +971,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_11_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_12",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -970,6 +990,11 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_12_basement",
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
