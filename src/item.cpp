@@ -2762,6 +2762,125 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
 }
 
+void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
+                        bool /*debug*/ ) const
+{
+    if( !is_bionic() ) {
+        return;
+    }
+
+    // TODO: Unhide when enforcing limits
+    if( get_option < bool >( "CBM_SLOTS_ENABLED" )
+        && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+        info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
+                                  _( "This bionic is installed in the following body "
+                                     "part(s):" ) ) ) );
+    }
+    insert_separation_line( info );
+
+    if( is_bionic() && has_flag( "NO_STERILE" ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This bionic is <bad>not sterile</bad>, use an <info>autoclave</info> and an <info>autoclave pouch</info> to sterilize it. " ) ) );
+    }
+    insert_separation_line( info );
+
+    const bionic_id bid = type->bionic->id;
+    const std::vector<itype_id> &fuels = bid->fuel_opts;
+    if( !fuels.empty() ) {
+        const int &fuel_numb = fuels.size();
+
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  ngettext( "* This bionic can produce power from the following fuel: ",
+                                            "* This bionic can produce power from the following fuels: ",
+                                            fuel_numb ) + enumerate_as_string( fuels.begin(),
+                                                    fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+    }
+
+    insert_separation_line( info );
+
+    if( bid->capacity > 0_mJ ) {
+        info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> mJ" ),
+                                  iteminfo::no_newline,
+                                  units::to_millijoule( bid->capacity ) ) );
+    }
+
+    insert_separation_line( info );
+
+    if( !bid->encumbrance.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
+                                  iteminfo::no_newline ) );
+        for( const auto &element : bid->encumbrance ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                      " <num> ", iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    if( !bid->env_protec.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "<bold>Environmental Protection</bold>: " ),
+                                  iteminfo::no_newline ) );
+        for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                      " <num> ", iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    if( !bid->bash_protec.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "<bold>Bash Protection</bold>: " ),
+                                  iteminfo::no_newline ) );
+        for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                      " <num> ", iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    if( !bid->cut_protec.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "<bold>Cut Protection</bold>: " ),
+                                  iteminfo::no_newline ) );
+        for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                      " <num> ", iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    if( !bid->stat_bonus.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus</bold>: " ),
+                                  iteminfo::no_newline ) );
+        for( const auto &element : bid->stat_bonus ) {
+            info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ",
+                                      iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    const units::mass weight_bonus = bid->weight_capacity_bonus;
+    const float weight_modif = bid->weight_capacity_modifier;
+    if( weight_modif != 1 ) {
+        std::string modifier;
+        if( weight_modif < 1 ) {
+            modifier = "<num><bad>x</bad>";
+        } else {
+            modifier = "<num><color_light_green>x</color>";
+        }
+        info.push_back( iteminfo( "CBM",
+                                  _( "<bold>Weight capacity modifier</bold>: " ), modifier,
+                                  iteminfo::no_newline | iteminfo::is_decimal,
+                                  weight_modif ) );
+    }
+    if( weight_bonus != 0_gram ) {
+        std::string bonus;
+        if( weight_bonus < 0_gram ) {
+            bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
+        } else {
+            bonus = string_format( "<num> <color_light_green>%s</color>", weight_units() );
+        }
+        info.push_back( iteminfo( "CBM", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
+                                  iteminfo::no_newline | iteminfo::is_decimal,
+                                  convert_weight( weight_bonus ) ) );
+    }
+}
+
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug ) const
 {
@@ -2983,117 +3102,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    // TODO: Unhide when enforcing limits
-    if( is_bionic() ) {
-        if( get_option < bool >( "CBM_SLOTS_ENABLED" )
-            && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
-            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
-                                      _( "This bionic is installed in the following body "
-                                         "part(s):" ) ) ) );
-        }
-        insert_separation_line( info );
+    bionic_info( info, parts, batch, debug );
 
-        if( is_bionic() && has_flag( "NO_STERILE" ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This bionic is <bad>not sterile</bad>, use an <info>autoclave</info> and an <info>autoclave pouch</info> to sterilize it. " ) ) );
-        }
-        insert_separation_line( info );
-
-        const bionic_id bid = type->bionic->id;
-        const std::vector<itype_id> &fuels = bid->fuel_opts;
-        if( !fuels.empty() ) {
-            const int &fuel_numb = fuels.size();
-
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      ngettext( "* This bionic can produce power from the following fuel: ",
-                                                "* This bionic can produce power from the following fuels: ",
-                                                fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                                        fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
-        }
-
-        insert_separation_line( info );
-
-        if( bid->capacity > 0_mJ ) {
-            info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> mJ" ),
-                                      iteminfo::no_newline,
-                                      units::to_millijoule( bid->capacity ) ) );
-        }
-
-        insert_separation_line( info );
-
-        if( !bid->encumbrance.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
-                                      iteminfo::no_newline ) );
-            for( const auto &element : bid->encumbrance ) {
-                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                          " <num> ", iteminfo::no_newline, element.second ) );
-            }
-        }
-
-        if( !bid->env_protec.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "<bold>Environmental Protection</bold>: " ),
-                                      iteminfo::no_newline ) );
-            for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
-                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                          " <num> ", iteminfo::no_newline, element.second ) );
-            }
-        }
-
-        if( !bid->bash_protec.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "<bold>Bash Protection</bold>: " ),
-                                      iteminfo::no_newline ) );
-            for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
-                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                          " <num> ", iteminfo::no_newline, element.second ) );
-            }
-        }
-        if( !bid->cut_protec.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "<bold>Cut Protection</bold>: " ),
-                                      iteminfo::no_newline ) );
-            for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
-                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                          " <num> ", iteminfo::no_newline, element.second ) );
-            }
-        }
-
-        if( !bid->stat_bonus.empty() ) {
-            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus</bold>: " ),
-                                      iteminfo::no_newline ) );
-            for( const auto &element : bid->stat_bonus ) {
-                info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ",
-                                          iteminfo::no_newline, element.second ) );
-            }
-        }
-
-        const units::mass weight_bonus = bid->weight_capacity_bonus;
-        const float weight_modif = bid->weight_capacity_modifier;
-        if( weight_modif != 1 ) {
-            std::string modifier;
-            if( weight_modif < 1 ) {
-                modifier = "<num><bad>x</bad>";
-            } else {
-                modifier = "<num><color_light_green>x</color>";
-            }
-            info.push_back( iteminfo( "CBM",
-                                      _( "<bold>Weight capacity modifier</bold>: " ), modifier,
-                                      iteminfo::no_newline | iteminfo::is_decimal,
-                                      weight_modif ) );
-        }
-        if( weight_bonus != 0_gram ) {
-            std::string bonus;
-            if( weight_bonus < 0_gram ) {
-                bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
-            } else {
-                bonus = string_format( "<num> <color_light_green>%s</color>", weight_units() );
-            }
-            info.push_back( iteminfo( "CBM", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
-                                      iteminfo::no_newline | iteminfo::is_decimal,
-                                      convert_weight( weight_bonus ) ) );
-        }
-    }
 
     if( is_gun() && has_flag( "FIRE_TWOHAND" ) &&
         parts->test( iteminfo_parts::DESCRIPTION_TWOHANDED ) ) {
