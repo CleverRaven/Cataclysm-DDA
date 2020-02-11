@@ -50,7 +50,10 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "tools": [
+      [ [ "water_boiling_heat", 2, "LIST" ] ],
+      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ]
+    ],
     "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ] ] ]
   }
 ]
