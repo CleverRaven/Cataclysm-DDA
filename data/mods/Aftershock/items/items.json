@@ -11,7 +11,7 @@
     "type": "GENERIC",
     "id": "crypto_coin",
     "name": { "str": "Crypto coin", "str_pl": "Crypto coins" },
-    "description": "PrepNet had been heavily involved in avoiding taxes by using untraceable internet currencies.  If this movement had grown it could have crippled the US tax base but the Cataclysm happened first.  These are physical coins with random numbers sequences embossed on them.",
+    "description": "PrepNet had been heavily involved in avoiding taxes by using untraceable internet currencies.  These however are physical coins with random numbers sequences embossed on them and RFID chips inside.",
     "price": 12000,
     "price_postapoc": 15000,
     "//": "The coins would be worthless but the PrepNet Phyle still retains some manufacturing capacity",
