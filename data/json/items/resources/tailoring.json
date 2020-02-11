@@ -53,8 +53,7 @@
     "id": "scrap_leather",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "leather scraps",
-    "name_plural": "leather scraps",
+    "name": { "str": "leather scraps", "str_pl": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "leather"
@@ -63,8 +62,7 @@
     "id": "scrap_lycra",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "lycra scraps",
-    "name_plural": "lycra scraps",
+    "name": { "str": "lycra scraps", "str_pl": "lycra scraps" },
     "description": "Oddly-shaped smallish bits of lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "lycra"
@@ -73,8 +71,7 @@
     "id": "scrap_neoprene",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "neoprene scraps",
-    "name_plural": "neoprene scraps",
+    "name": { "str": "neoprene scraps", "str_pl": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "neoprene"
