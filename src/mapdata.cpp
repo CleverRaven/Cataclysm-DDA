@@ -242,7 +242,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
             break;
         case map_bash_info::field:
             assign( j, "move_cost", fd_bash_move_cost, 100 );
-            j.read( "msg_succes", field_bash_msg_succes );
+            j.read( "msg_success", field_bash_msg_success );
             break;
     }
 

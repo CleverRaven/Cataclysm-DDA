@@ -688,7 +688,7 @@ static void smash()
             m.remove_field( smashp, fd_to_smsh.first );
             m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
             u.mod_moves( - bash_info.fd_bash_move_cost );
-            add_msg( m_info, _( bash_info.field_bash_msg_succes ) );
+            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
             return;
         } else {
             sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,

@@ -45,7 +45,7 @@ struct map_bash_info {
     std::string drop_group; // item group of items that are dropped when the object is bashed
     translation sound;      // sound made on success ('You hear a "smash!"')
     translation sound_fail; // sound  made on fail
-    std::string field_bash_msg_succes; // message upon successfully bashing a field
+    translation field_bash_msg_success; // message upon successfully bashing a field
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
