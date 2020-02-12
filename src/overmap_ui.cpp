@@ -59,6 +59,7 @@
 #include "enums.h"
 #include "map.h"
 #include "player_activity.h"
+#include "cata_string_consts.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -118,7 +119,7 @@ static std::tuple<char, nc_color, size_t> get_note_display_info( const std::stri
 static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
 
     std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
@@ -469,7 +470,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     bool csee = false;
     oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
@@ -730,7 +731,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
                     for( auto &mgp : groups ) {
-                        if( mgp->type == mongroup_id( "GROUP_FOREST" ) ) {
+                        if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
                         }
@@ -860,7 +861,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
-            maxlen = std::max( maxlen, utf8_width( line.second ) );
+            maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
         mvwputch( w, point_south_east, c_white, LINE_OXXO );
@@ -1235,7 +1236,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                                                colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
                                                colorize( oter.get_name(), oter.get_color() ),
                                                colorize( oter.id.str(), c_white ) );
-            pmenu.addentry( oter.id.id(), true, 0, entry_text );
+            pmenu.addentry( oter.id.id().to_i(), true, 0, entry_text );
         }
     } else {
         pmenu.title = _( "Select special to place:" );
@@ -1489,10 +1490,10 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
                         player_veh->is_autodriving = true;
-                        g->u.assign_activity( activity_id( "ACT_AUTODRIVE" ) );
+                        g->u.assign_activity( ACT_AUTODRIVE );
                     } else {
                         g->u.reset_move_mode();
-                        g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                        g->u.assign_activity( ACT_TRAVELLING );
                     }
                     action = "QUIT";
                 }

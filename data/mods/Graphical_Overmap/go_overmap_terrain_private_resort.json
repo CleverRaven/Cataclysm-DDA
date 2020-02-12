@@ -1,0 +1,170 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_private_resort",
+    "copy-from": "generic_private_resort",
+    "sym": "\u00D0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1nw",
+    "copy-from": "generic_private_resort",
+    "sym": "\u00E3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1nn",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1ne",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1ww",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1mm",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1ee",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1sw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1ss",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_1se",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_pw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_pm",
+    "copy-from": "generic_private_resort",
+    "sym": "\u00E3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_pe",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2nw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2nn",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2ne",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2ww",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2mm",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2ee",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2sw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2ss",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_2se",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_0nw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_0se",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rnw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rnn",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rne",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rww",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rmm",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_ree",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rsw",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rss",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "p_resort_rse",
+    "copy-from": "generic_private_resort"
+  }
+]

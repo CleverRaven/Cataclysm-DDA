@@ -60,8 +60,7 @@
     "id": "human_fat",
     "copy-from": "fat",
     "type": "COMESTIBLE",
-    "name": "chunk of human fat",
-    "name_plural": "chunks of human fat",
+    "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "Freshly harvested from a human body.",
     "material": "hflesh"
   },
@@ -87,8 +86,7 @@
     "copy-from": "meat",
     "type": "COMESTIBLE",
     "cooks_like": "human_cooked",
-    "name": "human flesh",
-    "name_plural": "human fleshes",
+    "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
     "material": "hflesh"
   },
@@ -189,8 +187,7 @@
     "id": "ruined_chunks",
     "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
     "symbol": "¨",
-    "name": "butchery refuse",
-    "name_plural": "butchery refuse",
+    "name": { "str": "butchery refuse", "str_pl": "butchery refuse" },
     "charges": 15,
     "volume": "2500 ml",
     "weight": "250 g",
@@ -300,8 +297,7 @@
     "id": "offal_canned",
     "copy-from": "offal",
     "type": "COMESTIBLE",
-    "name": "canned offal",
-    "name_plural": "canned offal",
+    "name": { "str": "canned offal", "str_pl": "canned offal" },
     "description": "Freshly cooked organ meat and entrails, preserved by canning.  Unappetizing, but filled with essential vitamins.",
     "volume": "500 ml",
     "stack_size": 2,
@@ -375,7 +371,7 @@
     "quench": -5,
     "fun": 4,
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
-    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 },
+    "proportional": { "price": 2.0, "volume": 0.28, "weight": 0.28 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -543,8 +539,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str": "blood", "str_pl": "blood" },
     "weight": "265 g",
     "color": "red",
     "container": "bag_iv",
@@ -577,8 +572,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fat",
-    "name": "chunk of fat",
-    "name_plural": "chunks of fat",
+    "name": { "str": "chunk of fat", "str_pl": "chunks of fat" },
     "weight": "220 g",
     "color": "pink",
     "spoils_in": "7 days",
@@ -656,8 +650,7 @@
     "id": "mutant_human_fat",
     "type": "COMESTIBLE",
     "copy-from": "mutant_fat",
-    "name": "chunk of mutant humanoid fat",
-    "name_plural": "chunks of mutant humanoid fat",
+    "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Freshly butchered fat from a heavily mutated humanoid.",
     "material": "hflesh"
   },

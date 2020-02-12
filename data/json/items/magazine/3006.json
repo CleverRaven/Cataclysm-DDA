@@ -1,6 +1,7 @@
 [
   {
     "id": "3006_clip",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": ".30-06 clip",
     "//": "Provisional.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "blrmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Browning BLR magazine",
     "description": "A compact 4-round box magazine for the Browning BLR.",
@@ -33,6 +35,7 @@
   },
   {
     "id": "garandclip",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "M1 Garand clip",
     "description": "A light-weight en-bloc clip for use with the M1 Garand that will be ejected after the last round is fired.",
@@ -50,6 +53,7 @@
   },
   {
     "id": "m1918bigmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "BAR extended magazine",
     "description": "An aftermarket magazine for use with the Browning Automatic Rifle, holds 30 rounds.",
@@ -67,6 +71,7 @@
   },
   {
     "id": "m1918mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "BAR magazine",
     "//": "Compatable magazines made for reproductions exist, and the standard-capacity mags are fairly cheap compared to variants.",

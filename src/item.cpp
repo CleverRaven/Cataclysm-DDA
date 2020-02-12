@@ -1119,6 +1119,34 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
+    if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
+        const std::map<std::string, std::string>::const_iterator idescription =
+            item_vars.find( "description" );
+        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
+        if( snippet.has_value() ) {
+            // Just use the dynamic description
+            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
+        } else if( idescription != item_vars.end() ) {
+            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
+        } else {
+            if( has_flag( "MAGIC_FOCUS" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "This item is a <info>magical focus</info>.  "
+                                             "You can cast spells with it in your hand." ) ) );
+            }
+            if( is_craft() ) {
+                const std::string desc = _( "This is an in progress %s.  "
+                                            "It is %d percent complete." );
+                const int percent_progress = item_counter / 100000;
+                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
+                                          craft_data_->making->result_name(),
+                                          percent_progress ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
+            }
+        }
+        insert_separation_line( info );
+    }
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
@@ -1140,11 +1168,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     int converted_volume_scale = 0;
     const double converted_volume = round_up( convert_volume( volume().value(),
-                                    &converted_volume_scale ) * batch, 2 );
+                                    &converted_volume_scale ) * batch, 3 );
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
         if( converted_volume_scale != 0 ) {
-            f |= iteminfo::is_decimal;
+            f |= iteminfo::is_three_decimal;
         }
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
@@ -1700,7 +1728,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                _( "<num>" ), iteminfo::no_flags, range );
             int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
             info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
-                               iteminfo::is_decimal | iteminfo::lower_is_better, aim_mv );
+                               iteminfo::lower_is_better, aim_mv );
         }
     }
 
@@ -2603,34 +2631,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
     const std::string space = "  ";
 
-    if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
-        insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
-            item_vars.find( "description" );
-        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
-        if( snippet.has_value() ) {
-            // Just use the dynamic description
-            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
-        } else if( idescription != item_vars.end() ) {
-            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
-        } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item is a <info>magical focus</info>.  "
-                                             "You can cast spells with it in your hand." ) ) );
-            }
-            if( is_craft() ) {
-                const std::string desc = _( "This is an in progress %s.  "
-                                            "It is %d percent complete." );
-                const int percent_progress = item_counter / 100000;
-                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                          craft_data_->making->result_name(),
-                                          percent_progress ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
-            }
-        }
-    }
     std::set<matec_id> all_techniques = type->techniques;
     all_techniques.insert( techniques.begin(), techniques.end() );
     if( !all_techniques.empty() && parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
@@ -3039,7 +3039,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "<bold>Environmental Protection:</bold> " ),
                                       iteminfo::no_newline ) );
-            for( const auto &element : bid->env_protec ) {
+            for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
+                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                          " <num> ", iteminfo::no_newline, element.second ) );
+            }
+        }
+
+        if( !bid->bash_protec.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "<bold>Bash Protection:</bold> " ),
+                                      iteminfo::no_newline ) );
+            for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
+                info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+                                          " <num> ", iteminfo::no_newline, element.second ) );
+            }
+        }
+        if( !bid->cut_protec.empty() ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "<bold>Cut Protection:</bold> " ),
+                                      iteminfo::no_newline ) );
+            for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
                 info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                           " <num> ", iteminfo::no_newline, element.second ) );
             }
@@ -3276,39 +3295,41 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     // list recipes you could use it in
-    itype_id tid;
-    if( contents.empty() ) { // use this item
-        tid = typeId();
-    } else { // use the contained item
-        tid = contents.front().typeId();
-    }
-    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-    if( !known_recipes.empty() && parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
-        const inventory &inv = g->u.crafting_inventory();
+    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
+        itype_id tid = contents.empty() ? typeId() : contents.front().typeId();
+        const inventory &crafting_inv = g->u.crafting_inventory();
+        const recipe_subset available_recipe_subset = g->u.get_available_recipes( crafting_inv );
+        const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
-        if( known_recipes.size() > 24 ) {
+        if( item_recipes.empty() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You know dozens of things you could craft with it." ) ) );
-        } else if( known_recipes.size() > 12 ) {
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You could use it to craft various other things." ) ) );
+                                      _( "You know of nothing you could craft with it." ) ) );
         } else {
-            const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
-            [ &inv ]( const recipe * r ) {
-                if( r->deduped_requirements().can_make_with_inventory(
-                        inv, r->get_component_filter() ) ) {
-                    return r->result_name();
-                } else {
-                    return string_format( "<dark>%s</dark>", r->result_name() );
-                }
-            } );
-            if( !recipes.empty() ) {
+            if( item_recipes.size() > 24 ) {
                 insert_separation_line( info );
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "You could use it to craft: %s" ),
-                                                  recipes ) ) );
+                                          _( "You know dozens of things you could craft with it." ) ) );
+            } else if( item_recipes.size() > 12 ) {
+                insert_separation_line( info );
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "You could use it to craft various other things." ) ) );
+            } else {
+                const std::string recipes = enumerate_as_string( item_recipes.begin(), item_recipes.end(),
+                [ &crafting_inv ]( const recipe * r ) {
+                    if( r->deduped_requirements().can_make_with_inventory(
+                            crafting_inv, r->get_component_filter() ) ) {
+                        return r->result_name();
+                    } else {
+                        return string_format( "<dark>%s</dark>", r->result_name() );
+                    }
+                } );
+                if( !recipes.empty() ) {
+                    insert_separation_line( info );
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              string_format( _( "You could use it to craft: %s" ),
+                                                      recipes ) ) );
+                }
             }
         }
     }
@@ -8026,7 +8047,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     sType = Type;
     sName = replace_colors( Name );
     sFmt = replace_colors( Fmt );
-    is_int = !( Flags & is_decimal );
+    is_int = !( Flags & is_decimal || Flags & is_three_decimal );
+    three_decimal = ( Flags & is_three_decimal );
     dValue = Value;
     bShowPlus = static_cast<bool>( Flags & show_plus );
     std::stringstream convert;
@@ -8035,6 +8057,8 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     }
     if( is_int ) {
         convert << std::setprecision( 0 );
+    } else if( three_decimal ) {
+        convert << std::setprecision( 3 );
     } else {
         convert << std::setprecision( 2 );
     }

@@ -34,13 +34,13 @@ Ideally also describe *why* you expect it to happen.
 
 <!-- Please complete the following information; you can now go to:
     - "Main menu (ESC) > Debug Menu > Info > Generate game report" to generate this report.
-    - Please update your OS version with a more precise version. -->
+    - Please update your OS version with a more precise version.
 
  - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
  - Game Version: [from the main menu, e.g. 0.C-29938-g90f5268437]
  - Graphics version: [Tiles or Terminal]
  - Mods loaded: [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
-
+ -->
 
 # Additional context
 

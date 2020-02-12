@@ -1,6 +1,7 @@
 [
   {
     "id": "pressurized_tank",
+    "//": "Tileset whitelist for flame or chemical throwers.",
     "type": "MAGAZINE",
     "name": "pressurized fuel tank",
     "description": "A pressurized 3L canister designed to feed a flamethrower.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "aux_pressurized_tank",
+    "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
     "name": "small pressurized fuel tank",
     "description": "A pressurized 0.5L canister built for use with a small auxiliary flamethrower.",
@@ -34,6 +36,7 @@
   },
   {
     "id": "rm4502",
+    "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
     "name": "RM450-2 fuel canister",
     "description": "A 2L pressurized steel canister with a valve designed for the RM451's feed system.",
@@ -50,6 +53,7 @@
   },
   {
     "id": "rm4504",
+    "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
     "name": "RM450-4 fuel canister",
     "description": "A 4L pressurized steel canister with a valve designed for the RM451's feed system.",
