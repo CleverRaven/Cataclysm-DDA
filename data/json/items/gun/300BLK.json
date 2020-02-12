@@ -20,7 +20,7 @@
     "durability": 8,
     "min_cycle_recoil": 1700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },

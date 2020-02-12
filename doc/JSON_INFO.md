@@ -1716,7 +1716,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 ```C++
 "seed_data" : {
-    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "fruit": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.

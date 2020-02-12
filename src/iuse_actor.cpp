@@ -463,7 +463,8 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     const auto &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
         dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), sd.casing_mass );
-        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), sd.fragment_mass );
+        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), string_format( "%.2f",
+                           sd.fragment_mass ) );
     }
 }
 

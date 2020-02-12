@@ -2143,15 +2143,14 @@
       [ "armor_blarmor", 14 ],
       [ "armor_farmor", 8 ],
       [ "armor_plarmor", 2 ],
+      [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
       [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
-      [ "armor_plate", 1 ],
-      [ "bondage_suit", 1 ],
-      [ "snuggie", 1 ]
+      [ "armor_plate", 1 ]
     ]
   },
   {
@@ -2182,6 +2181,8 @@
       [ "vest_leather", 22 ],
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
+      [ "ballistic_vest_empty", 2 ],
+      [ "ballistic_vest_esapi", 4 ],
       [ "modularvest", 4 ],
       [ "modularvesthard", 1 ],
       [ "modularvestkevlar", 2 ],
@@ -2208,9 +2209,8 @@
       [ "winter_pants_army", 10 ],
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
-      [ "legguard_scrap", 12 ],
-      [ "skirt", 6 ],
-      [ "kilt", 1 ]
+      [ "chaps_leather", 10 ],
+      [ "legguard_scrap", 12 ]
     ]
   },
   {
@@ -2253,7 +2253,6 @@
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
       [ "boots_hiking", 24 ],
-      [ "knee_high_boots", 8 ],
       [ "boots_combat", 12 ],
       [ "boots_larmor", 14 ],
       [ "boots_fur", 22 ],
@@ -2276,14 +2275,12 @@
       [ "helmet_riot", 18 ],
       [ "tac_fullhelmet", 8 ],
       [ "helmet_lobster", 8 ],
-      [ "pot_helmet", 22 ],
       [ "helmet_larmor", 14 ],
       [ "pickelhaube", 1 ],
       [ "firehelmet", 2 ],
       [ "helmet_barbute", 1 ],
       [ "helmet_plate", 1 ],
       [ "helmet_scrap", 12 ],
-      [ "bondage_mask", 1 ],
       [ "survivor_goggles", 10 ],
       [ "hood_rain", 14 ]
     ]
@@ -2333,8 +2330,10 @@
       [ "dump_pouch", 6 ],
       [ "ragpouch", 22 ],
       [ "leather_pouch", 16 ],
-      [ "quiver", 14 ],
-      [ "quiver_large", 8 ],
+      [ "quiver", 10 ],
+      [ "quiver_birchbark", 4 ],
+      [ "quiver_large", 6 ],
+      [ "quiver_large_birchbark", 2 ],
       [ "wristwatch", 24 ],
       [ "diving_watch", 16 ],
       [ "pocketwatch", 14 ],

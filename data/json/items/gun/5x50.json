@@ -20,7 +20,7 @@
     "ranged_damage": 10,
     "dispersion": 220,
     "durability": 9,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
