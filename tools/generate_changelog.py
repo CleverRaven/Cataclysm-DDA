@@ -504,7 +504,10 @@ class CommitApi:
         ### I rather have a name that doesn't match that leave it empty.
         ### Anyways, I'm surprised but GitHub API sucks, is super inconsistent and not well thought or documented.
         if commit_data['author'] is not None:
-            commit_author = commit_data['author']['login']
+            if 'login' in commit_data['author']:
+                commit_author = commit_data['author']['login']
+            else:
+                commit_author = 'null'
         else:
             commit_author = commit_data['commit']['author']['name']
         commit_message = commit_data['commit']['message'].splitlines()[0] if commit_data['commit']['message'] else ''

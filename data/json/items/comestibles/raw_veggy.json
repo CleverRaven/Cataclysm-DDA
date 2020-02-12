@@ -121,8 +121,7 @@
   {
     "type": "COMESTIBLE",
     "id": "carrot",
-    "name": "carrot",
-    "name_plural": "carrots",
+    "name": { "str": "carrot" },
     "weight": "68 g",
     "color": "light_red",
     "spoils_in": "5 days",
@@ -143,8 +142,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cattail_rhizome",
-    "name": "cattail rhizome",
-    "name_plural": "cattail rhizomes",
+    "name": { "str": "cattail rhizome" },
     "weight": "209 g",
     "color": "brown",
     "spoils_in": "3 days 8 hours",
@@ -162,8 +160,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cattail_stalk",
-    "name": "cattail stalk",
-    "name_plural": "cattail stalks",
+    "name": { "str": "cattail stalk" },
     "weight": "100 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",

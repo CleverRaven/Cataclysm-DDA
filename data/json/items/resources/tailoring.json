@@ -18,8 +18,7 @@
     "id": "scrap_faux_fur",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "faux fur scraps",
-    "name_plural": "faux fur scraps",
+    "name": { "str": "faux fur scraps", "str_pl": "faux fur scraps" },
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "faux_fur"
@@ -28,8 +27,7 @@
     "id": "scrap_felt",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "felt scraps",
-    "name_plural": "felt scraps",
+    "name": { "str": "felt scraps", "str_pl": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
     "material": "wool"
   },
@@ -37,8 +35,7 @@
     "id": "scrap_fur",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "fur scraps",
-    "name_plural": "fur scraps",
+    "name": { "str": "fur scraps", "str_pl": "fur scraps" },
     "description": "Oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "fur"
@@ -56,8 +53,7 @@
     "id": "scrap_leather",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "leather scraps",
-    "name_plural": "leather scraps",
+    "name": { "str": "leather scraps", "str_pl": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "leather"
@@ -66,8 +62,7 @@
     "id": "scrap_lycra",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "lycra scraps",
-    "name_plural": "lycra scraps",
+    "name": { "str": "lycra scraps", "str_pl": "lycra scraps" },
     "description": "Oddly-shaped smallish bits of lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "lycra"
@@ -76,8 +71,7 @@
     "id": "scrap_neoprene",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "neoprene scraps",
-    "name_plural": "neoprene scraps",
+    "name": { "str": "neoprene scraps", "str_pl": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "neoprene"
