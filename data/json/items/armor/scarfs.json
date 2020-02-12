@@ -21,7 +21,7 @@
   },
   {
     "id": "headscarf",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "headscarf",
     "description": "A loose cloth worn over the head and around the neck.",

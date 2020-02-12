@@ -188,7 +188,7 @@
   },
   {
     "id": "helmet_bike",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": "bike helmet",
@@ -266,7 +266,7 @@
   },
   {
     "id": "helmet_football",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": "football helmet",
@@ -355,7 +355,7 @@
   },
   {
     "id": "helmet_liner",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "helmet liner",
     "description": "This goes inside a helmet to help keep your head warm in cold climates.",
