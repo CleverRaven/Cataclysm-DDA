@@ -9,9 +9,7 @@
       { "group": "gear_survival", "prob": 100 },
       { "group": "rad_gear", "prob": 100 },
       { "group": "prepnet_basic_robots", "prob": 100 },
-      { "group": "prepnet_id_cards", "prob": 100 },
       { "group": "prepnet_basic_grenades", "prob": 100 },
-      { "group": "cop_armory", "prob": 100 },
       { "group": "ammo_any_batteries_full", "prob": 100 }
     ]
   },
