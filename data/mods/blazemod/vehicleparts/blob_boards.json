@@ -43,7 +43,7 @@
   {
     "id": "gloopleboard_nw",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "y"
   },
   {
