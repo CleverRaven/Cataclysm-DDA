@@ -1428,7 +1428,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
 - ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
 - ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
-- ```NEEDS_ENGINE``` Can only be installed on a part with ```ENGINE``` flag.
 
 ### Vehicle parts requiring other vehicle parts
 
