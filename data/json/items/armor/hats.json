@@ -22,7 +22,7 @@
   },
   {
     "id": "beret",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "beret",
     "description": "A soft cotton hat.  Commonly worn by armed forces and existentialists.",
@@ -59,7 +59,7 @@
   },
   {
     "id": "bowhat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "bowler hat",
     "description": "The only hat for a made man.  Look like a real good fella while laughing in the face of your foes!",
@@ -119,7 +119,7 @@
   },
   {
     "id": "eboshi",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "eboshi",
     "description": "A high, black cap with a very narrow top.  Traditionally worn by Shinto priests.",
@@ -128,7 +128,7 @@
     "price": 7000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "bowlhat",
+    "looks_like": "bowhat",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 60,
@@ -158,7 +158,7 @@
   },
   {
     "id": "hat_ball",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "baseball cap",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -180,7 +180,7 @@
   },
   {
     "id": "hat_chef",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "toque",
     "description": "A traditional chef's hat, standing tall and proud against the vulgarities of the world.",
@@ -329,7 +329,7 @@
   },
   {
     "id": "hat_newsboy",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "newsboy cap",
     "description": "A slouching wool cap with a short front brim, traditionally associated with newspaper delivery boys.  Quite warm.",
@@ -389,7 +389,7 @@
   },
   {
     "id": "kippah",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "kippah",
     "name_plural": "kippahs",
@@ -409,7 +409,7 @@
   },
   {
     "id": "kufi",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "kufi cap",
     "name_plural": "kufi caps",
@@ -430,7 +430,7 @@
   },
   {
     "id": "maid_hat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "French maid hat",
     "description": "A frilly white headpiece.",
@@ -450,7 +450,7 @@
   },
   {
     "id": "porkpie",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "porkpie hat",
     "description": "A flat-topped hat with circular indent and a narrow brim.  Most popular in the 40s and 50s, still common among those in the mod scene, hipsters, and people named Heisenberg.",
@@ -459,7 +459,7 @@
     "price": 5500,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "bowlhat",
+    "looks_like": "bowhat",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 50,
@@ -471,7 +471,7 @@
   },
   {
     "id": "postman_hat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "mail carrier hat",
     "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic cap.  A symbol of a bygone world.",
@@ -528,7 +528,7 @@
   },
   {
     "id": "tophat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "top hat",
     "//": "No, you're not wearing anything over your top hat.",
@@ -538,7 +538,7 @@
     "price": 19500,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "hat_porkpie",
+    "looks_like": "porkpie",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 50,
@@ -570,7 +570,7 @@
   },
   {
     "id": "turban",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "turban",
     "description": "Rags worn around the head.",
@@ -591,7 +591,7 @@
   },
   {
     "id": "hat_golf",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "golf cap",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",

@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # compose.py
 # Split a gfx directory made of 1000s of little images and files into a set of tilesheets

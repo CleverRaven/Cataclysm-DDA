@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """Run this script with -h for usage info and docs.
 """
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         # If we start getting unexpected JSON or other things, might need to
         # revisit quitting on load_errors
         print("Error loading JSON data.")
-        for e in load_errrors:
+        for e in load_errors:
             print(e)
         sys.exit(1)
     elif not json_data:

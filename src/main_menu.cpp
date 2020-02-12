@@ -433,6 +433,11 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
+        popup( _( "Unable to make fonts directory.  Check permissions." ) );
+        return false;
+    }
+
     if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
         popup( _( "Unable to make sound directory.  Check permissions." ) );
         return false;

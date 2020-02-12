@@ -5516,7 +5516,9 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
-            Pickup::pick_up( examp, 0 );
+            if( !u.is_mounted() ) {
+                Pickup::pick_up( examp, 0 );
+            }
         }
     }
 }
@@ -9396,6 +9398,7 @@ void game::place_player_overmap( const tripoint &om_dest )
         m.clear_vehicle_cache( z );
         m.clear_vehicle_list( z );
     }
+    m.access_cache( get_levz() ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint map_om_pos( tripoint( 2 * om_dest.x, 2 * om_dest.y,
@@ -10401,6 +10404,7 @@ void game::vertical_shift( const int z_after )
         m.clear_vehicle_cache( z_before );
         m.access_cache( z_before ).vehicle_list.clear();
         m.access_cache( z_before ).zone_vehicles.clear();
+        m.access_cache( z_before ).map_memory_seen_cache.reset();
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
         m.load( tripoint( get_levx(), get_levy(), z_after ), true );

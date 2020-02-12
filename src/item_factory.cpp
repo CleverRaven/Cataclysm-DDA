@@ -231,7 +231,7 @@ void Item_factory::finalize_pre( itype &obj )
             static const std::set<std::string> special_cookoff_tags = {{
                     "NAPALM", "NAPALM_BIG",
                     "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
-                    "TOXICGAS", "TEARGAS", "SMOKE", "SMOKE_BIG",
+                    "TOXICGAS", "SMOKE", "SMOKE_BIG",
                     "FRAG", "FLASHBANG"
                 }
             };

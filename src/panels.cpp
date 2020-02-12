@@ -1462,11 +1462,17 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
-    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Sound :" ) );
+    wrefresh( w );
+}
+
+static void draw_sound_labels( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
-        mvwprintz( w, point( 30, 2 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
     } else {
-        mvwprintz( w, point( 30, 2 ), c_red, _( "Deaf!" ) );
+        mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
     wrefresh( w );
 }
@@ -2076,6 +2082,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
     ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
+    ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
     ret.emplace_back( window_panel( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
