@@ -1203,7 +1203,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     item &corpse_item = *target;
-    std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
     const field_type_id type_blood = corpse->bloodType();
     const field_type_id type_gib = corpse->gibType();
@@ -1290,16 +1289,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
-        for( auto &content : contents ) {
+        corpse_item.visit_items( [&]( item * content ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
-                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname(),
+                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
                                       corpse->nname() );
-                g->m.add_item_or_charges( p->pos(), content );
-            } else if( content.is_bionic() ) {
+                g->m.add_item_or_charges( p->pos(), *content );
+            } else if( content->is_bionic() ) {
                 g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
             }
-        }
+            return VisitResponse::NEXT;
+        } );
     }
 
     //end messages and effects
@@ -2898,7 +2898,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.contents.push_back( p->i_rem( &mod ) );
+        gun.put_in( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -2933,7 +2933,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.item_tags.insert( "IRREMOVABLE" );
-    tool.contents.push_back( mod );
+    tool.put_in( mod );
     act->targets[1].remove_item();
 }
 
@@ -4304,15 +4304,18 @@ void activity_handlers::unload_mag_finish( player_activity *act, player *p )
     int qty = 0;
     item &it = *act->targets[ 0 ];
 
-    // remove the ammo leads in the belt
-    it.contents.erase( std::remove_if( it.contents.begin(),
-    it.contents.end(), [&]( item & e ) {
-        if( !p->add_or_drop_with_msg( e, true ) ) {
-            return false;
+    std::vector<item *> remove_contained;
+    it.visit_items( [&]( item * contained ) {
+        if( p->add_or_drop_with_msg( *contained, true ) ) {
+            qty += contained->charges;
+            remove_contained.push_back( contained );
         }
-        qty += e.charges;
-        return true;
-    } ), it.contents.end() );
+        return VisitResponse::NEXT;
+    } );
+    // remove the ammo leads in the belt
+    for( item *remove : remove_contained ) {
+        it.remove_item( *remove );
+    }
 
     // remove the belt linkage
     if( it.is_ammo_belt() ) {
@@ -4923,6 +4926,6 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     item &data_card = *act->targets[0];
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.contents.clear();
+    data_card.contents.clear_items();
     data_card.put_in( item( "mind_scan_robofac" ) );
 }

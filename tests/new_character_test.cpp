@@ -145,7 +145,10 @@ TEST_CASE( "starting_items", "[slow]" )
                     g->u.male = i == 0;
                     std::list<item> items = prof->items( g->u.male, traits );
                     for( const item &it : items ) {
-                        items.insert( items.begin(), it.contents.begin(), it.contents.end() );
+                        const std::list<const item *> it_contents = it.contents.all_items_top();
+                        for( const item *top_content_item : it_contents ) {
+                            items.push_back( *top_content_item );
+                        }
                     }
 
                     for( const item &it : items ) {
@@ -178,4 +181,3 @@ TEST_CASE( "starting_items", "[slow]" )
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
 }
-

@@ -72,18 +72,22 @@ item_action_generator::item_action_generator() = default;
 item_action_generator::~item_action_generator() = default;
 
 // Get use methods of this item and its contents
-static bool item_has_uses_recursive( const item &it )
+bool item::item_has_uses_recursive() const
 {
-    if( !it.type->use_methods.empty() ) {
+    if( !type->use_methods.empty() ) {
         return true;
     }
 
-    for( const auto &elem : it.contents ) {
-        if( item_has_uses_recursive( elem ) ) {
+    return contents.item_has_uses_recursive();
+}
+
+bool item_contents::item_has_uses_recursive() const
+{
+    for( const item &it : items ) {
+        if( it.item_has_uses_recursive() ) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -107,7 +111,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
     std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
-        if( !item_has_uses_recursive( *i ) ) {
+        if( !i->item_has_uses_recursive() ) {
             continue;
         }
 

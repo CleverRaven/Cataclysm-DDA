@@ -3017,10 +3017,9 @@ void veh_interact::complete_vehicle( player &p )
 
             auto &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
-            std::list<item> &contents = src->contents;
-            if( pt.is_tank() && src->is_container() && !contents.empty() ) {
+            if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
 
-                pt.base.fill_with( contents.front() );
+                pt.base.fill_with( src->contents.front() );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
@@ -3031,8 +3030,8 @@ void veh_interact::complete_vehicle( player &p )
                     p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
-                if( contents.front().charges == 0 ) {
-                    contents.erase( contents.begin() );
+                if( src->contents.front().charges == 0 ) {
+                    src->remove_item( src->contents.front() );
                 } else {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }

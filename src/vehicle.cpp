@@ -5168,11 +5168,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     item itm_copy = itm;
 
     if( itm_copy.is_bucket_nonempty() ) {
-        for( auto &elem : itm_copy.contents ) {
-            g->m.add_item_or_charges( global_part_pos3( part ), elem );
-        }
-
-        itm_copy.contents.clear();
+        itm_copy.contents.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
@@ -5272,7 +5268,7 @@ void vehicle::place_spawn_items()
                                           !e.magazine_current();
 
                         if( spawn_mag ) {
-                            e.contents.emplace_back( e.magazine_default(), e.birthday() );
+                            e.put_in( item( e.magazine_default(), e.birthday() ) );
                         }
                         if( spawn_ammo ) {
                             e.ammo_set( e.ammo_default() );

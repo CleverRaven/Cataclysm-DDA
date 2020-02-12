@@ -3873,7 +3873,7 @@ bool basecamp::distribute_food()
         for( item &i : initial_items ) {
             if( i.is_container() && i.get_contained().is_food() ) {
                 auto comest = i.get_contained();
-                i.contents.clear();
+                i.contents.clear_items();
                 //NPCs are lazy bastards who leave empties all around the camp fire
                 tripoint litter_spread = p_litter;
                 litter_spread.x += rng( -3, 3 );

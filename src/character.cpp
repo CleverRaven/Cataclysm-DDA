@@ -2232,11 +2232,9 @@ item Character::i_rem( const item *it )
     return tmp.front();
 }
 
-void Character::i_rem_keep_contents( const int pos )
+void Character::i_rem_keep_contents( const int idx )
 {
-    for( auto &content : i_rem( pos ).contents ) {
-        i_add_or_drop( content );
-    }
+    i_rem( idx ).spill_contents( pos() );
 }
 
 bool Character::i_add_or_drop( item &it, int qty )
@@ -8022,7 +8020,9 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                for( const item *it : armor.contents.all_items_top() ) {
+                    worn_remains.push_back( *it );
+                }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator

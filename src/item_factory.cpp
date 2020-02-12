@@ -2472,13 +2472,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             obj.charges = iter->second.charges;
         }
 
-        for( const auto &c : iter->second.contents ) {
-            if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item & e ) {
-            return e.typeId() == c;
-            } ) ) {
-                obj.emplace_back( c, obj.birthday() );
-            }
-        }
+        obj.contents.migrate_item( obj, iter->second.contents );
 
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {

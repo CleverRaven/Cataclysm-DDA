@@ -1157,7 +1157,7 @@ class Character : public Creature, public visitable<Character>
          * @return A copy of the removed item.
          */
         item i_rem( const item *it );
-        void i_rem_keep_contents( int pos );
+        void i_rem_keep_contents( int idx );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop( item &it, int qty = 1 );

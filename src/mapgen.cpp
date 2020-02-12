@@ -5983,7 +5983,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->contents.emplace_back( e->magazine_default(), e->birthday() );
+                e->put_in( item( e->magazine_default(), e->birthday() ) );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );

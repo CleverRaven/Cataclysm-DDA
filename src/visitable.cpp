@@ -375,10 +375,8 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
                 return VisitResponse::NEXT;
             }
 
-            for( auto &e : node->contents ) {
-                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
-                    return VisitResponse::ABORT;
-                }
+            if( node->contents.visit_contents( func, node ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
             }
         /* intentional fallthrough */
 
@@ -388,6 +386,20 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 
     /* never reached but suppresses GCC warning */
     return VisitResponse::ABORT;
+}
+
+VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
+        &func, item *parent )
+{
+    for( item &e : items ) {
+        switch( visit_internal( func, &e, parent ) ) {
+            case VisitResponse::ABORT:
+                return VisitResponse::ABORT;
+            default:
+                break;
+        }
+    }
+    return VisitResponse::NEXT;
 }
 
 /** @relates visitable */
@@ -518,20 +530,21 @@ item visitable<T>::remove_item( item &it )
     }
 }
 
-static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
-                             std::list<item> &res )
+bool item_contents::remove_internal( const std::function<bool( item & )> &filter,
+                                     int &count, std::list<item> &res )
 {
-    for( auto it = node.contents.begin(); it != node.contents.end(); ) {
+    for( auto it = items.begin(); it != items.end(); ) {
         if( filter( *it ) ) {
-            res.splice( res.end(), node.contents, it++ );
+            res.splice( res.end(), items, it++ );
             if( --count == 0 ) {
-                return;
+                return true;
             }
         } else {
-            remove_internal( filter, *it, count, res );
+            it->contents.remove_internal( filter, count, res );
             ++it;
         }
     }
+    return false;
 }
 
 /** @relates visitable */
@@ -539,7 +552,7 @@ template <>
 std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
         &filter, int count )
 {
-    auto it = static_cast<item *>( this );
+    item *it = static_cast<item *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -547,7 +560,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
         return res;
     }
 
-    remove_internal( filter, *it, count, res );
+    it->contents.remove_internal( filter, count, res );
     return res;
 }
 
@@ -581,7 +594,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
                 }
 
             } else {
-                remove_internal( filter, *istack_iter, count, res );
+                istack_iter->contents.remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -628,7 +641,7 @@ std::list<item> visitable<Character>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -641,7 +654,7 @@ std::list<item> visitable<Character>::remove_items_with( const
         res.push_back( ch->remove_weapon() );
         count--;
     } else {
-        remove_internal( filter, ch->weapon, count, res );
+        ch->weapon.contents.remove_internal( filter, count, res );
     }
 
     return res;
@@ -686,7 +699,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -744,7 +757,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }

@@ -2363,7 +2363,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.contents.push_back( item( casing ).set_flag( "CASING" ) );
+            weap.put_in( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( casing ) );
@@ -2382,7 +2382,7 @@ static void cycle_action( item &weap, const tripoint &pos )
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( "brass_catcher" ) ) {
             linkage.set_flag( "CASING" );
-            weap.contents.push_back( linkage );
+            weap.put_in( linkage );
         } else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );
         } else {
