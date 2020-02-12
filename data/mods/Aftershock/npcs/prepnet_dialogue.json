@@ -97,7 +97,10 @@
     "dynamic_line": "Here? Fruits and berries.  Maybe the occasional piece of farm equipment, but you need crypto coins",
     "responses": [
       { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "Crypto coins?  Are you insane, there isn't any global internet now.", "topic": "TALK_PrepNet_gardener_currency" },
+      {
+        "text": "Crypto coins?  Are you insane, there isn't any global internet now.",
+        "topic": "TALK_PrepNet_gardener_currency"
+      },
       { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
