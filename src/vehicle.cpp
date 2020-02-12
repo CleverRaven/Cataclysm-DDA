@@ -1579,7 +1579,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
             std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
             std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove the attached %s first." ) ),
             std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
             std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
             std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
@@ -1588,9 +1588,9 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         }
     };
     for( auto &flag_check : blocking_flags ) {
-        if( part_flag( p, std::get<0>( flag_check ) ) &&
-            part_with_feature( p, std::get<1>( flag_check ), false ) >= 0 ) {
-            reason = _( std::get<2>( flag_check ) );
+        const int part_idx_requires = part_with_feature( p, std::get<1>( flag_check ), false );
+        if( part_flag( p, std::get<0>( flag_check ) ) && part_idx_requires >= 0 ) {
+            reason = string_format( _( std::get<2>( flag_check ) ), parts[part_idx_requires].info().name() );
             return false;
         }
     }

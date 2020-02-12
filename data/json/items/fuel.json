@@ -112,8 +112,7 @@
   {
     "id": "lamp_oil",
     "type": "AMMO",
-    "name": "lamp oil",
-    "name_plural": "lamp oil",
+    "name": { "str": "lamp oil", "str_pl": "lamp oil" },
     "description": "A thin and clean-burning oil made for use in oil lamps.",
     "category": "fuel",
     "weight": "1 g",
@@ -141,8 +140,7 @@
   {
     "id": "motor_oil",
     "type": "AMMO",
-    "name": "motor oil",
-    "name_plural": "motor oil",
+    "name": { "str": "motor oil", "str_pl": "motor oil" },
     "description": "An oil made for use in car engines.",
     "category": "fuel",
     "weight": "1 g",
@@ -170,8 +168,7 @@
   {
     "id": "napalm",
     "type": "AMMO",
-    "name": "napalm",
-    "name_plural": "napalm",
+    "name": { "str": "napalm", "str_pl": "napalm" },
     "description": "This is gasoline mixed with some other components to make it stick to the surface and increase burning temperature, meant to be used with a flamethrower.",
     "category": "fuel",
     "weight": "1 g",
