@@ -668,11 +668,15 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.ammo.find( "milk_raw" );
+    auto milked_item = source_mon.ammo.find( "milk_raw" );
     if( milked_item == source_mon.ammo.end() ) {
-        debugmsg( "%s is milkable but has no milk in its starting ammo!",
-                  source_mon.get_name() );
-        return;
+        // old save cow
+        milked_item = source_mon.ammo.find( "milk" );
+        if( milked_item == source_mon.ammo.end() ) {
+            debugmsg( "%s is milkable but has no milk in its starting ammo!",
+                      source_mon.get_name() );
+            return;
+        }
     }
     if( milked_item->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milked_item->second / 2 ) );

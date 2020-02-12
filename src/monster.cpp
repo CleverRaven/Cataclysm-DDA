@@ -365,12 +365,21 @@ void monster::refill_udders()
     if( !has_flag( MF_MILKABLE ) ) {
         return;
     }
-    const auto milked_item = type->starting_ammo.find( "milk_raw" );
-    auto current_milk = ammo.find( "milk_raw" );
-    if( milked_item == type->starting_ammo.end() || current_milk == ammo.end() ) {
-        debugmsg( "%s is milkable but has no milk in its starting ammo!", get_name() );
+    auto milked_item = type->starting_ammo.find( "milk_raw" );
+    if( milked_item == type->starting_ammo.end() ) {
+        // old save cows.
+        milked_item = type->starting_ammo.find( "milk" );
+        if( milked_item == type->starting_ammo.end() ) {
+            debugmsg( "%s is milkable but has no milk in its starting ammo!", get_name() );
+            return;
+        }
+    }
+    auto current_milk = ammo.find( milked_item->first );
+    if( current_milk == ammo.end() ) {
+        // how?
         return;
     }
+    // if we got here, we got milk.
     if( current_milk->second == milked_item->second ) {
         // already full up
         return;

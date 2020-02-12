@@ -1281,8 +1281,11 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
     }
     auto milked_item = source_mon->ammo.find( "milk_raw" );
     if( milked_item == source_mon->ammo.end() ) {
-        debugmsg( "animal has no milk ammo type" );
-        return;
+        milked_item = source_mon->ammo.find( "milk" );
+        if( milked_item == source_mon->ammo.end() ) {
+            debugmsg( "animal has no milk ammo type" );
+            return;
+        }
     }
     if( milked_item->second <= 0 ) {
         debugmsg( "started milking but udders are now empty before milking finishes" );
