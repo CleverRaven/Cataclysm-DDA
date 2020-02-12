@@ -528,7 +528,7 @@
   },
   {
     "id": "tophat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "top hat",
     "//": "No, you're not wearing anything over your top hat.",
@@ -538,7 +538,7 @@
     "price": 19500,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "hat_porkpie",
+    "looks_like": "porkpie",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 50,
