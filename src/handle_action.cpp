@@ -788,9 +788,7 @@ static void smash()
             if( u.weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                for( auto &elem : u.weapon.contents ) {
-                    m.add_item_or_charges( u.pos(), elem );
-                }
+                u.weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {

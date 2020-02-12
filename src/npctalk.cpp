@@ -2049,7 +2049,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             }
         } else {
             item container( container_name, calendar::turn );
-            container.emplace_back( item_name, calendar::turn, count );
+            container.put_in( item( item_name, calendar::turn, count ) );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
@@ -3283,7 +3283,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( consuming_contents ) {
-        it.contents.erase( it.contents.begin() );
+        it.remove_item( it.contents.front() );
         return CONSUMED_SOME;
     }
 

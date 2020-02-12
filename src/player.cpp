@@ -3325,7 +3325,7 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
-        qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
+        qty = clamp( qty, ammo.contents.front().charges, 1 );
     } else if( ammo.is_magazine() ) {
         qty = 1;
     } else {
@@ -3543,16 +3543,16 @@ bool player::unload( item &it )
         }
 
         bool changed = false;
-        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
-        &changed]( item & e ) {
-            int old_charges = e.charges;
-            const bool consumed = this->add_or_drop_with_msg( e, true );
-            changed = changed || consumed || e.charges != old_charges;
+        it.visit_items( [this, &changed]( item * e ) {
+            int old_charges = e->charges;
+            const bool consumed = this->add_or_drop_with_msg( *e, true );
+            changed = changed || consumed || e->charges != old_charges;
             if( consumed ) {
-                this->mod_moves( -this->item_handling_cost( e ) );
+                this->mod_moves( -this->item_handling_cost( *e ) );
+                this->remove_item( *e );
             }
-            return consumed;
-        } ), it.contents.end() );
+            return VisitResponse::NEXT;
+        } );
         if( changed ) {
             it.on_contents_changed();
         }
@@ -3620,8 +3620,8 @@ bool player::unload( item &it )
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
-        for( auto &content : target->contents ) {
-            mv += this->item_reload_cost( it, content, content.charges ) / 2;
+        for( const item *content : target->contents.all_items_top() ) {
+            mv += this->item_reload_cost( it, *content, content->charges ) / 2;
         }
         activity.moves_left += mv;
 
@@ -3640,7 +3640,7 @@ bool player::unload( item &it )
         // Eject magazine consuming half as much time as required to insert it
         this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
 
-        target->contents.remove_if( [&target]( const item & e ) {
+        target->remove_items_with( [&target]( const item & e ) {
             return target->magazine_current() == &e;
         } );
 
@@ -3891,10 +3891,7 @@ void player::reassign_item( item &it, int invlet )
 
 bool player::gunmod_remove( item &gun, item &mod )
 {
-    auto iter = std::find_if( gun.contents.begin(), gun.contents.end(), [&mod]( const item & e ) {
-        return &mod == &e;
-    } );
-    if( iter == gun.contents.end() ) {
+    if( !gun.has_item( mod ) ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
@@ -3914,7 +3911,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     const itype *modtype = mod.type;
 
     i_add_or_drop( mod );
-    gun.contents.erase( iter );
+    gun.remove_item( mod );
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
@@ -4680,7 +4677,7 @@ std::string player::weapname( unsigned int truncate ) const
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
+    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
         return string_format( "%s (%d)", weapon.tname(),
                               weapon.contents.front().charges );
 
@@ -4697,26 +4694,23 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
-        std::transform( container.contents.begin(), container.contents.end(),
-        std::back_inserter( opts ), []( const item & elem ) {
-            return elem.display_name();
+        std::list<item *> container_contents = container.contents.all_items_top();
+        std::transform( container_contents.begin(), container_contents.end(),
+        std::back_inserter( opts ), []( const item * elem ) {
+            return elem->display_name();
         } );
         if( opts.size() > 1 ) {
             int pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
-            internal_item = &*std::next( container.contents.begin(), pos );
+            internal_item = *std::next( container_contents.begin(), pos );
         } else {
             internal_item = &container.contents.front();
         }
     }
 
-    const bool has = std::any_of( container.contents.begin(),
-    container.contents.end(), [internal_item]( const item & it ) {
-        return internal_item == &it;
-    } );
-    if( !has ) {
+    if( !container.has_item( *internal_item ) ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
@@ -4737,9 +4731,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     }
 
     weapon = std::move( *internal_item );
-    container.contents.remove_if( [internal_item]( const item & it ) {
-        return internal_item == &it;
-    } );
+    container.remove_item( *internal_item );
     container.on_contents_changed();
 
     inv.update_invlet( weapon );
@@ -5327,10 +5319,10 @@ void player::place_corpse()
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.emplace_back( "bio_power_storage" );
+        body.put_in( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.emplace_back( "bio_power_storage_mkII" );
+        body.put_in( item( "bio_power_storage_mkII" ) );
     }
     g->m.add_item_or_charges( pos(), body );
 }
@@ -5371,10 +5363,10 @@ void player::place_corpse( const tripoint &om_target )
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.emplace_back( "bio_power_storage" );
+        body.put_in( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.emplace_back( "bio_power_storage_mkII" );
+        body.put_in( item( "bio_power_storage_mkII" ) );
     }
     bay.add_item_or_charges( point( finX, finY ), body );
 }

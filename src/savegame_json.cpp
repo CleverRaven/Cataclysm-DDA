@@ -150,87 +150,21 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
     //    }
 }
 
-std::vector<item> item::magazine_convert()
+void item_contents::serialize( JsonOut &json ) const
 {
-    std::vector<item> res;
+    if( !items.empty() ) {
+        json.start_object();
 
-    // only guns, auxiliary gunmods and tools require conversion
-    if( !is_gun() && !is_tool() ) {
-        return res;
+        json.member( "items", items );
+
+        json.end_object();
     }
+}
 
-    // ignore items that have already been converted
-    if( has_var( "magazine_converted" ) ) {
-        return res;
-    }
-
-    item *spare_mag = gunmod_find( "spare_mag" );
-
-    // if item has integral magazine remove any magazine mods but do not mark item as converted
-    if( magazine_integral() ) {
-        if( !is_gun() ) {
-            return res; // only guns can have attached gunmods
-        }
-
-        int qty = spare_mag ? spare_mag->charges : 0;
-        qty += charges - type->gun->clip; // excess ammo from magazine extensions
-
-        // limit ammo to base capacity and return any excess as a new item
-        charges = std::min( charges, type->gun->clip );
-        if( qty > 0 ) {
-            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_default(),
-                              calendar::turn, qty );
-        }
-
-        contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item & e ) {
-            return e.typeId() == "spare_mag" || e.typeId() == "clip" || e.typeId() == "clip2";
-        } ), contents.end() );
-
-        return res;
-    }
-
-    // now handle items using the new detachable magazines that haven't yet been converted
-    item mag( magazine_default(), calendar::turn );
-    item ammo( ammo_current() != "null" ? ammo_current() : ammo_default(),
-               calendar::turn );
-
-    // give base item an appropriate magazine and add to that any ammo originally stored in base item
-    if( !magazine_current() ) {
-        contents.push_back( mag );
-        if( charges > 0 ) {
-            ammo.charges = std::min( charges, mag.ammo_capacity() );
-            charges -= ammo.charges;
-            contents.back().contents.push_back( ammo );
-        }
-    }
-
-    // remove any spare magazine and replace it with an equivalent loaded magazine
-    if( spare_mag ) {
-        res.push_back( mag );
-        if( spare_mag->charges > 0 ) {
-            ammo.charges = std::min( spare_mag->charges, mag.ammo_capacity() );
-            charges += spare_mag->charges - ammo.charges;
-            res.back().contents.push_back( ammo );
-        }
-    }
-
-    // return any excess ammo (from either item or spare mag) as a new item
-    if( charges > 0 ) {
-        ammo.charges = charges;
-        res.push_back( ammo );
-    }
-
-    // remove incompatible magazine mods
-    contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item & e ) {
-        return e.typeId() == "spare_mag" || e.typeId() == "clip" || e.typeId() == "clip2";
-    } ), contents.end() );
-
-    // normalize the base item and mark it as converted
-    charges = 0;
-    curammo = nullptr;
-    set_var( "magazine_converted", 1 );
-
-    return res;
+void item_contents::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "items", items );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -630,13 +564,6 @@ void Character::load( const JsonObject &data )
     for( const JsonMember member : data.get_object( "skills" ) ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
-
-    visit_items( [&]( item * it ) {
-        for( auto &e : it->magazine_convert() ) {
-            i_add( e );
-        }
-        return VisitResponse::NEXT;
-    } );
 
     on_stat_change( "thirst", thirst );
     on_stat_change( "hunger", hunger );
@@ -2149,8 +2076,6 @@ void units::energy::deserialize( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
-static void migrate_toolmod( item &it );
-
 void item::craft_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -2258,7 +2183,6 @@ void item::io( Archive &archive )
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
-    archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
     archive.io( "specific_energy", specific_energy, -10 );
     archive.io( "temperature", temperature, 0 );
@@ -2343,19 +2267,9 @@ void item::io( Archive &archive )
         gun_set_mode( gun_mode_id( mode ) );
     }
 
-    // Fixes #16751 (items could have null contents due to faulty spawn code)
-    contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item & cont ) {
-        return cont.is_null();
-    } ), contents.end() );
-
     // Sealed item migration: items with "unseals_into" set should always have contents
     if( contents.empty() && is_non_resealable_container() ) {
         convert( type->container->unseals_into );
-    }
-
-    // Migrate legacy toolmod flags
-    if( is_tool() || is_toolmod() ) {
-        migrate_toolmod( *this );
     }
 
     // Books without any chapters don't need to store a remaining-chapters
@@ -2395,70 +2309,6 @@ void item::io( Archive &archive )
     }
 }
 
-static void migrate_toolmod( item &it )
-{
-    // Convert legacy flags on tools to contained toolmods
-    if( it.is_tool() ) {
-        if( it.item_tags.count( "ATOMIC_AMMO" ) ) {
-            it.item_tags.erase( "ATOMIC_AMMO" );
-            it.item_tags.erase( "NO_UNLOAD" );
-            it.item_tags.erase( "RADIOACTIVE" );
-            it.item_tags.erase( "LEAK_DAM" );
-            it.emplace_back( "battery_atomic" );
-
-        } else if( it.item_tags.count( "DOUBLE_REACTOR" ) ) {
-            it.item_tags.erase( "DOUBLE_REACTOR" );
-            it.item_tags.erase( "DOUBLE_AMMO" );
-            it.emplace_back( "double_plutonium_core" );
-
-        } else if( it.item_tags.count( "DOUBLE_AMMO" ) ) {
-            it.item_tags.erase( "DOUBLE_AMMO" );
-            it.emplace_back( "battery_compartment" );
-
-        } else if( it.item_tags.count( "USE_UPS" ) ) {
-            it.item_tags.erase( "USE_UPS" );
-            it.item_tags.erase( "NO_RELOAD" );
-            it.item_tags.erase( "NO_UNLOAD" );
-            it.emplace_back( "battery_ups" );
-
-        }
-    }
-
-    // Fix fallout from #18797, which exponentially duplicates migrated toolmods
-    if( it.is_toolmod() ) {
-        // duplication would add an extra toolmod inside each toolmod on load;
-        // delete the nested copies
-        if( it.typeId() == "battery_atomic" || it.typeId() == "battery_compartment" ||
-            it.typeId() == "battery_ups" || it.typeId() == "double_plutonium_core" ) {
-            // Be conservative and only delete nested mods of the same type
-            it.contents.remove_if( [&]( const item & cont ) {
-                return cont.typeId() == it.typeId();
-            } );
-        }
-    }
-
-    if( it.is_tool() ) {
-        // duplication would add an extra toolmod inside each tool on load;
-        // delete the duplicates so there is only one copy of each toolmod
-        int n_atomic = 0;
-        int n_compartment = 0;
-        int n_ups = 0;
-        int n_plutonium = 0;
-
-        // not safe to use remove_if with a stateful predicate
-        for( auto i = it.contents.begin(); i != it.contents.end(); ) {
-            if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
-                ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
-                ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
-                ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
-                i = it.contents.erase( i );
-            } else {
-                ++i;
-            }
-        }
-    }
-}
-
 void item::deserialize( JsonIn &jsin )
 {
     const JsonObject data = jsin.get_object();
@@ -2468,12 +2318,22 @@ void item::deserialize( JsonIn &jsin )
     if( savegame_loading_version < 27 ) {
         legacy_fast_forward_time();
     }
+    if( data.has_array( "contents" ) ) {
+        std::list<item> items;
+        data.read( "contents", items );
+        contents = item_contents( items );
+    } else {
+        data.read( "contents", contents );
+    }
 }
 
 void item::serialize( JsonOut &json ) const
 {
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
+    if( !contents.empty() ) {
+        json.member( "contents", contents );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3964,13 +3824,6 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 if( savegame_loading_version >= 27 && version < 27 ) {
                     tmp.legacy_fast_forward_time();
                 }
-
-                tmp.visit_items( [ this, &p ]( item * it ) {
-                    for( auto &e : it->magazine_convert() ) {
-                        itm[p.x][p.y].insert( e );
-                    }
-                    return VisitResponse::NEXT;
-                } );
 
                 const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {

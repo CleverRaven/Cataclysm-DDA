@@ -70,7 +70,7 @@ TEST_CASE( "repair_vehicle_part" )
     SECTION( "UPS_modded_welder" ) {
         std::vector<item> tools;
         item welder( "welder", -1, 0 );
-        welder.contents.emplace_back( "battery_ups" );
+        welder.put_in( item( "battery_ups" ) );
         tools.push_back( welder );
         tools.emplace_back( "UPS_off", -1, 500 );
         tools.emplace_back( "goggles_welding" );
@@ -90,7 +90,7 @@ TEST_CASE( "repair_vehicle_part" )
     SECTION( "UPS_modded_welder_missing_charges" ) {
         std::vector<item> tools;
         item welder( "welder", -1, 0 );
-        welder.contents.emplace_back( "battery_ups" );
+        welder.put_in( item( "battery_ups" ) );
         tools.push_back( welder );
         tools.emplace_back( "UPS_off", -1, 5 );
         tools.emplace_back( "goggles_welding" );
