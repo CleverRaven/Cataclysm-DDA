@@ -186,7 +186,9 @@
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "meat_scrap_cooked", 10 ],
         [ "mutant_meat_cooked", 1 ],
+        [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],
         [ "mutant_human_cooked", 1 ],
         [ "meat_pickled", 1 ],
