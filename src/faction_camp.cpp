@@ -1571,7 +1571,7 @@ void basecamp::abandon_camp()
         talk_function::stop_guard( *guy );
     }
     overmap_buffer.remove_camp( *this );
-    g->m.remove_submap_camp( random_guy->pos() );
+    g->m.remove_submap_camp( bb_pos );
     add_msg( m_info, _( "You abandon %s." ), name );
 }
 
