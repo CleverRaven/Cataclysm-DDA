@@ -210,11 +210,11 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
-    std::string sText = trim_and_return( width, text );
+    std::string sText = trim_by_length( text, width );
     print_colored_text( w, begin, base_color, base_color, sText );
 }
 
-std::string trim_and_return( int width, const std::string  &text )
+std::string trim_by_length( const std::string  &text, int width )
 {
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
