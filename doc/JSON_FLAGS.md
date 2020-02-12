@@ -1308,7 +1308,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
-- ```ALTERNATOR``` Recharges batteries installed on the vehicle.
+- ```ALTERNATOR``` Recharges batteries installed on the vehicle. Can only be installed on a part with ```E_ALTERNATOR``` flag.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
 - ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
