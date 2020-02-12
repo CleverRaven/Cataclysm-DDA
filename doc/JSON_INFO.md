@@ -166,8 +166,6 @@ This document describes the contents of the json files used in Cataclysm: Dark d
 # Navigating the JSON
 A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.  If your editor has [ctags support](http://ctags.sourceforge.net/) then you can use this file to easily jump to the definition of any entity.  For example, in Vim you can jump by positioning your cursor over an id and hitting `^]` (by default).
 
-`cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.
-
 # File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
 
