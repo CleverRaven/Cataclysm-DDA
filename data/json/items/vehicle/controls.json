@@ -103,8 +103,7 @@
   {
     "type": "GENERIC",
     "id": "drive_by_wire_controls",
-    "name": "drive by wire controls",
-    "name_plural": "sets of drive by wire controls",
+    "name": { "str": "drive by wire controls", "str_pl": "sets of drive by wire controls" },
     "description": "Fully electronic vehicle control system.  You could control it remotely if you had proper tools.",
     "weight": "3000 g",
     "color": "red",

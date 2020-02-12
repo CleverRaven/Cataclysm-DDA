@@ -504,8 +504,7 @@
   {
     "id": "spear_dory",
     "type": "GENERIC",
-    "name": "dory",
-    "name_plural": "dories",
+    "name": { "str": "dory", "str_pl": "dories" },
     "description": "A well-made spear with a bronze head, Greek in origin.",
     "weight": "1598 g",
     "volume": "3500 ml",
