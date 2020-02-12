@@ -256,5 +256,15 @@
     "type": "tool_quality",
     "id": "PRESSURIZATION",
     "name": "pressurizing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "EXTRACT",
+    "name": "extraction"
+  },
+  {
+    "type": "tool_quality",
+    "id": "FILTER",
+    "name": "filtration"
   }
 ]
