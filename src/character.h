@@ -1567,6 +1567,8 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // redurns a modifier for bmr based on weight carried and weight of player
+        float weight_bmr_modifier() const;
         // returns the height of the player character in cm
         int height() const;
         // returns bodyweight of the Character

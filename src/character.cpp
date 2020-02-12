@@ -6900,6 +6900,15 @@ int Character::height() const
     return height;
 }
 
+float Character::weight_bmr_modifier() const
+{
+    units::mass carried_weight = get_weight() - bodyweight();
+    const float weight_ratio = units::to_gram<float>( carried_weight )
+                               / units::to_gram<float>( bodyweight() );
+    const float percentage = 0.008f * units::to_kilogram( get_weight() ) * pow( weight_ratio, 2 );
+    return 1.0f + std::max( 0.0f, percentage );
+}
+
 int Character::get_bmr() const
 {
     /**
@@ -6907,9 +6916,10 @@ int Character::get_bmr() const
     */
     const int age = 25;
     const int equation_constant = 5;
-    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
-                 ( bodyweight() / 100.0 ) +
-                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+    const double base_bmr = metabolic_rate_base() * activity_level * ( units::to_gram<int>
+                            ( bodyweight() / 100.0 ) +
+                            ( 6.25 * height() ) - ( 5 * age ) + equation_constant );
+    return ceil( base_bmr * weight_bmr_modifier() );
 }
 
 void Character::increase_activity_level( float new_level )
