@@ -49,19 +49,19 @@
   {
     "id": "gloopleboard_se",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "n"
   },
   {
     "id": "gloopleboard_sw",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "b"
   },
   {
     "id": "gloopleboard_vertical",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "j"
   },
   {

@@ -95,7 +95,7 @@
     "id": "gray_horizontal_2",
     "type": "vehicle_part",
     "copy-from": "gray_horizontal",
-    "broken_symbol": "#"
+    "symbol": "="
   },
   {
     "id": "gray_ne",
