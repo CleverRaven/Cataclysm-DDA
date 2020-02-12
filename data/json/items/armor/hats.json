@@ -22,7 +22,7 @@
   },
   {
     "id": "beret",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "beret",
     "description": "A soft cotton hat.  Commonly worn by armed forces and existentialists.",
@@ -450,7 +450,7 @@
   },
   {
     "id": "porkpie",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "porkpie hat",
     "description": "A flat-topped hat with circular indent and a narrow brim.  Most popular in the 40s and 50s, still common among those in the mod scene, hipsters, and people named Heisenberg.",
@@ -459,7 +459,7 @@
     "price": 5500,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "bowlhat",
+    "looks_like": "bowhat",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 50,
