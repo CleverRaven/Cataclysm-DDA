@@ -122,7 +122,25 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge. ",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_disposable_cell", "medium_atomic_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_disposable_cell", "heavy_atomic_battery_cell", "small_storage_battery", "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
+      ]
+    ],
     "qualities": [ [ "EXTRACT", 2 ] ]
   },
   {
@@ -153,7 +171,25 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge. ",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_disposable_cell", "medium_atomic_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_disposable_cell", "heavy_atomic_battery_cell", "small_storage_battery", "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
+      ]
+    ],
     "qualities": [ [ "EXTRACT", 2 ] ]
   },
   {
@@ -174,7 +210,25 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_disposable_cell", "medium_atomic_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_disposable_cell", "heavy_atomic_battery_cell", "small_storage_battery", "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
+      ]
+    ],
     "use_action": {
       "target": "eac_extractor_large_on",
       "msg": "You turn on the large closed loop extractor.",
@@ -206,7 +260,25 @@
     "power_draw": 1500000,
     "revert_to": "eac_extractor_large",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_disposable_cell", "medium_atomic_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_disposable_cell", "heavy_atomic_battery_cell", "small_storage_battery", "medium_storage_battery", "large_storage_battery", "storage_battery" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
+      ]
+    ],
     "use_action": {
       "target": "eac_extractor_large",
       "msg": "You turn off the large closed loop extractor.",
