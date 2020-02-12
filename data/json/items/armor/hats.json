@@ -59,7 +59,7 @@
   },
   {
     "id": "bowhat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "bowler hat",
     "description": "The only hat for a made man.  Look like a real good fella while laughing in the face of your foes!",
@@ -409,7 +409,7 @@
   },
   {
     "id": "kufi",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "kufi cap",
     "name_plural": "kufi caps",
@@ -430,7 +430,7 @@
   },
   {
     "id": "maid_hat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "French maid hat",
     "description": "A frilly white headpiece.",
