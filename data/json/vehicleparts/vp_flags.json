@@ -3,8 +3,7 @@
     "id": "ALTERNATOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery.",
-    "requires_flag": "ENGINE"
+    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery."
   },
   {
     "id": "AISLE",
@@ -229,5 +228,11 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "requires_flag": "ROOF"
+  },
+  {
+    "id": "NEEDS_ENGINE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "ENGINE"
   }
 ]

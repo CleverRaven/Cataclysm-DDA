@@ -1308,7 +1308,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
-- ```ALTERNATOR``` Recharges batteries installed on the vehicle. Can only be installed on a part with ```ENGINE``` flag.
+- ```ALTERNATOR``` Recharges batteries installed on the vehicle.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
 - ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
@@ -1428,12 +1428,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
 - ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
 - ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
+- ```NEEDS_ENGINE``` Can only be installed on a part with ```ENGINE``` flag.
 
 ### Vehicle parts requiring other vehicle parts
 
-The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` and ```cant_remove``` for the flag.
-```requires_flag``` is the other flag that a part with this flag requires. 
-```cant_remove``` message is shown when player tries to remove a part that can't be removed because some other part needs that part. For example trying to remove wheel hub assembly while a wheel is attached to it.
+The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` for the flag. ```requires_flag``` is the other flag that a part with this flag requires. 
+
 
 ### Fuel types
 
