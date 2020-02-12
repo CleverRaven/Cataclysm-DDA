@@ -158,7 +158,7 @@
   },
   {
     "id": "hat_ball",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "baseball cap",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -389,7 +389,7 @@
   },
   {
     "id": "kippah",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "kippah",
     "name_plural": "kippahs",
@@ -471,7 +471,7 @@
   },
   {
     "id": "postman_hat",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "mail carrier hat",
     "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic cap.  A symbol of a bygone world.",

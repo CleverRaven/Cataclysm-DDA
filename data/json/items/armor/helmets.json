@@ -188,7 +188,7 @@
   },
   {
     "id": "helmet_bike",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": "bike helmet",
