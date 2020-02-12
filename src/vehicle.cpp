@@ -4437,7 +4437,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             inserted.first->second += actual_drain;
             fuel_remainder[ ft ] = actual_drain - amnt_precise_j;
         } else {
-	        inserted.first->second += amnt_precise_j;
+            inserted.first->second += amnt_precise_j;
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
