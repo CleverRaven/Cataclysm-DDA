@@ -3493,7 +3493,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
         return 0;
     }
     int energy_j_per_L = fuel.fuel_energy() * 1000;
-    return -3600 * (fuel_rate_w / energy_j_per_L);
+    return -3600 * ( fuel_rate_w / energy_j_per_L );
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
