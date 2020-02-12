@@ -184,6 +184,10 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo]" )
 {
     iteminfo_query q( { iteminfo_parts::FOOD_ROT } );
 
+    // Ensure test character has no skill estimating spoilage
+    g->u.empty_skills();
+    REQUIRE_FALSE( g->u.can_estimate_rot() );
+
     SECTION( "food is fresh" ) {
         iteminfo_test(
             item( "pine_nuts" ), q,
