@@ -119,7 +119,7 @@
   },
   {
     "id": "eboshi",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "eboshi",
     "description": "A high, black cap with a very narrow top.  Traditionally worn by Shinto priests.",
@@ -128,7 +128,7 @@
     "price": 7000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "bowlhat",
+    "looks_like": "bowhat",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 60,
@@ -329,7 +329,7 @@
   },
   {
     "id": "hat_newsboy",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "newsboy cap",
     "description": "A slouching wool cap with a short front brim, traditionally associated with newspaper delivery boys.  Quite warm.",
