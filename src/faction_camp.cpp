@@ -1557,13 +1557,11 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
 void basecamp::abandon_camp()
 {
     validate_assignees();
-    npc_ptr random_guy;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.role_id != base_camps::id ) {
             continue;
         }
-        random_guy = guy;
         const std::string return_msg = _( "responds to the emergency recall…" );
         finish_return( *guy, false, return_msg, "menial", 0, true );
     }
