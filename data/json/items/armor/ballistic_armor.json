@@ -106,7 +106,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY" ],
 	"use_action": 
       "type": "holster",
       "holster_prompt": "Stash grenades",
