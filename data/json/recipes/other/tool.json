@@ -831,12 +831,7 @@
     "difficulty": 8,
     "time": "30 m",
     "book_learn": [ [ "textbook_extraction", 5 ] ],
-    "components": [
-      [ [ "paper", 6 ] ],
-      [ [ "hi_q_crude_oil", 92 ] ],
-      [ [ "gasket_plastic", 2 ] ],
-      [ [ "vac_oven_small", 1 ] ]
-    ]
+    "components": [ [ [ "paper", 6 ] ], [ [ "hi_q_crude_oil", 92 ] ], [ [ "gasket_plastic", 2 ] ], [ [ "vac_oven_small", 1 ] ] ]
   },
   {
     "type": "recipe",
