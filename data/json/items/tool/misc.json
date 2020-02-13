@@ -440,9 +440,9 @@
     "color": "dark_gray",
     "looks_like": "plastic_chunk",
     "weight": "5 g",
-    "volume": "250 ml",
-    "//": "gasket sizes range from small 1in diameter to 6in."
-    "price": 500,
+    "volume": "30 ml",
+    "//": "gasket sizes range from 1in diameter to 6in."
+    "price": 150,
     "to_hit": 10,
     "bashing": 1,
     "material": "plastic"
