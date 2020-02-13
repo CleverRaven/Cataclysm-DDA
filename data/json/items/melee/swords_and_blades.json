@@ -1391,8 +1391,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "kris",
-    "name_plural": "krises",
+    "name": { "str": "kris", "str_pl": "krises" },
     "description": "This is a dull, cheap replica of a wavy bladed dagger that comes from Southeast Asia.",
     "price": 3800,
     "price_postapoc": 0,
@@ -1402,7 +1401,7 @@
     "volume": "750 ml",
     "bashing": 2,
     "cutting": 2,
-    "flags": "SHEATH_SWORD",
+    "flags": [ "SHEATH_SWORD" ],
     "to_hit": 1,
     "category": "weapons"
   },

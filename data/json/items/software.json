@@ -53,8 +53,7 @@
     "id": "software_lab_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "lab data",
-    "name_plural": "lab data",
+    "name": { "str": "lab data", "str_pl": "lab data" },
     "description": "Research archives from a government laboratory.",
     "price": 200
   },
