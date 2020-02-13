@@ -104,7 +104,7 @@
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
-      "target": "eac_dab_pen_on",
+      "target": "dab_pen_on",
       "msg": "You turn on the dab pen.",
       "active": true,
       "need_charges": 1,
