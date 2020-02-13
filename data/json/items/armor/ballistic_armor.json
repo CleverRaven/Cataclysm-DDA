@@ -107,7 +107,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "OUTER", "WATER_FRIENDLY" ],
-	"use_action": 
+    "use_action": {
       "type": "holster",
       "holster_prompt": "Stash grenades",
       "holster_msg": "You stash your %s.",
@@ -115,5 +115,7 @@
       "max_volume": "750 ml",
       "draw_cost": 30,
       "flags": [ "GRENADE" ]
+    }
   }
 ]
+
