@@ -77,12 +77,12 @@
     "components": [ [ [ "silver_small", 2 ] ], [ [ "gold_small", 2 ] ] ]
   },
   {
-    "result": "eac_vac_oven_small_done",
+    "result": "vac_oven_small_done",
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "15 m",
-    "components": [ [ [ "eac_hi_q_shatter", 420 ] ], [ [ "eac_vac_oven_small", 1 ] ] ]
+    "components": [ [ [ "hi_q_shatter", 420 ] ], [ [ "vac_oven_small", 1 ] ] ]
   },
   {
     "result": "ear_spool",
