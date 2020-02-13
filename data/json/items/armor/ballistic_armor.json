@@ -90,7 +90,7 @@
     "id": "pasgt_vest",
     "type": "ARMOR",
     "name": "PASGT vest",
-    "description": "An old military surplus flak vest with a woodland camouflage from the early 80's made of kevlar and nylon.  The vest is meant to stop shrapnel from small explosives like grenades, but may stop a 9mm.  Though later replaced by better armor models, these are still in use by foreign militaries.",
+    "description": "An old military surplus flak vest with a woodland camouflage from the early 80's made of kevlar and nylon.  The vest is meant to stop shrapnel from small explosives like grenades, but may stop a 9mm.  Though later replaced by better armor models, these are still in use by foreign militaries. There is a set of elsatic webbing to hold 4 grenades.",
     "weight": "4082 g",
     "volume": "3 L",
     "price": 2000,
