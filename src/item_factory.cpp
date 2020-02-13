@@ -25,6 +25,7 @@
 #include "json.h"
 #include "material.h"
 #include "options.h"
+#include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_formatter.h"
@@ -63,6 +64,8 @@ static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
 extern const double MAX_RECOIL;
+
+static const int ascii_art_width = 42;
 
 bool item_is_blacklisted( const std::string &id )
 {
@@ -412,6 +415,14 @@ void Item_factory::finalize_post( itype &obj )
             } ) ) {
                 obj.repair.insert( tool );
             }
+        }
+    }
+
+    for( std::string &line : obj.ascii_picture ) {
+        if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
+            line = trim_by_length( line, ascii_art_width );
+            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>%i char).", obj.id,
+                      ascii_art_width );
         }
     }
 }
@@ -2082,6 +2093,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
+    assign( jo, "ascii_picture", def.ascii_picture );
+
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
