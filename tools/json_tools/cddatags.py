@@ -36,7 +36,7 @@ e.g. ctags.""")
                 full_path = os.path.join(dirpath, filename)
                 assert full_path.startswith(TOP_DIR)
                 relative_path = full_path[len(TOP_DIR):].lstrip(os.path.sep)
-                with open(full_path) as file:
+                with open(full_path, encoding='utf-8') as file:
                     try:
                         json_data = json.load(file)
                     except Exception as err:
