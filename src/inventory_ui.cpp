@@ -1603,8 +1603,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( filter.empty() ? _( "[%s]Filter" ) : _( "[%s]Filter: " ),
-                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
+        std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                          ctxt.get_desc( "INVENTORY_FILTER" ) );
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
