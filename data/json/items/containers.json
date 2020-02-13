@@ -331,12 +331,12 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
-    "id": "eac_flask_buchner",
+    "id": "flask_buchner",
     "type": "CONTAINER",
     "category": "container",
     "name": "buchner flask",
     "name_plural": "buchner flasks",
-    "description": "a 5 L glass flask that has a 3in tapered spout coming out of the side near the top of the flask. Used to filter out solids from liquids assisted by a vacuum pump.",
+    "description": "a 5 L glass flask that has a 3in tapered spout coming out of the side near the top of the flask.  Used as a vacuum trap in many types of filtration.",
     "weight": "1362 g",
     "volume": "5000 ml",
     "price": 7500,
