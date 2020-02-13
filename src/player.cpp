@@ -5387,7 +5387,7 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) );
+        bool can_see = sees( critter ) || sees_with_infrared( critter );
         if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
         {
             std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
