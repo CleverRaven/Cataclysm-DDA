@@ -106,8 +106,8 @@ bool map::build_transparency_cache( const int zlev )
                         continue;
                     }
 
-                    if( !( cur_submap->ter[sx][sy].obj().transparent &&
-                           cur_submap->frn[sx][sy].obj().transparent ) ) {
+                    if( !( cur_submap->get_ter( { sx, sy } ).obj().transparent &&
+                           cur_submap->get_furn( {sx, sy } ).obj().transparent ) ) {
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
@@ -126,7 +126,7 @@ bool map::build_transparency_cache( const int zlev )
                         zero_value = value;
                         continue;
                     }
-                    for( const auto &fld : cur_submap->fld[sx][sy] ) {
+                    for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry &cur = fld.second;
                         if( cur.is_transparent() ) {
                             continue;
@@ -317,21 +317,21 @@ void map::generate_lightmap( const int zlev )
                         }
                     }
 
-                    if( cur_submap->lum[sx][sy] && has_items( p ) ) {
+                    if( cur_submap->get_lum( { sx, sy } ) && has_items( p ) ) {
                         auto items = i_at( p );
                         add_light_from_items( p, items.begin(), items.end() );
                     }
 
-                    const ter_id terrain = cur_submap->ter[sx][sy];
+                    const ter_id terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
-                    const furn_id furniture = cur_submap->frn[sx][sy];
+                    const furn_id furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
                         add_light_source( p, furniture->light_emitted );
                     }
 
-                    for( auto &fld : cur_submap->fld[sx][sy] ) {
+                    for( auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
                         const int light_emitted = cur->light_emitted();
                         if( light_emitted > 0 ) {
