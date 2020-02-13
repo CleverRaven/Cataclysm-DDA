@@ -95,7 +95,7 @@
     "magazine_well": 0
   },
   {
-    "id": "eac_vac_oven_small",
+    "id": "vac_oven_small",
     "type": "TOOL",
     "name": "small vacuum oven",
     "name_plural": "small vacuum ovens",
