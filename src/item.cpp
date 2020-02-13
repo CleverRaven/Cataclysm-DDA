@@ -2694,7 +2694,7 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         int /*batch*/, bool /*debug*/ ) const
 {
-    if( parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
+    if( !parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
         return;
     }
     insert_separation_line( info );
