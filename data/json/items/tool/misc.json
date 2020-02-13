@@ -86,7 +86,6 @@
     "type": "TOOL",
     "id": "dab_pen",
     "name": { "str": "dab pen" },
-    "name_plural": "dab pens",
     "description": "A battery operated dab pen used for smoking cannabis distillate cartridges.",
     "symbol": "!",
     "color": "dark_gray",
