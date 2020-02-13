@@ -549,7 +549,10 @@
     "name": "GROUP_PLAIN",
     "type": "monstergroup",
     "default": "mon_zombie",
-    "monsters": [ { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 } ]
+    "monsters": [ 
+      { "monster": "mon_zombie", "freq": 36, "cost_multiplier": 1 }, 
+      { "monster": "mon_zombie_ball", "freq": 4, "cost_multiplier": 6 }
+    ]
   },
   {
     "name": "GROUP_HOTEL_POOL",
