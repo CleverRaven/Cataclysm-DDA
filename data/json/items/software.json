@@ -21,8 +21,7 @@
     "id": "software_hacking",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "hackPRO",
-    "name_plural": "hackPRO",
+    "name": { "str": "hackPRO", "str_pl": "hackPRO" },
     "description": "A piece of hacking software.",
     "price": 800
   },
@@ -46,8 +45,7 @@
     "id": "software_blood_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "infection data",
-    "name_plural": "infection data",
+    "name": { "str": "infection data", "str_pl": "infection data" },
     "description": "Medical data on zombie blood.",
     "price": 200
   },
