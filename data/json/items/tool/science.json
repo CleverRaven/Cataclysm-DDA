@@ -95,7 +95,7 @@
     "magazine_well": 0
   },
   {
-    "id": "eac_filter_paper_qualitative",
+    "id": "filter_paper_qualitative",
     "type": "TOOL",
     "name": "qualitative filter paper",
     "name_plural": "qualitative filter paper",
@@ -112,7 +112,7 @@
     "qualities": [ [ "FILTER", 2 ] ]
   },
   {
-    "id": "eac_filter_paper_quantitative",
+    "id": "filter_paper_quantitative",
     "type": "TOOL",
     "name": "quantitative filter paper",
     "name_plural": "quantitative filter paper",
@@ -129,7 +129,7 @@
     "qualities": [ [ "FILTER", 1 ] ]
   },
   {
-    "id": "eac_vac_pump",
+    "id": "vac_pump",
     "type": "TOOL",
     "name": "vacuum pump",
     "name_plural": "vacuum pumps",
@@ -147,7 +147,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
-      "target": "eac_vac_pump_on",
+      "target": "vac_pump_on",
       "msg": "You turn on the vacuum pump.",
       "menu_text": "turn on",
       "active": true,
@@ -176,11 +176,11 @@
     ]
   },
   {
-    "id": "eac_vac_pump_on",
+    "id": "vac_pump_on",
     "type": "TOOL",
     "name": "vacuum pump (on)",
-    "name_plural": "vacuum pumps (on) ",
-    "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns)",
+    "name_plural": "vacuum pumps (on)",
+    "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns).",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "motor",
@@ -194,9 +194,9 @@
     "power_draw": 600000,
     "charges_per_use": 1,
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
-    "revert_to": "eac_vac_pump",
+    "revert_to": "vac_pump",
     "use_action": {
-      "target": "eac_vac_pump",
+      "target": "vac_pump",
       "msg": "You turn off the vacuum pump.",
       "menu_text": "turn off",
       "active": false,
@@ -225,11 +225,11 @@
     ]
   },
   {
-    "id": "eac_recovery_pump",
+    "id": "recovery_pump",
     "type": "TOOL",
     "name": "recovery pump",
     "name_plural": "recovery pumps",
-    "description": "A medium sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils",
+    "description": "A medium sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "well_pump",
@@ -241,7 +241,7 @@
     "material": "steel"
   },
   {
-    "id": "eac_butane_tank",
+    "id": "butane_tank",
     "type": "TOOL",
     "name": "butane tank",
     "name_plural": "tanks of butane",
