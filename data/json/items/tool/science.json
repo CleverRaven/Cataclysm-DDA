@@ -254,7 +254,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": "battery",
     "power_draw": 1500000,
-    "revert_to": "eac_extractor_large",
+    "revert_to": "closed_loop_extractor_large",
     "charges_per_use": 1,
     "magazines": [
       [
