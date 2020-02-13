@@ -362,22 +362,35 @@ void monster::try_reproduce()
 
 void monster::refill_udders()
 {
-    if( !has_flag( MF_MILKABLE ) ) {
-        return;
-    }
-    auto milked_item = type->starting_ammo.find( "milk_raw" );
+    auto milked_item = type->starting_ammo.find( "milk_raw " );
     if( milked_item == type->starting_ammo.end() ) {
-        // old save cows.
         milked_item = type->starting_ammo.find( "milk" );
         if( milked_item == type->starting_ammo.end() ) {
-            debugmsg( "%s is milkable but has no milk in its starting ammo!", get_name() );
+            // this may be a sheep from a very old save.
+            // sheep didnt use to be milkable, but now they have that flag,
+            // but the old save would keep their old blank starting ammo.
+            // cant modify the type, and cant get what their starting ammo should be.
+            // so just let the sheep remain milkless
             return;
         }
     }
-    auto current_milk = ammo.find( milked_item->first );
+    auto current_milk = ammo.find( "milk_raw" );
     if( current_milk == ammo.end() ) {
-        // how?
-        return;
+        current_milk = ammo.find( "milk" );
+        if( current_milk == ammo.end() ) {
+            debugmsg( "%s has neither milk nor raw milk in its udders", get_name() );
+            return;
+        } else {
+            // take this opportunity to update udders to raw_milk
+            std::swap( ammo["milk_raw"], current_milk->second );
+            // Erase old key-value from map
+            ammo.erase( current_milk );
+            current_milk = ammo.find( "milk_raw" );
+            if( current_milk == ammo.end() ) {
+                //how?
+                return;
+            }
+        }
     }
     // if we got here, we got milk.
     if( current_milk->second == milked_item->second ) {
@@ -2825,7 +2838,9 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
-    refill_udders();
+    if( has_flag( MF_MILKABLE ) ) {
+        refill_udders();
+    }
 
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
