@@ -436,7 +436,7 @@
   {
     "type": "TOOL",
     "id": "gasket_plastic",
-    "name": "plastic gasket",
+    "name": { "str": "plastic gasket" },
     "name_plural": "plastic gaskets",
     "description": " A single-use plastic gasket.",
     "symbol": "(",
