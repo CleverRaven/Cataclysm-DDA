@@ -743,7 +743,7 @@ bool mattack::boomer( monster *z )
             target->add_msg_player_or_npc( _( "You dodge it!" ),
                                            _( "<npcname> dodges it!" ) );
         }
-        target->on_dodge( z, 10 );
+        target->on_dodge( z, 5 );
     }
 
     return true;
@@ -781,7 +781,7 @@ bool mattack::boomer_glow( monster *z )
         ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
         if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
-            target->on_dodge( z, 10 );
+            target->on_dodge( z, 5 );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
                 target->add_env_effect( effect_glowing, bp, 4, 4_minutes );

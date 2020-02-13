@@ -1,6 +1,7 @@
 [
   {
     "id": "223_speedloader5",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "LW-5 speedloader",
     "description": "This speedloader, made by Leadworks for use with L2037 Backup revolver, can hold 5 rounds of .223 and quickly reload a compatible revolver.",
@@ -17,6 +18,7 @@
   {
     "id": "belt223",
     "copy-from": "magazine_belt",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "5.56x45mm ammo belt",
     "ammo_type": "223",
@@ -27,6 +29,7 @@
   },
   {
     "id": "lw223bigmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "LW-56 magazine",
     "description": "A 56-round polymer magazine for Leadworks LLC 223 firearms.  It's compact design makes it surprisingly easy to store.  Lightweight and reliable but somewhat more difficult to reload.",
@@ -44,6 +47,7 @@
   },
   {
     "id": "lw223mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "LW-32 magazine",
     "description": "A 32-round polymer magazine for Leadworks LLC 223 firearms.  Lightweight and reliable but somewhat more difficult to reload.",
@@ -61,6 +65,7 @@
   },
   {
     "id": "ruger5",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Ruger .223 5-round magazine",
     "description": "A compact 5-round magazine used with the Ruger Mini-14 rifle.",
@@ -77,6 +82,7 @@
   },
   {
     "//": "Used to be a STANAG 10 round, but switched to just be Ruger compatible",
+    "looks_like": "stanag30",
     "id": "stanag10",
     "type": "MAGAZINE",
     "name": "Ruger .223 10-round magazine",
@@ -94,6 +100,7 @@
   },
   {
     "id": "ruger30",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Ruger .223 high-capacity magazine",
     "description": "A high capacity magazine for use with the Ruger Mini-14 rifle.",
@@ -112,6 +119,7 @@
     "id": "stanag30",
     "type": "MAGAZINE",
     "name": "STANAG magazine",
+    "//": "Tileset whitelist for rifle magazines",
     "description": "A standard capacity magazine for use with STANAG compatible rifles.",
     "weight": "360 g",
     "volume": "500 ml",
@@ -126,6 +134,7 @@
   },
   {
     "id": "stanag50",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "STANAG drum magazine",
     "description": "A 50-round magazine with a bulky green drum for use with STANAG compatible rifles.",
@@ -145,6 +154,7 @@
   },
   {
     "id": "survivor223mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "STANAG makeshift magazine",
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with STANAG compatible rifles.",

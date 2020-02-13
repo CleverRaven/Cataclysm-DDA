@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_raw",
-    "name": "raw milk",
-    "name_plural": "raw milk",
+    "name": { "str": "raw milk", "str_pl": "raw milk" },
     "copy-from": "milk",
     "spoils_in": "12 hours",
     "price": 19,
@@ -48,8 +47,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buttermilk",
-    "name": "buttermilk",
-    "name_plural": "buttermilk",
+    "name": { "str": "buttermilk", "str_pl": "buttermilk" },
     "weight": "258 g",
     "color": "white",
     "spoils_in": "2 d",
@@ -90,8 +88,7 @@
   {
     "type": "COMESTIBLE",
     "id": "butter",
-    "name": "butter",
-    "name_plural": "butter",
+    "name": { "str": "butter", "str_pl": "butter" },
     "weight": "14180 mg",
     "color": "yellow",
     "spoils_in": "14 days",
@@ -111,8 +108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_butter",
-    "name": "raw butter",
-    "name_plural": "raw butter",
+    "name": { "str": "raw butter", "str_pl": "raw butter" },
     "weight": "14 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -205,8 +201,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese",
-    "name": "cheese",
-    "name_plural": "cheese",
+    "name": { "str": "cheese", "str_pl": "cheese" },
     "weight": "30 g",
     "color": "yellow",
     "spoils_in": "28 days",
@@ -270,8 +265,7 @@
   {
     "type": "COMESTIBLE",
     "id": "con_milk",
-    "name": "condensed milk",
-    "name_plural": "condensed milk",
+    "name": { "str": "condensed milk", "str_pl": "condensed milk" },
     "weight": "32 g",
     "color": "white",
     "spoils_in": "1 day",

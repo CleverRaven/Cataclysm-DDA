@@ -67,8 +67,19 @@
         "type": "transform"
       },
       "CAMERA",
+      "MP3",
       "ROBOTCONTROL"
     ]
+  },
+  {
+    "id": "afs_atomic_wraitheon_music",
+    "copy-from": "afs_wraitheon_smartphone",
+    "type": "TOOL",
+    "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
+    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "revert_to": "afs_atomic_smartphone",
+    "use_action": "MP3_ON",
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",

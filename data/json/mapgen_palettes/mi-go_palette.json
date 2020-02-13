@@ -14,7 +14,7 @@
       "p": "t_platform_resin",
       "v": "t_open_air",
       "_": "t_resin_roof",
-      ".": [ [ "t_grass", 15 ], [ "t_dirt", 3 ], "t_grass_long" ],
+      ".": "t_region_groundcover",
       "@": "t_null"
     },
     "furniture": {

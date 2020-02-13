@@ -575,7 +575,7 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseuso_bio_picklock", 0 );
+        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
         if( invoke_item( &tmp_item ) == 0 ) {
             if( tmp_item.charges > 0 ) {
@@ -2389,6 +2389,15 @@ void load_bionic( const JsonObject &jsobj )
 
     for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
         new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
+    }
+
+    for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
+        new_bionic.bash_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+    }
+    for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
+        new_bionic.cut_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 
