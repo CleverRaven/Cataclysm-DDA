@@ -80,8 +80,7 @@
     "id": "scrap_nylon",
     "copy-from": "scrap_cotton",
     "type": "AMMO",
-    "name": "synthetic fabric scraps",
-    "name_plural": "synthetic fabric scraps",
+    "name": { "str": "synthetic fabric scraps", "str_pl": "synthetic fabric scraps" },
     "description": "Oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "material": "nylon"
