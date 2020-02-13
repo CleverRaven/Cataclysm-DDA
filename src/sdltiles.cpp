@@ -3534,8 +3534,6 @@ void catacurses::init_interface()
     // initialize sound set
     load_soundset();
 
-    // Recreate font list;
-    save_font_list();
     // Reset the font pointer
     font = std::make_unique<FontFallbackList>( fl.fontwidth, fl.fontheight,
             fl.typeface, fl.fontsize, fl.fontblending );
