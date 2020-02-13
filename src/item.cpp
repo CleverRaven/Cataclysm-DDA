@@ -2691,6 +2691,28 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
 }
 
+void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                        int /*batch*/, bool /*debug*/ ) const
+{
+    if( parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
+        return;
+    }
+    insert_separation_line( info );
+    const std::set<std::string> &rep = repaired_with();
+    if( !rep.empty() ) {
+        info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
+        enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
+            return nname( e );
+        }, enumeration_conjunction::or_ ) );
+        if( reinforceable() ) {
+            info.emplace_back( "DESCRIPTION", _( "* This item can be "
+                                                 "<good>reinforced</good>." ) );
+        }
+    } else {
+        info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
+    }
+}
+
 void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                              int /*batch*/, bool /*debug*/ ) const
 {
@@ -2981,23 +3003,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( parts->test( iteminfo_parts::DESCRIPTION_REPAIREDWITH ) ) {
-        insert_separation_line( info );
-        const std::set<std::string> &rep = repaired_with();
-        if( !rep.empty() ) {
-            info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
-            enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
-                return nname( e );
-            }, enumeration_conjunction::or_ ) );
-            insert_separation_line( info );
-            if( reinforceable() ) {
-                info.emplace_back( "DESCRIPTION", _( "* This item can be "
-                                                     "<good>reinforced</good>." ) );
-            }
-        } else {
-            info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
-        }
-    }
+    repair_info( info, parts, batch, debug );
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
