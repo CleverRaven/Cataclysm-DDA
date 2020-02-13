@@ -116,8 +116,7 @@
     "type": "TOOL",
     "id": "dab_pen_on",
     "name": { "str": "dab pen (on)", "str_pl": "dab pens (on)" },
-    "name_plural": "dab pens (on)",
-    "description": "dab pen (on), now all you need is a distillate cartridge and you're ready to rock and roll. ",
+    "description": "This dab pen, for vaporizing cannabis, is turned on.  Now all you need is a distillate cartridge and you're ready to rock and roll.",
     "symbol": "!",
     "color": "dark_gray",
     "looks_like": "ecig",
@@ -137,11 +136,11 @@
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
-      "target": "eac_dab_pen",
+      "target": "dab_pen",
       "msg": "You turn off the dab pen.",
       "active": false,
       "need_charges": 0,
-      "need_charges_msg": "The dab pen's batteries need more charge. ",
+      "need_charges_msg": "The dab pen's batteries need more charge.",
       "type": "transform"
     }
   },
