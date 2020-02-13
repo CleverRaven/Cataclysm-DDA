@@ -128,7 +128,7 @@
     "material": "plastic",
     "ammo": "battery",
     "power_draw": 9000,
-    "revert_to": "eac_dab_pen",
+    "revert_to": "dab_pen",
     "magazines": [
       [
         "battery",
