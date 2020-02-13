@@ -45,7 +45,7 @@
   },
   {
     "type": "TOOL",
-    "id": "eac_butane_can",
+    "id": "butane_can",
     "name": "can of butane",
     "name_plural": "cans of butane",
     "description": "A typical can of butane that you would normally use to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
