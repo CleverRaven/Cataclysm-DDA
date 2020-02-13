@@ -254,6 +254,6 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 s" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 s" }
     },
-    "flags": [ "FOLDABLE", "AISLE" ]
+    "flags": [ "INITIAL_PART", "FOLDABLE", "AISLE" ]
   }
 ]
