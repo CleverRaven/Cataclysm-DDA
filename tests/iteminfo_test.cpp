@@ -60,9 +60,9 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo]" )
         item( "halligan" ), q,
         "--\n"
         "<color_c_white>Techniques when wielded</color>:"
-        " <color_c_light_blue>Brutal Strike:</color> <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color>,"
-        " <color_c_light_blue>Sweep Attack:</color> <color_c_cyan>Down 2 turns</color>, and"
-        " <color_c_light_blue>Block:</color> <color_c_cyan>Medium blocking ability</color>\n" );
+        " <color_c_light_blue>Brutal Strike</color>: <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color>,"
+        " <color_c_light_blue>Sweep Attack</color>: <color_c_cyan>Down 2 turns</color>, and"
+        " <color_c_light_blue>Block</color>: <color_c_cyan>Medium blocking ability</color>\n" );
 
 }
 
@@ -103,7 +103,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "<color_c_white>Capacity:</color> <color_c_yellow>1</color> round of arrows\n" );
+            "<color_c_white>Capacity</color>: <color_c_yellow>1</color> round of arrows\n" );
     }
 
     SECTION( "default ammo when unloaded" ) {
@@ -138,7 +138,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "<color_c_white>Fire modes:</color> manual (1)\n" );
+            "<color_c_white>Fire modes</color>: manual (1)\n" );
     }
 
     SECTION( "weapon mods" ) {
@@ -146,7 +146,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "<color_c_white>Mods:</color> <color_c_white>0/2</color> accessories;"
+            "<color_c_white>Mods</color>: <color_c_white>0/2</color> accessories;"
             " <color_c_white>0/1</color> dampening; <color_c_white>0/1</color> sights;"
             " <color_c_white>0/1</color> stabilizer; <color_c_white>0/1</color> underbarrel.\n" );
     }
