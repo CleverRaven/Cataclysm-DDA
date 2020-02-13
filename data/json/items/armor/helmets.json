@@ -632,6 +632,7 @@
     "symbol": "[",
     "color": "green",
     "weight": "1633 g",
+    "price": 22000,
     "material": [ "kevlar_rigid" ],
     "material_thickness": 8,
     "flags": [ "WATERPROOF", "STURDY" ]
