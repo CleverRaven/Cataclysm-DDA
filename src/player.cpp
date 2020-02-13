@@ -5391,7 +5391,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
         if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
         {
             std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
-            for each( tripoint point in path ) {
+            for( tripoint point : path ) {
                 if( g->m.impassable( point ) ) {
                     can_see = false;
                     break;
