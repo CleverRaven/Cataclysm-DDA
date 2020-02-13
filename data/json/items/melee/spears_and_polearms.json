@@ -522,8 +522,7 @@
   {
     "id": "ji",
     "type": "GENERIC",
-    "name": "ji",
-    "name_plural": "ji",
+    "name": { "str": "ji", "str_pl": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
     "weight": "3175 g",
