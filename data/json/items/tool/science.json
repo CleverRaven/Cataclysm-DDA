@@ -143,7 +143,7 @@
   {
     "id": "vac_oven_small_on",
     "type": "TOOL",
-    "name": { "str": "small vacuum oven (on)", "str_pl" "small vacuum ovens (on)" },
+    "name": { "str": "small vacuum oven (on)", "str_pl": "small vacuum ovens (on)" },
     "description": "A small vacuum oven filled with extract currently purging out all residual solvents.  This process takes about 72hrs.",
     "looks_like": "microwave",
     "weight": "40952 g",
