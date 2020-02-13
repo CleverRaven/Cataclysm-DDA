@@ -633,6 +633,21 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     invalidate_mass();
 }
 
+void vehicle::activate_magical_follow()
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_mana ) {
+            parts[ e ].enabled = true;
+            is_following = true;
+            engine_on = true;
+        } else {
+            parts[ e ].enabled = false;
+        }
+    }
+    refresh();
+}
+
 void vehicle::activate_animal_follow()
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
@@ -867,7 +882,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
         if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 10 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
             velocity < 100 ) {
             accel_y = -1;
         }
@@ -4819,7 +4834,7 @@ void vehicle::idle( bool on_map )
     } else {
         if( engine_on && g->u.sees( global_pos3() ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
-              has_engine_type_not( fuel_type_wind, true ) ) ) {
+              has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
             add_msg( _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
@@ -5147,7 +5162,6 @@ void vehicle::gain_moves()
         of_turn = .001;
     }
     of_turn_carry = 0;
-
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
@@ -5176,6 +5190,26 @@ void vehicle::gain_moves()
     if( velocity < 0 ) {
         beeper_sound();
     }
+}
+
+bool vehicle::decrement_summon_timer()
+{
+    if( !summon_time_limit ) {
+        return false;
+    }
+    if( *summon_time_limit <= 0_turns ) {
+        for( auto &p : parts ) {
+            for( const auto &e : p.items ) {
+                g->m.add_item_or_charges( global_part_pos3( p ), e );
+            }
+            p.items.clear();
+        }
+        g->m.destroy_vehicle( this );
+        return true;
+    } else {
+        *summon_time_limit -= 1_turns;
+    }
+    return false;
 }
 
 void vehicle::suspend_refresh()

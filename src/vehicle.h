@@ -1349,7 +1349,7 @@ class vehicle
 
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
-
+        void activate_magical_follow();
         void activate_animal_follow();
         /**
          * vehicle is driving itself
@@ -1398,6 +1398,9 @@ class vehicle
         void place_spawn_items();
 
         void gain_moves();
+
+        // if its a summoned vehicle - its gotta dissappear at some point, return true if destroyed
+        bool decrement_summon_timer();
 
         // reduces velocity to 0
         void stop( bool update_cache = true );
@@ -1691,6 +1694,10 @@ class vehicle
         std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
+        // a magic vehicle, powered by magic.gif
+        bool magic = false;
+        // when does the magic vehicle disappear?
+        cata::optional<time_duration> summon_time_limit = cata::nullopt;
 
     private:
         mutable units::mass mass_cache;

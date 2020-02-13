@@ -1707,6 +1707,7 @@ void game::autopilot_vehicles()
     for( auto &veh : m.get_vehicles() ) {
         auto &v = veh.v;
         if( v->is_following ) {
+            std::cout << " vehicle following " << v->name << std::endl;
             v->drive_to_local_target( g->m.getabs( u.pos() ), true );
         } else if( v->is_patrolling ) {
             v->autopilot_patrol();
@@ -4999,6 +5000,10 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
 void game::exam_vehicle( vehicle &veh, const point &c )
 {
+    if( veh.magic ) {
+        add_msg( m_info, _( "This is your %s" ), veh.name );
+        return;
+    }
     auto act = veh_interact::run( veh, c );
     if( act ) {
         u.moves = 0;
