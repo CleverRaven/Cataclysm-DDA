@@ -47,6 +47,7 @@
 #include "monattack.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -7230,7 +7231,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 if( guy->is_hallucination() ) {
                     continue; // do not include hallucinations
                 }
-                if( guy->movement_mode_is( CMM_CROUCH ) ) {
+                if( guy->movement_mode_is( MM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
                     pose = _( "stands" );

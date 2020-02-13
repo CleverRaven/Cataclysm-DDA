@@ -41,6 +41,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
@@ -7719,7 +7720,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    bool is_crouching = g->u.movement_mode_is( MM_CROUCH );
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be transparent

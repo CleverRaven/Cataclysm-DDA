@@ -17,6 +17,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -714,11 +715,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( g->u.movement_mode_is( MM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( g->u.movement_mode_is( MM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 

@@ -186,7 +186,7 @@ class avatar : public player
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to ) override;
 
         // Cycles to the next move mode.
         void cycle_move_mode();

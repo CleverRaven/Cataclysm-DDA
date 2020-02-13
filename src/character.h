@@ -85,20 +85,6 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum character_movemode : unsigned char {
-    CMM_WALK = 0,
-    CMM_RUN = 1,
-    CMM_CROUCH = 2,
-    CMM_COUNT
-};
-
-static const std::array< std::string, CMM_COUNT > character_movemode_str = { {
-        "walk",
-        "run",
-        "crouch"
-    }
-};
-
 enum fatigue_levels {
     TIRED = 191,
     DEAD_TIRED = 383,
@@ -526,9 +512,10 @@ class Character : public Creature, public visitable<Character>
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Check against the character's current movement mode */
-        bool movement_mode_is( character_movemode mode ) const;
+        bool movement_mode_is( const move_mode_id &mode ) const;
+        const move_mode_id* get_current_movement_mode() const;
 
-        virtual void set_movement_mode( character_movemode mode ) = 0;
+        virtual void set_movement_mode(const move_mode_id &mode, bool is_being_cycled_to) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
@@ -1572,7 +1559,6 @@ class Character : public Creature, public visitable<Character>
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
-        float stamina_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
 
@@ -1917,7 +1903,7 @@ class Character : public Creature, public visitable<Character>
         faction_id fac_id;
         faction *my_fac = nullptr;
 
-        character_movemode move_mode;
+        move_mode_id current_move_mode;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 

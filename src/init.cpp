@@ -47,6 +47,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -189,6 +190,7 @@ void DynamicDataLoader::initialize()
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
+    add( "move_mode", &move_modes::load);
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
     add( "ammo_effect", &ammo_effects::load );
@@ -470,6 +472,7 @@ void DynamicDataLoader::unload_data()
 
     harvest_list::reset();
     json_flag::reset();
+    move_modes::reset();
     requirement_data::reset();
     vitamin::reset();
     field_types::reset();
@@ -556,6 +559,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
+            { _( "Move modes" ), &move_modes::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -629,6 +633,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
+            { _( "Move modes" ), &move_modes::check_consistency },
             {
                 _( "Crafting requirements" ), []()
                 {

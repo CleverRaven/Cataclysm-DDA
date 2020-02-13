@@ -35,6 +35,7 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -845,12 +846,9 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // accelerate when it dosnt need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
-    int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
-        safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
-        safe_player_follow_speed = 200;
-    }
+    const move_mode currentMoveMode = g->u.get_current_movement_mode()->obj();
+    int safe_player_follow_speed = 400 * currentMoveMode.speed;
+
     if( follow_protocol ) {
         if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
             rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {

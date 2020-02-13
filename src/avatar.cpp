@@ -32,6 +32,7 @@
 #include "monstergenerator.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
@@ -1357,102 +1358,78 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
 
-void avatar::set_movement_mode( character_movemode new_mode )
+void avatar::set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to = false )
 {
-    switch( new_mode ) {
-        case CMM_WALK: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
-                } else {
-                    add_msg( _( "You nudge your steed into a steady trot." ) );
-                }
-            } else {
-                add_msg( _( "You start walking." ) );
-            }
-            break;
+    move_mode new_mode = mode.obj();
+
+    if( !new_mode.can_be_cycled_to && is_being_cycled_to ) {
+        return;
+    }
+
+    if( new_mode.minimum_required_legs > get_working_leg_count() ) {
+        add_msg( m_bad, string_format( _( "You do not have enough functioning legs to %s." ), new_mode.name ) );                           
+        return;
+    }
+
+    if( !new_mode.usable_while_mounted && is_mounted() ) {
+        add_msg( m_bad, string_format( _( "You cannot %s whilst mounted." ), new_mode.name ) );
+        return;
+    }
+
+    if( !new_mode.can_haul && is_hauling() ) {
+        stop_hauling();
+    }
+
+    translation text_to_show = new_mode.flavor_text;
+    if (is_mounted()) {
+        if (mounted_creature->has_flag(MF_RIDEABLE_MECH)) {
+            text_to_show = new_mode.flavor_text_mech;
         }
-        case CMM_RUN: {
-            if( can_run() ) {
-                if( is_hauling() ) {
-                    stop_hauling();
-                }
-                if( is_mounted() ) {
-                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
-                    } else {
-                        add_msg( _( "You spur your steed into a gallop." ) );
-                    }
-                } else {
-                    add_msg( _( "You start running." ) );
-                }
-            } else {
-                if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
-                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
-                } else if( get_working_leg_count() < 2 ) {
-                    add_msg( m_bad, _( "You need two functional legs to run." ) );
-                } else {
-                    add_msg( m_bad, _( "You're too tired to run." ) );
-                }
-                return;
-            }
-            break;
-        }
-        case CMM_CROUCH: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
-                } else {
-                    add_msg( _( "You slow your steed to a walk." ) );
-                }
-            } else {
-                add_msg( _( "You start crouching." ) );
-            }
-            break;
-        }
-        default: {
-            return;
+        else {
+            text_to_show = new_mode.flavor_text_mount;
         }
     }
-    move_mode = new_mode;
+
+    add_msg(text_to_show.translated());
+
+    current_move_mode = mode;
 }
 
 void avatar::toggle_run_mode()
 {
-    if( move_mode == CMM_RUN ) {
-        set_movement_mode( CMM_WALK );
+    if( movement_mode_is( MM_RUN ) ) {
+        set_movement_mode( MM_WALK, false );
     } else {
-        set_movement_mode( CMM_RUN );
+        set_movement_mode( MM_RUN, false );
     }
 }
 
 void avatar::toggle_crouch_mode()
 {
-    if( move_mode == CMM_CROUCH ) {
-        set_movement_mode( CMM_WALK );
+    if( movement_mode_is( MM_CROUCH ) ) {
+        set_movement_mode( MM_WALK );
     } else {
-        set_movement_mode( CMM_CROUCH );
+        set_movement_mode( MM_CROUCH );
     }
 }
 
 void avatar::reset_move_mode()
 {
-    if( move_mode != CMM_WALK ) {
-        set_movement_mode( CMM_WALK );
+    if (!movement_mode_is( MM_WALK )) {
+        set_movement_mode( MM_WALK );
     }
 }
 
 void avatar::cycle_move_mode()
 {
-    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
-    as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
-    set_movement_mode( static_cast<character_movemode>( as_uchar ) );
-    // if a movemode is disabled then just cycle to the next one
-    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
-        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
-        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
-    }
+    //TODO : Might need to take into account a case where a move mode in the middle of the cycle list is blocked, 
+    //for example by not being usable on a mount
+    //This could result in some move modes not being accessable
+
+    int next_movemode_id = current_move_mode.obj().cycle_index+1;
+
+    move_mode_id next_movemode = move_modes::get_by_cycle_id(next_movemode_id);
+    set_movement_mode(next_movemode, true);
 }
 
 bool avatar::wield( item &target )

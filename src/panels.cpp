@@ -27,6 +27,7 @@
 #include "martialarts.h"
 #include "options.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "output.h"
@@ -993,24 +994,14 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return c_red;
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return c_light_blue;
-    } else {
-        return c_light_gray;
-    }
+    const move_mode currentMoveMode = u.get_current_movement_mode()->obj();
+    return currentMoveMode.nc_display_colour;
 }
 
 static std::string move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return pgettext( "movement-type", "C" );
-    } else {
-        return pgettext( "movement-type", "W" );
-    }
+    const move_mode currentMoveMode = u.get_current_movement_mode()->obj();
+    return pgettext("movement-type", currentMoveMode.display_character_ptr);
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1623,7 +1614,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = u.movement_mode_is( MM_WALK ) ? c_white : move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }

@@ -81,6 +81,10 @@ using mongroup_id = string_id<MonsterGroup>;
 class morale_type_data;
 using morale_type = string_id<morale_type_data>;
 
+struct move_mode;
+using move_mode_id = int_id<move_mode>;
+using move_mode_str_id = string_id<move_mode>;
+
 struct mtype;
 using mtype_id = string_id<mtype>;
 

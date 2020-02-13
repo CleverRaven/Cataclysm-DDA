@@ -4366,7 +4366,7 @@ bool npc::adjust_worn()
     return false;
 }
 
-void npc::set_movement_mode( character_movemode new_mode )
+void npc::set_movement_mode( const move_mode_id &new_mode, bool is_being_cycled_to = false)
 {
-    move_mode = new_mode;
+    current_move_mode = new_mode;
 }

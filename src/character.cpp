@@ -36,6 +36,7 @@
 #include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "options.h"
@@ -118,7 +119,7 @@ Character::Character() :
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false };
 
-    move_mode = CMM_WALK;
+    current_move_mode = MM_WALK;
 
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );
@@ -604,7 +605,7 @@ void Character::forced_dismount()
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
             g->u.grab( OBJECT_NONE );
         }
-        set_movement_mode( CMM_WALK );
+        set_movement_mode( MM_WALK, false );
         g->update_map( g->u );
     }
     moves -= 150;
@@ -638,7 +639,7 @@ void Character::dismount()
         setpos( *pnt );
         g->refresh_all();
         mod_moves( -100 );
-        set_movement_mode( CMM_WALK );
+        set_movement_mode(MM_WALK, false );
     }
 }
 
@@ -922,9 +923,13 @@ bool Character::move_effects( bool attacking )
     return true;
 }
 
-bool Character::movement_mode_is( const character_movemode mode ) const
+bool Character::movement_mode_is( const move_mode_id &mode ) const
 {
-    return move_mode == mode;
+    return current_move_mode->id == mode->id;
+}
+
+const move_mode_id* Character::get_current_movement_mode() const {
+    return &current_move_mode;
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
@@ -2385,8 +2390,9 @@ std::vector<std::string> Character::get_overlay_ids() const
         rval.push_back( "wielded_" + weapon.typeId() );
     }
 
-    if( move_mode != CMM_WALK ) {
-        rval.push_back( character_movemode_str[ move_mode ] );
+    if( !movement_mode_is( MM_WALK ) ) {
+        translation name = current_move_mode->name;
+        rval.push_back( name.translated() );
     }
     return rval;
 }
@@ -6445,10 +6451,9 @@ void Character::burn_move_stamina( int moves )
         }
     }
     burn_ratio += overburden_percentage;
-    if( move_mode == CMM_RUN ) {
-        burn_ratio = burn_ratio * 7;
-    }
-    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    burn_ratio = burn_ratio * current_move_mode->stamina_burn_multiplier;
+
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * current_move_mode->stamina_burn_multiplier );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -6460,21 +6465,6 @@ void Character::burn_move_stamina( int moves )
             mod_pain( 1 );
         }
     }
-}
-
-float Character::stamina_move_cost_modifier() const
-{
-    // Both walk and run speed drop to half their maximums as stamina approaches 0.
-    // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    if( move_mode == CMM_RUN && get_stamina() > 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    return stamina_modifier;
 }
 
 void Character::update_stamina( int turns )
@@ -6519,7 +6509,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns / stamina_move_cost_modifier() ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns / current_move_mode->stamina_burn_multiplier ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );

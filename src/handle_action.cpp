@@ -38,6 +38,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "move_mode.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -1350,25 +1351,19 @@ static void open_movement_mode_menu()
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
+    std::map<int, move_mode> modeMap;
+    int index = 0;
 
-    as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
-    as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
-    as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    for (const move_mode& mm : move_modes::get_all()) {
+        modeMap[index] = mm;
+        as_m.entries.emplace_back(index, true, mm.display_character_ptr[0], mm.name.translated());
+        index++;
+    }
+
     as_m.query();
 
-    switch( as_m.ret ) {
-        case 0:
-            u.set_movement_mode( CMM_WALK );
-            break;
-        case 1:
-            u.set_movement_mode( CMM_RUN );
-            break;
-        case 2:
-            u.set_movement_mode( CMM_CROUCH );
-            break;
-        default:
-            break;
-    }
+    move_mode selectedMode = modeMap[as_m.ret];
+    u.set_movement_mode(selectedMode.id, false);
 }
 
 static void cast_spell()

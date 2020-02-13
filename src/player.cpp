@@ -52,6 +52,7 @@
 #include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "name.h"
@@ -491,7 +492,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
+            if( current_move_mode == MM_RUN ) {
                 movecost *= 0.85f;
             } else {
                 movecost *= 0.95f;
@@ -553,7 +554,7 @@ int player::run_cost( int base_cost, bool diag ) const
         }
 
         movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
+        movecost /= current_move_mode->speed;
     }
 
     if( diag ) {
@@ -627,11 +628,11 @@ int player::swim_speed() const
     }
 
     // Running movement mode while swimming means faster swim style, like crawlstroke
-    if( move_mode == CMM_RUN ) {
+    if( current_move_mode == MM_RUN ) {
         ret -= 80;
     }
     // Crouching movement mode while swimming means slower swim style, like breaststroke
-    if( move_mode == CMM_CROUCH ) {
+    if(current_move_mode == MM_CROUCH ) {
         ret += 50;
     }
 
@@ -719,10 +720,10 @@ nc_color player::basic_symbol_color() const
         is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
-    if( move_mode == CMM_RUN ) {
+    if( current_move_mode == MM_RUN ) {
         return c_yellow;
     }
-    if( move_mode == CMM_CROUCH ) {
+    if( current_move_mode == MM_CROUCH ) {
         return c_light_gray;
     }
     return c_white;
@@ -5531,7 +5532,7 @@ float player::speed_rating() const
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != CMM_RUN ) {
+    if( current_move_mode != MM_RUN ) {
         ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;

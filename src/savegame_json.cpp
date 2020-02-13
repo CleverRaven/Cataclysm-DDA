@@ -43,6 +43,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -591,12 +592,7 @@ void Character::load( const JsonObject &data )
 
     std::string tmove_mode;
     data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < CMM_COUNT; ++i ) {
-        if( tmove_mode == character_movemode_str[i] ) {
-            move_mode = static_cast<character_movemode>( i );
-            break;
-        }
-    }
+    current_move_mode = move_mode_id(tmove_mode);
 
     if( has_effect( effect_riding ) ) {
         int temp_id;
@@ -739,7 +735,7 @@ void Character::store( JsonOut &json ) const
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
-    json.member( "move_mode", character_movemode_str[ move_mode ] );
+    json.member( "move_mode", current_move_mode->id );
 
     // storing the mount
     if( is_mounted() ) {

@@ -85,6 +85,7 @@
 #include "monexamine.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -8842,19 +8843,19 @@ bool game::walk_move( const tripoint &dest_loc )
             !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
-                   ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
+                   ( !u.movement_mode_is( MM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
-                   ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
+                   ( !u.movement_mode_is( MM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "NEVER" &&
-                   !u.movement_mode_is( CMM_RUN ) ) {
+                   !u.movement_mode_is( MM_RUN ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
@@ -8896,11 +8897,11 @@ bool game::walk_move( const tripoint &dest_loc )
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
-        if( u.movement_mode_is( CMM_WALK ) ) {
+        if( u.movement_mode_is( MM_WALK ) ) {
             crit->use_mech_power( -2 );
-        } else if( u.movement_mode_is( CMM_CROUCH ) ) {
+        } else if( u.movement_mode_is( MM_CROUCH ) ) {
             crit->use_mech_power( -1 );
-        } else if( u.movement_mode_is( CMM_RUN ) ) {
+        } else if( u.movement_mode_is( MM_RUN ) ) {
             crit->use_mech_power( -3 );
         }
     } else {
@@ -8970,9 +8971,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.movement_mode_is( CMM_RUN ) ) {
+            if( u.movement_mode_is( MM_RUN ) ) {
                 volume *= 1.5;
-            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( MM_CROUCH ) ) {
                 volume /= 2;
             }
             if( u.is_mounted() ) {
@@ -9692,7 +9693,7 @@ void game::on_move_effects()
         }
 
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            if( u.movement_mode_is( CMM_RUN ) ) {
+            if( u.movement_mode_is( MM_RUN ) ) {
                 u.mod_power_level( -55_J );
             } else {
                 u.mod_power_level( -35_J );
@@ -9700,7 +9701,7 @@ void game::on_move_effects()
         }
     }
 
-    if( u.movement_mode_is( CMM_RUN ) ) {
+    if( u.movement_mode_is( MM_RUN ) ) {
         if( !u.can_run() ) {
             u.toggle_run_mode();
         }
@@ -10137,11 +10138,11 @@ void game::vertical_move( int movez, bool force )
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
             crit->use_mech_power( -1 );
-            if( u.movement_mode_is( CMM_WALK ) ) {
+            if( u.movement_mode_is( MM_WALK ) ) {
                 crit->use_mech_power( -2 );
-            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( MM_CROUCH ) ) {
                 crit->use_mech_power( -1 );
-            } else if( u.movement_mode_is( CMM_RUN ) ) {
+            } else if( u.movement_mode_is( MM_RUN ) ) {
                 crit->use_mech_power( -3 );
             }
         }
