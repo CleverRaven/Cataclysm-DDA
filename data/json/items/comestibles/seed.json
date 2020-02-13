@@ -285,8 +285,7 @@
     "type": "COMESTIBLE",
     "id": "seed_chicory",
     "copy-from": "seed",
-    "name": "chicory seeds",
-    "name_plural": "chicory seeds",
+    "name": { "str": "chicory seeds", "str_pl": "chicory seeds" },
     "color": "green",
     "description": "Some chicory seeds.",
     "charges": 2,
@@ -366,8 +365,7 @@
     "id": "seed_chili_pepper",
     "copy-from": "seed",
     "price": 50,
-    "name": "chili pepper seeds",
-    "name_plural": "chili pepper seeds",
+    "name": { "str": "chili pepper seeds", "str_pl": "chili pepper seeds" },
     "color": "white",
     "description": "Some chili pepper seeds.",
     "seed_data": { "plant_name": "chili pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": "65 days" }
@@ -778,8 +776,7 @@
     "id": "seed_chamomile",
     "copy-from": "seed",
     "looks_like": "seed_raw_dandelion",
-    "name": "chamomile seeds",
-    "name_plural": "chamomile seeds",
+    "name": { "str": "chamomile seeds", "str_pl": "chamomile seeds" },
     "description": "Some chamomile seeds.",
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
   }

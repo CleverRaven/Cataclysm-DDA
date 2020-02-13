@@ -145,8 +145,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chamomile_tea",
-    "name": "chamomile tea",
-    "name_plural": "chamomile tea",
+    "name": { "str": "chamomile tea", "str_pl": "chamomile tea" },
     "copy-from": "tea",
     "color": "green",
     "use_action": "SLEEP",
@@ -225,8 +224,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_coffee",
-    "name": "chicory brew",
-    "name_plural": "chicory brew",
+    "name": { "str": "chicory brew", "str_pl": "chicory brew" },
     "weight": "252 g",
     "color": "brown",
     "comestible_type": "DRINK",

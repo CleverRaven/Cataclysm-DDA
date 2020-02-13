@@ -548,8 +548,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chili",
-    "name": "chili con carne",
-    "name_plural": "chilis con carne",
+    "name": { "str": "chili con carne", "str_pl": "chilis con carne" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chili con cabron", "str_pl": "chilis con cabron" } },
       {

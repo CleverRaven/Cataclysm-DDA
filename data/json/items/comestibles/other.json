@@ -204,8 +204,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_chitin_piece",
-    "name": "chitin powder",
-    "name_plural": "chitin powder",
+    "name": { "str": "chitin powder", "str_pl": "chitin powder" },
     "weight": "112 g",
     "color": "brown",
     "comestible_type": "FOOD",
