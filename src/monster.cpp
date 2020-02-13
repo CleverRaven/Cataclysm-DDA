@@ -386,10 +386,6 @@ void monster::refill_udders()
             // Erase old key-value from map
             ammo.erase( current_milk );
             current_milk = ammo.find( "milk_raw" );
-            if( current_milk == ammo.end() ) {
-                //how?
-                return;
-            }
         }
     }
     // if we got here, we got milk.
