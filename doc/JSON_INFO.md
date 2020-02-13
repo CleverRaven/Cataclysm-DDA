@@ -1130,6 +1130,7 @@ Note that even though most statistics yield an integer, you should still use
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
+"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
 ```
 
 ### Vehicle Groups
