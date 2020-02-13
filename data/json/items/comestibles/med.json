@@ -602,7 +602,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take a dab of some wax. *cough cough* good stuff!",
+      "activation_message": "You take a dab of some wax.  *cough cough* good stuff!",
       "effects": [
         { "id": "weed_high", "duration": "150 m" },
         { "id": "pkill1", "duration": "100 m" },
