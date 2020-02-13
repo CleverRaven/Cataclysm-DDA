@@ -289,8 +289,8 @@ void profession::check_definition() const
     if( !item_group::group_is_defined( _starting_items_female ) ) {
         debugmsg( "_starting_items_female group is undefined" );
     }
-    if( _starting_vehicle && !_starting_vehicle->is_valid() ) {
-        debugmsg( "vehicle prototype %s for profession %s does not exist", _starting_vehicle->c_str(),
+    if( _starting_vehicle && !_starting_vehicle.is_valid() ) {
+        debugmsg( "vehicle prototype %s for profession %s does not exist", _starting_vehicle.c_str(),
                   id.c_str() );
     }
     for( const auto &a : _starting_CBMs ) {
@@ -440,7 +440,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     return result;
 }
 
-cata::optional<vproto_id> profession::vehicle() const
+vproto_id profession::vehicle() const
 {
     return _starting_vehicle;
 }

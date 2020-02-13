@@ -734,10 +734,9 @@ class game
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
         // try and place starting vehicle on a nearby road.
-        void place_starting_vehicle( const cata::optional<vproto_id> &starting_vehicle );
-        void find_location_for_starting_vehicle( const vproto_id id,
-                std::vector<std::string> &omt_search_types );
-
+        void place_starting_vehicle( const vproto_id &starting_vehicle );
+        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
+                                       int max_distance, const std::vector<std::string> &omt_search_types );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 

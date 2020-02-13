@@ -1488,7 +1488,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         // Profession vehicle
         if( sorted_profs[cur_id]->vehicle() ) {
             buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
-            vproto_id veh_id = *sorted_profs[cur_id]->vehicle();
+            vproto_id veh_id = sorted_profs[cur_id]->vehicle();
             buffer += veh_id->name;
         }
         // Profession spells
