@@ -5204,6 +5204,9 @@ bool vehicle::decrement_summon_timer()
             }
             p.items.clear();
         }
+        if( g->u.sees( global_pos3() ) ) {
+            add_msg( m_info, string_format( _( "Your %s winks out of existence." ), name ) );
+        }
         g->m.destroy_vehicle( this );
         return true;
     } else {
