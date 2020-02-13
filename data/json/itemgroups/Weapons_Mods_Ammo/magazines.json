@@ -200,13 +200,7 @@
     "type": "item_group",
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
-    "items": [
-      [ "calicomag", 15 ],
-      [ "fnp90mag", 15 ],
-      [ "mp5bigmag", 10 ],
-      [ "thompson_bigmag", 5 ],
-      [ "thompson_drum", 15 ]
-    ]
+    "items": [ [ "calicomag", 15 ], [ "fnp90mag", 15 ], [ "mp5bigmag", 10 ], [ "thompson_bigmag", 5 ], [ "thompson_drum", 15 ] ]
   },
   {
     "type": "item_group",
