@@ -14,13 +14,13 @@
   },
   {
     "type": "recipe",
-    "result": "eac_flask_buchner",
+    "result": "flask_buchner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "30 m",
-    "book_learn": [ [ "glassblowing_book", 4 ], [ "eac_textbook_extraction", 3 ] ],
+    "book_learn": [ [ "glassblowing_book", 4 ], [ "textbook_extraction", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 80 ] ] ]
