@@ -65,5 +65,11 @@
       { "monster": "mon_graboid", "freq": 30, "cost_multiplier": 20 },
       { "monster": "mon_halfworm", "freq": 0, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BEETLE",
+    "default": "mon_corpse_beetle",
+    "monsters": [  ]
   }
 ]
