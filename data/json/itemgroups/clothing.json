@@ -2195,7 +2195,8 @@
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
-      [ "cuirass_scrap", 12 ]
+      [ "cuirass_scrap", 12 ],
+      [ "pasgt_vest", 1 ]
     ]
   },
   {
@@ -2282,7 +2283,8 @@
       [ "helmet_plate", 1 ],
       [ "helmet_scrap", 12 ],
       [ "survivor_goggles", 10 ],
-      [ "hood_rain", 14 ]
+      [ "hood_rain", 14 ],
+      [ "pasgt_helmet", 1 ]
     ]
   },
   {

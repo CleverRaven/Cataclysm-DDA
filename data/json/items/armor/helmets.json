@@ -48,14 +48,14 @@
     "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
-    "name": "army helmet",
+    "name": "ACH Helmet",
     "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It is labeled as the advanced combat helmet.",
     "weight": "1383 g",
     "volume": "1750 ml",
     "price": 15000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "green",
@@ -65,7 +65,7 @@
     "warmth": 20,
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "NO_REPAIR", "WATERPROOF", "STURDY" ]
   },
   {
     "id": "tac_fullhelmet",
@@ -79,7 +79,7 @@
     "price": 50000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
@@ -90,7 +90,7 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "NO_REPAIR", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "tac_helmet",
@@ -104,7 +104,7 @@
     "price": 37000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
     "color": "dark_gray",
@@ -114,7 +114,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "NO_REPAIR", "WATER_FRIENDLY", "STURDY" ]
   },
   {
     "id": "firehelmet",
@@ -622,5 +622,18 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "pasgt_helmet",
+    "copy-from": "helmet_army",
+    "type": "ARMOR",
+    "name": "PASGT helmet",
+    "description": "An older helmet from the early 80's made of 19 layers of kevlar and treated with phenolic resin.  The helmet was designed to protect the wearer from shrapnel, but may still stop a 9mm.  Though later replaced by better armor models, these are still in use by foreign militaries.",
+    "symbol": "[",
+    "color": "green",
+    "weight": "1633 g",
+    "material": [ "kevlar_rigid" ],
+    "material_thickness": 8,
+    "flags": [ "WATERPROOF", "STURDY" ]
   }
 ]

@@ -593,6 +593,8 @@
       [ "bronze_medal", 3 ],
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
+	  [ "pasgt_vest", 1],
+	  [ "pasgt_helmet", 1],
       { "group": "tinware", "prob": 10 }
     ]
   },
@@ -705,7 +707,9 @@
       [ "chem_hexamine", 5 ],
       [ "esbit_stove", 10 ],
       [ "mess_tin", 10 ],
-      [ "angle_grinder", 4 ]
+      [ "angle_grinder", 4 ],
+	  [ "pasgt_vest", 1 ],
+	  [ "pasgt_helmet", 1 ]
     ]
   },
   {

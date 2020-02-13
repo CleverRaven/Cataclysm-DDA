@@ -733,6 +733,8 @@
       [ "eclipse_glasses", 1 ],
       [ "bodypillow", 2 ],
       [ "reading_light", 8 ],
+      [ "pasgt_vest", 1 ],
+      [ "pasgt_helmet", 1 ],
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
     ]
   },
@@ -1367,7 +1369,8 @@
       [ "briefcase", 5 ],
       [ "survnote", 2 ],
       [ "robot_controls", 3 ],
-      [ "solarpack", 1 ]
+      [ "solarpack", 1 ],
+      [ "pasgt_helmet", 1 ]
     ]
   },
   {
