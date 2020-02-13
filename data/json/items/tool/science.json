@@ -98,7 +98,7 @@
     "id": "closed_loop_extractor_small",
     "type": "TOOL",
     "name": { "str": "small closed loop extractor" },
-    "description": "A small closed loop extractor used for extracting essential oils from organic material producing a high quality extract. It consists of a long metal tube clamped onto a steel \"honey pot\".  Organic material is packed in the tube, flushed with solvent, and essential oils gathered from the pot.  Must be powered up to operate.",
+    "description": "A small closed loop extractor used for extracting essential oils from organic material producing a high quality extract.  It consists of a long metal tube clamped onto a steel \"honey pot\".  Organic material is packed in the tube, flushed with solvent, and essential oils gathered from the pot.  Must be powered up to operate.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "still",
@@ -118,7 +118,7 @@
       "menu_text": "turn on",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The small closed loop extractor's batteries need more charge. ",
+      "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
     "magazines": [
