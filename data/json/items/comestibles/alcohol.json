@@ -1047,8 +1047,7 @@
     "type": "COMESTIBLE",
     "id": "cheap_whiskey",
     "copy-from": "whiskey",
-    "name": "cheap whiskey",
-    "name_plural": "cheap whiskey",
+    "name": { "str": "cheap whiskey", "str_pl": "cheap whiskey" },
     "description": "Really cheap blended whiskey.",
     "price": 1800,
     "fun": 12
