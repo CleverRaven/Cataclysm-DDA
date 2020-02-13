@@ -1393,6 +1393,7 @@ class vehicle
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
+        void dump_items_from_part( size_t index );
 
         // Generates starting items in the car, should only be called when placed on the map
         void place_spawn_items();

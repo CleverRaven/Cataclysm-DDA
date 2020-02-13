@@ -43,7 +43,7 @@
     "wheel_type": "standard",
     "contact_area": 20,
     "description": "A shape of pure mana that can float and carry items.",
-    "size": 25,
+    "size": 150,
     "power": 200,
     "location": "structure",
     "//": "This should not be interactable nor visible as a vehicle part, its part of a summoned magic 'vehicle'",

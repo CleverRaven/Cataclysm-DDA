@@ -371,7 +371,7 @@ class spell
         // get spell effect_str data
         std::string effect_data() const;
         // get spell summon vehicle id
-        std::string summon_vehicle_id() const;
+        vproto_id summon_vehicle_id() const;
         // name of spell (translated)
         std::string name() const;
         // description of spell (translated)

@@ -5192,20 +5192,27 @@ void vehicle::gain_moves()
     }
 }
 
+void vehicle::dump_items_from_part( const size_t index )
+{
+    vehicle_part &vp = parts[ index ];
+    for( item &e : vp.items ) {
+        g->m.add_item_or_charges( global_part_pos3( vp ), e );
+    }
+    vp.items.clear();
+}
+
 bool vehicle::decrement_summon_timer()
 {
     if( !summon_time_limit ) {
         return false;
     }
     if( *summon_time_limit <= 0_turns ) {
-        for( auto &p : parts ) {
-            for( const auto &e : p.items ) {
-                g->m.add_item_or_charges( global_part_pos3( p ), e );
-            }
-            p.items.clear();
+        for( const vpart_reference &vp : get_all_parts() ) {
+            const size_t p = vp.part_index();
+            dump_items_from_part( p );
         }
         if( g->u.sees( global_pos3() ) ) {
-            add_msg( m_info, string_format( _( "Your %s winks out of existence." ), name ) );
+            add_msg( m_info, _( "Your %s winks out of existence." ), name );
         }
         g->m.destroy_vehicle( this );
         return true;

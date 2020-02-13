@@ -813,11 +813,12 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         add_msg( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    vehicle *veh = g->m.add_vehicle( vproto_id( sp.summon_vehicle_id() ), target, -90, 100, 0 );
-    if( veh != nullptr ) {
+    if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
         veh->magic = true;
-        const time_duration summon_time = sp.duration_turns() * 100;
-        veh->summon_time_limit = summon_time;
+        const time_duration summon_time = sp.duration_turns();
+        if( !sp.has_flag( spell_flag::PERMANENT ) ) {
+            veh->summon_time_limit = summon_time;
+        }
         if( caster.as_character() ) {
             veh->set_owner( *caster.as_character() );
         }
