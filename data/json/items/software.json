@@ -81,8 +81,7 @@
     "id": "software_electronics_reference",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "integrated circuit datasheet archives",
-    "name_plural": "misc software",
+    "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": 40000
   }
