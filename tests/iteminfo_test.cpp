@@ -23,7 +23,8 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION, iteminfo_parts::BASE_CATEGORY,
                         iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_VOLUME,
-                        iteminfo_parts::BASE_WEIGHT, iteminfo_parts::BASE_MATERIAL } );
+                        iteminfo_parts::BASE_WEIGHT, iteminfo_parts::BASE_MATERIAL
+                      } );
     iteminfo_test(
         item( "jug_plastic" ), q,
         "A standard plastic jug used for milk and household cleaning chemicals.\n"
@@ -39,7 +40,8 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo]" )
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo]" )
 {
     iteminfo_query q( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
-                        iteminfo_parts::BASE_MOVES } );
+                        iteminfo_parts::BASE_MOVES
+                      } );
 
     iteminfo_test(
         item( "halligan" ), q,
