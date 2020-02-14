@@ -1155,7 +1155,7 @@
     "weight": "90 kg",
     "hp": 90,
     "speed": 70,
-    "material": [ "flesh" ],
+    "material": [ "iflesh" ],
     "symbol": "C",
     "color": "red",
     "aggression": -10,
