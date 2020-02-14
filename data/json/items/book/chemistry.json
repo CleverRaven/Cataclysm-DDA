@@ -289,5 +289,25 @@
     "intelligence": 12,
     "time": "35 m",
     "fun": -1
+  },
+  {
+    "id": "textbook_beginner_chemistry",
+    "type": "BOOK",
+    "name": "beginner's chemistry textbook",
+    "description": "A high school textbook on chemistry.",
+    "weight": "800 g",
+    "volume": "1250 ml",
+    "price": 250,
+    "price_postapoc": 7500,
+    "bashing": 2,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "chemistry",
+    "required_level": 0,
+    "max_level": 2,
+    "intelligence": 6,
+    "time": "15 m",
+    "fun": -1
   }
 ]
