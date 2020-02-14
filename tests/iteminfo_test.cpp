@@ -37,7 +37,7 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo]" )
 
 }
 
-TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo]" )
+TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     iteminfo_query q( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
                         iteminfo_parts::BASE_MOVES
@@ -52,7 +52,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo]" )
 
 }
 
-TEST_CASE( "techniques when wielded", "[item][iteminfo]" )
+TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_TECHNIQUES } );
 
@@ -66,7 +66,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo]" )
 
 }
 
-TEST_CASE( "armor coverage and protection values", "[item][iteminfo]" )
+TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 {
     iteminfo_query q( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                         iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
@@ -96,7 +96,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo]" )
     }
 }
 
-TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
+TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
 {
     SECTION( "ammo capacity" ) {
         iteminfo_query q( { iteminfo_parts::GUN_CAPACITY } );
@@ -153,7 +153,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
 
 }
 
-TEST_CASE( "nutrients in food", "[item][iteminfo]" )
+TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
     iteminfo_query q( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                         iteminfo_parts::FOOD_QUENCH
@@ -182,7 +182,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo]" )
     }
 }
 
-TEST_CASE( "food freshness and lifetime", "[item][iteminfo]" )
+TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
     iteminfo_query q( { iteminfo_parts::FOOD_ROT } );
 
@@ -213,7 +213,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo]" )
 }
 
 
-TEST_CASE( "item conductivity", "[item][iteminfo]" )
+TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
 
@@ -240,7 +240,7 @@ TEST_CASE( "item conductivity", "[item][iteminfo]" )
     }
 }
 
-TEST_CASE( "list of item qualities", "[item][iteminfo]" )
+TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 {
     iteminfo_query q( { iteminfo_parts::QUALITIES } );
 
@@ -269,24 +269,60 @@ TEST_CASE( "list of item qualities", "[item][iteminfo]" )
     }
 }
 
-TEST_CASE( "repairable and with what tools", "[item][iteminfo]" )
+TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
     iteminfo_test(
         item( "halligan" ), q,
         "--\n"
-        "<color_c_white>Repaired with</color>: extended toolset, arc welder, or makeshift arc welder\n" );
+        "<color_c_white>Repair</color>: using extended toolset, arc welder, or makeshift arc welder\n" );
 
     iteminfo_test(
         item( "hazmat_suit" ), q,
         "--\n"
-        "<color_c_white>Repaired with</color>: soldering iron or extended toolset\n" );
+        "<color_c_white>Repair</color>: using soldering iron or extended toolset\n" );
 
     iteminfo_test(
         item( "rock" ), q,
         "--\n"
         "* This item is <color_c_red>not repairable</color>.\n" );
+
+    /*
+    iteminfo_test(
+        item( "socks" ), q,
+        "--\n"
+        "* This item can be <color_c_green>reinforced</color>.\n" );
+    */
+}
+
+TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
+{
+    iteminfo_query q( { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE } );
+
+    // long string
+    iteminfo_test(
+        item( "string_36" ), q,
+        "--\n"
+        "<color_c_white>Disassembly</color>: takes about 5 minutes and might yield: 6 short strings.\n" );
+
+    // short string
+    iteminfo_test(
+        item( "string_6" ), q,
+        "--\n"
+        "<color_c_white>Disassembly</color>: takes about 5 minutes and might yield: thread (50).\n" );
+
+    iteminfo_test(
+        item( "sheet_metal" ), q,
+        "--\n"
+        "<color_c_white>Disassembly</color>: takes about 2 minutes and might yield: small metal sheet (24).\n" );
+
+    iteminfo_test(
+        item( "soldering_iron" ), q,
+        "--\n"
+        "<color_c_white>Disassembly</color>: takes about 20 minutes and might yield:"
+        " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
+
 }
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )

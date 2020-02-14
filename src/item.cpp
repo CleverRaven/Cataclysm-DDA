@@ -2700,7 +2700,7 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
     const std::set<std::string> &rep = repaired_with();
     if( !rep.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
+        info.emplace_back( "DESCRIPTION", _( "<bold>Repair</bold>: using " ) +
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
         }, enumeration_conjunction::or_ ) );
@@ -2719,19 +2719,21 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     if( !components.empty() && parts->test( iteminfo_parts::DESCRIPTION_COMPONENTS_MADEFROM ) ) {
         return;
     }
+    if( !parts->test( iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE ) ) {
+        return;
+    }
+
     const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
-    if( !req.is_empty() &&
-        parts->test( iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE ) ) {
+    if( !req.is_empty() ) {
         const requirement_data::alter_item_comp_vector &components = req.get_components();
         const std::string components_list = enumerate_as_string( components.begin(), components.end(),
         []( const std::vector<item_comp> &comps ) {
             return comps.front().to_string();
         } );
-
         insert_separation_line( info );
         info.push_back( iteminfo( "DESCRIPTION",
-                                  string_format( _( "Disassembling this item takes %s and "
+                                  string_format( _( "<bold>Disassembly</bold>: takes %s and "
                                           "might yield: %s." ),
                                           to_string_approx( time_duration::from_turns( dis.time /
                                                   100 ) ), components_list ) ) );
@@ -3002,8 +3004,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             method.second.dump_info( *this, info );
         }
     }
-
-    repair_info( info, parts, batch, debug );
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
@@ -3406,8 +3406,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     battery_info( info, parts, batch, debug );
     tool_info( info, parts, batch, debug );
     component_info( info, parts, batch, debug );
-    disassembly_info( info, parts, batch, debug );
     qualities_info( info, parts, batch, debug );
+    repair_info( info, parts, batch, debug );
+    disassembly_info( info, parts, batch, debug );
 
     final_info( info, parts, batch, debug );
 
