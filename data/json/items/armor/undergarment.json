@@ -2,8 +2,7 @@
   {
     "id": "arm_warmers",
     "type": "ARMOR",
-    "name": "pair of arm warmers",
-    "name_plural": "pairs of arm warmers",
+    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -354,8 +353,7 @@
   {
     "id": "leg_warmers_xl",
     "type": "ARMOR",
-    "name": "pair of XL leg warmers",
-    "name_plural": "pairs of XL leg warmers",
+    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
     "weight": "50 g",
     "volume": "750 ml",

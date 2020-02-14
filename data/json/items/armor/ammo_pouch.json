@@ -211,8 +211,7 @@
   {
     "type": "ARMOR",
     "id": "legpouch_large",
-    "name": "leg ammo pouch",
-    "name_plural": "leg ammo pouches",
+    "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
     "description": "A fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
