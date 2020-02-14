@@ -480,8 +480,7 @@
   {
     "id": "leather_pouch",
     "type": "ARMOR",
-    "name": "leather pouch",
-    "name_plural": "leather pouches",
+    "name": { "str": "leather pouch", "str_pl": "leather pouches" },
     "description": "A bag stitched together from leather scraps.  Doesn't hold an awful lot but is easy to wear.",
     "weight": "610 g",
     "volume": "500 ml",
