@@ -231,10 +231,10 @@
     "fun": -2
   },
   {
-    "id": "salt_chemistry",
+    "id": "textbook_inorganic",
     "type": "BOOK",
-    "name": { "str": "Chemistry of Metallic Salts", "str_pl": "copies of Chemistry of Metallic Salts" },
-    "description": "A textbook on the principles of metallic salts such as aluminum sulfate.",
+    "name": "inorganic chemistry textbook",
+    "description": "A textbook on inorganic chemistry, with lab manual sections including metallic salts among other things.",
     "weight": "1615 g",
     "volume": "1750 ml",
     "price": 5000,
