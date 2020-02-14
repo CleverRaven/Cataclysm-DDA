@@ -2,8 +2,7 @@
   {
     "type": "GENERIC",
     "id": "hand_rims",
-    "name": "set of hand rims",
-    "name_plural": "sets of hand rims",
+    "name": { "str": "set of hand rims", "str_pl": "sets of hand rims" },
     "description": "Hand rims for use on a wheelchair.",
     "weight": "816 g",
     "to_hit": -1,
