@@ -193,7 +193,7 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
     MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
     ADD_DEFINITIONS(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Usefull only on *nix OS.
+    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     IF (PREFIX AND NOT WIN32)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
