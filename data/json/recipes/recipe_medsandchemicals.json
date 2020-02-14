@@ -1402,11 +1402,7 @@
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualitities": [ { "id": "FILTER", "level": 2 } ],
     "tools": [ [ [ "flask_glass", -1 ] ], [ [ "vac_pump_on", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [
-      [ [ "filter_paper_qualitative", 1 ] ],
-      [ [ "filter_paper_quantitative", 1 ] ],
-      [ [ "lo_q_crude_oil_ethanol", 200 ] ]
-    ]
+    "components": [ [ [ "filter_paper_qualitative", 1 ] ], [ [ "filter_paper_quantitative", 1 ] ], [ [ "lo_q_crude_oil_ethanol", 200 ] ] ]
   },
   {
     "type": "recipe",
@@ -1421,11 +1417,7 @@
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualitities": [ { "id": "FILTER", "level": 2 } ],
     "tools": [ [ [ "flask_glass", -1 ] ], [ [ "vac_pump_on", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [
-      [ [ "filter_paper_qualitative", 1 ] ],
-      [ [ "filter_paper_quantitative", 1 ] ],
-      [ [ "hi_q_crude_oil_ethanol", 200 ] ]
-    ]
+    "components": [ [ [ "filter_paper_qualitative", 1 ] ], [ [ "filter_paper_quantitative", 1 ] ], [ [ "hi_q_crude_oil_ethanol", 200 ] ] ]
   },
   {
     "type": "recipe",
