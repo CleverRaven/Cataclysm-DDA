@@ -1,5 +1,37 @@
 [
   {
+    "id": "mon_chud",
+    "type": "MONSTER",
+    "name": "C.H.U.D.",
+    "description": "The C.H.U.D. or Cannibalistic Humanoid Underground Dweller.  A human being turned pale and mad from years of underground isolation.",
+    "default_faction": "mutant",
+    "bodytype": "human",
+    "species": [ "MUTANT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 60,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "white",
+    "aggression": 30,
+    "morale": 30,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "dodge": 3,
+    "harvest": "mutant_human",
+    "path_settings": { "max_dist": 10 },
+    "special_attacks": [ [ "scratch", 15 ] ],
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 5 ], [ "dresser", 10 ], [ "ammo", 18 ] ]
+    },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "FILTHY" ]
+  },
+  {
     "id": "mon_mutant_experimental",
     "type": "MONSTER",
     "name": { "str": "experimental mutant" },
@@ -92,5 +124,35 @@
       "PUSH_MON",
       "PUSH_VEH"
     ]
+  },
+  {
+    "id": "mon_one_eye",
+    "type": "MONSTER",
+    "name": "cyclopean",
+    "description": "A relatively humanoid mutant with purple hair and a grapefruit-sized bloodshot eye.",
+    "default_faction": "mutant",
+    "bodytype": "human",
+    "species": [ "MUTANT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 130,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "light_red",
+    "aggression": 30,
+    "morale": 30,
+    "melee_skill": 9,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "dodge": 5,
+    "harvest": "mutant_human",
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+    },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN" ]
   }
 ]

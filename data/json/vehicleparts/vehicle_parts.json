@@ -1629,6 +1629,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "reins_tackle",
+    "name": "reins and tackle",
+    "symbol": "W",
+    "color": "light_gray",
+    "broken_symbol": "X",
+    "broken_color": "red",
+    "durability": 80,
+    "description": "A set of leather bindings to control a creature pulling a vehicle, such as a cart.",
+    "bonus": 10,
+    "damage_modifier": 5,
+    "item": "reins_tackle",
+    "folded_volume": 1,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CONTROL_ANIMAL", "FOLDABLE" ],
+    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "controls",
     "name": "controls",
     "symbol": "$",
@@ -3550,7 +3572,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 320,
-    "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a turret mount and 'f'ire the weapon by selecting the tile.",
+    "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
     "item": "turret_mount",
     "requirements": {

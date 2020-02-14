@@ -106,6 +106,7 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_earphones( "earphones" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -1219,8 +1220,10 @@ void iexamine::safe( player &p, const tripoint &examp )
     if( p.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    }
-    if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
+    } else if( p.has_effect( effect_earphones ) ) {
+        add_msg( m_info, _( "You can't crack a safe with earbuds on!" ) );
+        return;
+    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
@@ -1597,7 +1600,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
 {
     item harvest = item( itemid );
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
-        p.can_pickWeight( harvest, true ) ) {
+        p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         p.i_add( harvest );
         p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {
@@ -3572,8 +3575,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
-            const std::vector<construction> &list_constructions = get_constructions();
-            const construction &built = list_constructions[pc->id];
+            const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.description, pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {

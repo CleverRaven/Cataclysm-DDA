@@ -657,9 +657,9 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     // fetch the appropriate item stack
     point offset;
     submap *sub = g->m.get_submap_at( *cur, offset );
+    cata::colony<item> &stack = sub->get_items( offset );
 
-    for( auto iter = sub->itm[ offset.x ][ offset.y ].begin();
-         iter != sub->itm[ offset.x ][ offset.y ].end(); ) {
+    for( auto iter = stack.begin(); iter != stack.end(); ) {
         if( filter( *iter ) ) {
             // remove from the active items cache (if it isn't there does nothing)
             sub->active_items.remove( &*iter );
@@ -669,7 +669,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
 
             // finally remove the item
             res.push_back( *iter );
-            iter = sub->itm[ offset.x ][ offset.y ].erase( iter );
+            iter = stack.erase( iter );
 
             if( --count == 0 ) {
                 return res;

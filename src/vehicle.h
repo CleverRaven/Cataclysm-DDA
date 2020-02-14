@@ -162,7 +162,8 @@ struct vehicle_part {
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
                      carried_flag = 4,
-                     carrying_flag = 8
+                     carrying_flag = 8,
+                     tracked_flag = 16 //carried vehicle part with tracking enabled
                    };
 
         vehicle_part(); /** DefaultConstructible */
@@ -837,8 +838,10 @@ class vehicle
         bool remove_part( int p );
         void part_removal_cleanup();
 
-        // remove the carried flag from a vehicle after it has bee removed from a rack
+        // remove the carried flag from a vehicle after it has been removed from a rack
         void remove_carried_flag();
+        // remove the tracked flag from a tracked vehicle after it has been removed from a rack
+        void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( const std::vector<int> &carried_parts );
         // split the current vehicle into up to four vehicles if they have no connection other
@@ -1112,7 +1115,7 @@ class vehicle
         int total_wind_epower_w() const;
         // Total power currently being produced by all water wheels.
         int total_water_wheel_epower_w() const;
-        // Total power drain accross all vehicle accessories.
+        // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
         int net_battery_charge_rate_w() const;
@@ -1534,6 +1537,7 @@ class vehicle
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;
+        bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;

@@ -60,8 +60,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_peach",
-    "name": "peaches in syrup",
-    "name_plural": "peaches in syrup",
+    "name": { "str": "peaches in syrup", "str_pl": "peaches in syrup" },
     "weight": "277 g",
     "color": "yellow",
     "spoils_in": "1 day 6 hours",
@@ -185,8 +184,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fruit",
-    "name": "rehydrated fruit",
-    "name_plural": "rehydrated fruit",
+    "name": { "str": "rehydrated fruit", "str_pl": "rehydrated fruit" },
     "weight": "150 g",
     "color": "pink",
     "spoils_in": "18 hours",
@@ -204,7 +202,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_sugar",
-    "name": "fruit slice",
+    "name": { "str": "fruit slice" },
     "weight": "42 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
@@ -225,8 +223,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_canned",
-    "name": "canned fruit",
-    "name_plural": "canned fruit",
+    "name": { "str": "canned fruit", "str_pl": "canned fruit" },
     "weight": "170 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",

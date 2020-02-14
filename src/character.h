@@ -123,6 +123,38 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
+// This tries to represent both rating and
+// character's decision to respect said rating
+enum edible_rating {
+    // Edible or we pretend it is
+    EDIBLE,
+    // Not food at all
+    INEDIBLE,
+    // Not food because mutated mouth/system
+    INEDIBLE_MUTATION,
+    // You can eat it, but it will hurt morale
+    ALLERGY,
+    // Smaller allergy penalty
+    ALLERGY_WEAK,
+    // Cannibalism (unless psycho/cannibal)
+    CANNIBALISM,
+    // Rotten or not rotten enough (for saprophages)
+    ROTTEN,
+    // Can provoke vomiting if you already feel nauseous.
+    NAUSEA,
+    // We can eat this, but we'll overeat
+    TOO_FULL,
+    // Some weird stuff that requires a tool we don't have
+    NO_TOOL
+};
+
+enum class rechargeable_cbm {
+    none = 0,
+    reactor,
+    furnace,
+    other
+};
+
 struct layer_details {
 
     std::vector<int> pieces;
@@ -230,6 +262,15 @@ class Character : public Creature, public visitable<Character>
 
         const std::string &symbol() const override;
 
+        enum class comfort_level {
+            impossible = -999,
+            uncomfortable = -7,
+            neutral = 0,
+            slightly_comfortable = 3,
+            comfortable = 5,
+            very_comfortable = 10
+        };
+
         enum stat {
             STRENGTH,
             DEXTERITY,
@@ -309,6 +350,8 @@ class Character : public Creature, public visitable<Character>
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
+        /** Gets character's minimum hunger and thirst */
+        int stomach_capacity() const;
         virtual std::pair<std::string, nc_color> get_thirst_description() const;
         virtual std::pair<std::string, nc_color> get_hunger_description() const;
         virtual std::pair<std::string, nc_color> get_fatigue_description() const;
@@ -384,14 +427,43 @@ class Character : public Creature, public visitable<Character>
          */
         std::string get_miss_reason();
 
+        /**
+          * Handles passive regeneration of pain and maybe hp.
+          */
+        void regen( int rate_multiplier );
+        // called once per 24 hours to enforce the minimum of 1 hp healed per day
+        // TODO: Move to Character once heal() is moved
+        void enforce_minimum_healing();
+
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );
-
+        /** Updates all "biology" by one turn. Should be called once every turn. */
+        void update_body();
+        /** Updates all "biology" as if time between `from` and `to` passed. */
+        void update_body( const time_point &from, const time_point &to );
+        /** Updates the stomach to give accurate hunger messages */
+        void update_stomach( const time_point &from, const time_point &to );
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
+        void update_needs( int rate_multiplier );
+        needs_rates calc_needs_rates() const;
+        /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
+        void check_needs_extremes();
+        /** Handles the chance to be infected by random diseases */
+        void get_sick();
+        /** Returns if the player has hibernation mutation and is asleep and well fed */
+        bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp();
 
         /** Equalizes heat between body parts */
         void temp_equalizer( body_part bp1, body_part bp2 );
+
+        struct comfort_response_t {
+            comfort_level level;
+            const item *aid = nullptr;
+        };
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
@@ -666,6 +738,7 @@ class Character : public Creature, public visitable<Character>
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
+        void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
 
@@ -1150,8 +1223,9 @@ class Character : public Creature, public visitable<Character>
         /**
          * Check character capable of wearing an item.
          * @param it Thing to be worn
+         * @param with_equip_change If true returns if it could be worn if things were taken off
          */
-        ret_val<bool> can_wear( const item &it ) const;
+        ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
@@ -1224,6 +1298,13 @@ class Character : public Creature, public visitable<Character>
         bool meets_requirements( const item &it, const item &context = item() ) const;
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
+
+        /** Returns the player's skill rust rate */
+        int rust_rate() const;
+
+        // Mental skills and stats
+        /** Returns the player's reading speed */
+        int read_speed( bool return_stat_effect = true ) const;
 
         // --------------- Other Stuff ---------------
 
@@ -1594,17 +1675,90 @@ class Character : public Creature, public visitable<Character>
          */
         int vitamin_get( const vitamin_id &vit ) const;
         /**
-         * Add or subtract vitamins from player storage pools
+         * Sets level of a vitamin or returns false if id given in vit does not exist
+         *
+         * @note status effects are still set for deficiency/excess
+         *
+         * @param[in] vit ID of vitamin to adjust quantity for
+         * @param[in] qty Quantity to set level to
+         * @returns false if given vitamin_id does not exist, otherwise true
+         */
+        bool vitamin_set( const vitamin_id &vit, int qty );
+        /**
+          * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
          * @param qty amount by which to adjust vitamin (negative values are permitted)
          * @param capped if true prevent vitamins which can accumulate in excess from doing so
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        time_duration vitamin_rate( const vitamin_id &vit ) const;
 
-        /** Returns true if the player is wearing something on the entered body_part */
+        /** Handles the nutrition value for a comestible **/
+        int nutrition_for( const item &comest ) const;
+        /** Can the food be [theoretically] eaten no matter the consequen
+        ces? */
+        ret_val<edible_rating> can_eat( const item &food ) const;
+        /**
+         * Same as @ref can_eat, but takes consequences into account.
+         * Asks about them if @param interactive is true, refuses otherwise.
+         */
+        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        /** Determine character's capability of recharging their CBMs. */
+        bool can_feed_reactor_with( const item &it ) const;
+        bool can_feed_furnace_with( const item &it ) const;
+        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
+        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
+        int get_acquirable_energy( const item &it ) const;
+
+        /**
+        * Recharge CBMs whenever possible.
+        * @return true when recharging was successful.
+        */
+        bool feed_reactor_with( item &it );
+        bool feed_furnace_with( item &it );
+        bool fuel_bionic_with( item &it );
+        /** Used to apply stimulation modifications from food and medication **/
+        void modify_stimulation( const islot_comestible &comest );
+        /** Used to apply addiction modifications from food and medication **/
+        void modify_addiction( const islot_comestible &comest );
+        /** Used to apply health modifications from food and medication **/
+        void modify_health( const islot_comestible &comest );
+        /** Handles the effects of consuming an item */
+        bool consume_effects( item &food );
+        /** Check character's capability of consumption overall */
+        bool can_consume( const item &it ) const;
+        /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
+        bool can_estimate_rot() const;
+        /** Check whether character can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
+        /**
+         * Returns a reference to the item itself (if it's consumable),
+         * the first of its contents (if it's consumable) or null item otherwise.
+         * WARNING: consumable does not necessarily guarantee the comestible type.
+         */
+        item &get_consumable_from( item &it ) const;
+
+        hint_rating rate_action_eat( const item &it ) const;
+
+        /** Get calorie & vitamin contents for a comestible, taking into
+         * account character traits */
+        /** Get range of possible nutrient content, for a particular recipe,
+         * depending on choice of ingredients */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const item &, const recipe_id &,
+            const cata::flat_set<std::string> &extra_flags = {} ) const;
+        /** Same, but across arbitrary recipes */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
+        /** Returns allergy type or MORALE_NULL if not allergic for this character */
+        morale_type allergy_type( const item &food ) const;
+        nutrients compute_effective_nutrients( const item & ) const;
+        /** Returns true if the character is wearing something on the entered body_part */
         bool wearing_something_on( body_part bp ) const;
-        /** Returns true if the player is wearing something occupying the helmet slot */
+        /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items coveringi
          *  the head */

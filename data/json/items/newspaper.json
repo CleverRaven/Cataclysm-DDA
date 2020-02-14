@@ -5,14 +5,13 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "flyer",
-    "name_plural": "flyers",
+    "name": { "str": "flyer" },
     "snippet_category": "flier",
     "description": "A scrap of paper.",
     "price": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",

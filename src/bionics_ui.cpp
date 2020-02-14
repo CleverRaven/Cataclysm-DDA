@@ -12,6 +12,7 @@
 #include "translations.h"
 #include "options.h"
 #include "string_id.h"
+#include "cata_string_consts.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -58,6 +59,8 @@ char get_free_invlet( player &p )
 static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
+    input_context ctxt( "BIONICS" );
+
     werase( window );
     std::string fuel_string;
     bool found_fuel = false;
@@ -66,7 +69,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel );
-            if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -80,7 +83,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
-                if( tmp_rem_fuel.has_flag( "PERPETUAL" ) ) {
+                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
                     fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
@@ -129,17 +132,24 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
     center_print( window, 0, c_light_red, _( " BIONICS " ) );
 
+    std::string desc_append = string_format(
+                                  _( "[%s] Reassign, [%s] Switch tabs, [%s] Toggle fuel saving mode, [%s] Toggle auto start mode" ),
+                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
+                                  ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
+        desc = string_format( _( "<color_green>Activating</color> [%s] Examine, %s" ),
+                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
+        desc = string_format( _( "<color_light_blue>Examining</color> [%s] Activate, %s" ),
+                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     }
 
-    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_light_gray, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );
 }
@@ -170,7 +180,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.push_back( _( "(incapacitated)" ) );
     }
-    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && ( !bio.info().fuel_opts.empty() ||
+    if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
         properties.push_back( _( "(fuel saving ON)" ) );
     }
@@ -247,7 +257,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
                              const int last_x, const bionic_id &bio_id )
 {
-    const int LIST_START_Y = 6;
+    const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
@@ -435,7 +445,7 @@ void player::power_bionics()
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
-    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
+    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT;
     catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
                                  START_Y ) );
 
@@ -775,8 +785,8 @@ void player::power_bionics()
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"
-                              "To read a description of %s, press '!', then '%c'." ), bio_data.name,
-                           bio_data.name, tmp->invlet );
+                              "To read a description of %s, press '%s', then '%c'." ), bio_data.name,
+                           bio_data.name, ctxt.get_desc( "TOGGLE_EXAMINE" ), tmp->invlet );
                     redraw = true;
                 }
             } else if( menu_mode == EXAMINING ) {

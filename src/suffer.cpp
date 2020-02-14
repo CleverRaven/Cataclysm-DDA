@@ -1343,7 +1343,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
                     break;
                 case 3:
                     add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
-                                           _( "<npcname> streches their back." ) );
+                                           _( "<npcname> stretches their back." ) );
                     break;
                 case 4:
                     add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
@@ -1604,17 +1604,11 @@ void Character::mend( int rate_multiplier )
 
     // Mutagenic healing factor!
     bool needs_splint = true;
+
+    healing_factor *= mutation_value( "mending_modifier" );
+
     if( has_trait( trait_REGEN_LIZ ) ) {
-        healing_factor *= 20.0;
         needs_splint = false;
-    } else if( has_trait( trait_REGEN ) ) {
-        healing_factor *= 16.0;
-    } else if( has_trait( trait_FASTHEALER2 ) ) {
-        healing_factor *= 4.0;
-    } else if( has_trait( trait_FASTHEALER ) ) {
-        healing_factor *= 2.0;
-    } else if( has_trait( trait_SLOWHEALER ) ) {
-        healing_factor *= 0.5;
     }
 
     add_msg( m_debug, "Limb mend healing factor: %.2f", healing_factor );

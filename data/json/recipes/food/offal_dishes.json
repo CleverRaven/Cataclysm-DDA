@@ -94,7 +94,7 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "liver", 3 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "fry_oil", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
@@ -166,7 +166,8 @@
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
+    "//": "No frying_oil as a tool, so this must be pan fried, not deep fried",
+    "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -290,5 +291,82 @@
     ],
     "charges": 8,
     "autolearn": true
+  },
+  {
+    "type": "recipe",
+    "result": "lung_provence",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "55 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 8,
+    "book_learn": [ [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "lung", 4 ] ],
+      [ [ "flour", 4 ] ],
+      [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "pepper", 6 ] ],
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "garlic_clove", 1 ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tÖttchen",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "35 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 8,
+    "book_learn": [ [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "lung", 4 ] ],
+      [ [ "kidney", 4 ] ],
+      [ [ "brain", 4 ] ],
+      [ [ "onion", 3 ], [ "irradiated_onion", 3 ] ],
+      [ [ "any_butter", 4, "LIST" ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "mustard", 3 ] ],
+      [ [ "sugar_standard", 3, "LIST" ] ],
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "batter", 4, "LIST" ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "scrambledeggsandbrain",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "35 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 3,
+    "book_learn": [ [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 3, "LIST" ] ],
+      [ [ "garlic_clove", 2 ] ],
+      [ [ "brain", 4 ] ],
+      [ [ "batter", 4, "LIST" ] ],
+      [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
+      [ [ "any_butter", 4, "LIST" ] ],
+      [ [ "salt", 6 ] ],
+      [ [ "pepper", 3 ] ],
+      [ [ "milk_standard", 1, "LIST" ] ]
+    ]
   }
 ]

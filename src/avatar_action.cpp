@@ -48,23 +48,9 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_BURROW( "BURROW" );
-static const trait_id trait_SHELL2( "SHELL2" );
-
-static const efftype_id effect_amigara( "amigara" );
-static const efftype_id effect_glowing( "glowing" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_relax_gas( "relax_gas" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_harnessed( "harnessed" );
-
-static const trait_id trait_GRAZER( "GRAZER" );
-static const trait_id trait_RUMINANT( "RUMINANT" );
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
@@ -95,7 +81,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !you.is_mounted() ) {
-        if( you.weapon.has_flag( "DIG_TOOL" ) ) {
+        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
@@ -324,9 +310,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
     }
 
-    bool toSwimmable = m.has_flag( "SWIMMABLE", dest_loc );
+    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( "SWIMMABLE", you.pos() );
+    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
@@ -451,7 +437,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( "RAMP_END", pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( flag_RAMP_END, pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -476,7 +462,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
-    if( !m.has_flag( "SWIMMABLE", p ) ) {
+    if( !m.has_flag( flag_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );
@@ -497,7 +483,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.remove_effect( effect_glowing );
     }
     int movecost = you.swim_speed();
-    you.practice( skill_id( "swimming" ), you.is_underwater() ? 2 : 1 );
+    you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
         if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
                                        ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
@@ -638,14 +624,14 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
         const optional_vpart_position vp = m.veh_at( you.pos() );
         if( vp && vp->vehicle().player_in_control( you ) && ( mode_map.second->is_two_handed( you ) ||
-                mode_map.second->has_flag( "FIRE_TWOHAND" ) ) ) {
+                mode_map.second->has_flag( flag_FIRE_TWOHAND ) ) ) {
             messages.push_back( string_format( _( "You can't use your %s while driving!" ),
                                                mode_map.second->tname() ) );
             fireable = false;
         }
 
-        if( mode_map.second->has_flag( "FIRE_TWOHAND" ) && ( !you.has_two_arms() ||
-                you.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        if( mode_map.second->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
+                you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
             messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
                                                mode_map.second->tname() ) );
             fireable = false;
@@ -653,7 +639,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
         // Skip certain checks if we are directly firing a vehicle turret
         if( args.mode != TARGET_MODE_TURRET_MANUAL ) {
-            if( !mode_map.second->ammo_sufficient() && !mode_map.second->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            if( !mode_map.second->ammo_sufficient() && !mode_map.second->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                 if( !mode_map.second->ammo_remaining() ) {
                     messages.push_back( string_format( _( "Your %s is empty!" ), mode_map.second->tname() ) );
                 } else {
@@ -676,7 +662,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 if( !is_mech_weapon ) {
                     if( !( you.has_charges( "UPS_off", ups_drain ) ||
                            you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                           ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
+                           ( you.has_active_bionic( bio_ups ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                         messages.push_back( string_format(
                                                 _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
@@ -692,7 +678,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 }
             }
 
-            if( mode_map.second->has_flag( "MOUNTED_GUN" ) ) {
+            if( mode_map.second->has_flag( flag_MOUNTED_GUN ) ) {
                 const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                          true ) );
                 bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
@@ -739,7 +725,7 @@ bool avatar_action::fire( avatar &you, map &m )
         MODERATE_EXERCISE );
 
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
-    if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !gun->ammo_remaining() ) {
             const auto ammo_location_is_valid = [&]() -> bool {
                 if( !you.ammo_location )
@@ -792,8 +778,8 @@ bool avatar_action::fire( avatar &you, map &m )
     gun = args.relevant->gun_current_mode();
 
     if( trajectory.empty() ) {
-        bool not_aiming = you.activity.id() != activity_id( "ACT_AIM" );
-        if( not_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
+        bool not_aiming = you.activity.id() != ACT_AIM;
+        if( not_aiming && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             const auto previous_moves = you.moves;
             g->unload( *gun );
             // Give back time for unloading as essentially nothing has been done.
@@ -990,7 +976,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.is_wielding( *orig ) && orig->has_flag( "NO_UNWIELD" ) ) {
+    if( you.is_wielding( *orig ) && orig->has_flag( flag_NO_UNWIELD ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
@@ -1102,7 +1088,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
 
-        if( loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
             use_in_place = true;
         } else {
             const int obtain_cost = loc.obtain_cost( you );

@@ -210,6 +210,12 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
+    std::string sText = trim_by_length( text, width );
+    print_colored_text( w, begin, base_color, base_color, sText );
+}
+
+std::string trim_by_length( const std::string  &text, int width )
+{
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -251,8 +257,7 @@ void trim_and_print( const catacurses::window &w, const point &begin, int width,
     } else {
         sText = text;
     }
-
-    print_colored_text( w, begin, base_color, base_color, sText );
+    return sText;
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
@@ -568,12 +573,8 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-
-    const auto allow_key = [force_uc]( const input_event & evt ) {
-        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
-               // std::lower is undefined outside unsigned char range
-               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-    };
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
 
     return query_popup()
            .context( "YESNO" )
