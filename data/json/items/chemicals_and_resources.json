@@ -259,8 +259,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fertilizer_commercial",
-    "name": "commercial fertilizer",
-    "name_plural": "commercial fertilizer",
+    "name": { "str": "commercial fertilizer", "str_pl": "commercial fertilizer" },
     "weight": "350 g",
     "color": "yellow",
     "flags": [ "FERTILIZER" ],
@@ -411,8 +410,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acid",
-    "name": "concentrated acid",
-    "name_plural": "concentrated acid",
+    "name": { "str": "concentrated acid", "str_pl": "concentrated acid" },
     "weight": "250 g",
     "color": "green",
     "flags": [ "ACID", "DROP_ACTION_ONLY_IF_LIQUID" ],

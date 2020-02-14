@@ -301,8 +301,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beans_cooked",
-    "name": "cooked beans",
-    "name_plural": "cooked beans",
+    "name": { "str": "cooked beans", "str_pl": "cooked beans" },
     "weight": "270 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -438,8 +437,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lentils_cooked",
-    "name": "cooked lentils",
-    "name_plural": "cooked lentils",
+    "name": { "str": "cooked lentils", "str_pl": "cooked lentils" },
     "weight": "198 g",
     "copy-from": "dry_lentils",
     "color": "light_gray",
@@ -456,8 +454,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_raw",
-    "name": "coffee powder",
-    "name_plural": "coffee powder",
+    "name": { "str": "coffee powder", "str_pl": "coffee powder" },
     "weight": "14 g",
     "color": "brown",
     "addiction_type": "caffeine",

@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "strawberries_cooked",
-    "name": "cooked strawberry",
-    "name_plural": "cooked strawberries",
+    "name": { "str": "cooked strawberry", "str_pl": "cooked strawberries" },
     "copy-from": "strawberries",
     "color": "red",
     "spoils_in": "3 days 18 hours",
@@ -42,8 +41,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blueberries_cooked",
-    "name": "cooked blueberry",
-    "name_plural": "cooked blueberries",
+    "name": { "str": "cooked blueberry", "str_pl": "cooked blueberries" },
     "copy-from": "blueberries",
     "color": "blue",
     "spoils_in": "3 days 18 hours",
