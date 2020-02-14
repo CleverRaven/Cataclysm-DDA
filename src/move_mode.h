@@ -44,6 +44,7 @@ public:
     translation flavor_text_mech;
     bool cancels_activities;
     float stamina_burn_multiplier;
+    float volume_multiplier;
     float silhouette_size;
 
     nc_color nc_display_colour;

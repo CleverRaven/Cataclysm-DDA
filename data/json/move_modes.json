@@ -31,7 +31,8 @@
     "cost_to_enter_or_leave_stance": 0,
     "flavor_text": "You start running.",
     "cancels_activities": false,
-    "stamina_burn_multiplier": 7.0
+    "stamina_burn_multiplier": 7.0,
+    "volume_multiplier": 1.5
   },
   {
     "id": "MM_CROUCH",
@@ -48,7 +49,8 @@
     "cost_to_enter_or_leave_stance": 50,
     "flavor_text": "You start crouching.",
     "cancels_activities": false,
-    "stamina_burn_multiplier": 1.0
+    "stamina_burn_multiplier": 1.0,
+    "volume_multiplier":  0.5
   },
   {
     "id": "MM_NULL",

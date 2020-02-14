@@ -64,9 +64,9 @@ void move_mode::load(const JsonObject& jo, const std::string&)
 {
     mandatory(jo, was_loaded, "name", name);
 
-    optional(jo, was_loaded, "flavor_text", flavor_text, "You change stance.");
-    optional(jo, was_loaded, "flavor_text_mount", flavor_text_mount, "You change stance.");
-    optional(jo, was_loaded, "flavor_text_mech", flavor_text_mech, "You change stance.");
+    optional(jo, was_loaded, "flavor_text", flavor_text, to_translation("You change stance."));
+    optional(jo, was_loaded, "flavor_text_mount", flavor_text_mount, to_translation("You change stance."));
+    optional(jo, was_loaded, "flavor_text_mech", flavor_text_mech, to_translation("You change stance."));
 
     optional(jo, was_loaded, "cycle_index", cycle_index, -1);
     optional(jo, was_loaded, "can_be_cycled_to", can_be_cycled_to, true);
@@ -78,6 +78,7 @@ void move_mode::load(const JsonObject& jo, const std::string&)
     optional(jo, was_loaded, "cost_to_enter_or_leave_stance", cost_to_enter_or_leave_stance, 0);
     optional(jo, was_loaded, "cancels_activities", cancels_activities, false);
     optional(jo, was_loaded, "stamina_burn_multiplier", stamina_burn_multiplier, 1.0f);
+    optional(jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f);
     optional(jo, was_loaded, "cancels_activities", cancels_activities, false);
     optional(jo, was_loaded, "display_colour", display_colour, "light_gray");
 
@@ -91,6 +92,9 @@ void move_mode::finalize()
 
 void move_mode::check() const
 {
+    if (display_character.length() < 1) {
+        debugmsg("Attempt to load move mode %s failed because it did not have a valid display_character", id.c_str());
+    }
 }
 
 size_t move_mode::count()

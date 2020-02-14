@@ -703,7 +703,7 @@ bool Character::is_limb_broken( hp_part limb ) const
 
 bool Character::can_run()
 {
-    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= current_move_mode.obj().minimum_required_legs;
 }
 
 bool Character::move_effects( bool attacking )
