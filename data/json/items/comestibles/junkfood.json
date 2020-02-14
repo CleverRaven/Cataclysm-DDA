@@ -1070,8 +1070,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_cooked",
-    "name": "cooked hot dog",
-    "name_plural": "cooked hot dogs",
+    "name": { "str": "cooked hot dog" },
     "weight": "383 g",
     "color": "red",
     "spoils_in": "1 day",

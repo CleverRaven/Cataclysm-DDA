@@ -179,8 +179,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee",
-    "name": "coffee",
-    "name_plural": "coffee",
+    "name": { "str": "coffee", "str_pl": "coffee" },
     "weight": "250 g",
     "color": "brown",
     "addiction_type": "caffeine",
@@ -203,8 +202,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_substitute",
-    "name": "coffee substitute",
-    "name_plural": "coffee substitute",
+    "name": { "str": "coffee substitute", "str_pl": "coffee substitute" },
     "weight": "250 g",
     "color": "brown",
     "container": "bottle_plastic",
@@ -944,8 +942,7 @@
     "id": "water_clean",
     "copy-from": "water",
     "type": "COMESTIBLE",
-    "name": "clean water",
-    "name_plural": "clean water",
+    "name": { "str": "clean water", "str_pl": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "color": "light_cyan",
     "use_action": [  ]

@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_cattail_stalk",
-    "name": "cooked cattail stalk",
-    "name_plural": "cooked cattail stalks",
+    "name": { "str": "cooked cattail stalk" },
     "copy-from": "cattail_stalk",
     "color": "white",
     "spoils_in": "2 days 12 hours",
@@ -35,8 +34,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_cooked",
-    "name": "cooked dandelion greens",
-    "name_plural": "cooked dandelion greens",
+    "name": { "str": "cooked dandelion greens", "str_pl": "cooked dandelion greens" },
     "copy-from": "raw_dandelion",
     "spoils_in": "2 days",
     "healthy": 2,
@@ -71,8 +69,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_wild_cooked",
-    "name": "cooked wild vegetables",
-    "name_plural": "cooked wild vegetables",
+    "name": { "str": "cooked wild vegetables", "str_pl": "cooked wild vegetables" },
     "copy-from": "veggy",
     "spoils_in": "2 days 2 hours",
     "description": "Cooked wild edible plants.  An interesting mix of flavors.",
@@ -100,8 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat_cooked",
-    "name": "cooked buckwheat",
-    "name_plural": "cooked buckwheat",
+    "name": { "str": "cooked buckwheat", "str_pl": "cooked buckwheat" },
     "copy-from": "buckwheat",
     "spoils_in": "20 days",
     "healthy": 2,
@@ -200,8 +196,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_cooked",
-    "name": "cooked rice",
-    "name_plural": "cooked rice",
+    "name": { "str": "cooked rice", "str_pl": "cooked rice" },
     "copy-from": "dry_rice",
     "weight": "62 g",
     "color": "light_gray",
