@@ -1401,9 +1401,8 @@
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualitities": [ { "id": "FILTER", "level": 2 } ],
-    "tools": [ [ [ "flask_buchner", -1 ] ], [ [ "vac_pump_on", -1 ] ] ],
+    "tools": [ [ [ "flask_glass", -1 ] ], [ [ "vac_pump_on", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [
-      [ [ "gasket_plastic", 1 ] ],
       [ [ "filter_paper_qualitative", 1 ] ],
       [ [ "filter_paper_quantitative", 1 ] ],
       [ [ "lo_q_crude_oil_ethanol", 200 ] ]
@@ -1421,9 +1420,8 @@
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualitities": [ { "id": "FILTER", "level": 2 } ],
-    "tools": [ [ [ "flask_buchner", -1 ] ], [ [ "vac_pump_on", -1 ] ] ],
+    "tools": [ [ [ "flask_glass", -1 ] ], [ [ "vac_pump_on", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [
-      [ [ "gasket_plastic", 1 ] ],
       [ [ "filter_paper_qualitative", 1 ] ],
       [ [ "filter_paper_quantitative", 1 ] ],
       [ [ "hi_q_crude_oil_ethanol", 200 ] ]
