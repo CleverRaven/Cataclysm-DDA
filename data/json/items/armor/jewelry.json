@@ -224,8 +224,7 @@
   {
     "id": "diving_watch",
     "type": "ARMOR",
-    "name": "diver's watch",
-    "name_plural": "diver's watches",
+    "name": { "str": "diver's watch", "str_pl": "diver's watches" },
     "description": "A waterproof, self-winding watch on a stainless steel watchband.  Tells the time and current temperature.  Activate to check the digital thermometer.",
     "weight": "65 g",
     "volume": "250 ml",
