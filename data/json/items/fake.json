@@ -139,8 +139,7 @@
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
     "type": "GENERIC",
-    "name": "smoldering embers",
-    "name_plural": "smoldering embers",
+    "name": { "str": "smoldering embers", "str_pl": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
     "emits": [ "emit_small_smoke_plume" ],
     "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]

@@ -19,15 +19,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "survivor's note",
-    "name_plural": "survivor's notes",
+    "name": { "str": "survivor's note" },
     "snippet_category": "note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": 0,
     "material": "paper",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -150,14 +149,13 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "vault leaflet",
-    "name_plural": "vault leaflets",
+    "name": { "str": "vault leaflet" },
     "snippet_category": "necropolis_intro",
     "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
     "price": 0,
     "material": "paper",
     "weight": "1 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",

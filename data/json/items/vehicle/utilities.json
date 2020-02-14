@@ -34,8 +34,7 @@
   {
     "type": "GENERIC",
     "id": "mountable_cooler",
-    "name": "vehicle cooler",
-    "name_plural": "vehicle coolers",
+    "name": { "str": "vehicle cooler" },
     "description": "A vehicle-mounted area cooler.",
     "weight": "12500 g",
     "to_hit": -4,
@@ -50,8 +49,7 @@
   {
     "type": "GENERIC",
     "id": "mountable_heater",
-    "name": "vehicle heater",
-    "name_plural": "vehicle heaters",
+    "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",
     "weight": "12500 g",
     "to_hit": -4,
