@@ -90,7 +90,7 @@
     "id": "pasgt_vest",
     "type": "ARMOR",
     "name": "PASGT vest",
-    "description": "An early 1980's flak jacket made of Kevlar in a woodland camouflage nylon shell.  The vest was designed to stop fragmentation from explosives, but may provide protection from low-energy handguns.  Though still in limited use, it has largely been replaced by more effective armor.  Though later replaced by better armor models, these are still in use by foreign militaries.",
+    "description": "An early 1980's flak jacket made of Kevlar in a woodland camouflage nylon shell.  The vest was designed to stop fragmentation from explosives, but may provide protection from low-energy handguns.  Though later replaced by better armor models, these are still in use by foreign militaries.",
     "weight": "4082 g",
     "volume": "3 L",
     "price": 14000,
