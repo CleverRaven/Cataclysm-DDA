@@ -304,7 +304,6 @@
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
-    "required_level": 0,
     "max_level": 2,
     "intelligence": 6,
     "time": "15 m",
