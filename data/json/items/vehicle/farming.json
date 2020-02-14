@@ -2,10 +2,9 @@
   {
     "type": "GENERIC",
     "id": "v_scoop_item",
-    "name": "vehicle scoop",
+    "name": { "str": "vehicle scoop" },
     "symbol": "u",
     "color": "light_gray",
-    "name_plural": "vehicle scoops",
     "description": "An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
     "weight": "22666 g",
     "bashing": 1,

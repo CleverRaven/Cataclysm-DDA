@@ -30,8 +30,7 @@
   {
     "type": "GENERIC",
     "id": "vehicle_controls",
-    "name": "vehicle controls",
-    "name_plural": "sets of vehicle controls",
+    "name": { "str": "vehicle controls", "str_pl": "sets of vehicle controls" },
     "description": "A set of various vehicle controls.  Useful for crafting.",
     "weight": "6000 g",
     "to_hit": -4,
