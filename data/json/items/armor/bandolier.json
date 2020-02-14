@@ -195,8 +195,7 @@
   {
     "id": "grenade_pouch",
     "type": "ARMOR",
-    "name": "grenade pouch",
-    "name_plural": "grenade pouches",
+    "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
     "description": "A small pouch for storing cartridge grenades with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
     "volume": "250 ml",

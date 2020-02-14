@@ -23,8 +23,7 @@
   {
     "id": "breeches",
     "type": "ARMOR",
-    "name": "breeches",
-    "name_plural": "breeches",
+    "name": { "str": "breeches", "str_pl": "breeches" },
     "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
     "weight": "520 g",
     "volume": "1750 ml",
@@ -67,8 +66,7 @@
   {
     "id": "hot_pants",
     "type": "ARMOR",
-    "name": "hot pants",
-    "name_plural": "hot pants",
+    "name": { "str": "hot pants", "str_pl": "hot pants" },
     "description": "A simple pair of short shorts.",
     "weight": "92 g",
     "volume": "250 ml",
@@ -85,8 +83,7 @@
   {
     "id": "hot_pants_fur",
     "type": "ARMOR",
-    "name": "fur hot pants",
-    "name_plural": "fur hot pants",
+    "name": { "str": "fur hot pants", "str_pl": "fur hot pants" },
     "description": "A simple pair of fur short shorts.",
     "weight": "118 g",
     "volume": "250 ml",
@@ -123,8 +120,7 @@
   {
     "id": "jeans",
     "type": "ARMOR",
-    "name": "jeans",
-    "name_plural": "jeans",
+    "name": { "str": "jeans", "str_pl": "jeans" },
     "description": "A pair of blue jeans with two deep pockets.",
     "weight": "600 g",
     "volume": "2 L",
@@ -397,8 +393,7 @@
   {
     "id": "pants_fur",
     "type": "ARMOR",
-    "name": "fur pants",
-    "name_plural": "fur pants",
+    "name": { "str": "fur pants", "str_pl": "fur pants" },
     "description": "A hefty pair of fur-lined pants.",
     "weight": "920 g",
     "volume": "4 L",
@@ -521,8 +516,7 @@
   {
     "id": "shorts_cargo",
     "type": "ARMOR",
-    "name": "cargo shorts",
-    "name_plural": "cargo shorts",
+    "name": { "str": "cargo shorts", "str_pl": "cargo shorts" },
     "description": "A pair of shorts lined with pockets, offering decent storage.",
     "weight": "340 g",
     "volume": "1500 ml",
@@ -543,8 +537,7 @@
   {
     "id": "shorts_denim",
     "type": "ARMOR",
-    "name": "denim shorts",
-    "name_plural": "denim shorts",
+    "name": { "str": "denim shorts", "str_pl": "denim shorts" },
     "description": "A pair of denim shorts.  Thick and tough, they provide excellent protection from cuts.",
     "weight": "260 g",
     "volume": "1250 ml",
