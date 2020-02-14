@@ -6687,45 +6687,12 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     abs_sub.z = old_abs_z;
 }
 
-bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
-{
-    if( itm.is_corpse() && itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.get_rot() > 10_days && !itm.can_revive();
-    } else if( itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.has_rotten_away();
-    } else if( itm.type->container && itm.type->container->preserves ) {
-        // Containers like tin cans preserves all items inside, they do not rot at all.
-        return false;
-    } else if( itm.type->container && itm.type->container->seals ) {
-        // Items inside rot but do not vanish as the container seals them in.
-        for( auto &c : itm.contents ) {
-            if( c.goes_bad() ) {
-                c.process_temperature_rot( 1, pnt, nullptr );
-            }
-        }
-        return false;
-    } else {
-        // Check and remove rotten contents, but always keep the container.
-        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
-            if( has_rotten_away( *it, pnt ) ) {
-                it = itm.contents.erase( it );
-            } else {
-                ++it;
-            }
-        }
-
-        return false;
-    }
-}
-
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( has_rotten_away( *it, abs_pnt ) ) {
+        if( it->has_rotten_away( abs_pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
