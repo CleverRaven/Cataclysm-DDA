@@ -51,8 +51,7 @@
   {
     "type": "GENERIC",
     "id": "hand_paddles",
-    "name": "oars",
-    "name_plural": "oars",
+    "name": { "str": "oars", "str_pl": "oars" },
     "description": "Oars for a boat.",
     "weight": "8 kg",
     "to_hit": -1,
