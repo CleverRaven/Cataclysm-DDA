@@ -4889,6 +4889,7 @@
       [ "traps", -2 ],
       [ "fabrication", -2 ],
       [ "cooking", -2 ],
+      [ "chemistry", -2 ],
       [ "survival", -2 ]
     ],
     "encumbrance_always": [ [ "HAND_L", 20 ], [ "HAND_R", 20 ] ],

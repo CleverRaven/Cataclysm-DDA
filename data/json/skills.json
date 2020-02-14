@@ -84,10 +84,18 @@
     "type": "skill",
     "ident": "cooking",
     "name": "cooking",
-    "description": "Your skill in combining food ingredients to make other, tastier food items.  It may also be used in certain chemical mixtures and other, more esoteric tasks.",
+    "description": "Your skill in combining food ingredients to make other, tastier food items.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
+  },
+  {
+    "type": "skill",
+    "ident": "chemistry",
+    "name": "chemistry",
+    "description": "Your skill in combining chemicals to make reactions into other chemical items.  It may also be used in the creation of mutagens and explosives among other uses.",
+    "companion_industry_rank_factor": 1,
+    "display_category": "display_crafting"
   },
   {
     "type": "skill",
