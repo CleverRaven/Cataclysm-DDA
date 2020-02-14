@@ -251,6 +251,26 @@
     "fun": -1
   },
   {
+    "id": "textbook_organic",
+    "type": "BOOK",
+    "name": "organic chemistry textbook",
+    "description": "A textbook on organic chemistry, with lab manual sections.",
+    "weight": "1500 g",
+    "volume": "1750 ml",
+    "price": 7500,
+    "price_postapoc": 35000,
+    "bashing": 4,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "chemistry",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 10,
+    "time": "20 m",
+    "fun": -1
+  },
+  {
     "id": "textbook_chemistry",
     "type": "BOOK",
     "name": "chemistry textbook",
