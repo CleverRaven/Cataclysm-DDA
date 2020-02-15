@@ -408,7 +408,7 @@
   {
     "type": "COMESTIBLE",
     "id": "granola",
-    "name": "granola",
+    "name": { "str": "granola", "str_pl": "granola" },
     "weight": "32 g",
     "color": "brown",
     "spoils_in": "180 days",
