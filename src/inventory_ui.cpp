@@ -715,7 +715,7 @@ void inventory_column::move_entries_to( inventory_column &dest )
     for( const auto &elem : entries ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
-            std::find( dest.entries.begin(), dest.entries.end(), elem ) != dest.entries.end() ) {
+            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
