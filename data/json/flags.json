@@ -116,13 +116,13 @@
     "id": "DIG_TOOL",
     "type": "json_flag",
     "context": [ "TOOL", "TOOL_ARMOR" ],
-    "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
+    "info": "While wielded, it allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
   },
   {
     "id": "DURABLE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "info": "As a weapon, it is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
     "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
@@ -224,7 +224,7 @@
     "id": "FRAGILE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "info": "As a weapon, it is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
     "conflicts": [ "DURABLE_MELEE" ]
   },
   {
