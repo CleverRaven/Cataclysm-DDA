@@ -2704,7 +2704,7 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
     const std::set<std::string> &rep = repaired_with();
     if( !rep.empty() ) {
-        info.emplace_back( "DESCRIPTION", string_format( _( "Repair using %s." ),
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Repair</bold> using %s." ),
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
@@ -2736,7 +2736,7 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
         } );
         insert_separation_line( info );
         info.push_back( iteminfo( "DESCRIPTION",
-                                  string_format( _( "Disassembly takes %s and "
+                                  string_format( _( "<bold>Disassembly</bold> takes %s and "
                                           "might yield: %s." ),
                                           to_string_approx( time_duration::from_turns( dis.time /
                                                   100 ) ), components_list ) ) );
