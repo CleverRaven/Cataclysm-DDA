@@ -2955,8 +2955,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
     if( ( g->u.get_skill_level( skill_melee ) > 2 &&
-          ( damage_melee( DT_BASH ) > 0 || damage_melee( DT_CUT ) > 0 ||
-            damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) || debug_mode ) {
+          ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
         damage_instance non_crit;
         g->u.roll_all_damage( false, non_crit, true, *this );
         damage_instance crit;
