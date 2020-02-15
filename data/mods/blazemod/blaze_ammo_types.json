@@ -1,11 +1,5 @@
 [
   {
-    "id": "bfeed",
-    "name": "blob feed",
-    "default": "bfeed",
-    "type": "ammunition_type"
-  },
-  {
     "id": "h_projectile",
     "name": "heavy projectiles",
     "default": "h_projectile",
