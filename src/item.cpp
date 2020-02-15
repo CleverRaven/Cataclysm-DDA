@@ -2914,45 +2914,6 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    if( parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
-        std::set<matec_id> all_techniques = type->techniques;
-        all_techniques.insert( techniques.begin(), techniques.end() );
-
-        if( !all_techniques.empty() ) {
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
-            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
-                return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
-                                      _( tid.obj().description ) );
-            } ) ) );
-        }
-    }
-
-    // display which martial arts styles character can use with this weapon
-    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-        const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
-        if( !valid_styles.empty() ) {
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You know how to use this with these martial arts "
-                                         "styles: " ) + valid_styles ) );
-        }
-    }
-
-    if( !is_gunmod() && has_flag( "REACH_ATTACK" ) &&
-        parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK ) ) {
-        insert_separation_line( info );
-        if( has_flag( "REACH3" ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* It can be used to make <stat>long reach "
-                                         "attacks</stat>." ) ) );
-        } else {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* It can be used to make <stat>reach "
-                                         "attacks</stat>." ) ) );
-        }
-    }
-
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
     if( ( g->u.get_skill_level( skill_melee ) > 2 &&
           ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
@@ -2996,6 +2957,45 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       string_format( _( "%d moves per attack" ), attack_cost ) ) );
+        }
+    }
+
+    if( parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
+        std::set<matec_id> all_techniques = type->techniques;
+        all_techniques.insert( techniques.begin(), techniques.end() );
+
+        if( !all_techniques.empty() ) {
+            insert_separation_line( info );
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
+            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
+                return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
+                                      _( tid.obj().description ) );
+            } ) ) );
+        }
+    }
+
+    // display which martial arts styles character can use with this weapon
+    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
+        const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
+        if( !valid_styles.empty() ) {
+            insert_separation_line( info );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "You know how to use this with these martial arts "
+                                         "styles: " ) + valid_styles ) );
+        }
+    }
+
+    if( !is_gunmod() && has_flag( "REACH_ATTACK" ) &&
+        parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK ) ) {
+        insert_separation_line( info );
+        if( has_flag( "REACH3" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* It can be used to make <stat>long reach "
+                                         "attacks</stat>." ) ) );
+        } else {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* It can be used to make <stat>reach "
+                                         "attacks</stat>." ) ) );
         }
     }
 }
