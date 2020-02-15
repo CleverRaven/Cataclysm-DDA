@@ -72,7 +72,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
     iteminfo_test(
         item( "halligan" ), q,
         "--\n"
-        "Bash: <color_c_yellow>20</color>"
+        "<color_c_white>Damage</color>: Bash: <color_c_yellow>20</color>"
         "  Cut: <color_c_yellow>5</color>"
         "  To-hit bonus: <color_c_yellow>+2</color>\n"
         "Moves per attack: <color_c_yellow>145</color>\n" );
