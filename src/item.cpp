@@ -1174,7 +1174,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( converted_volume_scale != 0 ) {
             f |= iteminfo::is_three_decimal;
         }
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
+        info.push_back( iteminfo( "BASE", _( "Volume: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
                                   f, converted_volume ) );
     }
