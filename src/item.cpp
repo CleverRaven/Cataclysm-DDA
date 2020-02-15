@@ -1189,7 +1189,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( !mat_types.empty() ) {
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type * material ) {
-                return string_format( "<stat>%s</stat>", _( material->name() ) );
+                return string_format( "<stat>%s</stat>", material->name() );
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
@@ -2704,10 +2704,10 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
     const std::set<std::string> &rep = repaired_with();
     if( !rep.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "Repair using " ) +
+        info.emplace_back( "DESCRIPTION", string_format( _( "Repair using %s." ),
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
-        }, enumeration_conjunction::or_ ) + "." );
+        }, enumeration_conjunction::or_ ) ) );
         if( reinforceable() ) {
             info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
