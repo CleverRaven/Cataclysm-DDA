@@ -19,20 +19,32 @@ static void iteminfo_test( const item &i, const iteminfo_query &q, const std::st
     CHECK( info == reference );
 }
 
-TEST_CASE( "item description and physical attributes", "[item][iteminfo]" )
+TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
-    iteminfo_query q( { iteminfo_parts::DESCRIPTION, iteminfo_parts::BASE_CATEGORY,
-                        iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_VOLUME,
-                        iteminfo_parts::BASE_WEIGHT, iteminfo_parts::BASE_MATERIAL
-                      } );
-    iteminfo_test(
-        item( "jug_plastic" ), q,
-        "Category: <color_c_magenta>CONTAINERS</color>  Price: $<color_c_yellow>0.00</color>\n"
-        "Volume: <color_c_yellow>3.750</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
-        "Material: <color_c_light_blue>Plastic</color>\n"
-        "--\n"
-        "A standard plastic jug used for milk and household cleaning chemicals.\n" );
+    iteminfo_query q( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
+                        iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
+                        iteminfo_parts::DESCRIPTION } );
 
+    SECTION( "category, material, volume, weight, description" ) {
+        iteminfo_test(
+            item( "jug_plastic" ), q,
+            "Category: <color_c_magenta>CONTAINERS</color>\n"
+            "Material: <color_c_light_blue>Plastic</color>\n"
+            "Volume: <color_c_yellow>3.750</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
+            "--\n"
+            "A standard plastic jug used for milk and household cleaning chemicals.\n" );
+    }
+}
+
+TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
+{
+    iteminfo_query q( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } );
+
+    SECTION( "price and owner" ) {
+        iteminfo_test(
+            item( "jug_plastic" ), q,
+            "Price: $<color_c_yellow>0.00</color>\n" );
+    }
 }
 
 TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )

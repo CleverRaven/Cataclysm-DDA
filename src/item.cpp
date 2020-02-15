@@ -1122,22 +1122,18 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
-                                  "<header>" + get_category().name() + "</header>",
-                                  iteminfo::no_newline ) );
+                                  "<header>" + get_category().name() + "</header>" ) );
     }
-    const int price_preapoc = price( false ) * batch;
-    const int price_postapoc = price( true ) * batch;
-    if( parts->test( iteminfo_parts::BASE_PRICE ) ) {
-        info.push_back( iteminfo( "BASE", space + _( "Price: " ), _( "$<num>" ),
-                                  iteminfo::is_decimal | iteminfo::lower_is_better,
-                                  static_cast<double>( price_preapoc ) / 100 ) );
+    if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
+        const std::vector<const material_type *> mat_types = made_of_types();
+        if( !mat_types.empty() ) {
+            const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
+            []( const material_type * material ) {
+                return string_format( "<stat>%s</stat>", material->name() );
+            }, enumeration_conjunction::none );
+            info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
+        }
     }
-    if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
-        info.push_back( iteminfo( "BASE", _( "Barter value: " ), _( "$<num>" ),
-                                  iteminfo::is_decimal | iteminfo::lower_is_better,
-                                  static_cast<double>( price_postapoc ) / 100 ) );
-    }
-
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         int converted_volume_scale = 0;
         const double converted_volume = round_up( convert_volume( volume().value(),
@@ -1155,16 +1151,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   string_format( "<num> %s", weight_units() ),
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
-    }
-    if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
-        const std::vector<const material_type *> mat_types = made_of_types();
-        if( !mat_types.empty() ) {
-            const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
-            []( const material_type * material ) {
-                return string_format( "<stat>%s</stat>", material->name() );
-            }, enumeration_conjunction::none );
-            info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
-        }
     }
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( !type->rigid ) {
@@ -1199,6 +1185,24 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
             }
         }
+        insert_separation_line( info );
+    }
+
+    if( !owner.is_null() ) {
+        info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
+                                  _( get_owner_name() ) ) ) );
+    }
+    const int price_preapoc = price( false ) * batch;
+    const int price_postapoc = price( true ) * batch;
+    if( parts->test( iteminfo_parts::BASE_PRICE ) ) {
+        info.push_back( iteminfo( "BASE", _( "Price: " ), _( "$<num>" ),
+                                  iteminfo::is_decimal | iteminfo::lower_is_better,
+                                  static_cast<double>( price_preapoc ) / 100 ) );
+    }
+    if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
+        info.push_back( iteminfo( "BASE", _( "Barter value: " ), _( "$<num>" ),
+                                  iteminfo::is_decimal | iteminfo::lower_is_better,
+                                  static_cast<double>( price_postapoc ) / 100 ) );
     }
 
     int dmg_bash = damage_melee( DT_BASH );
@@ -1259,10 +1263,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( !owner.is_null() ) {
-        info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
-                                  _( get_owner_name() ) ) ) );
-    }
     if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
         info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
                                   get_var( "contained_name" ) ) ) );
