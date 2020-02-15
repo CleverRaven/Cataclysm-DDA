@@ -44,7 +44,6 @@
       { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombie_kevlar_1", "freq": 50, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_kevlar_2", "freq": 15, "cost_multiplier": 10 },
       { "monster": "mon_zombie_flamer", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_zombie_bio_op", "freq": 30, "cost_multiplier": 5 },
@@ -81,9 +80,7 @@
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_brute", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 }
     ]
   },
   {
@@ -114,9 +111,7 @@
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_military_pilot", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_scientist", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_brute", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_scientist", "freq": 100, "cost_multiplier": 1 }
     ]
   }
 ]
