@@ -1195,9 +1195,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
-        if( type->rigid ) {
-            info.emplace_back( "BASE", _( "Rigid: Volume and encumbrance are constant." ) );
-        } else {
+        if( !type->rigid ) {
             info.emplace_back( "BASE",
                                _( "Not rigid: Volume and encumbrance increase when filled." ) );
         }

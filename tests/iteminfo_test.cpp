@@ -39,13 +39,12 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 {
     iteminfo_query q( { iteminfo_parts::BASE_RIGIDITY } );
 
-    SECTION( "rigid items indicate constant volume/encumbrance" ) {
+    SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
         iteminfo_test(
-            item( "briefcase" ), q,
-            "Rigid: Volume and encumbrance are constant.\n" );
+            item( "briefcase" ), q, "" );
     }
 
-    SECTION( "non-rigid items indicate flexible volume/encumbrance" ) {
+    SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
         iteminfo_test(
             item( "backpack" ), q,
             "Not rigid: Volume and encumbrance increase when filled.\n" );
