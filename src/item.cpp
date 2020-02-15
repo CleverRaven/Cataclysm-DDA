@@ -1205,6 +1205,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     int dmg_cut  = damage_melee( DT_CUT );
     int dmg_stab = damage_melee( DT_STAB );
     if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+        insert_separation_line( info );
         std::string sep;
         if( dmg_bash ) {
             info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
@@ -2703,13 +2704,12 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
     const std::set<std::string> &rep = repaired_with();
     if( !rep.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "<bold>Repair</bold>: using " ) +
+        info.emplace_back( "DESCRIPTION", _( "Repair using " ) +
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
-        }, enumeration_conjunction::or_ ) );
+        }, enumeration_conjunction::or_ ) + "." );
         if( reinforceable() ) {
-            info.emplace_back( "DESCRIPTION", _( "* This item can be "
-                                                 "<good>reinforced</good>." ) );
+            info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
     } else {
         info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
@@ -2736,7 +2736,7 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
         } );
         insert_separation_line( info );
         info.push_back( iteminfo( "DESCRIPTION",
-                                  string_format( _( "<bold>Disassembly</bold>: takes %s and "
+                                  string_format( _( "Disassembly takes %s and "
                                           "might yield: %s." ),
                                           to_string_approx( time_duration::from_turns( dis.time /
                                                   100 ) ), components_list ) ) );
@@ -2917,15 +2917,18 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     const std::string space = "  ";
 
-    std::set<matec_id> all_techniques = type->techniques;
-    all_techniques.insert( techniques.begin(), techniques.end() );
-    if( !all_techniques.empty() && parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
-        insert_separation_line( info );
-        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
-        enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
-            return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
-                                  _( tid.obj().description ) );
-        } ) ) );
+    if( parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
+        std::set<matec_id> all_techniques = type->techniques;
+        all_techniques.insert( techniques.begin(), techniques.end() );
+
+        if( !all_techniques.empty() ) {
+            insert_separation_line( info );
+            info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
+            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
+                return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
+                                      _( tid.obj().description ) );
+            } ) ) );
+        }
     }
 
     if( !is_gunmod() && has_flag( "REACH_ATTACK" ) &&
@@ -2943,10 +2946,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
-    if( debug_mode ||
-        ( g->u.get_skill_level( skill_melee ) > 2 &&
+    if( ( g->u.get_skill_level( skill_melee ) > 2 &&
           ( damage_melee( DT_BASH ) > 0 || damage_melee( DT_CUT ) > 0 ||
-            damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
+            damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) || debug_mode ) {
         damage_instance non_crit;
         g->u.roll_all_damage( false, non_crit, true, *this );
         damage_instance crit;
@@ -3000,6 +3002,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                          "styles: " ) + valid_styles ) );
         }
     }
+
 
     if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
         for( const std::pair<const std::string, use_function> &method : type->use_methods ) {

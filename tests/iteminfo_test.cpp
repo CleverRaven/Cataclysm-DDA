@@ -59,6 +59,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 
     iteminfo_test(
         item( "halligan" ), q,
+        "--\n"
         "Bash: <color_c_yellow>20</color>"
         "  Cut: <color_c_yellow>5</color>"
         "  To-hit bonus: <color_c_yellow>+2</color>\n"
@@ -297,12 +298,12 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
     iteminfo_test(
         item( "halligan" ), q,
         "--\n"
-        "<color_c_white>Repair</color>: using extended toolset, arc welder, or makeshift arc welder\n" );
+        "Repair using extended toolset, arc welder, or makeshift arc welder.\n" );
 
     iteminfo_test(
         item( "hazmat_suit" ), q,
         "--\n"
-        "<color_c_white>Repair</color>: using soldering iron or extended toolset\n" );
+        "Repair using soldering iron or extended toolset.\n" );
 
     iteminfo_test(
         item( "rock" ), q,
@@ -325,23 +326,23 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
     iteminfo_test(
         item( "string_36" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color>: takes about 5 minutes and might yield: 6 short strings.\n" );
+        "Disassembly takes about 5 minutes and might yield: 6 short strings.\n" );
 
     // short string
     iteminfo_test(
         item( "string_6" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color>: takes about 5 minutes and might yield: thread (50).\n" );
+        "Disassembly takes about 5 minutes and might yield: thread (50).\n" );
 
     iteminfo_test(
         item( "sheet_metal" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color>: takes about 2 minutes and might yield: small metal sheet (24).\n" );
+        "Disassembly takes about 2 minutes and might yield: small metal sheet (24).\n" );
 
     iteminfo_test(
         item( "soldering_iron" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color>: takes about 20 minutes and might yield:"
+        "Disassembly takes about 20 minutes and might yield:"
         " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
 
 }
