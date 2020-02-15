@@ -4445,9 +4445,10 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "2 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "DIG", "level": 3 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3200 ] ] ]
   },
   {
     "type": "recipe",
