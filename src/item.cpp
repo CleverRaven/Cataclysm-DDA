@@ -1184,10 +1184,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
     }
-    if( !type->rigid && parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
-        info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ),
-                           _( "No (contents increase volume)" ) );
-    }
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
         const std::vector<const material_type *> mat_types = made_of_types();
         if( !mat_types.empty() ) {
@@ -1198,7 +1194,14 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
     }
-
+    if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        if( type->rigid ) {
+            info.emplace_back( "BASE", _( "Rigid: Volume and encumbrance are constant." ) );
+        } else {
+            info.emplace_back( "BASE",
+                               _( "Not rigid: Volume and encumbrance increase when filled." ) );
+        }
+    }
 
     int dmg_bash = damage_melee( DT_BASH );
     int dmg_cut  = damage_melee( DT_CUT );

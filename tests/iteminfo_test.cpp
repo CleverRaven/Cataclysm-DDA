@@ -35,6 +35,23 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo]" )
 
 }
 
+TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
+{
+    iteminfo_query q( { iteminfo_parts::BASE_RIGIDITY } );
+
+    SECTION( "rigid items indicate constant volume/encumbrance" ) {
+        iteminfo_test(
+            item( "briefcase" ), q,
+            "Rigid: Volume and encumbrance are constant.\n" );
+    }
+
+    SECTION( "non-rigid items indicate flexible volume/encumbrance" ) {
+        iteminfo_test(
+            item( "backpack" ), q,
+            "Not rigid: Volume and encumbrance increase when filled.\n" );
+    }
+}
+
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     iteminfo_query q( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
