@@ -2,7 +2,7 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <iosfwd>
 #include <string>
 #include <unordered_set>
@@ -22,11 +22,29 @@ class JsonObject;
 class JsonOut;
 class mission;
 class npc;
+class monster;
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
 struct points_left;
+struct mtype;
+
+// Monster visible in different directions (safe mode & compass)
+struct monster_visible_info {
+    // New monsters visible from last update
+    std::vector<shared_ptr_fast<monster>> new_seen_mon;
+
+    // Unique monsters (and types of monsters) visible in different directions
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+    std::vector<npc *> unique_types[9];
+    std::vector<const mtype *> unique_mons[9];
+
+    // If the moster visible in this direction is dangerous
+    bool dangerous[8];
+};
 
 class avatar : public player
 {
@@ -34,7 +52,7 @@ class avatar : public player
         avatar();
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
@@ -129,7 +147,7 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, bool continuous = false );
+        bool read( item &it, bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
@@ -170,10 +188,14 @@ class avatar : public player
 
         void set_movement_mode( character_movemode mode ) override;
 
-        void cycle_move_mode();    // Cycles to the next move mode.
-        void reset_move_mode();    // Resets to walking.
-        void toggle_run_mode();    // Toggles running on/off.
-        void toggle_crouch_mode(); // Toggles crouching on/off.
+        // Cycles to the next move mode.
+        void cycle_move_mode();
+        // Resets to walking.
+        void reset_move_mode();
+        // Toggles running on/off.
+        void toggle_run_mode();
+        // Toggles crouching on/off.
+        void toggle_crouch_mode();
 
         bool wield( item &target ) override;
 
@@ -182,6 +204,10 @@ class avatar : public player
         bool invoke_item( item * ) override;
         bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
         bool invoke_item( item *, const std::string & ) override;
+
+        monster_visible_info &get_mon_visible() {
+            return mon_visible;
+        }
 
     private:
         map_memory player_map_memory;
@@ -220,6 +246,8 @@ class avatar : public player
         int dex_upgrade = 0;
         int int_upgrade = 0;
         int per_upgrade = 0;
+
+        monster_visible_info mon_visible;
 };
 
 struct points_left {

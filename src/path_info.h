@@ -4,6 +4,8 @@
 
 #include <string>
 
+enum class holiday : int;
+
 namespace PATH_INFO
 {
 void init_base_path( std::string path );
@@ -24,6 +26,7 @@ std::string defaulttilejson();
 std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();
+std::string user_font();
 std::string fontlist();
 std::string graveyarddir();
 std::string help();
@@ -48,10 +51,8 @@ std::string savedir();
 std::string sokoban();
 std::string templatedir();
 std::string user_dir();
-std::string user_gfx();
 std::string user_keybindings();
 std::string user_moddir();
-std::string user_sound();
 std::string worldoptions();
 std::string crash();
 std::string tileset_conf();
@@ -66,7 +67,7 @@ std::string soundpack_conf();
 
 std::string credits();
 std::string motd();
-std::string title( bool halloween_theme );
+std::string title( holiday current_holiday );
 std::string names();
 
 void set_datadir( const std::string &datadir );

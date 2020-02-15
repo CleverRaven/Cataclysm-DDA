@@ -1,7 +1,6 @@
 [
   {
     "type": "region_overlay",
-    "id": "dinomod_overlay",
     "regions": [ "all" ],
     "city": { "parks": { "fieldoffice": 100 } }
   }

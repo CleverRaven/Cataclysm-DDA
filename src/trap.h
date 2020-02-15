@@ -94,13 +94,18 @@ struct trap {
         int sym;
         nc_color color;
     private:
-        int visibility = 1; // 1 to ??, affects detection
-        int avoidance = 0;  // 0 to ??, affects avoidance
-        int difficulty = 0; // 0 to ??, difficulty of assembly & disassembly
-        int trap_radius = 0;// 0 to ??, trap radius
+        // 1 to ??, affects detection
+        int visibility = 1;
+        // 0 to ??, affects avoidance
+        int avoidance = 0;
+        // 0 to ??, difficulty of assembly & disassembly
+        int difficulty = 0;
+        // 0 to ??, trap radius
+        int trap_radius = 0;
         bool benign = false;
         bool always_invisible = false;
-        std::string map_regen; // a valid overmap id, for map_regen action traps
+        // a valid overmap id, for map_regen action traps
+        std::string map_regen;
         trap_function act;
         std::string name_;
         /**
@@ -108,7 +113,8 @@ struct trap {
          */
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
-        std::vector<std::tuple<std::string, int, int>> components; // For disassembly?
+        // For disassembly?
+        std::vector<std::tuple<std::string, int, int>> components;
     public:
         int comfort = 0;
         int floor_bedding_warmth = 0;
@@ -194,7 +200,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         /*@{*/
         /**
@@ -223,9 +229,9 @@ struct trap {
          */
         /**
          * Loads the trap and adds it to the trapmap, and the traplist.
-         * @throw std::string if the json is invalid as usual.
+         * @throw JsonError if the json is invalid as usual.
          */
-        static void load_trap( JsonObject &jo, const std::string &src );
+        static void load_trap( const JsonObject &jo, const std::string &src );
         /**
          * Releases the loaded trap objects in trapmap and traplist.
          */

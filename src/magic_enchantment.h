@@ -104,8 +104,8 @@ class enchantment
             NUM_MOD
         };
 
-        static void load_enchantment( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string &src = "" );
+        static void load_enchantment( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src = "" );
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -129,7 +129,7 @@ class enchantment
 
         enchantment_id id;
 
-        bool was_loaded;
+        bool was_loaded = false;
 
         void serialize( JsonOut &jsout ) const;
 

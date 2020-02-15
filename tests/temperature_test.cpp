@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
 #include <string>
 
@@ -12,7 +12,6 @@
 #include "game_constants.h"
 #include "point.h"
 #include "weather.h"
-
 
 static bool is_nearly( float value, float expected )
 {

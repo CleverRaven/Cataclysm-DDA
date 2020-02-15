@@ -1,6 +1,7 @@
 [
   {
     "id": "m74_clip",
+    "looks_like": "belt40mm",
     "type": "MAGAZINE",
     "name": "M74 rocket clip",
     "description": "This is a clip for the M202A1 FLASH that can hold 4 M74 incendiary rockets.",

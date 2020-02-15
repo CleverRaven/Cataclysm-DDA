@@ -52,15 +52,14 @@
     "id": "wide_headlight_reinforced",
     "name": "reinforced wide-angle headlight",
     "description": "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
-    "weight": "1400 g",
+    "weight": "4800 g",
     "volume": "1250 ml",
     "copy-from": "headlight_reinforced"
   },
   {
     "type": "GENERIC",
     "id": "light_emergency_red",
-    "name": "emergency vehicle light (red)",
-    "name_plural": "emergency vehicle lights (red)",
+    "name": { "str": "emergency vehicle light (red)", "str_pl": "emergency vehicle lights (red)" },
     "description": "One of the red-colored lights from the top of an emergency services vehicle.  When turned on, the lights rotate to shine in all directions.",
     "weight": "500 g",
     "to_hit": 1,
@@ -73,8 +72,7 @@
   {
     "type": "GENERIC",
     "id": "light_emergency_blue",
-    "name": "emergency vehicle light (blue)",
-    "name_plural": "emergency vehicle lights (blue)",
+    "name": { "str": "emergency vehicle light (blue)", "str_pl": "emergency vehicle lights (blue)" },
     "description": "One of the blue-colored lights from the top of an emergency services vehicle.  When turned on, the lights rotate to shine in all directions.",
     "color": "blue",
     "copy-from": "light_emergency_red"

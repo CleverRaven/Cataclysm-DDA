@@ -1,4 +1,5 @@
 !config/
+!deps*.zip
 *.iml
 .cxx
 .DS_Store

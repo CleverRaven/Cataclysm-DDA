@@ -198,7 +198,7 @@ void mod_manager::load_mods_from( const std::string &path )
     }
 }
 
-void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
+void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
@@ -404,9 +404,8 @@ void mod_manager::load_mods_list( WORLDPTR world ) const
     amo.clear();
     bool obsolete_mod_found = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn & jsin ) {
-        JsonArray ja = jsin.get_array();
-        while( ja.has_more() ) {
-            const mod_id mod( ja.next_string() );
+        for( const std::string line : jsin.get_array() ) {
+            const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }

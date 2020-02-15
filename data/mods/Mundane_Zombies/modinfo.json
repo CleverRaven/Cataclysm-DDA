@@ -8,7 +8,7 @@
     "description": "Removes all special zombies from the game.",
     "category": "monster_exclude",
     "dependencies": [ "dda" ],
-    "obsolete": false
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",

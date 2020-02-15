@@ -6,7 +6,7 @@
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
@@ -15,8 +15,8 @@
     "price": 4,
     "//": "Small cans--needs upsized after the string freeze.",
     "material": "tomato",
-    "volume": "250 ml",
-    "charges": 4,
+    "volume": "500 ml",
+    "charges": 8,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1
@@ -41,7 +41,7 @@
     "//": "need 40 charges of maple sap to make 16 charges of maple syrup",
     "proportional": { "calories": 0.4 },
     "fun": 1,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
     "freezing_point": 30
@@ -92,8 +92,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "yellow",
-    "name": "mustard",
-    "name_plural": "mustard",
+    "name": { "str": "mustard", "str_pl": "mustard" },
     "description": "A condiment made from the seeds of a mustard plant (/Brassica/ or /Sinapis/), vinegar, salt, and spices.",
     "price": 50,
     "material": "junk",
@@ -126,6 +125,7 @@
     "charges": 16,
     "healthy": 1,
     "fun": 3,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "phase": "liquid"
   },
   {
@@ -162,8 +162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vinegar",
-    "name": "vinegar",
-    "name_plural": "vinegar",
+    "name": { "str": "vinegar", "str_pl": "vinegar" },
     "weight": "15 g",
     "color": "white",
     "container": "jug_plastic",
@@ -204,11 +203,11 @@
   {
     "type": "COMESTIBLE",
     "id": "cooking_oil2",
-    "name": "animal cooking oil",
+    "name": { "str": "animal cooking oil", "str_pl": "animal cooking oil" },
     "copy-from": "cooking_oil",
-    "name_plural": "animal cooking oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ]
+    "material": [ "flesh", "oil" ],
+    "flags": [  ]
   },
   {
     "type": "COMESTIBLE",
@@ -217,7 +216,6 @@
     "name_plural": "molasses",
     "weight": "89 g",
     "color": "brown",
-    "stim": 3,
     "container": "jar_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
@@ -240,8 +238,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
-    "name": "horseradish",
-    "name_plural": "horseradish",
+    "name": { "str": "horseradish", "str_pl": "horseradish" },
     "description": "A spicy grated root vegetable packed in vinegared brine.",
     "price": 75,
     "material": "veggy",
@@ -254,14 +251,12 @@
     "charges": 48,
     "healthy": 1,
     "fun": -20,
-    "stim": 1,
     "phase": "liquid"
   },
   {
     "type": "COMESTIBLE",
     "id": "coffee_syrup",
-    "name": "coffee syrup",
-    "name_plural": "coffee syrup",
+    "name": { "str": "coffee syrup", "str_pl": "coffee syrup" },
     "weight": "32 g",
     "color": "brown",
     "addiction_type": "caffeine",

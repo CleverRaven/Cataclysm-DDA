@@ -27,7 +27,7 @@ bool string_id<ter_furn_transform>::is_valid() const
     return ter_furn_transform_factory.is_valid( *this );
 }
 
-void ter_furn_transform::load_transform( JsonObject &jo, const std::string &src )
+void ter_furn_transform::load_transform( const JsonObject &jo, const std::string &src )
 {
     ter_furn_transform_factory.load( jo, src );
 }
@@ -48,33 +48,32 @@ const std::vector<ter_furn_transform> &ter_furn_transform::get_all()
 }
 
 template<class T>
-static void load_transform_results( JsonObject &jsi, const std::string &json_key,
+static void load_transform_results( const JsonObject &jsi, const std::string &json_key,
                                     weighted_int_list<T> &list )
 {
     if( jsi.has_string( json_key ) ) {
         list.add( T( jsi.get_string( json_key ) ), 1 );
         return;
     }
-    JsonArray jarr = jsi.get_array( json_key );
-    while( jarr.has_more() ) {
-        if( jarr.test_array() ) {
-            JsonArray inner = jarr.next_array();
+    for( const JsonValue entry : jsi.get_array( json_key ) ) {
+        if( entry.test_array() ) {
+            JsonArray inner = entry.get_array();
             list.add( T( inner.get_string( 0 ) ), inner.get_int( 1 ) );
         } else {
-            list.add( T( jarr.next_string() ), 1 );
+            list.add( T( entry.get_string() ), 1 );
         }
     }
 }
 
 template<class T>
-void ter_furn_data<T>::load( JsonObject &jo )
+void ter_furn_data<T>::load( const JsonObject &jo )
 {
     load_transform_results( jo, "result", list );
     message = jo.get_string( "message", "" );
     message_good = jo.get_bool( "message_good", true );
 }
 
-void ter_furn_transform::load( JsonObject &jo, const std::string & )
+void ter_furn_transform::load( const JsonObject &jo, const std::string & )
 {
     std::string input;
     mandatory( jo, was_loaded, "id", input );
@@ -82,44 +81,30 @@ void ter_furn_transform::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fail_message", fail_message, "" );
 
     if( jo.has_member( "terrain" ) ) {
-        JsonArray obj_array = jo.get_array( "terrain" );
-        while( obj_array.has_more() ) {
-            JsonObject ter_obj = obj_array.next_object();
-            JsonArray target_array = ter_obj.get_array( "valid_terrain" );
+        for( JsonObject ter_obj : jo.get_array( "terrain" ) ) {
             ter_furn_data<ter_str_id> cur_results = ter_furn_data<ter_str_id>();
             cur_results.load( ter_obj );
 
-            while( target_array.has_more() ) {
-                const std::string valid_terrain = target_array.next_string();
+            for( const std::string valid_terrain : ter_obj.get_array( "valid_terrain" ) ) {
                 ter_transform.emplace( ter_str_id( valid_terrain ), cur_results );
             }
 
-            target_array = ter_obj.get_array( "valid_flags" );
-
-            while( target_array.has_more() ) {
-                const std::string valid_terrain = target_array.next_string();
+            for( const std::string valid_terrain : ter_obj.get_array( "valid_flags" ) ) {
                 ter_flag_transform.emplace( valid_terrain, cur_results );
             }
         }
     }
 
     if( jo.has_member( "furniture" ) ) {
-        JsonArray obj_array = jo.get_array( "furniture" );
-        while( obj_array.has_more() ) {
-            JsonObject furn_obj = obj_array.next_object();
-            JsonArray target_array = furn_obj.get_array( "valid_furniture" );
+        for( JsonObject furn_obj : jo.get_array( "furniture" ) ) {
             ter_furn_data<furn_str_id> cur_results = ter_furn_data<furn_str_id>();
             cur_results.load( furn_obj );
 
-            while( target_array.has_more() ) {
-                const std::string valid_furn = target_array.next_string();
+            for( const std::string valid_furn : furn_obj.get_array( "valid_furniture" ) ) {
                 furn_transform.emplace( furn_str_id( valid_furn ), cur_results );
             }
 
-            target_array = furn_obj.get_array( "valid_flags" );
-
-            while( target_array.has_more() ) {
-                const std::string valid_terrain = target_array.next_string();
+            for( const std::string valid_terrain : furn_obj.get_array( "valid_flags" ) ) {
                 furn_flag_transform.emplace( valid_terrain, cur_results );
             }
         }
@@ -192,7 +177,7 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
 {
     const ter_id ter_at_loc = m.ter( location );
     if( !add_message( ter_transform, ter_at_loc->id, critter, location ) ) {
-        for( const std::pair<std::string, ter_furn_data<ter_str_id>> &data : ter_flag_transform ) {
+        for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &data : ter_flag_transform ) {
             if( data.second.has_msg() && ter_at_loc->has_flag( data.first ) ) {
                 data.second.add_msg( critter );
                 break;
@@ -202,7 +187,7 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
 
     const furn_id furn_at_loc = m.furn( location );
     if( !add_message( furn_transform, furn_at_loc->id, critter, location ) ) {
-        for( const std::pair<std::string, ter_furn_data<furn_str_id>> &data : furn_flag_transform ) {
+        for( const std::pair<const std::string, ter_furn_data<furn_str_id>> &data : furn_flag_transform ) {
             if( data.second.has_msg() && furn_at_loc->has_flag( data.first ) ) {
                 data.second.add_msg( critter );
                 break;
@@ -224,7 +209,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
     cata::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
 
     if( !ter_potential ) {
-        for( const std::pair<std::string, ter_furn_data<ter_str_id>> &flag_result :
+        for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &flag_result :
              ter_flag_transform )             {
             if( ter_at_loc->has_flag( flag_result.first ) ) {
                 ter_potential = next_ter( flag_result.first );
@@ -236,7 +221,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
     }
 
     if( !furn_potential ) {
-        for( const std::pair<std::string, ter_furn_data<furn_str_id>> &flag_result :
+        for( const std::pair<const std::string, ter_furn_data<furn_str_id>> &flag_result :
              furn_flag_transform ) {
             if( furn_at_loc->has_flag( flag_result.first ) ) {
                 furn_potential = next_furn( flag_result.first );

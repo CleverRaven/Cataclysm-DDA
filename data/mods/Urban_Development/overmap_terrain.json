@@ -2327,7 +2327,6 @@
     "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
-    "subway": true,
     "flags": [ "SIDEWALK" ]
   },
   {

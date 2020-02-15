@@ -1,4 +1,4 @@
-#include <time.h>
+#include <ctime>
 #include <chrono>
 #include <cstdio>
 #include <algorithm>

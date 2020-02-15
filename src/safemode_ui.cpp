@@ -60,13 +60,15 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         COLUMN_ATTITUDE,
         COLUMN_PROXIMITY,
         COLUMN_WHITE_BLACKLIST,
+        COLUMN_CATEGORY
     };
 
     std::map<int, int> column_pos;
     column_pos[COLUMN_RULE] = 4;
-    column_pos[COLUMN_ATTITUDE] = 48;
-    column_pos[COLUMN_PROXIMITY] = 59;
-    column_pos[COLUMN_WHITE_BLACKLIST] = 66;
+    column_pos[COLUMN_ATTITUDE] = column_pos[COLUMN_RULE] + 38;
+    column_pos[COLUMN_PROXIMITY] = column_pos[COLUMN_ATTITUDE] + 10;
+    column_pos[COLUMN_WHITE_BLACKLIST] = column_pos[COLUMN_PROXIMITY] + 6;
+    column_pos[COLUMN_CATEGORY] = column_pos[COLUMN_WHITE_BLACKLIST] + 11;
 
     const int num_columns = column_pos.size();
 
@@ -82,54 +84,64 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
                             point( 1 + offset_x, header_height + 1 + offset_y ) );
 
-    draw_border( w_border, BORDER_COLOR, custom_name_in );
+    /**
+     * All of the stuff in this lambda needs to be drawn (1) initially, and
+     * (2) after closing the HELP_KEYBINDINGS window (since it mangles the screen)
+    */
+    const auto initial_draw = [&]() {
+        draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-    mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
-    mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
+        mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
+        mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
 
-    for( auto &column : column_pos ) {
-        // _|_
-        mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-    }
-
-    wrefresh( w_border );
-
-    static const std::vector<std::string> hotkeys = {{
-            translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
-            translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
-            translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
-            translate_marker( "<T>est" )
+        for( auto &column : column_pos ) {
+            // _|_
+            mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         }
+
+        wrefresh( w_border );
+
+        static const std::vector<std::string> hotkeys = {{
+                translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
+                translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
+                translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
+                translate_marker( "<T>est" )
+            }
+        };
+
+        int tmpx = 0;
+        for( auto &hotkey : hotkeys ) {
+            tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
+        }
+
+        tmpx = 0;
+        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                                _( "<+-> Move up/down" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                                _( "<Enter>-Edit" ) ) + 2;
+        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+
+        for( int i = 0; i < 78; i++ ) {
+            mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
+        }
+
+        for( auto &pos : column_pos ) {
+            mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
+            mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
+        }
+
+        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
+        mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 3 ), c_white, pgettext( "category",
+                   "Cat" ) );
+
+        wrefresh( w_header );
     };
 
-    int tmpx = 0;
-    for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
-    }
-
-    tmpx = 0;
-    tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                            _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
-
-    for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
-    }
-
-    for( auto &pos : column_pos ) {
-        mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
-        mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
-    }
-
-    mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
-    mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
-    mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
-
-    wrefresh( w_header );
+    initial_draw();
 
     int tab = GLOBAL_TAB;
     int line = 0;
@@ -223,9 +235,13 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 };
 
                 draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
-                draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first.translated() );
-                draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
-                draw_column( COLUMN_WHITE_BLACKLIST, ( rule.whitelist ) ? _( "Whitelist" ) : _( "Blacklist" ) );
+                draw_column( COLUMN_ATTITUDE, ( rule.category == Categories::HOSTILE_SPOTTED ) ?
+                             Creature::get_attitude_ui_data( rule.attitude ).first.translated() : "---" );
+                draw_column( COLUMN_PROXIMITY, ( ( rule.category == Categories::SOUND ) ||
+                                                 !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
+                draw_column( COLUMN_WHITE_BLACKLIST, rule.whitelist ? _( "Whitelist" ) : _( "Blacklist" ) );
+                draw_column( COLUMN_CATEGORY, ( rule.category == Categories::SOUND ) ? _( "Sound" ) :
+                             _( "Hostile" ) );
             }
         }
 
@@ -245,6 +261,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 tab = MAX_TAB - 1;
                 line = 0;
             }
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // de-mangle parts of the screen
+            initial_draw();
         } else if( action == "QUIT" ) {
             break;
         } else if( tab == CHARACTER_TAB && g->u.name.empty() ) {
@@ -261,12 +280,15 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE, 0 ) );
+            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE,
+                                                get_option<int>( "SAFEMODEPROXIMITY" )
+                                                , HOSTILE_SPOTTED ) );
+            current_tab.push_back( rules_class( "*", true, true, Creature::A_HOSTILE, 5, SOUND ) );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
             current_tab.push_back( rules_class( "", true, false, Creature::A_HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" ) ) );
+                                                get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED ) );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
@@ -298,19 +320,37 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "CONFIRM" && !current_tab.empty() ) {
             changes_made = true;
             if( column == COLUMN_RULE ) {
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_help, point( 1, 1 ), 999, c_white,
-                                _(
-                                    "* is used as a Wildcard.  A few Examples:\n"
-                                    "\n"
-                                    "human          matches every NPC\n"
-                                    "zombie         matches the monster name exactly\n"
-                                    "acidic zo*     matches monsters beginning with 'acidic zo'\n"
-                                    "*mbie          matches monsters ending with 'mbie'\n"
-                                    "*cid*zo*ie     multiple * are allowed\n"
-                                    "AcI*zO*iE      case insensitive search" )
-                              );
-
+                switch( current_tab[line].category ) {
+                    case Categories::HOSTILE_SPOTTED:
+                        // NOLINTNEXTLINE(cata-use-named-point-constants)
+                        fold_and_print( w_help, point( 1, 1 ), 999, c_white,
+                                        _(
+                                            "* is used as a Wildcard.  A few Examples:\n"
+                                            "\n"
+                                            "human          matches every NPC\n"
+                                            "zombie         matches the monster name exactly\n"
+                                            "acidic zo*     matches monsters beginning with 'acidic zo'\n"
+                                            "*mbie          matches monsters ending with 'mbie'\n"
+                                            "*cid*zo*ie     multiple * are allowed\n"
+                                            "AcI*zO*iE      case insensitive search" )
+                                      );
+                        break;
+                    case Categories::SOUND:
+                        // NOLINTNEXTLINE(cata-use-named-point-constants)
+                        fold_and_print( w_help, point( 1, 1 ), 999, c_white,
+                                        _(
+                                            "* is used as a Wildcard.  A few Examples:\n"
+                                            "\n"
+                                            "footsteps      matches the sound name exactly\n"
+                                            "a loud ba*     matches sounds beginning with 'a loud ba'\n"
+                                            "*losion!       matches sounds ending with 'losion!'\n"
+                                            "a *oud*ba*     multiple * are allowed\n"
+                                            "*LoU*bA*       case insensitive search" )
+                                      );
+                        break;
+                    default:
+                        break;
+                }
                 draw_border( w_help );
                 wrefresh( w_help );
                 current_tab[line].rule = wildcard_trim_rule( string_input_popup()
@@ -320,6 +360,12 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                                          .query_string() );
             } else if( column == COLUMN_WHITE_BLACKLIST ) {
                 current_tab[line].whitelist = !current_tab[line].whitelist;
+            } else if( column == COLUMN_CATEGORY ) {
+                if( current_tab[line].category == HOSTILE_SPOTTED ) {
+                    current_tab[line].category = SOUND;
+                } else if( current_tab[line].category == SOUND ) {
+                    current_tab[line].category = HOSTILE_SPOTTED;
+                }
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
                 switch( attitude ) {
@@ -335,7 +381,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     case Creature::A_ANY:
                         attitude = Creature::A_HOSTILE;
                 }
-            } else if( column == COLUMN_PROXIMITY && !current_tab[line].whitelist ) {
+            } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == SOUND ||
+                       !current_tab[line].whitelist ) ) {
                 const auto text = string_input_popup()
                                   .title( _( "Proximity Distance (0=max view distance)" ) )
                                   .width( 4 )
@@ -514,7 +561,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const rule_state state_in )
 {
     character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_WHITELISTED ),
-                                            attitude_in, proximity_in ) );
+                                            attitude_in, proximity_in, HOSTILE_SPOTTED ) );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -557,8 +604,8 @@ bool safemode::empty() const
 
 void safemode::create_rules()
 {
-    safemode_rules.clear();
-
+    safemode_rules_hostile.clear();
+    safemode_rules_sound.clear();
     //process include/exclude in order of rules, global first, then character specific
     add_rules( global_rules );
     add_rules( character_rules );
@@ -569,32 +616,51 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
     for( auto &rule : rules_in ) {
-        if( !rule.whitelist ) {
-            //Check include patterns against all monster mtypes
-            for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-                set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
-            }
-        } else {
-            //exclude monsters from the existing mapping
-            for( const auto &safemode_rule : safemode_rules ) {
-                set_rule( rule, safemode_rule.first, RULE_WHITELISTED );
-            }
+        switch( rule.category ) {
+            case HOSTILE_SPOTTED:
+                if( !rule.whitelist ) {
+                    //Check include patterns against all monster mtypes
+                    for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
+                        set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
+                    }
+                } else {
+                    //exclude monsters from the existing mapping
+                    for( const auto &safemode_rule : safemode_rules_hostile ) {
+                        set_rule( rule, safemode_rule.first, RULE_WHITELISTED );
+                    }
+                }
+                break;
+            case SOUND:
+                set_rule( rule, rule.rule, rule.whitelist ? RULE_WHITELISTED : RULE_BLACKLISTED );
+                break;
+            default:
+                break;
         }
     }
 }
 
 void safemode::set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in )
 {
-    static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
-
-    if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
-        if( rule_in.attitude == Creature::A_ANY ) {
-            for( auto &att : attitude_any ) {
-                safemode_rules[ name_in ][ att ] = rule_state_class( rs_in, rule_in.proximity );
+    static std::vector<Creature::Attitude> attitude_any = { {Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY} };
+    switch( rule_in.category ) {
+        case HOSTILE_SPOTTED:
+            if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
+                if( rule_in.attitude == Creature::A_ANY ) {
+                    for( auto &att : attitude_any ) {
+                        safemode_rules_hostile[name_in][att] = rule_state_class( rs_in, rule_in.proximity,
+                                                               HOSTILE_SPOTTED );
+                    }
+                } else {
+                    safemode_rules_hostile[name_in][rule_in.attitude] = rule_state_class( rs_in, rule_in.proximity,
+                            HOSTILE_SPOTTED );
+                }
             }
-        } else {
-            safemode_rules[ name_in ][ rule_in.attitude ] = rule_state_class( rs_in, rule_in.proximity );
-        }
+            break;
+        case SOUND:
+            safemode_rules_sound.push_back( rule_in );
+            break;
+        default:
+            break;
     }
 }
 
@@ -602,8 +668,8 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
                                     const Creature::Attitude attitude_in,
                                     const int proximity_in ) const
 {
-    const auto iter = safemode_rules.find( creature_name_in );
-    if( iter != safemode_rules.end() ) {
+    const auto iter = safemode_rules_hostile.find( creature_name_in );
+    if( iter != safemode_rules_hostile.end() ) {
         const auto &tmp = ( iter->second )[static_cast<int>( attitude_in )];
         if( tmp.state == RULE_BLACKLISTED ) {
             if( tmp.proximity == 0 || proximity_in <= tmp.proximity ) {
@@ -616,6 +682,23 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
     }
 
     return RULE_NONE;
+}
+
+bool safemode::is_sound_safe( const std::string &sound_name_in,
+                              const int proximity_in ) const
+{
+    bool sound_safe = false;
+    for( const rules_class &rule : safemode_rules_sound ) {
+        if( wildcard_match( sound_name_in, rule.rule ) &&
+            proximity_in >= rule.proximity ) {
+            if( rule.whitelist ) {
+                sound_safe = true;
+            } else {
+                return false;
+            }
+        }
+    };
+    return sound_safe;
 }
 
 void safemode::clear_character_rules()
@@ -682,7 +765,7 @@ void safemode::load( const bool is_character_in )
             JsonIn jsin( fin );
             deserialize( jsin );
         } catch( const JsonError &e ) {
-            DebugLog( D_ERROR, DC_ALL ) << "safemode::load: " << e;
+            debugmsg( "Error while loading safemode settings: %s", e.what() );
         }
     }
 
@@ -703,6 +786,7 @@ void safemode::serialize( JsonOut &json ) const
         json.member( "whitelist", elem.whitelist );
         json.member( "attitude", elem.attitude );
         json.member( "proximity", elem.proximity );
+        json.member( "category", elem.category );
 
         json.end_object();
     }
@@ -724,9 +808,11 @@ void safemode::deserialize( JsonIn &jsin )
         const bool whitelist = jo.get_bool( "whitelist" );
         const Creature::Attitude attitude = static_cast<Creature::Attitude>( jo.get_int( "attitude" ) );
         const int proximity = jo.get_int( "proximity" );
+        const Categories cat = jo.has_member( "category" ) ? static_cast<Categories>
+                               ( jo.get_int( "category" ) ) : HOSTILE_SPOTTED;
 
         temp_rules.push_back(
-            rules_class( rule, active, whitelist, attitude, proximity )
+            rules_class( rule, active, whitelist, attitude, proximity, cat )
         );
     }
 }

@@ -101,7 +101,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_edge_edge" ] ],
+    "om_terrain": [ [ "microlab_generic_edge" ] ],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",

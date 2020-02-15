@@ -13,7 +13,7 @@
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
-    for( const auto &e : closest_tripoints_first( radius, pos ) ) {
+    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
         if( !accessible || g->m.clear_path( pos, e, radius, 1, 100 ) ) {
             data.emplace_back( e );
         }

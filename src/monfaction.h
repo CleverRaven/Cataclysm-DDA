@@ -20,7 +20,7 @@ using mfaction_att_map = std::unordered_map< mfaction_id, mf_attitude >;
 namespace monfactions
 {
 void finalize();
-void load_monster_faction( JsonObject &jo );
+void load_monster_faction( const JsonObject &jo );
 mfaction_id get_or_add_faction( const mfaction_str_id &id );
 } // namespace monfactions
 

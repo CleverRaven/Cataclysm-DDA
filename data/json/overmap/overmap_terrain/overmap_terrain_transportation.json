@@ -58,7 +58,6 @@
     "name": "road",
     "sym": "┼",
     "color": "light_gray",
-    "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {

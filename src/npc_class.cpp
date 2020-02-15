@@ -80,7 +80,7 @@ npc_class::npc_class() : id( NC_NONE )
 {
 }
 
-void npc_class::load_npc_class( JsonObject &jo, const std::string &src )
+void npc_class::load_npc_class( const JsonObject &jo, const std::string &src )
 {
     npc_class_factory.load( jo, src );
 }
@@ -164,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-static distribution load_distribution( JsonObject &jo )
+static distribution load_distribution( const JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -212,7 +212,7 @@ static distribution load_distribution( JsonObject &jo )
     return distribution();
 }
 
-static distribution load_distribution( JsonObject &jo, const std::string &name )
+static distribution load_distribution( const JsonObject &jo, const std::string &name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -231,7 +231,7 @@ static distribution load_distribution( JsonObject &jo, const std::string &name )
     return distribution();
 }
 
-void npc_class::load( JsonObject &jo, const std::string & )
+void npc_class::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );
@@ -247,14 +247,12 @@ void npc_class::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
-    if( jo.has_array( "traits" ) ) {
-        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
+    if( jo.has_member( "traits" ) ) {
+        traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );
     }
 
     if( jo.has_array( "spells" ) ) {
-        JsonArray array = jo.get_array( "spells" );
-        while( array.has_more() ) {
-            JsonObject subobj = array.next_object();
+        for( JsonObject subobj : jo.get_array( "spells" ) ) {
             const int level = subobj.get_int( "level" );
             const spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
@@ -269,8 +267,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
     if( jo.has_object( "mutation_rounds" ) ) {
         const std::map<std::string, mutation_category_trait> &mutation_categories =
             mutation_category_trait::get_all();
-        auto jo2 = jo.get_object( "mutation_rounds" );
-        for( auto &mutation : jo2.get_member_names() ) {
+        for( const JsonMember member : jo.get_object( "mutation_rounds" ) ) {
+            const std::string &mutation = member.name();
             const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
             &p ) {
                 return p.second.id == mutation;
@@ -280,15 +278,13 @@ void npc_class::load( JsonObject &jo, const std::string & )
                 debugmsg( "Unrecognized mutation category %s", mutation );
                 continue;
             }
-            auto distrib = jo2.get_object( mutation );
+            auto distrib = member.get_object();
             mutation_rounds[mutation] = load_distribution( distrib );
         }
     }
 
     if( jo.has_array( "skills" ) ) {
-        JsonArray jarr = jo.get_array( "skills" );
-        while( jarr.has_more() ) {
-            JsonObject skill_obj = jarr.next_object();
+        for( JsonObject skill_obj : jo.get_array( "skills" ) ) {
             auto skill_ids = skill_obj.get_tags( "skill" );
             if( skill_obj.has_object( "level" ) ) {
                 const distribution dis = load_distribution( skill_obj, "level" );
@@ -305,9 +301,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "bionics" ) ) {
-        JsonArray jarr = jo.get_array( "bionics" );
-        while( jarr.has_more() ) {
-            JsonObject bionic_obj = jarr.next_object();
+        for( JsonObject bionic_obj : jo.get_array( "bionics" ) ) {
             auto bionic_ids = bionic_obj.get_tags( "id" );
             int chance = bionic_obj.get_int( "chance" );
             for( const auto &bid : bionic_ids ) {

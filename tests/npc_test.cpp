@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <memory>
 #include <set>
@@ -28,6 +28,9 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "point.h"
+#include "memory_fast.h"
+
+#include "player_helpers.h"
 
 class Creature;
 
@@ -351,7 +354,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                std::shared_ptr<npc> guy = std::make_shared<npc>();
+                shared_ptr_fast<npc> guy = make_shared_fast<npc>();
                 do {
                     guy->normalize();
                     guy->randomize();
@@ -433,26 +436,14 @@ TEST_CASE( "npc_can_target_player" )
     clear_npcs();
     clear_creatures();
 
-    const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
-        const string_id<npc_template> test_guy( npc_class );
-        const character_id model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
-        g->load_npcs();
-
-        npc *guy = g->find_npc( model_id );
-        REQUIRE( guy != nullptr );
-        CHECK( !guy->in_vehicle );
-        guy->setpos( g->u.pos() + point( x, y ) );
-        return guy;
-    };
-
-    npc *hostile = spawn_npc( 0, 1, "thug" );
-    REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
-    hostile->set_attitude( NPCATT_KILL );
-    hostile->name = "Enemy NPC";
+    npc &hostile = spawn_npc( g->u.pos().xy() + point_south, "thug" );
+    REQUIRE( rl_dist( g->u.pos(), hostile.pos() ) <= 1 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
 
     INFO( get_list_of_npcs( "NPCs after spawning one" ) );
 
-    hostile->regen_ai_cache();
-    REQUIRE( hostile->current_target() != nullptr );
-    CHECK( hostile->current_target() == static_cast<Creature *>( &g->u ) );
+    hostile.regen_ai_cache();
+    REQUIRE( hostile.current_target() != nullptr );
+    CHECK( hostile.current_target() == static_cast<Creature *>( &g->u ) );
 }

@@ -2,8 +2,8 @@
 #ifndef FIELD_TYPE_H
 #define FIELD_TYPE_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <algorithm>
 #include <vector>
 #include <memory>
@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
+#include "effect.h"
 #include "enums.h"
 #include "type_id.h"
 #include "string_id.h"
@@ -23,13 +24,66 @@ class JsonObject;
 enum phase_id : int;
 enum body_part : int;
 
-struct field_effect_data {
+enum class description_affix : int {
+    DESCRIPTION_AFFIX_IN,
+    DESCRIPTION_AFFIX_COVERED_IN,
+    DESCRIPTION_AFFIX_ON,
+    DESCRIPTION_AFFIX_UNDER,
+    DESCRIPTION_AFFIX_ILLUMINTED_BY,
+    DESCRIPTION_AFFIX_NUM
+};
+
+namespace std
+{
+template <>
+struct hash<description_affix> {
+    std::size_t operator()( const description_affix &k ) const noexcept {
+        return static_cast<size_t>( k );
+    }
+};
+} // namespace std
+
+static const std::unordered_map<description_affix, std::string> description_affixes = {
+    { description_affix::DESCRIPTION_AFFIX_IN, translate_marker( " in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
+};
+
+template<>
+struct enum_traits<description_affix> {
+    static constexpr description_affix last = description_affix::DESCRIPTION_AFFIX_NUM;
+};
+
+struct field_effect {
     efftype_id id;
-    time_duration min_duration;
-    time_duration max_duration;
-    int intensity;
-    body_part bp;
-    bool inside_immune;
+    time_duration min_duration = 0_seconds;
+    time_duration max_duration = 0_seconds;
+    int intensity = 0;
+    body_part bp = num_bp;
+    bool is_environmental = true;
+    bool immune_in_vehicle  = false;
+    bool immune_inside_vehicle  = false;
+    bool immune_outside_vehicle = false;
+    int chance_in_vehicle = 0;
+    int chance_inside_vehicle = 0;
+    int chance_outside_vehicle = 0;
+    game_message_type env_message_type = m_neutral;
+    translation message;
+    translation message_npc;
+    time_duration get_duration() const {
+        return rng( min_duration, max_duration );
+    }
+    std::string get_message() const {
+        return message.translated();
+    }
+    std::string get_message_npc() const {
+        return message_npc.translated();
+    }
+    effect get_effect( const time_point &start_time = calendar::turn ) const {
+        return effect( &id.obj(), get_duration(), bp, false, intensity, start_time );
+    }
 };
 
 struct field_intensity_level {
@@ -54,12 +108,12 @@ struct field_intensity_level {
     float translucency = 0.0f;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
-    field_effect_data field_effect;
+    std::vector<field_effect> field_effects;
 };
 
 struct field_type {
     public:
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
@@ -88,12 +142,14 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+        description_affix desc_affix;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
         std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
         time_duration half_life = 0_turns;
@@ -102,6 +158,7 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         field_type_id wandering_field;
+        std::string looks_like;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;
@@ -191,7 +248,7 @@ struct field_type {
 namespace field_types
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize_all();
 void check_consistency();
 void reset();

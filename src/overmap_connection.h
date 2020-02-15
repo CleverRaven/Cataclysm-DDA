@@ -39,7 +39,7 @@ class overmap_connection
                     return flags.count( flag::orthogonal );
                 }
 
-                void load( JsonObject &jo );
+                void load( const JsonObject &jo );
                 void deserialize( JsonIn &jsin );
 
             private:
@@ -51,7 +51,7 @@ class overmap_connection
         const subtype *pick_subtype_for( const int_id<oter_t> &ground ) const;
         bool has( const int_id<oter_t> &oter ) const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
@@ -75,7 +75,7 @@ class overmap_connection
 namespace overmap_connections
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();

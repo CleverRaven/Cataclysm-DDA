@@ -1,6 +1,6 @@
 #include "gamemode.h"
-
-#include <memory>
+#include "gamemode_defense.h"
+#include "gamemode_tutorial.h"
 
 #include "debug.h"
 #include "translations.h"

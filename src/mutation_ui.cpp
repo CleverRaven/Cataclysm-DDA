@@ -1,7 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
-#include <sstream>
 #include <cstddef>
 
 #include "mutation.h"
@@ -34,25 +33,27 @@ static void show_mutations_titlebar( const catacurses::window &window,
                                      const std::string &menu_mode, const input_context &ctxt )
 {
     werase( window );
-    std::ostringstream desc;
+    std::string desc;
     if( menu_mode == "reassigning" ) {
-        desc << _( "Reassigning." ) << "  " <<
-             _( "Select a mutation to reassign or press <color_yellow>SPACE</color> to cancel. " );
+        desc += std::string( _( "Reassigning." ) ) + "  " +
+                _( "Select a mutation to reassign or press <color_yellow>SPACE</color> to cancel. " );
     }
     if( menu_mode == "activating" ) {
-        desc << "<color_green>" << _( "Activating" ) << "</color>  " <<
-             shortcut_desc( _( "%s to examine mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+        desc += colorize( _( "Activating" ),
+                          c_green ) + "  " + shortcut_desc( _( "%s to examine mutation, " ),
+                                  ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == "examining" ) {
-        desc << "<color_light_blue>" << _( "Examining" ) << "</color>  " <<
-             shortcut_desc( _( "%s to activate mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+        desc += colorize( _( "Examining" ),
+                          c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+                                  ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != "reassigning" ) {
-        desc << shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
+        desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
-    desc << shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    desc += shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc.str() );
+    fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
     wrefresh( window );
 }
 
@@ -198,23 +199,22 @@ void player::power_mutations()
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, point( second_column, list_start_y + i ), type, td.key );
-                    std::ostringstream mut_desc;
-                    mut_desc << md.name();
+                    std::string mut_desc;
+                    mut_desc += md.name();
                     if( md.cost > 0 && md.cooldown > 0 ) {
                         //~ RU means Resource Units
-                        mut_desc << string_format( _( " - %d RU / %d turns" ),
+                        mut_desc += string_format( _( " - %d RU / %d turns" ),
                                                    md.cost, md.cooldown );
                     } else if( md.cost > 0 ) {
                         //~ RU means Resource Units
-                        mut_desc << string_format( _( " - %d RU" ), md.cost );
+                        mut_desc += string_format( _( " - %d RU" ), md.cost );
                     } else if( md.cooldown > 0 ) {
-                        mut_desc << string_format( _( " - %d turns" ), md.cooldown );
+                        mut_desc += string_format( _( " - %d turns" ), md.cooldown );
                     }
                     if( td.powered ) {
-                        mut_desc << _( " - Active" );
+                        mut_desc += _( " - Active" );
                     }
-                    mvwprintz( wBio, point( second_column + 2, list_start_y + i ), type,
-                               mut_desc.str() );
+                    mvwprintz( wBio, point( second_column + 2, list_start_y + i ), type, mut_desc );
                 }
             }
 

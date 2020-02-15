@@ -16,7 +16,7 @@
     "type": "npc_class",
     "id": "NC_ISHERWOOD_LUKE",
     "name": "Luke Isherwood",
-    "job_description": "I'm a Eddie's son, part of the Isherwood family",
+    "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE2",
-    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge. My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -166,13 +166,13 @@
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
       "offer": "I could really use a book on glass blowing.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "accepted": "Fantastic, I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
       "advice": "A library, bookstore or a glass blower's studio should have one.",
       "inquire": "Do you have the book?",
       "success": "I appreciate it, this will make my life so much easier.",
-      "success_lie": "I don't see a book...?",
-      "failure": "At least you escaped with your life..."
+      "success_lie": "I don't see a book…?",
+      "failure": "At least you escaped with your life…"
     }
   },
   {
@@ -197,8 +197,8 @@
       "advice": "A library, bookstore should have one, schools are another good idea.",
       "inquire": "Do you have the book?",
       "success": "I appreciate it, this will make my life so much easier.",
-      "success_lie": "I don't see a book...?",
-      "failure": "At least you escaped with your life..."
+      "success_lie": "I don't see a book…?",
+      "failure": "At least you escaped with your life…"
     }
   }
 ]

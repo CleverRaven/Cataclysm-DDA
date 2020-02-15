@@ -18,7 +18,7 @@
     "type": "SPELL",
     "id": "AEA_BLOOD",
     "name": "Artifact Blood",
-    "description": "Causes blood to leak from nearby terrian.",
+    "description": "Causes blood to leak from nearby terrain.",
     "valid_targets": [ "ground", "self", "hostile", "ally" ],
     "effect": "target_attack",
     "base_casting_time": 100,

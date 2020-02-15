@@ -23,13 +23,13 @@
 
 #include <algorithm>
 #include <array>
-#include <assert.h>
+#include <cassert>
 #include <bitset>
 #include <cmath>
 #include <iterator>
 #include <memory>
 #include <set>
-#include <stdlib.h>
+#include <cstdlib>
 #include <utility>
 #include <vector>
 
@@ -199,7 +199,6 @@ struct pixel_minimap::submap_cache {
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
     type( pixel_minimap_type::ortho ),
-    cached_center_sm( tripoint_min ),
     screen_rect{ 0, 0, 0, 0 }
 {
 }
@@ -310,7 +309,8 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
             SDL_Color color;
 
             if( lighting == LL_BLANK || lighting == LL_DARK ) {
-                color = { 0x00, 0x00, 0x00, 0xFF };    // TODO: Map memory?
+                // TODO: Map memory?
+                color = { 0x00, 0x00, 0x00, 0xFF };
             } else {
                 color = get_map_color_at( p );
 

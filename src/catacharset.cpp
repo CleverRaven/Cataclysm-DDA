@@ -665,5 +665,6 @@ std::string utf8_wrapper::shorten( size_t maxlength ) const
     if( display_width() <= maxlength ) {
         return str();
     }
-    return substr_display( 0, maxlength - 1 ).str() + "\u2026"; // 2026 is the utf8 for …
+    // 2026 is the utf8 for …
+    return substr_display( 0, maxlength - 1 ).str() + "\u2026";
 }

@@ -83,6 +83,8 @@ struct bionic_data {
     units::mass weight_capacity_bonus;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<Character::stat, int> stat_bonus;
+    /**This bionic draws power through a cable*/
+    bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/
@@ -91,12 +93,20 @@ struct bionic_data {
     float fuel_efficiency;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency;
+    /**Fraction of coverage diminishing fuel_efficiency*/
+    cata::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
+
+    /**Amount of bash protection offered by this bionic*/
+    std::map<body_part, size_t> bash_protec;
+    /**Amount of cut protection offered by this bionic*/
+    std::map<body_part, size_t> cut_protec;
+
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -156,19 +166,26 @@ struct bionic {
             return *id;
         }
 
-        void set_flag( std::string flag );
-        void remove_flag( std::string flag );
-        bool has_flag( std::string flag ) const ;
+        void set_flag( const std::string &flag );
+        void remove_flag( const std::string &flag );
+        bool has_flag( const std::string &flag ) const;
 
         int get_quality( const quality_id &quality ) const;
 
         bool is_this_fuel_powered( const itype_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
+        void toggle_auto_start_mod();
+
+        void set_auto_start_thresh( float val );
+        float get_auto_start_thresh() const;
+        bool is_auto_start_on() const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
-        cata::flat_set<std::string> bionic_tags; // generic bionic specific flags
+        // generic bionic specific flags
+        cata::flat_set<std::string> bionic_tags;
+        float auto_start_threshold = -1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not
@@ -183,7 +200,8 @@ std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
 void check_bionics();
 void finalize_bionics();
 void reset_bionics();
-void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
+// load a bionic from JSON
+void load_bionic( const JsonObject &jsobj );
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );

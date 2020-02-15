@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "intbasedlearning",
+    "name": "INT Based Learning",
+    "authors": [ "1n17" ],
+    "maintainers": [ "1n17" ],
+    "description": "Learning through practice and reading is highly dependent on INT and focus. Respective traits are disabled.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  }
+]

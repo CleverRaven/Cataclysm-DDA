@@ -70,7 +70,8 @@ item vehicle_part::properties_to_item() const
     if( tmp.has_flag( "CABLE_SPOOL" ) ) {
         const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
-            tmp.item_tags.insert( "NO_DROP" ); // That vehicle ain't there no more.
+            // That vehicle ain't there no more.
+            tmp.item_tags.insert( "NO_DROP" );
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -561,7 +562,8 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
     // NPC's can only be assigned to one seat in the vehicle
     for( auto &e : parts ) {
         if( &e == &pt ) {
-            continue; // skip this part
+            // skip this part
+            continue;
         }
 
         if( e.is_seat() ) {
