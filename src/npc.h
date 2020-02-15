@@ -1111,7 +1111,7 @@ class npc : public player
         // Same as if the player pressed '.'
         void move_pause();
 
-        void set_movement_mode(const move_mode_id &mode, bool is_being_cycled_to) override;
+        bool set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;

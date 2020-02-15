@@ -190,7 +190,7 @@ void DynamicDataLoader::initialize()
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
-    add( "move_mode", &move_modes::load);
+    add( "move_mode", &move_modes::load );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
     add( "ammo_effect", &ammo_effects::load );

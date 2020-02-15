@@ -8971,7 +8971,7 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            volume *= u.get_current_movement_mode()->obj().volume_multiplier;
+            volume *= u.get_current_movement_mode().obj().volume_multiplier;
             if( u.is_mounted() ) {
                 auto mons = u.mounted_creature.get();
                 switch( mons->get_size() ) {
@@ -9697,12 +9697,12 @@ void game::on_move_effects()
         }
     }
 
-    if (u.movement_mode_is(MM_RUN)) {
-        if (!u.can_run()) {
+    if( u.movement_mode_is( MM_RUN ) ) {
+        if( !u.can_run() ) {
             u.toggle_run_mode();
         }
-        if (u.get_stamina() < u.get_stamina_max() / 5 && one_in(u.get_stamina())) {
-            u.add_effect(effect_winded, 10_turns);
+        if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
+            u.add_effect( effect_winded, 10_turns );
         }
     }
 

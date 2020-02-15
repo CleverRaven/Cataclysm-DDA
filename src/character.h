@@ -513,9 +513,9 @@ class Character : public Creature, public visitable<Character>
         bool move_effects( bool attacking ) override;
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
-        const move_mode_id* get_current_movement_mode() const;
+        move_mode_id get_current_movement_mode();
 
-        virtual void set_movement_mode(const move_mode_id &mode, bool is_being_cycled_to) = 0;
+        virtual bool set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to ) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,

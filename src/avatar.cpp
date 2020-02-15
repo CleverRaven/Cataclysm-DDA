@@ -1358,22 +1358,23 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
 
-void avatar::set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to = false )
+bool avatar::set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to = false )
 {
     move_mode new_mode = mode.obj();
 
     if( !new_mode.can_be_cycled_to && is_being_cycled_to ) {
-        return;
+        return false;
     }
 
     if( new_mode.minimum_required_legs > get_working_leg_count() ) {
-        add_msg( m_bad, string_format( _( "You do not have enough functioning legs to %s." ), new_mode.name ) );                           
-        return;
+        add_msg( m_bad, string_format( _( "You do not have enough functioning legs to %s." ),
+                                       new_mode.name ) );
+        return false;
     }
 
     if( !new_mode.usable_while_mounted && is_mounted() ) {
         add_msg( m_bad, string_format( _( "You cannot %s whilst mounted." ), new_mode.name ) );
-        return;
+        return false;
     }
 
     if( !new_mode.can_haul && is_hauling() ) {
@@ -1381,18 +1382,19 @@ void avatar::set_movement_mode( const move_mode_id &mode, bool is_being_cycled_t
     }
 
     translation text_to_show = new_mode.flavor_text;
-    if (is_mounted()) {
-        if (mounted_creature->has_flag(MF_RIDEABLE_MECH)) {
+    if( is_mounted() ) {
+        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
             text_to_show = new_mode.flavor_text_mech;
-        }
-        else {
+        } else {
             text_to_show = new_mode.flavor_text_mount;
         }
     }
 
-    add_msg(text_to_show.translated());
+    add_msg( text_to_show.translated() );
 
     current_move_mode = mode;
+
+    return true;
 }
 
 void avatar::toggle_run_mode()
@@ -1415,21 +1417,26 @@ void avatar::toggle_crouch_mode()
 
 void avatar::reset_move_mode()
 {
-    if (!movement_mode_is( MM_WALK )) {
+    if( !movement_mode_is( MM_WALK ) ) {
         set_movement_mode( MM_WALK );
     }
 }
 
 void avatar::cycle_move_mode()
 {
-    //TODO : Might need to take into account a case where a move mode in the middle of the cycle list is blocked, 
-    //for example by not being usable on a mount
-    //This could result in some move modes not being accessable
-
-    int next_movemode_id = current_move_mode.obj().cycle_index+1;
-
-    move_mode_id next_movemode = move_modes::get_by_cycle_id(next_movemode_id);
-    set_movement_mode(next_movemode, true);
+    move_mode_str_id current_mm = get_current_movement_mode().id();
+    for( std::list<move_mode>::iterator it = move_mode_cycle_list.begin();
+         it != move_mode_cycle_list.end(); ++it ) {
+        if( ( *it ).id == current_mm ) {
+            do {
+                it++;
+                if( it == move_mode_cycle_list.end() ) {
+                    it = move_mode_cycle_list.begin();
+                }
+            } while( !set_movement_mode( ( *it ).id, true ) );
+            return;
+        }
+    }
 }
 
 bool avatar::wield( item &target )

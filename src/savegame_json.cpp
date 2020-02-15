@@ -590,9 +590,11 @@ void Character::load( const JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
+    //Loading an old save will result in current_move_mode failing to load - so everyone starts in MM_WALK
     std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    current_move_mode = move_mode_id(tmove_mode);
+    if( data.read( "move_mode", tmove_mode ) ) {
+        current_move_mode = move_mode_id( tmove_mode );
+    }
 
     if( has_effect( effect_riding ) ) {
         int temp_id;

@@ -639,7 +639,7 @@ void Character::dismount()
         setpos( *pnt );
         g->refresh_all();
         mod_moves( -100 );
-        set_movement_mode(MM_WALK, false );
+        set_movement_mode( MM_WALK, false );
     }
 }
 
@@ -703,7 +703,8 @@ bool Character::is_limb_broken( hp_part limb ) const
 
 bool Character::can_run()
 {
-    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= current_move_mode.obj().minimum_required_legs;
+    return get_stamina() > 0 && !has_effect( effect_winded ) &&
+           get_working_leg_count() >= current_move_mode.obj().minimum_required_legs;
 }
 
 bool Character::move_effects( bool attacking )
@@ -928,8 +929,9 @@ bool Character::movement_mode_is( const move_mode_id &mode ) const
     return current_move_mode->id == mode->id;
 }
 
-const move_mode_id* Character::get_current_movement_mode() const {
-    return &current_move_mode;
+move_mode_id Character::get_current_movement_mode()
+{
+    return current_move_mode;
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
@@ -6509,7 +6511,8 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns / current_move_mode->stamina_burn_multiplier ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns /
+                                 current_move_mode->stamina_burn_multiplier ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );

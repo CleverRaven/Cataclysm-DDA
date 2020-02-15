@@ -1,5 +1,12 @@
 [
   {
+    "id": "MM_NULL",
+    "type": "move_mode",
+    "name": "Null",
+    "can_be_cycled_to": false,
+    "flavor_text": "You should never see this."
+  },
+  {
     "id": "MM_WALK",
     "type": "move_mode",
     "name": "Walk",
@@ -50,13 +57,6 @@
     "flavor_text": "You start crouching.",
     "cancels_activities": false,
     "stamina_burn_multiplier": 1.0,
-    "volume_multiplier":  0.5
-  },
-  {
-    "id": "MM_NULL",
-    "type": "move_mode",
-    "name": "Null",
-    "can_be_cycled_to": false,
-    "flavor_text": "You should never see this."
+    "volume_multiplier": 0.5
   }
 ]

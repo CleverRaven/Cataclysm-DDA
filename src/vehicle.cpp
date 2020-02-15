@@ -846,7 +846,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // accelerate when it dosnt need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
-    const move_mode currentMoveMode = g->u.get_current_movement_mode()->obj();
+    const move_mode currentMoveMode = g->u.get_current_movement_mode().obj();
     int safe_player_follow_speed = 400 * currentMoveMode.speed;
 
     if( follow_protocol ) {

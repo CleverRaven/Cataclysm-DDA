@@ -994,14 +994,14 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    const move_mode currentMoveMode = u.get_current_movement_mode()->obj();
+    const move_mode currentMoveMode = u.get_current_movement_mode().obj();
     return currentMoveMode.nc_display_colour;
 }
 
 static std::string move_mode_string( avatar &u )
 {
-    const move_mode currentMoveMode = u.get_current_movement_mode()->obj();
-    return pgettext("movement-type", currentMoveMode.display_character_ptr);
+    const move_mode currentMoveMode = u.get_current_movement_mode().obj();
+    return pgettext( "movement-type", currentMoveMode.display_character_ptr );
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )

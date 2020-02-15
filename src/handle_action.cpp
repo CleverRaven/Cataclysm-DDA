@@ -1354,16 +1354,16 @@ static void open_movement_mode_menu()
     std::map<int, move_mode> modeMap;
     int index = 0;
 
-    for (const move_mode& mm : move_modes::get_all()) {
+    for( const move_mode &mm : move_modes::get_all() ) {
         modeMap[index] = mm;
-        as_m.entries.emplace_back(index, true, mm.display_character_ptr[0], mm.name.translated());
+        as_m.entries.emplace_back( index, true, mm.display_character_ptr[0], mm.name.translated() );
         index++;
     }
 
     as_m.query();
 
     move_mode selectedMode = modeMap[as_m.ret];
-    u.set_movement_mode(selectedMode.id, false);
+    u.set_movement_mode( selectedMode.id, false );
 }
 
 static void cast_spell()
