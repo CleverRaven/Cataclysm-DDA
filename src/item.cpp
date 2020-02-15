@@ -1205,37 +1205,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   static_cast<double>( price_postapoc ) / 100 ) );
     }
 
-    int dmg_bash = damage_melee( DT_BASH );
-    int dmg_cut  = damage_melee( DT_CUT );
-    int dmg_stab = damage_melee( DT_STAB );
-    if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
-        insert_separation_line( info );
-        std::string sep;
-        if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
-            sep = space;
-        }
-        if( dmg_cut ) {
-            info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
-            sep = space;
-        }
-        if( dmg_stab ) {
-            info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
-        }
-    }
-
-    if( dmg_bash || dmg_cut || dmg_stab ) {
-        if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
-            info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ), "",
-                                      iteminfo::show_plus, type->m_to_hit ) );
-        }
-
-        if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
-            info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
-                                      iteminfo::lower_is_better, attack_time() ) );
-        }
-    }
-
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_REQUIREMENTS ) ) {
@@ -2908,14 +2877,41 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                       bool debug ) const
+void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
+                        bool /*debug*/ ) const
 {
-    if( is_null() ) {
-        return;
+    const std::string space = "  ";
+
+    int dmg_bash = damage_melee( DT_BASH );
+    int dmg_cut  = damage_melee( DT_CUT );
+    int dmg_stab = damage_melee( DT_STAB );
+    if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+        insert_separation_line( info );
+        std::string sep;
+        if( dmg_bash ) {
+            info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
+            sep = space;
+        }
+        if( dmg_cut ) {
+            info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
+            sep = space;
+        }
+        if( dmg_stab ) {
+            info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+        }
     }
 
-    const std::string space = "  ";
+    if( dmg_bash || dmg_cut || dmg_stab ) {
+        if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+            info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ), "",
+                                      iteminfo::show_plus, type->m_to_hit ) );
+        }
+
+        if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+            info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
+                                      iteminfo::lower_is_better, attack_time() ) );
+        }
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
         std::set<matec_id> all_techniques = type->techniques;
@@ -2928,6 +2924,17 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
                                       _( tid.obj().description ) );
             } ) ) );
+        }
+    }
+
+    // display which martial arts styles character can use with this weapon
+    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
+        const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
+        if( !valid_styles.empty() ) {
+            insert_separation_line( info );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "You know how to use this with these martial arts "
+                                         "styles: " ) + valid_styles ) );
         }
     }
 
@@ -2991,18 +2998,16 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                       string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
     }
+}
 
-    //lets display which martial arts styles character can use with this weapon
-    if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-        const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
-        if( !valid_styles.empty() ) {
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "You know how to use this with these martial arts "
-                                         "styles: " ) + valid_styles ) );
-        }
+void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool debug ) const
+{
+    if( is_null() ) {
+        return;
     }
 
+    const std::string space = "  ";
 
     if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
         for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
@@ -3365,6 +3370,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
+        combat_info( info, parts, batch, debug );
     }
 
     const item *med_item = nullptr;
