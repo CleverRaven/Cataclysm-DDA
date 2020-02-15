@@ -273,22 +273,22 @@ TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
         iteminfo_test(
             item( "2x4" ), q,
             "--\n"
-            "* This item <color_c_green>does not conduct</color> electricity.\n" );
+            "* It <color_c_green>does not conduct</color> electricity.\n" );
         iteminfo_test(
             item( "fire_ax" ), q,
             "--\n"
-            "* This item <color_c_green>does not conduct</color> electricity.\n" );
+            "* It <color_c_green>does not conduct</color> electricity.\n" );
     }
 
     SECTION( "conductive items" ) {
         iteminfo_test(
             item( "pipe" ), q,
             "--\n"
-            "* This item <color_c_red>conducts</color> electricity.\n" );
+            "* It <color_c_red>conducts</color> electricity.\n" );
         iteminfo_test(
             item( "halligan" ), q,
             "--\n"
-            "* This item <color_c_red>conducts</color> electricity.\n" );
+            "* It <color_c_red>conducts</color> electricity.\n" );
     }
 }
 
@@ -345,13 +345,13 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
     iteminfo_test(
         item( "rock" ), q,
         "--\n"
-        "* This item is <color_c_red>not repairable</color>.\n" );
+        "* It is <color_c_red>not repairable</color>.\n" );
 
     /*
     iteminfo_test(
         item( "socks" ), q,
         "--\n"
-        "* This item can be <color_c_green>reinforced</color>.\n" );
+        "* It can be <color_c_green>reinforced</color>.\n" );
     */
 }
 
@@ -391,7 +391,7 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
     iteminfo_test(
         item( "halligan" ), q,
         "--\n"
-        "* This item can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
+        "* This tool can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
         "* As a weapon, this item is <color_c_green>well-made</color> and will"
         " <color_c_cyan>withstand the punishment of combat</color>.\n" );
 
@@ -405,7 +405,7 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
         "* This gear is generally <color_c_cyan>worn over</color> clothing.\n"
         "* This clothing <color_c_green>completely protects</color> you from"
         " <color_c_cyan>radiation</color>.\n"
-        "* This piece of clothing is designed to keep you <color_c_cyan>dry</color> in the rain.\n"
+        "* This clothing is designed to keep you <color_c_cyan>dry</color> in the rain.\n"
         "* This clothing <color_c_cyan>won't let water through</color>."
         "  Unless you jump in the river or something like that.\n" );
 }
