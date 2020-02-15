@@ -223,7 +223,7 @@
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
     "weight": "550 g",
-    "volume": "500 ml",
+    "volume": "251 ml",
     "price": 0,
     "to_hit": -1,
     "bashing": 2,
