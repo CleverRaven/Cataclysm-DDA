@@ -605,7 +605,7 @@ void Character::forced_dismount()
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
             g->u.grab( OBJECT_NONE );
         }
-        set_movement_mode( MM_WALK, false );
+        set_movement_mode( MM_WALK );
         g->update_map( g->u );
     }
     moves -= 150;
@@ -639,7 +639,7 @@ void Character::dismount()
         setpos( *pnt );
         g->refresh_all();
         mod_moves( -100 );
-        set_movement_mode( MM_WALK, false );
+        set_movement_mode( MM_WALK );
     }
 }
 

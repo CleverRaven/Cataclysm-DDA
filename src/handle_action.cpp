@@ -1363,7 +1363,7 @@ static void open_movement_mode_menu()
     as_m.query();
 
     move_mode selectedMode = modeMap[as_m.ret];
-    u.set_movement_mode( selectedMode.id, false );
+    u.set_movement_mode( selectedMode.id );
 }
 
 static void cast_spell()

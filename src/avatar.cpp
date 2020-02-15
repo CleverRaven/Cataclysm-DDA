@@ -1358,13 +1358,9 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
 
-bool avatar::set_movement_mode( const move_mode_id &mode, bool is_being_cycled_to = false )
+bool avatar::set_movement_mode( const move_mode_id &mode )
 {
     move_mode new_mode = mode.obj();
-
-    if( !new_mode.can_be_cycled_to && is_being_cycled_to ) {
-        return false;
-    }
 
     if( new_mode.minimum_required_legs > get_working_leg_count() ) {
         add_msg( m_bad, string_format( _( "You do not have enough functioning legs to %s." ),
@@ -1425,18 +1421,16 @@ void avatar::reset_move_mode()
 void avatar::cycle_move_mode()
 {
     move_mode_str_id current_mm = get_current_movement_mode().id();
-    for( std::list<move_mode>::iterator it = move_mode_cycle_list.begin();
-         it != move_mode_cycle_list.end(); ++it ) {
-        if( ( *it ).id == current_mm ) {
-            do {
-                it++;
-                if( it == move_mode_cycle_list.end() ) {
-                    it = move_mode_cycle_list.begin();
-                }
-            } while( !set_movement_mode( ( *it ).id, true ) );
-            return;
+    auto it = std::find_if( move_modes::get_all().begin(),
+    move_modes::get_all().end(), [&]( const move_mode & mm ) {
+        return mm.id == get_current_movement_mode().id();
+    } );
+    do {
+        it++;
+        if( it == move_modes::get_all().end() ) {
+            it = move_modes::get_all().begin();
         }
-    }
+    } while( ( it->id == MM_NULL.id() ) || !set_movement_mode( it->id ) );
 }
 
 bool avatar::wield( item &target )

@@ -70,17 +70,13 @@ void move_mode::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flavor_text_mech", flavor_text_mech,
               to_translation( "You change stance." ) );
 
-    optional( jo, was_loaded, "can_be_cycled_to", can_be_cycled_to, true );
     optional( jo, was_loaded, "can_haul", can_haul, true );
     optional( jo, was_loaded, "usable_while_mounted", usable_while_mounted, false );
     optional( jo, was_loaded, "speed", speed, 1.0f );
     optional( jo, was_loaded, "display_character", display_character, "M" );
     optional( jo, was_loaded, "minimum_required_legs", minimum_required_legs, 0 );
-    optional( jo, was_loaded, "cost_to_enter_or_leave_stance", cost_to_enter_or_leave_stance, 0 );
-    optional( jo, was_loaded, "cancels_activities", cancels_activities, false );
     optional( jo, was_loaded, "stamina_burn_multiplier", stamina_burn_multiplier, 1.0f );
     optional( jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f );
-    optional( jo, was_loaded, "cancels_activities", cancels_activities, false );
     optional( jo, was_loaded, "display_colour", display_colour, "light_gray" );
 
 }
@@ -89,6 +85,7 @@ void move_mode::finalize()
 {
     nc_display_colour = color_from_string( display_colour );
     display_character_ptr = display_character.c_str();
+    id.is_null();
 }
 
 void move_mode::check() const
@@ -114,14 +111,8 @@ void move_modes::finalize_all()
     set_move_mode_ids();
     all_move_modes.finalize();
 
-    const move_mode *previous = &all_move_modes.get_all().back();
     for( const move_mode &mm : all_move_modes.get_all() ) {
         const_cast<move_mode &>( mm ).finalize();
-        if( !mm.can_be_cycled_to ) {
-            continue;
-        }
-
-        move_mode_cycle_list.push_back( mm );
     }
 }
 
@@ -139,8 +130,6 @@ const std::vector<move_mode> &move_modes::get_all()
 {
     return all_move_modes.get_all();
 }
-
-std::list<move_mode> move_mode_cycle_list;
 
 move_mode_id MM_NULL,
              MM_WALK,

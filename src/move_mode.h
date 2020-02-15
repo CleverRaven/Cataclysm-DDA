@@ -29,22 +29,17 @@ struct move_mode {
 
     public:
         translation name;
-
-        bool can_be_cycled_to;
+        translation flavor_text;
+        translation flavor_text_mount;
+        translation flavor_text_mech;
         bool can_haul;
         bool usable_while_mounted;
         float speed;
         std::string display_colour;
         std::string display_character;
         int minimum_required_legs;
-        int cost_to_enter_or_leave_stance;
-        translation flavor_text;
-        translation flavor_text_mount;
-        translation flavor_text_mech;
-        bool cancels_activities;
         float stamina_burn_multiplier;
         float volume_multiplier;
-        float silhouette_size;
 
         nc_color nc_display_colour;
         const char *display_character_ptr;
@@ -64,8 +59,6 @@ const std::vector<move_mode> &get_all();
 void set_move_mode_ids();
 
 } // namespace move_modes
-
-extern std::list<move_mode> move_mode_cycle_list;
 
 extern move_mode_id MM_NULL,
        MM_WALK,
