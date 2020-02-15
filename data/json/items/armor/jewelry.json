@@ -271,11 +271,10 @@
   {
     "id": "copper_ear",
     "type": "ARMOR",
-    "name": "pair of copper earrings",
-    "name_plural": "pairs of copper earrings",
+    "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
     "description": "A pair of copper earrings.  It's pretty heavy.  You can wear it if you like, but it won't provide any effects.",
     "weight": "50 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 2900,
     "price_postapoc": 50,
     "material": [ "copper" ],
