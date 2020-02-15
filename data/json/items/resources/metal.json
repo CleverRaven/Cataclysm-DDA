@@ -40,7 +40,7 @@
     "name": "spike",
     "description": "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
     "category": "spare_parts",
-    "weight": "225 g",
+    "weight": "550 g",
     "to_hit": -2,
     "color": "light_gray",
     "symbol": ";",
