@@ -1352,7 +1352,7 @@
     "category": "other",
     "name": "sandbag",
     "description": "This is a canvas sack filled with sand.  It can be used to construct simple barricades.",
-    "weight": "24384 g",
+    "weight": "24415 g",
     "volume": "16L",
     "price": 0,
     "material": [ "cotton", "powder" ],
