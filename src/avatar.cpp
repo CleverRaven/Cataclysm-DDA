@@ -1400,9 +1400,9 @@ bool avatar::set_movement_mode( const move_mode_id &mode, bool is_being_cycled_t
 void avatar::toggle_run_mode()
 {
     if( movement_mode_is( MM_RUN ) ) {
-        set_movement_mode( MM_WALK, false );
+        set_movement_mode( MM_WALK );
     } else {
-        set_movement_mode( MM_RUN, false );
+        set_movement_mode( MM_RUN );
     }
 }
 
