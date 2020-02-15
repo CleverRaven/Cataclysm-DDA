@@ -69,13 +69,38 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
                         iteminfo_parts::BASE_MOVES
                       } );
 
-    iteminfo_test(
-        item( "halligan" ), q,
-        "--\n"
-        "<color_c_white>Damage</color>: Bash: <color_c_yellow>20</color>"
-        "  Cut: <color_c_yellow>5</color>"
-        "  To-hit bonus: <color_c_yellow>+2</color>\n"
-        "Moves per attack: <color_c_yellow>145</color>\n" );
+    SECTION( "bash damage" ) {
+        iteminfo_test(
+            item( "rock" ), q,
+            "--\n"
+            "<color_c_white>Damage</color>: Bash: <color_c_yellow>7</color>"
+            "  To-hit bonus: <color_c_yellow>-2</color>\n"
+            "Moves per attack: <color_c_yellow>79</color>\n" );
+    }
+
+    SECTION( "bash and cut damage" ) {
+        iteminfo_test(
+            item( "halligan" ), q,
+            "--\n"
+            "<color_c_white>Damage</color>: Bash: <color_c_yellow>20</color>"
+            "  Cut: <color_c_yellow>5</color>"
+            "  To-hit bonus: <color_c_yellow>+2</color>\n"
+            "Moves per attack: <color_c_yellow>145</color>\n" );
+    }
+
+    SECTION( "bash and pierce damage" ) {
+        iteminfo_test(
+            item( "pointy_stick" ), q,
+            "--\n"
+            "<color_c_white>Damage</color>: Bash: <color_c_yellow>4</color>"
+            "  Pierce: <color_c_yellow>8</color>"
+            "  To-hit bonus: <color_c_yellow>+1</color>\n"
+            "Moves per attack: <color_c_yellow>100</color>\n" );
+    }
+
+    SECTION( "no damage" ) {
+        iteminfo_test( item( "rag" ), q, "" );
+    }
 
 }
 
