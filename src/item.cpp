@@ -3005,6 +3005,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
+    insert_separation_line( info );
+
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
             info.push_back( iteminfo( "BASE", _( "* This item <good>does not "
@@ -3016,11 +3018,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else {
             info.push_back( iteminfo( "BASE", _( "* This item <bad>conducts</bad> electricity." ) ) );
         }
-    }
-
-    bool anyFlags = ( *parts & iteminfo_query::anyflags ).any();
-    if( anyFlags ) {
-        insert_separation_line( info );
     }
 
     if( is_armor() && g->u.has_trait( trait_id( "WOOLALLERGY" ) ) &&
