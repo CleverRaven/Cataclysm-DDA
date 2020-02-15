@@ -198,8 +198,7 @@
   {
     "type": "COMESTIBLE",
     "id": "corn",
-    "name": "corn",
-    "name_plural": "corn",
+    "name": { "str": "corn", "str_pl": "corn" },
     "weight": "153 g",
     "color": "light_green",
     "spoils_in": "5 days",

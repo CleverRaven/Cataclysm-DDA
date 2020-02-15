@@ -109,8 +109,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_corn",
-    "name": "corn",
-    "name_plural": "corn",
+    "name": { "str": "corn", "str_pl": "corn" },
     "comestible_type": "FOOD",
     "weight": "178 g",
     "color": "yellow",
@@ -294,8 +293,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_beansnrice",
-    "name": "deluxe vegetarian beans and rice",
-    "name_plural": "deluxe vegetarian beans and rice",
+    "name": { "str": "deluxe vegetarian beans and rice", "str_pl": "deluxe vegetarian beans and rice" },
     "weight": "140 g",
     "color": "brown",
     "spoils_in": "15 days",

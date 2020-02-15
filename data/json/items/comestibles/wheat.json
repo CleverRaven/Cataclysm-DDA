@@ -226,8 +226,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_deluxe",
-    "name": "deluxe cooked oatmeal",
-    "name_plural": "deluxe cooked oatmeal",
+    "name": { "str": "deluxe cooked oatmeal", "str_pl": "deluxe cooked oatmeal" },
     "weight": "164 g",
     "color": "light_gray",
     "spoils_in": "10 days",

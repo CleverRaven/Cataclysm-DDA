@@ -24,8 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_deluxe",
-    "name": "deluxe sandwich",
-    "name_plural": "deluxe sandwiches",
+    "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
@@ -54,8 +53,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cucumber",
-    "name": "cucumber sandwich",
-    "name_plural": "cucumber sandwiches",
+    "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "500 g",
     "color": "light_green",
     "spoils_in": "1 day 12 hours",
