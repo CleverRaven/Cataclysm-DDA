@@ -264,7 +264,6 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 
 }
 
-
 TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
@@ -392,7 +391,7 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
         item( "halligan" ), q,
         "--\n"
         "* This tool can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
-        "* As a weapon, this item is <color_c_green>well-made</color> and will"
+        "* As a weapon, it is <color_c_green>well-made</color> and will"
         " <color_c_cyan>withstand the punishment of combat</color>.\n" );
 
     iteminfo_test(
