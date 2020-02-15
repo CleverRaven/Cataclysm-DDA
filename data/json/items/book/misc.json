@@ -751,12 +751,78 @@
     "copy-from": "paperback_novel"
   },
   {
+    "id": "paperback_romance_circuses",
+    "type": "BOOK",
+    "name": "Love and Circuses",
+    "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
+    "copy-from": "paperback_romance_spb",
+    "relative": { "chapters": 2, "time": 3, "weight": 111 }
+  },
+  {
+    "id": "paperback_romance_cloven",
+    "type": "BOOK",
+    "name": "Cloven Kisses",
+    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulphur condemn love's flames to hellfire?",
+    "copy-from": "paperback_romance_lnl",
+    "relative": { "chapters": -2 }
+  },
+  {
+    "id": "paperback_romance_conq",
+    "type": "BOOK",
+    "name": "Conquer Me Sweetly",
+    "description": "Sweet Providence Books is delighted to offer you this romantic tale of delicious dalliances and daring delights.",
+    "copy-from": "paperback_romance_spb",
+    "relative": { "chapters": -1 }
+  },
+  {
+    "id": "paperback_romance_dd",
+    "type": "BOOK",
+    "name": "Dubliner's Debutante",
+    "description": "His love songs were only for me, but I preferred the banjo over bagpipes.  How could I ever love a kilted yankee of foreign breeding?",
+    "copy-from": "paperback_romance_spb"
+  },
+  {
     "id": "paperback_romance_diodes",
     "type": "BOOK",
     "name": "Blood Diodes",
     "description": "He is an automaton, she is a reformed vampire, can love find a way?  In this edgy romance by acclaimed author Kea Dekker, heartbreak is just the beginning.",
     "copy-from": "paperback_romance_lnl",
     "relative": { "chapters": 1 }
+  },
+  {
+    "id": "paperback_romance_envyh",
+    "type": "BOOK",
+    "name": "Envying Heaven",
+    "description": "When her fiancee names a star for her Wanda begins to wonder if an astronomer's wife can ever compete with the allure of the cosmos.",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_grue",
+    "type": "BOOK",
+    "name": "Tall, Dark, and Gruesome",
+    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm. ",
+    "copy-from": "paperback_romance_lnl"
+  },
+  {
+    "id": "paperback_romance_rider",
+    "type": "BOOK",
+    "name": "Along Came a Rider",
+    "description": "When Beth's career as a pro steeplechase jockey threatens to divide her from her lover, Beth has to act fast.  Will she ever find a man that can keep up with her racing heart?",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_rogue",
+    "type": "BOOK",
+    "name": "Rogue's Virtue",
+    "description": "Can Victoria reform the fugitive from justice who wooed her with false pretenses and true passion?",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_secret",
+    "type": "BOOK",
+    "name": "The Death of My Secret Life",
+    "description": "Makeda comes out to her family, but she's still got plenty of skeletons in her closet.  Best selling authoress Kea Dekker breaks all the rules in this macabre story of love and lies.",
+    "copy-from": "paperback_romance_lnl"
   },
   {
     "id": "novel_samurai",
