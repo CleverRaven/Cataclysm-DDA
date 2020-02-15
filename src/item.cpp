@@ -3001,6 +3001,65 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
+
+void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool /*debug*/ ) const
+{
+    if( contents.empty() || !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+        return;
+    }
+    const std::string space = "  ";
+    for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
+        std::string mod_str;
+        if( mod->type->gunmod ) {
+            if( mod->is_irremovable() ) {
+                mod_str = _( "Integrated mod: " );
+            } else {
+                mod_str = _( "Mod: " );
+            }
+            mod_str += string_format( "<bold>%s</bold> (%s) ", mod->tname(),
+                                      mod->type->gunmod->location.name() );
+        }
+        insert_separation_line( info );
+        info.emplace_back( "DESCRIPTION", mod_str );
+        info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
+    }
+    bool contents_header = false;
+    for( const item &contents_item : contents ) {
+        if( !contents_item.type->mod ) {
+            if( !contents_header ) {
+                insert_separation_line( info );
+                info.emplace_back( "DESCRIPTION", _( "<bold>Contents</bold>:" ) );
+                contents_header = true;
+            } else {
+                // Separate items with a blank line
+                info.emplace_back( "DESCRIPTION", space );
+            }
+
+            const translation &description = contents_item.type->description;
+
+            if( contents_item.made_of_from_type( LIQUID ) ) {
+                units::volume contents_volume = contents_item.volume() * batch;
+                int converted_volume_scale = 0;
+                const double converted_volume =
+                    round_up( convert_volume( contents_volume.value(),
+                                              &converted_volume_scale ), 2 );
+                info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                iteminfo::flags f = iteminfo::no_newline;
+                if( converted_volume_scale != 0 ) {
+                    f |= iteminfo::is_decimal;
+                }
+                info.emplace_back( "CONTAINER", description + space,
+                                   string_format( "<num> %s", volume_units_abbr() ), f,
+                                   converted_volume );
+            } else {
+                info.emplace_back( "DESCRIPTION", contents_item.display_name() );
+                info.emplace_back( "DESCRIPTION", description.translated() );
+            }
+        }
+    }
+}
+
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug ) const
 {
@@ -3252,58 +3311,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "DESCRIPTION", ntext ) );
     }
 
-    // describe contents
-    if( !contents.empty() && parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
-        for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
-            std::string mod_str;
-            if( mod->type->gunmod ) {
-                if( mod->is_irremovable() ) {
-                    mod_str = _( "Integrated mod: " );
-                } else {
-                    mod_str = _( "Mod: " );
-                }
-                mod_str += string_format( "<bold>%s</bold> (%s) ", mod->tname(),
-                                          mod->type->gunmod->location.name() );
-            }
-            insert_separation_line( info );
-            info.emplace_back( "DESCRIPTION", mod_str );
-            info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
-        }
-        bool contents_header = false;
-        for( const item &contents_item : contents ) {
-            if( !contents_item.type->mod ) {
-                if( !contents_header ) {
-                    insert_separation_line( info );
-                    info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this item</bold>:" ) );
-                    contents_header = true;
-                } else {
-                    // Separate items with a blank line
-                    info.emplace_back( "DESCRIPTION", space );
-                }
+    contents_info( info, parts, batch, debug );
 
-                const translation &description = contents_item.type->description;
-
-                if( contents_item.made_of_from_type( LIQUID ) ) {
-                    units::volume contents_volume = contents_item.volume() * batch;
-                    int converted_volume_scale = 0;
-                    const double converted_volume =
-                        round_up( convert_volume( contents_volume.value(),
-                                                  &converted_volume_scale ), 2 );
-                    info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                    iteminfo::flags f = iteminfo::no_newline;
-                    if( converted_volume_scale != 0 ) {
-                        f |= iteminfo::is_decimal;
-                    }
-                    info.emplace_back( "CONTAINER", description + space,
-                                       string_format( "<num> %s", volume_units_abbr() ), f,
-                                       converted_volume );
-                } else {
-                    info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                    info.emplace_back( "DESCRIPTION", description.translated() );
-                }
-            }
-        }
-    }
     if( this->get_var( "die_num_sides", 0 ) != 0 ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* It can be used as a <info>die</info>, "
