@@ -18,11 +18,10 @@
   {
     "id": "bead_ear",
     "type": "ARMOR",
-    "name": "pair of beaded earrings",
-    "name_plural": "pairs of beaded earrings",
+    "name": { "str": "pair of beaded earrings", "str_pl": "pairs of beaded earrings" },
     "description": "A simple pair of earrings made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.",
     "weight": "7 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 100,
     "price_postapoc": 100,
     "material": [ "wood" ],
