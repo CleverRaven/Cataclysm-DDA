@@ -267,6 +267,13 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
             "Has level <color_c_cyan>2 hammering</color> quality.\n"
             "Has level <color_c_cyan>4 prying</color> quality.\n" );
     }
+
+    SECTION( "bottle jack" ) {
+        iteminfo_test(
+            item( "jack_small" ), q,
+            "--\n"
+            "Has level <color_c_cyan>4 jacking</color> quality and is rated at <color_c_cyan>4409</color> lbs\n" );
+    }
 }
 
 TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
