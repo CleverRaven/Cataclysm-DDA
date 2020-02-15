@@ -160,8 +160,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_fruit",
-    "name": "dehydrated fruit",
-    "name_plural": "dehydrated fruit",
+    "name": { "str": "dehydrated fruit", "str_pl": "dehydrated fruit" },
     "weight": "75 g",
     "color": "magenta",
     "spoils_in": "360 days",

@@ -339,8 +339,7 @@
   {
     "type": "COMESTIBLE",
     "id": "crispycran",
-    "name": "crispy cranberry",
-    "name_plural": "crispy cranberries",
+    "name": { "str": "crispy cranberry", "str_pl": "crispy cranberries" },
     "weight": "250 g",
     "color": "pink",
     "container": "can_drink",
@@ -361,8 +360,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_tea",
-    "name": "dandelion tea",
-    "name_plural": "dandelion tea",
+    "name": { "str": "dandelion tea", "str_pl": "dandelion tea" },
     "weight": "252 g",
     "color": "yellow",
     "comestible_type": "DRINK",
