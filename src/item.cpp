@@ -3310,8 +3310,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "DESCRIPTION", ntext ) );
     }
 
-    contents_info( info, parts, batch, debug );
-
     if( this->get_var( "die_num_sides", 0 ) != 0 ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* It can be used as a <info>die</info>, "
@@ -3378,6 +3376,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
+        container_info( info, parts, batch, debug );
+        contents_info( info, parts, batch, debug );
         combat_info( info, parts, batch, debug );
     }
 
@@ -3419,7 +3419,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     armor_info( info, parts, batch, debug );
     animal_armor_info( info, parts, batch, debug );
     book_info( info, parts, batch, debug );
-    container_info( info, parts, batch, debug );
     battery_info( info, parts, batch, debug );
     tool_info( info, parts, batch, debug );
     component_info( info, parts, batch, debug );
