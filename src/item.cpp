@@ -85,33 +85,19 @@
 #include "faction.h"
 #include "magic.h"
 #include "clothing_mod.h"
+#include "cata_string_consts.h"
 
-class npc_class;
-
-static const std::string GUN_MODE_VAR_NAME( "item::mode" );
-static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
-
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cooking( "cooking" );
 
 static const quality_id quality_jack( "JACK" );
 static const quality_id quality_lift( "LIFT" );
-
-static const species_id ROBOT( "ROBOT" );
-
-static const efftype_id effect_cig( "cig" );
-static const efftype_id effect_shakes( "shakes" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_weed_high( "weed_high" );
-
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 static const trait_id trait_small2( "SMALL2" );
 static const trait_id trait_small_ok( "SMALL_OK" );
 static const trait_id trait_huge( "HUGE" );
 static const trait_id trait_huge_ok( "HUGE_OK" );
+
+class npc_class;
+
 using npc_class_id = string_id<npc_class>;
 
 std::string rad_badge_color( const int rad )
@@ -3619,23 +3605,32 @@ nc_color item::color_in_inventory() const
 void item::on_wear( Character &p )
 {
     if( is_sided() && get_side() == side::BOTH ) {
-        // for sided items wear the item on the side which results in least encumbrance
-        int lhs = 0;
-        int rhs = 0;
+        if( has_flag( flag_SPLINT ) ) {
+            set_side( side::LEFT );
+            if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
+                  !p.worn_with_flag( flag_SPLINT, bp_leg_r ) ) ||
+                ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
+                  !p.worn_with_flag( flag_SPLINT, bp_arm_r ) ) ) {
+                set_side( side::RIGHT );
+            }
+        } else {
+            // for sided items wear the item on the side which results in least encumbrance
+            int lhs = 0;
+            int rhs = 0;
+            set_side( side::LEFT );
+            const auto left_enc = p.get_encumbrance( *this );
+            for( const body_part bp : all_body_parts ) {
+                lhs += left_enc[bp].encumbrance;
+            }
 
-        set_side( side::LEFT );
-        const auto left_enc = p.get_encumbrance( *this );
-        for( const body_part bp : all_body_parts ) {
-            lhs += left_enc[bp].encumbrance;
+            set_side( side::RIGHT );
+            const auto right_enc = p.get_encumbrance( *this );
+            for( const body_part bp : all_body_parts ) {
+                rhs += right_enc[bp].encumbrance;
+            }
+
+            set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
         }
-
-        set_side( side::RIGHT );
-        const auto right_enc = p.get_encumbrance( *this );
-        for( const body_part bp : all_body_parts ) {
-            rhs += right_enc[bp].encumbrance;
-        }
-
-        set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
     }
 
     // TODO: artifacts currently only work with the player character

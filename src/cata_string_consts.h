@@ -1178,6 +1178,7 @@ static const std::string flag_SMOKABLE( "SMOKABLE" );
 static const std::string flag_SMOKED( "SMOKED" );
 static const std::string flag_SPEAR( "SPEAR" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_SPR_START( "SPR_START" );
 static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_STURDY( "STURDY" );
