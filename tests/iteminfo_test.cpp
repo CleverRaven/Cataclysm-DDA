@@ -205,6 +205,24 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
 
 }
 
+TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
+{
+    iteminfo_query q( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
+                        iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
+                        iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
+                        iteminfo_parts::AMMO_DAMAGE_RECOIL } );
+
+    SECTION( "simple item with ammo damage" ) {
+        iteminfo_test(
+            item( "rock" ), q,
+            "--\n"
+            "<color_c_white>Ammunition type</color>: rocks\n"
+            "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
+            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
+            "Recoil: <color_c_yellow>0</color>\n" );
+    }
+}
+
 TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
     iteminfo_query q( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,

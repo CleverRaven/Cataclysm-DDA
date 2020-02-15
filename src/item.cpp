@@ -1543,26 +1543,27 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     const std::string space = "  ";
     if( ammo_remaining() > 0 ) {
-        info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
+        info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
+                           ammo_data()->nname( ammo_remaining() ) );
     } else if( is_ammo() ) {
-        info.emplace_back( "AMMO", _( "Type: " ), ammo_type()->name() );
+        info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
     }
 
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.prop_damage || ammo.force_stat_display ) {
         if( !ammo.damage.empty() ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
-                info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
+                info.emplace_back( "AMMO", _( "Damage: " ), "",
                                    iteminfo::no_newline, ammo.damage.total_damage() );
             }
         } else if( ammo.prop_damage ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-                info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
+                info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
                                    *ammo.prop_damage );
             }
         } else {
-            info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
+            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal, 1.0 );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
@@ -2958,6 +2959,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "DESCRIPTION",
                                       string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
+        insert_separation_line( info );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_TECHNIQUES ) ) {
@@ -2999,7 +3001,6 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 }
-
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool /*debug*/ ) const
