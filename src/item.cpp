@@ -1166,10 +1166,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   static_cast<double>( price_postapoc ) / 100 ) );
     }
 
-    int converted_volume_scale = 0;
-    const double converted_volume = round_up( convert_volume( volume().value(),
-                                    &converted_volume_scale ) * batch, 3 );
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
+        int converted_volume_scale = 0;
+        const double converted_volume = round_up( convert_volume( volume().value(),
+                                        &converted_volume_scale ) * batch, 3 );
         iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
         if( converted_volume_scale != 0 ) {
             f |= iteminfo::is_three_decimal;
@@ -1184,11 +1184,21 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
     }
-
     if( !type->rigid && parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ),
                            _( "No (contents increase volume)" ) );
     }
+    if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
+        const std::vector<const material_type *> mat_types = made_of_types();
+        if( !mat_types.empty() ) {
+            const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
+            []( const material_type * material ) {
+                return string_format( "<stat>%s</stat>", _( material->name() ) );
+            }, enumeration_conjunction::none );
+            info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
+        }
+    }
+
 
     int dmg_bash = damage_melee( DT_BASH );
     int dmg_cut  = damage_melee( DT_CUT );
@@ -1247,14 +1257,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() && parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
-        const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
-        []( const material_type * material ) {
-            return string_format( "<stat>%s</stat>", _( material->name() ) );
-        }, enumeration_conjunction::none );
-        info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
-    }
     if( !owner.is_null() ) {
         info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
                                   _( get_owner_name() ) ) ) );
