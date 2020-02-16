@@ -241,6 +241,6 @@ You should not add items to the item group `EMPTY_GROUP`. This group can be used
 
 #### SUS
 
-When adding items to item groups, attempt to locate or create **SUS item groups.** SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given piece of storage furniture.
+When adding items to item groups, attempt to locate or create **SUS item groups.** SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given piece of storage furniture. SUS stands for "specific use storage." One of the aims of organizing item groups into specific use storage is to promote reusable tables that can be maintained and extended.
 
 You can find SUS item groups at /data/json/itemgroups/SUS
