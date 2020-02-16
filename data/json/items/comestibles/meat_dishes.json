@@ -1126,7 +1126,7 @@
     "type": "COMESTIBLE",
     "id": "haggis",
     "name": "haggis",
-    "name_plural": "haggii",
+    "name_plural": "haggises",
     "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
     "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
     "weight": "156 g",
