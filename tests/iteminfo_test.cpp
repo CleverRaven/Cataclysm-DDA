@@ -40,11 +40,33 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 {
     iteminfo_query q( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } );
 
-    SECTION( "price and owner" ) {
+    SECTION( "owner and price" ) {
+        item my_rock( "rock" );
+        my_rock.set_owner( g->u );
         iteminfo_test(
-            item( "jug_plastic" ), q,
-            "Price: $<color_c_yellow>0.00</color>\n" );
+            my_rock, q,
+            "--\n"
+            "<color_c_white>Owner</color>: Your Followers\n"
+            "Price: $<color_c_yellow>0.00</color>" );
     }
+
+    SECTION( "owner, price and barter value" ) {
+        item my_necklace( "gold_necklace" );
+        my_necklace.set_owner( g->u );
+        iteminfo_test(
+            my_necklace, q,
+            "--\n"
+            "<color_c_white>Owner</color>: Your Followers\n"
+            "Price: $<color_c_yellow>400.00</color>  Barter value: $<color_c_yellow>50.00</color>\n" );
+    }
+
+    SECTION( "zero price item with no owner" ) {
+        iteminfo_test(
+            item( "rock" ), q,
+            "--\n"
+            "Price: $<color_c_yellow>0.00</color>" );
+    }
+
 }
 
 TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
