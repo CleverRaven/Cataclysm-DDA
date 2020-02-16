@@ -1148,8 +1148,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_fishroll",
-    "name": "fish makizushi",
-    "name_plural": "fish makizushi",
+    "name": { "str": "fish makizushi", "str_pl": "fish makizushi" },
     "weight": "159 g",
     "color": "green",
     "spoils_in": "12 hours",

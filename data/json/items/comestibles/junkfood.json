@@ -504,8 +504,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fries",
-    "name": "fast-food French fries",
-    "name_plural": "fast-food French fries",
+    "name": { "str": "fast-food French fries", "str_pl": "fast-food French fries" },
     "weight": "71 g",
     "color": "yellow",
     "container": "box_small",

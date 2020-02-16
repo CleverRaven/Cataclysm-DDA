@@ -46,8 +46,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_fried",
-    "name": "fried dandelions",
-    "name_plural": "fried dandelions",
+    "name": { "str": "fried dandelions", "str_pl": "fried dandelions" },
     "copy-from": "raw_dandelion",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -171,8 +170,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_rice",
-    "name": "dried rice",
-    "name_plural": "dried rice",
+    "name": { "str": "dried rice", "str_pl": "dried rice" },
     "weight": "40 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -213,8 +211,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_rice",
-    "name": "fried rice",
-    "name_plural": "fried rice",
+    "name": { "str": "fried rice", "str_pl": "fried rice" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "15 days",
