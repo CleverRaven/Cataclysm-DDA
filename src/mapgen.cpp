@@ -2263,7 +2263,11 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                                        "'%c' is not in 'terrain', and no 'fill_ter' is set!",
                                        c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
-                if( !has_terrain && !has_furn && !has_placing && tmpkey != ' ' && tmpkey != '.' ) {
+                if( test_mode && !has_terrain && !has_furn && !has_placing && tmpkey != ' ' && tmpkey != '.' ) {
+                    // TODO: Once all the in-tree mods don't report this error,
+                    // it should be changed to happen in regular games (not
+                    // just test_mode) and be non-fatal, so that mappers find
+                    // out about their issues before they PR their changes.
                     parray.throw_error(
                         string_format( "format: rows: row %d column %d: "
                                        "'%c' has no terrain, furniture, or other definition",
