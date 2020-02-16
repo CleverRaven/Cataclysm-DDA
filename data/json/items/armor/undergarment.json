@@ -313,8 +313,7 @@
   {
     "id": "leg_warmers",
     "type": "ARMOR",
-    "name": "pair of leg warmers",
-    "name_plural": "pairs of leg warmers",
+    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "weight": "46 g",
     "volume": "500 ml",
