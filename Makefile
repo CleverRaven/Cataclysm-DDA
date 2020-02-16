@@ -90,11 +90,12 @@ RELEASE_FLAGS =
 WARNINGS = \
   -Werror -Wall -Wextra \
   -Wmissing-declarations \
+  -Wmissing-noreturn \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wpedantic \
   -Wsuggest-override \
-  -Wno-unknown-warning-option \
-  -Wpedantic
+  -Wno-unknown-warning-option
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
