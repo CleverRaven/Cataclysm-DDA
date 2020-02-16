@@ -4,7 +4,7 @@
     "type": "BOOK",
     "name": "paperback abstract",
     "description": "An ordinary paperback book.  Or is it?  It is.",
-    "weight": "371 g",
+    "weight": "400 g",
     "volume": "700 ml",
     "price": 750,
     "price_postapoc": 1900,
@@ -61,7 +61,15 @@
     "abstract": "paperback_romance_vanilla",
     "type": "BOOK",
     "name": "Vanilla Romance Novel",
-    "description": "Vanilla Media is a mainstream imprint providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
+    "description": "Vanilla Media is a mainstream publisher providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
+    "copy-from": "paperback_novel",
+    "relative": { "price_post": -100, "intelligence": -1 }
+  },
+  {
+    "abstract": "paperback_western_em",
+    "type": "BOOK",
+    "name": "The Everyman Library",
+    "description": "The Everyman Library is an imprint of Vanilla Media that publishes stories about private eyes, cowboys, quarterbacks, and mobsters.",
     "copy-from": "paperback_novel",
     "relative": { "price_post": -100, "intelligence": -1 }
   },
@@ -1138,6 +1146,14 @@
     "time": "20 m",
     "chapters": 28,
     "fun": 4
+  },
+  {
+    "id": "paperback_western_vaq",
+    "type": "BOOK",
+    "name": "Vaquero Sun",
+    "description": "Western author El Amor relates the story of a dispossessed young man inspired by a heat stroke delusion to pursue justice against an evil land baron.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": 2 }
   },
   {
     "id": "philosophy_book",
