@@ -534,8 +534,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade",
-    "name": "lemonade",
-    "name_plural": "lemonade",
+    "name": { "str": "lemonade", "str_pl": "lemonade" },
     "weight": "260 g",
     "color": "yellow",
     "container": "bottle_plastic",
