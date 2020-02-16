@@ -1171,7 +1171,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else {
             if( has_flag( "MAGIC_FOCUS" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "It is a <info>magical focus</info>.  "
+                                          _( "This item is a <info>magical focus</info>.  "
                                              "You can cast spells with it in your hand." ) ) );
             }
             if( is_craft() ) {
@@ -2249,7 +2249,8 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( has_flag( "HELMET_COMPAT" ) && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "* It can be <info>worn with a helmet</info>." ) ) );
+                                  _( "* This item can be <info>worn with a "
+                                     "helmet</info>." ) ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
@@ -2366,7 +2367,8 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( is_sided() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_SIDED ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "* It can be worn on <info>either side</info> of the body." ) ) );
+                                  _( "* This item can be worn on <info>either side</info> of "
+                                     "the body." ) ) );
     }
     if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
@@ -2660,10 +2662,10 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
         if( reinforceable() ) {
-            info.emplace_back( "DESCRIPTION", _( "* It can be <good>reinforced</good>." ) );
+            info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
     } else {
-        info.emplace_back( "DESCRIPTION", _( "* It is <bad>not repairable</bad>." ) );
+        info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
     }
 }
 
@@ -2975,11 +2977,11 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         insert_separation_line( info );
         if( has_flag( "REACH3" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* It can be used to make <stat>long reach "
+                                      _( "* This item can be used to make <stat>long reach "
                                          "attacks</stat>." ) ) );
         } else {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* It can be used to make <stat>reach "
+                                      _( "* This item can be used to make <stat>reach "
                                          "attacks</stat>." ) ) );
         }
     }
@@ -3063,13 +3065,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
-            info.push_back( iteminfo( "BASE", _( "* It <good>does not conduct</good> electricity." ) ) );
+            info.push_back( iteminfo( "BASE", _( "* This item <good>does not "
+                                                 "conduct</good> electricity." ) ) );
         } else if( has_flag( "CONDUCTIVE" ) ) {
             info.push_back( iteminfo( "BASE",
-                                      _( "* It effectively <bad>conducts</bad> "
+                                      _( "* This item effectively <bad>conducts</bad> "
                                          "electricity, as it has no guard." ) ) );
         } else {
-            info.push_back( iteminfo( "BASE", _( "* It <bad>conducts</bad> electricity." ) ) );
+            info.push_back( iteminfo( "BASE", _( "* This item <bad>conducts</bad> electricity." ) ) );
         }
     }
 
@@ -3128,11 +3131,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION ) ) {
         if( has_flag( "RADIO_MOD" ) ) {
             info.emplace_back( "DESCRIPTION",
-                               _( "* It has been modified to listen to <info>radio "
+                               _( "* This item has been modified to listen to <info>radio "
                                   "signals</info>.  It can still be activated manually." ) );
         } else {
             info.emplace_back( "DESCRIPTION",
-                               _( "* It can only be activated by a <info>radio "
+                               _( "* This item can only be activated by a <info>radio "
                                   "signal</info>." ) );
         }
 
@@ -3296,7 +3299,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( this->get_var( "die_num_sides", 0 ) != 0 ) {
         info.emplace_back( "DESCRIPTION",
-                           string_format( _( "* It can be used as a <info>die</info>, "
+                           string_format( _( "* This item can be used as a <info>die</info>, "
                                              "and has <info>%d</info> sides." ),
                                           static_cast<int>( this->get_var( "die_num_sides",
                                                   0 ) ) ) );

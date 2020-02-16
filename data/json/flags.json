@@ -26,7 +26,7 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "info": "This tool can be activated or reloaded from adjacent tile without picking it up."
+    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
   },
   {
     "id": "AURA",
@@ -46,7 +46,7 @@
     "id": "BELT_CLIP",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This tool can be clipped on to a <info>belt loop</info> of the appropriate size."
+    "info": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
   },
   {
     "id": "BELTED",
@@ -78,13 +78,13 @@
     "id": "BLOCK_WHILE_WORN",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing can be used to block attacks when worn."
+    "info": "This item can be used to block attacks when worn."
   },
   {
     "id": "CBM",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
-    "info": "This is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
+    "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
   },
   {
     "id": "CLIMATE_CONTROL",
@@ -109,20 +109,20 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This tool has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
   },
   {
     "id": "DIG_TOOL",
     "type": "json_flag",
     "context": [ "TOOL", "TOOL_ARMOR" ],
-    "info": "While wielded, it allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
+    "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
   },
   {
     "id": "DURABLE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "As a weapon, it is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
     "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
@@ -147,7 +147,7 @@
     "id": "ETHEREAL_ITEM",
     "type": "json_flag",
     "context": [  ],
-    "info": "It disappears as soon as its timer runs out whether it is food or not."
+    "info": "This item disappears as soon as its timer runs out whether it is food or not."
   },
   {
     "id": "ONLY_ONE",
@@ -167,19 +167,19 @@
     "id": "FIRE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL", "TOOL_ARMOR" ],
-    "info": "It counts as <color_red>fire</color> for crafting purposes."
+    "info": "This item counts as <color_red>fire</color> for crafting purposes."
   },
   {
     "id": "FIRESTARTER",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL", "TOOL_ARMOR" ],
-    "info": "It can start <color_red>fire</color>."
+    "info": "This item can start <color_red>fire</color>."
   },
   {
     "id": "FIREWOOD",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "info": "It can serve as a firewood."
+    "info": "This item can serve as a firewood."
   },
   {
     "id": "FIX_FARSIGHT",
@@ -199,7 +199,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
     "craft_inherit": true,
-    "info": "It is <bad>filthy</bad>."
+    "info": "This item is <bad>filthy</bad>."
   },
   {
     "id": "FLASH_PROTECTION",
@@ -224,7 +224,7 @@
     "id": "FRAGILE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "As a weapon, it is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
     "conflicts": [ "DURABLE_MELEE" ]
   },
   {
@@ -249,7 +249,7 @@
     "id": "IRREMOVABLE",
     "type": "json_flag",
     "context": [ "GUNMOD" ],
-    "info": "It is a component of the gun it is attached to.  It can't be removed without destroying it.",
+    "info": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
     "inherit": false
   },
   {
@@ -308,7 +308,7 @@
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "This clothing can be worn comfortably by mutants with Tiny or Unassuming, but is too small for anyone else."
+    "//": "This clothing can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else."
   },
   {
     "id": "PARTIAL_DEAF",
@@ -369,7 +369,7 @@
     "id": "TWO_WAY_RADIO",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
-    "info": "It can be used to communicate with radio waves."
+    "info": "This item can be used to communicate with radio waves."
   },
   {
     "id": "RAINPROOF",
@@ -395,31 +395,31 @@
     "id": "SHEATH_AXE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This tool can be stored in a sheath of the appropriate size."
+    "//": "This item can be stored in a sheath of the appropriate size."
   },
   {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This tool can be stored in a sheath of the appropriate size."
+    "//": "This item can be stored in a sheath of the appropriate size."
   },
   {
     "id": "SHEATH_SWORD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This tool can be stored in a scabbard of the appropriate size."
+    "//": "This item can be stored in a scabbard of the appropriate size."
   },
   {
     "id": "SHEATH_SPEAR",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This tool can be stored in a sling of the appropriate size."
+    "//": "This item can be stored in a sling of the appropriate size."
   },
   {
     "id": "SHEATH_GOLF",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This tool can be stored in a bag of the appropriate size."
+    "//": "This item can be stored in a bag of the appropriate size."
   },
   {
     "id": "SKINTIGHT",
@@ -480,7 +480,7 @@
     "id": "VARSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "This clothing aan be made to fit via tailoring."
+    "//": "Can be made to fit via tailoring."
   },
   {
     "id": "WAIST",
@@ -516,7 +516,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
-    "info": "This clothing can be worn simultaneously with power armor."
+    "info": "This item can be worn simultaneously with power armor."
   },
   {
     "id": "furred",
@@ -559,7 +559,7 @@
     "id": "NANOFAB_TEMPLATE",
     "type": "json_flag",
     "context": [ "generic", "TOOL" ],
-    "info": "It contains a nanofabricator recipe."
+    "info": "This item contains a nanofabricator recipe."
   },
   {
     "id": "BIONIC_FAULTY",
