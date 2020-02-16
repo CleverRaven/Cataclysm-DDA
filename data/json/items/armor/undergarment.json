@@ -333,8 +333,7 @@
   {
     "id": "leg_warmers_f",
     "type": "ARMOR",
-    "name": "pair of fur leggings",
-    "name_plural": "pairs of fur leggings",
+    "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "weight": "694 g",
     "volume": "1500 ml",
