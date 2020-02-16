@@ -236,8 +236,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fertilizer_liquid",
-    "name": "liquid fertilizer",
-    "name_plural": "liquid fertilizer",
+    "name": { "str": "liquid fertilizer", "str_pl": "liquid fertilizer" },
     "weight": "67 g",
     "color": "yellow",
     "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE" ],
