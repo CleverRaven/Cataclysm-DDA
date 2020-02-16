@@ -185,17 +185,7 @@
     "//2": "This group is for a set of novels.",
     "subtype": "collection",
     "entries": [
-      { "item": "novel_romance", "prob": 50 },
-      { "item": "paperback_romance_circuses", "prob": 40 },
-      { "item": "paperback_romance_cloven", "prob": 40 },
-      { "item": "paperback_romance_conq", "prob": 40 },
-      { "item": "paperback_romance_dd", "prob": 40 },
-      { "item": "paperback_romance_diodes", "prob": 40 },
-      { "item": "paperback_romance_envyh", "prob": 40 },
-      { "item": "paperback_romance_grue", "prob": 40 },
-      { "item": "paperback_romance_rider", "prob": 40 },
-      { "item": "paperback_romance_rogue", "prob": 40 },
-      { "item": "paperback_romance_secret", "prob": 40 },
+      { "group": "SUS_book_fict_soft_romc", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_spy", "count": [ 1, 2 ], "prob": 70 },
       { "item": "novel_spy_comefly", "prob": 40 },
       { "item": "novel_spy_rocketsci", "prob": 40 },
@@ -220,6 +210,66 @@
       { "item": "novel_crime", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_horror", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_tragedy", "count": [ 1, 5 ], "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_books",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "TODO PLACEHOLDER This group is for three or four books of any type.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "novel_romance", "prob": 5 }
+    ]
+  },
+  {
+    "id": "SUS_book",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single book of any type.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_fict", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single book of any fiction.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_fict_soft", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_soft",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single paperback book of any fiction.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_fict_soft_romc", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_soft_romc",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single paperback book of the romance genre.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "novel_romance", "prob": 2 },
+      { "item": "paperback_romance_circuses", "prob": 1 },
+      { "item": "paperback_romance_cloven", "prob": 1 },
+      { "item": "paperback_romance_conq", "prob": 1 },
+      { "item": "paperback_romance_dd", "prob": 1 },
+      { "item": "paperback_romance_diodes", "prob": 1 },
+      { "item": "paperback_romance_envyh", "prob": 1 },
+      { "item": "paperback_romance_grue", "prob": 1 },
+      { "item": "paperback_romance_rider", "prob": 1 },
+      { "item": "paperback_romance_rogue", "prob": 1 },
+      { "item": "paperback_romance_secret", "prob": 1 }
     ]
   }
 ]

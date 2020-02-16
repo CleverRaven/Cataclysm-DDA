@@ -118,6 +118,23 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_scientology",
+    "type": "BOOK",
+    "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
+    "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
+    "weight": "486 g",
+    "volume": "1 L",
+    "price": 550,
+    "price_postapoc": 550,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": -1,
+    "flags": [ "INSPIRATIONAL" ]
+  },
+  {
     "id": "holybook_slack",
     "type": "BOOK",
     "name": { "str": "The Book of the SubGenius", "str_pl": "copies of The Book of the SubGenius" },
