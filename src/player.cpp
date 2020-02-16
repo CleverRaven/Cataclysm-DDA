@@ -3970,7 +3970,7 @@ void player::use( item_location loc )
             wear_item( used );
             loc.remove_item();
         } else {
-            add_msg( m_info, need_splint.c_str() );
+            add_msg( m_info, need_splint.str() );
         }
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
