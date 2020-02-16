@@ -2182,9 +2182,9 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( !need_splint ) {
-            return ret_val<bool>::make_failure( ( is_player() ?
-                                                  _( "You don't have any broken limbs this could help." )
-                                                  : string_format( _( "%s doesn't have any broken limbs this could help." ), name ) ) );
+            return ret_val<bool>::make_failure( is_player() ?
+                                                _( "You don't have any broken limbs this could help." )
+                                                : _( "%s doesn't have any broken limbs this could help." ), name );
         }
     }
 
