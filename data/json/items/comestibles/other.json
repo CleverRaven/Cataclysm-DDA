@@ -632,8 +632,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grass",
-    "name": "grass",
-    "name_plural": "grasses",
+    "name": { "str": "grass", "str_pl": "grasses" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -643,7 +642,7 @@
     "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },
   {
