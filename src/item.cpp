@@ -1617,7 +1617,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 const std::string fmt = string_format( ngettext( "<num> round of %s",
                                                        "<num> rounds of %s",
                                                        mod->ammo_capacity() ), at->name() );
-                info.emplace_back( "GUN", _( "<bold>Capacity</bold>: " ), fmt, iteminfo::no_flags,
+                info.emplace_back( "GUN", _( "Capacity: " ), fmt, iteminfo::no_flags,
                                    mod->ammo_capacity() );
             }
         }
@@ -2604,9 +2604,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
-            insert_separation_line( info );
             const std::set<std::string> compat = magazine_compatible();
-            info.emplace_back( "TOOL", _( "<bold>Compatible magazines</bold>: " ),
+            info.emplace_back( "TOOL", _( "Compatible magazines: " ),
             enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
                 return item::nname( id );
             } ) );
@@ -3384,9 +3383,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
-        container_info( info, parts, batch, debug );
-        contents_info( info, parts, batch, debug );
-        combat_info( info, parts, batch, debug );
     }
 
     const item *med_item = nullptr;
@@ -3402,6 +3398,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( const item *food_item = get_food() ) {
         food_info( food_item, info, parts, batch, debug );
     }
+
+    container_info( info, parts, batch, debug );
+    contents_info( info, parts, batch, debug );
+    combat_info( info, parts, batch, debug );
 
     magazine_info( info, parts, batch, debug );
     ammo_info( info, parts, batch, debug );

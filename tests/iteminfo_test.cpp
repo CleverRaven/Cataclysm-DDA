@@ -177,7 +177,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "<color_c_white>Capacity</color>: <color_c_yellow>1</color> round of arrows\n" );
+            "Capacity: <color_c_yellow>1</color> round of arrows\n" );
     }
 
     SECTION( "default ammo when unloaded" ) {
