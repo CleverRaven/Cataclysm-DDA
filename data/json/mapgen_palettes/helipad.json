@@ -78,6 +78,14 @@
       "D": "t_flat_roof",
       ">": "t_stairs_down"
     },
-    "furniture": { "L": "f_locker", "b": "f_bed", "h": "f_shower", "S": "f_sink", "t": "f_table", "D": "f_small_satelitte_dish" }
+    "furniture": {
+      "L": "f_locker",
+      "b": "f_bed",
+      "h": "f_shower",
+      "S": "f_sink",
+      "j": "f_bench",
+      "t": "f_table",
+      "D": "f_small_satelitte_dish"
+    }
   }
 ]
