@@ -1,0 +1,11 @@
+[
+  {
+    "result": "test_sheet_metal",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "150 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "test_sheet_metal_small", 24 ] ] ]
+  }
+]

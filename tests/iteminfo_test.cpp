@@ -41,7 +41,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     iteminfo_query q( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } );
 
     SECTION( "owner and price" ) {
-        item my_rock( "rock" );
+        item my_rock( "test_rock" );
         my_rock.set_owner( g->u );
         iteminfo_test(
             my_rock, q,
@@ -62,7 +62,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 
     SECTION( "zero price item with no owner" ) {
         iteminfo_test(
-            item( "rock" ), q,
+            item( "test_rock" ), q,
             "--\n"
             "Price: $<color_c_yellow>0.00</color>" );
     }
@@ -93,7 +93,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 
     SECTION( "bash damage" ) {
         iteminfo_test(
-            item( "rock" ), q,
+            item( "test_rock" ), q,
             "--\n"
             "<color_c_white>Damage</color>: Bash: <color_c_yellow>7</color>"
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
@@ -102,7 +102,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 
     SECTION( "bash and cut damage" ) {
         iteminfo_test(
-            item( "halligan" ), q,
+            item( "test_halligan" ), q,
             "--\n"
             "<color_c_white>Damage</color>: Bash: <color_c_yellow>20</color>"
             "  Cut: <color_c_yellow>5</color>"
@@ -131,7 +131,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_TECHNIQUES } );
 
     iteminfo_test(
-        item( "halligan" ), q,
+        item( "test_halligan" ), q,
         "--\n"
         "<color_c_white>Techniques when wielded</color>:"
         " <color_c_light_blue>Brutal Strike</color>: <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color>,"
@@ -236,7 +236,7 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
 
     SECTION( "simple item with ammo damage" ) {
         iteminfo_test(
-            item( "rock" ), q,
+            item( "test_rock" ), q,
             "--\n"
             "<color_c_white>Ammunition type</color>: rocks\n"
             "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
@@ -325,7 +325,7 @@ TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
             "--\n"
             "* This item <color_c_red>conducts</color> electricity.\n" );
         iteminfo_test(
-            item( "halligan" ), q,
+            item( "test_halligan" ), q,
             "--\n"
             "* This item <color_c_red>conducts</color> electricity.\n" );
     }
@@ -335,24 +335,9 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 {
     iteminfo_query q( { iteminfo_parts::QUALITIES } );
 
-    SECTION( "screwdriver" ) {
-        iteminfo_test(
-            item( "screwdriver" ), q,
-            "--\n"
-            "Has level <color_c_cyan>1 screw driving</color> quality.\n" );
-    }
-
-    SECTION( "screwdriver set" ) {
-        iteminfo_test(
-            item( "screwdriver_set" ), q,
-            "--\n"
-            "Has level <color_c_cyan>1 screw driving</color> quality.\n"
-            "Has level <color_c_cyan>1 fine screw driving</color> quality.\n" );
-    }
-
     SECTION( "Halligan bar" ) {
         iteminfo_test(
-            item( "halligan" ), q,
+            item( "test_halligan" ), q,
             "--\n"
             "Has level <color_c_cyan>1 digging</color> quality.\n"
             "Has level <color_c_cyan>2 hammering</color> quality.\n"
@@ -361,10 +346,21 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 
     SECTION( "bottle jack" ) {
         iteminfo_test(
-            item( "jack_small" ), q,
+            item( "test_jack_small" ), q,
             "--\n"
             "Has level <color_c_cyan>4 jacking</color> quality and is rated at <color_c_cyan>4409</color> lbs\n" );
     }
+
+    SECTION( "sonic screwdriver" ) {
+        iteminfo_test(
+            item( "test_sonic_screwdriver" ), q,
+            "--\n"
+            "Has level <color_c_cyan>2 prying</color> quality.\n"
+            "Has level <color_c_cyan>2 screw driving</color> quality.\n"
+            "Has level <color_c_cyan>1 fine screw driving</color> quality.\n"
+            "Has level <color_c_cyan>1 bolt turning</color> quality.\n" );
+    }
+
 }
 
 TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
@@ -372,17 +368,17 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
     iteminfo_test(
-        item( "halligan" ), q,
+        item( "test_halligan" ), q,
         "--\n"
         "<color_c_white>Repair</color> using extended toolset, arc welder, or makeshift arc welder.\n" );
 
     iteminfo_test(
-        item( "hazmat_suit" ), q,
+        item( "test_hazmat_suit" ), q,
         "--\n"
         "<color_c_white>Repair</color> using soldering iron or extended toolset.\n" );
 
     iteminfo_test(
-        item( "rock" ), q,
+        item( "test_rock" ), q,
         "--\n"
         "* This item is <color_c_red>not repairable</color>.\n" );
 
@@ -398,12 +394,6 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE } );
 
-    // long string
-    iteminfo_test(
-        item( "string_36" ), q,
-        "--\n"
-        "<color_c_white>Disassembly</color> takes about 5 minutes and might yield: 6 short strings.\n" );
-
     // short string
     iteminfo_test(
         item( "string_6" ), q,
@@ -411,16 +401,15 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
         "<color_c_white>Disassembly</color> takes about 5 minutes and might yield: thread (50).\n" );
 
     iteminfo_test(
-        item( "sheet_metal" ), q,
-        "--\n"
-        "<color_c_white>Disassembly</color> takes about 2 minutes and might yield: small metal sheet (24).\n" );
-
-    iteminfo_test(
         item( "soldering_iron" ), q,
         "--\n"
         "<color_c_white>Disassembly</color> takes about 20 minutes and might yield:"
         " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
 
+    iteminfo_test(
+        item( "test_sheet_metal" ), q,
+        "--\n"
+        "<color_c_white>Disassembly</color> takes about 2 minutes and might yield: TEST small metal sheet (24).\n" );
 }
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )
@@ -428,14 +417,14 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_FLAGS } );
 
     iteminfo_test(
-        item( "halligan" ), q,
+        item( "test_halligan" ), q,
         "--\n"
         "* This item can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
         "* As a weapon, this item is <color_c_green>well-made</color> and will"
         " <color_c_cyan>withstand the punishment of combat</color>.\n" );
 
     iteminfo_test(
-        item( "hazmat_suit" ), q,
+        item( "test_hazmat_suit" ), q,
         "--\n"
         "* This gear <color_c_green>completely protects</color> you from"
         " <color_c_cyan>electric discharges</color>.\n"
