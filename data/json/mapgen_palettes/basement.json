@@ -3,7 +3,8 @@
     "type": "palette",
     "id": "basement_residential",
     "terrain": {
-      "|": "t_wall",
+      "|": "t_wall_w",
+      "%": "t_concrete_wall",
       "<": "t_stairs_up",
       "+": "t_door_c",
       ".": "t_floor",
@@ -61,9 +62,9 @@
     "terrain": {
       " ": "t_rock",
       "+": "t_door_c",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_rock_floor",
-      "<": "t_stairs_up",
+      "<": "t_wood_stairs_up",
       "&": "t_rock_floor",
       "*": "t_rock_floor",
       "%": "t_rock_floor",
@@ -98,7 +99,7 @@
       "l": "t_floor",
       "B": "t_floor",
       "M": "t_floor",
-      "|": "t_wall",
+      "|": "t_wall_w",
       "1": "t_wall_log"
     },
     "furniture": {
@@ -143,5 +144,65 @@
       "W": "t_water_dispenser"
     },
     "toilets": { "&": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "basement_empty",
+    "terrain": {
+      " ": "t_rock",
+      "+": "t_door_c",
+      ".": "t_thconc_floor",
+      "|": "t_concrete_wall",
+      "<": "t_wood_stairs_up",
+      "%": "t_wall_w"
+    },
+    "furniture": {
+      "A": "f_stool",
+      "F": "f_home_furnace",
+      "J": "f_counter",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "W": "f_washer",
+      "Z": "f_dryer",
+      "8": "f_counter",
+      "9": "f_shower",
+      "g": "f_water_heater",
+      "v": "f_safe_l",
+      "z": "f_cardboard_box"
+    },
+    "toilets": { "t": {  } },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "items": {
+      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
+      "v": [
+        { "item": "art", "chance": 5 },
+        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "maps", "chance": 2 },
+        { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
+        { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "S": { "item": "SUS_bathroom_sink", "chance": 75 },
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "8": [
+        { "item": "SUS_hair_drawer", "chance": 50 },
+        { "item": "SUS_bathroom_cabinet", "chance": 50 },
+        { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs", "chance": 2 }
+      ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "Z": { "item": "laundry", "chance": 100 },
+      "W": { "item": "laundry", "chance": 50 },
+      "z": [
+        { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "child_items", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "stash_drugs", "chance": 1 },
+        { "item": "maps", "chance": 7 }
+      ]
+    }
   }
 ]

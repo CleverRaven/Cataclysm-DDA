@@ -120,11 +120,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, u.get_str() );
         const int ex = dice( 1, 3 ) - 1 + str_req;
-        if( ex > u.get_str() ) {
+        if( ex > u.get_str() + 1 ) {
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
             u.mod_pain( 1 );
-        } else if( ex == u.get_str() ) {
+        } else {
             u.moves -= 200;
             add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
         }

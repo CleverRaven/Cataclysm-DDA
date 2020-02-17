@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "triple_launcher_simple" ],
+    "id": [ "mgl", "rm802", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -154,7 +154,17 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "l_lookout_9mm", "rm99_pistol" ],
+    "id": [
+      "cop_38",
+      "model_10_revolver",
+      "ruger_lcr_38",
+      "sw_610",
+      "bond_410",
+      "colt_saa",
+      "l_lookout_9mm",
+      "rm99_pistol",
+      "m47a1"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -278,12 +288,12 @@
     "replace": "rifle_sporter"
   },
   {
-    "id": [ "AT4" ],
+    "id": [ "AT4", "LAW_Packed", "LAW" ],
     "type": "MIGRATION",
     "replace": "rocket_disposable"
   },
   {
-    "id": [ "m202_flash", "m3_carlgustav" ],
+    "id": [ "m202_flash", "m3_carlgustav", "RPG", "surv_rocket_launcher" ],
     "type": "MIGRATION",
     "replace": "rocket_recoilless"
   },

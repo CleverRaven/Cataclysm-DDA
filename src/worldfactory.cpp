@@ -163,6 +163,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             }
         }
         if( curtab < 0 ) {
+            catacurses::clear();
             catacurses::refresh();
             return nullptr;
         }

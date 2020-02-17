@@ -25,6 +25,7 @@
 #include "rng.h"
 #include "string_id.h"
 #include "enums.h"
+#include "bionics.h"
 #include "cata_string_consts.h"
 
 namespace io
@@ -580,6 +581,15 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
         // We already have this mutation or something that replaces it.
         return false;
     }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( mid == mutation ) {
+                return false;
+            }
+        }
+    }
+
     const mutation_branch &mdata = mutation.obj();
     if( force_bad && mdata.points > 0 ) {
         // This is a good mutation, and we're due for a bad one.

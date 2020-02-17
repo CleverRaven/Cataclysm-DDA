@@ -1,6 +1,7 @@
 [
   {
     "id": "hk46bigmag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "H&K 4.6mm extended magazine",
     "description": "An extended 40-round magazine for use with H&K's proprietary 4.6x30mm round.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "hk46mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "H&K 4.6mm magazine",
     "description": "A standard capacity 20-round magazine for use with H&K's proprietary 4.6x30mm round.",

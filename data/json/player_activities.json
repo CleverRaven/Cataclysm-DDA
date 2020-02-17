@@ -449,6 +449,16 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MILK",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "milking an animal",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

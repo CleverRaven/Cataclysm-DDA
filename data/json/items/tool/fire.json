@@ -67,8 +67,7 @@
   {
     "id": "flint_steel",
     "type": "TOOL",
-    "name": "flint and steel",
-    "name_plural": "sets of flint and steel",
+    "name": { "str": "flint and steel", "str_pl": "sets of flint and steel" },
     "description": "This is a magnesium bar and a carbon steel striker.  Use it to spark a flame.",
     "weight": "400 g",
     "volume": "250 ml",
@@ -103,8 +102,7 @@
   {
     "id": "magnifying_glass",
     "type": "TOOL",
-    "name": "magnifying glass",
-    "name_plural": "magnifying glasses",
+    "name": { "str": "magnifying glass", "str_pl": "magnifying glasses" },
     "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
     "weight": "400 g",
     "volume": "250 ml",
@@ -124,7 +122,7 @@
     "weight": "10 g",
     "volume": 0,
     "price": 10,
-    "material": "paper",
+    "material": "cardboard",
     "symbol": ",",
     "color": "blue",
     "initial_charges": 20,
@@ -165,8 +163,7 @@
   {
     "id": "ref_lighter_on",
     "type": "TOOL",
-    "name": "refillable lighter",
-    "name_plural": "refillable lighters",
+    "name": { "str": "refillable lighter", "str_pl": "refillable lighters" },
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "weight": "20 g",
     "volume": "31 ml",
@@ -219,8 +216,7 @@
   {
     "id": "tinderbox_on",
     "type": "TOOL",
-    "name": "ember carrier (lit)",
-    "name_plural": "ember carriers (lit)",
+    "name": { "str": "ember carrier (lit)", "str_pl": "ember carriers (lit)" },
     "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
     "weight": "500 g",
     "volume": "500 ml",

@@ -28,11 +28,11 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": "Find Inhaler",
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "inhaler" },
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
-    "item": "inhaler",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "deadline_low": 30,
     "deadline_high": 48,
@@ -55,7 +55,7 @@
         { "clear_npc_rule": "investigate_noises" }
       ]
     },
-    "end": { "effect": [ "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ] },
+    "end": { "effect": [ "stop_guard", { "set_npc_rule": "investigate_noises" }, { "u_sell_item": "inhaler" }, "npc_thankful" ] },
     "fail": { "effect": "npc_die" }
   },
   {

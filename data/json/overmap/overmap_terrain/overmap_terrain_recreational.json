@@ -1492,13 +1492,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_public_space",
-    "copy-from": "generic_city_building",
-    "name": "public space",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lake_dock_small",
     "copy-from": "generic_recreation_water",
     "name": "dock",
