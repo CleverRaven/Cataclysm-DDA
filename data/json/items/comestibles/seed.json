@@ -619,8 +619,7 @@
     "type": "COMESTIBLE",
     "id": "seed_mushroom_morel",
     "copy-from": "seed_mushroom_base",
-    "name": "morel mushroom spores",
-    "name_plural": "morel mushroom spores",
+    "name": { "str": "morel mushroom spores", "str_pl": "morel mushroom spores" },
     "description": "Some morel mushroom spores.",
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "91 days" }
   },

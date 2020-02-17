@@ -327,8 +327,7 @@
     "id": "jerky",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
-    "name": "meat jerky",
-    "name_plural": "meat jerky",
+    "name": { "str": "meat jerky", "str_pl": "meat jerky" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
