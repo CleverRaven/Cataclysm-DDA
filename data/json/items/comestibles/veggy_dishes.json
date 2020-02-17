@@ -480,8 +480,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauerkraut_onions",
-    "name": "sauerkraut w/ sautee'd onions",
-    "name_plural": "sauerkraut w/ sautee'd onions",
+    "name": { "str": "sauerkraut w/ sautee'd onions", "str_pl": "sauerkraut w/ sautee'd onions" },
     "weight": "424 g",
     "color": "light_gray",
     "spoils_in": "5 days",

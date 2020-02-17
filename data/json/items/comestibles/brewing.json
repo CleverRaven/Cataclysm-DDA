@@ -176,8 +176,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_rum",
-    "name": "rum wash",
-    "name_plural": "rum washes",
+    "name": { "str": "rum wash", "str_pl": "rum washes" },
     "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
     "weight": "50 g",
     "color": "light_cyan",

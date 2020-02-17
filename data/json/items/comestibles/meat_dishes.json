@@ -279,8 +279,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fish",
-    "name": "rehydrated fish",
-    "name_plural": "rehydrated fish",
+    "name": { "str": "rehydrated fish", "str_pl": "rehydrated fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "description": "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
@@ -1183,8 +1182,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sashimi",
-    "name": "sashimi",
-    "name_plural": "sashimi",
+    "name": { "str": "sashimi", "str_pl": "sashimi" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "12 hours",
