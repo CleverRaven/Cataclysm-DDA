@@ -2868,10 +2868,10 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         //~ %1$s: the cause of destruction, %2$s: destroyed item name
         add_msg( m_bad, _( "The %1$s destroys the %2$s!" ), cause_message, damaged_item_name );
     } else if( items_damaged > 1 && g->u.sees( p ) ) {
-        add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
+        add_msg( m_bad, _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 && g->u.sees( p ) )  {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, damaged_item_name );
+        add_msg( m_bad, _( "The %1$s damages the %2$s." ), cause_message, damaged_item_name );
     }
 
     for( const item &it : contents ) {
