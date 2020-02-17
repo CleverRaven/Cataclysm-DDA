@@ -187,6 +187,7 @@
     "entries": [
       { "group": "SUS_book_fict_soft_romc", "count": [ 1, 5 ], "prob": 80 },
       { "group": "SUS_book_fict_soft_west", "count": [ 1, 5 ], "prob": 80 },
+      { "group": "SUS_book_fict_soft_ya", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_spy", "count": [ 1, 2 ], "prob": 70 },
       { "item": "novel_spy_comefly", "prob": 40 },
       { "item": "novel_spy_rocketsci", "prob": 40 },
@@ -251,6 +252,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_book_fict_soft_romc", "prob": 1 },
+      { "group": "SUS_book_fict_soft_ya", "prob": 1 },
       { "group": "SUS_book_fict_soft_west", "prob": 1 }
     ]
   },
@@ -289,6 +291,24 @@
       { "item": "paperback_romance_rider", "prob": 1 },
       { "item": "paperback_romance_rogue", "prob": 1 },
       { "item": "paperback_romance_secret", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_soft_ya",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group returns a single paperback book for young adults and teens.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_fict_soft_ya_adrk", "prob": 1 },
+      { "item": "book_fict_soft_ya_bjak", "prob": 1 },
+      { "item": "book_fict_soft_ya_burn", "prob": 1 },
+      { "item": "book_fict_soft_ya_hilo", "prob": 1 },
+      { "item": "book_fict_soft_ya_myeyes", "prob": 1 },
+      { "item": "book_fict_soft_ya_pbbr", "prob": 1 },
+      { "item": "book_fict_soft_ya_rwya", "prob": 1 },
+      { "item": "book_fict_soft_ya_sboy", "prob": 1 },
+      { "item": "book_fict_soft_ya_sumv", "prob": 1 }
     ]
   },
   {
