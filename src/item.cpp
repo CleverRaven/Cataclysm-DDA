@@ -1651,6 +1651,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
     info.back().bNewLine = true;
 
+    int max_gun_range = loaded_mod->gun_range( &g->u );
+    if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
+        info.emplace_back( "GUN", _( "Maximum range: " ), "<num>", iteminfo::no_flags,
+                           max_gun_range );
+    }
+
     // TODO: This doesn't cover multiple damage types
 
     if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) ) {
@@ -1787,14 +1793,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                           mod->get_gun_ups_drain() ) );
     }
 
-    int max_gun_range = loaded_mod->gun_range( &g->u );
-    if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
-        insert_separation_line( info );
-        info.emplace_back( "GUN", _( "<bold>Maximum range</bold>: " ), "<num>", iteminfo::no_flags,
-                           max_gun_range );
-    }
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
-        info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::no_flags,
+        insert_separation_line( info );
+        info.emplace_back( "GUN", _( "<bold>Base aim speed</bold>: " ), "<num>", iteminfo::no_flags,
                            g->u.aim_per_move( *mod, MAX_RECOIL ) );
         for( const aim_type &type : g->u.get_aim_types( *mod ) ) {
             // Nameless aim levels don't get an entry.
