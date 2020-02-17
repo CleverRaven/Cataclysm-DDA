@@ -2,7 +2,7 @@
   {
     "id": "beam_scatterer",
     "type": "GUNMOD",
-    "name": "beam scatterer",
+    "name": { "str": "beam scatterer" },
     "description": "A set of optics made to fit on laser weapons, which will diffract the laser beam into several lower powered beams.  This increases point-blank damage, but greatly reduces range.",
     "weight": "380 g",
     "volume": "250 ml",
