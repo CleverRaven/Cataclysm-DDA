@@ -77,6 +77,7 @@ void move_mode::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "minimum_required_legs", minimum_required_legs, 0 );
     optional( jo, was_loaded, "stamina_burn_multiplier", stamina_burn_multiplier, 1.0f );
     optional( jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f );
+    optional( jo, was_loaded, "swim_cost_modifier", swim_cost_modifier, 0 );
     optional( jo, was_loaded, "display_colour", display_colour, "light_gray" );
 
 }

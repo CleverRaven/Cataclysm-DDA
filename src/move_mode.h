@@ -40,6 +40,7 @@ struct move_mode {
         int minimum_required_legs;
         float stamina_burn_multiplier;
         float volume_multiplier;
+        int swim_cost_modifier;
 
         nc_color nc_display_colour;
         const char *display_character_ptr;

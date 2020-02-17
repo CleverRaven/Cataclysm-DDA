@@ -1355,13 +1355,19 @@ static void open_movement_mode_menu()
     int index = 0;
 
     for( const move_mode &mm : move_modes::get_all() ) {
+        if( mm.id == MM_NULL.id() ) {
+            continue;
+        }
+
         modeMap[index] = mm;
         as_m.entries.emplace_back( index, true, mm.display_character_ptr[0], mm.name.translated() );
         index++;
     }
 
     as_m.query();
-
+    if( as_m.ret < 0 ) {
+        return;
+    }
     move_mode selectedMode = modeMap[as_m.ret];
     u.set_movement_mode( selectedMode.id );
 }

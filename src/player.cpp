@@ -627,14 +627,7 @@ int player::swim_speed() const
         ret -= 50;
     }
 
-    // Running movement mode while swimming means faster swim style, like crawlstroke
-    if( current_move_mode == MM_RUN ) {
-        ret -= 80;
-    }
-    // Crouching movement mode while swimming means slower swim style, like breaststroke
-    if( current_move_mode == MM_CROUCH ) {
-        ret += 50;
-    }
+    ret += current_move_mode->swim_cost_modifier;
 
     if( ret < 30 ) {
         ret = 30;
