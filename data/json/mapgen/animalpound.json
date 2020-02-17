@@ -131,12 +131,12 @@
         { "monster": "GROUP_ANIMALPOUND_CATS", "x": 16, "y": 9, "chance": 2, "density": 0.05 },
         { "monster": "GROUP_ANIMALPOUND_CATS", "x": 18, "y": 9, "chance": 10, "density": 0.05 },
         { "monster": "GROUP_ANIMALPOUND_CATS", "x": 20, "y": 9, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 11, "chance": 2, "density": 0.05 },
+        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 11, "chance": 10, "density": 0.05 },
         { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 5, "y": 11, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 11, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 15, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 5, "y": 15, "chance": 2, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 15, "chance": 10, "density": 0.05 }
+        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 11, "chance": 20, "density": 0.05 },
+        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 15, "chance": 20, "density": 0.05 },
+        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 5, "y": 15, "chance": 10, "density": 0.05 },
+        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 15, "chance": 20, "density": 0.05 }
       ],
       "place_vehicles": [ { "vehicle": "animalshelter", "x": 17, "y": 22, "chance": 25, "rotation": 180 } ]
     }
