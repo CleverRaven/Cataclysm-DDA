@@ -357,9 +357,6 @@ void map::vehmove()
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
             veh->gain_moves();
-            if( !veh ) {
-                break;
-            }
             veh->slow_leak();
             wrapped_vehicle w;
             w.v = veh;
