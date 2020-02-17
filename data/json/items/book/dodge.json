@@ -1,5 +1,24 @@
 [
   {
+    "abstract": "book_nonf_hard_dodge_tpl",
+    "type": "BOOK",
+    "name": "dodge skillbook abstract",
+    "description": "An ordinary book.  Or is it?  It is.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "price": 1000,
+    "price_postapoc": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "light_blue",
+    "flags": [ "TINDER", "FLAMMABLE" ],
+    "skill": "dodge",
+    "intelligence": 4,
+    "time": 10,
+    "fun": -1
+  },
+  {
     "id": "mag_dodge",
     "type": "BOOK",
     "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
@@ -39,17 +58,21 @@
     "type": "BOOK",
     "name": { "str": "Break a Leg!", "str_pl": "copies of Break a Leg!" },
     "description": "The Kids' Guide to Acting and Stagecraft.",
-    "weight": "72 g",
-    "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 1300,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "white",
-    "skill": "dodge",
+    "copy-from": "book_nonf_hard_dodge_tpl",
     "max_level": 1,
-    "intelligence": 1,
-    "time": "6 m",
-    "fun": 1
+    "relative": { "price_post": -100, "intelligence": -1, "fun": 2 }
+  },
+  {
+    "id": "book_nonf_hard_dodge_tlwd",
+    "type": "BOOK",
+    "name": { "str": "Treasury of Legends about Western Dancing", "str_pl": "copies of Western Dancing" },
+    "description": "Written by Emanuel Nogueira, a constabulario of Nuevo Laredo, this massive book details the movements and cultural legacies of a variety of North American folk dances.",
+    "copy-from": "book_nonf_hard_dodge_tpl",
+    "weight": "2330 g",
+    "volume": "1250 ml",
+    "color": "blue",
+    "required_level": 4,
+    "max_level": 5,
+    "relative": { "price_post": 2000, "intelligence": 4, "time": 10}
   }
 ]

@@ -74,6 +74,22 @@
     "relative": { "price_post": -100, "intelligence": -1 }
   },
   {
+    "abstract": "book_fict_soft_ya_vanilla",
+    "type": "BOOK",
+    "name": "Tween Topics",
+    "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
+    "copy-from": "paperback_novel",
+    "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
+  },
+  {
+    "abstract": "book_fict_soft_ya_quiddity",
+    "type": "BOOK",
+    "name": "Quiddity Books",
+    "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
+    "copy-from": "paperback_novel",
+    "relative": { "price_post": -400, "chapters": 9 }
+  },
+  {
     "id": "ZSG",
     "type": "BOOK",
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
@@ -971,12 +987,58 @@
     "fun": 4
   },
   {
-    "id": "paperback_western_vaq",
+    "id": "book_fict_soft_west_atwixt",
+    "type": "BOOK",
+    "name": "Atwixt a Brace of Cacti",
+    "description": "A grizzled clodhopper interviews a mess of rangehands, flummoxing longhorns and tenderfoot alike in a flusteration of jawing.",
+    "copy-from": "paperback_western_em",
+    "relative": { "price": 400, "intelligence": 4, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_bart",
+    "type": "BOOK",
+    "name": "Stinky Bart Puts on Starch",
+    "description": "A local bandit, driven by sadistic impulses, begins offering unlicensed dentistry to brave frontiersmen with few options and fewer teeth.",
+    "copy-from": "paperback_western_em"
+  },
+  {
+    "id": "book_fict_soft_west_beans",
+    "type": "BOOK",
+    "name": "Six Beans in the Wheel",
+    "description": "The safety is off in this gun slinging tale of revenge and redemption by acclaimed author El Amor.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -2, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_calico",
+    "type": "BOOK",
+    "name": "Irons at Calico Queen Annex",
+    "description": "The establishment of a telegraph line into the recently named town of Calico Queen threatens to bring with it the long arm of the law.  A trio of enterprising gunfighters hatches a plan to keep Calico Queen wild by looting the supply wagons.",
+    "copy-from": "paperback_western_em"
+  },
+  {
+    "id": "book_fict_soft_west_riot",
+    "type": "BOOK",
+    "name": "Riot on the Range",
+    "description": "Best selling author El Amor paints a visceral study in red with his latest western saga: Riot on the Range.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -1, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_vaq",
     "type": "BOOK",
     "name": "Vaquero Sun",
     "description": "Western author El Amor relates the story of a dispossessed young man inspired by a heat stroke delusion to pursue justice against an evil land baron.",
     "copy-from": "paperback_western_em",
-    "relative": { "chapters": 2 }
+    "relative": { "chapters": 2, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_vride",
+    "type": "BOOK",
+    "name": "The Vendetta Riders",
+    "description": "A wild young man, fast on the draw, who thinks he has nothing to lose, falls in with a group of gun runners.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -1, "fun": -1 }
   },
   {
     "id": "philosophy_book",

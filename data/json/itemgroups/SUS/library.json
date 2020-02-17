@@ -186,6 +186,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "SUS_book_fict_soft_romc", "count": [ 1, 5 ], "prob": 80 },
+      { "group": "SUS_book_fict_soft_west", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_spy", "count": [ 1, 2 ], "prob": 70 },
       { "item": "novel_spy_comefly", "prob": 40 },
       { "item": "novel_spy_rocketsci", "prob": 40 },
@@ -193,7 +194,6 @@
       { "item": "novel_sports", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_samurai", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_swash", "count": [ 1, 5 ], "prob": 80 },
-      { "item": "novel_western", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_war", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_adventure", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_experimental", "count": [ 1, 5 ], "prob": 80 },
@@ -229,7 +229,8 @@
     "//2": "This group is for a single book of any type.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_fict", "prob": 1 }
+      { "group": "SUS_book_fict", "prob": 1 },
+      { "group": "SUS_book_nonf", "prob": 1 }
     ]
   },
   {
@@ -249,7 +250,25 @@
     "//2": "This group is for a single paperback book of any fiction.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_fict_soft_romc", "prob": 1 }
+      { "group": "SUS_book_fict_soft_romc", "prob": 1 },
+      { "group": "SUS_book_fict_soft_west", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_soft_west",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single paperback book of the western genre.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "novel_western", "prob": 1 },
+      { "item": "book_fict_soft_west_atwixt", "prob": 1 },
+      { "item": "book_fict_soft_west_bart", "prob": 1 },
+      { "item": "book_fict_soft_west_beans", "prob": 1 },
+      { "item": "book_fict_soft_west_calico", "prob": 1 },
+      { "item": "book_fict_soft_west_riot", "prob": 1 },
+      { "item": "book_fict_soft_west_vaq", "prob": 1 },
+      { "item": "book_fict_soft_west_vride", "prob": 1 }
     ]
   },
   {
@@ -270,6 +289,38 @@
       { "item": "paperback_romance_rider", "prob": 1 },
       { "item": "paperback_romance_rogue", "prob": 1 },
       { "item": "paperback_romance_secret", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single nonfiction printed material.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_nonf_hard", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single nonfiction book that is hard bound.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard_dodge",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a dodge skill training book that is hard bound.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "manual_dodge", "prob": 1 },
+      { "item": "manual_dodge_kid", "prob": 1 },
+      { "item": "book_nonf_hard_dodge_tlwd", "prob": 1 }
     ]
   }
 ]
