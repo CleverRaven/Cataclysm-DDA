@@ -106,7 +106,7 @@
     "id": "fried_tripe",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "deep fried tripe",
+    "name": "deep-fried tripe",
     "symbol": "%",
     "looks_like": "small_stomach_boiled",
     "quench": -4,
@@ -150,7 +150,7 @@
     "looks_like": "offal_cooked",
     "quench": -2,
     "fun": 3,
-    "description": "I don't know what you were expecting.  It's deep fried.",
+    "description": "I don't know what you were expecting.  It's deep-fried.",
     "material": [ "flesh", "wheat" ],
     "primary_material": "flesh",
     "color": "brown",
@@ -196,7 +196,7 @@
     "type": "COMESTIBLE",
     "copy-from": "liver_cooked",
     "name": "canned liver",
-    "description": "Livers preserved in a can.  Chock full of B vitamins!",
+    "description": "Livers preserved in a can.  Chock-full of B vitamins!",
     "container": "can_food"
   },
   {

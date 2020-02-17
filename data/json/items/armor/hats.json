@@ -593,7 +593,7 @@
     "type": "ARMOR",
     "name": "golf cap",
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "You're not actually sure if this is called a golf cap but its the stereotypical cap golfers wear.",
+    "description": "You're not actually sure if this is called a golf cap but it's the stereotypical cap golfers wear.",
     "weight": "85 g",
     "volume": "500 ml",
     "price": 2200,

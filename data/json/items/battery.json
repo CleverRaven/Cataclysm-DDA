@@ -4,7 +4,7 @@
     "type": "BATTERY",
     "category": "spare_parts",
     "name": { "str": "test battery", "str_pl": "test batteries" },
-    "description": "This is a testing item for the BATTERY item type.  If you found one in game it's a bug.",
+    "description": "This is a testing item for the BATTERY item type.  If you found one in game, it's a bug.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 1500,

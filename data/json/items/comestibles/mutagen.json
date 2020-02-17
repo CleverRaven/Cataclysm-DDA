@@ -263,7 +263,7 @@
     "copy-from": "mutagen",
     "type": "COMESTIBLE",
     "name": "congealed blood",
-    "description": "A thick, soupy red liquid.  It looks and smells disgusting, and seems to bubble with an intelligence of its own…",
+    "description": "A thick, soupy red liquid.  It looks and smells disgusting, and seems to bubble with intelligence of its own…",
     "color": "red",
     "addiction_potential": 0,
     "charges": 5,

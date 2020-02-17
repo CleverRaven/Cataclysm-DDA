@@ -86,7 +86,7 @@
     "symbol": ",",
     "color": "light_cyan",
     "name": "razor blade",
-    "description": "A double edged razor blade.",
+    "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,
     "material": "steel",
