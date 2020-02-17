@@ -1,0 +1,97 @@
+[
+  {
+    "type": "item_group",
+    "id": "fuel_diesel",
+    "items": [
+      { "item": "diesel", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan" },
+      { "item": "diesel", "prob": 30, "charges-min": 3850, "charges-max": 20000, "container-item": "jerrycan_big" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fuel_gasoline",
+    "items": [
+      { "item": "gasoline", "prob": 80, "charges-min": 450, "charges-max": 8000, "container-item": "jerrycan" },
+      { "item": "gasoline", "prob": 20, "charges-min": 2650, "charges-max": 20000, "container-item": "jerrycan_big" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "car_kit",
+    "items": [
+      [ "jack", 18 ],
+      [ "wheel", 14 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 3 ],
+      [ "hose", 7 ],
+      [ "jumper_cable", 10 ],
+      [ "sm_extinguisher", 7 ],
+      [ "extinguisher", 2 ],
+      [ "1st_aid", 5 ],
+      [ "survival_kit", 3 ],
+      { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
+      [ "screwdriver", 8 ],
+      [ "screwdriver_set", 2 ],
+      [ "toolbox", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "car_misc",
+    "items": [
+      [ "matches", 8 ],
+      [ "lighter", 10 ],
+      [ "ref_lighter", 2 ],
+      { "group": "tobacco_products", "prob": 26 },
+      [ "gum", 13 ],
+      [ "glowstick", 2 ],
+      [ "flashlight", 5 ],
+      [ "umbrella", 10 ],
+      [ "teleumbrella", 3 ],
+      [ "sunglasses", 12 ],
+      [ "inhaler", 5 ],
+      [ "knife_swissarmy", 5 ],
+      [ "roadmap", 1 ],
+      [ "trailmap", 1 ],
+      [ "touristmap", 1 ],
+      [ "eclipse_glasses", 1 ],
+      [ "thermos", 5 ],
+      [ "gasdiscount_silver", 1 ],
+      [ "gasdiscount_gold", 1 ],
+      [ "gasdiscount_platinum", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gas_charging_rack",
+    "items": [
+      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
+      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
+      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
+      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      { "item": "medium_storage_battery", "prob": 15, "charges-min": 0, "charges-max": 10000 },
+      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
+      [ "it_battery_mount", 90 ],
+      [ "it_battery_mount", 50 ],
+      [ "it_battery_mount", 40 ],
+      [ "it_battery_mount", 10 ]
+    ]
+  },
+  {
+    "id": "wheels",
+    "type": "item_group",
+    "items": [
+      [ "wheel_wood", 25 ],
+      [ "wheel_metal", 25 ],
+      [ "wheel_small", 35 ],
+      [ "wheel_motorbike", 25 ],
+      [ "wheel_bicycle", 40 ],
+      [ "wheel_wide_or", 25 ],
+      [ "wheel_bicycle_or", 25 ],
+      [ "wheel_motorbike_or", 25 ],
+      [ "wheel_slick", 25 ],
+      [ "wheel", 50 ]
+    ]
+  }
+]
