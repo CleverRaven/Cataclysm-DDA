@@ -152,7 +152,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
             item( "longshirt" ), q,
             "--\n"
             // NOLINTNEXTLINE(cata-text-style)
-            "Covers: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
+            "<color_c_white>Covers</color>: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
             // NOLINTNEXTLINE(cata-text-style)
             "Layer: <color_c_light_blue>Normal</color>. \n"
             "Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
@@ -166,7 +166,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         iteminfo_test(
             item( "ear_plugs" ), q,
             "--\n"
-            "Covers: <color_c_cyan>Nothing</color>.\n" );
+            "<color_c_white>Covers</color>: <color_c_cyan>Nothing</color>.\n" );
     }
 }
 

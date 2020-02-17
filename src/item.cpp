@@ -2047,7 +2047,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     bool covers_anything = covered_parts.any();
 
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
-        std::string coverage = _( "Covers: " );
+        std::string coverage = _( "<bold>Covers</bold>: " );
         if( covers( bp_head ) ) {
             coverage += _( "The <info>head</info>. " );
         }
@@ -2716,6 +2716,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     };
 
     if( parts->test( iteminfo_parts::QUALITIES ) ) {
+        insert_separation_line( info );
         for( const std::pair<const quality_id, int> &q : type->qualities ) {
             name_quality( q );
         }
