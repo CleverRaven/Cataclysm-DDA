@@ -276,8 +276,7 @@
   {
     "id": "survivor_goggles",
     "type": "ARMOR",
-    "name": "survivor goggles",
-    "name_plural": "pairs of survivor goggles",
+    "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
     "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
     "weight": "212 g",
     "volume": "250 ml",
