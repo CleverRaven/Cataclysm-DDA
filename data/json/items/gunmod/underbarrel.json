@@ -224,7 +224,7 @@
     "name": "LeMat revolver shotgun",
     "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -297,7 +297,7 @@
     "type": "GUNMOD",
     "name": "M6 Survival Gun shotgun",
     "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "material": [ "steel" ],
     "symbol": ":",
@@ -439,7 +439,7 @@
     "name": "LW underbarrel laser sight",
     "description": "A Leadworks built in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
@@ -450,7 +450,7 @@
     "name": "LW forward grip",
     "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
@@ -461,7 +461,7 @@
     "name": "LW bipod",
     "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   },
@@ -472,7 +472,7 @@
     "name": "LW underslung shotgun",
     "description": "Leadworks built in minimalist pump action shotgun module.  It allows 4 shotgun shells to be loaded and fired.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
