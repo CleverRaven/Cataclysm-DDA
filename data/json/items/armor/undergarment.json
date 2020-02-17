@@ -427,8 +427,7 @@
   {
     "id": "panties",
     "type": "ARMOR",
-    "name": "panties",
-    "name_plural": "panties",
+    "name": { "str": "panties", "str_pl": "panties" },
     "description": "Underwear designed to be worn by women.  Preserves your modesty in desperate times.",
     "weight": "32 g",
     "volume": "250 ml",

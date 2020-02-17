@@ -128,8 +128,7 @@
   {
     "id": "flintlock_pouch",
     "type": "ARMOR",
-    "name": "paper cartridge pouch",
-    "name_plural": "paper cartridge pouches",
+    "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
     "description": "A covered leather pouch, worn at the waist to store and protect prepared blackpowder cartridges.",
     "weight": "160 g",
     "volume": "500 ml",
