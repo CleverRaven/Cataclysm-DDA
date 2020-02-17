@@ -28,7 +28,6 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 TEST_CASE( "recipe_subset" )
 {
@@ -311,9 +310,9 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
 
     g->u.make_craft( rid, 1 );
     CHECK( g->u.activity );
-    CHECK( g->u.activity.id() == ACT_CRAFT );
+    CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( g->u.activity.id() == ACT_CRAFT ) {
+    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         if( turns >= interrupt_after_turns ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
@@ -453,9 +452,9 @@ static int resume_craft()
     REQUIRE( !g->u.activity );
     g->u.use( g->u.get_item_position( craft ) );
     CHECK( g->u.activity );
-    CHECK( g->u.activity.id() == ACT_CRAFT );
+    CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( g->u.activity.id() == ACT_CRAFT ) {
+    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         ++turns;
         g->u.moves = 100;
         g->u.activity.do_turn( g->u );

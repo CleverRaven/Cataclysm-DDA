@@ -23,7 +23,8 @@
 #include "map_selector.h"
 #include "point.h"
 #include "visitable.h"
-#include "cata_string_consts.h"
+
+const trait_id trait_debug_storage( "DEBUG_STORAGE" );
 
 enum inventory_location {
     GROUND,
@@ -260,7 +261,7 @@ static void pick_up_from_feet( player &p, int id )
     REQUIRE( found );
 
     p.moves = 100;
-    p.assign_activity( ACT_PICKUP );
+    p.assign_activity( activity_id( "ACT_PICKUP" ) );
     p.activity.targets.emplace_back( map_cursor( p.pos() ), found );
     p.activity.values.push_back( 0 );
     p.activity.do_turn( p );
@@ -753,8 +754,8 @@ TEST_CASE( "Inventory letter test", "[invlet]" )
     dummy.setpos( spot );
     g->m.ter_set( spot, ter_id( "t_dirt" ) );
     g->m.furn_set( spot, furn_id( "f_null" ) );
-    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
-        dummy.set_mutation( trait_DEBUG_STORAGE );
+    if( !dummy.has_trait( trait_debug_storage ) ) {
+        dummy.set_mutation( trait_debug_storage );
     }
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );

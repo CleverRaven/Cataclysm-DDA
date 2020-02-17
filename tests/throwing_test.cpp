@@ -22,7 +22,6 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
@@ -51,6 +50,8 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
     return( stream << "STR: " << pstats.str << " DEX: " << pstats.dex <<
             " PER: " << pstats.per << " SKL: " << pstats.skill_lvl );
 }
+
+static const skill_id skill_throw = skill_id( "throw" );
 
 static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
 {

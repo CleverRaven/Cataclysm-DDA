@@ -21,7 +21,6 @@
 #include "type_id.h"
 #include "game_constants.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,
@@ -31,6 +30,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_window_frame( "t_window_frame" );
     const ter_id t_floor( "t_floor" );
     const ter_id t_utility_light( "t_utility_light" );
+    const efftype_id effect_narcosis( "narcosis" );
     const ter_id t_flat_roof( "t_flat_roof" );
     const ter_id t_open_air( "t_open_air" );
 

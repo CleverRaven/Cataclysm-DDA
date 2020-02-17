@@ -7,7 +7,6 @@
 #include "mutation.h"
 #include "output.h"
 #include "player_helpers.h"
-#include "cata_string_consts.h"
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -52,11 +51,11 @@ TEST_CASE( "memorials" )
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );
-    efftype_id eff = effect_onfire;
+    efftype_id eff( "onfire" );
     itype_id it( "marloss_seed" );
-    trait_id mut = trait_CARNIVORE;
-    trait_id mut2 = trait_SAPROPHAGE;
-    bionic_id cbm = bio_alarm;
+    trait_id mut( "CARNIVORE" );
+    trait_id mut2( "SAPROPHAGE" );
+    bionic_id cbm( "bio_alarm" );
 
     check_memorial<event_type::activates_artifact>(
         m, b, "Activated the art_name.", ch, "art_name" );
