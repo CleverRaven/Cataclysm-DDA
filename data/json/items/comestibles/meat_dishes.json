@@ -279,8 +279,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fish",
-    "name": "rehydrated fish",
-    "name_plural": "rehydrated fish",
+    "name": { "str": "rehydrated fish", "str_pl": "rehydrated fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "description": "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
@@ -290,8 +289,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_pickled",
-    "name": "pickled fish",
-    "name_plural": "pickled fish",
+    "name": { "str": "pickled fish", "str_pl": "pickled fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "4 days",
@@ -575,8 +573,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pork_beans",
-    "name": "pork and beans",
-    "name_plural": "pork and beans",
+    "name": { "str": "pork and beans", "str_pl": "pork and beans" },
     "weight": "267 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -736,8 +733,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_rice",
-    "name": "meat fried rice",
-    "name_plural": "meat fried rice",
+    "name": { "str": "meat fried rice", "str_pl": "meat fried rice" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant fried rice", "str_pl": "mutant fried rice" } }
     ],
@@ -1166,8 +1162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_meatroll",
-    "name": "meat temaki",
-    "name_plural": "meat temaki",
+    "name": { "str": "meat temaki", "str_pl": "meat temaki" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "troubling %s", "str_pl": "troubling %s" } } ],
     "weight": "273 g",
     "color": "green",
@@ -1187,8 +1182,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sashimi",
-    "name": "sashimi",
-    "name_plural": "sashimi",
+    "name": { "str": "sashimi", "str_pl": "sashimi" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "12 hours",

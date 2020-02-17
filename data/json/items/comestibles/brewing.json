@@ -176,8 +176,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_rum",
-    "name": "rum wash",
-    "name_plural": "rum washes",
+    "name": { "str": "rum wash", "str_pl": "rum washes" },
     "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
     "weight": "50 g",
     "color": "light_cyan",
@@ -303,8 +302,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_moonshine",
-    "name": "moonshine mash",
-    "name_plural": "moonshine mashes",
+    "name": { "str": "moonshine mash", "str_pl": "moonshine mashes" },
     "description": "Unfermented moonshine.  Just some water, sugar and corn, like good ol' aunt's recipe.",
     "weight": "50 g",
     "color": "brown",
@@ -324,8 +322,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_moonshine",
-    "name": "moonshine wash",
-    "name_plural": "moonshine washes",
+    "name": { "str": "moonshine wash", "str_pl": "moonshine washes" },
     "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine.",
     "weight": "50 g",
     "color": "brown",

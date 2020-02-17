@@ -486,8 +486,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potato",
-    "name": "raw potato",
-    "name_plural": "raw potatoes",
+    "name": { "str": "raw potato", "str_pl": "raw potatoes" },
     "weight": "210 g",
     "color": "brown",
     "spoils_in": "60 days",
@@ -714,8 +713,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_beans",
-    "name": "raw beans",
-    "name_plural": "raw beans",
+    "name": { "str": "raw beans", "str_pl": "raw beans" },
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
@@ -735,8 +733,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_lentils",
-    "name": "raw lentils",
-    "name_plural": "raw lentils",
+    "name": { "str": "raw lentils", "str_pl": "raw lentils" },
     "color": "light_green",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",

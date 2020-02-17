@@ -422,8 +422,7 @@
   {
     "type": "COMESTIBLE",
     "id": "peach",
-    "name": "peach",
-    "name_plural": "peaches",
+    "name": { "str": "peach", "str_pl": "peaches" },
     "weight": "163 g",
     "color": "yellow",
     "spoils_in": "3 days",
