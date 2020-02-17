@@ -86,7 +86,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": "GOBAG_NORMAL"
+    "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" }
   },
   {
     "id": "personal_gobag",
@@ -95,7 +95,7 @@
     "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
-    "use_action": "GOBAG_PERSONAL",
+    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
     "copy-from": "gobag"
   },
   {

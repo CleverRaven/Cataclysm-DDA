@@ -206,6 +206,11 @@
   },
   {
     "type": "item_action",
+    "id": "unpack",
+    "name": { "str": "Unpack" }
+  },
+  {
+    "type": "item_action",
     "id": "learn_spell",
     "name": { "str": "Learn spell" }
   },
@@ -1113,15 +1118,5 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
-  },
-  {
-    "type": "item_action",
-    "id": "GOBAG_NORMAL",
-    "name": { "str": "Get contents" }
-  },
-  {
-    "type": "item_action",
-    "id": "GOBAG_PERSONAL",
-    "name": { "str": "Get contents" }
   }
 ]
