@@ -129,8 +129,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": "mycus fruit",
-    "name_plural": "mycus fruits",
+    "name": { "str": "mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": "MYCUS",
@@ -664,8 +663,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nectar",
-    "name": "nectar",
-    "name_plural": "nectars",
+    "name": { "str": "nectar" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -674,7 +672,7 @@
     "vitamins": [  ],
     "description": "Some nectar.  Seeing this item is a bug.",
     "price": 0,
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   }
 ]
