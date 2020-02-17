@@ -253,8 +253,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy",
-    "name": "peanut butter candy",
-    "name_plural": "peanut butter candies",
+    "name": { "str": "peanut butter candy", "str_pl": "peanut butter candies" },
     "weight": "39 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -531,8 +530,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mintpatties",
-    "name": "peppermint patty",
-    "name_plural": "peppermint patties",
+    "name": { "str": "peppermint patty", "str_pl": "peppermint patties" },
     "weight": "43 g",
     "color": "brown",
     "spoils_in": "180 days",

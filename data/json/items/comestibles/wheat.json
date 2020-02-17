@@ -185,8 +185,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oats",
-    "name": "oats",
-    "name_plural": "oats",
+    "name": { "str": "oats", "str_pl": "oats" },
     "weight": "86 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -244,8 +243,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pancakes",
-    "name": "pancake",
-    "name_plural": "pancakes",
+    "name": { "str": "pancake" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "10 days",
