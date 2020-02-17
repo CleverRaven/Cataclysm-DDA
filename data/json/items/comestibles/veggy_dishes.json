@@ -502,8 +502,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_pickled",
-    "name": "pickled veggy",
-    "name_plural": "pickled veggies",
+    "name": { "str": "pickled veggy", "str_pl": "pickled veggies" },
     "copy-from": "veggy",
     "color": "light_green",
     "spoils_in": "30 days",

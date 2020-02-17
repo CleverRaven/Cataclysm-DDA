@@ -725,8 +725,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_tea",
-    "name": "pine needle tea",
-    "name_plural": "pine needle tea",
+    "name": { "str": "pine needle tea", "str_pl": "pine needle tea" },
     "weight": "268 g",
     "color": "light_green",
     "comestible_type": "DRINK",
