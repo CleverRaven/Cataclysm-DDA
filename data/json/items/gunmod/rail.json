@@ -128,7 +128,7 @@
     "name": "LW gyroscopic stabilizer",
     "description": "An advanced Leadworks built in gyroscopic stabilizer.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "IRREMOVABLE" ]
   }
