@@ -810,7 +810,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         const tripoint &target )
 {
     if( g->m.veh_at( target ) ) {
-        add_msg( m_bad, _( "There is already a vehicle there." ) );
+        caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
     if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {

@@ -636,13 +636,13 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 void vehicle::activate_magical_follow()
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
-        const vehicle_part &vp = parts[ e ];
+        vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_mana ) {
-            parts[ e ].enabled = true;
+            vp.enabled = true;
             is_following = true;
             engine_on = true;
         } else {
-            parts[ e ].enabled = false;
+            vp.enabled = true;
         }
     }
     refresh();
@@ -651,16 +651,16 @@ void vehicle::activate_magical_follow()
 void vehicle::activate_animal_follow()
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
-        const vehicle_part &vp = parts[ e ];
+        vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( e );
             if( mon && mon->has_effect( effect_harnessed ) ) {
-                parts[ e ].enabled = true;
+                vp.enabled = true;
                 is_following = true;
                 engine_on = true;
             }
         } else {
-            parts[ e ].enabled = false;
+            vp.enabled = true;
         }
     }
     refresh();
@@ -1881,7 +1881,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const std::string & child_flag ) {
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
-            if( dep >= 0 ) {
+            if( dep >= 0 && !magic ) {
                 handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
                 remove_part( dep, handler );
                 return true;
@@ -1952,7 +1952,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-        handler.add_item_or_charges( dest, i );
+        if( !magic ) {
+            handler.add_item_or_charges( dest, i );
+        }
     }
     refresh();
     coeff_air_changed = true;
@@ -5565,7 +5567,9 @@ void vehicle::shed_loose_parts()
 
         auto part = &parts[elem];
         item drop = part->properties_to_item();
-        g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        if( !magic ) {
+            g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        }
 
         remove_part( elem );
     }
@@ -5831,7 +5835,9 @@ int vehicle::break_off( int p, int dmg )
             // TODO: balance audit, ensure that less pieces are generated than one would need
             // to build the component (smash a vehicle box that took 10 lumps of steel,
             // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-            g->m.add_item_or_charges( where, piece );
+            if( !magic ) {
+                g->m.add_item_or_charges( where, piece );
+            }
         }
     };
     if( part_info( p ).location == part_location_structure ) {
@@ -5857,7 +5863,9 @@ int vehicle::break_off( int p, int dmg )
                              parts[ parts_in_square[ index ] ].name() );
                 }
                 item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                g->m.add_item_or_charges( pos, part_as_item );
+                if( !magic ) {
+                    g->m.add_item_or_charges( pos, part_as_item );
+                }
             }
             remove_part( parts_in_square[index] );
         }

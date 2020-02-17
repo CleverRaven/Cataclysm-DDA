@@ -340,7 +340,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 static void tell_veh_stop_following()
 {
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        vehicle *&v = veh.v;
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
             v->engine_on = false;
@@ -351,7 +351,7 @@ static void tell_veh_stop_following()
 static void assign_veh_to_follow()
 {
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        vehicle *&v = veh.v;
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
         }
@@ -361,7 +361,7 @@ static void assign_veh_to_follow()
 static void tell_magic_veh_to_follow()
 {
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        vehicle *&v = veh.v;
+        vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
                 const vpart_info &vpi = vp.info();
@@ -377,7 +377,7 @@ static void tell_magic_veh_to_follow()
 static void tell_magic_veh_stop_following()
 {
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        vehicle *&v = veh.v;
+        vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
                 const vpart_info &vpi = vp.info();
