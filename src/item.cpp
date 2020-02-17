@@ -3053,13 +3053,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     const std::string space = "  ";
 
-    if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
-            insert_separation_line( info );
-            method.second.dump_info( *this, info );
-        }
-    }
-
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
@@ -3431,6 +3424,15 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     tool_info( info, parts, batch, debug );
     component_info( info, parts, batch, debug );
     qualities_info( info, parts, batch, debug );
+
+    // Uses for item (bandaging quality, holster capacity, grenade activation)
+    if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
+        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
+            insert_separation_line( info );
+            method.second.dump_info( *this, info );
+        }
+    }
+
     repair_info( info, parts, batch, debug );
     disassembly_info( info, parts, batch, debug );
 
