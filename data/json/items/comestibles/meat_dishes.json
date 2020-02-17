@@ -492,7 +492,7 @@
     "symbol": "%",
     "quench": -2,
     "calories": 440,
-    "description": "A concentrated mixture of fat and protein used as nutritious high-energy food.  Composed of meat, tallow, and edible plants, it provides excellent nutrition in an easy to carry form.",
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of meat, tallow, and edible plants, it provides excellent nutrition in an easy to carry form.",
     "price": 600,
     "material": [ "flesh", "veggy" ],
     "volume": "250 ml",
