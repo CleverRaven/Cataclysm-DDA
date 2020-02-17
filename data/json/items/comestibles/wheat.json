@@ -44,8 +44,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_raw",
-    "name": "raw spaghetti pasta",
-    "name_plural": "raw spaghetti pasta",
+    "name": { "str": "raw spaghetti pasta", "str_pl": "raw spaghetti pasta" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -102,8 +101,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_raw",
-    "name": "raw macaroni",
-    "name_plural": "raw macaroni",
+    "name": { "str": "raw macaroni", "str_pl": "raw macaroni" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",

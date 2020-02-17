@@ -128,8 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn2",
-    "name": "salted popcorn",
-    "name_plural": "salted popcorn",
+    "name": { "str": "salted popcorn", "str_pl": "salted popcorn" },
     "copy-from": "popcorn",
     "quench": -3,
     "healthy": -1,
@@ -228,8 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "smores",
-    "name": "s'mores",
-    "name_plural": "s'mores",
+    "name": { "str": "s'mores", "str_pl": "s'mores" },
     "weight": "180 g",
     "color": "brown",
     "spoils_in": "90 days",

@@ -767,8 +767,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rootbeer",
-    "name": "root beer",
-    "name_plural": "root beer",
+    "name": { "str": "root beer", "str_pl": "root beer" },
     "weight": "260 g",
     "color": "brown",
     "container": "can_drink",
