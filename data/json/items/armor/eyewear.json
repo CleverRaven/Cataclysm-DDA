@@ -23,8 +23,7 @@
   {
     "id": "fancy_sunglasses",
     "type": "ARMOR",
-    "name": "pair of stylish sunglasses",
-    "name_plural": "pairs of stylish sunglasses",
+    "name": { "str": "pair of stylish sunglasses", "str_pl": "pairs of stylish sunglasses" },
     "description": "A pair of stylish sunglasses.  Look good while keeping the glare out of your eyes.",
     "weight": "42 g",
     "volume": "250 ml",
@@ -257,8 +256,7 @@
   {
     "id": "sunglasses",
     "type": "ARMOR",
-    "name": "pair of sunglasses",
-    "name_plural": "pairs of sunglasses",
+    "name": { "str": "pair of sunglasses", "str_pl": "pairs of sunglasses" },
     "description": "A pair of sunglasses, good for keeping the glare out of your eyes.",
     "weight": "35 g",
     "volume": "250 ml",
