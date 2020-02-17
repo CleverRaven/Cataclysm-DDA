@@ -354,7 +354,7 @@
     "effect": "summon_vehicle",
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
-    "effect_str": "4x4_car",
+    "effect_str": "floating_disk",
     "difficulty": 5,
     "max_level": 20,
     "base_casting_time": 120,
