@@ -1598,52 +1598,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                      int /* batch */, bool /* debug */ ) const
 {
     const std::string space = "  ";
-
     const islot_gun &gun = *mod->type->gun;
-
     const Skill &skill = *mod->gun_skill();
-
-    if( parts->test( iteminfo_parts::GUN_USEDSKILL ) ) {
-        info.push_back( iteminfo( "GUN", _( "Skill used: " ),
-                                  "<info>" + skill.name() + "</info>" ) );
-    }
-
-    if( mod->magazine_integral() || mod->magazine_current() ) {
-        if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) ) {
-            info.emplace_back( "GUN", _( "Magazine: " ),
-                               string_format( "<stat>%s</stat>",
-                                              mod->magazine_current()->tname() ) );
-        }
-        if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
-            for( const ammotype &at : mod->ammo_types() ) {
-                const std::string fmt = string_format( ngettext( "<num> round of %s",
-                                                       "<num> rounds of %s",
-                                                       mod->ammo_capacity() ), at->name() );
-                info.emplace_back( "GUN", _( "Capacity: " ), fmt, iteminfo::no_flags,
-                                   mod->ammo_capacity() );
-            }
-        }
-    } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
-        info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( mod->ammo_types().begin(),
-        mod->ammo_types().end(), []( const ammotype & at ) {
-            return at->name();
-        }, enumeration_conjunction::none ) );
-    }
-
-    if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
-        info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
-                           mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
-    }
-
-    if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
-        info.emplace_back( "AMMO",
-                           string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
-                                          "Uses <stat>%i</stat> charges of UPS per shot",
-                                          mod->get_gun_ups_drain() ),
-                                          mod->get_gun_ups_drain() ) );
-    }
-
-    insert_separation_line( info );
 
     // many statistics are dependent upon loaded ammo
     // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
@@ -1663,34 +1619,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     const itype *curammo = loaded_mod->ammo_data();
-
-    int max_gun_range = loaded_mod->gun_range( &g->u );
-    if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
-        info.emplace_back( "GUN", _( "Maximum range: " ), "<num>", iteminfo::no_flags,
-                           max_gun_range );
-    }
-
-    if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
-        info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::no_flags,
-                           g->u.aim_per_move( *mod, MAX_RECOIL ) );
-        for( const aim_type &type : g->u.get_aim_types( *mod ) ) {
-            // Nameless aim levels don't get an entry.
-            if( type.name.empty() ) {
-                continue;
-            }
-            // For item comparison to work correctly each info object needs a
-            // distinct tag per aim type.
-            const std::string tag = "GUN_" + type.name;
-            info.emplace_back( tag, _( type.name ) );
-            int max_dispersion = g->u.get_weapon_dispersion( *loaded_mod ).max();
-            int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
-            info.emplace_back( tag, _( "Even chance of good hit at range: " ),
-                               _( "<num>" ), iteminfo::no_flags, range );
-            int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
-            info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
-                               iteminfo::lower_is_better, aim_mv );
-        }
-    }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
@@ -1817,6 +1745,74 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            has_flag( "RELOAD_ONE" ) ? _( "<num> moves per round" ) :
                            _( "<num> moves " ),
                            iteminfo::lower_is_better,  mod->get_reload_time() );
+    }
+
+    if( parts->test( iteminfo_parts::GUN_USEDSKILL ) ) {
+        info.push_back( iteminfo( "GUN", _( "Skill used: " ),
+                                  "<info>" + skill.name() + "</info>" ) );
+    }
+
+    if( mod->magazine_integral() || mod->magazine_current() ) {
+        if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) ) {
+            info.emplace_back( "GUN", _( "Magazine: " ),
+                               string_format( "<stat>%s</stat>",
+                                              mod->magazine_current()->tname() ) );
+        }
+        if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
+            for( const ammotype &at : mod->ammo_types() ) {
+                const std::string fmt = string_format( ngettext( "<num> round of %s",
+                                                       "<num> rounds of %s",
+                                                       mod->ammo_capacity() ), at->name() );
+                info.emplace_back( "GUN", _( "Capacity: " ), fmt, iteminfo::no_flags,
+                                   mod->ammo_capacity() );
+            }
+        }
+    } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
+        info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( mod->ammo_types().begin(),
+        mod->ammo_types().end(), []( const ammotype & at ) {
+            return at->name();
+        }, enumeration_conjunction::none ) );
+    }
+
+    if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
+        info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
+                           mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
+    }
+
+    if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
+        info.emplace_back( "AMMO",
+                           string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
+                                          "Uses <stat>%i</stat> charges of UPS per shot",
+                                          mod->get_gun_ups_drain() ),
+                                          mod->get_gun_ups_drain() ) );
+    }
+
+    int max_gun_range = loaded_mod->gun_range( &g->u );
+    if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
+        insert_separation_line( info );
+        info.emplace_back( "GUN", _( "<bold>Maximum range</bold>: " ), "<num>", iteminfo::no_flags,
+                           max_gun_range );
+    }
+    if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
+        info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", iteminfo::no_flags,
+                           g->u.aim_per_move( *mod, MAX_RECOIL ) );
+        for( const aim_type &type : g->u.get_aim_types( *mod ) ) {
+            // Nameless aim levels don't get an entry.
+            if( type.name.empty() ) {
+                continue;
+            }
+            // For item comparison to work correctly each info object needs a
+            // distinct tag per aim type.
+            const std::string tag = "GUN_" + type.name;
+            info.emplace_back( tag, string_format( "<info>%s</info>", type.name ) );
+            int max_dispersion = g->u.get_weapon_dispersion( *loaded_mod ).max();
+            int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
+            info.emplace_back( tag, _( "Even chance of good hit at range: " ),
+                               _( "<num>" ), iteminfo::no_flags, range );
+            int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
+            info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
+                               iteminfo::lower_is_better, aim_mv );
+        }
     }
 
     if( parts->test( iteminfo_parts::GUN_FIRE_MODES ) ) {
@@ -2050,6 +2046,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     bool covers_anything = covered_parts.any();
 
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
+        insert_separation_line( info );
         std::string coverage = _( "<bold>Covers</bold>: " );
         if( covers( bp_head ) ) {
             coverage += _( "The <info>head</info>. " );
