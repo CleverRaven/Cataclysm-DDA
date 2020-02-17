@@ -374,8 +374,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soybean",
-    "name": "soybeans",
-    "name_plural": "soybeans",
+    "name": { "str": "soybeans", "str_pl": "soybeans" },
     "copy-from": "seed",
     "weight": "160 g",
     "symbol": ".",

@@ -99,8 +99,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spinach",
-    "name": "spinach",
-    "name_plural": "spinach",
+    "name": { "str": "spinach", "str_pl": "spinach" },
     "weight": "139 g",
     "color": "green",
     "spoils_in": "8 days",

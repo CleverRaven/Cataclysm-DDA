@@ -453,8 +453,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausagegravy",
-    "name": "sausage gravy",
-    "name_plural": "sausage gravies",
+    "name": { "str": "sausage gravy", "str_pl": "sausage gravies" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Mannwurst gravy", "str_pl": "Mannwurst gravies" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "ghastly %s", "str_pl": "ghastly %s" } }
@@ -911,8 +910,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_bolognese",
-    "name": "spaghetti bolognese",
-    "name_plural": "spaghetti bolognese",
+    "name": { "str": "spaghetti bolognese", "str_pl": "spaghetti bolognese" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "scoundrel spaghetti" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "gnarly %s", "str_pl": "gnarly %s" } }

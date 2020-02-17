@@ -78,8 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sprinkles",
-    "name": "sprinkles",
-    "name_plural": "sprinkles",
+    "name": { "str": "sprinkles", "str_pl": "sprinkles" },
     "weight": "4 g",
     "copy-from": "sugar",
     "container": "bottle_plastic_small",
