@@ -736,8 +736,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_rice",
-    "name": "meat fried rice",
-    "name_plural": "meat fried rice",
+    "name": { "str": "meat fried rice", "str_pl": "meat fried rice" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant fried rice", "str_pl": "mutant fried rice" } }
     ],
@@ -1166,8 +1165,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_meatroll",
-    "name": "meat temaki",
-    "name_plural": "meat temaki",
+    "name": { "str": "meat temaki", "str_pl": "meat temaki" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "troubling %s", "str_pl": "troubling %s" } } ],
     "weight": "273 g",
     "color": "green",

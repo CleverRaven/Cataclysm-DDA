@@ -86,8 +86,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
-    "name": "marloss berry",
-    "name_plural": "marloss berries",
+    "name": { "str": "marloss berry", "str_pl": "marloss berries" },
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
