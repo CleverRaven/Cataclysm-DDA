@@ -99,6 +99,7 @@
 #include "flat_set.h"
 #include "stomach.h"
 #include "teleport.h"
+#include "cata_string_consts.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -3963,7 +3964,14 @@ void player::use( item_location loc )
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
-
+    } else if( used.has_flag( flag_SPLINT ) ) {
+        ret_val<bool> need_splint = can_wear( used );
+        if( need_splint.success() ) {
+            wear_item( used );
+            loc.remove_item();
+        } else {
+            add_msg( m_info, need_splint.str() );
+        }
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );
