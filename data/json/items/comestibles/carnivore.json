@@ -15,8 +15,7 @@
     "id": "fish",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
-    "name": "fillet of fish",
-    "name_plural": "fillets of fish",
+    "name": { "str": "fillet of fish", "str_pl": "fillets of fish" },
     "description": "Freshly caught fish.  Makes a passable meal raw.",
     "//": "Nutrition information based on whitefish",
     "weight": "148 g",
@@ -965,8 +964,7 @@
     "id": "meat_bark",
     "copy-from": "meat_frond",
     "type": "COMESTIBLE",
-    "name": "leech bark",
-    "name_plural": "scraps of leech bark",
+    "name": { "str": "leech bark", "str_pl": "scraps of leech bark" },
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 12 ] ]
   }
