@@ -267,7 +267,7 @@
     "name": "LW ACOG scope",
     "description": "An Leadworks built in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
