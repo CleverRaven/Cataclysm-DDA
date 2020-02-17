@@ -11,12 +11,23 @@
 #include "itype.h"
 #include "recipe_dictionary.h"
 
-static void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
+static void test_info_equals( const item &i, const iteminfo_query &q,
+                              const std::string &reference )
 {
     g->u.empty_traits();
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     CHECK( info == reference );
+}
+
+static void test_info_contains( const item &i, const iteminfo_query &q,
+                                const std::string &reference )
+{
+    g->u.empty_traits();
+    std::vector<iteminfo> info_v;
+    std::string info = i.info( info_v, &q, 1 );
+    using Catch::Matchers::Contains;
+    REQUIRE_THAT( info, Contains( reference ) );
 }
 
 TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
@@ -26,8 +37,8 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
                         iteminfo_parts::DESCRIPTION } );
 
     SECTION( "category, material, volume, weight, description" ) {
-        iteminfo_test(
-            item( "jug_plastic" ), q,
+        test_info_equals(
+            item( "test_jug_plastic" ), q,
             "Category: <color_c_magenta>CONTAINERS</color>\n"
             "Material: <color_c_light_blue>Plastic</color>\n"
             "Volume: <color_c_yellow>3.750</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
@@ -43,7 +54,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     SECTION( "owner and price" ) {
         item my_rock( "test_rock" );
         my_rock.set_owner( g->u );
-        iteminfo_test(
+        test_info_equals(
             my_rock, q,
             "--\n"
             "<color_c_white>Owner</color>: Your Followers\n"
@@ -51,17 +62,17 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     }
 
     SECTION( "owner, price and barter value" ) {
-        item my_necklace( "gold_necklace" );
-        my_necklace.set_owner( g->u );
-        iteminfo_test(
-            my_necklace, q,
+        item my_pipe( "test_pipe" );
+        my_pipe.set_owner( g->u );
+        test_info_equals(
+            my_pipe, q,
             "--\n"
             "<color_c_white>Owner</color>: Your Followers\n"
-            "Price: $<color_c_yellow>400.00</color>  Barter value: $<color_c_yellow>50.00</color>\n" );
+            "Price: $<color_c_yellow>75.00</color>  Barter value: $<color_c_yellow>3.00</color>\n" );
     }
 
     SECTION( "zero price item with no owner" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_rock" ), q,
             "--\n"
             "Price: $<color_c_yellow>0.00</color>" );
@@ -74,12 +85,12 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
     iteminfo_query q( { iteminfo_parts::BASE_RIGIDITY } );
 
     SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "briefcase" ), q, "" );
     }
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "backpack" ), q,
             "Not rigid: Volume and encumbrance increase when filled.\n" );
     }
@@ -92,7 +103,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
                       } );
 
     SECTION( "bash damage" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_rock" ), q,
             "--\n"
             "<color_c_white>Damage</color>: Bash: <color_c_yellow>7</color>"
@@ -101,7 +112,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
     }
 
     SECTION( "bash and cut damage" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_halligan" ), q,
             "--\n"
             "<color_c_white>Damage</color>: Bash: <color_c_yellow>20</color>"
@@ -111,7 +122,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
     }
 
     SECTION( "bash and pierce damage" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "pointy_stick" ), q,
             "--\n"
             "<color_c_white>Damage</color>: Bash: <color_c_yellow>4</color>"
@@ -121,7 +132,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
     }
 
     SECTION( "no damage" ) {
-        iteminfo_test( item( "rag" ), q, "" );
+        test_info_equals( item( "test_rag" ), q, "" );
     }
 
 }
@@ -130,7 +141,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_TECHNIQUES } );
 
-    iteminfo_test(
+    test_info_equals(
         item( "test_halligan" ), q,
         "--\n"
         "<color_c_white>Techniques when wielded</color>:"
@@ -148,8 +159,8 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                       } );
 
     SECTION( "shows coverage, encumbrance, and protection for armor with coverage" ) {
-        iteminfo_test(
-            item( "longshirt" ), q,
+        test_info_equals(
+            item( "test_longshirt" ), q,
             "--\n"
             // NOLINTNEXTLINE(cata-text-style)
             "<color_c_white>Covers</color>: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
@@ -163,8 +174,8 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
     }
 
     SECTION( "omits irrelevant info if it covers nothing" ) {
-        iteminfo_test(
-            item( "ear_plugs" ), q,
+        test_info_equals(
+            item( "test_ear_plugs" ), q,
             "--\n"
             "<color_c_white>Covers</color>: <color_c_cyan>Nothing</color>.\n" );
     }
@@ -174,16 +185,16 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
 {
     SECTION( "ammo capacity" ) {
         iteminfo_query q( { iteminfo_parts::GUN_CAPACITY } );
-        iteminfo_test(
-            item( "compbow" ), q,
+        test_info_equals(
+            item( "test_compbow" ), q,
             "--\n"
             "Capacity: <color_c_yellow>1</color> round of arrows\n" );
     }
 
     SECTION( "default ammo when unloaded" ) {
         iteminfo_query q( { iteminfo_parts::GUN_DEFAULT_AMMO } );
-        iteminfo_test(
-            item( "compbow" ), q,
+        test_info_equals(
+            item( "test_compbow" ), q,
             "--\n"
             "Gun is not loaded, so stats below assume the default ammo:"
             " <color_c_light_blue>wooden broadhead arrow</color>\n" );
@@ -193,32 +204,32 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
         iteminfo_query q( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
                             iteminfo_parts::GUN_DAMAGE_TOTAL
                           } );
-        iteminfo_test(
-            item( "compbow" ), q,
+        test_info_equals(
+            item( "test_compbow" ), q,
             "--\n"
             "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
     }
 
     SECTION( "time to reload" ) {
         iteminfo_query q( { iteminfo_parts::GUN_RELOAD_TIME } );
-        iteminfo_test(
-            item( "compbow" ), q,
+        test_info_equals(
+            item( "test_compbow" ), q,
             "--\n"
             "Reload time: <color_c_yellow>110</color> moves \n" ); // NOLINT(cata-text-style)
     }
 
     SECTION( "firing modes" ) {
         iteminfo_query q( { iteminfo_parts::GUN_FIRE_MODES } );
-        iteminfo_test(
-            item( "compbow" ), q,
+        test_info_equals(
+            item( "test_compbow" ), q,
             "--\n"
             "<color_c_white>Fire modes</color>: manual (1)\n" );
     }
 
     SECTION( "weapon mods" ) {
         iteminfo_query q( { iteminfo_parts::DESCRIPTION_GUN_MODS } );
-        iteminfo_test(
-            item( "compbow" ), q,
+        test_info_equals(
+            item( "test_compbow" ), q,
             "--\n"
             "<color_c_white>Mods</color>: <color_c_white>0/2</color> accessories;"
             " <color_c_white>0/1</color> dampening; <color_c_white>0/1</color> sights;"
@@ -235,7 +246,7 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
                         iteminfo_parts::AMMO_DAMAGE_RECOIL } );
 
     SECTION( "simple item with ammo damage" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_rock" ), q,
             "--\n"
             "<color_c_white>Ammunition type</color>: rocks\n"
@@ -252,7 +263,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
                       } );
     SECTION( "fixed nutrient values in regular item" ) {
         item i( "icecream" );
-        iteminfo_test(
+        test_info_equals(
             i, q,
             "--\n"
             "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>  "
@@ -263,7 +274,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
     SECTION( "nutrient ranges for recipe exemplars", "[item][iteminfo]" ) {
         item i( "icecream" );
         i.set_var( "recipe_exemplar", "icecream" );
-        iteminfo_test(
+        test_info_equals(
             i, q,
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
@@ -283,8 +294,8 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     REQUIRE_FALSE( g->u.can_estimate_rot() );
 
     SECTION( "food is fresh" ) {
-        iteminfo_test(
-            item( "pine_nuts" ), q,
+        test_info_equals(
+            item( "test_pine_nuts" ), q,
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
             " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
@@ -292,9 +303,9 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     }
 
     SECTION( "food is old" ) {
-        item nuts( "pine_nuts" );
+        item nuts( "test_pine_nuts" );
         nuts.mod_rot( nuts.type->comestible->spoils );
-        iteminfo_test(
+        test_info_equals(
             nuts, q,
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
@@ -309,22 +320,22 @@ TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
 
     SECTION( "non-conductive items" ) {
-        iteminfo_test(
-            item( "2x4" ), q,
+        test_info_equals(
+            item( "test_2x4" ), q,
             "--\n"
             "* This item <color_c_green>does not conduct</color> electricity.\n" );
-        iteminfo_test(
-            item( "fire_ax" ), q,
+        test_info_equals(
+            item( "test_fire_ax" ), q,
             "--\n"
             "* This item <color_c_green>does not conduct</color> electricity.\n" );
     }
 
     SECTION( "conductive items" ) {
-        iteminfo_test(
-            item( "pipe" ), q,
+        test_info_equals(
+            item( "test_pipe" ), q,
             "--\n"
             "* This item <color_c_red>conducts</color> electricity.\n" );
-        iteminfo_test(
+        test_info_equals(
             item( "test_halligan" ), q,
             "--\n"
             "* This item <color_c_red>conducts</color> electricity.\n" );
@@ -336,7 +347,7 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
     iteminfo_query q( { iteminfo_parts::QUALITIES } );
 
     SECTION( "Halligan bar" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_halligan" ), q,
             "--\n"
             "Has level <color_c_cyan>1 digging</color> quality.\n"
@@ -345,14 +356,14 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
     }
 
     SECTION( "bottle jack" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_jack_small" ), q,
             "--\n"
             "Has level <color_c_cyan>4 jacking</color> quality and is rated at <color_c_cyan>4409</color> lbs\n" );
     }
 
     SECTION( "sonic screwdriver" ) {
-        iteminfo_test(
+        test_info_equals(
             item( "test_sonic_screwdriver" ), q,
             "--\n"
             "Has level <color_c_cyan>2 prying</color> quality.\n"
@@ -360,53 +371,38 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
             "Has level <color_c_cyan>1 fine screw driving</color> quality.\n"
             "Has level <color_c_cyan>1 bolt turning</color> quality.\n" );
     }
-
 }
 
 TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
-    iteminfo_test(
+    test_info_contains(
         item( "test_halligan" ), q,
-        "--\n"
         "<color_c_white>Repair</color> using extended toolset, arc welder, or makeshift arc welder.\n" );
 
-    iteminfo_test(
+    test_info_contains(
         item( "test_hazmat_suit" ), q,
-        "--\n"
-        "<color_c_white>Repair</color> using soldering iron or extended toolset.\n" );
+        "<color_c_white>Repair</color> using soldering iron, TEST soldering iron, or extended toolset.\n" );
 
-    iteminfo_test(
-        item( "test_rock" ), q,
-        "--\n"
-        "* This item is <color_c_red>not repairable</color>.\n" );
+    test_info_contains(
+        item( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );
 
-    /*
-    iteminfo_test(
-        item( "socks" ), q,
-        "--\n"
-        "* This item can be <color_c_green>reinforced</color>.\n" );
-    */
+    test_info_contains(
+        item( "test_socks" ), q, "* This item can be <color_c_green>reinforced</color>.\n" );
 }
 
 TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE } );
 
-    // short string
-    iteminfo_test(
-        item( "string_6" ), q,
-        "--\n"
-        "<color_c_white>Disassembly</color> takes about 5 minutes and might yield: thread (50).\n" );
-
-    iteminfo_test(
-        item( "soldering_iron" ), q,
+    test_info_equals(
+        item( "test_soldering_iron" ), q,
         "--\n"
         "<color_c_white>Disassembly</color> takes about 20 minutes and might yield:"
         " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
 
-    iteminfo_test(
+    test_info_equals(
         item( "test_sheet_metal" ), q,
         "--\n"
         "<color_c_white>Disassembly</color> takes about 2 minutes and might yield: TEST small metal sheet (24).\n" );
@@ -416,14 +412,14 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_FLAGS } );
 
-    iteminfo_test(
+    test_info_equals(
         item( "test_halligan" ), q,
         "--\n"
         "* This item can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
         "* As a weapon, this item is <color_c_green>well-made</color> and will"
         " <color_c_cyan>withstand the punishment of combat</color>.\n" );
 
-    iteminfo_test(
+    test_info_equals(
         item( "test_hazmat_suit" ), q,
         "--\n"
         "* This gear <color_c_green>completely protects</color> you from"
@@ -449,7 +445,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
         g->u.empty_skills();
 
         THEN( "nothing is craftable from it" ) {
-            iteminfo_test(
+            test_info_equals(
                 iodine, q,
                 "--\nYou know of nothing you could craft with it.\n" );
         }
@@ -459,7 +455,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             REQUIRE( g->u.get_skill_level( purtab->skill_used ) == purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
-                iteminfo_test(
+                test_info_equals(
                     iodine, q,
                     "--\nYou know of nothing you could craft with it.\n" );
             }
@@ -469,7 +465,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
                 REQUIRE( g->u.knows_recipe( purtab ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
-                    iteminfo_test(
+                    test_info_equals(
                         iodine, q,
                         "--\n"
                         "You could use it to craft: "
@@ -481,7 +477,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
                 g->u.i_add( item( "textbook_chemistry" ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
-                    iteminfo_test(
+                    test_info_equals(
                         iodine, q,
                         "--\n"
                         "You could use it to craft: "
