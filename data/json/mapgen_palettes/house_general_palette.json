@@ -72,7 +72,6 @@
       "u": "t_region_groundcover_urban",
       "X": "t_region_groundcover_urban",
       ".": "t_region_groundcover_urban",
-      " ": "t_null",
       "+": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
       "^": "t_gutter_downspout",
