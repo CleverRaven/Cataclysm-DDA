@@ -158,6 +158,7 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         field_type_id wandering_field;
+        std::string looks_like;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;

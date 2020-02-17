@@ -126,7 +126,7 @@
         "         c|  |  dd|r c  ",
         " FFFFccccc|  |   h|r c  ",
         "|||||||||||YY|[===||    ",
-        " FF c|^???^       v| c  ",
+        " FF c|^???^       V| c  ",
         "    c|?           V| c  ",
         "    c|? tt         | i  ",
         "    c|             |    ",
@@ -190,7 +190,8 @@
       "items": {
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
-      }
+      },
+      "monster": { "T": { "monster": "mon_turret_rifle" } }
     }
   },
   {
@@ -231,6 +232,7 @@
         "E": "t_elevator_control",
         " ": "t_grass",
         "_": "t_pavement",
+        "S": "t_sidewalk",
         ".": "t_thconc_floor",
         "G": "t_card_science"
       }

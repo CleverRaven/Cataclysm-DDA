@@ -3967,7 +3967,6 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
         if( it->typeId() == "mp3" ) {
             it->convert( "mp3_on" ).active = true;
-            p->mod_moves( -200 );
         } else if( it->typeId() == "smart_phone" ) {
             it->convert( "smartphone_music" ).active = true;
         } else if( it->typeId() == "afs_atomic_smartphone" ) {
@@ -4052,7 +4051,6 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
         if( it->typeId() == "mp3_on" ) {
             p->add_msg_if_player( _( "The mp3 player turns off." ) );
             it->convert( "mp3" ).active = false;
-            p->mod_moves( -200 );
         } else if( it->typeId() == "smartphone_music" ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( "smart_phone" ).active = false;
@@ -5364,7 +5362,11 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
 int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 {
-    return handle_ground_graffiti( *p, it, _( "Spray what?" ), p->pos() );
+    const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
+    if( !dest_ ) {
+        return 0;
+    }
+    return handle_ground_graffiti( *p, it, _( "Spray what?" ), dest_.value() );
 }
 
 int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix,
@@ -5389,7 +5391,7 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
             if( grave ) {
                 p.add_msg_if_player( m_info, _( "You blur the inscription on the grave." ) );
             } else {
-                p.add_msg_if_player( m_info, _( "You manage to get rid of the message on the ground." ) );
+                p.add_msg_if_player( m_info, _( "You manage to get rid of the message on the surface." ) );
             }
         } else {
             return 0;
@@ -5399,7 +5401,7 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
         if( grave ) {
             p.add_msg_if_player( m_info, _( "You carve an inscription on the grave." ) );
         } else {
-            p.add_msg_if_player( m_info, _( "You write a message on the ground." ) );
+            p.add_msg_if_player( m_info, _( "You write a message on the surface." ) );
         }
         move_cost = 2 * message.length();
     }

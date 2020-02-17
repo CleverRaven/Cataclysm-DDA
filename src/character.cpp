@@ -116,7 +116,7 @@ Character::Character() :
 
     name.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
     move_mode = CMM_WALK;
 
@@ -625,7 +625,7 @@ void Character::dismount()
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
-            remove_item( g->u.weapon );
+            remove_item( weapon );
         }
         if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
@@ -2153,8 +2153,10 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
-                                                    branch.name(), it.type_name() );
+                return ret_val<bool>::make_failure( is_player() ?
+                                                    _( "Your %s mutation prevents you from wearing your %s." ) :
+                                                    _( "My %s mutation prevents me from wearing this %s." ), branch.name(),
+                                                    it.type_name() );
             }
         }
         if( it.covers( bp_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
@@ -2165,6 +2167,24 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
                                                 ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
                                                   ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
+        }
+    }
+
+    if( it.has_flag( flag_SPLINT ) ) {
+        bool need_splint = false;
+        for( const body_part bp : all_body_parts ) {
+            if( !it.covers( bp ) ) {
+                continue;
+            }
+            if( is_limb_broken( bp_to_hp( bp ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+                need_splint = true;
+                break;
+            }
+        }
+        if( !need_splint ) {
+            return ret_val<bool>::make_failure( is_player() ?
+                                                _( "You don't have any broken limbs this could help." )
+                                                : _( "%s doesn't have any broken limbs this could help." ), name );
         }
     }
 
@@ -3453,7 +3473,7 @@ int Character::get_thirst() const
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( g->u.stomach.get_water() ) / 10,
+    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( stomach.get_water() ) / 10,
                                             0 ) );
     std::string hydration_string;
     nc_color hydration_color = c_white;
@@ -5952,6 +5972,7 @@ static const std::map<std::string, std::function <float( std::vector<const mutat
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
     { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
+    { "mending_modifier", calc_mutation_value<&mutation_branch::mending_modifier> },
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
     { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },

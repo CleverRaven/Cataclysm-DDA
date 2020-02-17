@@ -1425,14 +1425,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 corpses.push_back( i );
             }
         }
-        bool has_table_nearby = false;
-        for( const tripoint &pt : g->m.points_in_radius( src_loc, 2 ) ) {
-            if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
-                ( ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( flag_KITCHEN ) ||
-                                           g->m.veh_at( pt )->vehicle().has_part( flag_FLAT_SURF ) ) ) ) ) {
-                has_table_nearby = true;
-            }
-        }
         bool b_rack_present = false;
         for( const tripoint &pt : g->m.points_in_radius( src_loc, 2 ) ) {
             if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
@@ -1441,7 +1433,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
-                if( !has_table_nearby || !b_rack_present ) {
+                if( !b_rack_present || !g->m.has_nearby_table( src_loc, 2 ) ) {
                     return activity_reason_info::fail( NO_ZONE );
                 }
                 if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||

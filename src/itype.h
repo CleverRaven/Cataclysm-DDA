@@ -866,6 +866,7 @@ struct itype {
 
         std::string snippet_category;
         translation description; // Flavor text
+        std::vector<std::string> ascii_picture;
 
         // The container it comes in
         cata::optional<itype_id> default_container;

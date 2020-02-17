@@ -1221,7 +1221,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
     } else if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe with earbuds on!" ) );
+        add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
@@ -1600,7 +1600,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
 {
     item harvest = item( itemid );
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
-        p.can_pickWeight( harvest, true ) ) {
+        p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         p.i_add( harvest );
         p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {
@@ -4645,9 +4645,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     item &equipped_splint = patient.i_add( splint );
                     cata::optional<std::list<item>::iterator> worn_item =
                         patient.wear( equipped_splint, false );
-                    if( worn_item && !patient.worn_with_flag( "SPLINT", part ) ) {
-                        patient.change_side( **worn_item, false );
-                    }
                 }
                 patient.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = patient.get_effect( effect_mending, part );

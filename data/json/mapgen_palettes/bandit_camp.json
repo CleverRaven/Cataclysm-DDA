@@ -23,6 +23,7 @@
     "terrain": {
       "#": "t_wall_log",
       "%": "t_region_shrub",
+      "$": [ [ "t_region_groundcover_forest", 2 ], "t_region_shrub", "t_region_tree" ],
       "+": "t_door_c",
       ",": "t_region_groundcover",
       ".": "t_rock_floor",

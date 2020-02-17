@@ -195,8 +195,7 @@
   {
     "id": "grenade_pouch",
     "type": "ARMOR",
-    "name": "grenade pouch",
-    "name_plural": "grenade pouches",
+    "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
     "description": "A small pouch for storing cartridge grenades with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -238,8 +237,7 @@
   {
     "id": "grenadebandolier",
     "type": "ARMOR",
-    "name": "large grenade pouch",
-    "name_plural": "large grenade pouches",
+    "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
     "description": "A pouch for holding up to four full-sized grenades of various types.",
     "weight": "600 g",
     "volume": "1250 ml",
@@ -248,7 +246,7 @@
     "rigid": false,
     "material": "cotton",
     "symbol": "[",
-    "looks_like": "belt",
+    "looks_like": "leather_belt",
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 15,
