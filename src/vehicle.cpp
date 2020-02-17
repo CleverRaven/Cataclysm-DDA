@@ -57,30 +57,14 @@
 #include "options.h"
 #include "enums.h"
 #include "monster.h"
-
+#include "cata_string_consts.h"
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_animal( "animal" );
-static const std::string part_location_structure( "structure" );
-static const std::string part_location_center( "center" );
-static const std::string part_location_onroof( "on_roof" );
-
-static const fault_id fault_belt( "fault_engine_belt_drive" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_filter_air( "fault_engine_filter_air" );
-static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
-
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -118,7 +102,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void removed( vehicle &veh, const int part ) override {
             // If the player is currently working on the removed part, stop them as it's futile now.
             const player_activity &act = g->u.activity;
-            if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
+            if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
                 if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
                                                       g->u.posz() ) ) ) == &veh ) {
                     if( act.values[6] >= part ) {
@@ -4165,7 +4149,6 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
     const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
-
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
 
@@ -4489,7 +4472,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             }
         }
         // decreased stamina burn scalable with load
-        if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        if( g->u.has_active_bionic( bio_jointservo ) ) {
             g->u.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
@@ -4688,7 +4671,7 @@ void vehicle::power_parts()
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
-            } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
+            } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
