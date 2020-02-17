@@ -49,7 +49,9 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
 
 TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 {
-    iteminfo_query q( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } );
+    // Explicit cast to std::vector<iteminfo_parts> to avoid ambiguous
+    // constructor error from MacOS / apple clang
+    iteminfo_query q( std::vector<iteminfo_parts>( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } ) );
 
     SECTION( "owner and price" ) {
         item my_rock( "test_rock" );
