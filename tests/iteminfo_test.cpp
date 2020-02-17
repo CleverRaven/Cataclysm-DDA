@@ -108,7 +108,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
         test_info_equals(
             item( "test_rock" ), q,
             "--\n"
-            "<color_c_white>Damage</color>: Bash: <color_c_yellow>7</color>"
+            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>7</color>"
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
             "Moves per attack: <color_c_yellow>79</color>\n" );
     }
@@ -117,7 +117,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
         test_info_equals(
             item( "test_halligan" ), q,
             "--\n"
-            "<color_c_white>Damage</color>: Bash: <color_c_yellow>20</color>"
+            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>20</color>"
             "  Cut: <color_c_yellow>5</color>"
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
             "Moves per attack: <color_c_yellow>145</color>\n" );
@@ -127,7 +127,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
         test_info_equals(
             item( "pointy_stick" ), q,
             "--\n"
-            "<color_c_white>Damage</color>: Bash: <color_c_yellow>4</color>"
+            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>4</color>"
             "  Pierce: <color_c_yellow>8</color>"
             "  To-hit bonus: <color_c_yellow>+1</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n" );
@@ -136,7 +136,6 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
     SECTION( "no damage" ) {
         test_info_equals( item( "test_rag" ), q, "" );
     }
-
 }
 
 TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
@@ -150,7 +149,6 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
         " <color_c_light_blue>Brutal Strike</color>: <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color>,"
         " <color_c_light_blue>Sweep Attack</color>: <color_c_cyan>Down 2 turns</color>, and"
         " <color_c_light_blue>Block</color>: <color_c_cyan>Medium blocking ability</color>\n" );
-
 }
 
 TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
@@ -183,9 +181,18 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
     }
 }
 
-TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
+TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 {
-    SECTION( "ammo capacity" ) {
+
+    SECTION( "skill used" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_USEDSKILL } );
+        test_info_equals(
+            item( "test_compbow" ), q,
+            "--\n"
+            "Skill used: <color_c_cyan>archery</color>\n" );
+    }
+
+    SECTION( "ammo capacity of weapon" ) {
         iteminfo_query q( { iteminfo_parts::GUN_CAPACITY } );
         test_info_equals(
             item( "test_compbow" ), q,
@@ -193,26 +200,27 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
             "Capacity: <color_c_yellow>1</color> round of arrows\n" );
     }
 
-    SECTION( "default ammo when unloaded" ) {
+    SECTION( "default ammo when weapon is unloaded" ) {
         iteminfo_query q( { iteminfo_parts::GUN_DEFAULT_AMMO } );
         test_info_equals(
             item( "test_compbow" ), q,
             "--\n"
-            "Gun is not loaded, so stats below assume the default ammo:"
+            "Weapon is <color_c_red>not loaded</color>, so stats below assume the default ammo:"
             " <color_c_light_blue>wooden broadhead arrow</color>\n" );
     }
 
-    SECTION( "damage including floating-point multiplier" ) {
+    SECTION( "weapon damage including floating-point multiplier" ) {
         iteminfo_query q( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
-                            iteminfo_parts::GUN_DAMAGE_TOTAL
+                            iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE
                           } );
         test_info_equals(
             item( "test_compbow" ), q,
             "--\n"
-            "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
+            "<color_c_white>Ranged damage</color>: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n"
+            "Armor-pierce: <color_c_yellow>0</color>\n" );
     }
 
-    SECTION( "time to reload" ) {
+    SECTION( "time to reload weapon" ) {
         iteminfo_query q( { iteminfo_parts::GUN_RELOAD_TIME } );
         test_info_equals(
             item( "test_compbow" ), q,
@@ -220,7 +228,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
             "Reload time: <color_c_yellow>110</color> moves \n" ); // NOLINT(cata-text-style)
     }
 
-    SECTION( "firing modes" ) {
+    SECTION( "weapon firing modes" ) {
         iteminfo_query q( { iteminfo_parts::GUN_FIRE_MODES } );
         test_info_equals(
             item( "test_compbow" ), q,
@@ -238,6 +246,13 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged]" )
             " <color_c_white>0/1</color> stabilizer; <color_c_white>0/1</color> underbarrel.\n" );
     }
 
+    SECTION( "weapon dispersion" ) {
+        iteminfo_query q( { iteminfo_parts::GUN_DISPERSION } );
+        test_info_equals(
+            item( "test_compbow" ), q,
+            "--\n"
+            "Dispersion: <color_c_yellow>850</color>\n" );
+    }
 }
 
 TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
@@ -314,7 +329,6 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
             "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
     }
-
 }
 
 TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
