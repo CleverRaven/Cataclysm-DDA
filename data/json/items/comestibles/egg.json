@@ -227,8 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": "powdered egg",
-    "name_plural": "powdered eggs",
+    "name": { "str": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",

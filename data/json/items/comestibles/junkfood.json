@@ -71,8 +71,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips2",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "copy-from": "chips",
     "description": "Some plain, salted potato chips.",
     "fun": 3
@@ -80,8 +79,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips3",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "copy-from": "chips",
     "description": "Oh man, you love these chips!  Score!",
     "//": "Favorite flavor varies.",
@@ -90,8 +88,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kernels",
-    "name": "popcorn kernels",
-    "name_plural": "popcorn kernels",
+    "name": { "str": "popcorn kernels", "str_pl": "popcorn kernels" },
     "weight": "32 g",
     "color": "brown",
     "container": "bag_plastic",
@@ -109,8 +106,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn",
-    "name": "popcorn",
-    "name_plural": "popcorn",
+    "name": { "str": "popcorn", "str_pl": "popcorn" },
     "weight": "8 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -154,8 +150,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pretzels",
-    "name": "pretzels",
-    "name_plural": "pretzels",
+    "name": { "str": "pretzels", "str_pl": "pretzels" },
     "weight": "62 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -315,8 +310,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_candy",
-    "name": "powder candy sticks",
-    "name_plural": "powder candy sticks",
+    "name": { "str": "powder candy sticks", "str_pl": "powder candy sticks" },
     "weight": "46 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -611,8 +605,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "weight": "28 g",
     "color": "yellow",
     "spoils_in": "30 days",

@@ -290,8 +290,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_pickled",
-    "name": "pickled fish",
-    "name_plural": "pickled fish",
+    "name": { "str": "pickled fish", "str_pl": "pickled fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "4 days",
@@ -575,8 +574,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pork_beans",
-    "name": "pork and beans",
-    "name_plural": "pork and beans",
+    "name": { "str": "pork and beans", "str_pl": "pork and beans" },
     "weight": "267 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",

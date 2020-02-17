@@ -714,8 +714,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_beans",
-    "name": "raw beans",
-    "name_plural": "raw beans",
+    "name": { "str": "raw beans", "str_pl": "raw beans" },
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
