@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # png_update.py
 # Rename a png and update all references to it.
@@ -153,5 +153,4 @@ for png_dirname in os.listdir(tileset_dirname):
                 new_path = subdir_fpath + "/" + new_name_json
                 os.rename(old_path, new_path)
             
-
 

@@ -8,9 +8,11 @@
 
 #include <array>
 #include <cassert>
+#include <cstddef>
 #include <climits>
 #include <functional>
 #include <ostream>
+#include <vector>
 
 #else
 
@@ -231,6 +233,7 @@ struct rectangle {
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
 point clamp_half_open( const point &p, const rectangle &r );
+point clamp_inclusive( const point &p, const rectangle &r );
 
 struct box {
     tripoint p_min;
@@ -295,6 +298,17 @@ struct sphere {
 };
 
 #ifndef CATA_NO_STL
+
+/**
+ * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
+ * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
+ */
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist );
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist );
+
+std::vector<point> closest_points_first( const point &center, int max_dist );
+std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
+
 
 inline point abs( const point &p )
 {

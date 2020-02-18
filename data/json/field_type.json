@@ -31,7 +31,8 @@
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_acid"
   },
   {
     "id": "fd_gibs_flesh",
@@ -49,7 +50,8 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_gibs_veggy",
@@ -67,13 +69,14 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_veggy"
   },
   {
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cowebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
     "priority": 2,
@@ -97,7 +100,8 @@
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_veggy"
   },
   {
     "id": "fd_acid",
@@ -115,7 +119,8 @@
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_bile"
   },
   {
     "id": "fd_sap",
@@ -180,7 +185,8 @@
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_veggy"
   },
   {
     "id": "fd_sludge",
@@ -196,7 +202,8 @@
     "priority": 2,
     "half_life": "6 hours",
     "phase": "liquid",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_sap"
   },
   {
     "id": "fd_fire",
@@ -233,7 +240,8 @@
     "half_life": "1 turns",
     "phase": "solid",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "f_rubble"
   },
   {
     "id": "fd_smoke",
@@ -301,7 +309,8 @@
     "phase": "gas",
     "accelerated_decay": true,
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fog"
   },
   {
     "id": "fd_toxic_gas",
@@ -385,7 +394,8 @@
     "half_life": "10 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   },
   {
     "id": "fd_tear_gas",
@@ -413,7 +423,8 @@
     "half_life": "5 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_nuke_gas",
@@ -441,7 +452,8 @@
     "half_life": "100 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_gas_vent",
@@ -455,7 +467,8 @@
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_toxic_gas"
   },
   {
     "id": "fd_tindalos_rift",
@@ -482,7 +495,8 @@
     "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_fire_vent",
@@ -493,7 +507,8 @@
     "has_fire": true,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fire"
   },
   {
     "id": "fd_flame_burst",
@@ -505,7 +520,8 @@
     "priority": 4,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fire"
   },
   {
     "id": "fd_electricity",
@@ -551,7 +567,8 @@
     "description_affix": "under",
     "priority": 8,
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_push_items",
@@ -572,7 +589,8 @@
     "priority": -1,
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_electricity"
   },
   {
     "id": "fd_acid_vent",
@@ -584,7 +602,8 @@
     "priority": -1,
     "phase": "liquid",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_acid"
   },
   {
     "id": "fd_plasma",
@@ -600,7 +619,8 @@
     "dirty_transparency_cache": true,
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fire"
   },
   {
     "id": "fd_laser",
@@ -617,7 +637,8 @@
     "dirty_transparency_cache": true,
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_plasma"
   },
   {
     "id": "fd_spotlight",
@@ -627,7 +648,8 @@
     "description_affix": "illuminated_by",
     "priority": 1,
     "half_life": "1 turns",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_laser"
   },
   {
     "id": "fd_dazzling",
@@ -639,7 +661,8 @@
     "half_life": "1 turns",
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_laser"
   },
   {
     "id": "fd_blood_veggy",
@@ -657,7 +680,8 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_blood_insect",
@@ -671,7 +695,8 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_blood_invertebrate",
@@ -689,7 +714,8 @@
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_gibs_insect",
@@ -707,7 +733,8 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_insect"
   },
   {
     "id": "fd_gibs_invertebrate",
@@ -725,7 +752,8 @@
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_invertebrate"
   },
   {
     "id": "fd_cigsmoke",
@@ -744,7 +772,8 @@
     "half_life": "35 minutes",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_weedsmoke",
@@ -764,7 +793,8 @@
     "half_life": "325 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
   },
   {
     "id": "fd_cracksmoke",
@@ -784,7 +814,8 @@
     "half_life": "225 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
   },
   {
     "id": "fd_methsmoke",
@@ -804,7 +835,8 @@
     "half_life": "275 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_tindalos_gas",
@@ -821,7 +853,8 @@
     "priority": 8,
     "half_life": "35 minutes",
     "phase": "gas",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_bees",
@@ -863,7 +896,8 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_laser"
   },
   {
     "id": "fd_relax_gas",
@@ -927,7 +961,8 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_swamp_gas",
@@ -948,7 +983,8 @@
     "half_life": "15 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   },
   {
     "id": "fd_fog",
@@ -968,7 +1004,8 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_fungal_haze",
@@ -990,7 +1027,8 @@
     "half_life": "4 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_cold_air1",
@@ -1220,7 +1258,8 @@
     "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_insecticidal_gas",
@@ -1241,7 +1280,8 @@
     "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_smoke_vent",
@@ -1255,6 +1295,7 @@
     "has_fume": true,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   }
 ]

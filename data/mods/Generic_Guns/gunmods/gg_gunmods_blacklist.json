@@ -1,0 +1,31 @@
+{
+  "type": "ITEM_BLACKLIST",
+  "items": [
+    "lemat_revolver_shotgun",
+    "llink",
+    "dias",
+    "M6_shotgun",
+    "ksg_aux_shotgun",
+    "combination_gun_shotgun",
+    "combination_gun_shotgun_pipe",
+    "belt_clip",
+    "retool_ar15_300blk",
+    "ts12_aux_shotgun",
+    "ts12_aux_shotgun2",
+    "lwfeed",
+    "lead_barrel_big",
+    "lead_barrel_heavy_duty",
+    "lead_glm",
+    "lead_u_shotgun",
+    "lead_barrel_small",
+    "lead_laser_sight",
+    "lead_red_dot_sight",
+    "lead_rifle_scope",
+    "lead_acog_scope",
+    "lead_holo_sight",
+    "lead_stabilizer",
+    "lead_grip",
+    "lead_bipod",
+    "inter_bayonet"
+  ]
+}

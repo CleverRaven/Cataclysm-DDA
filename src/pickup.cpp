@@ -53,6 +53,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
+#include "cata_string_consts.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -174,17 +175,15 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 bool Pickup::query_thief()
 {
     player &u = g->u;
-    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto allow_key = [force_uc]( const input_event & evt ) {
-        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
-               // std::lower is undefined outside unsigned char range
-               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-    };
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
     std::string answer = query_popup()
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
-                         .message( "%s",
-                                   _( "Picking up this item will be considered stealing, continue?" ) )
+                         .message( "%s", force_uc
+                                   ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
+                                   : _( "Picking up this item will be considered stealing, continue?" ) )
                          .option( "YES", allow_key ) // yes, steal all items in this location that is selected
                          .option( "NO", allow_key ) // no, pick up only what is free
                          .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
@@ -316,7 +315,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case WIELD:
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
-                picked_up = u.wield( newit );
+                picked_up = u.wield( it );
+                if( picked_up ) {
+                    u.weapon.charges = newit.charges;
+                }
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -500,7 +502,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
-        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+        g->u.assign_activity( ACT_PICKUP );
         if( from_vehicle ) {
             g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
         } else {
@@ -986,7 +988,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+    g->u.assign_activity( ACT_PICKUP );
     g->u.activity.coords.push_back( g->u.pos() );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.

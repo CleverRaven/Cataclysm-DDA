@@ -30,7 +30,7 @@
   {
     "id": "TALK_REBOOT",
     "type": "talk_topic",
-    "dynamic_line": "This character was previously put into a suspension state due to an AI bug. If you have reason to believe the problem was fixed, you can wake them up. Do you want to do that now?",
+    "dynamic_line": "This character was previously put into a suspension state due to an AI bug.  If you have reason to believe the problem was fixed, you can wake them up.  Do you want to do that now?",
     "responses": [
       { "text": "yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
       { "text": "no, go back to sleep.", "topic": "TALK_DONE" }
@@ -409,7 +409,7 @@
       {
         "text": "Attack only enemies that I attack first.",
         "topic": "TALK_NONE",
-        "condition": { "not": { "npc_engagement_rule": "ENAGE_HIT" } },
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_HIT" } },
         "effect": { "set_npc_engagement_rule": "ENGAGE_HIT" }
       },
       {
@@ -772,7 +772,7 @@
     "type": "talk_topic",
     "dynamic_line": "You're really leaving?",
     "responses": [
-      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave" },
+      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave", "opinion": { "trust": -2, "anger": 1 } },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
   },

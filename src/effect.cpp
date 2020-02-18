@@ -15,6 +15,7 @@
 #include "color.h"
 #include "enums.h"
 #include "units.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -40,8 +41,6 @@ bool string_id<effect_type>::is_valid() const
 {
     return effect_types.count( *this ) > 0;
 }
-
-static const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg( player &p )
 {
@@ -167,9 +166,9 @@ void weed_msg( player &p )
                 // Real Life
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
                 p.mod_hunger( 4 );
-                if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
+                if( p.has_trait( trait_VEGETARIAN ) ) {
                     p.add_msg_if_player( _( "Eh… maybe not." ) );
-                } else if( p.has_trait( trait_id( "LACTOSE" ) ) ) {
+                } else if( p.has_trait( trait_LACTOSE ) ) {
                     p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
                 }
                 return;
@@ -1190,15 +1189,15 @@ const effect_type *effect::get_effect_type() const
 // This contains all the effects checked in move_effects
 // It's here and not in json because it is hardcoded anyway
 static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
-        efftype_id( "beartrap" ),
-        efftype_id( "crushed" ),
-        efftype_id( "downed" ),
-        efftype_id( "grabbed" ),
-        efftype_id( "heavysnare" ),
-        efftype_id( "in_pit" ),
-        efftype_id( "lightsnare" ),
-        efftype_id( "tied" ),
-        efftype_id( "webbed" ),
+        effect_beartrap,
+        effect_crushed,
+        effect_downed,
+        effect_grabbed,
+        effect_heavysnare,
+        effect_in_pit,
+        effect_lightsnare,
+        effect_tied,
+        effect_webbed,
     }
 };
 
@@ -1208,7 +1207,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.id = efftype_id( jo.get_string( "id" ) );
 
     if( jo.has_member( "name" ) ) {
-        for( const JsonValue &entry : jo.get_array( "name" ) ) {
+        for( const JsonValue entry : jo.get_array( "name" ) ) {
             translation name;
             if( !entry.read( name ) ) {
                 entry.throw_error( "Error reading effect names" );
@@ -1221,14 +1220,14 @@ void load_effect_type( const JsonObject &jo )
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 
     if( jo.has_member( "desc" ) ) {
-        for( const std::string &line : jo.get_array( "desc" ) ) {
+        for( const std::string line : jo.get_array( "desc" ) ) {
             new_etype.desc.push_back( line );
         }
     } else {
         new_etype.desc.push_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        for( const std::string &line : jo.get_array( "reduced_desc" ) ) {
+        for( const std::string line : jo.get_array( "reduced_desc" ) ) {
             new_etype.reduced_desc.push_back( line );
         }
     } else {

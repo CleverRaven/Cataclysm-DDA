@@ -147,7 +147,7 @@
     "id": "mon_mi_go_guard",
     "type": "MONSTER",
     "name": { "str": "mi-go guard" },
-    "description": "This, like the more common mi-go, is an alien creature; this one is more heavily armoured.  Its trunk is a shapeless mass of strange flesh encased in an iridescent carapace, from which sprout several appendages terminating in what appear to be devices of some sort.  Its pyramidal head is encrusted in barnacle-like armor, aside from the bristling antennae that serve as its - you must assume sensory devices and mouth.",
+    "description": "This, like the more common mi-go, is an alien creature; this one is more heavily armored.  Its trunk is a shapeless mass of strange flesh encased in an iridescent carapace, from which sprout several appendages terminating in what appear to be devices of some sort.  Its pyramidal head is encrusted in barnacle-like armor, aside from the bristling antennae that serve as its - you must assume sensory devices and mouth.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "NETHER" ],

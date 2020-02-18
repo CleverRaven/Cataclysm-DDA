@@ -310,6 +310,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
+std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
@@ -323,8 +324,8 @@ int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
-void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption = "", int begin_y = 0 );
+void scrollable_text( const catacurses::window &w, const std::string &title,
+                      const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 

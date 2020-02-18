@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <bitset>
@@ -25,6 +26,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "text_snippets.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -62,6 +64,17 @@ void faction_template::load( const JsonObject &jsobj )
     npc_factions::all_templates.emplace_back( fac );
 }
 
+void faction_template::check_consistency()
+{
+    for( const faction_template &fac : npc_factions::all_templates ) {
+        for( const auto &epi : fac.epilogue_data ) {
+            if( !std::get<2>( epi ).is_valid() ) {
+                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+            }
+        }
+    }
+}
+
 void faction_template::reset()
 {
     npc_factions::all_templates.clear();
@@ -69,7 +82,7 @@ void faction_template::reset()
 
 void faction_template::load_relations( const JsonObject &jsobj )
 {
-    for( const JsonMember &fac : jsobj.get_object( "relations" ) ) {
+    for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
         JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
@@ -99,6 +112,11 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
+    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
+        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
+                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
+                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
+    }
 }
 
 std::string faction::describe() const
@@ -107,7 +125,18 @@ std::string faction::describe() const
     return ret;
 }
 
-void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+std::vector<std::string> faction::epilogue() const
+{
+    std::vector<std::string> ret;
+    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
+        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
+            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+        }
+    }
+    return ret;
+}
+
+void faction::add_to_membership( const character_id &guy_id, const std::string &guy_name,
                                  const bool known )
 {
     members[guy_id] = std::make_pair( guy_name, known );
@@ -297,7 +326,7 @@ nc_color faction::food_supply_color()
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
-    for( const auto rel_data : relations ) {
+    for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
             return rel_data.second.test( flag );
         }
@@ -398,6 +427,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
+                        elem.second.epilogue_data = fac_temp.epilogue_data;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;
@@ -517,7 +547,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
     bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
-    // TODO NPCS on mission contactable same as travelling
+    // TODO: NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;

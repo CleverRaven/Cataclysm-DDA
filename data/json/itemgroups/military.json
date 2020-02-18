@@ -321,7 +321,7 @@
       [ "heavy_flashlight", 10 ],
       [ "mag_fieldrepair", 20 ],
       [ "mag_comic", 20 ],
-      [ "mag_guns", 20 ],
+      { "group": "book_gunmags", "prob": 20 },
       [ "thermos", 15 ]
     ]
   },

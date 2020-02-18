@@ -211,7 +211,7 @@
     "skill": "rifle",
     "range": 6,
     "ranged_damage": 7,
-    "dispersion": 250,
+    "dispersion": 500,
     "durability": 6,
     "clip_size": 1,
     "reload": 300,

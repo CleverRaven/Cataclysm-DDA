@@ -65,11 +65,11 @@ struct activity_reason_info {
     //is it possible to do this
     bool can_do;
     //construction index
-    cata::optional<size_t> con_idx;
+    cata::optional<construction_id> con_idx;
     std::string id_str;  // when the requirement ID needs to be saved in the activity reason return.
 
     activity_reason_info( do_activity_reason reason_, bool can_do_, const std::string &id_str_,
-                          cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :
+                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ ),
@@ -81,7 +81,7 @@ struct activity_reason_info {
     }
 
     static activity_reason_info build( const do_activity_reason &reason_, bool can_do_,
-                                       size_t con_idx_ ) {
+                                       const construction_id &con_idx_ ) {
         return activity_reason_info( reason_, can_do_, std::string(), con_idx_ );
     }
 
@@ -214,6 +214,7 @@ void pickaxe_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
+void milk_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
 void churn_finish( player_activity *act, player *p );

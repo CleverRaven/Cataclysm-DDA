@@ -31,8 +31,7 @@
 #include "type_id.h"
 #include "faction.h"
 #include "pimpl.h"
-
-static const skill_id skill_barter( "barter" );
+#include "cata_string_consts.h"
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
@@ -91,7 +90,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
         }
     }
 

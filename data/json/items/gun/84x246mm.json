@@ -34,8 +34,8 @@
   {
     "id": "AT4",
     "type": "GUN",
-    "copy-from": "LAW",
-    "name": "AT4",
+    "copy-from": "m3_carlgustav",
+    "name": { "str": "AT4" },
     "description": "Mil-Spec rocket launcher.  An 84-mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
     "extend": { "flags": [ "FIRE_TWOHAND", "NO_REPAIR" ] },
     "ammo": "84x246mm",
@@ -43,7 +43,6 @@
     "volume": "3500 ml",
     "bashing": 4,
     "dispersion": 200,
-    "durability": 7,
-    "loudness": 200
+    "durability": 7
   }
 ]

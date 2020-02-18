@@ -23,16 +23,7 @@
 #include "translations.h"
 #include "string_id.h"
 #include "enums.h"
-
-static const skill_id skill_swimming( "swimming" );
-
-static const std::string title_STATS = translate_marker( "STATS" );
-static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
-static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
-static const std::string title_SPEED = translate_marker( "SPEED" );
-static const std::string title_SKILLS = translate_marker( "SKILLS" );
-static const std::string title_BIONICS = translate_marker( "BIONICS" );
-static const std::string title_TRAITS = translate_marker( "TRAITS" );
+#include "cata_string_consts.h"
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
@@ -314,7 +305,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
         if( you.rust_rate() ) {
             print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate( false ) ) );
+                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
@@ -692,7 +683,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
             int exercise = level.exercise();
             int level_num = level.level();
             bool locked = false;
-            if( you.has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
+            if( you.has_active_bionic( bio_cqb ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
                 exercise = 0;
                 locked = true;
@@ -724,7 +715,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                 mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
-            if( aSkill->ident() == skill_id( "dodge" ) ) {
+            if( aSkill->ident() == skill_dodge ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
                            you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
             } else {
@@ -1030,7 +1021,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                    left_justify( inanition, 20 ), pen );
         line++;
     }
-    if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
+    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
@@ -1042,7 +1033,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         nc_color pen_color;
         std::string pen_sign;
         const auto player_local_temp = g->weather.get_temperature( you.pos() );
-        if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
+        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < 65 ) {
@@ -1060,16 +1051,16 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
     int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
+    if( you.has_trait( trait_QUICK ) && you.has_bionic( bio_speed ) ) {
         bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
         std::swap( quick_bonus, bio_speed_bonus );
     }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
+    if( you.has_trait( trait_QUICK ) ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
                    pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
         line++;
     }
-    if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
+    if( you.has_bionic( bio_speed ) ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
                    pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
     }
@@ -1142,20 +1133,20 @@ void player::disp_info()
         effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
-    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
+    if( ( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather == WEATHER_SUNNY ) ||
-        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
+        ( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather != WEATHER_SUNNY ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
                                         } );
-    } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you badly.\n"
                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
                                         } );
-    } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you terribly.\n"
                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )

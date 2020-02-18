@@ -67,8 +67,19 @@
         "type": "transform"
       },
       "CAMERA",
+      "MP3",
       "ROBOTCONTROL"
     ]
+  },
+  {
+    "id": "afs_atomic_wraitheon_music",
+    "copy-from": "afs_wraitheon_smartphone",
+    "type": "TOOL",
+    "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
+    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "revert_to": "afs_atomic_smartphone",
+    "use_action": "MP3_ON",
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
@@ -217,11 +228,15 @@
     "copy-from": "UPS_off",
     "name": "UPS",
     "name_plural": "UPS's",
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn around to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn around to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has it's own custom battery, with higher capacity and rechargeable, but not removeable",
     "coverage": 5,
+    "ammo": "battery",
+    "initial_charges": 1000,
+    "max_charges": 1500,
     "encumbrance": 2,
     "covers": [ "LEG_EITHER" ],
-    "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ]
+    "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS", "NO_RELOAD", "NO_UNLOAD" ],
+    "magazines": [  ]
   },
   {
     "id": "adv_UPS_off",

@@ -238,7 +238,7 @@
     "type": "BIONIC_ITEM",
     "name": "Close Quarters Battle CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "A set of bionic processors and databanks, loaded with martial arts combat programs.  Whilst active, the CQB module will improve the user's hand to hand combat skills, but prevents them from improving them through combat experience.",
+    "description": "A set of bionic processors and databanks, loaded with martial arts combat programs.  Whilst active, the CQB module will improve the user's hand-to-hand combat skills, but prevents them from improving them through combat experience.",
     "price": 220000,
     "weight": "250 g",
     "difficulty": 8
@@ -281,7 +281,7 @@
     "type": "BIONIC_ITEM",
     "name": "Directional EMP CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
+    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
     "price": 720000,
     "difficulty": 5
   },
@@ -301,7 +301,7 @@
     "type": "BIONIC_ITEM",
     "name": "Ethanol Burner CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accept ethanol, methanol and denatured aclohol as fuel.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accepts ethanol, methanol and denatured alcohol as fuel.",
     "price": 120000,
     "difficulty": 4
   },
@@ -678,8 +678,7 @@
     "id": "bio_power_storage_mkII",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Power Storage CBM Mk. II",
-    "name_plural": "Power Storage CBM Mk. II",
+    "name": { "str": "Power Storage CBM Mk. II", "str_pl": "Power Storage CBM Mk. II" },
     "looks_like": "bio_int_enhancer",
     "description": "A Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases the user's power capacity by 250 units.",
     "price": 1000000,
@@ -908,7 +907,7 @@
     "type": "BIONIC_ITEM",
     "name": "Integrated Toolset CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "A surgically implanted set of tools - screwdriver, hammer, wrench, hacksaw, hand drill, welder and heating elements.  These can be used in place of many tools when crafting.",
+    "description": "A surgically implanted set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder and heating elements.  These can be used in place of many tools when crafting.",
     "price": 800000,
     "difficulty": 6
   },
@@ -940,7 +939,7 @@
     "type": "BIONIC_ITEM",
     "name": "Uncanny Dodge CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 11
@@ -1037,8 +1036,7 @@
     "id": "bio_ankles",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Squeaky Ankles",
-    "name_plural": "Squeaky Ankles",
+    "name": { "str": "Squeaky Ankles", "str_pl": "Squeaky Ankles" },
     "description": "A pair of defective bionics that make squeaking noises.",
     "weight": "100 g",
     "difficulty": 4
@@ -1047,8 +1045,7 @@
     "id": "bio_deformity",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Pieces Of Junk",
-    "name_plural": "Pieces of Junk",
+    "name": { "str": "Pieces Of Junk", "str_pl": "Pieces of Junk" },
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
@@ -1159,6 +1156,15 @@
     "difficulty": 11
   },
   {
+    "id": "bio_synaptic_regen",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Synaptic Regeneration System CBM",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery.",
+    "price": 10000,
+    "difficulty": 8
+  },
+  {
     "id": "bio_spasm",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
@@ -1170,8 +1176,7 @@
     "id": "bio_stiff",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Wire-Induced Stiffness",
-    "name_plural": "Wire-Induced Stiffnesses",
+    "name": { "str": "Wire-Induced Stiffness", "str_pl": "Wire-Induced Stiffnesses" },
     "description": "A length of poorly installed wiring that would cause stiffness.",
     "difficulty": 7
   },
@@ -1179,8 +1184,7 @@
     "id": "bio_thumbs",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": "Self-Locking Thumbs",
-    "name_plural": "Self-Locking Thumbs",
+    "name": { "str": "Self-Locking Thumbs", "str_pl": "Self-Locking Thumbs" },
     "description": "A pair of faulty, self-locking thumb bionics.",
     "weight": "50 g",
     "difficulty": 5

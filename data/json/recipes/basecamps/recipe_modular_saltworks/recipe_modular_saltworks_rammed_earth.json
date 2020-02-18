@@ -1,0 +1,122 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_saltpan_rammed_earth_northeast",
+    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs in an adobe hut.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_saltpan_rammed_earth_northeast",
+    "blueprint_name": "NE rammed earth saltpan",
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
+    "blueprint_needs": {
+      "time": "6 d 5 h 10 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 211 ] ],
+          [ [ "concrete", 20 ], [ "material_quicklime", 400 ], [ "material_sand", 400 ] ],
+          [ [ "material_soil", 4800 ] ],
+          [ [ "nail", 486 ] ],
+          [ [ "pointy_stick", 40 ], [ "spear_wood", 40 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 2000 ], [ "water_clean", 2000 ] ],
+          [ [ "wood_panel", 22 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shack_rammed_earth_southeast",
+    "description": "We could use a storage room for chemicals and tools, so build an adobe shack with a roof on the southeast side of the saltworks field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_shack_rammed_earth_southeast",
+    "blueprint_name": "SE rammed earth storage room",
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southeast" } ],
+    "blueprint_needs": {
+      "time": "3 d 10 h 45 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 98 ] ],
+          [ [ "concrete", 11 ], [ "material_quicklime", 220 ], [ "material_sand", 220 ] ],
+          [ [ "material_soil", 2640 ] ],
+          [ [ "nail", 192 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "pointy_stick", 22 ], [ "spear_wood", 22 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "water", 1100 ], [ "water_clean", 1100 ] ],
+          [ [ "wood_panel", 3 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_brewery0_rammed_earth_southwest",
+    "description": "We could take advantage of the designation of this area to build an rammed earth brewery.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_brewery0_rammed_earth_southwest",
+    "blueprint_name": "SW rammed earth brewery",
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id": "brewery" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
+    "blueprint_needs": {
+      "time": "6 d 17 h 45 m",
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 240 ] ],
+          [ [ "nail", 510 ] ],
+          [ [ "pointy_stick", 42 ], [ "spear_wood", 42 ] ],
+          [ [ "pipe", 36 ] ],
+          [ [ "sheet_metal", 7 ] ],
+          [ [ "sheet_metal_small", 12 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "material_soil", 5040 ] ],
+          [ [ "water", 2100 ], [ "water_clean", 2100 ] ],
+          [ [ "material_sand", 420 ], [ "material_quicklime", 420 ], [ "concrete", 21 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 20 ] ]
+        ]
+      }
+    }
+  }
+]

@@ -115,7 +115,7 @@ static tripoint random_house_in_city( const city_reference &cref )
     const tripoint city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
     std::vector<tripoint> valid;
     for( const tripoint &p : points_in_radius( city_center_omt, cref.city->size ) ) {
-        if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
+        if( overmap_buffer.check_ot( "house", ot_match_type::prefix, p ) ) {
             valid.push_back( p );
         }
     }
@@ -427,7 +427,7 @@ void mission_util::set_reveal_any( const JsonArray &ja,
                                    std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
-    for( const std::string &terrain : ja ) {
+    for( const std::string terrain : ja ) {
         terrains.push_back( terrain );
     }
     const auto mission_func = [ terrains ]( mission * miss ) {

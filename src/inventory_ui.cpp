@@ -713,7 +713,9 @@ void inventory_column::add_entry( const inventory_entry &entry )
 void inventory_column::move_entries_to( inventory_column &dest )
 {
     for( const auto &elem : entries ) {
-        if( elem.is_item() ) {
+        if( elem.is_item() &&
+            // this column already has this entry, no need to try to add it again
+            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
@@ -1202,7 +1204,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
-        for( const auto &pos : closest_tripoints_first( radius, u.pos() ) ) {
+        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
             if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
@@ -1516,8 +1518,28 @@ void inventory_selector::set_filter()
     layout_is_valid = false;
 }
 
-void inventory_selector::update()
+void inventory_selector::set_filter( const std::string &str )
 {
+    filter = str;
+    for( const auto elem : columns ) {
+        elem->set_filter( filter );
+    }
+    layout_is_valid = false;
+}
+
+std::string inventory_selector::get_filter() const
+{
+    return filter;
+}
+
+void inventory_selector::update( bool &need_refresh )
+{
+    if( need_refresh ) {
+        g->draw_ter();
+        wrefresh( g->w_terrain );
+        g->draw_panels( true );
+        need_refresh = false;
+    }
     prepare_layout();
     refresh_window();
 }
@@ -1583,8 +1605,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( filter.empty() ? _( "[%s]Filter" ) : _( "[%s]Filter: " ),
-                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
+        std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                          ctxt.get_desc( "INVENTORY_FILTER" ) );
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
@@ -1803,9 +1825,9 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 item_location inventory_pick_selector::execute()
 {
+    bool need_refresh = true;
     while( true ) {
-        update();
-
+        update( need_refresh );
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
@@ -1831,9 +1853,7 @@ item_location inventory_pick_selector::execute()
         }
 
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
-            g->draw_ter();
-            wrefresh( g->w_terrain );
-            g->draw_panels( true );
+            need_refresh = true;
         }
     }
 }
@@ -1872,8 +1892,9 @@ inventory_compare_selector::inventory_compare_selector( player &p ) :
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
+    bool need_refresh = true;
     while( true ) {
-        update();
+        update( need_refresh );
 
         const inventory_input input = get_input();
 
@@ -1949,8 +1970,9 @@ inventory_iuse_selector::inventory_iuse_selector(
 drop_locations inventory_iuse_selector::execute()
 {
     int count = 0;
+    bool need_refresh = true;
     while( true ) {
-        update();
+        update( need_refresh );
 
         const inventory_input input = get_input();
 
@@ -2002,7 +2024,7 @@ drop_locations inventory_iuse_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *, int> &use_pair : to_use ) {
+    for( const std::pair<const item *const, int> &use_pair : to_use ) {
         item_location loc( u, const_cast<item *>( use_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
     }
@@ -2070,8 +2092,9 @@ void inventory_drop_selector::process_selected( int &count,
 drop_locations inventory_drop_selector::execute()
 {
     int count = 0;
+    bool need_refresh = true;
     while( true ) {
-        update();
+        update( need_refresh );
 
         const inventory_input input = get_input();
 
@@ -2142,6 +2165,7 @@ drop_locations inventory_drop_selector::execute()
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+            need_refresh = true;
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
@@ -2152,7 +2176,7 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *, int> &drop_pair : dropping ) {
+    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
         item_location loc( u, const_cast<item *>( drop_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
     }

@@ -116,7 +116,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ant_egg",
-    "name": "ant egg",
+    "name": { "str": "ant egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "%",
@@ -126,7 +126,7 @@
     "material": "egg",
     "volume": "600 ml",
     "fun": -10,
-    "proportional": { "weight": 12, "calories": 12 },
+    "proportional": { "weight": 12.0, "calories": 12.0 },
     "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
@@ -227,8 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": "powdered egg",
-    "name_plural": "powdered eggs",
+    "name": { "str": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -249,8 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "scrambled_eggs",
-    "name": "scrambled eggs",
-    "name_plural": "scrambled eggs",
+    "name": { "str": "scrambled eggs", "str_pl": "scrambled eggs" },
     "copy-from": "egg_chicken",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -266,13 +264,12 @@
   {
     "type": "COMESTIBLE",
     "id": "boiled_egg",
-    "name": "boiled egg",
-    "name_plural": "boiled eggs",
+    "name": { "str": "boiled egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "o",
     "quench": -1,
-    "description": "A hard boiled egg, still in its shell.  Portable and nutritious!",
+    "description": "A hard-boiled egg, still in its shell.  Portable and nutritious!",
     "price": 95,
     "material": "egg",
     "fun": 2,

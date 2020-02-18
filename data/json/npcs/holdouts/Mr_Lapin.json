@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "warrener",
-    "//": "A survivor raising rabbits, all by themsleves. Give special quests to give rabbits to player",
+    "//": "A survivor raising rabbits, all by themselves. Give special quests to give rabbits to player",
     "name_unique": "Mr Lapin",
     "name_suffix": "Warrener",
     "gender": "male",
@@ -86,7 +86,7 @@
       "no": "CRISPR?  Radiation?  Something in the water?  Maybe it was bunnies."
     },
     "responses": [
-      { "text": "So it goes", "topic": "TALK_WARRENER" },
+      { "text": "So it goes.", "topic": "TALK_WARRENER" },
       { "text": "You're disgusting.", "topic": "TALK_WARRENER_MUTATION_INSULT" }
     ]
   },
@@ -124,7 +124,7 @@
       "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
       "advice": "There's a lot of places to look.  Trees are pretty common.",
       "inquire": "How is the search going?  Have you found'em?",
-      "success": "I really apreciate your help.  Don't worry, you won't leave empty-handed.",
+      "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },

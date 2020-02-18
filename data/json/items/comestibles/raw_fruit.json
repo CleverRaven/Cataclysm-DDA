@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple",
-    "name": "apple",
+    "name": { "str": "apple" },
     "weight": "182 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
@@ -422,8 +422,7 @@
   {
     "type": "COMESTIBLE",
     "id": "peach",
-    "name": "peach",
-    "name_plural": "peaches",
+    "name": { "str": "peach", "str_pl": "peaches" },
     "weight": "163 g",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -645,20 +644,20 @@
     "type": "COMESTIBLE",
     "id": "cactus_pad",
     "name": "cactus pad",
-    "weight": "100 g",
+    "weight": "149 g",
     "color": "green",
     "spoils_in": "1 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 15,
     "healthy": 1,
-    "calories": 100,
+    "calories": 15,
     "description": "An edible pad of a cactus.",
     "price": 50,
     "material": "fruit",
     "volume": "250 ml",
     "fun": -1,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 16 ], [ "calcium", 16 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 9 ], [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
   }
 ]

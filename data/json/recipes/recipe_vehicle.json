@@ -40,13 +40,28 @@
     "components": [ [ [ "sheet_metal", 3 ] ] ]
   },
   {
+    "result": "reins_tackle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "120 m",
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [
+      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "cordage_superior", 2, "LIST" ] ]
+    ]
+  },
+  {
     "result": "yoke_harness",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 120000,
+    "time": "20 m",
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
@@ -236,7 +251,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": 180000,
+    "time": "30 m",
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
@@ -355,7 +370,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "1 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
@@ -368,7 +383,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 30000,
+    "time": "5 m",
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 50 ] ] ]
@@ -380,7 +395,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 30000,
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
@@ -393,11 +408,10 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 500,
-    "reversible": true,
+    "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
   },
   {
     "result": "cargo_aisle",
@@ -437,6 +451,25 @@
     "using": [ [ "welding_standard", 1 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "turret_mount",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "pipe", 3 ] ], [ [ "motor_tiny", 2 ] ], [ [ "spring", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",

@@ -1,13 +1,51 @@
-## Astyle
+## Code style (astyle)
 
-Automatic formatting is performed by astyle.  If you have make and astyle
-installed then this can be done with `make astyle`.
+Automatic formatting of source code is performed by [Artistic Style](http://astyle.sourceforge.net/).
 
-On Windows, there is an astyle extension for Visual Studio.
+If you have both `make` and `astyle` installed then this can be done with:
+
+```BASH
+make astyle
+```
+
+If you have only `astyle` then use:
+
+```BASH
+astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h`
+```
+
+On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension)
+
+#### Instruction:
+
+1. Install aforementioned extension to Visual Studio IDE.
+
+2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
+
+3. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+
+![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
+
+4. After import is successful you can see imported rules on `C/C++` tab:
+
+![image](https://user-images.githubusercontent.com/16213433/54817974-427a3500-4ca9-11e9-8179-84b19cc25c0f.png)
+
+5. Close `Options` menu, open file to be astyled and use `Format Document (Astyle)` or `Format Selection (Astyle)` commands from `Edit` - `Advanced` menu.
+
+![image](https://user-images.githubusercontent.com/16213433/54818041-68073e80-4ca9-11e9-8e1f-a1996fd4ee75.png)
+
+*Note:* You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
+
+![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
 
 ## JSON style
 
 See the [JSON style guide](JSON_STYLE.md).
+
+## ctags
+
+In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA JSON data.  `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.  Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
+
 
 ## clang-tidy
 

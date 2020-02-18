@@ -34,8 +34,8 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_signs": [
-        { "signage": "Private property. No trepassing!", "x": 4, "y": 0 },
-        { "signage": "Private property. No trepassing!", "x": 18, "y": 0 }
+        { "signage": "Private property.  No trespassing!", "x": 4, "y": 0 },
+        { "signage": "Private property.  No trespassing!", "x": 18, "y": 0 }
       ],
       "place_items": [
         { "chance": 40, "item": "alcohol", "x": 7, "y": 13, "repeat": [ 2, 8 ] },
@@ -446,8 +446,8 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_signs": [
-        { "signage": "Private property. No trepassing!", "x": 8, "y": 24 },
-        { "signage": "Private property. No trepassing!", "x": 17, "y": 24 }
+        { "signage": "Private property.  No trespassing!", "x": 8, "y": 24 },
+        { "signage": "Private property.  No trespassing!", "x": 17, "y": 24 }
       ],
       "place_vehicles": [ { "vehicle": "limousine", "x": 11, "y": 18, "chance": 75, "rotation": 90, "status": -1 } ],
       "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.75 } ]

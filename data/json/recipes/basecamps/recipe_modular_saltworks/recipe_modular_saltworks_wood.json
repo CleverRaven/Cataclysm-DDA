@@ -12,7 +12,15 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 1 h 20 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 385 ] ], [ [ "nail", 1718 ] ], [ [ "wood_panel", 84 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 3 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,12 +35,28 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 20 h 40 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 236 ] ],
+          [ [ "nail", 924 ] ],
+          [ [ "wood_panel", 40 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery0_wood_southwest",
-    "description": "We could take advantage of the the designation of this area to build a wooden brewery.",
+    "description": "We could take advantage of the designation of this area to build a wooden brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -42,6 +66,29 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 15 h 30 m",
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 430 ] ],
+          [ [ "nail", 1922 ] ],
+          [ [ "wood_panel", 91 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 36 ] ],
+          [ [ "sheet_metal", 7 ] ],
+          [ [ "sheet_metal_small", 12 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "glass_sheet", 2 ] ]
+        ]
+      }
+    }
   }
 ]

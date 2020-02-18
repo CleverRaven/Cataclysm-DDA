@@ -22,6 +22,7 @@
       }
     },
     "mon_faction": "player",
+    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_your_followers_0" } ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -133,6 +134,10 @@
       },
       "hells_raiders": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_old_guard_0" },
+      { "power_max": 150, "id": "epilogue_faction_old_guard_150" }
+    ],
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },
   {
@@ -204,6 +209,10 @@
       },
       "hells_raiders": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_free_merchants_0" },
+      { "power_max": 150, "id": "epilogue_faction_free_merchants_150" }
+    ],
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
   {
@@ -289,6 +298,10 @@
         "knows your voice": true
       }
     },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_tacoma_commune_0" },
+      { "power_max": 150, "id": "epilogue_faction_tacoma_commune_150" }
+    ],
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
   },
   {
@@ -354,6 +367,10 @@
       "wasteland_scavengers": { "share my stuff": true, "guard your stuff": true, "knows your voice": true },
       "no_faction": { "knows your voice": true }
     },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_wasteland_scavengers_0" },
+      { "power_max": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
+    ],
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
   {
@@ -381,6 +398,10 @@
       "old_guard": { "kill on sight": true },
       "your_followers": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_hells_raiders_0" },
+      { "power_max": 150, "id": "epilogue_faction_hells_raiders_150" }
+    ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
   {
@@ -556,6 +577,6 @@
       "hells_raiders": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
-    "description": "A small group of churchgoers that formed a community in the woods. They welcome anyone in their faction, but hate the unnatural."
+    "description": "A small group of churchgoers that formed a community in the woods.  They welcome anyone in their faction, but hate the unnatural."
   }
 ]

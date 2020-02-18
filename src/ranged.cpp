@@ -63,25 +63,7 @@
 #include "type_id.h"
 #include "point.h"
 #include "skill.h"
-
-static const skill_id skill_throw( "throw" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_driving( "driving" );
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_launcher( "launcher" );
-
-static const efftype_id effect_on_roof( "on_roof" );
-static const efftype_id effect_hit_by_player( "hit_by_player" );
-static const efftype_id effect_downed( "downed" );
-
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
-static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+#include "cata_string_consts.h"
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
@@ -171,7 +153,7 @@ bool player::handle_gun_damage( item &it )
     const auto &curammo_effects = it.ammo_effects();
     const islot_gun &firing = *it.type->gun;
     // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
-    if( !it.has_flag( "NEVER_JAMS" ) &&
+    if( !it.has_flag( flag_NEVER_JAMS ) &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
                 1000000000000.0 ) ) {
         add_msg_player_or_npc(
@@ -204,7 +186,7 @@ bool player::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
-    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( "NEVER_JAMS" ) ) {
+    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
@@ -222,13 +204,13 @@ bool player::handle_gun_damage( item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( "CONSUMABLE" ) && !curammo_effects.count( "LASER" ) &&
+    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( "LASER" ) &&
                !curammo_effects.count( "PLASMA" ) && !curammo_effects.count( "EMP" ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
         for( auto mod : it.gunmods() ) {
-            if( mod->has_flag( "CONSUMABLE" ) ) {
+            if( mod->has_flag( flag_CONSUMABLE ) ) {
                 int dmgamt = uncork / mod->type->gunmod->consume_divisor;
                 int modconsume = mod->type->gunmod->consume_chance;
                 int initstate = it.damage();
@@ -262,9 +244,9 @@ bool player::handle_gun_damage( item &it )
                                it.tname() );
         it.inc_damage();
     }
-    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) ||
+    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) ||
           ( it.has_fault( fault_gun_unlubricated ) ) ) &&
-        !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         if( curammo_effects.count( "BLACKPOWDER" ) ||
             it.has_fault( fault_gun_unlubricated ) ) {
             if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
@@ -278,7 +260,7 @@ bool player::handle_gun_damage( item &it )
             }
         }
         // These are the dirtying/fouling mechanics
-        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
+        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
                 dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing.blackpowder_tolerance *
                             2 ) );
@@ -362,7 +344,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_ups_drain() > 0 ) {
+    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
         shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
@@ -435,7 +417,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        if( !gun.has_flag( "VEHICLE" ) ) {
+        if( !gun.has_flag( flag_VEHICLE ) ) {
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
@@ -460,7 +442,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         recoil = recoil / 2;
     }
     // Reset aim for bows and other reload-and-shoot weapons.
-    if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( gun.has_flag( flag_RELOAD_AND_SHOOT ) ) {
         recoil = MAX_RECOIL;
     }
     // Cap
@@ -613,7 +595,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
-    bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric ) &&
+    bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                       !throw_assist;
 
     // The damage dealt due to item's weight, player's strength, and skill level
@@ -671,7 +653,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    //TODO: Add wet effect if other things care about that
+    // TODO: Add wet effect if other things care about that
     if( burst ) {
         proj_effects.insert( "BURST" );
     }
@@ -1189,10 +1171,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
         }
     }
 
-    targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
-        return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
-    } ), targets.end() );
-
     if( targets.empty() ) {
         idx = -1;
 
@@ -1202,13 +1180,13 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
                 dst = *local_last_tgt_pos;
             }
             if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
-                pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
+                pc.has_activity( ACT_AIM ) ) {
                 //We lost our target. Stop auto aiming.
                 pc.cancel_activity();
             }
 
         } else {
-            auto adjacent = closest_tripoints_first( range, dst );
+            const std::vector<tripoint> adjacent = closest_tripoints_first( dst, range );
             const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
             [&pc]( const tripoint & pt ) {
                 return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
@@ -1325,7 +1303,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    // @TODO: this assumes that relevant == null means firing turrets, but that may not
+    // TODO: this assumes that relevant == null means firing turrets, but that may not
     // always be the case. Consider passing a name into this function.
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny );
@@ -1350,7 +1328,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( who.guaranteed_hostile() ) {
                 return true;
             }
-            return query_yn( _( "Really attack %s?" ), who.name );
+            if( g->u.sees( who ) ) {
+                return query_yn( _( "Really attack %s?" ), who.name );
+            }
         }
         return true;
     };
@@ -1521,7 +1501,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
         redraw = true;
         std::string action;
-        if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
+        if( pc.activity.id() == ACT_AIM && pc.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = pc.activity.str_values[0];
@@ -1622,7 +1602,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             if( pc.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
+                pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( "AIM" );
                 pc.view_offset = old_offset;
                 return empty_result;
@@ -1696,7 +1676,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
+                pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( action );
                 pc.view_offset = old_offset;
                 return empty_result;
@@ -2011,7 +1991,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         catacurses::refresh();
 
         std::string action;
-        if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
+        if( pc.activity.id() == ACT_AIM && pc.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = pc.activity.str_values[0];
@@ -2199,7 +2179,7 @@ int time_to_attack( const Character &p, const itype &firing )
 static void cycle_action( item &weap, const tripoint &pos )
 {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, pos );
+    std::vector<tripoint> tiles = closest_tripoints_first( pos, 1 );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !g->m.passable( e );
@@ -2382,12 +2362,12 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
-    if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
+    if( has_bionic( bio_targeting ) ) {
         dispersion.add_multiplier( 0.75 );
     }
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
-    if( is_underwater() != obj.has_flag( "UNDERWATER_GUN" ) ) {
+    if( is_underwater() != obj.has_flag( flag_UNDERWATER_GUN ) ) {
         // Adding dispersion for additional debuff
         dispersion.add_range( 150 );
         dispersion.add_multiplier( 4 );

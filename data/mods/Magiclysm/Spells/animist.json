@@ -186,5 +186,32 @@
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+  },
+  {
+    "id": "summon_wisps",
+    "type": "SPELL",
+    "name": "Ignus Fatuus",
+    "description": "Summons ghostly foxfire worked from living marsh vapor, to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
+    "valid_targets": [ "ground" ],
+    "effect": "summon",
+    "effect_str": "mon_wisp",
+    "flags": [ "LOUD", "SOMATIC" ],
+    "energy_source": "MANA",
+    "spell_class": "ANIMIST",
+    "difficulty": 2,
+    "base_casting_time": 250,
+    "base_energy_cost": 300,
+    "max_level": 25,
+    "min_damage": 1,
+    "max_damage": 8,
+    "damage_increment": 0.28,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_range": 3,
+    "max_range": 7,
+    "range_increment": 0.16,
+    "min_duration": 6000,
+    "max_duration": 60000,
+    "duration_increment": 2160
   }
 ]

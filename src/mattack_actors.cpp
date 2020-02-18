@@ -24,15 +24,7 @@
 #include "rng.h"
 #include "material.h"
 #include "point.h"
-
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_laserlocked( "laserlocked" );
-static const efftype_id effect_was_laserlocked( "was_laserlocked" );
-static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_badpoison( "badpoison" );
+#include "cata_string_consts.h"
 
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )
@@ -362,7 +354,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
             target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }
-    if( target.has_trait( trait_id( "TOXICFLESH" ) ) ) {
+    if( target.has_trait( trait_TOXICFLESH ) ) {
         z.add_effect( effect_poison, 5_minutes );
         z.add_effect( effect_badpoison, 5_minutes );
     }
@@ -537,9 +529,9 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    standard_npc tmp( _( "The " ) + z.name(), {}, 8, fake_str, fake_dex, fake_int, fake_per );
+    standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
+                      fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
-    tmp.setpos( z.pos() );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim
 
