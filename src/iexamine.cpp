@@ -1221,7 +1221,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
     } else if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe with earbuds on!" ) );
+        add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
