@@ -8245,7 +8245,6 @@ void item::apply_freezerburn()
 void item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
-    debugmsg( "Temp rot %s.", tname() );
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
@@ -8294,7 +8293,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     time_point time;
     
     const bool preserved = type->container && type->container->preserves;
-    bool process_rot = goes_bad() && !preserved
+    bool process_rot = goes_bad() && !preserved;
     
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -8401,7 +8400,6 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {
-        last_temp_check = time;
         return;
     }
     const float mass = to_gram( weight() ); // g
@@ -8409,7 +8407,6 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     // If item has negative energy set to enviroment temperature (it not been processed ever)
     if( specific_energy < 0 ) {
         set_item_temperature( env_temperature );
-        last_temp_check = time;
         return;
     }
 
@@ -8459,7 +8456,6 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                 // This may happen rarely with very small items
                 // Just set the item to enviroment temperature
                 set_item_temperature( env_temperature );
-                last_temp_check = time;
                 return;
             }
         }
@@ -8488,7 +8484,6 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                 // This may happen rarely with very small items
                 // Just set the item to enviroment temperature
                 set_item_temperature( env_temperature );
-                last_temp_check = time;
                 return;
             }
         }
