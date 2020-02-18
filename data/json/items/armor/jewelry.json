@@ -1379,7 +1379,7 @@
     "material": [ "plastic" ],
     "price_postapoc": 30,
     "weight": "10 g",
-    "description": "A star shaped badge. On it, you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
+    "description": "A star shaped badge.  On it, you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
   },
   {
     "id": "fur_cat_ears",
