@@ -2,11 +2,11 @@
   {
     "id": "bow_sight",
     "type": "GUNMOD",
-    "name": "five pin bow sight",
+    "name": { "str": "five pin bow sight" },
     "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially, but takes a bit longer to line up.",
     "weight": "120 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 5000,
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
@@ -56,7 +56,7 @@
   {
     "id": "holo_sight",
     "type": "GUNMOD",
-    "name": "holographic sight",
+    "name": { "str": "holographic sight" },
     "//": "EOTech XPS3",
     "description": "Used extensively by military forces, it increases accuracy and weight.  This is a step up from a red dot sight.",
     "weight": "255 g",

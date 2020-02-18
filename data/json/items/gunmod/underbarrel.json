@@ -83,7 +83,7 @@
   {
     "id": "grip",
     "type": "GUNMOD",
-    "name": "forward grip",
+    "name": { "str": "forward grip" },
     "//": "Daniel Defense Tornado",
     "description": "A grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.",
     "weight": "68 g",

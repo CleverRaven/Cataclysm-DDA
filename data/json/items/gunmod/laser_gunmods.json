@@ -38,7 +38,7 @@
   {
     "id": "electrolaser_conversion",
     "type": "GUNMOD",
-    "name": "electrolaser conversion",
+    "name": { "str": "electrolaser conversion" },
     "description": "A set of high-tech electronics and optics.  These converts a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of a decreased damage output and increased power consumption.",
     "weight": "380 g",
     "volume": "1 L",
@@ -74,11 +74,11 @@
   {
     "id": "high_density_capacitor",
     "type": "GUNMOD",
-    "name": "high density capacitor",
+    "name": { "str": "high density capacitor" },
     "description": "A capacitor with a higher energy density increases range and damage; at the cost of a markedly increased power consumption.",
     "weight": "380 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 84000,
     "material": [ "steel" ],
     "symbol": ":",
