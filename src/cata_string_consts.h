@@ -4,6 +4,7 @@
 
 #include "type_id.h"
 #include "player_activity.h"
+#include "itype.h"
 
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
