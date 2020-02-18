@@ -339,6 +339,16 @@
     ]
   },
   {
+    "id": "SUS_book_fict_soft_spy",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single paperback spy novel",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "novel_spy", "prob": 2 }
+    ]
+  }
+  {
     "id": "SUS_book_nonf",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -407,7 +417,7 @@
       { "item": "holybook_tripitaka", "prob": 2 },
       { "item": "holybook_upanishads", "prob": 2 },
       { "item": "holybook_vedas", "prob": 2 },
-      { "item": "mycenacean_hymns", "prob": 1 },
+      { "item": "mycenacean_hymns", "prob": 1 }
     ]
   },
   {
