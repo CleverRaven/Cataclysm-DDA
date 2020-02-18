@@ -105,8 +105,7 @@
     "id": "seed_strawberries",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": "strawberry seeds",
-    "name_plural": "strawberry seeds",
+    "name": { "str": "strawberry seeds", "str_pl": "strawberry seeds" },
     "description": "Some strawberry seeds.",
     "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": "91 days" }
   },
