@@ -8286,7 +8286,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     
     const bool preserved = type->container && type->container->preserves;
     bool process_rot = goes_bad() && !preserved;
-    
+    time_duration smallest_interval = 10_minutes;
+	
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
@@ -9133,7 +9134,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
 		const time_point now = calendar::turn;
 		time_duration smallest_interval = 10_minutes;
 		if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
-			return;
+			return false;
 		}
         process_temperature_rot( insulation, pos, carrier, flag );
     }
