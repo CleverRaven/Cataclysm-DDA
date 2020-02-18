@@ -233,7 +233,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else if( has_temperature() || goes_bad() ) {
         active = true;
         last_temp_check = bday;
-        last_rot_check = bday;
 
     } else if( type->tool ) {
         if( ammo_remaining() && !ammo_types().empty() ) {
@@ -302,7 +301,6 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     if( is_food() ) {
         active = true;
         last_temp_check = bday;
-        last_rot_check = bday;
         if( goes_bad() ) {
             const item *most_rotten = get_most_rotten_component( *this );
             if( most_rotten ) {
@@ -1299,9 +1297,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
                                           "", iteminfo::lower_is_better,
                                           to_turns<int>( food->get_shelf_life() ) ) );
-                info.push_back( iteminfo( "BASE", _( "last rot: " ),
-                                          "", iteminfo::lower_is_better,
-                                          to_turn<int>( food->last_rot_check ) ) );
                 info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_temp_check ) ) );
@@ -4772,12 +4767,6 @@ void item::set_relative_rot( double val )
 {
     if( goes_bad() ) {
         rot = get_shelf_life() * val;
-        // calc_rot uses last_rot_check (when it's not turn_zero) instead of bday.
-        // this makes sure the rotting starts from now, not from bday.
-        // if this item is the result of smoking or milling don't do this, we want to start from bday.
-        if( !has_flag( "PROCESSING_RESULT" ) ) {
-            last_rot_check = calendar::turn;
-        }
     }
 }
 
@@ -4890,12 +4879,10 @@ void item::calc_rot( time_point time, int temp )
     // is in a sealed container they won't rot away, this avoids needlessly
     // calculating their rot in that case.
     if( !is_corpse() && get_relative_rot() > 2.0 ) {
-        last_rot_check = time;
         return;
     }
 
     if( item_tags.count( "FROZEN" ) ) {
-        last_rot_check = time;
         return;
     }
     // rot modifier
@@ -4915,14 +4902,13 @@ void item::calc_rot( time_point time, int temp )
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
-    if( last_rot_check <= calendar::start_of_cataclysm ) {
+    if( last_temp_check <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
         rot += rng( -spoil_variation, spoil_variation );
     }
 
-    time_duration time_delta = time - last_rot_check;
+    time_duration time_delta = time - last_temp_check;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
-    last_rot_check = time;
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )
@@ -4933,7 +4919,6 @@ void item::calc_rot_while_processing( time_duration processing_duration )
     }
 
     // Apply no rot or temperature while smoking
-    last_rot_check += processing_duration;
     last_temp_check += processing_duration;
 }
 
@@ -8260,13 +8245,13 @@ void item::apply_freezerburn()
 void item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
+    debugmsg( "Temp rot %s.", tname() );
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
-    // last_temp_check and last_rot_check in this case
+    // last_temp_check in this case
     if( now - last_temp_check < 0_turns ) {
         reset_temp_check();
-        last_rot_check = now;
         return;
     }
 
@@ -8307,13 +8292,10 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
-    if( goes_bad() ) {
-        time = std::min( last_rot_check, last_temp_check );
-    } else {
-        time = last_temp_check;
-    }
-
+    
+    const bool preserved = type->container && type->container->preserves;
+    bool process_rot = goes_bad() && !preserved
+    
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
@@ -8375,13 +8357,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             if( now - time > 2_days ) {
                 // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
-                last_temp_check = time;
             } else if( time - last_temp_check > smallest_interval ) {
                 calc_temp( env_temperature, insulation, time );
             }
 
             // Calculate item rot from item temperature
-            if( time - last_rot_check > smallest_interval ) {
+            if( process_rot && time - last_temp_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -8389,6 +8370,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     return;
                 }
             }
+            
+            last_temp_check = time;
         }
     }
 
@@ -8396,7 +8379,10 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        calc_rot( now, temp );
+        if( process_rot ){
+            calc_rot( now, temp );
+        }
+        last_temp_check = time;
         return;
     }
 
@@ -8583,8 +8569,6 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     }
     temperature = lround( 100000 * new_item_temperature );
     specific_energy = lround( 100000 * new_specific_energy );
-
-    last_temp_check = time;
 }
 
 float item::get_item_thermal_energy()
@@ -9069,13 +9053,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, bool activate,
                     float insulation, const temperature_flag flag )
 {
-    const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( preserves ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
-            // is not changed, the item is still fresh.
-            it->last_rot_check = calendar::turn;
-        }
         if( it->process( carrier, pos, activate, type->insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
         } else {
@@ -9478,8 +9456,8 @@ void item::legacy_fast_forward_time()
 
     rot *= 6;
 
-    const time_duration tmp_rot = ( last_rot_check - calendar::turn_zero ) * 6;
-    last_rot_check = calendar::turn_zero + tmp_rot;
+    const time_duration tmp_temp = ( last_temp_check - calendar::turn_zero ) * 6;
+    last_temp_check = calendar::turn_zero + tmp_temp;
 }
 
 time_point item::birthday() const
