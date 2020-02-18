@@ -7881,7 +7881,6 @@ void item::set_item_temperature( float new_temperature )
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    reset_temp_check();
 }
 
 void item::fill_with( item &liquid, int amount )
@@ -8251,13 +8250,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // last_temp_check in this case
     if( now - last_temp_check < 0_turns ) {
         reset_temp_check();
-        return;
-    }
-
-    // process temperature and rot at most once every 100_turns (10 min)
-    // note we're also gated by item::processing_speed
-    time_duration smallest_interval = 10_minutes;
-    if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
         return;
     }
 
@@ -9136,6 +9128,13 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
     }
     // All foods that go bad have temperature
     if( has_temperature() ) {
+		// process temperature and rot at most once every 100_turns (10 min)
+		// note we're also gated by item::processing_speed
+		const time_point now = calendar::turn;
+		time_duration smallest_interval = 10_minutes;
+		if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
+			return;
+		}
         process_temperature_rot( insulation, pos, carrier, flag );
     }
 
