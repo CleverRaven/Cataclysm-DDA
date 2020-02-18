@@ -4,6 +4,7 @@
 
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "cata_string_consts.h"
 #include "construction.h"
 #include "map.h"
 #include "game.h"
@@ -158,7 +159,7 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
+    const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
     // Activities should never excessively drain stamina.
