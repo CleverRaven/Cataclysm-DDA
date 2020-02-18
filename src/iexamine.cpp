@@ -3848,7 +3848,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
 
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
+        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {

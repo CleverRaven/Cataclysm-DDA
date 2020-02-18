@@ -1106,7 +1106,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
+            if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "This item is a <info>magical focus</info>.  "
                                              "You can cast spells with it in your hand." ) ) );
@@ -9418,7 +9418,7 @@ skill_id item::contextualize_skill( const skill_id &id ) const
     if( id->is_contextual_skill() ) {
 
 
-        if( id == weapon_skill ) {
+        if( id == skill_weapon ) {
             if( is_gun() ) {
                 return gun_skill();
             } else if( is_melee() ) {
