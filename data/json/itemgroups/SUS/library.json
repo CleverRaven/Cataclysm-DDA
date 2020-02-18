@@ -238,10 +238,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single book of any type.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "SUS_book_fict", "prob": 1 },
-      { "group": "SUS_book_nonf", "prob": 1 }
-    ]
+    "entries": [ { "group": "SUS_book_fict", "prob": 1 }, { "group": "SUS_book_nonf", "prob": 1 } ]
   },
   {
     "id": "SUS_book_fict",
@@ -249,9 +246,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single book of any fiction.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "SUS_book_fict_soft", "prob": 1 }
-    ]
+    "entries": [ { "group": "SUS_book_fict_soft", "prob": 1 } ]
   },
   {
     "id": "SUS_book_fict_soft",
@@ -355,10 +350,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single nonfiction printed material.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "SUS_book_nonf_hard", "prob": 3 },
-      { "group": "SUS_book_nonf_zine", "prob": 1 }
-    ]
+    "entries": [ { "group": "SUS_book_nonf_hard", "prob": 3 }, { "group": "SUS_book_nonf_zine", "prob": 1 } ]
   },
   {
     "id": "SUS_book_nonf_hard",
@@ -377,9 +369,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "a single magazine, but not comics",
     "subtype": "distribution",
-    "entries": [
-      { "group": "SUS_book_nonf_zine_news", "prob": 1 }
-    ]
+    "entries": [ { "group": "SUS_book_nonf_zine_news", "prob": 1 } ]
   },
   {
     "id": "SUS_book_nonf_zine_news",
