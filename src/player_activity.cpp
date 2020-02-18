@@ -163,7 +163,7 @@ void player_activity::do_turn( player &p )
     type->call_do_turn( this, &p );
     // Activities should never excessively drain stamina.
     // adjusted stamina because;
-    // autotravel dosnt reduce stamina after do_turn()
+    // autotravel doesn't reduce stamina after do_turn()
     // it just sets a destination, clears the activity, then moves afterwards
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
