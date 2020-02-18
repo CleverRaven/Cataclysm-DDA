@@ -362,7 +362,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc LICENSE.txt
+BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
