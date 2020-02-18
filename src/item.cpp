@@ -8381,6 +8381,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // Just now created items will get here.
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
+		last_temp_check = time;
     }
 }
 
