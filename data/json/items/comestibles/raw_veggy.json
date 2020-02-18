@@ -334,8 +334,7 @@
   {
     "type": "COMESTIBLE",
     "id": "carrot_wild",
-    "name": "wild root",
-    "name_plural": "wild roots",
+    "name": { "str": "wild root" },
     "copy-from": "carrot",
     "color": "white",
     "description": "A weed with a cluster of tiny white flowers.  These are often wild carrots, but beware of poisonous lookalikes.",
@@ -664,8 +663,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_wild",
-    "name": "wild vegetables",
-    "name_plural": "wild vegetables",
+    "name": { "str": "wild vegetables", "str_pl": "wild vegetables" },
     "copy-from": "veggy",
     "description": "An assortment of edible-looking wild plants.  Most are quite bitter-tasting.  Some are inedible until cooked.",
     "//": "In real life many root vegetables are mildly toxic until cooked",

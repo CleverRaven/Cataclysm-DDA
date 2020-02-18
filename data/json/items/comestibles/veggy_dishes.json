@@ -148,8 +148,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_beans",
-    "name": "vegetarian baked beans",
-    "name_plural": "vegetarian baked beans",
+    "name": { "str": "vegetarian baked beans", "str_pl": "vegetarian baked beans" },
     "weight": "270 g",
     "color": "brown",
     "spoils_in": "15 days",
