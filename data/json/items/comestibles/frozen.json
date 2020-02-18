@@ -79,7 +79,7 @@
     "copy-from": "icecream",
     "id": "icecream_artificial",
     "name": { "str": "dairy dessert", "str_pl": "dairy dessert scoops" },
-    "description": "Government regulations dictate that since this isn't *technically* ice cream, it be called a dairy dessert instead.  It still tastes good, but your body won't like you.",
+    "description": "Government regulations dictate that since this isn't *technically* ice cream, it can be called a dairy dessert instead.  It still tastes good, but your body won't like you.",
     "healthy": -2,
     "price": 200,
     "primary_material": "ice_cream",

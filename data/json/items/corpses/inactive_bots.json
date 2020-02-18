@@ -3,7 +3,7 @@
     "id": "bot_EMP_hack",
     "type": "TOOL",
     "name": "inactive EMP hack",
-    "description": "This is an inactive EMP hack.  EMP hacks are fist-sized robots that fly through the air.  This one contains a EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "description": "This is an inactive EMP hack.  EMP hacks are fist-sized robots that fly through the air.  This one contains an EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "4700 g",
     "volume": "750 ml",
     "price": 64500,

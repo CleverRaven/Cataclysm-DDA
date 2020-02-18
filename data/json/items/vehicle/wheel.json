@@ -206,7 +206,7 @@
     "id": "wheel_rail_small_pair",
     "name": { "str": "pair of small rail wheels", "str_pl": "pairs of small rail wheels" },
     "type": "WHEEL",
-    "description": "A pair of small rail wheels.  It fits small railroad rails found in places like amusement parks.  Mostly for hobby purposes rather then transportation.",
+    "description": "A pair of small rail wheels.  It fits small railroad rails found in places like amusement parks.  Mostly for hobby purposes rather than transportation.",
     "copy-from": "wheel_rail",
     "price": 900,
     "weight": "12239 g",

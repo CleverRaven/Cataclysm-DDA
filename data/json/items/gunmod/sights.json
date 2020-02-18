@@ -265,7 +265,7 @@
     "copy-from": "acog_scope",
     "type": "GUNMOD",
     "name": { "str": "LW ACOG scope" },
-    "description": "An Leadworks built in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
+    "description": "A Leadworks built-in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
@@ -276,7 +276,7 @@
     "copy-from": "holo_sight",
     "type": "GUNMOD",
     "name": { "str": "LW holographic sight" },
-    "description": "Leadworks built in holographic sight.",
+    "description": "Leadworks built-in holographic sight.",
     "weight": "0 g",
     "price": 0,
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]

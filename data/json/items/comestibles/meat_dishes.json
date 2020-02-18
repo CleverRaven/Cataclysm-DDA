@@ -820,7 +820,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 566,
-    "description": "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
+    "description": "A meat pizza, for all the carnivores out there.  Chock-full of minced meat and heavily seasoned.",
     "price": 1090,
     "material": [ "wheat", "flesh" ],
     "volume": "1 L",
