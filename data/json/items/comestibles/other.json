@@ -317,8 +317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu",
-    "name": "tofu",
-    "name_plural": "tofu",
+    "name": { "str": "tofu", "str_pl": "tofu" },
     "weight": "85 g",
     "color": "white",
     "spoils_in": "4 days",
