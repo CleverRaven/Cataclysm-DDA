@@ -109,7 +109,7 @@
   {
     "id": "inter_bayonet",
     "type": "GUNMOD",
-    "name": "integrated bayonet",
+    "name": { "str": "integrated bayonet" },
     "description": "This is the bayonet integrated in the firearm.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -263,7 +263,7 @@
     "id": "m203_mod",
     "copy-from": "m203",
     "type": "GUNMOD",
-    "name": "modified M203",
+    "name": { "str": "modified M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
@@ -288,7 +288,7 @@
     "id": "m320_mod_mod",
     "copy-from": "m320_mod",
     "type": "GUNMOD",
-    "name": "modified M320 GLM",
+    "name": { "str": "modified M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for standalone use.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
@@ -323,7 +323,7 @@
   {
     "id": "masterkey",
     "type": "GUNMOD",
-    "name": "masterkey shotgun",
+    "name": { "str": "masterkey shotgun" },
     "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
     "volume": "500 ml",
@@ -403,7 +403,7 @@
     "id": "rm121aux_mod",
     "copy-from": "rm121aux",
     "type": "GUNMOD",
-    "name": "modified RM121 aux shotgun",
+    "name": { "str": "modified RM121 aux shotgun" },
     "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },

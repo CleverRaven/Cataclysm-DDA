@@ -180,7 +180,7 @@
     "id": "acog_scope_mod",
     "copy-from": "acog_scope",
     "type": "GUNMOD",
-    "name": "modified ACOG scope",
+    "name": { "str": "modified ACOG scope" },
     "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
