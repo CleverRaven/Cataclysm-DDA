@@ -589,8 +589,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_raw",
-    "name": "tea leaf",
-    "name_plural": "tea leaves",
+    "name": { "str": "tea leaf", "str_pl": "tea leaves" },
     "weight": "14 g",
     "color": "green",
     "use_action": "CAFF",
@@ -611,8 +610,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tomato",
-    "name": "tomato",
-    "name_plural": "tomatoes",
+    "name": { "str": "tomato", "str_pl": "tomatoes" },
     "weight": "231 g",
     "color": "red",
     "spoils_in": "3 days 18 hours",

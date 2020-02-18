@@ -248,8 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_rice",
-    "name": "tofu fried rice",
-    "name_plural": "tofu fried rice",
+    "name": { "str": "tofu fried rice", "str_pl": "tofu fried rice" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "15 days",
@@ -268,8 +267,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_stirfry",
-    "name": "tofu stirfry",
-    "name_plural": "tofu stirfry",
+    "name": { "str": "tofu stirfry", "str_pl": "tofu stirfry" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "4 days",
