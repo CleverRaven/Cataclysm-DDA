@@ -1,0 +1,16 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_bear",
+    "name": "bear trap",
+    "looks_like": "tr_beartrap",
+    "color": "blue",
+    "symbol": "^",
+    "action": "spell",
+    "visibility": 2,
+    "trap_radius": 2,
+    "avoidance": 99,
+    "difficulty": 99,
+    "spell_data": { "id": "bear_trap" }
+  }
+]

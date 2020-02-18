@@ -10,6 +10,7 @@
 
 #include "color.h"
 #include "int_id.h"
+#include "magic.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -62,6 +63,7 @@ bool shadow( const tripoint &p, Creature *c, item *i );
 bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
+bool cast_spell( const tripoint &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -116,6 +118,8 @@ struct trap {
         // For disassembly?
         std::vector<std::tuple<std::string, int, int>> components;
     public:
+        // data required for trapfunc::spell()
+        fake_spell spell_data;
         int comfort = 0;
         int floor_bedding_warmth = 0;
     public:
