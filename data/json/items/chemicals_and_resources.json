@@ -387,8 +387,7 @@
   {
     "type": "COMESTIBLE",
     "id": "water_acid_weak",
-    "name": "weak acid water",
-    "name_plural": "weak acid water",
+    "name": { "str": "weak acid water", "str_pl": "weak acid water" },
     "weight": "255 g",
     "color": "light_green",
     "flags": [ "ACID" ],
