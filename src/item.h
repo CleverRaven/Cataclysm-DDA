@@ -72,7 +72,6 @@ enum m_size : int;
 enum class side : int;
 class body_part_set;
 
-using itype_id = std::string;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
