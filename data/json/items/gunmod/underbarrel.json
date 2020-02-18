@@ -49,10 +49,10 @@
   {
     "id": "combination_gun_shotgun",
     "type": "GUNMOD",
-    "name": "combination gun shotgun",
+    "name": { "str": "combination gun shotgun" },
     "description": "The integrated underbarrel shotgun of a combination gun which holds two shots.  It's irremovable.",
     "weight": "2600 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 95000,
     "to_hit": -1,
     "material": [ "steel" ],

@@ -57,11 +57,11 @@
   {
     "id": "effective_emitter",
     "type": "GUNMOD",
-    "name": "effective emitter",
+    "name": { "str": "effective emitter" },
     "description": "A set of electronics to optimize emitter workcycle and increase overall energy efficiency.  Decreases power consumption.",
     "weight": "380 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 84000,
     "material": [ "steel" ],
     "symbol": ":",
@@ -87,7 +87,7 @@
     "mod_targets": [ "pistol", "rifle" ],
     "range_modifier": 5,
     "damage_modifier": 10,
-    "ups_charges_multiplier": 2,
+    "ups_charges_multiplier": 2.0,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   }
 ]
