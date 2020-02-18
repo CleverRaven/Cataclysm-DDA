@@ -101,6 +101,7 @@
       "X": "f_birdbath",
       "Y": "f_trashcan",
       "Z": "f_dryer",
+      "a": [ "f_floor_lamp", "f_rack_coat" ],
       "d": "f_shower",
       "g": "f_water_heater",
       "h": "f_fireplace",

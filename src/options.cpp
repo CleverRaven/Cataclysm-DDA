@@ -135,7 +135,14 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
 {
     for( Page &p : pages_ ) {
         if( p.id_ == page ) {
+            // Don't add duplicate options to the page
+            for( const cata::optional<std::string> &i : p.items_ ) {
+                if( i.has_value() && i.value() == name ) {
+                    return;
+                }
+            }
             p.items_.emplace_back( name );
+            return;
         }
     }
     // @TODO handle the case when an option has no valid page id (note: consider hidden external options as well)
@@ -1721,6 +1728,12 @@ void options_manager::add_options_graphics()
          true, COPT_CURSES_HIDE
        );
 
+    add( "ENABLE_ASCII_ART_ITEM", "graphics",
+         translate_marker( "Enable ASCII art in item descriptions" ),
+         translate_marker( "When available item description will show a picture of the item in ascii art." ),
+         true, COPT_NO_HIDE
+       );
+
     add_empty_line();
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
@@ -1806,10 +1819,13 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+#if defined(TILES)
+    std::vector<options_manager::id_and_option> display_list = cata_tiles::build_display_list();
     add( "DISPLAY", "graphics", translate_marker( "Display" ),
          translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
-         0, 10000, 0, COPT_CURSES_HIDE
-       );
+         display_list,
+         display_list.front().first, COPT_CURSES_HIDE );
+#endif
 
 #if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),

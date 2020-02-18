@@ -35,8 +35,6 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &othe
 
 submap::submap()
 {
-    constexpr size_t elements = SEEX * SEEY;
-
     std::uninitialized_fill_n( &ter[0][0], elements, t_null );
     std::uninitialized_fill_n( &frn[0][0], elements, f_null );
     std::uninitialized_fill_n( &lum[0][0], elements, 0 );

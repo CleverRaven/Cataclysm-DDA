@@ -16,7 +16,7 @@
     "ammo_type": "battery",
     "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
-    "fuel": { "energy": 1.0 }
+    "fuel": { "energy": 1 }
   },
   {
     "type": "TOOL",
@@ -221,7 +221,7 @@
     "ammo_type": "plutonium",
     "count": 5,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
-    "fuel": { "energy": 10.0 }
+    "fuel": { "energy": 10 }
   },
   {
     "type": "AMMO",
@@ -472,8 +472,8 @@
     "flags": [ "UNRECOVERABLE" ],
     "fuel": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
-      "energy": 4000.0,
-      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1.0, "fiery": true, "size_factor": 0.15 }
+      "energy": 4000,
+      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
     }
   },
   {
@@ -856,7 +856,7 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": { "energy": 30.0 }
+    "fuel": { "energy": 30 }
   },
   {
     "type": "AMMO",
@@ -1001,8 +1001,7 @@
     "category": "spare_parts",
     "price": 12000,
     "//": "This seems like the larger medical tank, not an instant-use model with mask attached",
-    "name": "oxygen",
-    "name_plural": "oxygen",
+    "name": { "str": "oxygen", "str_pl": "oxygen" },
     "symbol": "=",
     "color": "light_gray",
     "description": "A canister of oxygen.",
@@ -1117,8 +1116,7 @@
     "id": "nitrox",
     "category": "chems",
     "price": 500,
-    "name": "nitrox",
-    "name_plural": "nitrox",
+    "name": { "str": "nitrox", "str_pl": "nitrox" },
     "symbol": "=",
     "color": "white",
     "container": "bottle_plastic",
@@ -1132,8 +1130,7 @@
     "id": "tinder",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "tinder",
-    "name_plural": "tinder",
+    "name": { "str": "tinder", "str_pl": "tinder" },
     "description": "Flammable material, finely divided for easy combustion.",
     "weight": "10 g",
     "volume": "250 ml",
@@ -1172,8 +1169,7 @@
     "type": "AMMO",
     "id": "metal_RPG_die",
     "price": 50,
-    "name": "metal RPG die",
-    "name_plural": "metal RPG dice",
+    "name": { "str": "metal RPG die", "str_pl": "metal RPG dice" },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "marble",

@@ -115,6 +115,7 @@
         "H": { "item": "SUS_spice_collection", "chance": 75 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
+      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
       "monster": { "T": { "monster": "mon_turret_rifle" } },
       "place_vehicles": [

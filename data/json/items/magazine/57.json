@@ -1,6 +1,7 @@
 [
   {
     "id": "fn57mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "FN-57 magazine",
     "description": "A standard capacity magazine for use with the FN Five-Seven.",
@@ -17,6 +18,7 @@
   },
   {
     "id": "fnp90mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "FN-P90 magazine",
     "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",

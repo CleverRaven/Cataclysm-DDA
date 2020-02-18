@@ -1,6 +1,7 @@
 [
   {
     "id": "460_speedloader6",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": ".460 6-round speedloader",
     "description": "This speedloader, made by Leadworks for use with L2031 Enforcer revolver, can hold 6 rounds of .460 or .45 and quickly reload a compatible revolver.",
@@ -16,6 +17,7 @@
   },
   {
     "id": "lw12mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "LW-12 magazine",
     "description": "A 12-round polymer magazine for use with the Leadworks LLC L39-460 and L39B-45 pistols.",

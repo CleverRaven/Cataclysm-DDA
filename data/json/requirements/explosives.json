@@ -1,0 +1,19 @@
+[
+  {
+    "id": "volatile_explosive",
+    "type": "requirement",
+    "//": "This should contain all the explosives you can set off with only a fuse, 10g tnt equivalent.",
+    "components": [
+      [
+        [ "chem_black_powder", 18 ],
+        [ "gunpowder", 9 ],
+        [ "chem_match_head_powder", 37 ],
+        [ "gunpowder_pistol", 9 ],
+        [ "gunpowder_shotgun", 9 ],
+        [ "gunpowder_magnum_pistol", 8 ],
+        [ "gunpowder_artillery", 9 ],
+        [ "gunpowder_rifle", 7 ]
+      ]
+    ]
+  }
+]

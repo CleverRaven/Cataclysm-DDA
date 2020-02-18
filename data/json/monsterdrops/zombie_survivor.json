@@ -96,7 +96,7 @@
       { "group": "survivorzed_gloves", "damage": [ 1, 4 ] },
       { "group": "survivorzed_boots", "damage": [ 1, 4 ] },
       { "group": "survivorzed_head", "damage": [ 1, 4 ] },
-      { "group": "survivorzed_extra", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_extra", "count": [ 3, 10 ], "damage": [ 1, 4 ] },
       {
         "distribution": [
           { "group": "survivorzed_suits", "prob": 25, "damage": [ 1, 4 ] },
@@ -110,7 +110,7 @@
         ]
       },
       {
-        "distribution": [ { "group": "underwear", "prob": 1, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 2, "damage": [ 1, 4 ] } ]
+        "distribution": [ { "group": "underwear", "prob": 10, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 1, "damage": [ 1, 4 ] } ]
       },
       {
         "distribution": [
@@ -128,7 +128,7 @@
           { "group": "mil_surplus", "prob": 6 }
         ]
       },
-      { "item": "cash_card", "charges-min": 50000, "charges-max": 150000 }
+      { "item": "cash_card", "prob": 25, "charges-min": 50000, "charges-max": 150000 }
     ]
   }
 ]

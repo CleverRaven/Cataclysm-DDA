@@ -71,8 +71,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips2",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "copy-from": "chips",
     "description": "Some plain, salted potato chips.",
     "fun": 3
@@ -80,8 +79,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips3",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "copy-from": "chips",
     "description": "Oh man, you love these chips!  Score!",
     "//": "Favorite flavor varies.",
@@ -90,8 +88,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kernels",
-    "name": "popcorn kernels",
-    "name_plural": "popcorn kernels",
+    "name": { "str": "popcorn kernels", "str_pl": "popcorn kernels" },
     "weight": "32 g",
     "color": "brown",
     "container": "bag_plastic",
@@ -109,8 +106,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn",
-    "name": "popcorn",
-    "name_plural": "popcorn",
+    "name": { "str": "popcorn", "str_pl": "popcorn" },
     "weight": "8 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -132,8 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn2",
-    "name": "salted popcorn",
-    "name_plural": "salted popcorn",
+    "name": { "str": "salted popcorn", "str_pl": "salted popcorn" },
     "copy-from": "popcorn",
     "quench": -3,
     "healthy": -1,
@@ -144,8 +139,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn3",
-    "name": "buttered popcorn",
-    "name_plural": "buttered popcorn",
+    "name": { "str": "buttered popcorn", "str_pl": "buttered popcorn" },
     "copy-from": "popcorn",
     "healthy": -1,
     "description": "Popcorn with a light covering of butter for extra flavor.",
@@ -155,8 +149,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pretzels",
-    "name": "pretzels",
-    "name_plural": "pretzels",
+    "name": { "str": "pretzels", "str_pl": "pretzels" },
     "weight": "62 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -216,8 +209,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marshmallow",
-    "name": "marshmallows",
-    "name_plural": "marshmallows",
+    "name": { "str": "marshmallows", "str_pl": "marshmallows" },
     "weight": "53 g",
     "color": "white",
     "spoils_in": "90 days",
@@ -235,8 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "smores",
-    "name": "s'mores",
-    "name_plural": "s'mores",
+    "name": { "str": "s'mores", "str_pl": "s'mores" },
     "weight": "180 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -255,8 +246,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy",
-    "name": "peanut butter candy",
-    "name_plural": "peanut butter candies",
+    "name": { "str": "peanut butter candy", "str_pl": "peanut butter candies" },
     "weight": "39 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -277,8 +267,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy2",
-    "name": "chocolate candy",
-    "name_plural": "chocolate candies",
+    "name": { "str": "chocolate candy", "str_pl": "chocolate candies" },
     "weight": "57 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -299,8 +288,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": "chewy candy",
-    "name_plural": "chewy candies",
+    "name": { "str": "chewy candy", "str_pl": "chewy candy" },
     "weight": "46 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -320,8 +308,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_candy",
-    "name": "powder candy sticks",
-    "name_plural": "powder candy sticks",
+    "name": { "str": "powder candy sticks", "str_pl": "powder candy sticks" },
     "weight": "46 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -341,8 +328,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maple_candy",
-    "name": "maple syrup candy",
-    "name_plural": "maple syrup candies",
+    "name": { "str": "maple syrup candy", "str_pl": "maple syrup candies" },
     "weight": "18 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -507,8 +493,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fries",
-    "name": "fast-food French fries",
-    "name_plural": "fast-food French fries",
+    "name": { "str": "fast-food French fries", "str_pl": "fast-food French fries" },
     "weight": "71 g",
     "color": "yellow",
     "container": "box_small",
@@ -537,8 +522,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mintpatties",
-    "name": "peppermint patty",
-    "name_plural": "peppermint patties",
+    "name": { "str": "peppermint patty", "str_pl": "peppermint patties" },
     "weight": "43 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -619,8 +603,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "weight": "28 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -702,8 +685,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosc",
-    "name": "cheese nachos",
-    "name_plural": "cheese nachos",
+    "name": { "str": "cheese nachos", "str_pl": "cheese nachos" },
     "weight": "85 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -724,8 +706,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosm",
-    "name": "meat nachos",
-    "name_plural": "meat nachos",
+    "name": { "str": "meat nachos", "str_pl": "meat nachos" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "niño nachos", "str_pl": "niño nachos" } },
       {
@@ -754,8 +735,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosmc",
-    "name": "meat nachos with cheese",
-    "name_plural": "meat nachos with cheese",
+    "name": { "str": "meat nachos with cheese", "str_pl": "meat nachos with cheese" },
     "conditional_names": [
       {
         "type": "FLAG",
@@ -892,8 +872,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs",
-    "name": "chili dogs",
-    "name_plural": "chili dogs",
+    "name": { "str": "chili dogs", "str_pl": "chili dogs" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -948,8 +927,7 @@
     "type": "COMESTIBLE",
     "id": "choc_pancakes",
     "copy-from": "pancakes",
-    "name": "chocolate pancake",
-    "name_plural": "chocolate pancakes",
+    "name": { "str": "chocolate pancake", "str_pl": "chocolate pancakes" },
     "weight": "78 g",
     "healthy": 0,
     "calories": 219,
@@ -1003,8 +981,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese_fries",
-    "name": "cheese fries",
-    "name_plural": "cheese fries",
+    "name": { "str": "cheese fries", "str_pl": "cheese fries" },
     "weight": "101 g",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -1067,8 +1044,7 @@
   {
     "id": "hotdogs_campfire",
     "type": "COMESTIBLE",
-    "name": "campfire hot dog",
-    "name_plural": "campfire hot dogs",
+    "name": { "str": "campfire hot dog" },
     "copy-from": "hotdogs_frozen",
     "description": "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
     "stack_size": 4,
@@ -1078,8 +1054,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_cooked",
-    "name": "cooked hot dog",
-    "name_plural": "cooked hot dogs",
+    "name": { "str": "cooked hot dog" },
     "weight": "383 g",
     "color": "red",
     "spoils_in": "1 day",

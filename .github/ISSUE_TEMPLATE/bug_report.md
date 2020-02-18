@@ -7,28 +7,28 @@ about: Create a report to help us improve
 
 # Describe the bug
 
-A clear and concise description of what the bug is.
+<!-- A clear and concise description of what the bug is. -->
 
 
 # Steps To Reproduce
 
-Steps to reproduce the behavior:
+<!-- Steps to reproduce the behavior:
 1. Make a player with a gun, magazine, and some ammo.
 2. Try to aim at a wall.
-3. There's no way to increase aim level.
+3. There's no way to increase aim level. -->
 
 
 # Expected behavior
 
-A clear and concise description of what you expected to happen.
-Ideally also describe *why* you expect it to happen.
+<!-- A clear and concise description of what you expected to happen.
+Ideally also describe *why* you expect it to happen. -->
 
 
 # Screenshots
 
-**If applicable**, add screenshots to help explain your problem.
+<!-- **If applicable**, add screenshots to help explain your problem.
 
-<!-- Do not take a screenshot of the crashing window. Please provide the crash logs in the "Additional context" -->
+Do not take a screenshot of the crashing window. Please provide the crash logs in the "Additional context" -->
 
 # Versions and configuration
 
@@ -44,9 +44,9 @@ Ideally also describe *why* you expect it to happen.
 
 # Additional context
 
-Add any other context about the problem here.
+<!-- Add any other context about the problem here.
 
-<!-- Crash: if your problem refers to a crash, please add the following files to the "Additional Context" paragraph:
+Crash: if your problem refers to a crash, please add the following files to the "Additional Context" paragraph:
     - From the /config folder (you can zip them both together):
         - crash.log file.
         - debug.log file.

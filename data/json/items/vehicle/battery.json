@@ -43,8 +43,7 @@
   {
     "type": "GENERIC",
     "id": "it_battery_mount",
-    "name": "storage battery case",
-    "name_plural": "storage battery cases",
+    "name": { "str": "storage battery case" },
     "description": "An empty case that can hold a storage battery.  Complete with charging controller chip and connecting wires.",
     "weight": "1231 g",
     "to_hit": -3,
