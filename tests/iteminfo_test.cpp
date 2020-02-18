@@ -84,17 +84,37 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 
 TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 {
-    iteminfo_query q( { iteminfo_parts::BASE_RIGIDITY } );
-
-    SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
-        test_info_equals(
-            item( "briefcase" ), q, "" );
-    }
+    iteminfo_query q( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
         test_info_equals(
-            item( "backpack" ), q,
-            "Not rigid: Volume and encumbrance increase when filled.\n" );
+            item( "test_waterskin" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
+            "  Encumbrance when full: <color_c_yellow>6</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+
+        test_info_equals(
+            item( "test_backpack" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>2</color>"
+            "  Encumbrance when full: <color_c_yellow>15</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+    }
+
+    SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
+        test_info_equals(
+            item( "test_briefcase" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>30</color>\n" );
+
+        test_info_equals( item( "test_jug_plastic" ), q, "" );
+        test_info_equals( item( "test_pipe" ), q, "" );
+        test_info_equals( item( "test_pine_nuts" ), q, "" );
     }
 }
 

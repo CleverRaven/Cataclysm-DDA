@@ -1129,12 +1129,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
     }
-    if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
-        if( !type->rigid ) {
-            info.emplace_back( "BASE",
-                               _( "Not rigid: Volume and encumbrance increase when filled." ) );
-        }
-    }
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
@@ -3036,6 +3030,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const std::string space = "  ";
 
     insert_separation_line( info );
+
+    if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        if( !type->rigid ) {
+            info.emplace_back( "BASE",
+                               _( "* This item is <info>not rigid</info>.  Its"
+                                  " volume and encumbrance increase with contents." ) );
+        }
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
