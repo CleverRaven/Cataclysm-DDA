@@ -2227,7 +2227,8 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     int encumbrance = get_encumber( g->u );
     const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
 
-    if( has_flag( flag_HELMET_COMPAT ) && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
+    if( has_flag( flag_HELMET_COMPAT ) &&
+        parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This item can be <info>worn with a "
                                      "helmet</info>." ) ) );
