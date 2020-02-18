@@ -2286,7 +2286,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
-    if( it.has_flag( "NO_UNWIELD" ) ) {
+    if( it.has_flag( flag_NO_UNWIELD ) ) {
         return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
     }
 
@@ -2847,7 +2847,7 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
      * for the purposes of the layer penalty system. (normally an item has a minimum
      * layering_encumbrance of 2 )
      */
-    if( it.has_flag( "SEMITANGIBLE" ) ) {
+    if( it.has_flag( flag_SEMITANGIBLE ) ) {
         encumber_val = 0;
         layering_encumbrance = 0;
     }
@@ -7456,7 +7456,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
                  m_info );
     }
 
-    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ?
+    return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
