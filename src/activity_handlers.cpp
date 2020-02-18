@@ -872,7 +872,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
-                    obj.reset_temp_check();
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -893,7 +892,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
-                    obj.reset_temp_check();
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -913,7 +911,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
-                    obj.reset_temp_check();
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -961,7 +958,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            ruined_parts.reset_temp_check();
             if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", p.name );
             }
@@ -1294,7 +1290,6 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
     milk.set_item_temperature( 311.75 );
-    milk.reset_temp_check();
     if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
