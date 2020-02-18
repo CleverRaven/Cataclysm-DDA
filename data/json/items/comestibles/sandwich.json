@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cheese_grilled",
-    "name": "grilled cheese sandwich",
-    "name_plural": "grilled cheese sandwiches",
+    "name": { "str": "grilled cheese sandwich", "str_pl": "grilled cheese sandwiches" },
     "weight": "106 g",
     "color": "brown",
     "spoils_in": "1 day 10 hours",
@@ -24,8 +23,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_deluxe",
-    "name": "deluxe sandwich",
-    "name_plural": "deluxe sandwiches",
+    "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
@@ -54,8 +52,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cucumber",
-    "name": "cucumber sandwich",
-    "name_plural": "cucumber sandwiches",
+    "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "500 g",
     "color": "light_green",
     "spoils_in": "1 day 12 hours",
@@ -190,8 +187,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_t",
-    "name": "meat sandwich",
-    "name_plural": "meat sandwiches",
+    "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }

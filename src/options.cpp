@@ -1728,6 +1728,12 @@ void options_manager::add_options_graphics()
          true, COPT_CURSES_HIDE
        );
 
+    add( "ENABLE_ASCII_ART_ITEM", "graphics",
+         translate_marker( "Enable ASCII art in item descriptions" ),
+         translate_marker( "When available item description will show a picture of the item in ascii art." ),
+         true, COPT_NO_HIDE
+       );
+
     add_empty_line();
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),

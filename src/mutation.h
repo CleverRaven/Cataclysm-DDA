@@ -117,6 +117,8 @@ struct mutation_branch {
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;
+        // Limb mending bonus
+        float mending_modifier = 1.0f;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         float hp_modifier = 0.0f;
         // Second HP modifier that stacks with first but is otherwise identical.

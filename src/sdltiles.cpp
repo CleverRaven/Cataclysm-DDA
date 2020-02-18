@@ -3409,7 +3409,7 @@ static void init_term_size_and_scaling_factor()
 
         int max_width, max_height;
 
-        int current_display_id = get_option<int>( "DISPLAY" );
+        int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;
 
         if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
@@ -3865,6 +3865,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     : Font( w, h )
     , fontblending( fontblending )
 {
+    const std::string original_typeface = typeface;
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
         typeface = *sysfnt;
@@ -3872,13 +3873,13 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     }
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::user_font() + typeface + ".ttf";
+        typeface = PATH_INFO::user_font() + original_typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in user font dir.";
     }
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + typeface + ".ttf";
+        typeface = PATH_INFO::fontdir() + original_typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in font dir.";
     }
     //different default font with wincurse

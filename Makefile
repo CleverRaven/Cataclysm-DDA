@@ -90,11 +90,12 @@ RELEASE_FLAGS =
 WARNINGS = \
   -Werror -Wall -Wextra \
   -Wmissing-declarations \
+  -Wmissing-noreturn \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wpedantic \
   -Wsuggest-override \
-  -Wno-unknown-warning-option \
-  -Wpedantic
+  -Wno-unknown-warning-option
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -1039,12 +1040,13 @@ endif
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
 
-ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+ctags: $(ASTYLE_SOURCES)
+	ctags $^
+	./tools/json_tools/cddatags.py
 
-etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
+etags: $(ASTYLE_SOURCES)
+	etags $^
+	./tools/json_tools/cddatags.py
 
 astyle: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
