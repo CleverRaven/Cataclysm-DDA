@@ -164,7 +164,8 @@
       { "item": "fun_survival", "count": [ 1, 3 ], "prob": 80 },
       { "item": "atomic_survival", "count": [ 1, 2 ], "prob": 30 },
       { "item": "textbook_survival", "count": [ 1, 3 ], "prob": 80 },
-      { "item": "survival_book", "count": [ 1, 2 ], "prob": 60 }
+      { "item": "survival_book", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "manual_swimming", "count": [ 1, 2 ], "prob": 40 }
     ]
   },
   {
@@ -369,7 +370,10 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "a single magazine, but not comics",
     "subtype": "distribution",
-    "entries": [ { "group": "SUS_book_nonf_zine_news", "prob": 1 } ]
+    "entries": [
+      { "group": "SUS_book_nonf_zine_news", "prob": 1 },
+      { "group": "SUS_book_nonf_zine_spint", "prob": 1 }
+    ]
   },
   {
     "id": "SUS_book_nonf_zine_news",
@@ -378,9 +382,39 @@
     "//2": "Returns a single news magazine.",
     "subtype": "distribution",
     "entries": [
-      { "item": "mag_gaming", "prob": 1 },
       { "item": "mag_news", "prob": 1 },
-      { "item": "news_regional", "prob": 1 }
+      { "item": "news_regional", "prob": 1 },
+      { "item": "mag_glam", "prob": 1 },
+      { "item": "book_nonf_zine_news_anlyst", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_zine_spint",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns a single special interest magazine.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "fun_survival", "prob": 10 },
+      { "item": "mag_survival", "prob": 10 },
+      { "item": "mag_dude", "prob": 10 },
+      { "item": "mag_unarmed", "prob": 8 },
+      { "item": "mag_throwing", "prob": 2 },
+      { "item": "mag_traps", "prob": 10 },
+      { "item": "mag_rifle", "prob": 10 },
+      { "item": "mag_stabbing", "prob": 2 },
+      { "item": "mag_swimming", "prob": 10 },
+      { "item": "mag_beauty", "prob": 10 },
+      { "item": "mag_tailor", "prob": 10 },
+      { "item": "mag_computer", "prob": 10 },
+      { "item": "mag_electronics", "prob": 10 },
+      { "item": "mag_fabrication", "prob": 10 },
+      { "item": "mag_mechanics", "prob": 10 },
+      { "item": "mag_tailor", "prob": 6 },
+      { "item": "mag_gaming", "prob": 12 },
+      { "item": "news_regional", "prob": 10 },
+      { "item": "mag_cooking", "prob": 10 },
+      { "item": "mag_glam", "prob": 10 }
     ]
   },
   {

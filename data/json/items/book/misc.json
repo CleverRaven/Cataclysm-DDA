@@ -98,6 +98,30 @@
     "relative": { "intelligence": 3, "price": 249, "time": 5 }
   },
   {
+    "abstract": "book_nonf_zine",
+    "type": "BOOK",
+    "name": "Magazine Template",
+    "description": "template for magazine",
+    "intelligence": 4,
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": 400,
+    "price_postapoc": 100,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "time": 7,
+    "fun": 1
+  },
+  {
+    "abstract": "book_nonf_zine_news_tpl",
+    "type": "BOOK",
+    "name": "News Magazine Template",
+    "description": "template for news magazine",
+    "copy-from": "book_nonf_zine",
+    "relative": { "intelligence": 1, "time": 1 }
+  },
+  {
     "id": "ZSG",
     "type": "BOOK",
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
@@ -360,16 +384,14 @@
     "type": "BOOK",
     "name": "TIME magazine",
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 400,
-    "price_postapoc": 100,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
-    "intelligence": 7,
-    "time": "10 m",
-    "fun": 2
+    "copy-from": "book_nonf_zine_news_tpl"
+  },
+  {
+    "id": "book_nonf_zine_news_anlyst",
+    "type": "BOOK",
+    "name": "The Analyst",
+    "description": "This news magazine has been described as \"a kind of Reader's Digest for America's corporate elite.\"  These concerns are, of course, behind us now.",
+    "copy-from": "book_nonf_zine_news_tpl"
   },
   {
     "id": "mag_porn",
