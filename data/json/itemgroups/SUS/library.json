@@ -189,9 +189,7 @@
       { "group": "SUS_book_fict_soft_west", "count": [ 1, 5 ], "prob": 80 },
       { "group": "SUS_book_fict_soft_ya", "count": [ 1, 5 ], "prob": 80 },
       { "group": "SUS_book_fict_soft_satire", "count": [ 1, 5 ], "prob": 80 },
-      { "item": "novel_spy", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "novel_spy_comefly", "prob": 40 },
-      { "item": "novel_spy_rocketsci", "prob": 40 },
+      { "group": "SUS_book_fict_soft_spy", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_sports", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_samurai", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_swash", "count": [ 1, 5 ], "prob": 80 },
@@ -265,7 +263,8 @@
       { "group": "SUS_book_fict_soft_romc", "prob": 1 },
       { "group": "SUS_book_fict_soft_ya", "prob": 1 },
       { "group": "SUS_book_fict_soft_west", "prob": 1 },
-      { "group": "SUS_book_fict_soft_satire", "prob": 1 }
+      { "group": "SUS_book_fict_soft_satire", "prob": 1 },
+      { "group": "SUS_book_fict_soft_spy", "prob": 1 }
     ]
   },
   {
@@ -345,9 +344,11 @@
     "//2": "returns a single paperback spy novel",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_spy", "prob": 2 }
+      { "item": "novel_spy", "prob": 2 },
+      { "item": "novel_spy_comefly", "prob": 1 },
+      { "item": "novel_spy_rocketsci", "prob": 1 }
     ]
-  }
+  },
   {
     "id": "SUS_book_nonf",
     "type": "item_group",
