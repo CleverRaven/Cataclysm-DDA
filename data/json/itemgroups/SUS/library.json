@@ -188,10 +188,10 @@
       { "group": "SUS_book_fict_soft_romc", "count": [ 1, 5 ], "prob": 80 },
       { "group": "SUS_book_fict_soft_west", "count": [ 1, 5 ], "prob": 80 },
       { "group": "SUS_book_fict_soft_ya", "count": [ 1, 5 ], "prob": 80 },
+      { "group": "SUS_book_fict_soft_satire", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_spy", "count": [ 1, 2 ], "prob": 70 },
       { "item": "novel_spy_comefly", "prob": 40 },
       { "item": "novel_spy_rocketsci", "prob": 40 },
-      { "item": "novel_satire", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_sports", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_samurai", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_swash", "count": [ 1, 5 ], "prob": 80 },
@@ -214,13 +214,24 @@
     ]
   },
   {
-    "id": "SUS_books",
+    "id": "SUS_books_fict_soft_romc",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "TODO PLACEHOLDER This group is for three or four books of any type.",
+    "//2": "This group returns a small collection of three or four romance novels.",
+    "//3": "Note the plural books.  Not to be confused with SUS_book_fict_soft_romc",
     "subtype": "collection",
     "entries": [
-      { "item": "novel_romance", "prob": 5 }
+      { "item": "novel_romance", "prob": 100 },
+      { "item": "paperback_romance_circuses", "prob": 20 },
+      { "item": "paperback_romance_cloven", "prob": 20 },
+      { "item": "paperback_romance_conq", "prob": 20 },
+      { "item": "paperback_romance_dd", "prob": 20 },
+      { "item": "paperback_romance_diodes", "prob": 20 },
+      { "item": "paperback_romance_envyh", "prob": 20 },
+      { "item": "paperback_romance_grue", "prob": 20 },
+      { "item": "paperback_romance_rider", "prob": 20 },
+      { "item": "paperback_romance_rogue", "prob": 20 },
+      { "item": "paperback_romance_secret", "prob": 20 }
     ]
   },
   {
@@ -253,7 +264,8 @@
     "entries": [
       { "group": "SUS_book_fict_soft_romc", "prob": 1 },
       { "group": "SUS_book_fict_soft_ya", "prob": 1 },
-      { "group": "SUS_book_fict_soft_west", "prob": 1 }
+      { "group": "SUS_book_fict_soft_west", "prob": 1 },
+      { "group": "SUS_book_fict_soft_satire", "prob": 1 }
     ]
   },
   {
@@ -312,23 +324,90 @@
     ]
   },
   {
+    "id": "SUS_book_fict_soft_satire",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single paperback satire novel",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "novel_satire", "prob": 2 },
+      { "item": "book_fict_soft_satire_hgod", "prob": 1 },
+      { "item": "book_fict_soft_satire_mandm", "prob": 1 },
+      { "item": "book_fict_soft_satire_catch", "prob": 1 },
+      { "item": "book_fict_soft_satire_dust", "prob": 1 },
+      { "item": "book_fict_soft_satire_cats", "prob": 1 }
+    ]
+  },
+  {
     "id": "SUS_book_nonf",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single nonfiction printed material.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_nonf_hard", "prob": 1 }
+      { "group": "SUS_book_nonf_hard", "prob": 3 },
+      { "group": "SUS_book_nonf_zine", "prob": 1 }
     ]
   },
   {
     "id": "SUS_book_nonf_hard",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a single nonfiction book that is hard bound.",
+    "//2": "a single nonfiction book that is hard bound.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 }
+      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 },
+      { "group": "SUS_book_nonf_hard_spirit", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_zine",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "a single magazine, but not comics",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_nonf_zine_news", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_zine_news",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns a single news magazine.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_gaming", "prob": 1 },
+      { "item": "mag_news", "prob": 1 },
+      { "item": "news_regional", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard_spirit",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single religious book that is hard bound.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "holybook_bible1", "prob": 2 },
+      { "item": "holybook_bible2", "prob": 2 },
+      { "item": "holybook_bible3", "prob": 2 },
+      { "item": "holybook_granth", "prob": 2 },
+      { "item": "holybook_hadith", "prob": 2 },
+      { "item": "holybook_havamal", "prob": 2 },
+      { "item": "holybook_kallisti", "prob": 1 },
+      { "item": "holybook_kojiki", "prob": 2 },
+      { "item": "holybook_mormon", "prob": 2 },
+      { "item": "holybook_pastafarian", "prob": 1 },
+      { "item": "holybook_quran", "prob": 2 },
+      { "item": "holybook_slack", "prob": 1 },
+      { "item": "holybook_sutras", "prob": 2 },
+      { "item": "holybook_talmud", "prob": 2 },
+      { "item": "holybook_tanakh", "prob": 2 },
+      { "item": "holybook_tripitaka", "prob": 2 },
+      { "item": "holybook_upanishads", "prob": 2 },
+      { "item": "holybook_vedas", "prob": 2 },
+      { "item": "mycenacean_hymns", "prob": 1 },
     ]
   },
   {

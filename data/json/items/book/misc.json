@@ -14,7 +14,7 @@
     "color": "light_cyan",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "intelligence": 4,
-    "time": "15 m",
+    "time": 15,
     "chapters": 16,
     "fun": 2
   },
@@ -33,7 +33,7 @@
     "color": "dark_gray",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "intelligence": 6,
-    "time": "30 m",
+    "time": 35,
     "chapters": 30,
     "//": "TODO for this item fun should be conditional",
     "fun": 1
@@ -88,6 +88,14 @@
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "copy-from": "paperback_novel",
     "relative": { "price_post": -400, "chapters": 9 }
+  },
+  {
+    "abstract": "book_fict_soft_satire_tpl",
+    "type": "BOOK",
+    "name": "Satire Template",
+    "description": "template for mass produced satirical fiction",
+    "copy-from": "paperback_novel",
+    "relative": { "intelligence": 3, "price": 249, "time": 5 }
   },
   {
     "id": "ZSG",
@@ -692,11 +700,50 @@
     "id": "novel_satire",
     "type": "BOOK",
     "name": "satire novel",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_satire_tpl",
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
     "weight": "520 g",
-    "intelligence": 7,
-    "relative": { "price": 100, "time": 21, "chapters": 12 }
+    "relative": { "chapters": 7 }
+  },
+  {
+    "id": "book_fict_soft_satire_hgod",
+    "type": "BOOK",
+    "name": "The House of God",
+    "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem’s novel dives deep into the agony of absurdity.",
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_satire_catch",
+    "type": "BOOK",
+    "name": "Catch-22",
+    "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller’s excruciatingly brilliant war satire was \"Catch-11.\"",
+    "weight": "480 g",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "chapters": 26 }
+  },
+  {
+    "id": "book_fict_soft_satire_mandm",
+    "type": "BOOK",
+    "name": "The Master and Margarita",
+    "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this is a satire on Stalinist tyranny written by Mikhail Bulgakov.",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "chapters": 16, "fun": 1}
+  },
+  {
+    "id": "book_fict_soft_satire_dust",
+    "type": "BOOK",
+    "name": "A Handful of Dust",
+    "description": "Laced with cynicism, Evelyn Waugh's \"A Handful of Dust\" satirizes a stratum of characters who have wealth, but lack any other credentials.",
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_satire_cats",
+    "type": "BOOK",
+    "name": "Cat’s Cradle",
+    "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
+    "weight": "360 g",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "chapters": 111, "fun": -1, "time": -19 }
   },
   {
     "id": "novel_scifi",
