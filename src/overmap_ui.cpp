@@ -1485,7 +1485,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
                 std::string confirm_msg;
                 if( g->u.weight_carried() > g->u.weight_capacity() ) {
-                    confirm_msg = _( "You are overburdened, are you sure you want to travel? ( it may be painful )" );
+                    confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
                 } else {
                     confirm_msg = _( "Travel to this point?" );
                 }
