@@ -67,13 +67,15 @@ struct activity_reason_info {
     //construction index
     cata::optional<construction_id> con_idx;
     std::string id_str;  // when the requirement ID needs to be saved in the activity reason return.
+    int other_index; // for storing an index, like on a list of crafting bills.
 
     activity_reason_info( do_activity_reason reason_, bool can_do_, const std::string &id_str_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const cata::optional<construction_id> &con_idx_ = cata::nullopt, int other_index_ = 0 ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ ),
-        id_str( id_str_ )
+        id_str( id_str_ ),
+        other_index( other_index_ )
     { }
 
     static activity_reason_info ok( const do_activity_reason &reason_ ) {

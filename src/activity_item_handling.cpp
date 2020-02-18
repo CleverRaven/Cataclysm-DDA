@@ -1456,13 +1456,15 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const requirement_data continue_reqs = elem.get_continue_reqs();
                 if( p.can_continue_craft( elem, true ) ) {
                     // Have the required stuff to continue working on it nearby / in person.
-                    activity_reason_info ret( CAN_DO_CRAFT, true, continue_reqs.id().str(), craft_index );
+                    activity_reason_info ret( CAN_DO_CRAFT, true, continue_reqs.id().str(), cata::nullopt,
+                                              craft_index );
                     return ret;
                 }
                 // if the requirements are available, then prompt a potential fetch task.
                 if( are_requirements_nearby( combined_spots, continue_reqs.id(), p,
                                              act, false, src_loc ) ) {
-                    activity_reason_info ret( NEEDS_CRAFT, false, continue_reqs.id().str(), craft_index );
+                    activity_reason_info ret( NEEDS_CRAFT, false, continue_reqs.id().str(), cata::nullopt,
+                                              craft_index );
                     return ret;
                 } else {
                     // can't do it, no point fetching anything.
@@ -1482,7 +1484,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             const requirement_data &reqs_for_batch = p.adjusted_requirements( rec, bill_elem.second );
             const std::string ran_str = random_string( 10 );
             const requirement_id req_id( ran_str );
-            const requirement_data &req_for_one = rec.requirements();
+            const requirement_data &req_for_one = rec.simple_requirements();
             const std::string ran_str_for_one = random_string( 10 );
             const requirement_id req_id_for_one( ran_str_for_one );
             requirement_data::save_requirement( req_for_one, req_id_for_one );
@@ -1494,23 +1496,23 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             if( p.can_start_craft( &rec, recipe_filter_flags::none, bill_elem.second ) ) {
                 // can make with what we have on us and near the work spot.
-                activity_reason_info ret( CAN_DO_BILL, true, ran_str, bill_index );
+                activity_reason_info ret( CAN_DO_BILL, true, ran_str, cata::nullopt, bill_index );
                 return ret;
             }
             // if the requirements are available, then prompt a potential fetch task.
             if( are_requirements_nearby( combined_spots, req_id, p,
                                          act, false, src_loc ) ) {
-                activity_reason_info ret( NEEDS_CRAFT, false, ran_str, bill_index );
+                activity_reason_info ret( NEEDS_CRAFT, false, ran_str, cata::nullopt, bill_index );
                 return ret;
             } else {
                 // see if we can make batch size = 1 with what we have on us
                 if( p.can_start_craft( &rec, recipe_filter_flags::none, 1 ) ) {
-                    activity_reason_info ret( CAN_DO_ONE_BILL, true, ran_str_for_one, bill_index );
+                    activity_reason_info ret( CAN_DO_ONE_BILL, true, ran_str_for_one, cata::nullopt, bill_index );
                     return ret;
                 }
                 // or else see if we can fetch enough for batch size = 1
                 if( are_requirements_nearby( combined_spots, req_id_for_one, p, act, false, src_loc ) ) {
-                    activity_reason_info ret( NEEDS_CRAFT, false, ran_str_for_one, bill_index );
+                    activity_reason_info ret( NEEDS_CRAFT, false, ran_str_for_one, cata::nullopt, bill_index );
                     return ret;
                 } else {
                     // can't do it, no point fetching anything.
@@ -2103,7 +2105,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
         for( auto &veh_elem : src_veh->get_items( src_part ) ) {
             for( auto elem : mental_map_2 ) {
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
-                    if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) ||
+                    if( !p.backlog.empty() && ( p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
                                                 p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CRAFT" ) ) ) {
                         move_item( p, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                    g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
@@ -2905,9 +2907,12 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 crafts.emplace_back( item_location( map_cursor( src_loc ), &it ) );
             }
         }
+        if( crafts.empty() ) {
+            return true;
+        }
         p.backlog.push_front( act_id );
         p.assign_activity( activity_id( "ACT_CRAFT" ) );
-        p.activity.targets.push_back( crafts[*act_info.con_idx] );
+        p.activity.targets.push_back( crafts[act_info.other_index] );
         p.activity.values.push_back( 0 ); // Not a long craft
         return false;
     } else if( reason == CAN_DO_BILL || reason == CAN_DO_ONE_BILL ) {
@@ -2920,12 +2925,12 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
             debugmsg( "no crafting bill index" );
             return true;
         }
-        size_t counter = 0;
+        int counter = 0;
         recipe rec;
         int batch = 1;
         bool found = false;
         for( auto bill_elem : cb->bills ) {
-            if( counter == *act_info.con_idx ) {
+            if( counter == act_info.other_index ) {
                 rec = bill_elem.first.obj();
                 if( reason == CAN_DO_BILL ) {
                     batch = bill_elem.second;
