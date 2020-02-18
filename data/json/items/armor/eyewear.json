@@ -23,8 +23,7 @@
   {
     "id": "fancy_sunglasses",
     "type": "ARMOR",
-    "name": "pair of stylish sunglasses",
-    "name_plural": "pairs of stylish sunglasses",
+    "name": { "str": "pair of stylish sunglasses", "str_pl": "pairs of stylish sunglasses" },
     "description": "A pair of stylish sunglasses.  Look good while keeping the glare out of your eyes.",
     "weight": "42 g",
     "volume": "250 ml",
@@ -213,8 +212,7 @@
   {
     "id": "goggles_welding",
     "type": "ARMOR",
-    "name": "pair of welding goggles",
-    "name_plural": "pairs of welding goggles",
+    "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
     "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
     "weight": "153 g",
     "volume": "250 ml",
@@ -257,8 +255,7 @@
   {
     "id": "sunglasses",
     "type": "ARMOR",
-    "name": "pair of sunglasses",
-    "name_plural": "pairs of sunglasses",
+    "name": { "str": "pair of sunglasses", "str_pl": "pairs of sunglasses" },
     "description": "A pair of sunglasses, good for keeping the glare out of your eyes.",
     "weight": "35 g",
     "volume": "250 ml",
@@ -279,8 +276,7 @@
   {
     "id": "survivor_goggles",
     "type": "ARMOR",
-    "name": "survivor goggles",
-    "name_plural": "pairs of survivor goggles",
+    "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
     "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
     "weight": "212 g",
     "volume": "250 ml",

@@ -66,8 +66,7 @@
   {
     "type": "COMESTIBLE",
     "id": "royal_jelly",
-    "name": "royal jelly",
-    "name_plural": "royal jellies",
+    "name": { "str": "royal jelly", "str_pl": "royal jellies" },
     "category": "drugs",
     "weight": "150 g",
     "color": "white",
@@ -86,8 +85,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
-    "name": "marloss berry",
-    "name_plural": "marloss berries",
+    "name": { "str": "marloss berry", "str_pl": "marloss berries" },
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
@@ -130,8 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": "mycus fruit",
-    "name_plural": "mycus fruits",
+    "name": { "str": "mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": "MYCUS",
@@ -377,8 +374,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soybean",
-    "name": "soybeans",
-    "name_plural": "soybeans",
+    "name": { "str": "soybeans", "str_pl": "soybeans" },
     "copy-from": "seed",
     "weight": "160 g",
     "symbol": ".",
@@ -665,8 +661,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nectar",
-    "name": "nectar",
-    "name_plural": "nectars",
+    "name": { "str": "nectar" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -675,7 +670,7 @@
     "vitamins": [  ],
     "description": "Some nectar.  Seeing this item is a bug.",
     "price": 0,
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   }
 ]

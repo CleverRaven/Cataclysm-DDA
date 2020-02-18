@@ -12,8 +12,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_UHT",
-    "name": "shelf stable milk",
-    "name_plural": "shelf stable milk",
+    "name": { "str": "shelf stable milk", "str_pl": "shelf stable milk" },
     "spoils_in": "2 d",
     "copy-from": "milk",
     "container": "carton_sealed",
@@ -239,8 +238,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_powder",
-    "name": "powdered milk",
-    "name_plural": "powdered milk",
+    "name": { "str": "powdered milk", "str_pl": "powdered milk" },
     "weight": "30 g",
     "color": "white",
     "container": "bag_plastic",

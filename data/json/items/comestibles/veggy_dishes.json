@@ -14,8 +14,7 @@
   {
     "type": "COMESTIBLE",
     "id": "starch",
-    "name": "starch",
-    "name_plural": "starch",
+    "name": { "str": "starch", "str_pl": "starch" },
     "weight": "180 g",
     "color": "light_gray",
     "spoils_in": "1 day 6 hours",
@@ -445,8 +444,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_pesto",
-    "name": "spaghetti al pesto",
-    "name_plural": "spaghetti al pesto",
+    "name": { "str": "spaghetti al pesto", "str_pl": "spaghetti al pesto" },
     "weight": "80 g",
     "color": "green",
     "spoils_in": "2 days",
@@ -480,8 +478,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauerkraut_onions",
-    "name": "sauerkraut w/ sautee'd onions",
-    "name_plural": "sauerkraut w/ sautee'd onions",
+    "name": { "str": "sauerkraut w/ sautee'd onions", "str_pl": "sauerkraut w/ sautee'd onions" },
     "weight": "424 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -502,8 +499,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_pickled",
-    "name": "pickled veggy",
-    "name_plural": "pickled veggies",
+    "name": { "str": "pickled veggy", "str_pl": "pickled veggies" },
     "copy-from": "veggy",
     "color": "light_green",
     "spoils_in": "30 days",
@@ -747,8 +743,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_sauteed",
-    "name": "sauteed fiddleheads",
-    "name_plural": "sauteed fiddleheads",
+    "name": { "str": "sauteed fiddleheads", "str_pl": "sauteed fiddleheads" },
     "weight": "100 g",
     "flags": [ "FREEZERBURN", "EATEN_HOT" ],
     "color": "light_green",

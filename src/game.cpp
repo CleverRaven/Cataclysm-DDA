@@ -8911,7 +8911,13 @@ bool game::walk_move( const tripoint &dest_loc )
         Monsters don't currently have stamina however.
         For the time being just don't burn players stamina when mounted.
         */
-        u.burn_move_stamina( previous_moves - u.moves );
+        if( grabbed_vehicle == nullptr || grabbed_vehicle->wheelcache.empty() ) {
+            //Burn normal amount of stamina if no vehicle grabbed or vehicle lacks wheels
+            u.burn_move_stamina( previous_moves - u.moves );
+        } else {
+            //Burn half as much stamina if vehicle has wheels, without changing move time
+            u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
+        }
     }
     // Max out recoil
     u.recoil = MAX_RECOIL;

@@ -44,8 +44,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_raw",
-    "name": "raw spaghetti pasta",
-    "name_plural": "raw spaghetti pasta",
+    "name": { "str": "raw spaghetti pasta", "str_pl": "raw spaghetti pasta" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -64,8 +63,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lasagne_raw",
-    "name": "raw lasagne pasta",
-    "name_plural": "raw lasagne pasta",
+    "name": { "str": "raw lasagne pasta", "str_pl": "raw lasagne pasta" },
     "spoils_in": "360 days",
     "weight": "60 g",
     "color": "yellow",
@@ -103,8 +101,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_raw",
-    "name": "raw macaroni",
-    "name_plural": "raw macaroni",
+    "name": { "str": "raw macaroni", "str_pl": "raw macaroni" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -123,8 +120,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_cooked",
-    "name": "mac & cheese",
-    "name_plural": "mac & cheese",
+    "name": { "str": "mac & cheese", "str_pl": "mac & cheese" },
     "weight": "209 g",
     "color": "yellow",
     "spoils_in": "10 hours",
@@ -186,8 +182,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oats",
-    "name": "oats",
-    "name_plural": "oats",
+    "name": { "str": "oats", "str_pl": "oats" },
     "weight": "86 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -245,8 +240,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pancakes",
-    "name": "pancake",
-    "name_plural": "pancakes",
+    "name": { "str": "pancake" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "10 days",
