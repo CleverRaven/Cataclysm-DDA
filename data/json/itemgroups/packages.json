@@ -2,11 +2,7 @@
   {
     "type": "item_group",
     "id": "packages",
-    "items": [
-      [ "packages_small", 40 ],
-      [ "packages_medium", 30 ],
-      [ "packages_large", 5 ]
-    ]
+    "items": [ [ "packages_small", 40 ], [ "packages_medium", 30 ], [ "packages_large", 5 ] ]
   },
   {
     "type": "item_group",
@@ -55,110 +51,72 @@
   {
     "type": "item_group",
     "id": "packages_clothing",
-    "items": [
-      [ "package_small_clothing", 40 ],
-      [ "package_medium_clothing", 30 ],
-      [ "package_large_clothing", 5 ]
-    ]
+    "items": [ [ "package_small_clothing", 40 ], [ "package_medium_clothing", 30 ], [ "package_large_clothing", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_food",
-    "items": [
-      [ "package_small_food", 30 ],
-      [ "package_medium_food", 15 ]
-    ]
+    "items": [ [ "package_small_food", 30 ], [ "package_medium_food", 15 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_med",
-    "items": [
-      [ "package_small_med", 15 ]
-    ]
+    "items": [ [ "package_small_med", 15 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_drug",
-    "items": [
-      [ "package_small_drug", 10 ]
-    ]
+    "items": [ [ "package_small_drug", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_chem",
-    "items": [
-      [ "package_medium_chem", 10 ]
-    ]
+    "items": [ [ "package_medium_chem", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_electric",
-    "items": [
-      [ "package_small_electric", 35 ],
-      [ "package_medium_electric", 25 ],
-      [ "package_large_electric", 5 ] ]
+    "items": [ [ "package_small_electric", 35 ], [ "package_medium_electric", 25 ], [ "package_large_electric", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_weapons",
-    "items": [
-      [ "package_medium_weapons", 35 ],
-      [ "package_large_weapons", 10 ]
-    ]
+    "items": [ [ "package_medium_weapons", 35 ], [ "package_large_weapons", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_gun_accesory",
-    "items": [
-      [ "package_small_gun_accesory", 25 ]
-    ]
+    "items": [ [ "package_small_gun_accesory", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_gun_mod",
-    "items": [
-      [ "package_small_gun_mod", 25 ]
-    ]
+    "items": [ [ "package_small_gun_mod", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_vehicle_parts",
-    "items": [
-      [ "package_small_vehicle_parts", 30 ],
-      [ "package_medium_vehicle_parts", 35 ],
-      [ "package_large_vehicle_parts", 10 ]
-    ]
+    "items": [ [ "package_small_vehicle_parts", 30 ], [ "package_medium_vehicle_parts", 35 ], [ "package_large_vehicle_parts", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_book",
-    "items": [
-      [ "package_small_book", 15 ],
-      [ "package_medium_book", 30 ]
-    ]
+    "items": [ [ "package_small_book", 15 ], [ "package_medium_book", 30 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_tool",
-    "items": [
-      [ "package_small_tool", 25 ]
-    ]
+    "items": [ [ "package_small_tool", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_materials",
-    "items": [
-      [ "package_large_materials", 10 ]
-    ]
+    "items": [ [ "package_large_materials", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_other",
-    "items": [
-      [ "package_small_other", 40 ],
-      [ "package_medium_other", 30 ],
-      [ "package_large_other", 10 ]
-    ]
+    "items": [ [ "package_small_other", 40 ], [ "package_medium_other", 30 ], [ "package_large_other", 10 ] ]
   },
   {
     "type": "item_group",
@@ -466,9 +424,7 @@
   {
     "type": "item_group",
     "id": "packages_medium_med",
-    "items": [
-      [ "package_medium_med1", 20 ]
-    ]
+    "items": [ [ "package_medium_med1", 20 ] ]
   },
   {
     "type": "item_group",
@@ -578,24 +534,17 @@
   {
     "type": "item_group",
     "id": "packages_large_clothing",
-    "items": [
-      [ "package_large_clothing1", 25 ],
-      [ "package_large_clothing2", 10 ]
-    ]
+    "items": [ [ "package_large_clothing1", 25 ], [ "package_large_clothing2", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_large_electric",
-    "items": [
-      [ "package_large_electric1", 10 ]
-    ]
+    "items": [ [ "package_large_electric1", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "packages_large_weapons",
-    "items": [
-      [ "package_large_weapons1", 10 ]
-    ]
+    "items": [ [ "package_large_weapons1", 10 ] ]
   },
   {
     "type": "item_group",
@@ -632,10 +581,7 @@
   {
     "type": "item_group",
     "id": "packages_large_materials",
-    "items": [
-      [ "package_large_materials1", 20 ],
-      [ "package_large_materials2", 20 ],
-      [ "package_large_materials3", 10 ] ]
+    "items": [ [ "package_large_materials1", 20 ], [ "package_large_materials2", 20 ], [ "package_large_materials3", 10 ] ]
   },
   {
     "type": "item_group",
