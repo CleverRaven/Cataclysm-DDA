@@ -26,7 +26,7 @@
     "name": "blunderbuss shot",
     "symbol": "=",
     "color": "red",
-    "description": "A prepared blunderbuss shot of a marbles, pebbles, bearings, basically whatever is at hand.  The homemade pellet spread and number makes up for the shoddy quality.",
+    "description": "A prepared blunderbuss shot of marbles, pebbles, bearings, basically whatever is at hand.  The homemade pellet spread and number makes up for the shoddy quality.",
     "material": [ "paper", "powder" ],
     "volume": "100 ml",
     "weight": "2 g",

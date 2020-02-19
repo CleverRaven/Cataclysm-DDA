@@ -452,7 +452,7 @@
     "id": "mre_southwestbeef",
     "copy-from": "mre_entree",
     "name": "southwest beef & beans entree",
-    "description": "The southwest beef & beans entree entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "description": "The southwest beef & beans entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "bean" ],
     "fun": 2
   },

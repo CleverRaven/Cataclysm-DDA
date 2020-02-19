@@ -42,8 +42,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_whiskey",
-    "name": "whiskey wash",
-    "name_plural": "whiskey washes",
+    "name": { "str": "whiskey wash", "str_pl": "whiskey washes" },
     "description": "Fermented, but not distilled whiskey.  No longer tastes sweet.",
     "weight": "33 g",
     "color": "brown",
@@ -131,8 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_vodka",
-    "name": "vodka wash",
-    "name_plural": "vodka washes",
+    "name": { "str": "vodka wash", "str_pl": "vodka washes" },
     "description": "Fermented, but not distilled vodka.  No longer tastes sweet.",
     "weight": "33 g",
     "color": "light_cyan",

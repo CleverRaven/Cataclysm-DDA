@@ -24,8 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wheat",
-    "name": "wheat",
-    "name_plural": "wheat",
+    "name": { "str": "wheat", "str_pl": "wheat" },
     "weight": "203 g",
     "color": "brown",
     "comestible_type": "FOOD",
