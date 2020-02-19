@@ -1629,7 +1629,7 @@ bool npc::recharge_cbm()
     if( use_bionic_by_id( bio_furnace ) ) {
         const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
             return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
-                   it.has_flag( "FIREWOOD" );
+                   it.has_flag( flag_FIREWOOD );
         };
         if( consume_cbm_items( furnace_filter ) ) {
             return true;
@@ -2257,7 +2257,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
+    } else if( g->m.passable( p ) && !g->m.has_flag( flag_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
@@ -2322,7 +2322,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 g->m.creature_on_trap( *mounted_creature );
             }
         }
-        if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+        if( g->m.has_flag( flag_UNSTABLE, pos() ) ) {
             add_effect( effect_bouldering, 1_turns, num_bp, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
@@ -3332,7 +3332,7 @@ bool npc::alt_attack()
     }
 
     // Are we going to throw this item?
-    if( !used->active && used->has_flag( "NPC_ACTIVATE" ) ) {
+    if( !used->active && used->has_flag( flag_NPC_ACTIVATE ) ) {
         activate_item( weapon_index );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
@@ -3527,7 +3527,7 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( food->parasites && !it.has_flag( "NO_PARASITES" ) ) {
+    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
         return 0.0;
     }
 
@@ -4350,7 +4350,7 @@ bool npc::adjust_worn()
     };
 
     for( auto &elem : worn ) {
-        if( !elem.has_flag( "SPLINT" ) ) {
+        if( !elem.has_flag( flag_SPLINT ) ) {
             continue;
         }
 

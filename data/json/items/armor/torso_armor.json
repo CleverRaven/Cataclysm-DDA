@@ -300,7 +300,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light survivor body armor",
-    "description": "Lightweight, custom built body armor made from Kevlar and tough fabric.  Mostly waterproof.",
+    "description": "Lightweight, custom-built body armor made from Kevlar and tough fabric.  Mostly waterproof.",
     "weight": "3000 g",
     "volume": "6 L",
     "price": 60000,

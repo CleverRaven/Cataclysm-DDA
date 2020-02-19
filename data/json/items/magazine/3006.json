@@ -3,7 +3,7 @@
     "id": "3006_clip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": ".30-06 clip",
+    "name": { "str": ".30-06 clip" },
     "//": "Provisional.",
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",

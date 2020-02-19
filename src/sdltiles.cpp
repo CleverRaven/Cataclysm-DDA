@@ -3885,7 +3885,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
+        typeface = PATH_INFO::fontdir() + "unifont.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";

@@ -49,7 +49,7 @@
     "copy-from": "raw_dandelion",
     "color": "yellow",
     "spoils_in": "3 days",
-    "description": "Wild dandelion flowers that have been battered and deep fried.  Very tasty and nutritious.",
+    "description": "Wild dandelion flowers that have been battered and deep-fried.  Very tasty and nutritious.",
     "price": 250,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5
@@ -148,8 +148,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_beans",
-    "name": "vegetarian baked beans",
-    "name_plural": "vegetarian baked beans",
+    "name": { "str": "vegetarian baked beans", "str_pl": "vegetarian baked beans" },
     "weight": "270 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -248,8 +247,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_rice",
-    "name": "tofu fried rice",
-    "name_plural": "tofu fried rice",
+    "name": { "str": "tofu fried rice", "str_pl": "tofu fried rice" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "15 days",
@@ -268,8 +266,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_stirfry",
-    "name": "tofu stirfry",
-    "name_plural": "tofu stirfry",
+    "name": { "str": "tofu stirfry", "str_pl": "tofu stirfry" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "4 days",

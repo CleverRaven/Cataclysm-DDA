@@ -303,7 +303,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "survivor cargo pants", "str_pl": "survivor cargo pants" },
-    "description": "A pair of Kevlar armored pants covered with pouches and pockets.  Custom built to be durable, comfortable, and easy to wear.",
+    "description": "A pair of Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
     "weight": "2100 g",
     "volume": "3 L",
     "price": 38000,

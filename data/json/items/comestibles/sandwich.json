@@ -165,8 +165,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_veggy",
-    "name": "vegetable sandwich",
-    "name_plural": "vegetable sandwiches",
+    "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
     "weight": "289 g",
     "color": "light_gray",
     "spoils_in": "2 days",

@@ -39,8 +39,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toasterpastryfrozen",
-    "name": "toaster pastry (uncooked)",
-    "name_plural": "toaster pastries (uncooked)",
+    "name": { "str": "toaster pastry (uncooked)", "str_pl": "toaster pastries (uncooked)" },
     "weight": "52 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -61,8 +60,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toasterpastry",
-    "name": "toaster pastry",
-    "name_plural": "toaster pastries",
+    "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
     "copy-from": "toasterpastryfrozen",
     "quench": 4,
     "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
@@ -516,7 +514,7 @@
     "name": { "str": "French fries", "str_pl": "French fries" },
     "copy-from": "fries",
     "spoils_in": "3 days",
-    "description": "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
+    "description": "Deep-fried potatoes with a touch of salt.  Crunchy and delicious.",
     "fun": 3
   },
   {
@@ -664,8 +662,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachos",
-    "name": "tortilla chips",
-    "name_plural": "tortilla chips",
+    "name": { "str": "tortilla chips", "str_pl": "tortilla chips" },
     "weight": "80 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -893,8 +890,7 @@
   {
     "type": "COMESTIBLE",
     "id": "corndogs_frozen",
-    "name": "uncooked corn dogs",
-    "name_plural": "uncooked corn dogs",
+    "name": { "str": "uncooked corn dogs", "str_pl": "uncooked corn dogs" },
     "weight": "78 g",
     "color": "yellow",
     "spoils_in": "11 days 16 hours",
@@ -903,7 +899,7 @@
     "symbol": "%",
     "healthy": -6,
     "calories": 195,
-    "description": "A heavily processed sausage, dipped in batter and deep fried.  It would taste much better prepared.",
+    "description": "A heavily processed sausage, dipped in batter and deep-fried.  It would taste much better prepared.",
     "price": 900,
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
@@ -920,7 +916,7 @@
     "spoils_in": "1 day",
     "container": "wrapper",
     "healthy": -2,
-    "description": "A heavily processed sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
+    "description": "A heavily processed sausage, dipped in batter and deep-fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18
   },
   {
@@ -1022,8 +1018,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_frozen",
-    "name": "uncooked hot dog",
-    "name_plural": "uncooked hot dogs",
+    "name": { "str": "uncooked hot dog" },
     "weight": "43 g",
     "color": "red",
     "spoils_in": "11 days 16 hours",
