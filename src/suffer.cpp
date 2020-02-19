@@ -645,7 +645,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
+        if( !( weapon.has_flag( flag_RAIN_PROTECT ) ) ) {
             add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
             if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
@@ -696,7 +696,7 @@ void Character::suffer_from_albinism()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( weapon.has_flag( flag_RAIN_PROTECT ) ) {
         return;
     }
     //calculate total coverage of skin
