@@ -5,7 +5,7 @@
     "category": "armor",
     "name": "CRIT face mask",
     "description": "This is the C.R.I.T standard issue face mask, lined with kevlar for extra protection.  A few filters provide decent enviromental safety, but it was not intended for extended use.  It has a basic integrated HUD.",
-    "weight": "5 kg",
+    "weight": "2 kg",
     "volume": "1 L",
     "price": 2500000,
     "to_hit": 1,
