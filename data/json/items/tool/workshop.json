@@ -678,7 +678,7 @@
     "name": "screwdriver",
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
-    "volume": "250 ml",
+    "volume": "40 ml",
     "price": 450,
     "to_hit": -1,
     "bashing": 2,
