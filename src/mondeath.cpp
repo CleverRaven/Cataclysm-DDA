@@ -189,7 +189,7 @@ void mdeath::splatter( monster &z )
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse.set_flag( flag_GIBBED );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -381,8 +381,8 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( "PRED3" ) ||
-        g->u.has_trait_flag( "PRED4" ) || g->u.has_trait( trait_KILLER ) ) {
+    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( flag_PRED3 ) ||
+        g->u.has_trait_flag( flag_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -401,7 +401,7 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait_flag( "PRED1" ) ) || ( g->u.has_trait_flag( "PRED2" ) ) ) {
+    } else if( ( g->u.has_trait_flag( flag_PRED1 ) ) || ( g->u.has_trait_flag( flag_PRED2 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -424,9 +424,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait_flag( "PRED1" ) ) {
+        } else if( g->u.has_trait_flag( flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait_flag( "PRED2" ) ) {
+        } else if( g->u.has_trait_flag( flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }
@@ -700,17 +700,17 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
+                  ch->weapon.has_flag( flag_DIAMOND ) &&
                   ch->weapon.volume() > 750_ml;
 
-    if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
+    if( vorpal && !ch->weapon.has_technique( matec_VORPAL ) ) {
         if( ch->sees( z ) ) {
             ch->add_msg_if_player( m_info,
                                    //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
-        ch->weapon.add_technique( matec_id( "VORPAL" ) );
+        ch->weapon.add_technique( matec_VORPAL );
     }
 
     mdeath::normal( z );
