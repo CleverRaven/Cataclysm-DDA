@@ -6,7 +6,7 @@
     "name": "CRIT backpack",
     "description": "C.R.I.T standard-issue pack. Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
     "color": "dark_gray",
-    "storage": 36,
+    "storage": "9 L",
     "encumbrance": 7,
     "material_thickness": 2,
     "material": [ "leather", "kevlar" ],
