@@ -762,6 +762,8 @@ void talk_function::leave( npc &p )
     }
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_NULL;
+    p.long_term_goal_action();
 }
 
 void talk_function::stop_following( npc &p )

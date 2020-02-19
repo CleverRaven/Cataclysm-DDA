@@ -157,11 +157,13 @@ class recipe
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
-        /** Retrieves a map of changed ter_id/furn_id to the number of tiles changed, then
-         *  converts that to requirement_ids and counts.  The requirements later need to be
-         *  consolidated and duplicate tools/qualities eliminated.
+        /**
+         * Calculate blueprint requirements according to changed terrain and furniture
+         * tiles, then check the calculated requirements against blueprint requirements
+         * specified in JSON.  If there's any inconsistency, it issues a debug message.
+         * This is only used in unit tests so as to speed up data loading in gameplay.
          */
-        void add_bp_autocalc_requirements();
+        void check_blueprint_requirements();
 
         bool hot_result() const;
 
@@ -214,7 +216,13 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
-        bool bp_autocalc = false;
+
+        /** Blueprint requirements to be checked in unit test */
+        bool has_blueprint_needs = false;
+        bool check_blueprint_needs = false;
+        int time_blueprint;
+        std::map<skill_id, int> skills_blueprint;
+        std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };
 
 #endif // RECIPE_H

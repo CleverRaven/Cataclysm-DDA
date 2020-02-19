@@ -93,15 +93,12 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 struct oter_type_t;
 struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -923,13 +920,13 @@ void player::load( const JsonObject &data )
         add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
     }
 
     if( data.has_array( "faction_warnings" ) ) {
@@ -1926,6 +1923,8 @@ void monster::load( const JsonObject &data )
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
 
+    data.read( "udder_timer", udder_timer );
+
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
@@ -2008,6 +2007,7 @@ void monster::store( JsonOut &json ) const
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
+    json.member( "udder_timer", udder_timer );
 
     json.member( "summon_time_limit", summon_time_limit );
 
@@ -3745,7 +3745,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
-        jsout.write( elem.second.id );
+        jsout.write( elem.second.id.id() );
         jsout.start_array();
         for( auto &it : elem.second.components ) {
             jsout.write( it );
@@ -4016,7 +4016,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int k = jsin.get_int();
             tripoint pt = tripoint( i, j, k );
             pc.counter = jsin.get_int();
-            pc.id = jsin.get_int();
+            if( jsin.test_int() ) {
+                // Oops, int id incorrectly saved by legacy code, just load it and hope for the best
+                pc.id = construction_id( jsin.get_int() );
+            } else {
+                pc.id = construction_str_id( jsin.get_string() ).id();
+            }
             jsin.start_array();
             while( !jsin.end_array() ) {
                 item tmp;

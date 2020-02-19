@@ -1,6 +1,7 @@
 [
   {
     "id": "22_speedloader8",
+    "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": ".22 8-round speedloader",
     "description": "This speedloader can hold 8 rounds of .22 and quickly reload a compatible revolver.",
@@ -16,6 +17,7 @@
   },
   {
     "id": "360_200_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "RMRB200 .22 magazine",
     "description": "A 200 round box magazine for use with the RM360 rotary carbine.",
@@ -33,6 +35,7 @@
   },
   {
     "id": "360_400_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "RMRD400 .22 drum magazine",
     "description": "A 400 round drum magazine for use with the RM360 rotary carbine.",
@@ -50,6 +53,7 @@
   },
   {
     "id": "a180mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": "A-180 magazine",
     "description": "An unusually shaped pan magazine for the American-180.",
@@ -67,6 +71,7 @@
   },
   {
     "id": "marlin_tubeloader",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": ".22 19-round tube loader",
     "description": "This is a tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with tubular magazine.",
@@ -82,6 +87,7 @@
   },
   {
     "id": "mosquitomag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "SIG Mosquito magazine",
     "description": "A factory specification 10-round magazine for the SIG Mosquito.",
@@ -98,6 +104,7 @@
   },
   {
     "id": "ruger1022bigmag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Ruger BX-25 magazine",
     "description": "Extended 25-round stick magazine for the Ruger 10/22.",
@@ -114,6 +121,7 @@
   },
   {
     "id": "ruger1022mag",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": "Ruger 10/22 rotary magazine",
     "description": "Removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
@@ -131,6 +139,7 @@
   },
   {
     "id": "sw22mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "S&W 22A magazine",
     "description": "A standard capacity magazine for the popular S&W 22A pistol.",
@@ -147,6 +156,7 @@
   },
   {
     "id": "j22mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Jennings J-22 magazine",
     "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
@@ -163,6 +173,7 @@
   },
   {
     "id": "wp22mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": "Walther P22 magazine",
     "description": "A 10-round box magazine for the Walther P22.",

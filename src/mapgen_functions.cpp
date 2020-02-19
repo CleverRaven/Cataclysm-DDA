@@ -2675,6 +2675,7 @@ void mapgen_tutorial( mapgendata &dat )
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 5 ), "bubblewrap" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 6 ), "grenade" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "flashlight" );
+        m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "light_disposable_cell" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "cig" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "codeine" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 7 ), "water" );
@@ -3533,8 +3534,8 @@ static bool is_suitable_for_stairs( const map *const m, const tripoint &p )
     const ter_t &p_ter = m->ter( p ).obj();
 
     return
-        p_ter.has_flag( "INDOORS" ) &&
-        p_ter.has_flag( "FLAT" ) &&
+        p_ter.has_flag( flag_INDOORS ) &&
+        p_ter.has_flag( flag_FLAT ) &&
         m->furn( p ) == f_null;
 }
 
@@ -3548,9 +3549,9 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             << " tripoint: " << p
             << " terrain: " << p_ter.name()
             << " movecost: " << p_ter.movecost
-            << " furniture: " << m->furn( p )
-            << " indoors: " << p_ter.has_flag( "INDOORS" )
-            << " flat: " << p_ter.has_flag( "FLAT" )
+            << " furniture: " << m->furn( p ).to_i()
+            << " indoors: " << p_ter.has_flag( flag_INDOORS )
+            << " flat: " << p_ter.has_flag( flag_FLAT )
             ;
 }
 

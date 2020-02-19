@@ -17,6 +17,34 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
+    "id": "bike_rack",
+    "type": "GENERIC",
+    "name": "bike rack",
+    "description": "A collection of pipes, cams, and straps, mounted on the edge of a vehicle and used to support another vehicle for transport.  It must be mounted on a vehicle to be used.",
+    "weight": "4000 g",
+    "volume": "6250 ml",
+    "price": 16000,
+    "category": "veh_parts",
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "looks_like": "foldframe",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "cargo_lock",
+    "type": "GENERIC",
+    "name": "cargo lock set",
+    "description": "A set of locks designed to be installed on a vehicle.",
+    "symbol": "+",
+    "color": "dark_gray",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": 800
+  },
+  {
     "type": "GENERIC",
     "id": "folding_basket",
     "name": "folding wire basket",
@@ -79,6 +107,19 @@
     "properties": [ [ "monster_size_capacity", "HUGE" ] ],
     "use_action": "CAPTURE_MONSTER_VEH",
     "flags": [ "TRADER_AVOID", "USE_PART_ITEM" ]
+  },
+  {
+    "id": "mounted_spare_tire",
+    "type": "GENERIC",
+    "name": "mounted spare tire",
+    "description": "A spare tire mounted on a carrier rig, ready to be attached to the rear bumper of a vehicle.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": "27600 g",
+    "volume": "18750 ml",
+    "price": 37500
   },
   {
     "id": "animal_locker",

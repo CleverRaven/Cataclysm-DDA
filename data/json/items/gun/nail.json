@@ -38,7 +38,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "nail gun",
-    "description": "A tool used to drive nails into wood or other material.  It could also be used as a ad-hoc weapon.",
+    "description": "A tool used to drive nails into wood or other material.  It could also be used as an ad-hoc weapon.",
     "weight": "3904 g",
     "volume": "750 ml",
     "price": 13000,

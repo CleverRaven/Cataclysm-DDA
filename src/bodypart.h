@@ -10,6 +10,7 @@
 
 #include "int_id.h"
 #include "string_id.h"
+#include "translations.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
@@ -70,10 +71,12 @@ struct body_part_struct {
         bool was_loaded = false;
 
         // Those are stored untranslated
-        std::string name;
-        std::string name_multiple;
-        std::string name_as_heading_singular;
-        std::string name_as_heading_multiple;
+        translation name;
+        translation name_multiple;
+        translation accusative;
+        translation accusative_multiple;
+        translation name_as_heading;
+        translation name_as_heading_multiple;
         std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"

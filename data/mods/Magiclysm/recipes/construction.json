@@ -1,6 +1,7 @@
 [
   {
     "type": "construction",
+    "id": "constr_magiclysm_translocator_gate",
     "description": "Build Translocator Gate",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 6 ], [ "spellcraft", 6 ] ],

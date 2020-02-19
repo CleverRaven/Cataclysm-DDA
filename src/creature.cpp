@@ -636,7 +636,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= rng_float( 0, .25 );
     }
 
-    if( print_messages && source != nullptr && !message.empty() ) {
+    if( print_messages && source != nullptr && !message.empty() && u_see_this ) {
         source->add_msg_if_player( m_good, message );
     }
 
