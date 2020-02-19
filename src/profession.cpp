@@ -23,6 +23,7 @@
 #include "item.h"
 #include "flat_set.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -403,7 +404,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         if( it.is_holster() && it.contents.size() == 1 ) {
             clear_faults( it.contents.front() );
         }
-        if( it.has_flag( "VARSIZE" ) ) {
+        if( it.has_flag( flag_VARSIZE ) ) {
             it.item_tags.insert( "FIT" );
         }
     }
