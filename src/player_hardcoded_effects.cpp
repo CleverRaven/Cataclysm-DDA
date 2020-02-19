@@ -1145,7 +1145,7 @@ void player::hardcoded_effects( effect &it )
                         if( mp == pos() ) {
                             continue;
                         }
-                        if( g->m.has_flag( "FLAT", mp ) &&
+                        if( g->m.has_flag( flag_FLAT, mp ) &&
                             g->m.pl_sees( mp, 2 ) ) {
                             g->spawn_hallucination( mp );
                             if( ++count > max_count ) {
