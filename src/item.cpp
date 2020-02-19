@@ -1097,10 +1097,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                        bool debug /* debug */ ) const
 {
     const std::string space = "  ";
-    if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
-        info.push_back( iteminfo( "BASE", _( "Category: " ),
-                                  "<header>" + get_category().name() + "</header>" ) );
-    }
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
         const std::vector<const material_type *> mat_types = made_of_types();
         if( !mat_types.empty() ) {
@@ -1108,8 +1104,14 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             []( const material_type * material ) {
                 return string_format( "<stat>%s</stat>", material->name() );
             }, enumeration_conjunction::none );
-            info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
+            info.push_back( iteminfo( "BASE", _( "Material: " ),
+                                      string_format( _( "%s  " ), material_list ),
+                                      iteminfo::no_newline ) );
         }
+    }
+    if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
+        info.push_back( iteminfo( "BASE", _( "Category: " ),
+                                  "<header>" + get_category().name() + "</header>" ) );
     }
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         int converted_volume_scale = 0;
@@ -1128,6 +1130,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   string_format( "<num> %s", weight_units() ),
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
+    }
+    if( !owner.is_null() ) {
+        info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
+                                  _( get_owner_name() ) ) ) );
     }
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
@@ -3281,17 +3287,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   0 ) ) ) );
     }
 
-    // Owner, price, and barter value
-    if( !owner.is_null() || parts->test( iteminfo_parts::BASE_PRICE ) ) {
-        insert_separation_line( info );
-    }
-    if( !owner.is_null() ) {
-        info.push_back( iteminfo( "BASE", string_format( _( "<bold>Owner</bold>: %s" ),
-                                  _( get_owner_name() ) ) ) );
-    }
+    // Price and barter value
     const int price_preapoc = price( false ) * batch;
     const int price_postapoc = price( true ) * batch;
     if( parts->test( iteminfo_parts::BASE_PRICE ) ) {
+        insert_separation_line( info );
         info.push_back( iteminfo( "BASE", _( "Price: " ), _( "$<num>" ),
                                   iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_newline,
                                   static_cast<double>( price_preapoc ) / 100 ) );

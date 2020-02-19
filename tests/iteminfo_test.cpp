@@ -36,11 +36,10 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
                         iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
                         iteminfo_parts::DESCRIPTION } );
 
-    SECTION( "category, material, volume, weight, description" ) {
+    SECTION( "volume, weight, category, material, description" ) {
         test_info_equals(
             item( "test_jug_plastic" ), q,
-            "Category: <color_c_magenta>CONTAINERS</color>\n"
-            "Material: <color_c_light_blue>Plastic</color>\n"
+            "Material: <color_c_light_blue>Plastic</color>  Category: <color_c_magenta>CONTAINERS</color>\n"
             "Volume: <color_c_yellow>3.750</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
             "--\n"
             "A standard plastic jug used for milk and household cleaning chemicals.\n" );
@@ -58,8 +57,8 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
         my_rock.set_owner( g->u );
         test_info_equals(
             my_rock, q,
+            "Owner: Your Followers\n"
             "--\n"
-            "<color_c_white>Owner</color>: Your Followers\n"
             "Price: $<color_c_yellow>0.00</color>" );
     }
 
@@ -68,8 +67,8 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
         my_pipe.set_owner( g->u );
         test_info_equals(
             my_pipe, q,
+            "Owner: Your Followers\n"
             "--\n"
-            "<color_c_white>Owner</color>: Your Followers\n"
             "Price: $<color_c_yellow>75.00</color>  Barter value: $<color_c_yellow>3.00</color>\n" );
     }
 
