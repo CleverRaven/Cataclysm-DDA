@@ -39,8 +39,9 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
     SECTION( "volume, weight, category, material, description" ) {
         test_info_equals(
             item( "test_jug_plastic" ), q,
-            "Material: <color_c_light_blue>Plastic</color>  Category: <color_c_magenta>CONTAINERS</color>\n"
+            "Material: <color_c_light_blue>Plastic</color>\n"
             "Volume: <color_c_yellow>3.750</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
+            "Category: <color_c_magenta>CONTAINERS</color>\n"
             "--\n"
             "A standard plastic jug used for milk and household cleaning chemicals.\n" );
     }

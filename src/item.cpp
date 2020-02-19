@@ -1104,14 +1104,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             []( const material_type * material ) {
                 return string_format( "<stat>%s</stat>", material->name() );
             }, enumeration_conjunction::none );
-            info.push_back( iteminfo( "BASE", _( "Material: " ),
-                                      string_format( _( "%s  " ), material_list ),
-                                      iteminfo::no_newline ) );
+            info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
-    }
-    if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
-        info.push_back( iteminfo( "BASE", _( "Category: " ),
-                                  "<header>" + get_category().name() + "</header>" ) );
     }
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
         int converted_volume_scale = 0;
@@ -1135,6 +1129,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
                                   _( get_owner_name() ) ) ) );
     }
+    if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
+        info.push_back( iteminfo( "BASE", _( "Category: " ),
+                                  "<header>" + get_category().name() + "</header>" ) );
+    }
+
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
