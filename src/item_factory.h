@@ -248,6 +248,9 @@ class Item_factory
         using GroupMap = std::map<Group_tag, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
 
+        std::unordered_map<itype_id, ammotype> migrated_ammo;
+        std::unordered_map<itype_id, itype_id> migrated_magazines;
+
         /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
          * If any of checks fails, prints a message to the msg stream.

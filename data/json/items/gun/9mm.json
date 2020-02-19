@@ -318,7 +318,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm", "460" ],
     "range": 1,
     "dispersion": 340,
     "durability": 9,
