@@ -3,7 +3,6 @@
     "type": "trap",
     "id": "tr_bear",
     "name": "bear trap",
-    "looks_like": "tr_beartrap",
     "color": "blue",
     "symbol": "^",
     "action": "spell",
