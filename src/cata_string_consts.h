@@ -400,6 +400,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_winded( "winded" );
 static const efftype_id effect_zapped( "zapped" );
 
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
@@ -719,11 +720,6 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-static const trait_id debug_nodmg( "DEBUG_NODMG" );
-
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
@@ -966,6 +962,7 @@ static const std::string flag_CAMERA( "CAMERA" );
 static const std::string flag_CAMERA_CONTROL( "CAMERA_CONTROL" );
 static const std::string flag_CAMERA_PRO( "CAMERA_PRO" );
 static const std::string flag_CAN_SIT( "CAN_SIT" );
+static const std::string flag_CANNIBAL( "CANNIBAL" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
 static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
 static const std::string flag_CASING( "CASING" );
@@ -1146,9 +1143,14 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POCKETS( "POCKETS" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 static const std::string flag_POWERED( "POWERED" );
+static const std::string flag_PRED1( "PRED1" );
+static const std::string flag_PRED2( "PRED2" );
+static const std::string flag_PRED3( "PRED3" );
+static const std::string flag_PRED4( "PRED4" );
 static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 static const std::string flag_PROCESSING( "PROCESSING" );
 static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
+static const std::string flag_PSYCHOPATH( "PSYCHOPATH" );
 static const std::string flag_PULPED( "PULPED" );
 static const std::string flag_PUMP_ACTION( "PUMP_ACTION" );
 static const std::string flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
@@ -1186,6 +1188,7 @@ static const std::string flag_RUBBLE( "RUBBLE" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SAFECRACK( "SAFECRACK" );
 static const std::string flag_SALT_WATER( "SALT_WATER" );
+static const std::string flag_SAPIOVORE( "SAPIOVORE" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
@@ -1383,11 +1386,14 @@ static const species_id ROBOT( "ROBOT" );
 static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const matec_id tec_none( "tec_none" );
-static const matec_id WBLOCK_1( "WBLOCK_1" );
-static const matec_id WBLOCK_2( "WBLOCK_2" );
-static const matec_id WBLOCK_3( "WBLOCK_3" );
-static const matec_id WHIP_DISARM( "WHIP_DISARM" );
+static const matec_id matec_no_technique_id( "" );
+static const matec_id matec_RAPID( "RAPID" );
+static const matec_id matec_tec_none( "tec_none" );
+static const matec_id matec_VORPAL( "VORPAL" );
+static const matec_id matec_WBLOCK_1( "WBLOCK_1" );
+static const matec_id matec_WBLOCK_2( "WBLOCK_2" );
+static const matec_id matec_WBLOCK_3( "WBLOCK_3" );
+static const matec_id matec_WHIP_DISARM( "WHIP_DISARM" );
 
 static const ter_str_id ter_dirt( "t_dirt" );
 static const ter_str_id ter_grass_dead( "t_grass_dead" );
