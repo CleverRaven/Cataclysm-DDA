@@ -1139,6 +1139,7 @@ static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_PLACE_ITEM( "PLACE_ITEM" );
 static const std::string flag_PLACE_RANDOMLY( "PLACE_RANDOMLY" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
