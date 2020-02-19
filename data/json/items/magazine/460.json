@@ -3,7 +3,7 @@
     "id": "460_speedloader6",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": ".460 6-round speedloader",
+    "name": { "str": ".460 6-round speedloader" },
     "description": "This speedloader, made by Leadworks for use with L2031 Enforcer revolver, can hold 6 rounds of .460 or .45 and quickly reload a compatible revolver.",
     "weight": "86 g",
     "volume": "250 ml",
