@@ -55,5 +55,44 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
+  },
+  {
+    "id": "package_small",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "small package", "str_pl": "small packages" },
+    "description": "A sealed, small-size cardboard box, it may have something inside.",
+    "weight": 2268,
+    "volume": 4,
+    "price": 5,
+    "material": "cardboard",
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "package_medium",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "medium package", "str_pl": "medium packages" },
+    "description": "A sealed, medium-size cardboard box, it may have something inside.",
+    "weight": 6804,
+    "volume": 32,
+    "price": 15,
+    "material": "cardboard",
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "package_large",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "large package", "str_pl": "large packages" },
+    "description": "A sealed, large-size cardboard box, it may have something inside.",
+    "weight": 5444,
+    "volume": 80,
+    "price": 45,
+    "material": "cardboard",
+    "symbol": ")",
+    "color": "brown"
   }
 ]
