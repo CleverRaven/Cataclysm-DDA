@@ -921,7 +921,6 @@ static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
-
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 static const std::string flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
@@ -1371,7 +1370,6 @@ static const std::string flag_WORKBENCH( "WORKBENCH" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 static const std::string flag_YOUNG( "YOUNG" );
 
-
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -1512,7 +1510,6 @@ static const matec_id matec_WBLOCK_2( "WBLOCK_2" );
 static const matec_id matec_WBLOCK_3( "WBLOCK_3" );
 static const matec_id matec_WHIP_DISARM( "WHIP_DISARM" );
 
-
 static const ter_str_id ter_bridge( "t_bridge" );
 static const ter_str_id ter_chainfence( "t_chainfence" );
 static const ter_str_id ter_clay( "t_clay" );
@@ -1619,10 +1616,8 @@ static const ter_str_id ter_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_water_pool( "t_water_pool" );
 static const ter_str_id ter_water_sh( "t_water_sh" );
 
-
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
-
 
 static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
