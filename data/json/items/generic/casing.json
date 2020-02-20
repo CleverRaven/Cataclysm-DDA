@@ -40,10 +40,7 @@
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
     "material": [ "powder", "brass" ],
     "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "weight": "1 g"
   },
   {
     "id": "3006_casing",
