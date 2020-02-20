@@ -4426,7 +4426,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        !u.has_effect( effect_contacts ) && !u.has_bionic( bio_eye_optic ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -7813,12 +7813,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
 
-    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factor = g->u.max_quality( quality_BUTCHER );
     const std::string msgFactor = factor > INT_MIN
                                   ? string_format( _( "Your best tool has %d butchering." ), factor )
                                   :  _( "You have no butchering tool." );
 
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
+    const int factorD = g->u.max_quality( quality_CUT_FINE );
     const std::string msgFactorD = factorD > INT_MIN
                                    ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
                                    :  _( "You have no fine cutting tool." );
@@ -7945,8 +7945,8 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.max_quality( qual_BUTCHER );
-    const int factorD = u.max_quality( qual_CUT_FINE );
+    const int factor = u.max_quality( quality_BUTCHER );
+    const int factorD = u.max_quality( quality_CUT_FINE );
     const std::string no_knife_msg = _( "You don't have a butchering tool." );
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -9178,7 +9178,7 @@ point game::place_player( const tripoint &dest_loc )
         }
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" && u.max_quality( qual_BUTCHER ) > INT_MIN ) {
+        if( pulp_butcher == "butcher" && u.max_quality( quality_BUTCHER ) > INT_MIN ) {
             std::vector<item *> corpses;
 
             for( item &it : m.i_at( u.pos() ) ) {

@@ -911,13 +911,13 @@ void player::load( const JsonObject &data )
     data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
+    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
+        add_bionic( bio_earplugs );
     }
 
     // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
+    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
+        add_bionic( bio_blindfold );
     }
 
     // Fixes bugged characters for CBM's preventing mutations.

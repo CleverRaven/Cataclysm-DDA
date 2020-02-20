@@ -1518,7 +1518,7 @@ static item_location autodoc_internal( player &u, player &patient,
         } else {
             const inventory &crafting_inv = u.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_quality( qual_ANESTHESIA );
+                return it.has_quality( quality_ANESTHESIA );
             } );
             std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_flag( flag_ANESTHESIA ); // legacy
