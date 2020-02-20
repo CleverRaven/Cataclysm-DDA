@@ -895,7 +895,7 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
     tmp->toggle_trait( trait_NPC_STARTING_NPC );
-    tmp->set_fac( no_faction );
+    tmp->set_fac( faction_no_faction );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -1791,7 +1791,7 @@ void game::remove_npc_follower( const character_id &id )
 static void update_faction_api( npc *guy )
 {
     if( guy->get_faction_ver() < 2 ) {
-        guy->set_fac( your_followers );
+        guy->set_fac( faction_your_followers );
         guy->set_faction_ver( 2 );
     }
 }
@@ -4426,7 +4426,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        !u.has_effect( effect_contacts ) && !u.has_bionic( bio_eye_optic ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -7813,12 +7813,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
 
-    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factor = g->u.max_quality( quality_BUTCHER );
     const std::string msgFactor = factor > INT_MIN
                                   ? string_format( _( "Your best tool has %d butchering." ), factor )
                                   :  _( "You have no butchering tool." );
 
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
+    const int factorD = g->u.max_quality( quality_CUT_FINE );
     const std::string msgFactorD = factorD > INT_MIN
                                    ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
                                    :  _( "You have no fine cutting tool." );
@@ -7945,8 +7945,8 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.max_quality( qual_BUTCHER );
-    const int factorD = u.max_quality( qual_CUT_FINE );
+    const int factor = u.max_quality( quality_BUTCHER );
+    const int factorD = u.max_quality( quality_CUT_FINE );
     const std::string no_knife_msg = _( "You don't have a butchering tool." );
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -9178,7 +9178,7 @@ point game::place_player( const tripoint &dest_loc )
         }
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" && u.max_quality( qual_BUTCHER ) > INT_MIN ) {
+        if( pulp_butcher == "butcher" && u.max_quality( quality_BUTCHER ) > INT_MIN ) {
             std::vector<item *> corpses;
 
             for( item &it : m.i_at( u.pos() ) ) {
@@ -10864,8 +10864,8 @@ void game::perhaps_add_random_npc()
     new_fac_id += tmp->name;
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
-                            no_faction );
-    tmp->set_fac( new_solo_fac ? new_solo_fac->id : no_faction );
+                            faction_no_faction );
+    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     // adds the npc to the correct overmap.
     tripoint submap_spawn = omt_to_sm_copy( spawn_point );
     tmp->spawn_at_sm( submap_spawn.x, submap_spawn.y, 0 );

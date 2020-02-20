@@ -881,9 +881,9 @@ void iexamine::intercom( player &p, const tripoint &examp )
 void iexamine::rubble( player &p, const tripoint &examp )
 {
     int moves;
-    if( p.has_quality( qual_DIG, 3 ) || p.has_trait( trait_BURROW ) ) {
+    if( p.has_quality( quality_DIG, 3 ) || p.has_trait( trait_BURROW ) ) {
         moves = to_moves<int>( 1_minutes );
-    } else if( p.has_quality( qual_DIG, 2 ) ) {
+    } else if( p.has_quality( quality_DIG, 2 ) ) {
         moves = to_moves<int>( 2_minutes );
     } else {
         add_msg( m_info, _( "If only you had a shovel…" ) );
@@ -1262,7 +1262,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
-        return temporary_item.has_quality( qual_PRY, 1 );
+        return temporary_item.has_quality( quality_PRY, 1 );
     } );
 
     if( prying_items.empty() ) {
@@ -1273,7 +1273,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( qual_PRY ) > b->get_quality( qual_PRY );
+        return a->get_quality( quality_PRY ) > b->get_quality( quality_PRY );
     } );
 
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
@@ -1669,7 +1669,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    bool can_get_root = p.has_quality( qual_DIG ) || p.has_trait( trait_BURROW );
+    bool can_get_root = p.has_quality( quality_DIG ) || p.has_trait( trait_BURROW );
 
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
@@ -3199,7 +3199,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
     if( harvest_common( p, examp, false, false ) ) {
         g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
-    if( !p.has_quality( qual_DIG ) ) {
+    if( !p.has_quality( quality_DIG ) ) {
         p.add_msg_if_player( m_info, _( "You have no tool to dig with…" ) );
         return;
     }
@@ -3226,12 +3226,12 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
 {
-    if( !p.has_quality( qual_DRILL ) ) {
+    if( !p.has_quality( quality_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( qual_HAMMER ) ) {
+    if( !p.has_quality( quality_HAMMER ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
@@ -3304,7 +3304,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( qual_HAMMER ) ) {
+            if( !p.has_quality( quality_HAMMER ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -4453,7 +4453,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     } else {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_quality( qual_ANESTHESIA );
+            return it.has_quality( quality_ANESTHESIA );
         } );
         std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( flag_ANESTHESIA ); // legacy

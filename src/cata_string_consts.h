@@ -3,7 +3,7 @@
 #define STRING_CONSTS_H
 
 #include "type_id.h"
-#include "player_activity.h"
+#include "itype.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -717,6 +717,8 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
+static const mongroup_id GROUP_ANT( "GROUP_ANT" );
+static const mongroup_id GROUP_ANT_ACID( "GROUP_ANT_ACID" );
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
@@ -898,6 +900,7 @@ static const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 static const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_zombie_kevlar_2( "mon_zombie_kevlar_2" );
 static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
@@ -930,6 +933,7 @@ static const std::string flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const std::string flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const std::string flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const std::string flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+static const std::string flag_ALLOW_OUTSIDE( "ALLOW_OUTSIDE" );
 static const std::string flag_ALLOW_ROTTEN( "ALLOW_ROTTEN" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
@@ -954,6 +958,7 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_BLOCK_WHILE_WORN( "BLOCK_WHILE_WORN" );
 static const std::string flag_BLOCKSDOOR( "BLOCKSDOOR" );
+static const std::string flag_BOARDED( "BOARDED" );
 static const std::string flag_BOMB( "BOMB" );
 static const std::string flag_BURROWABLE( "BURROWABLE" );
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
@@ -988,6 +993,7 @@ static const std::string flag_DANGEROUS( "DANGEROUS" );
 static const std::string flag_DEAF( "DEAF" );
 static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_DESTROY_ITEM( "DESTROY_ITEM" );
+static const std::string flag_DETERGENT( "DETERGENT" );
 static const std::string flag_DIAMOND( "DIAMOND" );
 static const std::string flag_DIFFICULT_Z( "DIFFICULT_Z" );
 static const std::string flag_DIG_TOOL( "DIG_TOOL" );
@@ -999,6 +1005,8 @@ static const std::string flag_DONT_REMOVE_ROTTEN( "DONT_REMOVE_ROTTEN" );
 static const std::string flag_DOOR( "DOOR" );
 static const std::string flag_DROP_ACTION_ONLY_IF_LIQUID( "DROP_ACTION_ONLY_IF_LIQUID" );
 static const std::string flag_DURABLE_MELEE( "DURABLE_MELEE" );
+static const std::string flag_E_COLD_START( "E_COLD_START" );
+static const std::string flag_E_STARTS_INSTANTLY( "E_STARTS_INSTANTLY" );
 static const std::string flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
 static const std::string flag_EATEN_COLD( "EATEN_COLD" );
 static const std::string flag_EATEN_HOT( "EATEN_HOT" );
@@ -1108,6 +1116,8 @@ static const std::string flag_MILLABLE( "MILLABLE" );
 static const std::string flag_MINEABLE( "MINEABLE" );
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
+static const std::string flag_MUSCLE_ARMS( "MUSCLE_ARMS" );
+static const std::string flag_MUSCLE_LEGS( "MUSCLE_LEGS" );
 static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_MYCUS_OK( "MYCUS_OK" );
 static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
@@ -1140,6 +1150,7 @@ static const std::string flag_NPC_ACTIVATE( "NPC_ACTIVATE" );
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
+static const std::string flag_OPENABLE( "OPENABLE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_OUTER( "OUTER" );
@@ -1151,6 +1162,7 @@ static const std::string flag_PLACE_ITEM( "PLACE_ITEM" );
 static const std::string flag_PLACE_RANDOMLY( "PLACE_RANDOMLY" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
+static const std::string flag_PLANTER( "PLANTER" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POCKETS( "POCKETS" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
@@ -1202,11 +1214,14 @@ static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SAFECRACK( "SAFECRACK" );
 static const std::string flag_SALT_WATER( "SALT_WATER" );
 static const std::string flag_SAPIOVORE( "SAPIOVORE" );
+static const std::string flag_SCEN_ONLY( "SCEN_ONLY" );
 static const std::string flag_SEALED( "SEALED" );
+static const std::string flag_SEAT( "SEAT" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const std::string flag_SHARP( "SHARP" );
 static const std::string flag_SHRUB( "SHRUB" );
+static const std::string flag_SIGN( "SIGN" );
 static const std::string flag_SILENT( "SILENT" );
 static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SKINTIGHT( "SKINTIGHT" );
@@ -1219,6 +1234,7 @@ static const std::string flag_SPEAR( "SPEAR" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_SPR_START( "SPR_START" );
+static const std::string flag_STEERABLE( "STEERABLE" );
 static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_STR_RELOAD( "STR_RELOAD" );
 static const std::string flag_STURDY( "STURDY" );
@@ -1254,6 +1270,7 @@ static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USABLE_FIRE( "USABLE_FIRE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 static const std::string flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
+static const std::string flag_USE_TANKS( "USE_TANKS" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 static const std::string flag_VARSIZE( "VARSIZE" );
@@ -1388,7 +1405,6 @@ static const matype_id style_tiger( "style_tiger" );
 static const matype_id style_wingchun( "style_wingchun" );
 static const matype_id style_zui_quan( "style_zui_quan" );
 
-static const species_id ABERRATION( "ABERRATION" );
 static const species_id species_BLOB( "BLOB" );
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
@@ -1429,15 +1445,17 @@ static const std::string part_location_onroof( "on_roof" );
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
-static const faction_id your_followers( "your_followers" );
-static const faction_id no_faction( "no_faction" );
+static const faction_id faction_amf( "amf" );
+static const faction_id faction_your_followers( "your_followers" );
+static const faction_id faction_no_faction( "no_faction" );
 
 static const std::string errstring( "ERROR" );
 
-static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
+static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
@@ -1447,7 +1465,11 @@ static const std::string title_SPEED = translate_marker( "SPEED" );
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
 
+const vitamin_id vitamin_calcium( "calcium" );
 const vitamin_id vitamin_iron( "iron" );
+const vitamin_id vitamin_vitA( "vitA" );
+const vitamin_id vitamin_vitB( "vitB" );
+const vitamin_id vitamin_vitC( "vitC" );
 
 static const std::string null_item_id( "null" );
 

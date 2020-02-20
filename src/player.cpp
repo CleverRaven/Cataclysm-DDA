@@ -1754,7 +1754,7 @@ int player::impact( const int force, const tripoint &p )
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
     // Shock Absorber CBM heavily reduces damage
-    const bool shock_absorbers = has_active_bionic( bionic_id( "bio_shock_absorber" ) );
+    const bool shock_absorbers = has_active_bionic( bio_shock_absorber );
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
@@ -2424,7 +2424,7 @@ void player::process_items()
     if( update_required ) {
         reset_encumbrance();
     }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+    if( has_active_bionic( bio_ups ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
@@ -2767,7 +2767,7 @@ bool player::add_faction_warning( const faction_id &id )
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
+    if( fac != nullptr && is_player() && fac->id != faction_no_faction ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
@@ -5441,7 +5441,7 @@ void player::place_corpse()
             cbm.set_flag( "FILTHY" );
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
+            cbm.faults.emplace( fault_bionic_salvaged );
             body.put_in( cbm );
         }
     }

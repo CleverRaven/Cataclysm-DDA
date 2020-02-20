@@ -911,13 +911,13 @@ void player::load( const JsonObject &data )
     data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
+    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
+        add_bionic( bio_earplugs );
     }
 
     // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
+    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
+        add_bionic( bio_blindfold );
     }
 
     // Fixes bugged characters for CBM's preventing mutations.
@@ -2519,7 +2519,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
+    if( base.has_flag( flag_VEHICLE ) ) {
         if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != "battery" ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
@@ -2700,21 +2700,21 @@ void vehicle::deserialize( JsonIn &jsin )
 
     // Add vehicle mounts to cars that are missing them.
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
