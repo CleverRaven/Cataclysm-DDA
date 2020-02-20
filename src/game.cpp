@@ -8366,7 +8366,7 @@ void game::reload_weapon( bool try_everything )
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
         item::reload_option opt = g->u.select_ammo( *turret.base(), true );
         if( opt ) {
-            g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+            g->u.assign_activity( activity_id( ACT_RELOAD ), opt.moves(), opt.qty() );
             g->u.activity.targets.emplace_back( turret.base() );
             g->u.activity.targets.push_back( std::move( opt.ammo ) );
         }

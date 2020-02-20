@@ -812,7 +812,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
+    if( newmon.type->id == mon_laserturret && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     return 1;

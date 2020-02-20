@@ -3173,25 +3173,25 @@ bool player::unwield()
 
 // ids of martial art styles that are available with the bio_cqb bionic.
 static const std::vector<matype_id> bio_cqb_styles{ {
-        matype_id{ "style_aikido" },
-        matype_id{ "style_biojutsu" },
-        matype_id{ "style_boxing" },
-        matype_id{ "style_capoeira" },
-        matype_id{ "style_crane" },
-        matype_id{ "style_dragon" },
-        matype_id{ "style_judo" },
-        matype_id{ "style_karate" },
-        matype_id{ "style_krav_maga" },
-        matype_id{ "style_leopard" },
-        matype_id{ "style_muay_thai" },
-        matype_id{ "style_ninjutsu" },
-        matype_id{ "style_pankration" },
-        matype_id{ "style_snake" },
-        matype_id{ "style_taekwondo" },
-        matype_id{ "style_tai_chi" },
-        matype_id{ "style_tiger" },
-        matype_id{ "style_wingchun" },
-        matype_id{ "style_zui_quan" }
+        style_aikido,
+        style_biojutsu,
+        style_boxing,
+        style_capoeira,
+        style_crane,
+        style_dragon,
+        style_judo,
+        style_karate,
+        style_krav_maga,
+        style_leopard,
+        style_muay_thai,
+        style_ninjutsu,
+        style_pankration,
+        style_snake,
+        style_taekwondo,
+        style_tai_chi,
+        style_tiger,
+        style_wingchun,
+        style_zui_quan
     }};
 
 bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
@@ -3427,7 +3427,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         }
 
         const mending_method &method = opt.method;
-        assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( method.time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( method.id );
         activity.targets.push_back( std::move( obj ) );
@@ -3728,7 +3728,7 @@ bool player::unload( item &it )
     } );
 
     if( target->is_magazine() ) {
-        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
+        player_activity unload_mag_act( ACT_UNLOAD_MAG );
         assign_activity( unload_mag_act );
         activity.targets.emplace_back( item_location( *this, target ) );
 
@@ -4161,7 +4161,7 @@ void player::gunmod_add( item &gun, item &mod )
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
+    assign_activity( ACT_GUNMOD_ADD, moves, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -4186,7 +4186,7 @@ void player::toolmod_add( item_location tool, item_location mod )
         return; // player canceled installation
     }
 
-    assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
+    assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
     activity.targets.emplace_back( std::move( tool ) );
     activity.targets.emplace_back( std::move( mod ) );
 }
@@ -4445,7 +4445,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
     }
-    assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
+    assign_activity( ACT_TRY_SLEEP, to_moves<int>( dur ) );
 }
 
 int player::sleep_spot( const tripoint &p ) const
