@@ -68,7 +68,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
-
 // *INDENT-OFF*
 Character::Character() :
 
@@ -3950,7 +3949,6 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
-
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );

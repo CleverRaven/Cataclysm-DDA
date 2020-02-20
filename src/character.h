@@ -762,8 +762,6 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
-        void serialize_consumption_history( JsonOut jsout ) const;
-        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
