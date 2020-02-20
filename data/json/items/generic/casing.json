@@ -30,6 +30,19 @@
     "volume": "3ml"
   },
   {
+    "id": "22_casing_new",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "price": 100,
+    "name": { "str": "unused .22 casing" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "An unfired, like-new .22 round casing, with the primer still intact.",
+    "material": [ "powder", "brass" ],
+    "volume": "250 ml",
+    "weight": "1 g"
+  },
+  {
     "id": "3006_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",

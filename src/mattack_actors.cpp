@@ -109,6 +109,10 @@ bool leap_actor::call( monster &z ) const
                 break;
             }
         }
+        // don't leap into water if you could drown (#38038)
+        if( z.is_aquatic_danger( dest ) ) {
+            blocked_path = true;
+        }
         if( blocked_path ) {
             continue;
         }

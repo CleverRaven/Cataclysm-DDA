@@ -1483,7 +1483,13 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
-                if( query_yn( _( "Travel to this point?" ) ) ) {
+                std::string confirm_msg;
+                if( g->u.weight_carried() > g->u.weight_capacity() ) {
+                    confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
+                } else {
+                    confirm_msg = _( "Travel to this point?" );
+                }
+                if( query_yn( confirm_msg ) ) {
                     // renew the path incase of a leftover dangling path point
                     g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {
