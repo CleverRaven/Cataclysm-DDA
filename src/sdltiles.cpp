@@ -57,6 +57,7 @@
 #include "json.h"
 #include "optional.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
