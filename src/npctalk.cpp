@@ -3205,8 +3205,8 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
-            given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &g->u.weapon && given.has_flag( flag_NO_UNWIELD ) ) || ( g->u.is_worn( given ) &&
+            given.has_flag( flag_NO_TAKEOFF ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
