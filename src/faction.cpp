@@ -546,8 +546,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
-    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
+    bool u_has_radio = g->u.has_item_with_flag( flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = has_item_with_flag( flag_TWO_WAY_RADIO, true );
     // TODO: NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );

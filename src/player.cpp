@@ -462,7 +462,7 @@ int player::run_cost( int base_cost, bool diag ) const
     const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( flag_ROAD, pos() );
-    const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
+    const bool on_fungus = g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() );
 
     if( !is_mounted() ) {
         if( movecost > 100 ) {
@@ -501,13 +501,13 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= 1.1f;
         }
 
-        if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
+        if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
             movecost *= 1.1f;
         }
-        if( worn_with_flag( "FIN" ) ) {
+        if( worn_with_flag( flag_FIN ) ) {
             movecost *= 1.5f;
         }
-        if( worn_with_flag( "ROLLER_INLINE" ) ) {
+        if( worn_with_flag( flag_ROLLER_INLINE ) ) {
             if( on_road ) {
                 movecost *= 0.5f;
             } else {
@@ -516,7 +516,7 @@ int player::run_cost( int base_cost, bool diag ) const
         }
         // Quad skates might be more stable than inlines,
         // but that also translates into a slower speed when on good surfaces.
-        if( worn_with_flag( "ROLLER_QUAD" ) ) {
+        if( worn_with_flag( flag_ROLLER_QUAD ) ) {
             if( on_road ) {
                 movecost *= 0.7f;
             } else {
@@ -525,7 +525,7 @@ int player::run_cost( int base_cost, bool diag ) const
         }
         // Skates with only one wheel (roller shoes) are fairly less stable
         // and fairly slower as well
-        if( worn_with_flag( "ROLLER_ONE" ) ) {
+        if( worn_with_flag( flag_ROLLER_ONE ) ) {
             if( on_road ) {
                 movecost *= 0.85f;
             } else {
@@ -594,8 +594,8 @@ int player::swim_speed() const
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r ) ) {
-        if( worn_with_flag( "FIN", bp_foot_l ) && worn_with_flag( "FIN", bp_foot_r ) ) {
+    if( worn_with_flag( flag_FIN, bp_foot_l ) || worn_with_flag( flag_FIN, bp_foot_r ) ) {
+        if( worn_with_flag( flag_FIN, bp_foot_l ) && worn_with_flag( flag_FIN, bp_foot_r ) ) {
             ret -= ( 15 * str_cur );
         } else {
             ret -= ( 15 * str_cur ) / 2;
@@ -618,7 +618,7 @@ int player::swim_speed() const
 
     /** @EFFECT_DEX increases swim speed */
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag( "FLOTATION" ) ) {
+    if( worn_with_flag( flag_FLOTATION ) ) {
         ret = std::min( ret, 400 );
         ret = std::max( ret, 200 );
     }
@@ -962,7 +962,7 @@ int player::overmap_sight_range( int light_level ) const
 
     float multiplier = Character::mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
-    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) ||
+    const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_bionic( bio_eye_optic ) ||
                              ( is_mounted() &&
                                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
     if( has_optic ) {
@@ -997,10 +997,10 @@ bool player::sight_impaired() const
                  has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
-               !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
+               !worn_with_flag( flag_SWIM_GOGGLES ) && !has_trait( trait_PER_SLIME_OK ) &&
                !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
-               !worn_with_flag( "FIX_NEARSIGHT" ) &&
+               !worn_with_flag( flag_FIX_NEARSIGHT ) &&
                !has_effect( effect_contacts ) &&
                !has_bionic( bio_eye_optic ) ) ||
              has_trait( trait_PER_SLIME ) );
@@ -1032,7 +1032,7 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
+    return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -1040,7 +1040,7 @@ bool player::has_alarm_clock() const
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag( "WATCH", true ) ||
+    return ( has_item_with_flag( flag_WATCH, true ) ||
              ( g->m.veh_at( pos() ) &&
                !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
@@ -1324,9 +1324,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
+    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
         int rolls = 4;
-        if( worn_with_flag( "ROLLER_ONE" ) ) {
+        if( worn_with_flag( flag_ROLLER_ONE ) ) {
             rolls += 2;
         }
         if( has_trait( trait_PROF_SKATER ) ) {
@@ -1709,7 +1709,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
 
 float player::fall_damage_mod() const
 {
-    if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
+    if( has_effect_with_flag( flag_EFFECT_FEATHER_FALL ) ) {
         return 0.0f;
     }
     float ret = 1.0f;
@@ -4355,7 +4355,7 @@ void player::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+        if( g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -4402,7 +4402,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        } else if( g->m.has_flag_ter( flag_SWIMMABLE, pos() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }
@@ -4478,7 +4478,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
     }
-    if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+    if( watersleep && g->m.has_flag_ter( flag_SWIMMABLE, pos() ) ) {
         sleepy += 10; //comfy water!
     }
 
@@ -4627,16 +4627,16 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
             amount = 0;
         }
     }
-    if( has_trait_flag( "PRED2" ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( flag_PRED2 ) && skill.is_combat_skill() ) {
         if( one_in( 3 ) ) {
             amount *= 2;
         }
     }
-    if( has_trait_flag( "PRED3" ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( flag_PRED3 ) && skill.is_combat_skill() ) {
         amount *= 2;
     }
 
-    if( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( flag_PRED4 ) && skill.is_combat_skill() ) {
         amount *= 3;
     }
 
@@ -4667,7 +4667,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
+        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( flag_PRED4 ) &&
                 skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
@@ -5438,9 +5438,9 @@ void player::place_corpse()
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.id.str() ) ) {
             item cbm( bio.id.str(), calendar::turn );
-            cbm.set_flag( "FILTHY" );
-            cbm.set_flag( "NO_STERILE" );
-            cbm.set_flag( "NO_PACKED" );
+            cbm.set_flag( flag_FILTHY );
+            cbm.set_flag( flag_NO_STERILE );
+            cbm.set_flag( flag_NO_PACKED );
             cbm.faults.emplace( fault_bionic_salvaged );
             body.put_in( cbm );
         }

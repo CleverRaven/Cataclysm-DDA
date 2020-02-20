@@ -437,7 +437,7 @@ void vpart_info::finalize()
 
     for( auto &e : vpart_info_all ) {
         if( e.second.folded_volume > 0_ml ) {
-            e.second.set_flag( "FOLDABLE" );
+            e.second.set_flag( flag_FOLDABLE );
         }
 
         for( const auto &f : e.second.flags ) {
