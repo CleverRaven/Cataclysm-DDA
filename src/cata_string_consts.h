@@ -1429,15 +1429,17 @@ static const std::string part_location_onroof( "on_roof" );
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
-static const faction_id your_followers( "your_followers" );
-static const faction_id no_faction( "no_faction" );
+static const faction_id faction_amf( "amf" );
+static const faction_id faction_your_followers( "your_followers" );
+static const faction_id faction_no_faction( "no_faction" );
 
 static const std::string errstring( "ERROR" );
 
-static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
+static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
+static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
@@ -1447,7 +1449,11 @@ static const std::string title_SPEED = translate_marker( "SPEED" );
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
 
+const vitamin_id vitamin_calcium( "calcium" );
 const vitamin_id vitamin_iron( "iron" );
+const vitamin_id vitamin_vitA( "vitA" );
+const vitamin_id vitamin_vitB( "vitB" );
+const vitamin_id vitamin_vitC( "vitC" );
 
 static const std::string null_item_id( "null" );
 

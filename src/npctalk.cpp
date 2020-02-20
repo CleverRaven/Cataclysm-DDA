@@ -2064,7 +2064,7 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        if( p.get_faction()->id != faction_id( "no_faction" ) ) {
+        if( p.get_faction()->id != faction_no_faction ) {
             p.get_faction()->likes_u += rep_change;
             p.get_faction()->respects_u += rep_change;
         }

@@ -625,8 +625,8 @@ void Character::suffer_in_sunlight()
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        vitamin_mod( vitamin_id( "vitC" ), 1, true );
+        vitamin_mod( vitamin_vitA, 1, true );
+        vitamin_mod( vitamin_vitC, 1, true );
     }
 
     if( x_in_y( sunlight_nutrition, 12000 ) ) {
@@ -796,8 +796,8 @@ void Character::suffer_from_other_mutations()
     }
 
     if( x_in_y( root_vitamins, 576 ) ) {
-        vitamin_mod( vitamin_id( "iron" ), 1, true );
-        vitamin_mod( vitamin_id( "calcium" ), 1, true );
+        vitamin_mod( vitamin_iron, 1, true );
+        vitamin_mod( vitamin_calcium, 1, true );
         mod_healthy_mod( 5, 50 );
     }
 
