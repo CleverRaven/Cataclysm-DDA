@@ -52,8 +52,6 @@
 
 struct itype;
 
-#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-
 void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
