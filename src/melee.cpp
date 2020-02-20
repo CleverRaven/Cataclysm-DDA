@@ -255,7 +255,7 @@ float player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -290,7 +290,7 @@ std::string Character::get_miss_reason()
         _( "Your torso encumbrance throws you off-balance." ),
         roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
-                                     !worn_with_flag( "FIX_FARSIGHT" ) &&
+                                     !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),

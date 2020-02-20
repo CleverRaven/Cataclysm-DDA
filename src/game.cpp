@@ -8832,11 +8832,11 @@ bool game::walk_move( const tripoint &dest_loc )
     if( u.is_mounted() ) {
         auto crit = u.mounted_creature.get();
         if( !crit->has_flag( MF_RIDEABLE_MECH ) &&
-            ( m.has_flag_ter_or_furn( "MOUNTABLE", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR", dest_loc ) ||
-              m.has_flag_ter_or_furn( "OPENCLOSE_INSIDE", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_DAMAGED", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_REINFORCED", dest_loc ) ) ) {
+            ( m.has_flag_ter_or_furn( flag_MOUNTABLE, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_BARRICADABLE_DOOR, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_OPENCLOSE_INSIDE, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_BARRICADABLE_DOOR_DAMAGED, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_BARRICADABLE_DOOR_REINFORCED, dest_loc ) ) ) {
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }

@@ -1422,7 +1422,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 force = true;
                 if( g->u.sees( *this ) ) {
                     add_msg( _( "The %1$s flies over the %2$s." ), name(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.has_flag_furn( flag_CLIMBABLE, p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
             } else if( climbs() ) {
@@ -1430,7 +1430,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 force = true;
                 if( g->u.sees( *this ) ) {
                     add_msg( _( "The %1$s climbs over the %2$s." ), name(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.has_flag_furn( flag_CLIMBABLE, p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
             }

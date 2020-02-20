@@ -2129,7 +2129,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
 ret_val<bool> iexamine::can_fertilize( player &p, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
-    if( !g->m.has_flag_furn( "PLANT", tile ) ) {
+    if( !g->m.has_flag_furn( flag_PLANT, tile ) ) {
         return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( g->m.i_at( tile ).size() > 1 ) {
