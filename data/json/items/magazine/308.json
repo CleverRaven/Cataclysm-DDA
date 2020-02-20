@@ -240,7 +240,7 @@
     "id": "ar10mag_20rd",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": "AR-10 magazine",
+    "name": { "str": "AR-10 magazine" },
     "description": "A 20 round double stack box magazine for the AR-10 rifle.",
     "weight": "300 g",
     "volume": "500 ml",
@@ -257,7 +257,7 @@
     "id": "ar10_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
-    "name": "AR-10 makeshift magazine",
+    "name": { "str": "AR-10 makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with AR-10 rifle."
   }
 ]
