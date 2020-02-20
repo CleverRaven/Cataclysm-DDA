@@ -68,7 +68,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
-
 // *INDENT-OFF*
 Character::Character() :
 
@@ -1940,7 +1939,6 @@ int Character::best_nearby_lifting_assist() const
 
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
-    const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
@@ -1948,9 +1946,9 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+    return std::max( { this->max_quality( quality_LIFT ), mech_lift,
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( quality_LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( quality_LIFT )
                      } );
 }
 
@@ -3951,7 +3949,6 @@ void Character::update_needs( int rate_multiplier )
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
 
-
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
                 set_sleep_deprivation( 0 );
@@ -5376,7 +5373,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( debug_nodmg ) ) {
+    if( has_trait( trait_DEBUG_NODMG ) ) {
         return true;
     }
     // Check to see if we are immune
@@ -7754,8 +7751,8 @@ void Character::rooted()
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
-            vitamin_mod( vitamin_id( "iron" ), 1, true );
-            vitamin_mod( vitamin_id( "calcium" ), 1, true );
+            vitamin_mod( vitamin_iron, 1, true );
+            vitamin_mod( vitamin_calcium, 1, true );
         }
         if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
             mod_thirst( -1 );
@@ -8308,26 +8305,26 @@ int Character::bonus_item_warmth( body_part bp ) const
 bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
-           has_activity( activity_id( "ACT_WAIT" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
-           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
-           has_activity( activity_id( "ACT_READ" ) ) ||
-           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
-           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
-           has_activity( activity_id( "ACT_FISH" ) ) ||
-           has_activity( activity_id( "ACT_GAME" ) ) ||
-           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
-           has_activity( activity_id( "ACT_HEATING" ) ) ||
-           has_activity( activity_id( "ACT_VIBE" ) ) ||
-           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
-           has_activity( activity_id( "ACT_OPERATION" ) ) ||
-           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
-           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
-           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
+           has_activity( ACT_WAIT ) ||
+           has_activity( ACT_WAIT_NPC ) ||
+           has_activity( ACT_WAIT_STAMINA ) ||
+           has_activity( ACT_AUTODRIVE ) ||
+           has_activity( ACT_READ ) ||
+           has_activity( ACT_SOCIALIZE ) ||
+           has_activity( ACT_MEDITATE ) ||
+           has_activity( ACT_FISH ) ||
+           has_activity( ACT_GAME ) ||
+           has_activity( ACT_HAND_CRANK ) ||
+           has_activity( ACT_HEATING ) ||
+           has_activity( ACT_VIBE ) ||
+           has_activity( ACT_TRY_SLEEP ) ||
+           has_activity( ACT_OPERATION ) ||
+           has_activity( ACT_TREE_COMMUNION ) ||
+           has_activity( ACT_EAT_MENU ) ||
+           has_activity( ACT_CONSUME_FOOD_MENU ) ||
+           has_activity( ACT_CONSUME_DRINK_MENU ) ||
+           has_activity( ACT_CONSUME_MEDS_MENU ) ||
+           has_activity( ACT_STUDY_SPELL );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )

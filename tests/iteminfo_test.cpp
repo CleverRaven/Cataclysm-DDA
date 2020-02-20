@@ -9,6 +9,7 @@
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "options_helpers.h"
 #include "recipe_dictionary.h"
 
 static void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
@@ -25,6 +26,7 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo]" )
                         iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_VOLUME,
                         iteminfo_parts::BASE_WEIGHT, iteminfo_parts::BASE_MATERIAL
                       } );
+    override_option opt( "USE_METRIC_WEIGHTS", "lbs" );
     iteminfo_test(
         item( "jug_plastic" ), q,
         "A standard plastic jug used for milk and household cleaning chemicals.\n"

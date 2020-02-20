@@ -3,7 +3,7 @@
     "id": "40_speedloader6",
     "looks_like": "38_speedloader",
     "type": "MAGAZINE",
-    "name": ".40 6-round speedloader",
+    "name": { "str": ".40 6-round speedloader" },
     "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
     "weight": "92 g",
     "volume": "250 ml",

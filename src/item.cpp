@@ -1438,7 +1438,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !g->u.has_trait_flag( trait_flag_CANNIBAL ) ) {
+        if( !g->u.has_trait_flag( flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -2556,7 +2556,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 {
     auto name_quality = [&info]( const std::pair<quality_id, int> &q ) {
         std::string str;
-        if( q.first == qual_JACK || q.first == qual_LIFT ) {
+        if( q.first == quality_JACK || q.first == quality_LIFT ) {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality and "
                                     "is rated at <info>%3$d</info> %4$s" ),
                                  q.second, q.first.obj().name,
@@ -5204,7 +5204,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammotype( "money" ) );
+    return ammo_types().count( ammo_money );
 }
 
 bool item::count_by_charges() const
@@ -6397,7 +6397,7 @@ gun_type_type item::gun_type() const
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == "bullet_crossbow" ) {
+        if( ammo_types().count( ammo_bolt ) || typeId() == "bullet_crossbow" ) {
             return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else {
             return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
@@ -9416,8 +9416,6 @@ bool item::has_infinite_charges() const
 skill_id item::contextualize_skill( const skill_id &id ) const
 {
     if( id->is_contextual_skill() ) {
-
-
         if( id == skill_weapon ) {
             if( is_gun() ) {
                 return gun_skill();

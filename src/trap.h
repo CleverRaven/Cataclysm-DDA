@@ -65,8 +65,6 @@ bool snake( const tripoint &p, Creature *c, item *i );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
-    using itype_id = std::string;
-
     bool remove_trap = false;
     bool do_explosion = false;
     bool is_falling = false;
@@ -85,7 +83,6 @@ struct vehicle_handle_trap_data {
 using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
 
 struct trap {
-        using itype_id = std::string;
         trap_str_id id;
         trap_id loadid;
 
