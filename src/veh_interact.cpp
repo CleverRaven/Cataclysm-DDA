@@ -2014,7 +2014,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
                 need_repair.push_back( i );
             }
-            if (pt.info().has_flag( flag_WHEEL ) ) {
+            if( pt.info().has_flag( flag_WHEEL ) ) {
                 wheel = &pt;
             }
         }

@@ -5475,7 +5475,7 @@ void vehicle::refresh()
             extra_drag += vpi.power;
         }
         if( vpi.has_flag( flag_EXTRA_DRAG ) && ( vpi.has_flag( flag_WIND_TURBINE ) ||
-                                              vpi.has_flag( flag_WATER_WHEEL ) ) ) {
+                vpi.has_flag( flag_WATER_WHEEL ) ) ) {
             extra_drag += vpi.power;
         }
         if( camera_on && vpi.has_flag( flag_CAMERA ) ) {
