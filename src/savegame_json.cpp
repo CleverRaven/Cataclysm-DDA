@@ -452,7 +452,7 @@ void Character::load( const JsonObject &data )
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
         if( !temp_selected_style.is_valid() ) {
-            temp_selected_style = matype_id( "style_none" );
+            temp_selected_style = style_none;
         }
         martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
                             temp_keep_hands_free );
@@ -481,8 +481,8 @@ void Character::load( const JsonObject &data )
         backlog.push_front( temp );
     }
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data fetch_reqs;
         data.read( "fetch_data", fetch_reqs );
         const requirement_id req_id( backlog.front().str_values.back() );
@@ -718,8 +718,8 @@ void Character::store( JsonOut &json ) const
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
