@@ -25,6 +25,7 @@
 #include "pimpl.h"
 #include "colony.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 /** @relates visitable */
 template <typename T>
@@ -259,13 +260,12 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
         res = std::max( res, bio.get_quality( qual ) );
     }
 
-    static const quality_id BUTCHER( "BUTCHER" );
-    if( qual == BUTCHER ) {
-        if( self->has_trait( trait_id( "CLAWS_ST" ) ) ) {
+    if( qual == quality_BUTCHER ) {
+        if( self->has_trait( trait_CLAWS_ST ) ) {
             res = std::max( res, 8 );
-        } else if( self->has_trait( trait_id( "TALONS" ) ) || self->has_trait( trait_id( "MANDIBLES" ) ) ||
-                   self->has_trait( trait_id( "CLAWS" ) ) || self->has_trait( trait_id( "CLAWS_RETRACT" ) ) ||
-                   self->has_trait( trait_id( "CLAWS_RAT" ) ) ) {
+        } else if( self->has_trait( trait_TALONS ) || self->has_trait( trait_MANDIBLES ) ||
+                   self->has_trait( trait_CLAWS ) || self->has_trait( trait_CLAWS_RETRACT ) ||
+                   self->has_trait( trait_CLAWS_RAT ) ) {
             res = std::max( res, 4 );
         }
     }
@@ -433,7 +433,7 @@ VisitResponse visitable<map_cursor>::visit_items(
     auto cur = static_cast<map_cursor *>( this );
 
     // skip inaccessible items
-    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
+    if( g->m.has_flag( flag_SEALED, *cur ) && !g->m.has_flag( flag_LIQUIDCONT, *cur ) ) {
         return VisitResponse::NEXT;
     }
 
@@ -779,7 +779,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( "USE_UPS" ) ) {
+                    if( e->has_flag( flag_USE_UPS ) ) {
                         found_tool_with_UPS = true;
                     }
                 }
@@ -854,7 +854,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
     auto p = dynamic_cast<const player *>( self );
 
     if( what == "toolset" ) {
-        if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+        if( p && p->has_active_bionic( bio_tools ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
         } else {
             return 0;
@@ -865,7 +865,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
-        if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+        if( p && p->has_active_bionic( bio_ups ) ) {
             qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
         }
         if( p && p->is_mounted() ) {
@@ -887,7 +887,7 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
         if( ( id == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
-                !e->has_flag( "PSEUDO" ) ) ) {
+                !e->has_flag( flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -937,7 +937,7 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
 {
     auto self = static_cast<const Character *>( this );
 
-    if( what == "toolset" && pseudo && self->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+    if( what == "toolset" && pseudo && self->has_active_bionic( bio_tools ) ) {
         return 1;
     }
 

@@ -4447,7 +4447,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "DIG", "level": 3 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3200 ] ] ]
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
   },
   {
     "type": "recipe",

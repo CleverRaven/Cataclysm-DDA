@@ -34,15 +34,7 @@
 #include "enums.h"
 #include "int_id.h"
 #include "monster.h"
-
-static const std::string part_location_structure( "structure" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_animal( "animal" );
-
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const skill_id skill_driving( "driving" );
+#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -471,7 +463,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( g->m.has_flag( flag_SWIMMABLE, critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const int angle = move.dir() + 45 * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );

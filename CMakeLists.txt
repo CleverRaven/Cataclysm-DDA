@@ -222,11 +222,12 @@ ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
        -Wmissing-declarations \
+       -Wmissing-noreturn \
        -Wold-style-cast \
        -Woverloaded-virtual \
        -Wsuggest-override \
-       -Wno-unknown-warning-option \
-       -Wpedantic")
+       -Wpedantic \
+       -Wno-unknown-warning-option")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")

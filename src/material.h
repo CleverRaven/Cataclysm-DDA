@@ -17,7 +17,6 @@
 class material_type;
 
 enum damage_type : int;
-using itype_id = std::string;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;

@@ -98,7 +98,7 @@
   {
     "id": "stabilizer",
     "type": "GUNMOD",
-    "name": "gyroscopic stabilizer",
+    "name": { "str": "gyroscopic stabilizer" },
     "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.",
     "weight": "286 g",
     "volume": "750 ml",
@@ -125,10 +125,10 @@
     "id": "lead_stabilizer",
     "copy-from": "stabilizer",
     "type": "GUNMOD",
-    "name": "LW gyroscopic stabilizer",
-    "description": "An advanced Leadworks built in gyroscopic stabilizer.",
+    "name": { "str": "LW gyroscopic stabilizer" },
+    "description": "An advanced Leadworks built-in gyroscopic stabilizer.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "IRREMOVABLE" ]
   }

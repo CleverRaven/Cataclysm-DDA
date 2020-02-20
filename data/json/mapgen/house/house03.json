@@ -206,6 +206,7 @@
         "|": "t_brick_wall"
       },
       "furniture": {
+        "&": "f_sink",
         "#": "f_counter",
         "C": "f_cupboard",
         "F": "f_fridge",

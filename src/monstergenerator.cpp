@@ -26,6 +26,7 @@
 #include "pathfinding.h"
 #include "units.h"
 #include "translations.h"
+#include "cata_string_consts.h"
 
 namespace io
 {
@@ -1100,7 +1101,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mon_null ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
         for( auto &spec : mon.species ) {

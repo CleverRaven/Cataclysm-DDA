@@ -1245,8 +1245,8 @@ hint_rating Character::rate_action_eat( const item &it ) const
 bool Character::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
+            ammo_reactor_slurry,
+            ammo_plutonium
         }
     };
 

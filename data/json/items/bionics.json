@@ -238,7 +238,7 @@
     "type": "BIONIC_ITEM",
     "name": "Close Quarters Battle CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "A set of bionic processors and databanks, loaded with martial arts combat programs.  Whilst active, the CQB module will improve the user's hand to hand combat skills, but prevents them from improving them through combat experience.",
+    "description": "A set of bionic processors and databanks, loaded with martial arts combat programs.  Whilst active, the CQB module will improve the user's hand-to-hand combat skills, but prevents them from improving them through combat experience.",
     "price": 220000,
     "weight": "250 g",
     "difficulty": 8
@@ -281,7 +281,7 @@
     "type": "BIONIC_ITEM",
     "name": "Directional EMP CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
+    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
     "price": 720000,
     "difficulty": 5
   },
@@ -301,7 +301,7 @@
     "type": "BIONIC_ITEM",
     "name": "Ethanol Burner CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accept ethanol, methanol and denatured aclohol as fuel.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accepts ethanol, methanol and denatured alcohol as fuel.",
     "price": 120000,
     "difficulty": 4
   },

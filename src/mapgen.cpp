@@ -1504,7 +1504,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                 return;
             }
 
-            if( furn.has_flag( "PLANT" ) ) {
+            if( furn.has_flag( flag_PLANT ) ) {
                 // plant furniture requires exactly one seed item within it
                 if( item_spawner && item_group_spawner ) {
                     debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
@@ -2214,7 +2214,7 @@ void mapgen_function_json_base::setup_common()
 
 bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 {
-    bool qualifies = setup_internal( jo );
+    bool fallback_terrain_exists = setup_internal( jo );
     JsonArray parray;
     JsonArray sparray;
     JsonObject pjo;
@@ -2237,32 +2237,49 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         point expected_dim = mapgensize + m_offset;
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
-            parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
+            parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
                                                expected_dim.y, parray.size() ) );
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const auto tmpval = parray.get_string( c );
             if( static_cast<int>( tmpval.size() ) < expected_dim.x ) {
-                parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
+                parray.throw_error( string_format( "format: row %d must have at least %d columns, not %d",
                                                    c + 1, expected_dim.x, tmpval.size() ) );
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
                 const int tmpkey = tmpval[i];
-                auto iter_ter = format_terrain.find( tmpkey );
-                if( iter_ter != format_terrain.end() ) {
-                    format[ calc_index( p ) ].ter = iter_ter->second;
-                } else if( !qualifies ) {  // fill_ter should make this kosher
+                const auto iter_ter = format_terrain.find( tmpkey );
+                const auto iter_furn = format_furniture.find( tmpkey );
+                const auto fpi = format_placings.find( tmpkey );
+
+                const bool has_terrain = iter_ter != format_terrain.end();
+                const bool has_furn = iter_furn != format_furniture.end();
+                const bool has_placing = fpi != format_placings.end();
+
+                if( !has_terrain && !fallback_terrain_exists ) {
                     parray.throw_error(
-                        string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
+                        string_format( "format: rows: row %d column %d: "
+                                       "'%c' is not in 'terrain', and no 'fill_ter' is set!",
                                        c + 1, i + 1, static_cast<char>( tmpkey ) ) );
                 }
-                auto iter_furn = format_furniture.find( tmpkey );
-                if( iter_furn != format_furniture.end() ) {
+                if( test_mode && !has_terrain && !has_furn && !has_placing && tmpkey != ' ' && tmpkey != '.' ) {
+                    // TODO: Once all the in-tree mods don't report this error,
+                    // it should be changed to happen in regular games (not
+                    // just test_mode) and be non-fatal, so that mappers find
+                    // out about their issues before they PR their changes.
+                    parray.throw_error(
+                        string_format( "format: rows: row %d column %d: "
+                                       "'%c' has no terrain, furniture, or other definition",
+                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
+                }
+                if( has_terrain ) {
+                    format[ calc_index( p ) ].ter = iter_ter->second;
+                }
+                if( has_furn ) {
                     format[ calc_index( p ) ].furn = iter_furn->second;
                 }
-                const auto fpi = format_placings.find( tmpkey );
-                if( fpi != format_placings.end() ) {
+                if( has_placing ) {
                     jmapgen_place where( p );
                     for( auto &what : fpi->second ) {
                         objects.add( where, what );
@@ -2270,13 +2287,14 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 }
             }
         }
-        qualifies = true;
+        fallback_terrain_exists = true;
         do_format = true;
     }
 
     // No fill_ter? No format? GTFO.
-    if( !qualifies ) {
-        jo.throw_error( "  Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain' (RTFM)" );
+    if( !fallback_terrain_exists ) {
+        jo.throw_error(
+            "Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain'" );
         // TODO: write TFM.
     }
 
@@ -2332,7 +2350,7 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
 {
     auto check_furn = [&]( const furn_id & id ) {
         const furn_t &furn = id.obj();
-        if( furn.has_flag( "PLANT" ) ) {
+        if( furn.has_flag( flag_PLANT ) ) {
             debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
                       "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
                       oter_name, furn.id.str() );
@@ -3995,7 +4013,7 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( "FLAT", point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && ( has_flag( flag_FLAT, point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
                                 if( has_flag_furn( "ORGANIC", point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
@@ -5869,9 +5887,9 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         auto is_valid_terrain = [this, ongrass]( int x, int y ) {
             auto &terrain = ter( point( x, y ) ).obj();
             return terrain.movecost == 0           &&
-                   !terrain.has_flag( "PLACE_ITEM" ) &&
+                   !terrain.has_flag( flag_PLACE_ITEM ) &&
                    !ongrass                                   &&
-                   !terrain.has_flag( "FLAT" );
+                   !terrain.has_flag( flag_FLAT );
         };
 
         int px = 0;

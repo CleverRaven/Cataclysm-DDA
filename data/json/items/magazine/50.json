@@ -4,7 +4,7 @@
     "looks_like": "stanag30",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": ".50 BMG ammo belt",
+    "name": { "str": ".50 BMG ammo belt" },
     "ammo_type": "50",
     "capacity": 100,
     "count": 100,

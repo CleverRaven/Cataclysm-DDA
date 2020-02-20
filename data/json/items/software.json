@@ -12,8 +12,7 @@
     "id": "software_useless",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "misc software",
-    "name_plural": "misc software",
+    "name": { "str": "misc software", "str_pl": "misc software" },
     "description": "A miscellaneous piece of hobby software.  Probably useless.",
     "price": 300
   },
@@ -61,16 +60,14 @@
     "id": "software_train_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "train data",
-    "name_plural": "train data",
+    "name": { "str": "train data", "str_pl": "train data" },
     "description": "Logistical data on subterranean train routes and schedules.",
     "price": 200
   },
   {
     "id": "mind_scan_robofac",
     "type": "GENERIC",
-    "name": "neural data",
-    "name_plural": "neural data",
+    "name": { "str": "neural data", "str_pl": "neural data" },
     "symbol": "#",
     "container": "data_card",
     "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",

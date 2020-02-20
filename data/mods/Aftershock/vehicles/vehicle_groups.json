@@ -24,6 +24,27 @@
     ]
   },
   {
+    "id": "parkinglotbasic",
+    "type": "vehicle_group",
+    "vehicles": [ [ "bubble_car", 50 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parking_garage",
+    "vehicles": [ [ "bubble_car", 200 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "junkyard_vehicles",
+    "vehicles": [ [ "bubble_car", 20 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "oa_vg_cs_vehicles",
+    "//": "For cs_car_showroom",
+    "vehicles": [ [ "bubble_car", 60 ] ]
+  },
+  {
     "id": "highway",
     "type": "vehicle_group",
     "vehicles": [ [ "afs_electric_semi", 300 ], [ "afs_gas_tanker", 250 ], [ "afs_water_tanker", 200 ] ]

@@ -195,7 +195,9 @@ Example: "fill_ter": "t_grass"
 
 # 2.1 "rows":
 *required if "fill_ter" is unset*
-> Value: ([array]): blocks of 24 rows of blocks of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
+> Value: ([array]): blocks of 24 rows of blocks of 24 character lines. Each character is defined by "terrain" and optionally "furniture" or other entries below
+
+Any character used here must have some definition elsewhere to indicate its purpose.  Failing to do so is an error which will be caught by running the tests.  The tests will run automatically when you make a pull request for adding new maps to the game.  If you have defined `fill_ter` or you are writing nested mapgen, then there are a couple of exceptions.  The space and period characters (` ` and `.`) are permitted to have no definition and be used for 'background' in the `rows`.
 
 Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet (with water) or items from an item group or fields at the square given by a character.
 
