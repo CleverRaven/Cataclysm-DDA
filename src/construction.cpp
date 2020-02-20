@@ -1062,7 +1062,7 @@ void construct::done_grave( const tripoint &p )
                 g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
-    if( g->u.has_quality( qual_CUT ) ) {
+    if( g->u.has_quality( quality_CUT ) ) {
         iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
     } else {
         add_msg( m_neutral,

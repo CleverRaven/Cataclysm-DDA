@@ -1754,7 +1754,7 @@ int player::impact( const int force, const tripoint &p )
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
     // Shock Absorber CBM heavily reduces damage
-    const bool shock_absorbers = has_active_bionic( bionic_id( "bio_shock_absorber" ) );
+    const bool shock_absorbers = has_active_bionic( bio_shock_absorber );
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
@@ -2424,7 +2424,7 @@ void player::process_items()
     if( update_required ) {
         reset_encumbrance();
     }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+    if( has_active_bionic( bio_ups ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;

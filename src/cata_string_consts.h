@@ -718,7 +718,8 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-
+static const mongroup_id GROUP_ANT( "GROUP_ANT" );
+static const mongroup_id GROUP_ANT_ACID( "GROUP_ANT_ACID" );
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
@@ -756,6 +757,7 @@ static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
+
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_ant( "mon_ant" );
@@ -898,6 +900,7 @@ static const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 static const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_zombie_kevlar_2( "mon_zombie_kevlar_2" );
 static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
@@ -1300,23 +1303,23 @@ static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
-static const quality_id qual_AXE( "AXE" );
-static const quality_id qual_BUTCHER( "BUTCHER" );
-static const quality_id qual_CUT( "CUT" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_DIG( "DIG" );
-static const quality_id qual_DRILL( "DRILL" );
-static const quality_id qual_FISHING( "FISHING" );
-static const quality_id qual_HAMMER( "HAMMER" );
-static const quality_id qual_JACK( "JACK" );
-static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_PRY( "PRY" );
-static const quality_id qual_SAW_M( "SAW_M" );
-static const quality_id qual_SAW_W( "SAW_W" );
-static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
-static const quality_id qual_SELF_JACK( "SELF_JACK" );
-static const quality_id qual_WELD( "WELD" );
+static const quality_id quality_ANESTHESIA( "ANESTHESIA" );
+static const quality_id quality_AXE( "AXE" );
+static const quality_id quality_BUTCHER( "BUTCHER" );
+static const quality_id quality_CUT( "CUT" );
+static const quality_id quality_CUT_FINE( "CUT_FINE" );
+static const quality_id quality_DIG( "DIG" );
+static const quality_id quality_DRILL( "DRILL" );
+static const quality_id quality_FISHING( "FISHING" );
+static const quality_id quality_HAMMER( "HAMMER" );
+static const quality_id quality_JACK( "JACK" );
+static const quality_id quality_LIFT( "LIFT" );
+static const quality_id quality_PRY( "PRY" );
+static const quality_id quality_SAW_M( "SAW_M" );
+static const quality_id quality_SAW_W( "SAW_W" );
+static const quality_id quality_SCREW_FINE( "SCREW_FINE" );
+static const quality_id quality_SELF_JACK( "SELF_JACK" );
+static const quality_id quality_WELD( "WELD" );
 
 static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );

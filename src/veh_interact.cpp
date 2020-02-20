@@ -454,9 +454,9 @@ void veh_interact::cache_tool_availability()
     if( g->u.is_mounted() ) {
         mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
     }
-    max_jack = std::max( { g->u.max_quality( qual_JACK ), mech_jack,
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( qual_JACK ),
-                           vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( qual_JACK )
+    max_jack = std::max( { g->u.max_quality( quality_JACK ), mech_jack,
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( quality_JACK ),
+                           vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( quality_JACK )
                          } );
 }
 
@@ -630,7 +630,7 @@ bool veh_interact::can_self_jack()
     int lvl = jack_quality( *veh );
 
     for( const vpart_reference &vp : veh->get_avail_parts( "SELF_JACK" ) ) {
-        if( vp.part().base.has_quality( qual_SELF_JACK, lvl ) ) {
+        if( vp.part().base.has_quality( quality_SELF_JACK, lvl ) ) {
             return true;
         }
     }
@@ -739,13 +739,13 @@ bool veh_interact::can_install_part()
     bool use_str = false;
     item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = qual_JACK;
+        qual = quality_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
-        qual = qual_LIFT;
+        qual = quality_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
@@ -1661,13 +1661,13 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     bool use_str = false;
     item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = qual_JACK;
+        qual = quality_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
-        qual = qual_LIFT;
+        qual = quality_LIFT;
         lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
