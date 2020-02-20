@@ -478,22 +478,6 @@
   },
   {
     "type": "AMMO",
-    "id": "22_casing_new",
-    "category": "spare_parts",
-    "price": 100,
-    "name": { "str": "unused .22 casing" },
-    "symbol": "=",
-    "color": "yellow",
-    "description": "An unfired, like-new .22 round casing, with the primer still intact.",
-    "material": [ "powder", "brass" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
-  },
-  {
-    "type": "AMMO",
     "id": "gunpowder",
     "category": "chems",
     "price": 500,

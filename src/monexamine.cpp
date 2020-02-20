@@ -101,7 +101,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( rope, true, 't', _( "Untie" ) );
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
-            return itm.has_flag( "TIE_UP" );
+            return itm.has_flag( flag_TIE_UP );
         } );
         if( !rope_inv.empty() ) {
             amenu.addentry( rope, true, 't', _( "Tie" ) );
@@ -254,7 +254,7 @@ static item_location pet_armor_loc( monster &z )
 static item_location tack_loc()
 {
     auto filter = []( const item & it ) {
-        return it.has_flag( "TACK" );
+        return it.has_flag( flag_TACK );
     };
 
     return game_menus::inv::titled_filter_menu( filter, g->u, _( "Tack" ) );
@@ -273,7 +273,7 @@ void monexamine::insert_battery( monster &z )
         return;
     }
     std::vector<item *> bat_inv = g->u.items_with( []( const item & itm ) {
-        return itm.has_flag( "MECH_BAT" );
+        return itm.has_flag( flag_MECH_BAT );
     } );
     if( bat_inv.empty() ) {
         return;
@@ -637,7 +637,7 @@ void monexamine::tie_or_untie( monster &z )
         }
     } else {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
-            return itm.has_flag( "TIE_UP" );
+            return itm.has_flag( flag_TIE_UP );
         } );
         if( rope_inv.empty() ) {
             return;

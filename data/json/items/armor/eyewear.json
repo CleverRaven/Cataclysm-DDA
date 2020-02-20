@@ -235,7 +235,7 @@
     "id": "iggaak",
     "type": "ARMOR",
     "name": { "str": "pair of snow goggles", "str_pl": "pairs of snow goggles" },
-    "description": "Eyewear carved from from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
+    "description": "Eyewear carved from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
     "weight": "70 g",
     "volume": "250 ml",
     "price": 4500,

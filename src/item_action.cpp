@@ -34,7 +34,6 @@ struct tripoint;
 
 static item_action nullaction;
 
-
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );
@@ -126,7 +125,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             // Don't try to remove 'irremovable' toolmods
             if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( "IRREMOVABLE" ) ) {
+                actual_item->has_flag( flag_IRREMOVABLE ) ) {
                 continue;
             }
 

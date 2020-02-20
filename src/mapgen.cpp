@@ -1504,7 +1504,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                 return;
             }
 
-            if( furn.has_flag( "PLANT" ) ) {
+            if( furn.has_flag( flag_PLANT ) ) {
                 // plant furniture requires exactly one seed item within it
                 if( item_spawner && item_group_spawner ) {
                     debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
@@ -2350,7 +2350,7 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
 {
     auto check_furn = [&]( const furn_id & id ) {
         const furn_t &furn = id.obj();
-        if( furn.has_flag( "PLANT" ) ) {
+        if( furn.has_flag( flag_PLANT ) ) {
             debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
                       "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
                       oter_name, furn.id.str() );
@@ -4013,7 +4013,7 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( "FLAT", point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && ( has_flag( flag_FLAT, point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
                                 if( has_flag_furn( "ORGANIC", point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
@@ -5887,9 +5887,9 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         auto is_valid_terrain = [this, ongrass]( int x, int y ) {
             auto &terrain = ter( point( x, y ) ).obj();
             return terrain.movecost == 0           &&
-                   !terrain.has_flag( "PLACE_ITEM" ) &&
+                   !terrain.has_flag( flag_PLACE_ITEM ) &&
                    !ongrass                                   &&
-                   !terrain.has_flag( "FLAT" );
+                   !terrain.has_flag( flag_FLAT );
         };
 
         int px = 0;

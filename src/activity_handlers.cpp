@@ -500,9 +500,9 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
                           !corpse.in_species( ZOMBIE ) );
-    if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) ||
-                       u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
-                       u.has_trait_flag( trait_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( u.has_trait_flag( flag_CANNIBAL ) ||
+                       u.has_trait_flag( flag_PSYCHOPATH ) ||
+                       u.has_trait_flag( flag_SAPIOVORE ) ) ) {
 
         if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {

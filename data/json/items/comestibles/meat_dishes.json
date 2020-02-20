@@ -60,8 +60,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_sausage",
-    "name": "sweet sausage",
-    "name_plural": "sweet sausages",
+    "name": { "str": "sweet sausage", "str_pl": "sweet sausages" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } } ],
     "weight": "148 g",
     "color": "brown",
@@ -820,7 +819,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 566,
-    "description": "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
+    "description": "A meat pizza, for all the carnivores out there.  Chock-full of minced meat and heavily seasoned.",
     "price": 1090,
     "material": [ "wheat", "flesh" ],
     "volume": "1 L",

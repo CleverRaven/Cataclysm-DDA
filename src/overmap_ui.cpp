@@ -1477,7 +1477,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
                 // going to or coming from a water tile
-                if( is_river_or_lake( oter ) || g->m.has_flag( "SWIMMABLE", g->u.pos() ) ) {
+                if( is_river_or_lake( oter ) || g->m.has_flag( flag_SWIMMABLE, g->u.pos() ) ) {
                     ptype.amphibious = true;
                 }
             }

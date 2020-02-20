@@ -247,11 +247,107 @@ void Item_factory::finalize_pre( itype &obj )
             obj.ammo->special_cookoff = false;
         }
     }
-    // for magazines ensure default_ammo is set
-    if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-        obj.magazine->default_ammo = ammotype( *obj.magazine->type.begin() )->default_ammotype();
+
+    // Helper for ammo migration in following sections
+    auto migrate_ammo_set = [&]( std::set<ammotype> &ammoset ) {
+        for( auto ammo_type_it = ammoset.begin(); ammo_type_it != ammoset.end(); ) {
+            auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
+            if( maybe_migrated != migrated_ammo.end() ) {
+                ammo_type_it = ammoset.erase( ammo_type_it );
+                ammoset.insert( ammoset.begin(), maybe_migrated->second );
+            } else {
+                ++ammo_type_it;
+            }
+        }
+    };
+
+    if( obj.magazine ) {
+        // ensure default_ammo is set
+        if( obj.magazine->default_ammo == "NULL" ) {
+            obj.magazine->default_ammo = ammotype( *obj.magazine->type.begin() )->default_ammotype();
+        }
+
+        // If the magazine has ammo types for which the default ammo has been migrated, we need to
+        // replace those ammo types with that of the migrated ammo
+        migrate_ammo_set( obj.magazine->type );
+
+        // ensure default_ammo is migrated if need be
+        auto maybe_migrated = migrated_ammo.find( obj.magazine->default_ammo );
+        if( maybe_migrated != migrated_ammo.end() ) {
+            obj.magazine->default_ammo = maybe_migrated->second.obj().default_ammotype();
+        }
     }
+
+    // Migrate compataible magazines
+    for( auto kv : obj.magazines ) {
+        for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
+            auto maybe_migrated = migrated_magazines.find( *mag_it );
+            if( maybe_migrated != migrated_magazines.end() ) {
+                mag_it = kv.second.erase( mag_it );
+                kv.second.insert( kv.second.begin(), maybe_migrated->second );
+            } else {
+                ++mag_it;
+            }
+        }
+    }
+
+    // Migrate default magazines
+    for( auto kv : obj.magazine_default ) {
+        auto maybe_migrated = migrated_magazines.find( kv.second );
+        if( maybe_migrated != migrated_magazines.end() ) {
+            kv.second = maybe_migrated->second;
+        }
+    }
+
+    if( obj.mod ) {
+        // Migrate acceptable ammo and ammo modifiers
+        migrate_ammo_set( obj.mod->acceptable_ammo );
+        migrate_ammo_set( obj.mod->ammo_modifier );
+
+        for( auto kv = obj.mod->magazine_adaptor.begin(); kv != obj.mod->magazine_adaptor.end(); ) {
+            auto maybe_migrated = migrated_ammo.find( kv->first.obj().default_ammotype() );
+            if( maybe_migrated != migrated_ammo.end() ) {
+                for( const itype_id &compatible_mag : kv->second ) {
+                    obj.mod->magazine_adaptor[maybe_migrated->second].insert( compatible_mag );
+                }
+                kv = obj.mod->magazine_adaptor.erase( kv );
+            } else {
+                ++kv;
+            }
+        }
+    }
+
     if( obj.gun ) {
+        // If the gun has ammo types for which the default ammo has been migrated, we need to
+        // replace those ammo types with that of the migrated ammo
+        for( auto ammo_type_it = obj.gun->ammo.begin(); ammo_type_it != obj.gun->ammo.end(); ) {
+            auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
+            if( maybe_migrated != migrated_ammo.end() ) {
+                const ammotype old_ammo = *ammo_type_it;
+                // Remove the old ammotype add the migrated version
+                ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
+                const ammotype &new_ammo = maybe_migrated->second;
+                obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
+                // Migrate the compatible magazines
+                auto old_mag_it = obj.magazines.find( old_ammo );
+                if( old_mag_it != obj.magazines.end() ) {
+                    for( const itype_id &old_mag : old_mag_it->second ) {
+                        obj.magazines[new_ammo].insert( old_mag );
+                    }
+                    obj.magazines.erase( old_ammo );
+                }
+                // And the default magazines for each magazine type
+                auto old_default_mag_it = obj.magazine_default.find( old_ammo );
+                if( old_default_mag_it != obj.magazine_default.end() ) {
+                    const itype_id &old_default_mag = old_default_mag_it->second;
+                    obj.magazine_default[new_ammo] = old_default_mag;
+                    obj.magazine_default.erase( old_ammo );
+                }
+            } else {
+                ++ammo_type_it;
+            }
+        }
+
         handle_legacy_ranged( *obj.gun );
         // TODO: add explicit action field to gun definitions
         const auto defmode_name = [&]() {
@@ -519,6 +615,33 @@ void Item_factory::finalize_item_blacklist()
         recipe_dictionary::delete_if( [&migrate]( const recipe & r ) {
             return r.result() == migrate.first;
         } );
+
+        // If the default ammo of an ammo_type gets migrated, we migrate all guns using that ammo
+        // type to the ammo type of whatever that default ammo was migrated to.
+        // To do that we need to store a map of ammo to the migration replacement thereof.
+        auto maybe_ammo = m_templates.find( migrate.first );
+        // If the itype_id is valid and the itype has ammo data
+        if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
+            auto replacement = m_templates.find( migrate.second.replace );
+            if( replacement->second.ammo ) {
+                migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
+            } else {
+                debugmsg( "Replacement item %s for migrated ammo %s is not ammo.", migrate.second.replace,
+                          migrate.first );
+            }
+        }
+
+        // migrate magazines as well
+        auto maybe_mag = m_templates.find( migrate.first );
+        if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
+            auto replacement = m_templates.find( migrate.second.replace );
+            if( replacement->second.magazine ) {
+                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+            } else {
+                debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.", migrate.second.replace,
+                          migrate.first );
+            }
+        }
     }
     for( vproto_id &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
@@ -2094,7 +2217,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "ascii_picture", def.ascii_picture );
-
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
