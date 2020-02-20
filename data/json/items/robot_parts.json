@@ -16,7 +16,7 @@
     "type": "GENERIC",
     "id": "targeting_module",
     "name": "targeting module",
-    "description": "This module integrate visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
+    "description": "This module integrates visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
     "copy-from": "robot_module_abstract"
   },
   {
@@ -51,14 +51,14 @@
     "type": "GENERIC",
     "id": "self_monitoring_module",
     "name": { "str": "self monitoring sensors", "str_pl": "self monitoring sensors" },
-    "description": "A array of sensors and diagnostic modules allowing the robot to perceive itself.",
+    "description": "An array of sensors and diagnostic modules allowing the robot to perceive itself.",
     "copy-from": "robot_module_abstract"
   },
   {
     "type": "GENERIC",
     "id": "ai_module",
     "name": { "str": "AI core" },
-    "description": "This module is responsible for decision making, it basically runs the AI of the robot.",
+    "description": "This module is responsible for decision-making, it basically runs the AI of the robot.",
     "copy-from": "robot_module_abstract"
   },
   {

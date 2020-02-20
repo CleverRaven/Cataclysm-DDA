@@ -1295,7 +1295,7 @@
     "type": "ARMOR",
     "name": "radiation badge",
     "//": "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
-    "description": "A plastic badge with an embedded film strip.  The film strip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+    "description": "A plastic badge with an embedded filmstrip.  The filmstrip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
     "weight": "20 g",
     "volume": 0,
     "price": 8000,
@@ -1309,7 +1309,7 @@
     "abstract": "badge_abstract",
     "type": "ARMOR",
     "name": "badge template",
-    "description": "This is a template for police/medical badges.  If found in a game it is a bug.",
+    "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
     "weight": "60 g",
     "volume": 0,
     "price": 5000,
@@ -1379,7 +1379,7 @@
     "material": [ "plastic" ],
     "price_postapoc": 30,
     "weight": "10 g",
-    "description": "A star shaped badge, on it you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
+    "description": "A star shaped badge.  On it, you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
   },
   {
     "id": "fur_cat_ears",
@@ -1863,7 +1863,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold ring" },
-    "description": "A gold ring with a amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
   {
@@ -1871,7 +1871,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold ring" },
-    "description": "A gold ring with a aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
   {
@@ -1879,7 +1879,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "emerald and gold ring" },
-    "description": "A gold ring with a emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -1887,7 +1887,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "alexandrite and gold ring" },
-    "description": "A gold ring with a alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -1942,7 +1942,7 @@
     "copy-from": "garnet_gold_ring",
     "type": "ARMOR",
     "name": { "str": "opal and gold ring" },
-    "description": "A gold ring with a opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A gold ring with an opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
   {
@@ -1984,7 +1984,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver ring" },
-    "description": "A silver ring with a amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
   {
@@ -1992,7 +1992,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver ring" },
-    "description": "A silver ring with a aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
   {
@@ -2000,7 +2000,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "emerald and silver ring" },
-    "description": "A silver ring with a emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2008,7 +2008,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "alexandrite and silver ring" },
-    "description": "A silver ring with a alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2063,7 +2063,7 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "opal and silver ring" },
-    "description": "A silver ring with a opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A silver ring with an opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
   {
@@ -2105,7 +2105,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum ring" },
-    "description": "A platinum ring with a amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an amethyst mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
   {
@@ -2113,7 +2113,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum ring" },
-    "description": "A platinum ring with a aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an aquamarine mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
   {
@@ -2121,7 +2121,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "emerald and platinum ring" },
-    "description": "A platinum ring with a emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an emerald mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2129,7 +2129,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "alexandrite and platinum ring" },
-    "description": "A platinum ring with a alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an alexandrite mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2184,7 +2184,7 @@
     "copy-from": "garnet_platinum_ring",
     "type": "ARMOR",
     "name": { "str": "opal and platinum ring" },
-    "description": "A platinum ring with a opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A platinum ring with an opal mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
   {
@@ -2590,7 +2590,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
   {
@@ -2598,7 +2598,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
   {
@@ -2606,7 +2606,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "emerald and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an emerald pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2614,7 +2614,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "alexandrite and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2669,7 +2669,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "opal and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with a opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, gold necklace adorned with an opal pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
   {
@@ -2709,7 +2709,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
   {
@@ -2717,7 +2717,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
   {
@@ -2725,7 +2725,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "emerald and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an emerald pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2733,7 +2733,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "alexandrite and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2788,7 +2788,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "opal and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, silver necklace adorned with an opal pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
   {
@@ -2828,7 +2828,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an amethyst pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
   {
@@ -2836,7 +2836,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an aquamarine pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
   {
@@ -2844,7 +2844,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "emerald and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a emerald pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an emerald pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2852,7 +2852,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "alexandrite and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an alexandrite pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
   {
@@ -2907,7 +2907,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "opal and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with a opal pendant.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A shiny, platinum necklace adorned with an opal pendant.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
   {

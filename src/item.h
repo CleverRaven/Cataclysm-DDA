@@ -72,7 +72,6 @@ enum m_size : int;
 enum class side : int;
 class body_part_set;
 
-using itype_id = std::string;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
@@ -145,8 +144,6 @@ struct iteminfo {
             lower_is_better = 1 << 3, ///< Lower values are better for this stat
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
-
-
         };
 
         /**

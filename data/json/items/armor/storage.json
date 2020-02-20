@@ -150,7 +150,7 @@
     "id": "bigback",
     "type": "ARMOR",
     "name": "high-volume rucksack",
-    "description": "Also know as a \"bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
+    "description": "Also known as a \"bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
     "weight": "3539 g",
     "volume": "21 L",
     "price": 20000,

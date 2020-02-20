@@ -360,7 +360,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
+        can_use = !med.has_flag( flag_CANT_HEAL_EVERYONE );
     }
 
     if( !can_use ) {
@@ -493,7 +493,7 @@ void Character::activate_mutation( const trait_id &mut )
         // Check for adjacent trees.
         bool adjacent_tree = false;
         for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag( "TREE", p2 ) ) {
+            if( g->m.has_flag( flag_TREE, p2 ) ) {
                 adjacent_tree = true;
             }
         }

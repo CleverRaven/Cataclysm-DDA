@@ -9,6 +9,7 @@
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "options_helpers.h"
 #include "recipe_dictionary.h"
 
 static void test_info_equals( const item &i, const iteminfo_query &q,
@@ -54,6 +55,7 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
                                 iteminfo_parts::DESCRIPTION } );
 
+    override_option opt( "USE_METRIC_WEIGHTS", "lbs" );
     SECTION( "volume, weight, category, material, description" ) {
         test_info_equals(
             item( "test_jug_plastic" ), q,
@@ -95,7 +97,6 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
             "--\n"
             "Price: $<color_c_yellow>0.00</color>" );
     }
-
 }
 
 TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
