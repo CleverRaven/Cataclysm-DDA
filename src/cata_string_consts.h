@@ -921,7 +921,6 @@ static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
-
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 static const std::string flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
@@ -1368,7 +1367,6 @@ static const std::string flag_WINDSHIELD( "WINDSHIELD" );
 static const std::string flag_WORKBENCH( "WORKBENCH" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 static const std::string flag_YOUNG( "YOUNG" );
-
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
