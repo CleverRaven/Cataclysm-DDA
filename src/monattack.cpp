@@ -3376,7 +3376,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zposx - 24; x < zposx + 24; x++ ) {
             for( int y = zposy - 24; y < zposy + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( g->m.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
+                if( g->m.ter( dest ) == ter_plut_generator ) {
                     generator_ok = true;
                 }
             }

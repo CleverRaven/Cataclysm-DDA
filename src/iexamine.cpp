@@ -149,7 +149,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     bool table_exists = false;
     tripoint spawn_point;
     for( const auto &valid_location : g->m.points_in_radius( examp, 1 ) ) {
-        if( g->m.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
+        if( g->m.ter( valid_location ) == ter_nanofab_body ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -3788,7 +3788,7 @@ static int getNearPumpCount( const tripoint &p )
     int result = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+        if( t == ter_gas_pump || t == ter_gas_pump_a ) {
             result++;
         }
     }
@@ -3802,7 +3802,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
     gas_units = 0;
 
     for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
-        if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
+        if( g->m.ter( tmp ) != ter_gas_tank ) {
             continue;
         }
 
@@ -3908,7 +3908,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
+        if( ( t == ter_gas_pump || t == ter_gas_pump_a ) && number == k++ ) {
             return tmp;
         }
     }
@@ -3972,11 +3972,11 @@ static void turnOnSelectedPump( const tripoint &p, int number )
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+        if( t == ter_gas_pump || t == ter_gas_pump_a ) {
             if( number == k++ ) {
-                g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
+                g->m.ter_set( tmp, ter_gas_pump_a );
             } else {
-                g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
+                g->m.ter_set( tmp, ter_gas_pump );
             }
         }
     }
