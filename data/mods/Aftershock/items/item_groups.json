@@ -173,7 +173,7 @@
   {
     "id": "crate_sports",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "items": [ [ "q_solarpack", 1 ] ]
   }
 ]
