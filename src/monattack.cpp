@@ -873,7 +873,8 @@ bool mattack::resurrect( monster *z )
         // Check to see if there are any nearby living zombies to see if we should get angry
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
-            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) && zed->type->in_species( species_ZOMBIE ) &&
+            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) &&
+                   zed->type->in_species( species_ZOMBIE ) &&
                    z->attitude_to( *zed ) == Creature::Attitude::A_FRIENDLY  &&
                    within_target_range( z, zed, 10 );
         } );

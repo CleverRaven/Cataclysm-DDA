@@ -8130,7 +8130,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
-            v->fuel_left( "battery", true ) > 0 &&
+            v->fuel_left( fuel_type_battery, true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -8171,7 +8171,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
             stop = true;
-        } else if( remote->fuel_left( "battery", true ) == 0 ) {
+        } else if( remote->fuel_left( fuel_type_battery, true ) == 0 ) {
             p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
             stop = true;
         }
