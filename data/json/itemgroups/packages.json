@@ -648,73 +648,73 @@
     "type": "item_group",
     "id": "package_small_clothing_underwear9",
     "subtype": "collection",
-    "items": [ [ "under_armor" ], [ "under_armor_shorts" ] ]
+    "items": [ [ "under_armor", 100 ], [ "under_armor_shorts", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_underwear10",
     "subtype": "collection",
-    "items": [ [ "long_undertop" ], [ "long_underpants" ] ]
+    "items": [ [ "long_undertop", 100 ], [ "long_underpants", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_underwear11",
     "subtype": "collection",
-    "items": [ [ "bikini_top" ], [ "bikini_bottom" ] ]
+    "items": [ [ "bikini_top", 100 ], [ "bikini_bottom", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_torso1",
     "subtype": "collection",
-    "items": [ [ "striped_shirt" ] ]
+    "items": [ [ "striped_shirt", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_torso2",
     "subtype": "collection",
-    "items": [ [ "flag_shirt" ] ]
+    "items": [ [ "flag_shirt", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_torso3",
     "subtype": "collection",
-    "items": [ [ "sweater" ] ]
+    "items": [ [ "sweater", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_torso4",
     "subtype": "collection",
-    "items": [ [ "tool_belt" ] ]
+    "items": [ [ "tool_belt", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_feet1",
     "subtype": "collection",
-    "items": [ [ "slippers" ] ]
+    "items": [ [ "slippers", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_feet2",
     "subtype": "collection",
-    "items": [ [ "mocassins" ] ]
+    "items": [ [ "mocassins", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_feet3",
     "subtype": "collection",
-    "items": [ [ "flip_flops" ] ]
+    "items": [ [ "flip_flops", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_feet4",
     "subtype": "collection",
-    "items": [ [ "heels" ], [ "stockings" ] ]
+    "items": [ [ "heels", 100 ], [ "stockings", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_hands1",
     "subtype": "collection",
-    "items": [ [ "mittens" ], [ "hat_knit" ] ]
+    "items": [ [ "mittens", 100 ], [ "hat_knit", 60 ] ]
   },
   {
     "type": "item_group",
@@ -726,43 +726,43 @@
     "type": "item_group",
     "id": "package_small_clothing_hands3",
     "subtype": "collection",
-    "items": [ [ "purse" ] ]
+    "items": [ [ "purse", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_hands4",
     "subtype": "collection",
-    "items": [ [ "wristwatch" ] ]
+    "items": [ [ "wristwatch", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_hands5",
     "subtype": "collection",
-    "items": [ [ "sf_watch" ] ]
+    "items": [ [ "sf_watch", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_hands6",
     "subtype": "collection",
-    "items": [ [ "gold_watch" ] ]
+    "items": [ [ "gold_watch", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_hands7",
     "subtype": "collection",
-    "items": [ [ "game_watch" ] ]
+    "items": [ [ "game_watch", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_head1",
     "subtype": "collection",
-    "items": [ [ "powered_earmuffs" ] ]
+    "items": [ [ "powered_earmuffs", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_head2",
     "subtype": "collection",
-    "items": [ [ "hat_hunting" ] ]
+    "items": [ [ "hat_hunting", 100 ] ]
   },
   {
     "type": "item_group",
@@ -780,13 +780,13 @@
     "type": "item_group",
     "id": "package_small_clothing_head5",
     "subtype": "collection",
-    "items": [ [ "balclava" ] ]
+    "items": [ [ "balclava", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_head6",
     "subtype": "collection",
-    "items": [ [ "scarf" ] ]
+    "items": [ [ "scarf", 100 ] ]
   },
   {
     "type": "item_group",
@@ -798,13 +798,13 @@
     "type": "item_group",
     "id": "package_small_clothing_head8",
     "subtype": "collection",
-    "items": [ [ "mask_gas" ], [ "gasfilter_m" ] ]
+    "items": [ [ "mask_gas", 100 ], [ "gasfilter_m", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_head9",
     "subtype": "collection",
-    "items": [ [ "mask_guy_fawkes" ] ]
+    "items": [ [ "mask_guy_fawkes", 100 ] ]
   },
   {
     "type": "item_group",
@@ -846,19 +846,19 @@
     "type": "item_group",
     "id": "package_small_clothing_head16",
     "subtype": "collection",
-    "items": [ [ "contacts" ], [ "saline" ] ]
+    "items": [ [ "contacts", 100 ], [ "saline", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_clothing_head17",
     "subtype": "collection",
-    "items": [ [ "pocketwatch" ], [ "glasses_monocle" ] ]
+    "items": [ [ "pocketwatch", 50 ], [ "glasses_monocle", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_food1",
     "subtype": "collection",
-    "items": [ [ "dry_rice" ] ]
+    "items": [ [ "dry_rice", 100 ] ]
   },
   {
     "type": "item_group",
@@ -870,31 +870,31 @@
     "type": "item_group",
     "id": "package_small_food3",
     "subtype": "collection",
-    "items": [ { "item": "fish_canned", "count": 2 }, [ "veggy_canned" ] ]
+    "items": [ { "item": "fish_canned", "count": 2 }, [ "veggy_canned", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_food4",
     "subtype": "collection",
-    "items": [ { "item": "can_tuna", "count": 2 }, [ "can_salmon" ] ]
+    "items": [ { "item": "can_tuna", "count": 2 }, [ "can_salmon", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_food5",
     "subtype": "collection",
-    "items": [ { "item": "can_clams", "count": 2 }, [ "can_sardine" ] ]
+    "items": [ { "item": "can_clams", "count": 2 }, [ "can_sardine", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_food6",
     "subtype": "collection",
-    "items": [ { "item": "can_chicken", "count": 2 }, [ "meat_canned" ] ]
+    "items": [ { "item": "can_chicken", "count": 2 }, [ "meat_canned", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_food7",
     "subtype": "collection",
-    "items": [ { "item": "veggy_canned", "count": 2 }, [ "apple_canned" ] ]
+    "items": [ { "item": "veggy_canned", "count": 2 }, [ "apple_canned", 75 ] ]
   },
   {
     "type": "item_group",
@@ -930,67 +930,67 @@
     "type": "item_group",
     "id": "package_small_med1",
     "subtype": "collection",
-    "items": [ [ "antibiotics" ] ]
+    "items": [ [ "antibiotics", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med2",
     "subtype": "collection",
-    "items": [ [ "weak_antibiotic" ] ]
+    "items": [ [ "weak_antibiotic", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med3",
     "subtype": "collection",
-    "items": [ [ "antifungal" ] ]
+    "items": [ [ "antifungal", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med4",
     "subtype": "collection",
-    "items": [ [ "bfipowder" ] ]
+    "items": [ [ "bfipowder", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med5",
     "subtype": "collection",
-    "items": [ [ "antiparasitic" ] ]
+    "items": [ [ "antiparasitic", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med6",
     "subtype": "collection",
-    "items": [ [ "nyquil" ], [ "dayquil" ] ]
+    "items": [ [ "nyquil", 100 ], [ "dayquil", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med7",
     "subtype": "collection",
-    "items": [ [ "aspirin" ] ]
+    "items": [ [ "aspirin", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med8",
     "subtype": "collection",
-    "items": [ [ "iodine" ] ]
+    "items": [ [ "iodine", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med9",
     "subtype": "collection",
-    "items": [ [ "calcium_tablet" ] ]
+    "items": [ [ "calcium_tablet", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med10",
     "subtype": "collection",
-    "items": [ { "item": "bandages", "count": 2 }, [ "disinfectant" ] ]
+    "items": [ { "item": "bandages", "count": 2 }, [ "disinfectant", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_med11",
     "subtype": "collection",
-    "items": [ { "item": "medical_gauze", "count": 6 }, [ "disinfectant" ] ]
+    "items": [ { "item": "medical_gauze", "count": 6 }, [ "disinfectant", 50 ] ]
   },
   {
     "type": "item_group",
@@ -1002,7 +1002,7 @@
     "type": "item_group",
     "id": "package_small_med13",
     "subtype": "collection",
-    "items": [ [ "vitamins" ] ]
+    "items": [ [ "vitamins", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1020,7 +1020,7 @@
     "type": "item_group",
     "id": "package_small_drug1",
     "subtype": "collection",
-    "items": [ [ "caffeine" ], [ "caff_gum" ] ]
+    "items": [ [ "caffeine", 100 ], [ "caff_gum", 25 ] ]
   },
   {
     "type": "item_group",
@@ -1032,73 +1032,73 @@
     "type": "item_group",
     "id": "package_small_drug3",
     "subtype": "collection",
-    "items": [ [ "cigar" ], [ "ref_lighter" ] ]
+    "items": [ [ "cigar", 100 ], [ "ref_lighter", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_drug4",
     "subtype": "collection",
-    "items": [ { "item": "coffee_raw", "count": 3 }, [ "weed" ] ]
+    "items": [ { "item": "coffee_raw", "count": 3 }, [ "weed", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric1",
     "subtype": "collection",
-    "items": [ [ "coffeemaker" ] ]
+    "items": [ [ "coffeemaker", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric2",
     "subtype": "collection",
-    "items": [ [ "hotplate" ] ]
+    "items": [ [ "hotplate", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric3",
     "subtype": "collection",
-    "items": [ [ "camera" ], [ "mobile_memory_card_used" ] ]
+    "items": [ [ "camera", 100 ], [ "mobile_memory_card_used", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric4",
     "subtype": "collection",
-    "items": [ [ "mp3" ] ]
+    "items": [ [ "mp3", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric5",
     "subtype": "collection",
-    "items": [ [ "cell_phone" ] ]
+    "items": [ [ "cell_phone", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric6",
     "subtype": "collection",
-    "items": [ [ "cell_phone_flashlight" ] ]
+    "items": [ [ "cell_phone_flashlight", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric7",
     "subtype": "collection",
-    "items": [ [ "flashlight" ] ]
+    "items": [ [ "flashlight", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric8",
     "subtype": "collection",
-    "items": [ [ "clock" ] ]
+    "items": [ [ "clock", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric9",
     "subtype": "collection",
-    "items": [ [ "alarmclock" ] ]
+    "items": [ [ "alarmclock", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_electric10",
     "subtype": "collection",
-    "items": [ [ "radio" ] ]
+    "items": [ [ "radio", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1110,7 +1110,7 @@
     "type": "item_group",
     "id": "package_small_electric12",
     "subtype": "collection",
-    "items": [ [ "transponder" ], [ "receiver" ] ]
+    "items": [ [ "transponder", 100 ], [ "receiver", 75 ] ]
   },
   {
     "type": "item_group",
@@ -1128,7 +1128,7 @@
     "type": "item_group",
     "id": "package_small_electric15",
     "subtype": "collection",
-    "items": [ [ "power_supply" ] ]
+    "items": [ [ "power_supply", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1170,7 +1170,7 @@
     "type": "item_group",
     "id": "package_small_vehicle_parts1",
     "subtype": "collection",
-    "items": [ [ "motor_small" ] ]
+    "items": [ [ "motor_small", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1182,7 +1182,7 @@
     "type": "item_group",
     "id": "package_small_vehicle_parts3",
     "subtype": "collection",
-    "items": [ [ "veh_tracker" ] ]
+    "items": [ [ "veh_tracker", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1194,157 +1194,157 @@
     "type": "item_group",
     "id": "package_small_gun_accesory1",
     "subtype": "collection",
-    "items": [ [ "bootsheath" ] ]
+    "items": [ [ "bootsheath", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_accesory2",
     "subtype": "collection",
-    "items": [ [ "bootstrap" ] ]
+    "items": [ [ "bootstrap", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_accesory3",
     "subtype": "collection",
-    "items": [ [ "holster" ] ]
+    "items": [ [ "holster", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_accesory4",
     "subtype": "collection",
-    "items": [ [ "bandolier_pistol" ] ]
+    "items": [ [ "bandolier_pistol", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod1",
     "subtype": "collection",
-    "items": [ [ "tuned_mechanism" ] ]
+    "items": [ [ "tuned_mechanism", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod2",
     "subtype": "collection",
-    "items": [ [ "match_trigger" ] ]
+    "items": [ [ "match_trigger", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod3",
     "subtype": "collection",
-    "items": [ [ "brass_catcher" ] ]
+    "items": [ [ "brass_catcher", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod4",
     "subtype": "collection",
-    "items": [ [ "suppressor" ] ]
+    "items": [ [ "suppressor", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod5",
     "subtype": "collection",
-    "items": [ [ "suppressor_compact" ] ]
+    "items": [ [ "suppressor_compact", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod6",
     "subtype": "collection",
-    "items": [ [ "acog_scope" ] ]
+    "items": [ [ "acog_scope", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod7",
     "subtype": "collection",
-    "items": [ [ "rifle_scope" ] ]
+    "items": [ [ "rifle_scope", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod8",
     "subtype": "collection",
-    "items": [ [ "pistol_scope" ] ]
+    "items": [ [ "pistol_scope", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod9",
     "subtype": "collection",
-    "items": [ [ "tele_sight" ] ]
+    "items": [ [ "tele_sight", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod10",
     "subtype": "collection",
-    "items": [ [ "red_dot_sight" ] ]
+    "items": [ [ "red_dot_sight", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod11",
     "subtype": "collection",
-    "items": [ [ "rail_laser_sight" ] ]
+    "items": [ [ "rail_laser_sight", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod12",
     "subtype": "collection",
-    "items": [ [ "laser_sight" ] ]
+    "items": [ [ "laser_sight", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod13",
     "subtype": "collection",
-    "items": [ [ "barrel_rifled" ] ]
+    "items": [ [ "barrel_rifled", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod14",
     "subtype": "collection",
-    "items": [ [ "barrel_ported" ] ]
+    "items": [ [ "barrel_ported", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod15",
     "subtype": "collection",
-    "items": [ [ "barrel_big" ] ]
+    "items": [ [ "barrel_big", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod16",
     "subtype": "collection",
-    "items": [ [ "barrel_small" ] ]
+    "items": [ [ "barrel_small", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod17",
     "subtype": "collection",
-    "items": [ [ "light_grip" ] ]
+    "items": [ [ "light_grip", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod18",
     "subtype": "collection",
-    "items": [ [ "pistol_grip" ] ]
+    "items": [ [ "pistol_grip", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod19",
     "subtype": "collection",
-    "items": [ [ "grip" ] ]
+    "items": [ [ "grip", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod20",
     "subtype": "collection",
-    "items": [ [ "adjustable_stock" ] ]
+    "items": [ [ "adjustable_stock", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod21",
     "subtype": "collection",
-    "items": [ [ "folding_stock" ] ]
+    "items": [ [ "folding_stock", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod22",
     "subtype": "collection",
-    "items": [ [ "recoil_stock" ] ]
+    "items": [ [ "recoil_stock", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1386,13 +1386,13 @@
     "type": "item_group",
     "id": "package_small_gun_mod29",
     "subtype": "collection",
-    "items": [ [ "mp5mag" ] ]
+    "items": [ [ "mp5mag", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod30",
     "subtype": "collection",
-    "items": [ [ "mp5bigmag" ] ]
+    "items": [ [ "mp5bigmag", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1422,91 +1422,91 @@
     "type": "item_group",
     "id": "package_small_gun_mod35",
     "subtype": "collection",
-    "items": [ [ "falmag" ] ]
+    "items": [ [ "falmag", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod36",
     "subtype": "collection",
-    "items": [ [ "falbigmag" ] ]
+    "items": [ [ "falbigmag", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod37",
     "subtype": "collection",
-    "items": [ [ "scarhmag" ] ]
+    "items": [ [ "scarhmag", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod38",
     "subtype": "collection",
-    "items": [ [ "scarhbigmag" ] ]
+    "items": [ [ "scarhbigmag", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_gun_mod39",
     "subtype": "collection",
-    "items": [ [ "stanag10" ] ]
+    "items": [ [ "stanag10", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_book1",
     "subtype": "collection",
-    "items": [ [ "101_carpentry" ] ]
+    "items": [ [ "101_carpentry", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_book2",
     "subtype": "collection",
-    "items": [ [ "manual_fabrication" ] ]
+    "items": [ [ "manual_fabrication", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_book3",
     "subtype": "collection",
-    "items": [ [ "mag_mechanics" ] ]
+    "items": [ [ "mag_mechanics", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_book4",
     "subtype": "collection",
-    "items": [ [ "dnd_handbook" ] ]
+    "items": [ [ "dnd_handbook", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_tool1",
     "subtype": "collection",
-    "items": [ [ "pockknife" ] ]
+    "items": [ [ "pockknife", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_tool2",
     "subtype": "collection",
-    "items": [ [ "multitool" ] ]
+    "items": [ [ "multitool", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_tool3",
     "subtype": "collection",
-    "items": [ [ "thermometer" ] ]
+    "items": [ [ "thermometer", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_tool4",
     "subtype": "collection",
-    "items": [ [ "duct_tape" ] ]
+    "items": [ [ "duct_tape", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_tool5",
     "subtype": "collection",
-    "items": [ [ "char_purifier" ] ]
+    "items": [ [ "char_purifier", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_tool6",
     "subtype": "collection",
-    "items": [ [ "soldering_iron" ], [ "solder_wire" ] ]
+    "items": [ [ "soldering_iron", 100 ], [ "solder_wire", 75 ] ]
   },
   {
     "type": "item_group",
@@ -1518,139 +1518,139 @@
     "type": "item_group",
     "id": "package_small_other2",
     "subtype": "collection",
-    "items": [ [ "paper" ], { "item": "permanent_marker", "count": 4 } ]
+    "items": [ [ "paper", 75 ], { "item": "permanent_marker", "count": 4 } ]
   },
   {
     "type": "item_group",
     "id": "package_small_other3",
     "subtype": "collection",
-    "items": [ [ "canteen" ] ]
+    "items": [ [ "canteen", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_other4",
     "subtype": "collection",
-    "items": [ [ "knitting_needles" ], { "item": "yarn", "count": 5 } ]
+    "items": [ [ "knitting_needles", 50 ], { "item": "yarn", "count": 5 } ]
   },
   {
     "type": "item_group",
     "id": "package_small_other5",
     "subtype": "collection",
-    "items": [ [ "teleumbrella" ] ]
+    "items": [ [ "teleumbrella", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_other6",
     "subtype": "collection",
-    "items": [ [ "harmonica_holder" ] ]
+    "items": [ [ "harmonica_holder", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_other7",
     "subtype": "collection",
-    "items": [ [ "teddy" ] ]
+    "items": [ [ "teddy", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_small_other8",
     "subtype": "collection",
-    "items": [ [ "pan" ] ]
+    "items": [ [ "pan", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit1",
     "subtype": "collection",
-    "items": [ [ "dress_shirt" ], [ "dress_shoes" ] ]
+    "items": [ [ "dress_shirt", 75 ], [ "dress_shoes", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit2",
     "subtype": "collection",
-    "items": [ [ "jacket_chef" ], [ "hat_chef" ] ]
+    "items": [ [ "jacket_chef", 100 ], [ "hat_chef", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit3",
     "subtype": "collection",
-    "items": [ [ "clown_suit" ], [ "clownshoes" ] ]
+    "items": [ [ "clown_suit", 100 ], [ "clownshoes", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit4",
     "subtype": "collection",
-    "items": [ [ "coat_rain" ], [ "hood_rain" ] ]
+    "items": [ [ "coat_rain", 100 ], [ "hood_rain", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit5",
     "subtype": "collection",
-    "items": [ [ "jacket_leather_red" ], [ "glove_jackson" ] ]
+    "items": [ [ "jacket_leather_red", 100 ], [ "glove_jackson", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit6",
     "subtype": "collection",
-    "items": [ [ "jacket_army" ], [ "pants_army" ] ]
+    "items": [ [ "jacket_army", 100 ], [ "pants_army", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit7",
     "subtype": "collection",
-    "items": [ [ "winter_jacket_army" ], [ "winter_pants_army" ], [ "winter_gloves_army" ] ]
+    "items": [ [ "winter_jacket_army", 100 ], [ "winter_pants_army", 50 ], [ "winter_gloves_army", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit8",
     "subtype": "collection",
-    "items": [ [ "beekeeping_suit" ], [ "beekeeping_hood" ], [ "beekeeping_gloves" ] ]
+    "items": [ [ "beekeeping_suit", 100 ], [ "beekeeping_hood", 75 ], [ "beekeeping_gloves", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit9",
     "subtype": "collection",
-    "items": [ [ "helmet_bike" ], [ "knee_pads" ], [ "elbow_pads" ] ]
+    "items": [ [ "helmet_bike", 100 ], [ "knee_pads", 50 ], [ "elbow_pads", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit10",
     "subtype": "collection",
-    "items": [ [ "maid_dress" ], [ "maid_hat" ] ]
+    "items": [ [ "maid_dress", 100 ], [ "maid_hat", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit11",
     "subtype": "collection",
-    "items": [ [ "nanoskirt" ], [ "knee_high_boots" ] ]
+    "items": [ [ "nanoskirt", 100 ], [ "knee_high_boots", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit12",
     "subtype": "collection",
-    "items": [ [ "bondage_suit" ], [ "bondage_mask" ] ]
+    "items": [ [ "bondage_suit", 100 ], [ "bondage_mask", 75 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit13",
     "subtype": "collection",
-    "items": [ [ "fur_cat_ears" ], [ "fur_cat_tail" ], [ "vibrator" ] ]
+    "items": [ [ "fur_cat_ears", 100 ], [ "fur_cat_tail", 75 ], [ "vibrator", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit14",
     "subtype": "collection",
-    "items": [ [ "corset" ], [ "leather_cat_ears" ], [ "leather_cat_tail" ], [ "blindfold" ] ]
+    "items": [ [ "corset", 90 ], [ "leather_cat_ears", 75 ], [ "leather_cat_tail", 75 ], [ "blindfold", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit15",
     "subtype": "collection",
-    "items": [ [ "dinosuit" ] ]
+    "items": [ [ "dinosuit", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_outfit16",
     "subtype": "collection",
-    "items": [ [ "wolfsuit" ] ]
+    "items": [ [ "wolfsuit", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1668,79 +1668,79 @@
     "type": "item_group",
     "id": "package_medium_clothing_torso3",
     "subtype": "collection",
-    "items": [ [ "dress" ] ]
+    "items": [ [ "dress", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso4",
     "subtype": "collection",
-    "items": [ [ "longshirt" ] ]
+    "items": [ [ "longshirt", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso5",
     "subtype": "collection",
-    "items": [ [ "hoodie" ] ]
+    "items": [ [ "hoodie", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso6",
     "subtype": "collection",
-    "items": [ [ "sweatshirt" ] ]
+    "items": [ [ "sweatshirt", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso7",
     "subtype": "collection",
-    "items": [ [ "jumpsuit" ] ]
+    "items": [ [ "jumpsuit", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso8",
     "subtype": "collection",
-    "items": [ [ "house_coat" ] ]
+    "items": [ [ "house_coat", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso9",
     "subtype": "collection",
-    "items": [ [ "jacket_jean" ] ]
+    "items": [ [ "jacket_jean", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso10",
     "subtype": "collection",
-    "items": [ [ "coat_lab" ] ]
+    "items": [ [ "coat_lab", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso11",
     "subtype": "collection",
-    "items": [ [ "jacket_leather" ] ]
+    "items": [ [ "jacket_leather", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso12",
     "subtype": "collection",
-    "items": [ [ "jacket_light" ] ]
+    "items": [ [ "jacket_light", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso13",
     "subtype": "collection",
-    "items": [ [ "jacket_flannel" ] ]
+    "items": [ [ "jacket_flannel", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso14",
     "subtype": "collection",
-    "items": [ [ "trenchcoat" ] ]
+    "items": [ [ "trenchcoat", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso15",
     "subtype": "collection",
-    "items": [ [ "trenchcoat_leather" ] ]
+    "items": [ [ "trenchcoat_leather", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1752,49 +1752,49 @@
     "type": "item_group",
     "id": "package_medium_clothing_torso17",
     "subtype": "collection",
-    "items": [ [ "robe" ] ]
+    "items": [ [ "robe", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso18",
     "subtype": "collection",
-    "items": [ [ "snuggie" ] ]
+    "items": [ [ "snuggie", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso19",
     "subtype": "collection",
-    "items": [ [ "jedi_cloak" ] ]
+    "items": [ [ "jedi_cloak", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso20",
     "subtype": "collection",
-    "items": [ [ "kimono" ] ]
+    "items": [ [ "kimono", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso21",
     "subtype": "collection",
-    "items": [ { "item": "dress_shirt", "count": 2 }, [ "leather_belt" ] ]
+    "items": [ { "item": "dress_shirt", "count": 2 }, [ "leather_belt", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso22",
     "subtype": "collection",
-    "items": [ [ "dress" ], [ "bra" ], [ "mag_beauty" ] ]
+    "items": [ [ "dress", 100 ], [ "bra", 50 ], [ "mag_beauty", 20 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso23",
     "subtype": "collection",
-    "items": [ [ "backpack_leather" ] ]
+    "items": [ [ "backpack_leather", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_torso24",
     "subtype": "collection",
-    "items": [ [ "gobag" ] ]
+    "items": [ [ "gobag", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1806,61 +1806,61 @@
     "type": "item_group",
     "id": "package_medium_clothing_feet1",
     "subtype": "collection",
-    "items": [ [ "roller_blades" ] ]
+    "items": [ [ "roller_blades", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet2",
     "subtype": "collection",
-    "items": [ [ "rollerskates" ] ]
+    "items": [ [ "rollerskates", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet3",
     "subtype": "collection",
-    "items": [ [ "boots_hiking" ] ]
+    "items": [ [ "boots_hiking", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet4",
     "subtype": "collection",
-    "items": [ [ "golf_shoes" ] ]
+    "items": [ [ "golf_shoes", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet5",
     "subtype": "collection",
-    "items": [ [ "lowtops" ] ]
+    "items": [ [ "lowtops", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet6",
     "subtype": "collection",
-    "items": [ [ "boots_western" ], [ "cowboy_hat" ] ]
+    "items": [ [ "boots_western", 100 ], [ "cowboy_hat", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet7",
     "subtype": "collection",
-    "items": [ [ "dance_shoes" ], [ "manual_dodge" ] ]
+    "items": [ [ "dance_shoes", 100 ], [ "manual_dodge", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_feet8",
     "subtype": "collection",
-    "items": [ [ "cleats" ], [ "football" ] ]
+    "items": [ [ "cleats", 100 ], [ "football", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_legs1",
     "subtype": "collection",
-    "items": [ [ "pants_ski" ], [ "goggles_ski" ] ]
+    "items": [ [ "pants_ski", 100 ], [ "goggles_ski", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_legs2",
     "subtype": "collection",
-    "items": [ [ "hot_pants" ], [ "striped_pants" ] ]
+    "items": [ [ "hot_pants", 100 ], [ "striped_pants", 50 ] ]
   },
   {
     "type": "item_group",
@@ -1902,25 +1902,25 @@
     "type": "item_group",
     "id": "package_medium_clothing_legs9",
     "subtype": "collection",
-    "items": [ [ "b_shorts" ], [ "basketball" ] ]
+    "items": [ [ "b_shorts", 100 ], [ "basketball", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_hands1",
     "subtype": "collection",
-    "items": [ [ "boxing_gloves" ], [ "mag_unarmed" ] ]
+    "items": [ [ "boxing_gloves", 100 ], [ "mag_unarmed", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_hands2",
     "subtype": "collection",
-    "items": [ [ "briefcase" ] ]
+    "items": [ [ "briefcase", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_clothing_head1",
     "subtype": "collection",
-    "items": [ [ "helmet_bike" ] ]
+    "items": [ [ "helmet_bike", 100 ] ]
   },
   {
     "type": "item_group",
@@ -1950,19 +1950,19 @@
     "type": "item_group",
     "id": "package_medium_med1",
     "subtype": "collection",
-    "items": [ [ "1st_aid" ], [ "pocket_firstaid" ] ]
+    "items": [ [ "1st_aid", 100 ], [ "pocket_firstaid", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_weapons1",
     "subtype": "collection",
-    "items": [ [ "katana" ], [ "scabbard" ], [ "mag_cutting" ] ]
+    "items": [ [ "katana", 100 ], [ "scabbard", 50 ], [ "mag_cutting", 25 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_weapons2",
     "subtype": "collection",
-    "items": [ [ "tanto" ], [ "sheath" ], [ "manual_cutting" ] ]
+    "items": [ [ "tanto", 100 ], [ "sheath", 50 ], [ "manual_cutting", 25 ] ]
   },
   {
     "type": "item_group",
@@ -1974,7 +1974,7 @@
     "type": "item_group",
     "id": "package_medium_weapons4",
     "subtype": "collection",
-    "items": [ [ "slingshot" ], { "item": "marble", "count": 20 } ]
+    "items": [ [ "slingshot", 100 ], { "item": "marble", "count": 20 } ]
   },
   {
     "type": "item_group",
@@ -1986,7 +1986,7 @@
     "type": "item_group",
     "id": "package_medium_kitchen2",
     "subtype": "collection",
-    "items": [ [ "teapot" ] ]
+    "items": [ [ "teapot", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2022,121 +2022,121 @@
     "type": "item_group",
     "id": "package_medium_chem1",
     "subtype": "collection",
-    "items": [ [ "bleach" ] ]
+    "items": [ [ "bleach", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_chem2",
     "subtype": "collection",
-    "items": [ [ "ammonia" ] ]
+    "items": [ [ "ammonia", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_chem3",
     "subtype": "collection",
-    "items": [ [ "chem_acetone" ] ]
+    "items": [ [ "chem_acetone", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_chem4",
     "subtype": "collection",
-    "items": [ [ "fertilizer_liquid" ] ]
+    "items": [ [ "fertilizer_liquid", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_electric1",
     "subtype": "collection",
-    "items": [ [ "laptop" ] ]
+    "items": [ [ "laptop", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_electric2",
     "subtype": "collection",
-    "items": [ [ "transponder" ], [ "receiver" ], { "item": "circuit", "count": 2 }, [ "radio_book" ] ]
+    "items": [ [ "transponder", 75 ], [ "receiver", 100 ], { "item": "circuit", "count": 2 }, [ "radio_book", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_electric3",
     "subtype": "collection",
-    "items": [ [ "camera_control" ], { "item": "omnicamera", "count": 2 } ]
+    "items": [ [ "camera_control", 100 ], { "item": "omnicamera", "count": 2 } ]
   },
   {
     "type": "item_group",
     "id": "package_medium_electric4",
     "subtype": "collection",
-    "items": [ [ "radio_car_box" ] ]
+    "items": [ [ "radio_car_box", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book1",
     "subtype": "collection",
-    "items": [ [ "manual_gun" ], [ "mag_rifle" ] ]
+    "items": [ [ "manual_gun", 100 ], [ "mag_rifle", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book2",
     "subtype": "collection",
-    "items": [ [ "textbook_armschina" ], [ "textbook_armeast" ], [ "textbook_weapeast" ] ]
+    "items": [ [ "textbook_armschina", 100 ], [ "textbook_armeast", 50 ], [ "textbook_weapeast", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book3",
     "subtype": "collection",
-    "items": [ [ "manual_computers" ], [ "computer_science" ] ]
+    "items": [ [ "manual_computers", 100 ], [ "computer_science", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book4",
     "subtype": "collection",
-    "items": [ [ "cookbook_italian" ], [ "cookbook_sushi" ], [ "mag_cooking" ] ]
+    "items": [ [ "cookbook_italian", 100 ], [ "cookbook_sushi", 50 ], [ "mag_cooking", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book5",
     "subtype": "collection",
-    "items": [ [ "brewing_cookbook" ] ]
+    "items": [ [ "brewing_cookbook", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book6",
     "subtype": "collection",
-    "items": [ [ "family_cookbook" ] ]
+    "items": [ [ "family_cookbook", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book7",
     "subtype": "collection",
-    "items": [ [ "novel_romance" ], [ "novel_erotic" ] ]
+    "items": [ [ "novel_romance", 100 ], [ "novel_erotic", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book8",
     "subtype": "collection",
-    "items": [ [ "novel_sports" ], [ "novel_war" ] ]
+    "items": [ [ "novel_sports", 100 ], [ "novel_war", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book9",
     "subtype": "collection",
-    "items": [ [ "novel_drama" ], [ "novel_thriller" ] ]
+    "items": [ [ "novel_drama", 100 ], [ "novel_thriller", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book10",
     "subtype": "collection",
-    "items": [ [ "novel_adventure" ], [ "novel_western" ] ]
+    "items": [ [ "novel_adventure", 100 ], [ "novel_western", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_book11",
     "subtype": "collection",
-    "items": [ [ "novel_crime" ], [ "novel_mystery" ] ]
+    "items": [ [ "novel_crime", 100 ], [ "novel_mystery", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts1",
     "subtype": "collection",
-    "items": [ [ "jumper_cable" ] ]
+    "items": [ [ "jumper_cable", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2154,13 +2154,13 @@
     "type": "item_group",
     "id": "package_medium_vehicle_parts4",
     "subtype": "collection",
-    "items": [ [ "battery_motorbike" ] ]
+    "items": [ [ "battery_motorbike", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts5",
     "subtype": "collection",
-    "items": [ [ "alternator_motorbike" ] ]
+    "items": [ [ "alternator_motorbike", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2172,31 +2172,31 @@
     "type": "item_group",
     "id": "package_medium_vehicle_parts7",
     "subtype": "collection",
-    "items": [ [ "motor" ] ]
+    "items": [ [ "motor", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts8",
     "subtype": "collection",
-    "items": [ [ "motor_enhanced" ] ]
+    "items": [ [ "motor_enhanced", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts9",
     "subtype": "collection",
-    "items": [ [ "motor_large" ] ]
+    "items": [ [ "motor_large", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts10",
     "subtype": "collection",
-    "items": [ [ "it_battery_mount" ] ]
+    "items": [ [ "it_battery_mount", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts11",
     "subtype": "collection",
-    "items": [ [ "solar_panel" ] ]
+    "items": [ [ "solar_panel", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2226,7 +2226,7 @@
     "type": "item_group",
     "id": "package_medium_vehicle_parts16",
     "subtype": "collection",
-    "items": [ [ "1cyl_combustion" ] ]
+    "items": [ [ "1cyl_combustion", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2244,7 +2244,7 @@
     "type": "item_group",
     "id": "package_medium_vehicle_parts20",
     "subtype": "collection",
-    "items": [ [ "battery_car" ] ]
+    "items": [ [ "battery_car", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2262,13 +2262,13 @@
     "type": "item_group",
     "id": "package_medium_vehicle_parts23",
     "subtype": "collection",
-    "items": [ [ "alternator_car" ] ]
+    "items": [ [ "alternator_car", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_vehicle_parts24",
     "subtype": "collection",
-    "items": [ [ "alternator_truck" ] ]
+    "items": [ [ "alternator_truck", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2280,19 +2280,19 @@
     "type": "item_group",
     "id": "package_medium_other1",
     "subtype": "collection",
-    "items": [ [ "knife_swissarmy" ], [ "pur_tablets" ], [ "2lcanteen" ], [ "textbook_survival" ] ]
+    "items": [ [ "knife_swissarmy", 100 ], [ "pur_tablets", 50 ], [ "2lcanteen", 75 ], [ "textbook_survival", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_other2",
     "subtype": "collection",
-    "items": [ [ "saxophone" ] ]
+    "items": [ [ "saxophone", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_other3",
     "subtype": "collection",
-    "items": [ { "item": "needle_curved", "count": 2 }, [ "thread" ], [ "manual_tailor" ] ]
+    "items": [ { "item": "needle_curved", "count": 2 }, [ "thread", 75 ], [ "manual_tailor", 50 ] ]
   },
   {
     "type": "item_group",
@@ -2304,103 +2304,103 @@
     "type": "item_group",
     "id": "package_medium_other5",
     "subtype": "collection",
-    "items": [ [ "sleeping_bag" ], [ "rollmat" ] ]
+    "items": [ [ "sleeping_bag", 100 ], [ "rollmat", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_other6",
     "subtype": "collection",
-    "items": [ [ "american_flag" ] ]
+    "items": [ [ "american_flag", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_other7",
     "subtype": "collection",
-    "items": [ [ "oil_lamp" ], [ "lamp_oil" ] ]
+    "items": [ [ "oil_lamp", 100 ], [ "lamp_oil", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_medium_other8",
     "subtype": "collection",
-    "items": [ [ "chemistry_set" ] ]
+    "items": [ [ "chemistry_set", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_clothing1",
     "subtype": "collection",
-    "items": [ [ "helmet_motor" ], [ "motorbike_pants" ], [ "motorbike_boots" ], [ "motorbike_armor" ] ]
+    "items": [ [ "helmet_motor", 25 ], [ "motorbike_pants", 50 ], [ "motorbike_boots", 50 ], [ "motorbike_armor", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_clothing2",
     "subtype": "collection",
-    "items": [ [ "wetsuit" ], [ "wetsuit_hood" ], [ "diveknife" ], [ "dive_bag" ], [ "diving_watch" ] ]
+    "items": [ [ "wetsuit", 100 ], [ "wetsuit_hood", 50 ], [ "diveknife", 50 ], [ "dive_bag", 25 ], [ "diving_watch", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_electric1",
     "subtype": "collection",
-    "items": [ [ "television" ] ]
+    "items": [ [ "television", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_weapons1",
     "subtype": "collection",
-    "items": [ [ "crossbow" ], { "item": "bolt_wood", "count": 8 } ]
+    "items": [ [ "crossbow", 100 ], { "item": "bolt_wood", "count": 8 } ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts1",
     "subtype": "collection",
-    "items": [ [ "i4_combustion" ] ]
+    "items": [ [ "i4_combustion", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts2",
     "subtype": "collection",
-    "items": [ [ "v2_combustion" ] ]
+    "items": [ [ "v2_combustion", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts3",
     "subtype": "collection",
-    "items": [ [ "v6_combustion" ] ]
+    "items": [ [ "v6_combustion", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts4",
     "subtype": "collection",
-    "items": [ [ "v6_diesel" ] ]
+    "items": [ [ "v6_diesel", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts5",
     "subtype": "collection",
-    "items": [ [ "v8_combustion" ] ]
+    "items": [ [ "v8_combustion", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts6",
     "subtype": "collection",
-    "items": [ [ "v8_diesel" ] ]
+    "items": [ [ "v8_diesel", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts7",
     "subtype": "collection",
-    "items": [ [ "v2_combustion" ] ]
+    "items": [ [ "v2_combustion", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts8",
     "subtype": "collection",
-    "items": [ [ "engine_block_massive" ] ]
+    "items": [ [ "engine_block_massive", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts9",
     "subtype": "collection",
-    "items": [ [ "engine_block_large" ] ]
+    "items": [ [ "engine_block_large", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2418,25 +2418,25 @@
     "type": "item_group",
     "id": "package_large_vehicle_parts12",
     "subtype": "collection",
-    "items": [ [ "storage_battery" ] ]
+    "items": [ [ "storage_battery", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts13",
     "subtype": "collection",
-    "items": [ [ "muffler" ] ]
+    "items": [ [ "muffler", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts14",
     "subtype": "collection",
-    "items": [ [ "minifridge" ] ]
+    "items": [ [ "minifridge", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts15",
     "subtype": "collection",
-    "items": [ [ "minifreezer" ] ]
+    "items": [ [ "minifreezer", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2484,7 +2484,7 @@
     "type": "item_group",
     "id": "package_large_vehicle_parts23",
     "subtype": "collection",
-    "items": [ [ "wheel_wide" ] ]
+    "items": [ [ "wheel_wide", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2496,13 +2496,13 @@
     "type": "item_group",
     "id": "package_large_vehicle_parts25",
     "subtype": "collection",
-    "items": [ [ "folding_frame" ] ]
+    "items": [ [ "folding_frame", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_vehicle_parts26",
     "subtype": "collection",
-    "items": [ [ "folding_bicycle" ] ]
+    "items": [ [ "folding_bicycle", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2538,30 +2538,30 @@
     "type": "item_group",
     "id": "package_large_other3",
     "subtype": "collection",
-    "items": [ [ "tent_kit" ], [ "manual_survival" ], [ "hatchet" ] ]
+    "items": [ [ "tent_kit", 100 ], [ "manual_survival", 20 ], [ "hatchet", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_other4",
     "subtype": "collection",
-    "items": [ [ "fishing_rod_basic" ], [ "fishing_waders" ], { "item": "fishing_hook_basic", "count": 10 } ]
+    "items": [ [ "fishing_rod_basic", 100 ], [ "fishing_waders", 25 ], { "item": "fishing_hook_basic", "count": 10 } ]
   },
   {
     "type": "item_group",
     "id": "package_large_other5",
     "subtype": "collection",
-    "items": [ [ "violin" ], [ "case_violin" ], [ "violin_golden" ] ]
+    "items": [ [ "violin", 100 ], [ "case_violin", 50 ], [ "violin_golden", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_other6",
     "subtype": "collection",
-    "items": [ [ "acoustic_guitar" ] ]
+    "items": [ [ "acoustic_guitar", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "package_large_other7",
     "subtype": "collection",
-    "items": [ [ "bagpipes" ], [ "kilt" ] ]
+    "items": [ [ "bagpipes", 100 ], [ "kilt", 50 ] ]
   }
 ]
