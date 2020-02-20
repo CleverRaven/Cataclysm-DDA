@@ -1504,19 +1504,19 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     switch( season_of_year( calendar::turn ) ) {
         case SPRING:
             loc = "forage_spring";
-            next_ter = ter_str_id( "t_underbrush_harvested_spring" );
+            next_ter = ter_underbrush_harvested_spring;
             break;
         case SUMMER:
             loc = "forage_summer";
-            next_ter = ter_str_id( "t_underbrush_harvested_summer" );
+            next_ter = ter_underbrush_harvested_summer;
             break;
         case AUTUMN:
             loc = "forage_autumn";
-            next_ter = ter_str_id( "t_underbrush_harvested_autumn" );
+            next_ter = ter_underbrush_harvested_autumn;
             break;
         case WINTER:
             loc = "forage_winter";
-            next_ter = ter_str_id( "t_underbrush_harvested_winter" );
+            next_ter = ter_underbrush_harvested_winter;
             break;
         default:
             debugmsg( "Invalid season" );
