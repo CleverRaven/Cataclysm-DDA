@@ -1864,8 +1864,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
+        if( it.is_corpse() && mt->in_species( species_ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
+            mt->in_species( species_HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }
     }

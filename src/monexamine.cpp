@@ -66,7 +66,7 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool is_zombie = z.type->in_species( ZOMBIE );
+    bool is_zombie = z.type->in_species( species_ZOMBIE );
     if( is_zombie ) {
         pet_name = _( "zombie slave" );
     }

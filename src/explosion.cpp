@@ -546,7 +546,7 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( ROBOT ) ) {
+        if( critter.type->in_species( species_ROBOT ) ) {
             continue;
         }
         // TODO: can the following code be called for all types of creatures

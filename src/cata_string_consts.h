@@ -1518,19 +1518,21 @@ static const matype_id style_tiger( "style_tiger" );
 static const matype_id style_wingchun( "style_wingchun" );
 static const matype_id style_zui_quan( "style_zui_quan" );
 
+
 static const species_id species_BLOB( "BLOB" );
-static const species_id FISH( "FISH" );
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id HALLUCINATION( "HALLUCINATION" );
-static const species_id HUMAN( "HUMAN" );
-static const species_id INSECT( "INSECT" );
-static const species_id LEECH_PLANT( "LEECH_PLANT" );
-static const species_id MAMMAL( "MAMMAL" );
-static const species_id MOLLUSK( "MOLLUSK" );
-static const species_id PLANT( "PLANT" );
-static const species_id ROBOT( "ROBOT" );
-static const species_id SPIDER( "SPIDER" );
-static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id species_FISH( "FISH" );
+static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_HUMAN( "HUMAN" );
+static const species_id species_INSECT( "INSECT" );
+static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
+static const species_id species_MAMMAL( "MAMMAL" );
+static const species_id species_MOLLUSK( "MOLLUSK" );
+static const species_id species_PLANT( "PLANT" );
+static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_SPIDER( "SPIDER" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
 
 static const matec_id matec_no_technique_id( "" );
 static const matec_id matec_RAPID( "RAPID" );
