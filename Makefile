@@ -89,14 +89,18 @@
 RELEASE_FLAGS =
 WARNINGS = \
   -Werror -Wall -Wextra \
+  -Wformat-signedness \
   -Wlogical-op \
   -Wmissing-declarations \
   -Wmissing-noreturn \
   -Wold-style-cast \
   -Woverloaded-virtual \
   -Wpedantic \
+  -Wredundant-decls \
   -Wrestrict \
   -Wsuggest-override \
+  -Wunused-macros \
+  -Wzero-as-null-pointer-constant \
   -Wno-unknown-warning-option
 # Uncomment below to disable warnings
 #WARNINGS = -w
