@@ -27,7 +27,6 @@ struct dream;
 class Trait_group;
 class item;
 
-using itype_id = std::string;
 class JsonArray;
 
 extern std::vector<dream> dreams;

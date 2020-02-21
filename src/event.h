@@ -10,8 +10,6 @@
 #include "enum_conversions.h"
 #include "type_id.h"
 
-using itype_id = std::string;
-
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
 //

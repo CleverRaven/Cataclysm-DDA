@@ -353,7 +353,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // usage of any attached bipod is dependent upon terrain
-    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    bool bipod = g->m.has_flag_ter_or_furn( flag_MOUNTABLE, pos() );
     if( !bipod ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
@@ -593,7 +593,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
-    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> ferric = { material_iron, material_steel };
 
     bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                       !throw_assist;
@@ -618,7 +618,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
+    const bool shatter = !thrown.active && thrown.made_of( material_glass ) &&
                          rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
@@ -2196,7 +2196,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( flag_RELOAD_EJECT ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.contents.push_back( item( casing ).set_flag( "CASING" ) );
+            weap.contents.push_back( item( casing ).set_flag( flag_CASING ) );
         } else {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( casing ) );
@@ -2214,7 +2214,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( "brass_catcher" ) ) {
-            linkage.set_flag( "CASING" );
+            linkage.set_flag( flag_CASING );
             weap.contents.push_back( linkage );
         } else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );

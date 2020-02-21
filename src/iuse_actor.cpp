@@ -812,7 +812,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
+    if( newmon.type->id == mon_laserturret && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     return 1;
@@ -1864,8 +1864,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
+        if( it.is_corpse() && mt->in_species( species_ZOMBIE ) && mt->made_of( material_flesh ) &&
+            mt->in_species( species_HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }
     }
@@ -1878,9 +1878,9 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int tolerance_level = 9;
     if( p.has_trait( trait_PSYCHOPATH ) || p.has_trait( trait_SAPIOVORE ) ) {
         tolerance_level = 0;
-    } else if( p.has_trait_flag( "PRED4" ) ) {
+    } else if( p.has_trait_flag( flag_PRED4 ) ) {
         tolerance_level = 5;
-    } else if( p.has_trait_flag( "PRED3" ) ) {
+    } else if( p.has_trait_flag( flag_PRED3 ) ) {
         tolerance_level = 7;
     }
 
@@ -1924,9 +1924,9 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         if( p.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if( p.has_trait_flag( "PRED1" ) ) {
+        } else if( p.has_trait_flag( flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( p.has_trait_flag( "PRED2" ) ) {
+        } else if( p.has_trait_flag( flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
 
@@ -4004,7 +4004,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
 
-    const bool has_shovel = p.has_quality( qual_DIG, 3 );
+    const bool has_shovel = p.has_quality( quality_DIG, 3 );
     const bool is_diggable = g->m.has_flag( flag_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {

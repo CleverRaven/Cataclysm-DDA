@@ -47,6 +47,7 @@
 #include "units.h"
 #include "cata_utility.h"
 #include "flat_set.h"
+#include "cata_string_consts.h"
 
 class player;
 struct tripoint;
@@ -226,8 +227,8 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         const auto &mats = obj.materials;
-        if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
-            std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
+        if( std::find( mats.begin(), mats.end(), material_hydrocarbons ) == mats.end() &&
+            std::find( mats.begin(), mats.end(), material_oil ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
@@ -1991,6 +1992,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
+    assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
@@ -2112,31 +2114,31 @@ static void set_allergy_flags( itype &item_template )
     static const std::vector<material_allergy_pair> all_pairs = {{
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
-            std::make_pair( material_id( "hflesh" ), "CANNIBALISM" ),
+            std::make_pair( material_hflesh, flag_CANNIBALISM ),
 
-            std::make_pair( material_id( "hflesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "iflesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "flesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
-            std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
-            std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
-            std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
-            std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),
+            std::make_pair( material_hflesh, flag_ALLERGEN_MEAT ),
+            std::make_pair( material_iflesh, flag_ALLERGEN_MEAT ),
+            std::make_pair( material_flesh, flag_ALLERGEN_MEAT ),
+            std::make_pair( material_wheat, flag_ALLERGEN_WHEAT ),
+            std::make_pair( material_fruit, flag_ALLERGEN_FRUIT ),
+            std::make_pair( material_veggy, flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_bean, flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_tomato, flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_garlic, flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_nut, flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_mushroom, flag_ALLERGEN_VEGGY ),
+            std::make_pair( material_milk, flag_ALLERGEN_MILK ),
+            std::make_pair( material_egg, flag_ALLERGEN_EGG ),
+            std::make_pair( material_junk, flag_ALLERGEN_JUNK ),
             // Not food, but we can keep it here
-            std::make_pair( material_id( "wool" ), "ALLERGEN_WOOL" ),
+            std::make_pair( material_wool, flag_ALLERGEN_WOOL ),
             // Now "made of". Those flags should not be passed
-            std::make_pair( material_id( "flesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "hflesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "iflesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "milk" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "egg" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "honey" ), "URSINE_HONEY" ),
+            std::make_pair( material_flesh, flag_CARNIVORE_OK ),
+            std::make_pair( material_hflesh, flag_CARNIVORE_OK ),
+            std::make_pair( material_iflesh, flag_CARNIVORE_OK ),
+            std::make_pair( material_milk, flag_CARNIVORE_OK ),
+            std::make_pair( material_egg, flag_CARNIVORE_OK ),
+            std::make_pair( material_honey, flag_URSINE_HONEY ),
         }
     };
 
@@ -2154,11 +2156,11 @@ void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
     const auto old_size = mats.size();
-    mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
+    mats.erase( std::remove( mats.begin(), mats.end(), material_hflesh ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
-        mats.push_back( material_id( "flesh" ) );
+        std::find( mats.begin(), mats.end(), material_flesh ) == mats.end() ) {
+        mats.push_back( material_flesh );
     }
 }
 
@@ -2217,7 +2219,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "ascii_picture", def.ascii_picture );
-
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -2309,7 +2310,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
+        def.qualities.clear();
         set_qualities_from_json( jo, "qualities", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_qualities_from_json( tmp, "qualities", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_qualities_from_json( tmp, "qualities", def );
+        }
     }
 
     if( jo.has_member( "properties" ) ) {
@@ -2470,6 +2483,25 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
+    }
+}
+
+void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
+    }
+}
+
+void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
+        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+            def.qualities.erase( iter );
+        }
     }
 }
 

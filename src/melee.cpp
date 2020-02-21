@@ -255,7 +255,7 @@ float player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -290,7 +290,7 @@ std::string Character::get_miss_reason()
         _( "Your torso encumbrance throws you off-balance." ),
         roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
-                                     !worn_with_flag( "FIX_FARSIGHT" ) &&
+                                     !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
@@ -484,7 +484,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             std::string material = "flesh";
             if( t.is_monster() ) {
                 const monster *m = dynamic_cast<const monster *>( &t );
-                if( m->made_of( material_id( "steel" ) ) ) {
+                if( m->made_of( material_steel ) ) {
                     material = "steel";
                 }
             }
@@ -1095,7 +1095,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !t.in_species( HUMAN ) ) {
+        if( tec.human_target && !t.in_species( species_HUMAN ) ) {
             continue;
         }
         // if aoe, check if there are valid targets
@@ -1641,7 +1641,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     if( tec != matec_tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( weapon.made_of( material_id( "glass" ) ) ) {
+        } else if( weapon.made_of( material_glass ) ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -1727,7 +1727,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     const int vol = weap.volume() / 250_ml;
     // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    if( weap.made_of( material_glass ) &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {

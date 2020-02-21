@@ -16,6 +16,7 @@
 #include "material.h"
 #include "type_id.h"
 #include "debug.h"
+#include "cata_string_consts.h"
 
 static void test_encumbrance_on(
     player &p,
@@ -117,7 +118,7 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     item i( "longshirt" );
-    i.set_flag( "UNDERSIZE" );
+    i.set_flag( flag_UNDERSIZE );
     test_encumbrance_items( { i }, "TORSO", longshirt_e * 3 );
 }
 
@@ -128,7 +129,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
         test_encumbrance_items( { i }, "TORSO", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( "UNDERSIZE" );
+        i.set_flag( flag_UNDERSIZE );
         test_encumbrance_items( { i }, "TORSO", longshirt_e, add_trait( "SMALL2" ) );
     }
 }
