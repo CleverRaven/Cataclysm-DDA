@@ -71,7 +71,7 @@
         "hospital",
         "school",
         "police",
-        "sub_station",
+        { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" },
         "bank"
       ],
       "message": "You add roads and points of interest to your map."
