@@ -44,7 +44,7 @@ inline std::string urlDecode( std::string str )
                 tmp[2] = str[i + 1];
                 tmp[3] = str[i + 2];
                 tmp[4] = '\0';
-                tmpchar = static_cast<char>( strtol( tmp, NULL, 0 ) );
+                tmpchar = static_cast<char>( strtol( tmp, nullptr, 0 ) );
                 temp += tmpchar;
                 i += 2;
                 continue;
@@ -65,7 +65,7 @@ inline void initializeGet( std::map <std::string, std::string> &Get )
     std::string tmpkey, tmpvalue;
     std::string *tmpstr = &tmpkey;
     char *raw_get = getenv( "QUERY_STRING" );
-    if( raw_get == NULL ) {
+    if( raw_get == nullptr ) {
         Get.clear();
         return;
     }
@@ -98,9 +98,9 @@ inline void initializePost( std::map <std::string, std::string> &Post )
     std::string *tmpstr = &tmpkey;
     int content_length;
     char *ibuffer;
-    char *buffer = NULL;
+    char *buffer = nullptr;
     char *strlength = getenv( "CONTENT_LENGTH" );
-    if( strlength == NULL ) {
+    if( strlength == nullptr ) {
         Post.clear();
         return;
     }
