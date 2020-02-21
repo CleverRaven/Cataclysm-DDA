@@ -93,6 +93,7 @@ WARNINGS = \
   -Wlogical-op \
   -Wmissing-declarations \
   -Wmissing-noreturn \
+  -Wnon-virtual-dtor \
   -Wold-style-cast \
   -Woverloaded-virtual \
   -Wpedantic \
