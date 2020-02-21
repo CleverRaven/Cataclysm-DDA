@@ -921,7 +921,6 @@ static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
-
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const std::string flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
@@ -1406,7 +1405,6 @@ static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 static const std::string flag_YOUNG( "YOUNG" );
 static const std::string flag_ZOOM( "ZOOM" );
 
-
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -1655,7 +1653,6 @@ static const ter_str_id ter_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_water_pool( "t_water_pool" );
 static const ter_str_id ter_water_sh( "t_water_sh" );
 
-
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_alien_resin( "alien_resin" );
 static const material_id material_all( "all" );
@@ -1702,7 +1699,6 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wheat( "wheat" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
-
 
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
