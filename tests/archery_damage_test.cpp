@@ -26,7 +26,7 @@ static void test_projectile_attack( std::string target_type, bool killable,
                                     dealt_projectile_attack &attack, std::string weapon_type )
 {
     for( int i = 0; i < 10; ++i ) {
-        monster target{ mtype_id( target_type ), { 0, 0, 0 } };
+        monster target{ mtype_id( target_type ), tripoint_zero };
         target.deal_projectile_attack( nullptr, attack, false );
         CAPTURE( target_type );
         CAPTURE( target.get_hp() );
@@ -49,7 +49,7 @@ static void test_archery_balance( std::string weapon_type, std::string ammo_type
     test_projectile.impact = weapon.gun_damage();
 
     dealt_projectile_attack attack {
-        test_projectile, nullptr, dealt_damage_instance(), { 0, 0, 0 }, accuracy_critical - 0.05
+        test_projectile, nullptr, dealt_damage_instance(), tripoint_zero, accuracy_critical - 0.05
     };
     if( !killable.empty() ) {
         test_projectile_attack( killable, true, attack, weapon_type );
