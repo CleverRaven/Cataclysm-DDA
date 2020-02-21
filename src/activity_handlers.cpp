@@ -1889,7 +1889,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     std::string msg = _( "You reload the %s." );
 
-    if( ammo_is_filthy && !reloadable_is_filthy ) {
+    if( ammo_is_filthy ) {
         reloadable.set_flag( "FILTHY" );
     }
 
