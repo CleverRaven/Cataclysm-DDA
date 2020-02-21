@@ -236,8 +236,12 @@ bool Character::activate_bionic( int b, bool eff_only )
             return false;
         }
 
-        if( !burn_fuel( b, true ) ) {
-            return false;
+        // HACK: burn_fuel() doesn't check for available fuel in remote source on start.
+        // If CBM is successfully activated, the check will occur when it actually tries to draw power
+        if( !bio.info().is_remote_fueled ) {
+            if( !burn_fuel( b, true ) ) {
+                return false;
+            }
         }
 
         // We can actually activate now, do activation-y things
@@ -894,6 +898,7 @@ bool Character::burn_fuel( int b, bool start )
                     effective_efficiency = 0.3;
                 }
             }
+            // TODO: check for available fuel in remote source
         } else if( !start ) {
             add_msg_player_or_npc( m_info,
                                    _( "Your %s runs out of fuel and turn off." ),
