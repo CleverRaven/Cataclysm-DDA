@@ -39,7 +39,6 @@
     "difficulty": 5,
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
-    "autolearn": [ [ "cooking", 6 ] ],
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
