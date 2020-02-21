@@ -9386,10 +9386,13 @@ int item::get_gun_ups_drain() const
 {
     int draincount = 0;
     if( type->gun ) {
-        draincount += type->gun->ups_charges;
+        int modifier = 0;
+        float multiplier = 1.0f;
         for( const item *mod : gunmods() ) {
-            draincount *= mod->type->gunmod->ups_charges_multiplier;
+            modifier += mod->type->gunmod->ups_charges_modifier;
+            multiplier *= mod->type->gunmod->ups_charges_multiplier;
         }
+        draincount = ( type->gun->ups_charges * multiplier ) + modifier;
     }
     return draincount;
 }
