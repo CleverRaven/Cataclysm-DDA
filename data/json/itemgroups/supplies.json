@@ -484,6 +484,7 @@
     "type": "item_group",
     "items": [
       [ "basketball", 100 ],
+      [ "indoor_volleyball", 50 ],
       [ "baseball", 100 ],
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],
