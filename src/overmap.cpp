@@ -1982,7 +1982,7 @@ void overmap::move_hordes()
             // Check if the monster is a zombie.
             auto &type = *( this_monster.type );
             if(
-                !type.species.count( ZOMBIE ) || // Only add zombies to hordes.
+                !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mon_jabberwock || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.

@@ -55,7 +55,7 @@ void mdeath::normal( monster &z )
         return;
     }
 
-    if( z.type->in_species( ZOMBIE ) ) {
+    if( z.type->in_species( species_ZOMBIE ) ) {
         sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
     }
 
@@ -420,7 +420,7 @@ void mdeath::guilt( monster &z )
     int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    if( z.type->in_species( ZOMBIE ) ) {
+    if( z.type->in_species( species_ZOMBIE ) ) {
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
@@ -824,7 +824,7 @@ void make_mon_corpse( monster &z, int damageLvl )
         corpse.set_item_temperature( 310.15 );
     }
     corpse.set_damage( damageLvl );
-    if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
+    if( z.has_effect( effect_pacified ) && z.type->in_species( species_ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming unpacified when regenerating.
         corpse.set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
     }

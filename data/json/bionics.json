@@ -2,7 +2,7 @@
   {
     "id": "bio_adrenaline",
     "type": "bionic",
-    "name": "Adrenaline Pump",
+    "name": { "str": "Adrenaline Pump" },
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 6 ] ],
     "act_cost": "5 J"
@@ -10,7 +10,7 @@
   {
     "id": "bio_ads",
     "type": "bionic",
-    "name": "Active Defense System",
+    "name": { "str": "Active Defense System" },
     "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
@@ -21,7 +21,7 @@
   {
     "id": "bio_alarm",
     "type": "bionic",
-    "name": "Alarm System",
+    "name": { "str": "Alarm System" },
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
@@ -40,7 +40,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": "Alloy Plating - Arms",
+    "name": { "str": "Alloy Plating - Arms" },
     "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
     "bash_protec": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
@@ -61,7 +61,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": "Alloy Plating - Head",
+    "name": { "str": "Alloy Plating - Head" },
     "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "HEAD", 5 ], [ "MOUTH", 1 ] ],
     "bash_protec": [ [ "HEAD", 3 ] ],
@@ -71,7 +71,7 @@
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": "Alloy Plating - Legs",
+    "name": { "str": "Alloy Plating - Legs" },
     "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ],
     "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
@@ -81,7 +81,7 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": "Alloy Plating - Torso",
+    "name": { "str": "Alloy Plating - Torso" },
     "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "bash_protec": [ [ "TORSO", 3 ] ],
@@ -91,7 +91,7 @@
   {
     "id": "bio_batteries",
     "type": "bionic",
-    "name": "Battery System",
+    "name": { "str": "Battery System" },
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "fuel_options": [ "battery" ],
@@ -212,7 +212,7 @@
   {
     "id": "bio_claws",
     "type": "bionic",
-    "name": "Bionic Claws",
+    "name": { "str": "Bionic Claws" },
     "description": "Vicious claws have been surgically installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "HAND_L", 5 ], [ "HAND_R", 5 ] ],
     "act_cost": "25 J",
@@ -277,7 +277,7 @@
   {
     "id": "bio_deformity",
     "type": "bionic",
-    "name": "Bionic-Induced Deformity",
+    "name": { "str": "Bionic-Induced Deformity" },
     "description": "A combination of poor surgical installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face.  People who mind that you look like a dime-store Frankenstein will react poorly to your appearance.",
     "occupied_bodyparts": [ [ "HEAD", 4 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -302,7 +302,7 @@
   {
     "id": "bio_dis_acid",
     "type": "bionic",
-    "name": "Acidic Discharge",
+    "name": { "str": "Acidic Discharge" },
     "description": "A malfunctioning bionic which occasionally discharges acid into your muscles, causing sharp pain and minor damage.",
     "occupied_bodyparts": [ [ "TORSO", 3 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -374,7 +374,7 @@
   {
     "id": "bio_evap",
     "type": "bionic",
-    "name": "Aero-Evaporator",
+    "name": { "str": "Aero-Evaporator" },
     "description": "This unit draws moisture from the surrounding air, which slowly trickles directly into your blood stream.  It may fail in very dry environments.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
     "react_cost": "60 J",
@@ -705,7 +705,7 @@
   {
     "id": "bio_night",
     "type": "bionic",
-    "name": "Artificial Night Generator",
+    "name": { "str": "Artificial Night Generator" },
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
@@ -735,7 +735,7 @@
   {
     "id": "bio_nostril",
     "type": "bionic",
-    "name": "Bionic Nostril",
+    "name": { "str": "Bionic Nostril" },
     "description": "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by ten.",
     "occupied_bodyparts": [ [ "HEAD", 2 ], [ "MOUTH", 1 ] ],
     "encumbrance": [ [ "MOUTH", 10 ] ],
@@ -763,7 +763,7 @@
   {
     "id": "bio_pokedeye",
     "type": "bionic",
-    "name": "Bionic Visual Impairment",
+    "name": { "str": "Bionic Visual Impairment" },
     "description": "Due to a badly misplaced dielectric stylette, you are now suffering from mild optic neuropathy.  Increases eye encumbrance by ten.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "encumbrance": [ [ "EYES", 10 ] ],
@@ -827,7 +827,7 @@
   {
     "id": "bio_purifier",
     "type": "bionic",
-    "name": "Air Filtration System",
+    "name": { "str": "Air Filtration System" },
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
     "env_protec": [ [ "MOUTH", 7 ] ],
@@ -913,7 +913,7 @@
   {
     "id": "bio_shakes",
     "type": "bionic",
-    "name": "Bionic Short Circuit",
+    "name": { "str": "Bionic Short Circuit" },
     "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -1008,7 +1008,7 @@
   {
     "id": "bio_surgical_razor",
     "type": "bionic",
-    "name": "Autonomous Surgical Scalpels",
+    "name": { "str": "Autonomous Surgical Scalpels" },
     "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts and can also be used as a high-quality butchering tool.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "ARM_L", 1 ] ],
     "fake_item": "bio_scalpel"
@@ -1016,7 +1016,7 @@
   {
     "id": "bio_sunglasses",
     "type": "bionic",
-    "name": "Anti-Glare Compensators",
+    "name": { "str": "Anti-Glare Compensators" },
     "description": "Your eyes have quick-reacting transition lenses surgically installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],

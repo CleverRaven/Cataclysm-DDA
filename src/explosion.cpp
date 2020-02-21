@@ -546,7 +546,7 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( ROBOT ) ) {
+        if( critter.type->in_species( species_ROBOT ) ) {
             continue;
         }
         // TODO: can the following code be called for all types of creatures
@@ -721,7 +721,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( g->u.weapon.typeId() == "e_handcuffs" && g->u.weapon.charges > 0 ) {
-            g->u.weapon.item_tags.erase( "NO_UNWIELD" );
+            g->u.weapon.item_tags.erase( flag_NO_UNWIELD );
             g->u.weapon.charges = 0;
             g->u.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
