@@ -27,7 +27,8 @@
     "bashing": 1,
     "material": "plastic",
     "symbol": "/",
-    "color": "light_gray"
+    "color": "light_gray",
+    "use_action": "WASH_HARD_ITEMS"
   },
   {
     "id": "elec_hairtrimmer",
@@ -85,7 +86,7 @@
     "symbol": ",",
     "color": "light_cyan",
     "name": "razor blade",
-    "description": "A double edged razor blade.",
+    "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,
     "material": "steel",
@@ -176,7 +177,7 @@
     "id": "wash_kit",
     "type": "TOOL",
     "name": "washing kit",
-    "description": "A combination kit of a washboard and a sponge or rag.  Everything you need to clean items after the apocalypse.",
+    "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 0,

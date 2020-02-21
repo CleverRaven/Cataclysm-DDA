@@ -65,7 +65,6 @@ class JsonOut;
 struct dealt_projectile_attack;
 class dispersion_sources;
 
-using itype_id = std::string;
 using faction_id = string_id<faction>;
 struct trap;
 class profession;

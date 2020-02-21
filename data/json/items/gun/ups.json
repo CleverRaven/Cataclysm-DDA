@@ -154,7 +154,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "A7 laser rifle",
-    "description": "A state of the art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
+    "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
     "weight": "2950 g",
     "volume": "3 L",
     "price": 1600000,

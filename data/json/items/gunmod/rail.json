@@ -37,8 +37,7 @@
     "id": "offset_sights",
     "copy-from": "improve_sights",
     "type": "GUNMOD",
-    "name": "offset iron sights",
-    "name_plural": "offset iron sights",
+    "name": { "str": "offset iron sights", "str_pl": "offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "shotgun" ],
@@ -99,7 +98,7 @@
   {
     "id": "stabilizer",
     "type": "GUNMOD",
-    "name": "gyroscopic stabilizer",
+    "name": { "str": "gyroscopic stabilizer" },
     "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.",
     "weight": "286 g",
     "volume": "750 ml",
@@ -126,10 +125,10 @@
     "id": "lead_stabilizer",
     "copy-from": "stabilizer",
     "type": "GUNMOD",
-    "name": "LW gyroscopic stabilizer",
-    "description": "An advanced Leadworks built in gyroscopic stabilizer.",
+    "name": { "str": "LW gyroscopic stabilizer" },
+    "description": "An advanced Leadworks built-in gyroscopic stabilizer.",
     "weight": "0 g",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "flags": [ "IRREMOVABLE" ]
   }

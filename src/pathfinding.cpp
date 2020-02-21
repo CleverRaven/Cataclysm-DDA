@@ -23,6 +23,7 @@
 #include "line.h"
 #include "type_id.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 enum astar_state {
     ASL_NONE,
@@ -197,7 +198,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
-    static const auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
+    static const auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
     if( f.z == t.z ) {
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
@@ -224,6 +225,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     bool doors = settings.allow_open_doors;
     bool trapavoid = settings.avoid_traps;
     bool roughavoid = settings.avoid_rough_terrain;
+    bool sharpavoid = settings.avoid_sharp;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
@@ -333,7 +335,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // Climbing fences
                         newg += climb_cost;
                     } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
+                               ( !terrain.has_flag( flag_OPENCLOSE_INSIDE ) || !furniture.has_flag( flag_OPENCLOSE_INSIDE ) ||
                                  !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
@@ -416,6 +418,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         }
                     }
                 }
+
+                if( sharpavoid && p_special & PF_SHARP ) {
+                    layer.state[index] = ASL_CLOSED; // Avoid sharp things
+                }
+
             }
 
             // If not visited, add as open

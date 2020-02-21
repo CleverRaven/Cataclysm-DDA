@@ -377,7 +377,7 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "extend": { "flags": [ "FIREPROOF", "BASHES", "DROPS_AMMO" ] }
+    "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
   },
   {
     "id": "mon_utilibot_blob",

@@ -105,7 +105,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false, true );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
@@ -140,7 +140,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( item &e : worn ) {
-        if( e.has_flag( "VARSIZE" ) ) {
+        if( e.has_flag( flag_VARSIZE ) ) {
             e.item_tags.insert( "FIT" );
         }
     }
@@ -437,7 +437,7 @@ faction_id npc::get_fac_id() const
 faction *npc::get_faction() const
 {
     if( !my_fac ) {
-        return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+        return g->faction_manager_ptr->get( faction_no_faction );
     }
     return my_fac;
 }
@@ -515,7 +515,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
     who.worn.clear();
     for( item &it : ret ) {
-        if( it.has_flag( "VARSIZE" ) ) {
+        if( it.has_flag( flag_VARSIZE ) ) {
             it.item_tags.insert( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
@@ -569,7 +569,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     while( qty-- != 0 ) {
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
-            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+            if( !one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
@@ -579,7 +579,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
 
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
-        return e.has_flag( "TRADER_AVOID" );
+        return e.has_flag( flag_TRADER_AVOID );
     } ), res.end() );
     for( auto &it : res ) {
         it.set_owner( who );
@@ -804,7 +804,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     // Check for conditions that disqualify us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -844,7 +844,7 @@ void npc::finish_read( item &book )
     const skill_id &skill = reading->skill;
     // NPCs dont need to identify the book or learn recipes yet.
     // NPCs dont read to other NPCs yet.
-    const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
+    const bool display_messages = my_fac->id == faction_your_followers && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
     std::set<std::string> little_learned; // NPCs who learned a little about the skill
     std::set<std::string> cant_learn;
@@ -982,82 +982,42 @@ void npc::do_npc_read()
     }
 }
 
-bool npc::wear_if_wanted( const item &it )
+bool npc::wear_if_wanted( const item &it, std::string &reason )
 {
     // Note: this function isn't good enough to use with NPC AI alone
     // Restrict it to player's orders for now
     if( !it.is_armor() ) {
+        reason = _( "This can't be worn." );
         return false;
     }
 
-    // TODO: Make it depend on stuff
-    static const std::array<int, num_bp> max_encumb = {{
-            30, // bp_torso - Higher if ranged?
-            100, // bp_head
-            30, // bp_eyes - Lower if using ranged?
-            30, // bp_mouth
-            30, // bp_arm_l
-            30, // bp_arm_r
-            30, // bp_hand_l - Lower if throwing?
-            30, // bp_hand_r
-            // Must be enough to allow hazmat, turnout etc.
-            30, // bp_leg_l - Higher if ranged?
-            30, // bp_leg_r
-            // Doesn't hurt much
-            50, // bp_foot_l
-            50, // bp_foot_r
-        }
-    };
-
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
-    bool splint = it.has_flag( "SPLINT" );
-    if( splint ) {
-        splint = false;
+    if( it.has_flag( flag_SPLINT ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
             if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
-                splint = true;
-                break;
+                reason = _( "Thanks, I'll wear that now." );
+                return !!wear_item( it, false );
             }
         }
     }
 
-    if( splint ) {
-        return !!wear_item( it, false );
-    }
-
-    if( !can_wear( it, true ).success() ) {
-        return false;
-    }
-
-    const int it_encumber = it.get_encumber( *this );
     while( !worn.empty() ) {
         auto size_before = worn.size();
-        bool encumb_ok = true;
-        const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
-        for( const body_part bp : all_body_parts ) {
-            if( !it.covers( bp ) ) {
-                continue;
-            }
+        if( can_wear( it ).success() ) {
+            // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
 
-            if( it_encumber > max_encumb[bp] ) {
-                // Not an NPC-friendly item
+            if( !!wear_item( it, false ) ) {
+                reason = _( "Thanks, I'll wear that now." );
+                return true;
+            } else {
+                reason = _( "I tried but couldn't wear it." );
                 return false;
             }
-
-            if( new_enc[bp].encumbrance > max_encumb[bp] ) {
-                encumb_ok = false;
-                break;
-            }
-        }
-
-        if( encumb_ok && can_wear( it ).success() ) {
-            // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
-            return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1069,7 +1029,7 @@ bool npc::wear_if_wanted( const item &it )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() ) {
+            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( flag_SPLINT ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }
@@ -1077,10 +1037,11 @@ bool npc::wear_if_wanted( const item &it )
 
         if( !took_off || worn.size() >= size_before ) {
             // Shouldn't happen, but does
+            reason = _( "I tried but couldn't wear it." );
             return false;
         }
     }
-
+    reason = _( "Thanks, I'll wear that now." );
     return worn.empty() && wear_item( it, false );
 }
 
@@ -1318,7 +1279,7 @@ void npc::mutiny()
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
     g->remove_npc_follower( getID() );
-    set_fac( faction_id( "amf" ) );
+    set_fac( faction_amf );
     remove_job();
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
@@ -1389,7 +1350,7 @@ void npc::make_angry()
     }
 
     // Make associated faction, if any, angry at the player too.
-    if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
+    if( my_fac && my_fac->id != faction_no_faction && my_fac->id != faction_amf ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
     }
@@ -1697,7 +1658,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -1908,7 +1869,7 @@ bool npc::is_ally( const player &p ) const
         return true;
     }
     if( p.is_player() ) {
-        if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
+        if( my_fac && my_fac->id == faction_your_followers ) {
             return true;
         }
         if( faction_api_version < 2 ) {
@@ -2756,7 +2717,7 @@ void npc::on_load()
     has_new_items = true;
 
     // for spawned npcs
-    if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+    if( g->m.has_flag( flag_UNSTABLE, pos() ) ) {
         add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -3232,7 +3193,7 @@ void npc::set_attitude( npc_attitude new_attitude )
              name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
-    if( new_group != old_group && !is_fake() ) {
+    if( new_group != old_group && !is_fake() && g->u.sees( *this ) ) {
         switch( new_group ) {
             case attitude_group::hostile:
                 add_msg_if_npc( m_bad, _( "<npcname> gets angry!" ) );

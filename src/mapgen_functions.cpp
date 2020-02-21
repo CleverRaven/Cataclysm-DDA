@@ -1975,7 +1975,7 @@ void mapgen_cave( mapgendata &dat )
         m->place_spawns( GROUP_CAVE, 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
     } else { // We're above ground!
         // First, draw a forest
-        mapgendata forest_mapgen_dat( dat, oter_str_id( "forest" ).id() );
+        mapgendata forest_mapgen_dat( dat, oter_forest.id() );
         mapgen_forest( forest_mapgen_dat );
         // Clear the center with some rocks
         square( m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5 );
@@ -2675,6 +2675,7 @@ void mapgen_tutorial( mapgendata &dat )
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 5 ), "bubblewrap" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 6 ), "grenade" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "flashlight" );
+        m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "light_disposable_cell" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "cig" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "codeine" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 7 ), "water" );
@@ -2935,7 +2936,7 @@ void mapgen_forest( mapgendata &dat )
 void mapgen_forest_trail_straight( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
+    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -2973,7 +2974,7 @@ void mapgen_forest_trail_straight( mapgendata &dat )
 void mapgen_forest_trail_curved( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
+    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -3019,7 +3020,7 @@ void mapgen_forest_trail_curved( mapgendata &dat )
 void mapgen_forest_trail_tee( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
+    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -3064,7 +3065,7 @@ void mapgen_forest_trail_tee( mapgendata &dat )
 void mapgen_forest_trail_four_way( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
+    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -3533,8 +3534,8 @@ static bool is_suitable_for_stairs( const map *const m, const tripoint &p )
     const ter_t &p_ter = m->ter( p ).obj();
 
     return
-        p_ter.has_flag( "INDOORS" ) &&
-        p_ter.has_flag( "FLAT" ) &&
+        p_ter.has_flag( flag_INDOORS ) &&
+        p_ter.has_flag( flag_FLAT ) &&
         m->furn( p ) == f_null;
 }
 
@@ -3549,8 +3550,8 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             << " terrain: " << p_ter.name()
             << " movecost: " << p_ter.movecost
             << " furniture: " << m->furn( p ).to_i()
-            << " indoors: " << p_ter.has_flag( "INDOORS" )
-            << " flat: " << p_ter.has_flag( "FLAT" )
+            << " indoors: " << p_ter.has_flag( flag_INDOORS )
+            << " flat: " << p_ter.has_flag( flag_FLAT )
             ;
 }
 

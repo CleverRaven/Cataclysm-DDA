@@ -26,7 +26,7 @@
         "-C.....BB..BB..gccccBccR",
         "-C.....TT..TT..gcccBTBcR",
         "---....BB..BB..gccccBccR",
-        "-<=............gcccccccR",
+        "-<+............gcccccccR",
         "---+-..........GccccBccR",
         "-sll-..BB..BB..gcccBTBcR",
         "-lll-..TT..TT..gccccBccR",
@@ -310,7 +310,7 @@
         ".....   |.........||||||",
         ".....   |.....###>#     ",
         ".....   ------#####     ",
-        ",....                   "
+        ".....                   "
       ],
       "terrain": {
         ".": "t_tar_flat_roof",

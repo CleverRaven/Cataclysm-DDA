@@ -694,7 +694,7 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
-    p.set_fac( faction_id( "your_followers" ) );
+    p.set_fac( faction_your_followers );
     g->u.cash += p.cash;
     p.cash = 0;
 }
@@ -758,13 +758,15 @@ void talk_function::leave( npc &p )
     p.remove_job();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
-                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
-    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                            faction_id( new_fac_id ), faction_no_faction );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_NULL;
+    p.long_term_goal_action();
 }
 
 void talk_function::stop_following( npc &p )

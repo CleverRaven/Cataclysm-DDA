@@ -97,7 +97,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
     // Casing mass is mandatory
     jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.005 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.15 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -448,9 +448,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( g->m.impassable( target ) ) {
             if( optional_vpart_position vp = g->m.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage );
+                vp->vehicle().damage( vp->part_index(), damage / 100 );
             } else {
-                g->m.bash( target, damage / 10, true );
+                g->m.bash( target, damage / 100, true );
             }
         }
     }
@@ -546,7 +546,7 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( ROBOT ) ) {
+        if( critter.type->in_species( species_ROBOT ) ) {
             continue;
         }
         // TODO: can the following code be called for all types of creatures
@@ -620,7 +620,7 @@ void emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
+    if( g->m.has_flag( flag_CONSOLE, point( x, y ) ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
         }
@@ -721,7 +721,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( g->u.weapon.typeId() == "e_handcuffs" && g->u.weapon.charges > 0 ) {
-            g->u.weapon.item_tags.erase( "NO_UNWIELD" );
+            g->u.weapon.item_tags.erase( flag_NO_UNWIELD );
             g->u.weapon.charges = 0;
             g->u.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),

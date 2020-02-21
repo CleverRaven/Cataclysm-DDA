@@ -31,6 +31,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "mapdata.h"
+#include "cata_string_consts.h"
 
 class npc;
 
@@ -402,15 +403,15 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         def.damage_reduction = load_damage_array( dred );
     }
 
-    if( def.has_flag( "ENGINE" ) ) {
+    if( def.has_flag( flag_ENGINE ) ) {
         load_engine( def.engine_info, jo, def.fuel_type );
     }
 
-    if( def.has_flag( "WHEEL" ) ) {
+    if( def.has_flag( flag_WHEEL ) ) {
         load_wheel( def.wheel_info, jo );
     }
 
-    if( def.has_flag( "WORKBENCH" ) ) {
+    if( def.has_flag( flag_WORKBENCH ) ) {
         load_workbench( def.workbench_info, jo );
     }
 
@@ -436,7 +437,7 @@ void vpart_info::finalize()
 
     for( auto &e : vpart_info_all ) {
         if( e.second.folded_volume > 0_ml ) {
-            e.second.set_flag( "FOLDABLE" );
+            e.second.set_flag( flag_FOLDABLE );
         }
 
         for( const auto &f : e.second.flags ) {
@@ -576,7 +577,7 @@ void vpart_info::check()
         if( part.folded_volume < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
+        if( part.has_flag( flag_FOLDABLE ) && part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
@@ -601,13 +602,13 @@ void vpart_info::check()
                       part.id.c_str(), part.fuel_type.c_str() );
             part.fuel_type = "null";
         }
-        if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
+        if( part.has_flag( flag_TURRET ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
-        if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
+        if( !part.emissions.empty() && !part.has_flag( flag_EMITTER ) ) {
             debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
         }
-        if( part.has_flag( "EMITTER" ) ) {
+        if( part.has_flag( flag_EMITTER ) ) {
             if( part.emissions.empty() ) {
                 debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
             } else {
@@ -619,7 +620,7 @@ void vpart_info::check()
                 }
             }
         }
-        if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
+        if( part.has_flag( flag_WHEEL ) && !base_item_type.wheel ) {
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  THIS WILL CRASH!",
                       part.id.c_str(), part.item );
         }
@@ -681,7 +682,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += description.translated();
     }
     for( const auto &flagid : flags ) {
-        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+        if( flagid == flag_ALARMCLOCK || flagid == flag_WATCH ) {
             continue;
         }
         json_flag flag = json_flag::get( flagid );
@@ -692,15 +693,15 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             long_descrip += _( flag.info() );
         }
     }
-    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
-        json_flag nobelt = json_flag::get( "NONBELTABLE" );
+    if( ( has_flag( flag_SEAT ) || has_flag( flag_BED ) ) && !has_flag( flag_BELTABLE ) ) {
+        json_flag nobelt = json_flag::get( flag_NONBELTABLE );
         long_descrip += "  " + _( nobelt.info() );
     }
-    if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag nobelt = json_flag::get( "DOOR" );
+    if( has_flag( flag_BOARDABLE ) && has_flag( flag_OPENABLE ) ) {
+        json_flag nobelt = json_flag::get( flag_DOOR );
         long_descrip += "  " + _( nobelt.info() );
     }
-    if( has_flag( "TURRET" ) ) {
+    if( has_flag( flag_TURRET ) ) {
         class::item base( item );
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
@@ -1067,7 +1068,7 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( pt.part.obj().has_flag( "CARGO" ) ) {
+            if( pt.part.obj().has_flag( flag_CARGO ) ) {
                 cargo_spots.insert( pt.pos );
             }
         }

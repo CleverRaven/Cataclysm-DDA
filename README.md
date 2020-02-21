@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
+![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)
 [![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
 
 # Cataclysm: Dark Days Ahead
@@ -30,6 +31,12 @@ Ncurses and tiles version available in [Community repo](https://www.archlinux.or
 Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
 
 `sudo dnf install cataclysm-dda`
+
+### Debian / Ubuntu
+
+Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda)
+
+`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
 
 ## Compile
 

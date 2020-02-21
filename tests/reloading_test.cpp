@@ -18,6 +18,7 @@
 #include "player_activity.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "cata_string_consts.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
@@ -60,7 +61,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( gun.magazine_integral() );
     REQUIRE( loader_pos != INT_MIN );
     REQUIRE( speedloader.ammo_remaining() == 0 );
-    REQUIRE( speedloader.has_flag( "SPEEDLOADER" ) );
+    REQUIRE( speedloader.has_flag( flag_SPEEDLOADER ) );
 
     bool speedloader_success = speedloader.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 

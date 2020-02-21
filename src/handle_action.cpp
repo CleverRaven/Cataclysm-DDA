@@ -443,7 +443,9 @@ static void open()
     map &m = g->m;
 
     const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            ACTION_OPEN );
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
+
     if( !openp_ ) {
         return;
     }
@@ -517,7 +519,8 @@ static void open()
 static void close()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            ACTION_CLOSE ) ) {
+            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+            ACTION_CLOSE, false ) ) {
         doors::close_door( g->m, g->u, *pnt );
     }
 }
@@ -706,7 +709,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_id( "glass" ) ) &&
+            if( u.weapon.made_of( material_glass ) &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
                 for( auto &elem : u.weapon.contents ) {
@@ -1030,7 +1033,7 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+    const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1171,12 +1174,17 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
+    item_location loc = game_menus::inv::read( u );
 
     if( loc ) {
-        // calling obtain() invalidates the item pointer
-        // TODO: find a way to do this without an int index
-        u.read( u.i_at( loc.obtain( u ) ) );
+        if( loc->type->can_use( "learn_spell" ) ) {
+            item spell_book = *loc.get_item();
+            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+        } else {
+            // calling obtain() invalidates the item pointer
+            // TODO: find a way to do this without an int index
+            u.read( u.i_at( loc.obtain( u ) ) );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1404,7 +1412,7 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
+    if( sp.energy_source() == hp_energy && !u.has_quality( quality_CUT ) ) {
         add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }

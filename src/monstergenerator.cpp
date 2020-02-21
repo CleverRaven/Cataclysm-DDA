@@ -26,6 +26,7 @@
 #include "pathfinding.h"
 #include "units.h"
 #include "translations.h"
+#include "cata_string_consts.h"
 
 namespace io
 {
@@ -872,6 +873,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
+        optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
     difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
@@ -1099,7 +1101,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mon_null ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
         for( auto &spec : mon.species ) {

@@ -12,6 +12,7 @@
 #include "profession.h"
 #include "translations.h"
 #include "rng.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -32,6 +33,8 @@ bool string_id<scenario>::is_valid() const
 {
     return all_scenarios.is_valid( *this );
 }
+
+scen_blacklist sc_blacklist;
 
 scenario::scenario()
     : id( "" ), _name_male( no_translation( "null" ) ),
@@ -129,6 +132,7 @@ void scenario::check_definitions()
     for( const auto &scen : all_scenarios.get_all() ) {
         scen.check_definition();
     }
+    sc_blacklist.finalize();
 }
 
 static void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
@@ -221,6 +225,70 @@ start_location_id scenario::random_start_location() const
     return random_entry( _allowed_locs );
 }
 
+bool scenario::scen_is_blacklisted() const
+{
+    return sc_blacklist.scenarios.count( id ) != 0;
+}
+
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
+{
+    sc_blacklist.load( jo, src );
+}
+
+void scen_blacklist::load( const JsonObject &jo, const std::string & )
+{
+    if( !scenarios.empty() ) {
+        jo.throw_error( "Attempted to load scenario blacklist with an existing scenario blacklist" );
+    }
+
+    const std::string bl_stype = jo.get_string( "subtype" );
+
+    if( bl_stype == "whitelist" ) {
+        whitelist = true;
+    } else if( bl_stype == "blacklist" ) {
+        whitelist = false;
+    } else {
+        jo.throw_error( "Blacklist subtype is not a valid subtype." );
+    }
+
+    for( const std::string &line : jo.get_array( "scenarios" ) ) {
+        scenarios.emplace( line );
+    }
+}
+
+void scen_blacklist::finalize()
+{
+    std::vector<string_id<scenario>> all_scens;
+    for( const scenario &scen : scenario::get_all() ) {
+        all_scens.emplace_back( scen.ident() );
+    }
+    for( const string_id<scenario> &sc : sc_blacklist.scenarios ) {
+        if( std::find( all_scens.begin(), all_scens.end(), sc ) == all_scens.end() ) {
+            debugmsg( "Scenario blacklist contains invalid scenario" );
+        }
+    }
+
+    if( sc_blacklist.whitelist ) {
+        std::set<string_id<scenario>> listed_scenarios = sc_blacklist.scenarios;
+        sc_blacklist.scenarios.clear();
+        for( const scenario &scen : scenario::get_all() ) {
+            sc_blacklist.scenarios.insert( scen.ident() );
+        }
+        for( auto i = sc_blacklist.scenarios.begin(); i != sc_blacklist.scenarios.end(); ) {
+            if( listed_scenarios.count( *i ) != 0 ) {
+                i = sc_blacklist.scenarios.erase( i );
+            } else {
+                ++i;
+            }
+        }
+    }
+}
+
+void reset_scenarios_blacklist()
+{
+    sc_blacklist.scenarios.clear();
+}
+
 std::vector<string_id<profession>> scenario::permitted_professions() const
 {
     if( !cached_permitted_professions.empty() ) {
@@ -233,11 +301,11 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
         if( blacklist || professions.empty() ) {
-            if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
+            if( !present && !p.has_flag( flag_SCEN_ONLY ) ) {
                 res.push_back( p.ident() );
             }
         } else if( extra_professions ) {
-            if( present || !p.has_flag( "SCEN_ONLY" ) ) {
+            if( present || !p.has_flag( flag_SCEN_ONLY ) ) {
                 res.push_back( p.ident() );
             }
         } else if( present ) {

@@ -539,7 +539,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_magnet ) {
         static const std::set<material_id> affected_materials =
-        { material_id( "iron" ), material_id( "steel" ) };
+        { material_iron, material_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
@@ -575,7 +575,7 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseuso_bio_picklock", 0 );
+        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
         if( invoke_item( &tmp_item ) == 0 ) {
             if( tmp_item.charges > 0 ) {
@@ -1096,12 +1096,14 @@ void Character::heat_emission( int b, int fuel_energy )
     }
     const float efficiency = bio.info().fuel_efficiency;
 
-    const int &heat_prod = fuel_energy * ( 1 - efficiency );
-    const int &heat_level = std::min( heat_prod / 10, 4 );
-    const int &heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+    const int heat_prod = fuel_energy * ( 1.0f - efficiency );
+    const int heat_level = std::min( heat_prod / 10, 4 );
     const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
-    g->m.emit_field( pos(), hotness, heat_spread );
-    for( const auto bp : bio.info().occupied_bodyparts ) {
+    if( hotness.is_valid() ) {
+        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+        g->m.emit_field( pos(), hotness, heat_spread );
+    }
+    for( const std::pair<body_part, size_t> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first, false, heat_prod );
     }
 }
@@ -2389,6 +2391,15 @@ void load_bionic( const JsonObject &jsobj )
 
     for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
         new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
+    }
+
+    for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
+        new_bionic.bash_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+    }
+    for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
+        new_bionic.cut_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 
