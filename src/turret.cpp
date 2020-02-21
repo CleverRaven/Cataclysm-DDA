@@ -24,9 +24,7 @@
 #include "optional.h"
 #include "enums.h"
 #include "vpart_range.h"
-
-static const itype_id fuel_type_battery( "battery" );
-static const efftype_id effect_on_roof( "on_roof" );
+#include "cata_string_consts.h"
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -95,7 +93,7 @@ int turret_data::ammo_remaining() const
     if( !veh || !part ) {
         return 0;
     }
-    if( part->info().has_flag( "USE_TANKS" ) ) {
+    if( part->info().has_flag( flag_USE_TANKS ) ) {
         return veh->fuel_left( ammo_current() );
     }
     return part->base.ammo_remaining();
@@ -103,7 +101,7 @@ int turret_data::ammo_remaining() const
 
 int turret_data::ammo_capacity() const
 {
-    if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
+    if( !veh || !part || part->info().has_flag( flag_USE_TANKS ) ) {
         return 0;
     }
     return part->base.ammo_capacity();
@@ -114,7 +112,7 @@ const itype *turret_data::ammo_data() const
     if( !veh || !part ) {
         return nullptr;
     }
-    if( part->info().has_flag( "USE_TANKS" ) ) {
+    if( part->info().has_flag( flag_USE_TANKS ) ) {
         return ammo_current() != "null" ? item::find_type( ammo_current() ) : nullptr;
     }
     return part->base.ammo_data();
@@ -143,7 +141,7 @@ std::set<itype_id> turret_data::ammo_options() const
         return opts;
     }
 
-    if( !part->info().has_flag( "USE_TANKS" ) ) {
+    if( !part->info().has_flag( flag_USE_TANKS ) ) {
         if( part->base.ammo_current() != "null" ) {
             opts.insert( part->base.ammo_current() );
         }
@@ -178,7 +176,7 @@ std::set<std::string> turret_data::ammo_effects() const
         return std::set<std::string>();
     }
     auto res = part->base.ammo_effects();
-    if( part->info().has_flag( "USE_TANKS" ) && ammo_data() ) {
+    if( part->info().has_flag( flag_USE_TANKS ) && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
     return res;
@@ -190,7 +188,7 @@ int turret_data::range() const
         return 0;
     }
     int res = part->base.gun_range();
-    if( part->info().has_flag( "USE_TANKS" ) && ammo_data() ) {
+    if( part->info().has_flag( flag_USE_TANKS ) && ammo_data() ) {
         res += ammo_data()->ammo->range;
     }
     return res;
@@ -198,7 +196,7 @@ int turret_data::range() const
 
 bool turret_data::can_reload() const
 {
-    if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
+    if( !veh || !part || part->info().has_flag( flag_USE_TANKS ) ) {
         return false;
     }
     if( !part->base.magazine_integral() ) {
@@ -210,7 +208,7 @@ bool turret_data::can_reload() const
 
 bool turret_data::can_unload() const
 {
-    if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
+    if( !veh || !part || part->info().has_flag( flag_USE_TANKS ) ) {
         return false;
     }
     return part->base.ammo_remaining() || part->base.magazine_current();
@@ -222,7 +220,7 @@ turret_data::status turret_data::query() const
         return status::invalid;
     }
 
-    if( part->info().has_flag( "USE_TANKS" ) ) {
+    if( part->info().has_flag( flag_USE_TANKS ) ) {
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
@@ -251,7 +249,7 @@ void turret_data::prepare_fire( player &p )
     p.recoil = 0;
 
     // set fuel tank fluid as ammo, if appropriate
-    if( part->info().has_flag( "USE_TANKS" ) ) {
+    if( part->info().has_flag( flag_USE_TANKS ) ) {
         auto mode = base()->gun_current_mode();
         int qty  = mode->ammo_required();
         int fuel_left = veh->fuel_left( ammo_current() );
@@ -268,7 +266,7 @@ void turret_data::post_fire( player &p, int shots )
     auto mode = base()->gun_current_mode();
 
     // handle draining of vehicle tanks and UPS charges, if applicable
-    if( part->info().has_flag( "USE_TANKS" ) ) {
+    if( part->info().has_flag( flag_USE_TANKS ) ) {
         veh->drain( ammo_current(), mode->ammo_required() * shots );
         mode->ammo_unset();
     }

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "type_id.h"
 #include "clone_ptr.h"
 #include "units.h"
 
@@ -17,7 +18,6 @@ class monster;
 template<typename T> class ret_val;
 struct iteminfo;
 
-using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -203,7 +203,7 @@ class iuse
         int weak_antibiotic( player *, item *, bool, const tripoint & );
         int strong_antibiotic( player *, item *, bool, const tripoint & );
         int panacea( player *, item *, bool, const tripoint & );
-        int magnesium_tablet( player *, item *, bool, const tripoint & );
+        int melatonin_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
@@ -297,7 +297,7 @@ class iuse_actor
         /**
          * Finalizes the actor. Must be called after all items are loaded.
          */
-        virtual void finalize( const itype_id &/*my_item_type*/ ) { }
+        virtual void finalize( const itype_id & ) { }
 };
 
 struct use_function {

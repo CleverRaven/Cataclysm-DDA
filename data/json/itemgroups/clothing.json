@@ -389,7 +389,7 @@
   {
     "id": "clothing_work_torso",
     "type": "item_group",
-    "//": "Shirts and jackets often worn by technicians and labourers.",
+    "//": "Shirts and jackets often worn by technicians and laborers.",
     "items": [
       {
         "collection": [
@@ -406,7 +406,7 @@
     "id": "clothing_work_set",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Set of clothes worn by technicians and labourers including protective gear",
+    "//": "Set of clothes worn by technicians and laborers including protective gear",
     "items": [
       { "group": "clothing_work_boots" },
       { "group": "clothing_work_glasses", "prob": 60 },
@@ -1836,6 +1836,7 @@
       [ "boots_combat", 70 ],
       [ "gloves_tactical", 30 ],
       [ "glasses_bal", 40 ],
+      [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
       [ "power_armor_helmet_basic", 3 ],
@@ -1866,6 +1867,7 @@
       [ "briefcase", 10 ],
       [ "UPS_off", 5 ],
       [ "adv_UPS_off", 3 ],
+      [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
       [ "power_armor_frame", 4 ],
@@ -1969,6 +1971,7 @@
       [ "mask_gas", 10 ],
       [ "goggles_ski", 30 ],
       [ "helmet_skid", 30 ],
+      [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
       [ "under_armor", 20 ],
@@ -2140,15 +2143,14 @@
       [ "armor_blarmor", 14 ],
       [ "armor_farmor", 8 ],
       [ "armor_plarmor", 2 ],
+      [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
       [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
-      [ "armor_plate", 1 ],
-      [ "bondage_suit", 1 ],
-      [ "snuggie", 1 ]
+      [ "armor_plate", 1 ]
     ]
   },
   {
@@ -2179,6 +2181,8 @@
       [ "vest_leather", 22 ],
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
+      [ "ballistic_vest_empty", 2 ],
+      [ "ballistic_vest_esapi", 4 ],
       [ "modularvest", 4 ],
       [ "modularvesthard", 1 ],
       [ "modularvestkevlar", 2 ],
@@ -2205,9 +2209,8 @@
       [ "winter_pants_army", 10 ],
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
-      [ "legguard_scrap", 12 ],
-      [ "skirt", 6 ],
-      [ "kilt", 1 ]
+      [ "chaps_leather", 10 ],
+      [ "legguard_scrap", 12 ]
     ]
   },
   {
@@ -2250,7 +2253,6 @@
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
       [ "boots_hiking", 24 ],
-      [ "knee_high_boots", 8 ],
       [ "boots_combat", 12 ],
       [ "boots_larmor", 14 ],
       [ "boots_fur", 22 ],
@@ -2265,8 +2267,6 @@
     "items": [
       [ "hood_lsurvivor", 10 ],
       [ "hood_survivor", 8 ],
-      [ "helmet_survivor", 8 ],
-      [ "helmet_hsurvivor", 4 ],
       [ "hood_wsurvivor", 4 ],
       [ "hood_fsurvivor", 2 ],
       [ "hood_h20survivor", 1 ],
@@ -2275,14 +2275,12 @@
       [ "helmet_riot", 18 ],
       [ "tac_fullhelmet", 8 ],
       [ "helmet_lobster", 8 ],
-      [ "pot_helmet", 22 ],
       [ "helmet_larmor", 14 ],
       [ "pickelhaube", 1 ],
       [ "firehelmet", 2 ],
       [ "helmet_barbute", 1 ],
       [ "helmet_plate", 1 ],
       [ "helmet_scrap", 12 ],
-      [ "bondage_mask", 1 ],
       [ "survivor_goggles", 10 ],
       [ "hood_rain", 14 ]
     ]
@@ -2332,8 +2330,10 @@
       [ "dump_pouch", 6 ],
       [ "ragpouch", 22 ],
       [ "leather_pouch", 16 ],
-      [ "quiver", 14 ],
-      [ "quiver_large", 8 ],
+      [ "quiver", 10 ],
+      [ "quiver_birchbark", 4 ],
+      [ "quiver_large", 6 ],
+      [ "quiver_large_birchbark", 2 ],
       [ "wristwatch", 24 ],
       [ "diving_watch", 16 ],
       [ "pocketwatch", 14 ],
@@ -2348,8 +2348,6 @@
       [ "balclava", 12 ],
       [ "mask_survivorxl", 2 ],
       [ "combatsaw_off", 1 ],
-      [ "firemachete_off", 1 ],
-      [ "shishkebab_off", 2 ],
       [ "helsing", 1 ],
       [ "tihar", 2 ],
       [ "bigun", 2 ],

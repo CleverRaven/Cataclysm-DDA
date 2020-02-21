@@ -73,25 +73,7 @@
 #include "point.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_mechanics( "mechanics" );
-static const skill_id skill_speech( "speech" );
-static const skill_id skill_traps( "traps" );
-static const skill_id skill_swimming( "swimming" );
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-static const zone_type_id z_camp_food( "CAMP_FOOD" );
+#include "cata_string_consts.h"
 
 struct mass_volume {
     units::mass wgt;
@@ -1575,13 +1557,11 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
 void basecamp::abandon_camp()
 {
     validate_assignees();
-    npc_ptr random_guy;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.role_id != base_camps::id ) {
             continue;
         }
-        random_guy = guy;
         const std::string return_msg = _( "responds to the emergency recall…" );
         finish_return( *guy, false, return_msg, "menial", 0, true );
     }
@@ -1589,7 +1569,7 @@ void basecamp::abandon_camp()
         talk_function::stop_guard( *guy );
     }
     overmap_buffer.remove_camp( *this );
-    g->m.remove_submap_camp( random_guy->pos() );
+    g->m.remove_submap_camp( bb_pos );
     add_msg( m_info, _( "You abandon %s." ), name );
 }
 
@@ -1702,7 +1682,7 @@ void basecamp::start_menial_labor()
     }
     validate_sort_points();
 
-    comp->assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    comp->assign_activity( ACT_MOVE_LOOT );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -2093,7 +2073,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter->has_flag( "PLOWABLE" );
+        return farm_ter->has_flag( flag_PLOWABLE );
     };
 
     std::set<std::string> plant_names;
@@ -2880,42 +2860,42 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
 {
     // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
-    hunting_targets.add( mtype_id( "mon_beaver" ), 10 );
-    hunting_targets.add( mtype_id( "mon_fox_red" ), 10 );
-    hunting_targets.add( mtype_id( "mon_fox_gray" ), 10 );
-    hunting_targets.add( mtype_id( "mon_mink" ), 5 );
-    hunting_targets.add( mtype_id( "mon_muskrat" ), 10 );
-    hunting_targets.add( mtype_id( "mon_otter" ), 10 );
-    hunting_targets.add( mtype_id( "mon_duck" ), 10 );
-    hunting_targets.add( mtype_id( "mon_cockatrice" ), 1 );
+    hunting_targets.add( mon_beaver, 10 );
+    hunting_targets.add( mon_fox_red, 10 );
+    hunting_targets.add( mon_fox_gray, 10 );
+    hunting_targets.add( mon_mink, 5 );
+    hunting_targets.add( mon_muskrat, 10 );
+    hunting_targets.add( mon_otter, 10 );
+    hunting_targets.add( mon_duck, 10 );
+    hunting_targets.add( mon_cockatrice, 1 );
     if( task == "_faction_camp_trapping" ) {
-        hunting_targets.add( mtype_id( "mon_black_rat" ), 40 );
-        hunting_targets.add( mtype_id( "mon_chipmunk" ), 30 );
-        hunting_targets.add( mtype_id( "mon_groundhog" ), 30 );
-        hunting_targets.add( mtype_id( "mon_hare" ), 20 );
-        hunting_targets.add( mtype_id( "mon_lemming" ), 40 );
-        hunting_targets.add( mtype_id( "mon_opossum" ), 10 );
-        hunting_targets.add( mtype_id( "mon_rabbit" ), 20 );
-        hunting_targets.add( mtype_id( "mon_squirrel" ), 20 );
-        hunting_targets.add( mtype_id( "mon_weasel" ), 20 );
-        hunting_targets.add( mtype_id( "mon_chicken" ), 10 );
-        hunting_targets.add( mtype_id( "mon_grouse" ), 10 );
-        hunting_targets.add( mtype_id( "mon_pheasant" ), 10 );
-        hunting_targets.add( mtype_id( "mon_turkey" ), 20 );
+        hunting_targets.add( mon_black_rat, 40 );
+        hunting_targets.add( mon_chipmunk, 30 );
+        hunting_targets.add( mon_groundhog, 30 );
+        hunting_targets.add( mon_hare, 20 );
+        hunting_targets.add( mon_lemming, 40 );
+        hunting_targets.add( mon_opossum, 10 );
+        hunting_targets.add( mon_rabbit, 20 );
+        hunting_targets.add( mon_squirrel, 20 );
+        hunting_targets.add( mon_weasel, 20 );
+        hunting_targets.add( mon_chicken, 10 );
+        hunting_targets.add( mon_grouse, 10 );
+        hunting_targets.add( mon_pheasant, 10 );
+        hunting_targets.add( mon_turkey, 20 );
     } else if( task == "_faction_camp_hunting" ) {
-        hunting_targets.add( mtype_id( "mon_chicken" ), 20 );
+        hunting_targets.add( mon_chicken, 20 );
         // good luck hunting upland game birds without dogs
-        hunting_targets.add( mtype_id( "mon_grouse" ), 2 );
-        hunting_targets.add( mtype_id( "mon_pheasant" ), 2 );
-        hunting_targets.add( mtype_id( "mon_turkey" ), 10 );
-        hunting_targets.add( mtype_id( "mon_bear" ), 1 );
-        hunting_targets.add( mtype_id( "mon_cougar" ), 5 );
-        hunting_targets.add( mtype_id( "mon_cow" ), 1 );
-        hunting_targets.add( mtype_id( "mon_coyote" ), 15 );
-        hunting_targets.add( mtype_id( "mon_deer" ), 2 );
-        hunting_targets.add( mtype_id( "mon_moose" ), 1 );
-        hunting_targets.add( mtype_id( "mon_pig" ), 1 );
-        hunting_targets.add( mtype_id( "mon_wolf" ), 10 );
+        hunting_targets.add( mon_grouse, 2 );
+        hunting_targets.add( mon_pheasant, 2 );
+        hunting_targets.add( mon_turkey, 10 );
+        hunting_targets.add( mon_bear, 1 );
+        hunting_targets.add( mon_cougar, 5 );
+        hunting_targets.add( mon_cow, 1 );
+        hunting_targets.add( mon_coyote, 15 );
+        hunting_targets.add( mon_deer, 2 );
+        hunting_targets.add( mon_moose, 1 );
+        hunting_targets.add( mon_pig, 1 );
+        hunting_targets.add( mon_wolf, 10 );
     }
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -3033,7 +3013,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.ter( p ).obj().has_flag( "TREE" ) && rng( 0, 100 ) < chance ) {
+        if( target_bay.ter( p ).obj().has_flag( flag_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
             if( estimate ) {
                 continue;

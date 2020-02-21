@@ -25,14 +25,7 @@
 #include "item.h"
 #include "optional.h"
 #include "rng.h"
-
-static const mtype_id mon_dog( "mon_dog" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_zombie_master( "mon_zombie_master" );
-static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+#include "cata_string_consts.h"
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -149,7 +142,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
             }
             int wall = 0;
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.has_flag_ter( "WALL", p2 ) ) {
+                if( compmap.has_flag_ter( flag_WALL, p2 ) ) {
                     wall++;
                 }
             }
@@ -225,7 +218,7 @@ void mission_start::place_npc_software( mission *miss )
     compmap.ter_set( comppoint, t_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
                         dev->name ), 0 );
-    tmpcomp->mission_id = miss->uid;
+    tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
     compmap.save();
 }
@@ -571,7 +564,7 @@ void mission_start::ranch_scavenger_3( mission *miss )
     bay.spawn_item( point( 17, 21 ), "wheel_wide" );
     bay.spawn_item( point( 23, 18 ), "v8_combustion" );
     bay.furn_set( point( 23, 17 ), furn_str_id( "f_arcade_machine" ) );
-    bay.ter_set( point( 23, 16 ), ter_str_id( "t_machinery_light" ) );
+    bay.ter_set( point( 23, 16 ), ter_machinery_light );
     bay.furn_set( point( 20, 21 ), f_woodstove );
     bay.save();
 
@@ -631,7 +624,7 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
         tripoint comppoint = find_potential_computer_point( compmap );
 
         computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
-        tmpcomp->mission_id = miss->get_id();
+        tmpcomp->set_mission( miss->get_id() );
         tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure( COMPFAIL_ALARM );
         tmpcomp->add_failure( COMPFAIL_DAMAGE );
@@ -712,7 +705,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     }
 
     computer *tmpcomp = compmap.computer_at( *comppoint );
-    tmpcomp->mission_id = miss->uid;
+    tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 
     compmap.save();

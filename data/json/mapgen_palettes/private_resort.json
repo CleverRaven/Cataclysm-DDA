@@ -52,7 +52,7 @@
     },
     "terrain": {
       " ": "t_floor",
-      ".": "t_grass",
+      ".": "t_region_groundcover_urban",
       "F": "t_privacy_fence",
       "W": "t_wall_w",
       "G": "t_privacy_fencegate_c",
@@ -121,7 +121,7 @@
     },
     "terrain": {
       " ": "t_floor",
-      ".": "t_grass",
+      ".": "t_region_groundcover_urban",
       "F": "t_privacy_fence",
       "W": "t_wall_w",
       "w": "t_window_domestic",
@@ -150,6 +150,7 @@
       "h": "f_shower",
       "a": "f_sofa",
       "c": "f_chair",
+      "f": "f_glass_fridge",
       "]": "f_fridge",
       "S": "f_sink",
       "7": "f_deckchair",

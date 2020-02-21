@@ -102,7 +102,7 @@
     "description": "A metal backboard.",
     "symbol": "7",
     "looks_like": "t_backboard",
-    "color": [ "red" ],
+    "color": "red",
     "move_cost": 0,
     "roof": "t_flat_roof",
     "bash": {

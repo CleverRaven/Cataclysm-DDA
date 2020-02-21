@@ -12,7 +12,15 @@
     "blueprint_requires": [ { "id": "fbms_0" } ],
     "blueprint_provides": [ { "id": "fbms_east" } ],
     "blueprint_excludes": [ { "id": "fbms_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 216 ] ], [ [ "log", 48 ] ], [ [ "nail", 480 ] ], [ [ "wood_panel", 24 ], [ "wood_sheet", 12 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,12 +35,20 @@
     "blueprint_requires": [ { "id": "fbms_0" } ],
     "blueprint_provides": [ { "id": "fbms_west" } ],
     "blueprint_excludes": [ { "id": "fbms_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 216 ] ], [ [ "log", 48 ] ], [ [ "nail", 480 ] ], [ [ "wood_panel", 24 ], [ "wood_sheet", 12 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
     "result": "faction_base_modular_storehouse_log_northwest",
-    "description": "We could use a large log  central storage building.  Continue by building the northwest corner.",
+    "description": "We could use a large log central storage building.  Continue by building the northwest corner.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -42,7 +58,21 @@
     "blueprint_requires": [ { "id": "fbms_west" } ],
     "blueprint_provides": [ { "id": "fbms_northwest" } ],
     "blueprint_excludes": [ { "id": "fbms_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "17 h 45 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 87 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "log", 16 ] ],
+          [ [ "nail", 190 ] ],
+          [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +87,21 @@
     "blueprint_requires": [ { "id": "fbms_west" } ],
     "blueprint_provides": [ { "id": "fbms_southwest" } ],
     "blueprint_excludes": [ { "id": "fbms_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "17 h 45 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 87 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "log", 16 ] ],
+          [ [ "nail", 190 ] ],
+          [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,7 +116,21 @@
     "blueprint_requires": [ { "id": "fbms_east" } ],
     "blueprint_provides": [ { "id": "fbms_northeast" } ],
     "blueprint_excludes": [ { "id": "fbms_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "17 h 45 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 87 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "log", 16 ] ],
+          [ [ "nail", 190 ] ],
+          [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -87,7 +145,21 @@
     "blueprint_requires": [ { "id": "fbms_east" } ],
     "blueprint_provides": [ { "id": "fbms_southeast" } ],
     "blueprint_excludes": [ { "id": "fbms_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "17 h 45 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 87 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "log", 16 ] ],
+          [ [ "nail", 190 ] ],
+          [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -102,7 +174,22 @@
     "blueprint_requires": [ { "id": "fbms_southeast" }, { "id": "fbms_southwest" } ],
     "blueprint_provides": [ { "id": "fbms_south" } ],
     "blueprint_excludes": [ { "id": "fbms_south" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 14 h 30 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 250 ] ],
+          [ [ "nail", 1092 ] ],
+          [ [ "wood_panel", 50 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "log", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -117,7 +204,22 @@
     "blueprint_requires": [ { "id": "fbms_northeast" }, { "id": "fbms_northwest" } ],
     "blueprint_provides": [ { "id": "fbms_north" } ],
     "blueprint_excludes": [ { "id": "fbms_north" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 14 h 30 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 250 ] ],
+          [ [ "nail", 1092 ] ],
+          [ [ "wood_panel", 50 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "log", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -132,6 +234,14 @@
     "blueprint_requires": [ { "id": "fbms_north" }, { "id": "fbms_south" } ],
     "blueprint_provides": [ { "id": "fbms_center" } ],
     "blueprint_excludes": [ { "id": "fbms_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "5 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "wood_sheet", 60 ], [ "wood_panel", 120 ] ], [ [ "2x4", 360 ] ], [ [ "nail", 2400 ] ] ]
+      }
+    }
   }
 ]

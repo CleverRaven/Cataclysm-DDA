@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -24,8 +25,6 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        // not needed for compilation, but keeps syntax plugins happy
-        using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -80,7 +79,8 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        std::string last_construction;
+        cata::optional<std::string> last_construction;
+        construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;

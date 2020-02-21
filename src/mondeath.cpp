@@ -47,40 +47,7 @@
 #include "colony.h"
 #include "point.h"
 #include "mattack_actors.h"
-
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_blob_brain( "mon_blob_brain" );
-static const mtype_id mon_blob_small( "mon_blob_small" );
-static const mtype_id mon_breather( "mon_breather" );
-static const mtype_id mon_breather_hub( "mon_breather_hub" );
-static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-static const mtype_id mon_halfworm( "mon_halfworm" );
-static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-static const mtype_id mon_thing( "mon_thing" );
-static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
-static const species_id BLOB( "BLOB" );
-
-static const efftype_id effect_amigara( "amigara" );
-static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_darkness( "darkness" );
-static const efftype_id effect_glowing( "glowing" );
-static const efftype_id effect_no_ammo( "no_ammo" );
-static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_rat( "rat" );
-
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PRED1( "PRED1" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_KILLER( "KILLER" );
+#include "cata_string_consts.h"
 
 void mdeath::normal( monster &z )
 {
@@ -222,7 +189,7 @@ void mdeath::splatter( monster &z )
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse.set_flag( flag_GIBBED );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -414,8 +381,8 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
+    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( flag_PRED3 ) ||
+        g->u.has_trait_flag( flag_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -434,7 +401,7 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait( trait_PRED1 ) ) || ( g->u.has_trait( trait_PRED2 ) ) ) {
+    } else if( ( g->u.has_trait_flag( flag_PRED1 ) ) || ( g->u.has_trait_flag( flag_PRED2 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -457,9 +424,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait( trait_PRED1 ) ) {
+        } else if( g->u.has_trait_flag( flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait( trait_PRED2 ) ) {
+        } else if( g->u.has_trait_flag( flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }
@@ -499,7 +466,7 @@ void mdeath::blobsplit( monster &z )
 void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+        if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
             critter.remove_effect( effect_controlled );
         }
     }
@@ -733,17 +700,17 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
+                  ch->weapon.has_flag( flag_DIAMOND ) &&
                   ch->weapon.volume() > 750_ml;
 
-    if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
+    if( vorpal && !ch->weapon.has_technique( matec_VORPAL ) ) {
         if( ch->sees( z ) ) {
             ch->add_msg_if_player( m_info,
                                    //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
-        ch->weapon.add_technique( matec_id( "VORPAL" ) );
+        ch->weapon.add_technique( matec_VORPAL );
     }
 
     mdeath::normal( z );

@@ -16,7 +16,7 @@
       [ [ "salt", 12 ] ],
       [ [ "sugar", 24 ] ],
       [ [ "chocolate", 3 ] ],
-      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ], [ "any_butter", 2, "LIST" ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
     ]
@@ -384,7 +384,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [
         [ "lemon", 1 ],
@@ -1080,7 +1080,7 @@
     "components": [
       [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ]
+      [ [ "fry_oil", 2, "LIST" ] ]
     ]
   },
   {
@@ -1170,7 +1170,7 @@
     "components": [
       [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ]
+      [ [ "fry_oil", 4, "LIST" ] ]
     ]
   },
   {
@@ -1566,7 +1566,7 @@
   {
     "type": "recipe",
     "result": "oj",
-    "byproducts": [ [ "juice_pulp" ] ],
+    "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -2068,7 +2068,7 @@
     "components": [
       [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ]
@@ -2082,7 +2082,7 @@
     "components": [
       [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "weed", 5 ] ]
@@ -2097,7 +2097,7 @@
     "components": [
       [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
@@ -2112,7 +2112,7 @@
     "components": [
       [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
@@ -2199,7 +2199,7 @@
         [ "honey_glassed", 2 ]
       ],
       [ [ "meat_raw_steak", 1, "LIST" ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
+      [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "pepper", 1 ] ]
     ]
@@ -2283,7 +2283,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "charges": 1,
-    "time": "1 h 30 m",
+    "time": "1 h 15 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
@@ -2310,7 +2310,7 @@
     "components": [
       [ [ "flour", 20 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ] ],
-      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
@@ -2329,7 +2329,7 @@
     "components": [
       [ [ "cornmeal", 15 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
@@ -2477,7 +2477,7 @@
         [ "eggs_bird", 2, "LIST" ],
         [ "egg_reptile", 2 ]
       ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ]
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
   },
   {
@@ -2504,7 +2504,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "rice_cooked", 1 ] ], [ [ "veggy_any", 1, "LIST" ] ], [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ]
+    "components": [ [ [ "rice_cooked", 1 ] ], [ [ "veggy_any", 1, "LIST" ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3067,7 +3067,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3087,7 +3087,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -3108,7 +3108,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
@@ -3155,7 +3155,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3175,7 +3175,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -3365,11 +3365,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [
-      [ [ "flour", 30 ] ],
-      [ [ "veggy_any", 8, "LIST" ], [ "dandelion_cooked", 8 ], [ "wild_herbs", 40 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "flour", 30 ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4759,11 +4755,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [
-      [ [ "sauerkraut", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ]
-    ]
+    "components": [ [ [ "sauerkraut", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4882,12 +4874,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
-      [
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "edible_tallow_lard", 1, "LIST" ],
-        [ "any_butter", 1, "LIST" ]
-      ],
+      [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -4909,6 +4896,8 @@
         [ "irradiated_broccoli", 2 ],
         [ "dandelion_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
+        [ "fiddlehead_boiled", 2 ],
+        [ "fiddlehead_sauteed", 2 ],
         [ "sauerkraut", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "cabbage", 2 ]
@@ -5636,6 +5625,20 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "rehydration_drink",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "book_learn": [ [ "textbook_firstaid", 1 ], [ "manual_survival", 1 ], [ "manual_first_aid", 1 ] ],
+    "skill_used": "cooking",
+    "time": "3 m",
+    "charges": 8,
+    "autolearn": false,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
+    "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
+  },
+  {
     "result": "oatmeal",
     "type": "recipe",
     "id_suffix": "with_food_processor",
@@ -5879,6 +5882,22 @@
         [ "pepper", 4 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_wasteland",
+    "id_suffix": "smoke",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "1 h 10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 1 ] ] ],
+    "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6223,7 +6242,8 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "40 m",
+    "time": "25 m",
+    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
@@ -6278,7 +6298,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "batch_time_factors": [ 80, 2 ],
-    "components": [ [ [ "fiddlehead_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ], [ "broth", 1 ], [ "broth_bone", 1 ] ] ]
+    "components": [ [ [ "fiddlehead_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6295,17 +6315,7 @@
     "//": "The batch time adj. is because they need to be boiled before you can safely eat them, even if you pan-fry them.",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [
-      [ [ "fiddlehead_raw", 2 ] ],
-      [
-        [ "cooking_oil", 1 ],
-        [ "cooking_oil2", 1 ],
-        [ "any_butter", 1, "LIST" ],
-        [ "edible_fat", 1, "LIST" ],
-        [ "edible_tallow_lard", 1, "LIST" ]
-      ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "fiddlehead_raw", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6320,15 +6330,6 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [
-      [ [ "fiddlehead_boiled", 2 ] ],
-      [
-        [ "cooking_oil", 1 ],
-        [ "cooking_oil2", 1 ],
-        [ "any_butter", 1, "LIST" ],
-        [ "edible_fat", 1, "LIST" ],
-        [ "edible_tallow_lard", 1, "LIST" ]
-      ]
-    ]
+    "components": [ [ [ "fiddlehead_boiled", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
   }
 ]

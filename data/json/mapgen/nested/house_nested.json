@@ -218,7 +218,7 @@
         "   O",
         "66EE",
         "66EE",
-        "   0"
+        "   O"
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
@@ -241,7 +241,7 @@
         "   O",
         "I EE",
         "h EE",
-        "   0"
+        "   O"
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
@@ -264,7 +264,7 @@
         "   O",
         "b EE",
         "H EE",
-        "   0"
+        "   O"
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": {
@@ -306,7 +306,7 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "0   ",
+        "O   ",
         "EE66",
         "EE66",
         "O   "
@@ -329,7 +329,7 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "0   ",
+        "O   ",
         "EE h",
         "EE I",
         "O   "
@@ -352,7 +352,7 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "0   ",
+        "O   ",
         "EE H",
         "EE b",
         "O   "
@@ -1332,8 +1332,8 @@
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "T @",
-        "T @",
+        "L @",
+        "L @",
         "C @"
       ],
       "palettes": [ "house_w_nest_palette" ],
@@ -1636,6 +1636,34 @@
         { "item": "home_hw", "x": [ 1, 3 ], "y": 4, "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "wood_workshop", "x": 1, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 3 ] }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "shed_6x6_bike",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|    +",
+        "|   B|",
+        "|   B|",
+        "+   S|",
+        "||||||"
+      ],
+      "terrain": {
+        "|": "t_scrap_wall",
+        "+": "t_door_metal_pickable",
+        " ": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "B": "t_thconc_floor"
+      },
+      "furniture": { "T": "f_trashcan", "S": "f_utility_shelf", "B": "f_workbench" },
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 270, "chance": 50 } ],
+      "place_items": [ { "item": "bikeshop_tools", "x": 4, "y": [ 2, 4 ], "chance": 10, "repeat": [ 1, 3 ] } ]
     }
   },
   {

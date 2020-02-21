@@ -54,6 +54,7 @@
         "                      ssss                      "
       ],
       "palettes": [ "apartment_palette" ],
+      "terrain": { ".": "t_floor" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
         { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },

@@ -93,15 +93,12 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 struct oter_type_t;
 struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -455,7 +452,7 @@ void Character::load( const JsonObject &data )
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
         if( !temp_selected_style.is_valid() ) {
-            temp_selected_style = matype_id( "style_none" );
+            temp_selected_style = style_none;
         }
         martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
                             temp_keep_hands_free );
@@ -484,8 +481,8 @@ void Character::load( const JsonObject &data )
         backlog.push_front( temp );
     }
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data fetch_reqs;
         data.read( "fetch_data", fetch_reqs );
         const requirement_id req_id( backlog.front().str_values.back() );
@@ -721,8 +718,8 @@ void Character::store( JsonOut &json ) const
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
@@ -914,22 +911,22 @@ void player::load( const JsonObject &data )
     data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
+    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
+        add_bionic( bio_earplugs );
     }
 
     // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
+    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
+        add_bionic( bio_blindfold );
     }
 
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
     }
 
     if( data.has_array( "faction_warnings" ) ) {
@@ -1926,6 +1923,8 @@ void monster::load( const JsonObject &data )
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
 
+    data.read( "udder_timer", udder_timer );
+
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
@@ -2008,6 +2007,7 @@ void monster::store( JsonOut &json ) const
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
+    json.member( "udder_timer", udder_timer );
 
     json.member( "summon_time_limit", summon_time_limit );
 
@@ -2519,7 +2519,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
+    if( base.has_flag( flag_VEHICLE ) ) {
         if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != "battery" ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
@@ -2700,21 +2700,21 @@ void vehicle::deserialize( JsonIn &jsin )
 
     // Add vehicle mounts to cars that are missing them.
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
@@ -3745,7 +3745,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
-        jsout.write( elem.second.id );
+        jsout.write( elem.second.id.id() );
         jsout.start_array();
         for( auto &it : elem.second.components ) {
             jsout.write( it );
@@ -3757,13 +3757,13 @@ void submap::store( JsonOut &jsout ) const
     if( legacy_computer ) {
         // it's possible that no access to computers has been made and legacy_computer
         // is not cleared
-        jsout.member( "computers", legacy_computer->save_data() );
+        jsout.member( "computers", *legacy_computer );
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
         for( auto &elem : computers ) {
             jsout.write( elem.first );
-            jsout.write( elem.second.save_data() );
+            jsout.write( elem.second );
         }
         jsout.end_array();
     }
@@ -4016,7 +4016,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int k = jsin.get_int();
             tripoint pt = tripoint( i, j, k );
             pc.counter = jsin.get_int();
-            pc.id = jsin.get_int();
+            if( jsin.test_int() ) {
+                // Oops, int id incorrectly saved by legacy code, just load it and hope for the best
+                pc.id = construction_id( jsin.get_int() );
+            } else {
+                pc.id = construction_str_id( jsin.get_string() ).id();
+            }
             jsin.start_array();
             while( !jsin.end_array() ) {
                 item tmp;
@@ -4031,16 +4036,14 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             while( !jsin.end_array() ) {
                 point loc;
                 jsin.read( loc );
-                std::string computer_data = jsin.get_string();
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100 ) ).first;
-                new_comp_it->second.load_data( computer_data );
+                jsin.read( new_comp_it->second );
             }
         } else {
             // only load legacy data here, but do not update to std::map, since
             // the terrain may not have been loaded yet.
-            std::string computer_data = jsin.get_string();
             legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
-            legacy_computer->load_data( computer_data );
+            jsin.read( *legacy_computer );
         }
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();

@@ -90,11 +90,12 @@ RELEASE_FLAGS =
 WARNINGS = \
   -Werror -Wall -Wextra \
   -Wmissing-declarations \
+  -Wmissing-noreturn \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wpedantic \
   -Wsuggest-override \
-  -Wno-unknown-warning-option \
-  -Wpedantic
+  -Wno-unknown-warning-option
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -185,7 +186,8 @@ ifeq ($(RUNTESTS), 1)
   TESTS = tests
 endif
 
-# tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
+# tiles object directories are because gcc gets confused
+# Appears that the default value of $LD is unsuitable on most systems
 
 # when preprocessor defines change, but the source doesn't
 ODIR = $(BUILD_PREFIX)obj
@@ -256,8 +258,9 @@ CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
-  CXXFLAGS += -fsanitize=$(SANITIZE)
-  LDFLAGS += -fsanitize=$(SANITIZE)
+  SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
+  CXXFLAGS += $(SANITIZE_FLAGS)
+  LDFLAGS += $(SANITIZE_FLAGS)
 endif
 
 # enable optimizations. slow to build
@@ -283,6 +286,7 @@ ifdef RELEASE
       OPTLEVEL = -Os
     endif
   endif
+
   ifdef LTO
     ifdef CLANG
       # LLVM's LTO will complain if the optimization level isn't between O0 and
@@ -293,7 +297,14 @@ ifdef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 
   ifdef LTO
-    LDFLAGS += -fuse-ld=gold
+    ifeq ($(NATIVE), osx)
+      ifdef CLANG
+        LTOFLAGS += -flto=full
+      endif
+    else
+      LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
+    endif
+
     ifdef CLANG
       LTOFLAGS += -flto
     else
@@ -303,6 +314,8 @@ ifdef RELEASE
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
+  
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -349,7 +362,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc LICENSE.txt
+BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -1027,12 +1040,13 @@ endif
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
 
-ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+ctags: $(ASTYLE_SOURCES)
+	ctags $^
+	./tools/json_tools/cddatags.py
 
-etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
+etags: $(ASTYLE_SOURCES)
+	etags $^
+	./tools/json_tools/cddatags.py
 
 astyle: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)

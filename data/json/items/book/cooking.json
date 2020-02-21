@@ -130,7 +130,7 @@
     "required_level": 1,
     "max_level": 5,
     "intelligence": 7,
-    "time": "45 m",
+    "time": "30 m",
     "fun": 1
   },
   {
@@ -443,6 +443,32 @@
     "fun": -1
   },
   {
+    "id": "preserving_juice",
+    "type": "BOOK",
+    "name": { "str": "Drink the Harvest", "str_pl": "copies of Drink the Harvest" },
+    "description": "Canning foods doesn't have to stop with jam and pickles.  This book provides a plethora of juices that can be preserved.",
+    "copy-from": "brewing_cookbook",
+    "//": "Later on add mead transforms that don't require distilling to this book that match the source book. Possibly wait til beekeeping is added."
+  },
+  {
+    "id": "offalcooking",
+    "type": "BOOK",
+    "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },
+    "description": "Offal Holiday Cooking, by Evelyn Turncoat, is a book of holiday recipes that utilize organ meats from various animals.  For the true nose-to-tail cook.",
+    "weight": "454 g",
+    "volume": "1 L",
+    "price": 1900,
+    "price_postapoc": 43500,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "cooking",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 4,
+    "time": "14 m"
+  },
+  {
     "id": "cookbook_liverforkids",
     "type": "BOOK",
     "name": { "str": "Liver-Licious Recipes Your Kids Will Love", "str_pl": "copies of Liver-Licious Recipes" },
@@ -459,7 +485,7 @@
     "required_level": 1,
     "max_level": 2,
     "intelligence": 5,
-    "time": "45 m"
+    "time": "20 m"
   },
   {
     "id": "cookbook_daintydishes",
@@ -470,7 +496,7 @@
     "price": 3000,
     "price_postapoc": 4700,
     "max_level": 3,
-    "time": "60 m",
+    "time": "18 m",
     "fun": 1,
     "copy-from": "cookbook_liverforkids"
   },
@@ -483,7 +509,7 @@
     "volume": "1100 ml",
     "required_level": 0,
     "max_level": 1,
-    "time": "70 m",
+    "time": "25 m",
     "fun": -1,
     "copy-from": "cookbook_liverforkids"
   },

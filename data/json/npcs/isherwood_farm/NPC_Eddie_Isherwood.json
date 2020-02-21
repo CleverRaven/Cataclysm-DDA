@@ -145,7 +145,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_EDDIE_LUKE",
-    "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery. He's out in the old outbuilding right now, cleaning up the place.",
+    "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery.  He's out in the old outbuilding right now, cleaning up the place.",
     "speaker_effect": { "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
@@ -174,7 +174,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {

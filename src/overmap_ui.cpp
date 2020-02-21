@@ -59,6 +59,7 @@
 #include "enums.h"
 #include "map.h"
 #include "player_activity.h"
+#include "cata_string_consts.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -118,7 +119,7 @@ static std::tuple<char, nc_color, size_t> get_note_display_info( const std::stri
 static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
 
     std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
@@ -469,7 +470,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     bool csee = false;
     oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
@@ -477,7 +478,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
-    const oter_id forest = oter_str_id( "forest" ).id();
+    const oter_id forest = oter_forest.id();
 
     std::string sZoneName;
     tripoint tripointZone = tripoint( -1, -1, -1 );
@@ -730,7 +731,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
                     for( auto &mgp : groups ) {
-                        if( mgp->type == mongroup_id( "GROUP_FOREST" ) ) {
+                        if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
                         }
@@ -860,7 +861,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
-            maxlen = std::max( maxlen, utf8_width( line.second ) );
+            maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
         mvwputch( w, point_south_east, c_white, LINE_OXXO );
@@ -1235,7 +1236,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                                                colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
                                                colorize( oter.get_name(), oter.get_color() ),
                                                colorize( oter.id.str(), c_white ) );
-            pmenu.addentry( oter.id.id(), true, 0, entry_text );
+            pmenu.addentry( oter.id.id().to_i(), true, 0, entry_text );
         }
     } else {
         pmenu.title = _( "Select special to place:" );
@@ -1476,23 +1477,29 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
                 // going to or coming from a water tile
-                if( is_river_or_lake( oter ) || g->m.has_flag( "SWIMMABLE", g->u.pos() ) ) {
+                if( is_river_or_lake( oter ) || g->m.has_flag( flag_SWIMMABLE, g->u.pos() ) ) {
                     ptype.amphibious = true;
                 }
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
-                if( query_yn( _( "Travel to this point?" ) ) ) {
+                std::string confirm_msg;
+                if( g->u.weight_carried() > g->u.weight_capacity() ) {
+                    confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
+                } else {
+                    confirm_msg = _( "Travel to this point?" );
+                }
+                if( query_yn( confirm_msg ) ) {
                     // renew the path incase of a leftover dangling path point
                     g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
                         player_veh->is_autodriving = true;
-                        g->u.assign_activity( activity_id( "ACT_AUTODRIVE" ) );
+                        g->u.assign_activity( ACT_AUTODRIVE );
                     } else {
                         g->u.reset_move_mode();
-                        g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                        g->u.assign_activity( ACT_TRAVELLING );
                     }
                     action = "QUIT";
                 }

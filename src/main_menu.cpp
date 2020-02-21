@@ -242,7 +242,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
 
 std::string main_menu::handle_input_timeout( input_context &ctxt )
 {
-    std::string action = ctxt.handle_input( 125 );
+    std::string action = ctxt.handle_input( 1000 );
 
     if( action == "TIMEOUT" ) {
         init_windows();
@@ -433,6 +433,11 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
+        popup( _( "Unable to make fonts directory.  Check permissions." ) );
+        return false;
+    }
+
     if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
         popup( _( "Unable to make sound directory.  Check permissions." ) );
         return false;
@@ -590,6 +595,11 @@ bool main_menu::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
+                        on_out_of_scope cleanup( []() {
+                            g->gamemode.reset();
+                            g->u = avatar();
+                            world_generator->set_active_world( nullptr );
+                        } );
                         g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
                         // check world
                         WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
@@ -601,15 +611,12 @@ bool main_menu::opening_screen()
                             g->setup();
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
-                            g->gamemode.reset();
-                            g->u = avatar();
                             continue;
                         }
                         if( !g->gamemode->init() ) {
-                            g->gamemode.reset();
-                            g->u = avatar();
                             continue;
                         }
+                        cleanup.cancel();
                         start = true;
                     }
                 }
@@ -661,7 +668,7 @@ bool main_menu::opening_screen()
 
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 == 0 ) {
-                        get_options().show( true );
+                        get_options().show( false );
                         // The language may have changed- gracefully handle this.
                         init_strings();
                     } else if( sel2 == 1 ) {
@@ -758,6 +765,10 @@ bool main_menu::new_character_tab()
             }
             if( action == "UP" || action == "CONFIRM" ) {
                 if( sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4 ) {
+                    on_out_of_scope cleanup( []() {
+                        g->u = avatar();
+                        world_generator->set_active_world( nullptr );
+                    } );
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
@@ -770,7 +781,6 @@ bool main_menu::new_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = avatar();
                         continue;
                     }
                     character_type play_type = PLTYPE_CUSTOM;
@@ -789,7 +799,6 @@ bool main_menu::new_character_tab()
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
-                        g->u = avatar();
                         load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
@@ -802,9 +811,9 @@ bool main_menu::new_character_tab()
                     wrefresh( w_background );
 
                     if( !g->start_game() ) {
-                        g->u = avatar();
                         continue;
                     }
+                    cleanup.cancel();
                     start = true;
                 } else if( sel2 == 1 ) {
                     layer = 3;
@@ -865,9 +874,12 @@ bool main_menu::new_character_tab()
                     }
                 }
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
+                on_out_of_scope cleanup( []() {
+                    g->u = avatar();
+                    world_generator->set_active_world( nullptr );
+                } );
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
-                    g->u = avatar();
                     continue;
                 }
                 world_generator->set_active_world( world );
@@ -875,11 +887,9 @@ bool main_menu::new_character_tab()
                     g->setup();
                 } catch( const std::exception &err ) {
                     debugmsg( "Error: %s", err.what() );
-                    g->u = avatar();
                     continue;
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
-                    g->u = avatar();
                     load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
@@ -890,9 +900,9 @@ bool main_menu::new_character_tab()
                 werase( w_background );
                 wrefresh( w_background );
                 if( !g->start_game() ) {
-                    g->u = avatar();
                     continue;
                 }
+                cleanup.cancel();
                 start = true;
             }
         }
@@ -1044,6 +1054,11 @@ bool main_menu::load_character_tab( bool transfer )
             }
             if( action == "RIGHT" || action == "CONFIRM" ) {
                 if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
+                    on_out_of_scope cleanup( []() {
+                        g->u = avatar();
+                        world_generator->set_active_world( nullptr );
+                    } );
+
                     werase( w_background );
                     wrefresh( w_background );
 
@@ -1057,11 +1072,11 @@ bool main_menu::load_character_tab( bool transfer )
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = avatar();
                         continue;
                     }
 
                     g->load( savegames[sel3] );
+                    cleanup.cancel();
                     start = true;
                 }
             }

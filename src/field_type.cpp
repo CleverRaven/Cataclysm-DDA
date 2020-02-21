@@ -243,6 +243,11 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
+
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    jo.read( "looks_like", looks_like );
 }
 
 void field_type::finalize()

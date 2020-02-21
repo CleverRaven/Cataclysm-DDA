@@ -74,7 +74,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "scrap_copper", 2 ], [ "copper", 200 ] ]
+      [ [ "copper_scrap_equivalent", 8, "LIST" ] ]
     ]
   },
   {
@@ -249,7 +249,7 @@
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
-      [ [ "scrap_copper", 3 ], [ "copper", 300 ] ]
+      [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
     ]
   },
   {
@@ -1729,105 +1729,6 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "shishkebab_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "10 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "makeshift_machete", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "firemachete_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "time": "20 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "machete", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "broadfire_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "broadsword", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "firekatana_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "katana", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "zweifire_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "zweihander", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
   },
   {
     "type": "recipe",

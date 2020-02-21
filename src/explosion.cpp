@@ -59,9 +59,7 @@
 #include "mtype.h"
 #include "point.h"
 #include "type_id.h"
-
-static const itype_id null_itype( "null" );
-static const species_id ROBOT( "ROBOT" );
+#include "cata_string_consts.h"
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -84,7 +82,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
         ret.shrapnel.recovery = 0;
-        ret.shrapnel.drop = null_itype;
+        ret.shrapnel.drop = fuel_type_none;
     } else if( jo.has_object( "shrapnel" ) ) {
         auto shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
@@ -99,7 +97,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
     // Casing mass is mandatory
     jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.005 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.15 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -442,17 +440,17 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                                   total_hits ),
                         impact_count, damage_description );
                 } else {
-                    add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
-                                       "The %s is hit by %s bomb fragments, %s.", total_hits ),
-                             critter->disp_name(), impact_count, damage_description );
+                    add_msg( ngettext( "%s is hit by %s bomb fragment, %s.",
+                                       "%s is hit by %s bomb fragments, %s.", total_hits ),
+                             critter->disp_name( false, true ), impact_count, damage_description );
                 }
             }
         }
         if( g->m.impassable( target ) ) {
             if( optional_vpart_position vp = g->m.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage );
+                vp->vehicle().damage( vp->part_index(), damage / 100 );
             } else {
-                g->m.bash( target, damage / 10, true );
+                g->m.bash( target, damage / 100, true );
             }
         }
     }
@@ -523,27 +521,24 @@ void explosion( const tripoint &p, const explosion_data &ex )
 
 void flashbang( const tripoint &p, bool player_immune )
 {
-    const efftype_id effect_blind( "blind" );
-    const efftype_id effect_deaf( "deaf" );
-
     draw_explosion( p, 8, c_white );
     int dist = rl_dist( g->u.pos(), p );
     if( dist <= 8 && !player_immune ) {
-        if( !g->u.has_bionic( bionic_id( "bio_ears" ) ) && !g->u.is_wearing( "rm13_armor_on" ) ) {
+        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( "rm13_armor_on" ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
         if( g->m.sees( g->u.pos(), p, 8 ) ) {
             int flash_mod = 0;
-            if( g->u.has_trait( trait_id( "PER_SLIME" ) ) ) {
+            if( g->u.has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if( g->u.has_trait( trait_id( "PER_SLIME_OK" ) ) ) {
+            } else if( g->u.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+            } else if( g->u.has_bionic( bio_sunglasses ) ||
                        g->u.is_wearing( "rm13_armor_on" ) ) {
                 flash_mod = 6;
-            } else if( g->u.worn_with_flag( "BLIND" ) || g->u.worn_with_flag( "FLASH_PROTECTION" ) ) {
+            } else if( g->u.worn_with_flag( flag_BLIND ) || g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
@@ -558,7 +553,7 @@ void flashbang( const tripoint &p, bool player_immune )
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
-                critter.add_effect( efftype_id( "stunned" ), time_duration::from_turns( 10 - dist ) );
+                critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
             if( critter.has_flag( MF_SEES ) && g->m.sees( critter.pos(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
@@ -600,7 +595,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
         }
     }
     if( rl_dist( g->u.pos(), p ) <= radius && !ignore_player &&
-        ( !g->u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) || g->u.footwear_factor() == 1 ||
+        ( !g->u.has_trait( trait_LEG_TENT_BRACE ) || g->u.footwear_factor() == 1 ||
           ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         g->knockback( p, g->u.pos(), force, stun, dam_mult );
@@ -625,7 +620,7 @@ void emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
+    if( g->m.has_flag( flag_CONSOLE, point( x, y ) ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
         }
@@ -700,7 +695,6 @@ void emp_blast( const tripoint &p )
                 }
             }
         } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
-            const efftype_id effect_emp( "emp" );
             if( sight && !critter.has_effect( effect_emp ) ) {
                 add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );
                 critter.add_effect( effect_emp, 3_minutes );
@@ -750,7 +744,7 @@ void resonance_cascade( const tripoint &p )
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 g->u.pos() ) ) );
-        g->u.add_effect( efftype_id( "teleglow" ), rng( minglow, maxglow ) * 100 );
+        g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
     int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
     int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
@@ -807,7 +801,7 @@ void resonance_cascade( const tripoint &p )
                 case 13:
                 case 14:
                 case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
+                    spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     break;
                 case 16:

@@ -13,8 +13,6 @@ class item;
 class JsonOut;
 class JsonIn;
 
-using itype_id = std::string;
-
 class character_martial_arts
 {
     private:

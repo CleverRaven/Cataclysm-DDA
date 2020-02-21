@@ -51,14 +51,7 @@
 #include "magic.h"
 #include "point.h"
 #include "string_id.h"
-
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
-static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
-
-static const efftype_id effect_got_checked( "got_checked" );
+#include "cata_string_consts.h"
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -430,8 +423,8 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 static std::string get_temp( const avatar &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( "THERMOMETER" ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( flag_THERMOMETER ) ||
+        u.has_bionic( bio_meteorologist ) ) {
         temp = print_temperature( g->weather.get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
@@ -874,8 +867,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         nc_color color = c_light_red;
 
         const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", bp ) ) {
-            static const efftype_id effect_mending( "mending" );
+        if( u.worn_with_flag( flag_SPLINT, bp ) ) {
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
@@ -1427,9 +1419,9 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Thirst:" ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
@@ -1452,21 +1444,28 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Thirst:" ) );
     mvwprintz( w, point( 30, 0 ), thirst_pair.second, thirst_pair.first );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 8, 1 ), rest_pair.second, rest_pair.first );
-    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Hunger:" ) );
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
-    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Sound:" ) );
+    wrefresh( w );
+}
+
+static void draw_sound_labels( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
-        mvwprintz( w, point( 30, 2 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
     } else {
-        mvwprintz( w, point( 30, 2 ), c_red, _( "Deaf!" ) );
+        mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
     wrefresh( w );
 }
@@ -1514,7 +1513,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( flag_THERMOMETER ) || u.has_bionic( bio_meteorologist ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1905,7 +1904,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( flag_THERMOMETER ) || u.has_bionic( bio_meteorologist ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
@@ -2076,6 +2075,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
     ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
+    ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
     ret.emplace_back( window_panel( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
@@ -2334,13 +2334,13 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
 
             col_offset = column_widths[0] + 2;
             int col_width = column_widths[1] - 4;
-            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ),
+            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ),
+            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ),
+            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
         }

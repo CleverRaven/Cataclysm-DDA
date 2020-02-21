@@ -60,8 +60,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_sausage",
-    "name": "sweet sausage",
-    "name_plural": "sweet sausages",
+    "name": { "str": "sweet sausage", "str_pl": "sweet sausages" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } } ],
     "weight": "148 g",
     "color": "brown",
@@ -80,8 +79,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bratwurst_sausage",
-    "name": "bratwurst",
-    "name_plural": "bratwursts",
+    "name": { "str": "bratwurst" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannbrat" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "baleful %s", "str_pl": "baleful %s" } }
@@ -124,8 +122,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bacon",
-    "name": "bacon",
-    "name_plural": "pieces of bacon",
+    "name": { "str": "bacon", "str_pl": "pieces of bacon" },
     "weight": "85 g",
     "color": "pink",
     "spoils_in": "24 days",
@@ -171,8 +168,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cracklins",
-    "name": "cracklins",
-    "name_plural": "cracklins",
+    "name": { "str": "cracklins", "str_pl": "cracklins" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -267,8 +263,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_fish",
-    "name": "dehydrated fish",
-    "name_plural": "dehydrated fish",
+    "name": { "str": "dehydrated fish", "str_pl": "dehydrated fish" },
     "copy-from": "fish_cooked",
     "primary_material": "cured_meat",
     "weight": "85 g",
@@ -283,8 +278,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fish",
-    "name": "rehydrated fish",
-    "name_plural": "rehydrated fish",
+    "name": { "str": "rehydrated fish", "str_pl": "rehydrated fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "description": "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
@@ -294,8 +288,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_pickled",
-    "name": "pickled fish",
-    "name_plural": "pickled fish",
+    "name": { "str": "pickled fish", "str_pl": "pickled fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "4 days",
@@ -309,8 +302,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_canned",
-    "name": "canned fish",
-    "name_plural": "canned fish",
+    "name": { "str": "canned fish", "str_pl": "canned fish" },
     "copy-from": "fish_cooked",
     "color": "light_gray",
     "spoils_in": "1 day 16 hours",
@@ -323,8 +315,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_fried",
-    "name": "batter fried fish",
-    "name_plural": "batter fried fish",
+    "name": { "str": "batter fried fish", "str_pl": "batter fried fish" },
     "weight": "201 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -363,7 +354,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bologna",
-    "name": "bologna",
+    "name": { "str": "bologna", "str_pl": "bologna" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "brat %s", "str_pl": "brat %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "bleak %s", "str_pl": "bleak %s" } }
@@ -409,7 +400,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_spam",
-    "name": "SPAM",
+    "name": { "str": "SPAM", "str_pl": "SPAM" },
     "//": "SPAM comes in cans of six 2 oz slices.  Each charge is one slice.",
     "weight": "56 g",
     "color": "pink",
@@ -461,8 +452,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausagegravy",
-    "name": "sausage gravy",
-    "name_plural": "sausage gravies",
+    "name": { "str": "sausage gravy", "str_pl": "sausage gravies" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Mannwurst gravy", "str_pl": "Mannwurst gravies" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "ghastly %s", "str_pl": "ghastly %s" } }
@@ -552,8 +542,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chili",
-    "name": "chili con carne",
-    "name_plural": "chilis con carne",
+    "name": { "str": "chili con carne", "str_pl": "chilis con carne" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chili con cabron", "str_pl": "chilis con cabron" } },
       {
@@ -582,8 +571,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pork_beans",
-    "name": "pork and beans",
-    "name_plural": "pork and beans",
+    "name": { "str": "pork and beans", "str_pl": "pork and beans" },
     "weight": "267 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -604,8 +592,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_tuna",
-    "name": "canned tuna fish",
-    "name_plural": "canned tuna fish",
+    "name": { "str": "canned tuna fish", "str_pl": "canned tuna fish" },
     "weight": "154 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -623,7 +610,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_salmon",
-    "name": "canned salmon",
+    "name": { "str": "canned salmon", "str_pl": "canned salmon" },
     "weight": "200 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -660,7 +647,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_herring",
-    "name": "pickled herring",
+    "name": { "str": "pickled herring", "str_pl": "pickled herring" },
     "weight": "232 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -679,8 +666,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_clams",
-    "name": "canned clam",
-    "name_plural": "canned clams",
+    "name": { "str": "canned clam" },
     "weight": "169 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -724,8 +710,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_beans",
-    "name": "baked beans",
-    "name_plural": "baked beans",
+    "name": { "str": "baked beans", "str_pl": "baked beans" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "ork and beans", "str_pl": "ork and beans" } } ],
     "weight": "293 g",
     "color": "brown",
@@ -746,8 +731,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_rice",
-    "name": "meat fried rice",
-    "name_plural": "meat fried rice",
+    "name": { "str": "meat fried rice", "str_pl": "meat fried rice" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant fried rice", "str_pl": "mutant fried rice" } }
     ],
@@ -770,8 +754,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_beansnrice",
-    "name": "deluxe beans and rice",
-    "name_plural": "deluxe beans and rice",
+    "name": { "str": "deluxe beans and rice", "str_pl": "deluxe beans and rice" },
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
@@ -836,7 +819,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 566,
-    "description": "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
+    "description": "A meat pizza, for all the carnivores out there.  Chock-full of minced meat and heavily seasoned.",
     "price": 1090,
     "material": [ "wheat", "flesh" ],
     "volume": "1 L",
@@ -862,8 +845,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_eggs",
-    "name": "deluxe scrambled eggs",
-    "name_plural": "deluxe scrambled eggs",
+    "name": { "str": "deluxe scrambled eggs", "str_pl": "deluxe scrambled eggs" },
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
@@ -927,8 +909,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_bolognese",
-    "name": "spaghetti bolognese",
-    "name_plural": "spaghetti bolognese",
+    "name": { "str": "spaghetti bolognese", "str_pl": "spaghetti bolognese" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "scoundrel spaghetti" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "gnarly %s", "str_pl": "gnarly %s" } }
@@ -978,7 +959,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fried_spam",
-    "name": "fried SPAM",
+    "name": { "str": "fried SPAM", "str_pl": "fried SPAM" },
     "copy-from": "can_spam",
     "color": "red",
     "quench": -6,
@@ -1137,8 +1118,7 @@
   {
     "type": "COMESTIBLE",
     "id": "haggis",
-    "name": "haggis",
-    "name_plural": "haggii",
+    "name": { "str": "haggis", "str_pl": "haggises" },
     "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
     "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
     "weight": "156 g",
@@ -1160,8 +1140,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_fishroll",
-    "name": "fish makizushi",
-    "name_plural": "fish makizushi",
+    "name": { "str": "fish makizushi", "str_pl": "fish makizushi" },
     "weight": "159 g",
     "color": "green",
     "spoils_in": "12 hours",
@@ -1180,8 +1159,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_meatroll",
-    "name": "meat temaki",
-    "name_plural": "meat temaki",
+    "name": { "str": "meat temaki", "str_pl": "meat temaki" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "troubling %s", "str_pl": "troubling %s" } } ],
     "weight": "273 g",
     "color": "green",
@@ -1201,8 +1179,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sashimi",
-    "name": "sashimi",
-    "name_plural": "sashimi",
+    "name": { "str": "sashimi", "str_pl": "sashimi" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "12 hours",

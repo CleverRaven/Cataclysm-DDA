@@ -33,7 +33,6 @@ enum hp_part : int;
 enum body_part : int;
 class JsonObject;
 
-using itype_id = std::string;
 struct furn_t;
 struct itype;
 class item_location;
