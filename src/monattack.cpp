@@ -673,10 +673,10 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
-            ( foe->weapon.made_of( material_id( "iron" ) ) ||
-              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
-              foe->weapon.made_of( material_id( "steel" ) ) ||
-              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+            ( foe->weapon.made_of( material_iron ) ||
+              foe->weapon.made_of( material_hardsteel ) ||
+              foe->weapon.made_of( material_steel ) ||
+              foe->weapon.made_of( material_budget_steel ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -2240,9 +2240,9 @@ bool mattack::formblob( monster *z )
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( ( othermon.made_of( material_id( "flesh" ) ) ||
-                     othermon.made_of( material_id( "veggy" ) ) ||
-                     othermon.made_of( material_id( "iflesh" ) ) ) &&
+        } else if( ( othermon.made_of( material_flesh ) ||
+                     othermon.made_of( material_veggy ) ||
+                     othermon.made_of( material_iflesh ) ) &&
                    rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
             didit = blobify( *z, othermon );
         }
@@ -4100,8 +4100,8 @@ bool mattack::absorb_meat( monster *z )
         auto items = g->m.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
-            if( current_item_material == material_id( "flesh" ) ||
-                current_item_material == material_id( "hflesh" ) ) {
+            if( current_item_material == material_flesh ||
+                current_item_material == material_hflesh ) {
                 //We have something meaty! Calculate how much it will heal the monster
                 const int ml_of_meat = units::to_milliliter<int>( current_item.volume() );
                 const int total_charges = current_item.count();

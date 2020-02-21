@@ -436,14 +436,14 @@ std::string monster::name_with_armor() const
     std::string ret;
     if( type->in_species( species_INSECT ) ) {
         ret = _( "carapace" );
-    } else if( made_of( material_id( "veggy" ) ) ) {
+    } else if( made_of( material_veggy ) ) {
         ret = _( "thick bark" );
-    } else if( made_of( material_id( "bone" ) ) ) {
+    } else if( made_of( material_bone ) ) {
         ret = _( "exoskeleton" );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
-               made_of( material_id( "iflesh" ) ) ) {
+    } else if( made_of( material_flesh ) || made_of( material_hflesh ) ||
+               made_of( material_iflesh ) ) {
         ret = _( "thick hide" );
-    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
+    } else if( made_of( material_iron ) || made_of( material_steel ) ) {
         ret = _( "armor plating" );
     } else if( made_of( LIQUID ) ) {
         ret = _( "dense jelly mass" );
@@ -1147,14 +1147,14 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
-               !made_of( material_id( "flesh" ) );
+               !made_of( material_flesh );
     }
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
         effect == effect_poison ) {
         return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+               ( !made_of( material_flesh ) && !made_of( material_iflesh ) );
     }
 
     if( effect == effect_stunned ) {
@@ -1184,7 +1184,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return false;
         case DT_HEAT:
             // Ugly hardcode - remove later
-            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
+            return made_of( material_steel ) || made_of( material_stone );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
@@ -2279,9 +2279,9 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[MOVEMENT_IMPAIRED] = true;
     } else if( id == effect_onfire ) {
         int dam = 0;
-        if( made_of( material_id( "veggy" ) ) ) {
+        if( made_of( material_veggy ) ) {
             dam = rng( 10, 20 );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of( material_flesh ) || made_of( material_iflesh ) ) {
             dam = rng( 5, 10 );
         }
 
@@ -2381,9 +2381,9 @@ bool monster::make_fungus()
     if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "hflesh" ) ) &&
-        !made_of( material_id( "veggy" ) ) && !made_of( material_id( "iflesh" ) ) &&
-        !made_of( material_id( "bone" ) ) ) {
+    if( !made_of( material_flesh ) && !made_of( material_hflesh ) &&
+        !made_of( material_veggy ) && !made_of( material_iflesh ) &&
+        !made_of( material_bone ) ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
@@ -2827,7 +2827,7 @@ void monster::on_load()
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
             regen = 1.0f / to_turns<int>( 1_hours );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_flesh ) || made_of( material_veggy ) ) {
             // Most living stuff here
             regen = 0.25f / to_turns<int>( 1_hours );
         }

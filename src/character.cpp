@@ -2138,7 +2138,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
     }
 
-    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
+    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
                                             it.item_tags.count( flag_wooled ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
@@ -2158,8 +2158,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( bp_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
-            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
+            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
+            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -2963,13 +2963,13 @@ int Character::get_wind_resistance( body_part bp ) const
 
     for( auto &i : worn ) {
         if( i.covers( bp ) ) {
-            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
-                i.made_of( material_id( "bone" ) ) ||
-                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
+            if( i.made_of( material_leather ) || i.made_of( material_plastic ) ||
+                i.made_of( material_bone ) ||
+                i.made_of( material_chitin ) || i.made_of( material_nomex ) ) {
                 penalty = 10; // 90% effective
-            } else if( i.made_of( material_id( "cotton" ) ) ) {
+            } else if( i.made_of( material_cotton ) ) {
                 penalty = 30;
-            } else if( i.made_of( material_id( "wool" ) ) ) {
+            } else if( i.made_of( material_wool ) ) {
                 penalty = 40;
             } else {
                 penalty = 1; // 99% effective
@@ -5509,7 +5509,7 @@ int Character::throw_range( const item &it ) const
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1_liter;
-    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> affected_materials = { material_iron, material_steel };
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -5527,7 +5527,7 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
-const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
+const std::vector<material_id> Character::fleshy = { material_flesh, material_hflesh };
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
@@ -8259,7 +8259,7 @@ int Character::warmth( body_part bp ) const
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
-            if( !i.made_of( material_id( "wool" ) ) ) {
+            if( !i.made_of( material_wool ) ) {
                 warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }
             ret += warmth;
@@ -8286,17 +8286,17 @@ int Character::bonus_item_warmth( body_part bp ) const
 
     // If the player is not wielding anything big, check if hands can be put in pockets
     if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 500_ml ) {
-        ret += bestwarmth( worn, "POCKETS" );
+        ret += bestwarmth( worn, flag_POCKETS );
     }
 
     // If the player's head is not encumbered, check if hood can be put up
     if( bp == bp_head && encumb( bp_head ) < 10 ) {
-        ret += bestwarmth( worn, "HOOD" );
+        ret += bestwarmth( worn, flag_HOOD );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
     if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
-        ret += bestwarmth( worn, "COLLAR" );
+        ret += bestwarmth( worn, flag_COLLAR );
     }
 
     return ret;

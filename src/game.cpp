@@ -4996,7 +4996,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            if( it->made_of( material_glass ) && one_in( 2 ) ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
