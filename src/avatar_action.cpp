@@ -797,13 +797,31 @@ bool avatar_action::fire( avatar &you, map &m )
     int shots = 0;
 
     you.moves -= reload_time;
+
+    std::function<void()> pre_fire;
+    std::function<void( int )> post_fire;
+    if( args.mode == TARGET_MODE_TURRET_MANUAL ) {
+        const optional_vpart_position vp = g->m.veh_at( you.pos() );
+        turret_data turret;
+        if( vp && ( turret = vp->vehicle().turret_query( you.pos() ) ) ) {
+            pre_fire = [&you, &turret]() {
+                turret.prepare_fire( you );
+            };
+            post_fire = [&you, &turret]( const int shots ) {
+                turret.post_fire( you, shots );
+            };
+        } else {
+            debugmsg( "Expected turret on player position" );
+        }
+    }
+
     // TODO: add check for TRIGGERHAPPY
-    if( args.pre_fire ) {
-        args.pre_fire( shots );
+    if( pre_fire ) {
+        pre_fire();
     }
     shots = you.fire_gun( trajectory.back(), gun.qty, *gun );
-    if( args.post_fire ) {
-        args.post_fire( shots );
+    if( post_fire ) {
+        post_fire( shots );
     }
 
     if( shots && args.power_cost ) {
@@ -829,9 +847,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
 
     targeting_data args = {
         TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &you ),
-        bp_cost, you.is_wielding( weapon ), gun->ammo_data(),
-        target_callback(), target_callback(),
-        firing_callback(), firing_callback()
+        bp_cost, you.is_wielding( weapon ), gun->ammo_data()
     };
     you.set_targeting_data( args );
     return avatar_action::fire( you, m );

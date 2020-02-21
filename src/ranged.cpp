@@ -1141,12 +1141,6 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
                                 range, target_size );
 }
 
-std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
-{
-    return target_ui( pc, args.mode, args.relevant, args.range,
-                      args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
     std::vector<aim_type> aim_types = get_default_aim_type();
@@ -1246,15 +1240,47 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 }
 
+std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
+{
+    return target_ui( pc, args.mode, args.relevant, args.range,
+                      args.ammo );
+}
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo,
-        const target_callback &on_mode_change,
-        const target_callback &on_ammo_change )
+        item *relevant, int range, const itype *ammo )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
+
+    // These 2 functions should return pointer to effective ammo data
+    std::function<const itype *()> on_mode_change, on_ammo_change;
+    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+        const optional_vpart_position vp = g->m.veh_at( pc.pos() );
+        turret_data turret;
+        if( vp && ( turret = vp->vehicle().turret_query( pc.pos() ) ) ) {
+            if( turret.base()->gun_all_modes().size() > 1 ) {
+                on_mode_change = [&turret, &relevant]() {
+                    relevant->gun_cycle_mode();
+                    // currently gun modes do not change ammo but they may in the future
+                    return turret.ammo_current() == "null" ? nullptr :
+                           item::find_type( turret.ammo_current() );
+                };
+            }
+            if( turret.ammo_options().size() > 1 ) {
+                on_ammo_change = [&turret]() {
+                    const auto opts = turret.ammo_options();
+                    auto iter = opts.find( turret.ammo_current() );
+                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                    return item::find_type( turret.ammo_current() );
+                };
+            }
+        } else {
+            debugmsg( "Expected turret on player position" );
+            return empty_result;
+        }
+    }
 
     int sight_dispersion = 0;
     if( relevant ) {
@@ -1643,7 +1669,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !relevant || !relevant->is_gun() ) {
                 // skip this action
             } else if( on_mode_change ) {
-                ammo = on_mode_change( relevant );
+                ammo = on_mode_change();
             } else {
                 relevant->gun_cycle_mode();
                 if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
@@ -1656,7 +1682,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !relevant ) {
                 // skip this action
             } else if( on_ammo_change ) {
-                ammo = on_ammo_change( relevant );
+                ammo = on_ammo_change();
             } else if( !pc.has_item( *relevant ) ) {
                 add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {
