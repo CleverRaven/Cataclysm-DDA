@@ -49,7 +49,7 @@
     "material_thickness": 3,
     "environmental_protection": 4,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "OVERSIZE" ]
-  }
+  },
   {
     "id": "crt_iduster",
     "type": "ARMOR",
