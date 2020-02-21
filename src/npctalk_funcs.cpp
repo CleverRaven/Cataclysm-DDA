@@ -381,7 +381,6 @@ void talk_function::assign_camp( npc &p )
         p.set_attitude( NPCATT_NULL );
         p.set_mission( NPC_MISSION_GUARD_ALLY );
         temp_camp->add_assignee( p.getID() );
-        p.set_job( NPCJOB_NULL );
         temp_camp->job_assignment_ui();
         temp_camp->validate_assignees();
         add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
@@ -409,7 +408,6 @@ void talk_function::stop_guard( npc &p )
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
-    p.set_job( NPCJOB_NOJOB );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
@@ -786,7 +784,7 @@ void talk_function::leave( npc &p )
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
-    p.remove_job();
+    p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
                             faction_id( new_fac_id ), faction_id( "no_faction" ) );

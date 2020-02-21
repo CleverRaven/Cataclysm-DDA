@@ -1331,7 +1331,7 @@ void npc::mutiny()
     my_fac->respects_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
-    remove_job();
+    job.clear_all_priorities();
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
@@ -2007,7 +2007,7 @@ bool npc::within_boundaries_of_camp() const
 
 bool npc::is_assigned_to_camp() const
 {
-    if( has_companion_mission() || !has_job() ) {
+    if( has_companion_mission() || !job.has_job() ) {
         return false;
     }
     cata::optional<basecamp *> bcp = cata::nullopt;
@@ -2586,78 +2586,6 @@ std::string npc_attitude_name( npc_attitude att )
     return _( "Unknown attitude" );
 }
 
-std::string npc_job_id( npc_job job )
-{
-    static const std::map<npc_job, std::string> npc_job_ids = {
-        { NPCJOB_NULL, "NPCJOB_NULL" },
-        { NPCJOB_COOKING, "NPCJOB_COOKING" },
-        { NPCJOB_MENIAL, "NPCJOB_MENIAL" },
-        { NPCJOB_VEHICLES, "NPCJOB_VEHICLES" },
-        { NPCJOB_CONSTRUCTING, "NPCJOB_CONSTRUCTING" },
-        { NPCJOB_CRAFTING, "NPCJOB_CRAFTING" },
-        { NPCJOB_SECURITY, "NPCJOB_SECURITY" },
-        { NPCJOB_FARMING, "NPCJOB_FARMING" },
-        { NPCJOB_LUMBERJACK, "NPCJOB_LUMBERJACK" },
-        { NPCJOB_HUSBANDRY, "NPCJOB_HUSBANDRY" },
-        { NPCJOB_HUNTING, "NPCJOB_HUNTING" },
-        { NPCJOB_FORAGING, "NPCJOB_FORAGING" },
-        { NPCJOB_NOJOB, "NPCJOB_NOJOB "},
-    };
-    const auto &iter = npc_job_ids.find( job );
-    if( iter == npc_job_ids.end() ) {
-        debugmsg( "Invalid job: %d", job );
-        return "NPCJOB_INVALID";
-    }
-
-    return iter->second;
-}
-
-std::vector<std::string> all_jobs()
-{
-    std::vector<std::string> ret;
-    for( int i = 0; i < NPCJOB_NOJOB; i++ ) {
-        ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
-    }
-    return ret;
-}
-
-std::string npc_job_name( npc_job job )
-{
-    switch( job ) {
-        case NPCJOB_NULL:
-            return _( "No particular job" );
-        case NPCJOB_COOKING:
-            return _( "Cooking and butchering - Currently only butchering is enabled" );
-        case NPCJOB_MENIAL:
-            return _( "Tidying and cleaning" );
-        case NPCJOB_VEHICLES:
-            return _( "Vehicle work" );
-        case NPCJOB_CONSTRUCTING:
-            return _( "Building" );
-        case NPCJOB_CRAFTING:
-            return _( "Crafting - Currently only a placeholder" );
-        case NPCJOB_SECURITY:
-            return _( "Guarding and patrolling - Currently only a placeholder" );
-        case NPCJOB_FARMING:
-            return _( "Farming the fields" );
-        case NPCJOB_LUMBERJACK:
-            return _( "Chopping wood" );
-        case NPCJOB_HUSBANDRY:
-            return _( "Caring for the livestock - Currently only a placeholder" );
-        case NPCJOB_HUNTING:
-            return _( "Hunting and fishing - Currently only fishing is enabled" );
-        case NPCJOB_FORAGING:
-            return _( "Gathering edibles - Currently only a placeholder" );
-        case NPCJOB_NOJOB:
-            return _( "Not working" );
-        default:
-            break;
-    }
-
-    debugmsg( "Invalid job: %d", job );
-    return _( "Unknown job" );
-}
-
 //message related stuff
 
 //message related stuff
@@ -3196,31 +3124,6 @@ void npc::set_mission( npc_mission new_mission )
 bool npc::has_activity() const
 {
     return mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
-}
-
-npc_job npc::get_job() const
-{
-    return job;
-}
-
-void npc::set_job( npc_job new_job )
-{
-    if( new_job == job ) {
-        return;
-    }
-    add_msg( m_debug, "%s changes job to %s.",
-             name, npc_job_id( job ) );
-    job = new_job;
-}
-
-bool npc::has_job() const
-{
-    return job != NPCJOB_NOJOB;
-}
-
-void npc::remove_job()
-{
-    job = NPCJOB_NOJOB;
 }
 
 npc_attitude npc::get_attitude() const

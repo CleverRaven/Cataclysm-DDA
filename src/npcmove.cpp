@@ -132,6 +132,7 @@ enum npc_action : int {
     npc_investigate_sound,
     npc_return_to_guard_pos,
     npc_player_activity,
+    npc_worker_downtime,
     num_npc_actions
 };
 
@@ -838,22 +839,10 @@ void npc::move()
         }
         if( is_assigned_to_camp() ) {
             bool found_job = false;
-            if( has_job() && job != NPCJOB_NULL && calendar::once_every( 10_minutes ) ) {
-                if( job_duties.find( job ) != job_duties.end() ) {
-                    const std::vector<activity_id> jobs_to_rotate = job_duties[job];
-                    if( !jobs_to_rotate.empty() ) {
-                        assign_activity( random_entry( jobs_to_rotate ) );
-                        action = npc_player_activity;
-                        found_job = true;
-                    } else {
-                        debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
-                        set_mission( NPC_MISSION_GUARD_ALLY );
-                        set_attitude( NPCATT_NULL );
-                    }
-                }
-            }
-            if( !found_job ) {
-                action = npc_pause;
+            if( has_job() && calendar::once_every( 10_minutes ) ) {
+                action = choose_job_task();
+            } else {
+                action = npc_worker_downtime;
                 goal = global_omt_location();
             }
         }
@@ -932,7 +921,9 @@ void npc::execute_action( npc_action action )
         case npc_pause:
             move_pause();
             break;
-
+        case npc_worker_downtime:
+            worker_downtime();
+            break;
         case npc_reload: {
             do_reload( weapon );
         }
@@ -2419,6 +2410,37 @@ void npc::move_to_next()
     }
 }
 
+npc_action npc::choose_job_task()
+{
+    // first get the number of non-zero priority jobs.
+    std::map<npc_job, int> job_map = get_job_priorities();
+    int num_of_jobs = 0;
+    int num_of_job_tasks = 0;
+    for( std::pair<npc_job, int> elem : job_map ){
+        if( elem.first == NPCJOB_NOJOB || elem.second == 0 ){
+            continue;
+        }
+        num_of_jobs++;
+    }
+    if( job_duties.find( job ) != job_duties.end() ) {
+        const std::vector<activity_id> jobs_to_rotate = job_duties[job];
+        if( !jobs_to_rotate.empty() ) {
+            assign_activity( random_entry( jobs_to_rotate ) );
+            action = npc_player_activity;
+            found_job = true;
+        } else {
+            debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
+            set_mission( NPC_MISSION_GUARD_ALLY );
+            set_attitude( NPCATT_NULL );
+        }
+    }
+    }
+    if( !found_job ) {
+    action = npc_pause;
+    goal = global_omt_location();
+    }
+}
+
 void npc::avoid_friendly_fire()
 {
     // TODO: To parameter
@@ -2511,6 +2533,83 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     }
 
     move_to( best_pos, no_bash_atk, nomove );
+}
+
+void npc::worker_downtime()
+{
+    // are we already in a chair
+    if( g->m.has_flag_furn( "CAN_SIT", pos() ) ) {
+        // just chill here
+        move_pause();
+        return;
+    }
+    //  already know of a chair, go there
+    if( chair_pos != no_goal_point ) {
+        if( g->m.has_flag_furn( "CAN_SIT", chair_pos ) ) {
+            update_path( chair_pos );
+            if( pos() == chair_pos || path.empty() ) {
+                move_pause();
+                path.clear();
+            } else {
+                move_to_next();
+            }
+            wander_pos = no_goal_point;
+            return;
+        } else {
+            chair_pos = no_goal_point;
+        }
+    } else {
+        // find a chair
+        if( !is_mounted() ) {
+            for( const tripoint &elem : g->m.points_in_radius( pos(), 30 ) ) {
+                if( g->m.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) ) {
+                    // this one will do
+                    chair_pos = elem;
+                    return;
+                }
+            }
+        }
+    }
+    // we got here if there are no chairs available.
+    // wander back to near the bulletin board of the camp.
+    if( wander_pos != no_goal_point ) {
+        update_path( wander_pos );
+        if( pos() == wander_pos || path.empty() ) {
+            move_pause();
+            path.clear();
+            if( one_in( 30 ) ) {
+                wander_pos = no_goal_point;
+            }
+        } else {
+            move_to_next();
+        }
+        return;
+    }
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().xy() );
+    if( bcp ) {
+        std::vector<tripoint> pts;
+        tripoint origin = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( ( *bcp )->camp_omt_pos() ) ) ) +
+                          point(
+                              SEEX, SEEY );
+        for( tripoint elem : g->m.points_in_radius( origin, 60 ) ) {
+            if( g->m.furn( elem ) == f_bulletin ) {
+                origin = elem;
+                break;
+            }
+        }
+        for( tripoint elem : g->m.points_in_radius( origin, 10 ) ) {
+            if( g->critter_at( elem ) || !could_move_onto( elem ) || g->m.has_flag( TFLAG_DEEP_WATER, elem ) ||
+                !g->m.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
+                continue;
+            }
+            pts.push_back( elem );
+        }
+        if( !pts.empty() ) {
+            wander_pos = random_entry( pts );
+            return;
+        }
+    }
+    move_pause();
 }
 
 void npc::move_pause()
@@ -4102,6 +4201,8 @@ std::string npc_action_name( npc_action action )
             return "Undecided";
         case npc_pause:
             return "Pause";
+        case npc_worker_downtime:
+            return "relaxing";
         case npc_reload:
             return "Reload";
         case npc_investigate_sound:

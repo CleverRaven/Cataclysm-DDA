@@ -1665,6 +1665,7 @@ void basecamp::job_assignment_ui()
             mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
         }
         draw_border( w_jobs );
+        mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority") );
         const nc_color col = c_white;
         const std::string no_npcs = _( "There are no npcs stationed here" );
         if( !stationed_npcs.empty() ) {
@@ -1676,15 +1677,19 @@ void basecamp::job_assignment_ui()
                                 stationed_npcs[i]->disp_name() );
             }
             if( selection < stationed_npcs.size() ) {
-                std::string job_description;
+                int start_y = 3;
                 if( cur_npc ) {
                     if( cur_npc->has_job() ) {
-                        // get the current NPCs job
-                        job_description = npc_job_name( cur_npc->get_job() );
+                        for( const std::pair<npc_job, int> &elem : cur_npc->get_job_priorities() ){
+                            if( elem.first == NPCJOB_NOJOB ){
+                                continue;
+                            }
+                            mvwprintz( w_jobs, point( 46, start_y ), c_light_gray, string_format( npc_job_name( elem.first ) + " : " + std::to_string( elem.second ) ) );
+                            start_y++;
+                        }
                     } else {
                         debugmsg( "npc %s is assigned to work at the camp but has no role", cur_npc->name );
                     }
-                    mvwprintz( w_jobs, point( 46, 3 ), c_light_gray, job_description );
                 }
             } else {
                 mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
@@ -1693,7 +1698,7 @@ void basecamp::job_assignment_ui()
             mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
         }
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
-                   _( "Press %s to change this workers job." ), ctxt.get_desc( "CONFIRM" ) );
+                   _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
         wrefresh( w_jobs );
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -1709,16 +1714,33 @@ void basecamp::job_assignment_ui()
             }
         } else if( action == "CONFIRM" ) {
             if( !stationed_npcs.empty() ) {
-                uilist smenu;
-                smenu.text = _( "Assign which job?" );
-                int count = 0;
-                for( const auto &entry : all_jobs() ) {
-                    smenu.addentry( count++, true, MENU_AUTOASSIGN, entry );
-                }
-
-                smenu.query();
-                if( smenu.ret >= 0 ) {
-                    cur_npc->set_job( static_cast<npc_job>( smenu.ret ) );
+                while(true) {
+                    uilist smenu;
+                    smenu.text = _( "Assign job priority ( 0 to disable )" );
+                    int count = 0;
+                    std::map<npc_job, int> job_map = cur_npc->get_job_priorities();
+                    std::vector<npc_job> job_vec;
+                    for( const std::pair<npc_job, int> &elem : job_map ) {
+                        if( elem.first == NPCJOB_NOJOB ){
+                            continue;
+                        }
+                        job_vec.push_back( elem.first );
+                        smenu.addentry( count++, true, MENU_AUTOASSIGN, string_format( npc_job_name( elem.first ) + " : " + std::to_string( elem.second ) ) );
+                    }
+                    smenu.query();
+                    if( smenu.ret >= 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
+                        npc_job sel_job = job_vec[smenu.ret];
+                        const std::string formatted = string_format( _( "Priority for %s "), npc_job_name( sel_job ) );
+                        const int amount = string_input_popup()
+                                           .title( formatted )
+                                           .width( 20 )
+                                           .text( std::to_string( cur_npc->get_priority_of_job( sel_job ) ) )
+                                           .only_digits( true )
+                                           .query_int();
+                        cur_npc->set_job_priority( sel_job, amount );
+                    } else {
+                        break;
+                    }
                 }
             }
         } else if( action == "QUIT" ) {
