@@ -27,7 +27,7 @@
     "copy-from": "762_25",
     "type": "AMMO",
     "name": "7.62x25mm FMJ hot load",
-    "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
+    "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
     "relative": { "price": 500, "range": 2, "damage": 4, "pierce": 3 },
     "proportional": { "recoil": 1.4 }
   },

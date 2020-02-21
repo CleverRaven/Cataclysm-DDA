@@ -19,14 +19,13 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 560 ] ],
+          [ [ "2x4", 230 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "rock", 216 ] ],
-          [ [ "pebble", 450 ] ],
           [ [ "mortar_build", 18 ] ],
-          [ [ "wood_panel", 25 ] ],
-          [ [ "2x4", 200 ] ]
+          [ [ "nail", 560 ] ],
+          [ [ "pebble", 450 ] ],
+          [ [ "rock", 216 ] ],
+          [ [ "wood_panel", 25 ] ]
         ]
       }
     }
@@ -116,14 +115,13 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 152 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 7 ] ],
-          [ [ "nail", 372 ] ],
           [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "rock", 96 ] ],
-          [ [ "pebble", 200 ] ],
           [ [ "mortar_build", 8 ] ],
-          [ [ "wood_panel", 12 ] ]
+          [ [ "nail", 372 ] ],
+          [ [ "pebble", 200 ] ],
+          [ [ "rock", 96 ] ],
+          [ [ "wood_panel", 19 ] ]
         ]
       }
     }
@@ -147,21 +145,24 @@
       "time": "1 d 16 h 10 m",
       "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
         "components": [
           [ [ "2x4", 132 ] ],
-          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "mortar_build", 7 ] ],
           [ [ "nail", 380 ] ],
+          [ [ "pebble", 150 ] ],
           [ [ "pipe", 16 ] ],
+          [ [ "rock", 112 ] ],
           [ [ "sheet_metal", 4 ] ],
           [ [ "sheet_metal_small", 8 ] ],
-          [ [ "rock", 112 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
           [ [ "water", 2 ], [ "water_clean", 2 ] ],
-          [ [ "pebble", 150 ] ],
-          [ [ "mortar_build", 6 ] ],
-          [ [ "wood_panel", 15 ] ]
+          [ [ "wood_panel", 23 ] ]
         ]
       }
     }

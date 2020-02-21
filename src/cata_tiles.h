@@ -28,8 +28,6 @@ class player;
 class pixel_minimap;
 class JsonObject;
 
-using itype_id = std::string;
-
 extern void set_displaybuffer_rendertarget();
 
 /** Structures */
@@ -476,6 +474,7 @@ class cata_tiles
         void do_tile_loading_report();
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
+        static std::vector<options_manager::id_and_option> build_display_list();
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, const std::string &label,

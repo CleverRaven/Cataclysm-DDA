@@ -575,7 +575,7 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseuso_bio_picklock", 0 );
+        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
         if( invoke_item( &tmp_item ) == 0 ) {
             if( tmp_item.charges > 0 ) {
@@ -1096,12 +1096,14 @@ void Character::heat_emission( int b, int fuel_energy )
     }
     const float efficiency = bio.info().fuel_efficiency;
 
-    const int &heat_prod = fuel_energy * ( 1 - efficiency );
-    const int &heat_level = std::min( heat_prod / 10, 4 );
-    const int &heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+    const int heat_prod = fuel_energy * ( 1.0f - efficiency );
+    const int heat_level = std::min( heat_prod / 10, 4 );
     const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
-    g->m.emit_field( pos(), hotness, heat_spread );
-    for( const auto bp : bio.info().occupied_bodyparts ) {
+    if( hotness.is_valid() ) {
+        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+        g->m.emit_field( pos(), hotness, heat_spread );
+    }
+    for( const std::pair<body_part, size_t> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first, false, heat_prod );
     }
 }

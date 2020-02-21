@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cheese_grilled",
-    "name": "grilled cheese sandwich",
-    "name_plural": "grilled cheese sandwiches",
+    "name": { "str": "grilled cheese sandwich", "str_pl": "grilled cheese sandwiches" },
     "weight": "106 g",
     "color": "brown",
     "spoils_in": "1 day 10 hours",
@@ -24,8 +23,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_deluxe",
-    "name": "deluxe sandwich",
-    "name_plural": "deluxe sandwiches",
+    "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
@@ -54,8 +52,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cucumber",
-    "name": "cucumber sandwich",
-    "name_plural": "cucumber sandwiches",
+    "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "500 g",
     "color": "light_green",
     "spoils_in": "1 day 12 hours",
@@ -76,8 +73,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cheese",
-    "name": "cheese sandwich",
-    "name_plural": "cheese sandwiches",
+    "name": { "str": "cheese sandwich", "str_pl": "cheese sandwiches" },
     "weight": "106 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -96,8 +92,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_jam",
-    "name": "jam sandwich",
-    "name_plural": "jam sandwiches",
+    "name": { "str": "jam sandwich", "str_pl": "jam sandwiches" },
     "weight": "97 g",
     "color": "brown",
     "spoils_in": "1 day 13 hours",
@@ -117,8 +112,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_fairy",
-    "name": "fairy bread",
-    "name_plural": "fairy bread",
+    "name": { "str": "fairy bread", "str_pl": "fairy bread" },
     "weight": "114 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -136,8 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_honey",
-    "name": "honey sandwich",
-    "name_plural": "honey sandwiches",
+    "name": { "str": "honey sandwich", "str_pl": "honey sandwiches" },
     "weight": "192 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -158,10 +151,9 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_sauce",
-    "name": "boring sandwich",
-    "name_plural": "boring sandwiches",
+    "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "copy-from": "bread",
-    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
+    "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",
@@ -173,8 +165,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_veggy",
-    "name": "vegetable sandwich",
-    "name_plural": "vegetable sandwiches",
+    "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
     "weight": "289 g",
     "color": "light_gray",
     "spoils_in": "2 days",
@@ -195,8 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_t",
-    "name": "meat sandwich",
-    "name_plural": "meat sandwiches",
+    "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
@@ -219,8 +209,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pb",
-    "name": "peanut butter sandwich",
-    "name_plural": "peanut butter sandwiches",
+    "name": { "str": "peanut butter sandwich", "str_pl": "peanut butter sandwiches" },
     "weight": "204 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -239,8 +228,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbj",
-    "name": "PB&J sandwich",
-    "name_plural": "PB&J sandwiches",
+    "name": { "str": "PB&J sandwich", "str_pl": "PB&J sandwiches" },
     "weight": "102 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -260,8 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbh",
-    "name": "PB&H sandwich",
-    "name_plural": "PB&H sandwiches",
+    "name": { "str": "PB&H sandwich", "str_pl": "PB&H sandwiches" },
     "weight": "97 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -281,8 +268,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbm",
-    "name": "PB&M sandwich",
-    "name_plural": "PB&M sandwiches",
+    "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "weight": "225 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -301,8 +287,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_sandwich",
-    "name": "fish sandwich",
-    "name_plural": "fish sandwiches",
+    "name": { "str": "fish sandwich", "str_pl": "fish sandwiches" },
     "weight": "201 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -320,8 +305,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_bagel",
-    "name": "fish and spinach bagel",
-    "name_plural": "fish and spinach bagels",
+    "name": { "str": "fish and spinach bagel" },
     "weight": "201 g",
     "color": "magenta",
     "spoils_in": "1 day",

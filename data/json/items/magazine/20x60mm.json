@@ -1,6 +1,7 @@
 [
   {
     "id": "20x66_10_mag",
+    "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
     "name": "RMSA10 20x66mm compact magazine",
     "description": "A 10 round box magazine for use with the RM228 PDW and RM121 auxiliary shotgun.",
@@ -18,6 +19,7 @@
   },
   {
     "id": "20x66_20_mag",
+    "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
     "name": "RMSB20 20x66mm magazine",
     "description": "A 20 round box magazine for use with the RM20 caseless shotgun.",
@@ -35,6 +37,7 @@
   },
   {
     "id": "20x66_40_mag",
+    "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
     "name": "RMSB40 20x66mm extended magazine",
     "description": "A 40 round box magazine for use with the RM20 caseless shotgun.",

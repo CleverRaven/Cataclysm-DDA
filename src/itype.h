@@ -36,8 +36,6 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-using itype_id = std::string;
-
 class gun_modifier_data
 {
     private:
@@ -866,6 +864,7 @@ struct itype {
 
         std::string snippet_category;
         translation description; // Flavor text
+        std::vector<std::string> ascii_picture;
 
         // The container it comes in
         cata::optional<itype_id> default_container;

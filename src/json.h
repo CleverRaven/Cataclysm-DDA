@@ -224,7 +224,6 @@ class JsonIn
             } catch( const io::InvalidEnumString & ) {
                 seek( old_offset ); // so the error message points to the correct place.
                 error( "invalid enumeration value" );
-                throw; // ^^ error already throws, but the compiler doesn't know that )-:
             }
         }
 
@@ -834,7 +833,6 @@ class JsonObject
 
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
-        std::set<std::string> get_member_names() const;
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
@@ -1014,8 +1012,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, int idx );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1139,7 +1137,7 @@ class JsonValue
             return seek().test_array();
         }
 
-        void throw_error( const std::string &err ) const {
+        [[noreturn]] void throw_error( const std::string &err ) const {
             seek().error( err );
         }
 
