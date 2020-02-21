@@ -174,7 +174,7 @@
     "color": "white",
     "name": "volleyball",
     "category": "other",
-    "description": "A standard regulation volleyball",
+    "description": "A standard regulation volleyball.",
     "price": 1000,
     "material": "leather",
     "weight": "260 g",
