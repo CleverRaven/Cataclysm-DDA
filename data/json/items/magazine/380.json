@@ -20,7 +20,7 @@
     "id": "fn1910mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "FN 1910 magazine",
+    "name": { "str": "FN 1910 magazine" },
     "description": "A standard 6-round steel box magazine for the FN 1910.  It looks a bit old.",
     "weight": "80 g",
     "volume": "60ml",
