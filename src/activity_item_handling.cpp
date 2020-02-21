@@ -631,7 +631,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( "FILTHY" );
+        filthy_item->item_tags.erase( flag_FILTHY );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -1235,12 +1235,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
                     item welder( "welder", 0 );
-                    welder.charges = veh.fuel_left( "battery", true );
-                    welder.item_tags.insert( "PSEUDO" );
+                    welder.charges = veh.fuel_left( fuel_type_battery, true );
+                    welder.item_tags.insert( flag_PSEUDO );
                     temp_inv.add_item( welder );
                     item soldering_iron( "soldering_iron", 0 );
-                    soldering_iron.charges = veh.fuel_left( "battery", true );
-                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    soldering_iron.charges = veh.fuel_left( fuel_type_battery, true );
+                    soldering_iron.item_tags.insert( flag_PSEUDO );
                     temp_inv.add_item( soldering_iron );
                 }
             }
