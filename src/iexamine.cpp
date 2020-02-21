@@ -108,7 +108,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_id( "steel" ) ) &&
+        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_steel ) &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
@@ -2267,7 +2267,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
+    static const std::set<material_id> kilnable{ material_wood, material_bone };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( const item &i : items ) {
@@ -2396,7 +2396,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
+    static const std::set<material_id> arcfurnaceable{ material_cac2powder };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( const item &i : items ) {
