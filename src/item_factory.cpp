@@ -2310,7 +2310,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
+        def.qualities.clear();
         set_qualities_from_json( jo, "qualities", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_qualities_from_json( tmp, "qualities", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_qualities_from_json( tmp, "qualities", def );
+        }
     }
 
     if( jo.has_member( "properties" ) ) {
@@ -2471,6 +2483,25 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
+    }
+}
+
+void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
+    }
+}
+
+void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
+        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+            def.qualities.erase( iter );
+        }
     }
 }
 
