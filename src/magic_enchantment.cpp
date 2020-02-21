@@ -200,7 +200,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
-        for( const JsonObject effect_obj : jo.get_array( "effects" ) ) {
+        for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
             time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
@@ -374,6 +374,16 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_num_dodges_bonus( get_value_add( mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
+         intermittent_activation ) {
+        // a random approximation!
+        if( one_in( to_seconds<int>( activation.first ) ) ) {
+            for( const fake_spell &fake : activation.second ) {
+                fake.get_spell( 0 ).cast_all_effects( guy, guy.pos() );
+            }
+        }
+    }
 }
 
 void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const
