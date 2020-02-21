@@ -921,7 +921,6 @@ static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
-
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const std::string flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
@@ -1404,7 +1403,6 @@ static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 static const std::string flag_YOUNG( "YOUNG" );
 static const std::string flag_ZOOM( "ZOOM" );
 
-
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -1466,17 +1464,14 @@ static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 
-
 static const zone_type_id z_camp_food( "CAMP_FOOD" );
 static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 static const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 static const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
 
-
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -1487,7 +1482,6 @@ static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_water( "water" );
 static const itype_id fuel_type_water_clean( "water_clean" );
 static const itype_id fuel_type_wind( "wind" );
-
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
@@ -1528,7 +1522,6 @@ static const matype_id style_tiger( "style_tiger" );
 static const matype_id style_wingchun( "style_wingchun" );
 static const matype_id style_zui_quan( "style_zui_quan" );
 
-
 static const species_id species_BLOB( "BLOB" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
@@ -1542,7 +1535,6 @@ static const species_id species_PLANT( "PLANT" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
 
 static const matec_id matec_no_technique_id( "" );
 static const matec_id matec_RAPID( "RAPID" );
