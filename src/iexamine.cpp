@@ -1427,6 +1427,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        temp_camp->validate_bb_pos( g->m.getabs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
 

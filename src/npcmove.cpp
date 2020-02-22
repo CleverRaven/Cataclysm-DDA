@@ -13,6 +13,7 @@
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "activity_handlers.h"
 #include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"
@@ -827,7 +828,6 @@ void npc::move()
             action = npc_player_activity;
         }
     }
-
     if( action == npc_undecided ) {
         // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
@@ -837,15 +837,15 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
-        if( is_assigned_to_camp() ) {
-            if( has_job() && calendar::once_every( 10_minutes ) ) {
-                action = npc_worker_downtime;
+        if( assigned_camp && attitude != NPCATT_ACTIVITY ) {
+            if( has_job() && calendar::once_every( 10_minutes ) && find_job_to_perform() ) {
+                action = npc_player_activity;
             } else {
                 action = npc_worker_downtime;
                 goal = global_omt_location();
             }
         }
-        if( is_stationary( true ) ) {
+        if( is_stationary( true ) && !assigned_camp ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -858,6 +858,9 @@ void npc::move()
         } else if( !fetching_item ) {
             find_item();
             print_action( "find_item %s", action );
+        } else if( assigned_camp ) {
+            // this should be covered above, but justincase to stop them zooming away.
+            action = npc_pause;
         }
 
         // check if in vehicle before rushing off to fetch things
@@ -916,7 +919,6 @@ void npc::execute_action( npc_action action )
     */
 
     switch( action ) {
-
         case npc_pause:
             move_pause();
             break;
@@ -2503,6 +2505,21 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     move_to( best_pos, no_bash_atk, nomove );
 }
 
+bool npc::find_job_to_perform()
+{
+    for( activity_id &elem : job.get_prioritised_vector() ) {
+        if( job.get_priority_of_job( elem ) == 0 ) {
+            continue;
+        }
+        player_activity scan_act = player_activity( elem );
+        if( generic_multi_activity_handler( scan_act, *this->as_player(), true ) ) {
+            assign_activity( elem );
+            return true;
+        }
+    }
+    return false;
+}
+
 void npc::worker_downtime()
 {
     // are we already in a chair
@@ -2513,9 +2530,9 @@ void npc::worker_downtime()
     }
     //  already know of a chair, go there
     if( chair_pos != no_goal_point ) {
-        if( g->m.has_flag_furn( "CAN_SIT", chair_pos ) ) {
-            update_path( chair_pos );
-            if( pos() == chair_pos || path.empty() ) {
+        if( g->m.has_flag_furn( "CAN_SIT", g->m.getlocal( chair_pos ) ) ) {
+            update_path( g->m.getlocal( chair_pos ) );
+            if( pos() == g->m.getlocal( chair_pos ) || path.empty() ) {
                 move_pause();
                 path.clear();
             } else {
@@ -2530,9 +2547,10 @@ void npc::worker_downtime()
         // find a chair
         if( !is_mounted() ) {
             for( const tripoint &elem : g->m.points_in_radius( pos(), 30 ) ) {
-                if( g->m.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) ) {
+                if( g->m.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) &&
+                    g->m.point_within_camp( g->m.getabs( elem ) ) ) {
                     // this one will do
-                    chair_pos = elem;
+                    chair_pos = g->m.getabs( elem );
                     return;
                 }
             }
@@ -2541,8 +2559,8 @@ void npc::worker_downtime()
     // we got here if there are no chairs available.
     // wander back to near the bulletin board of the camp.
     if( wander_pos != no_goal_point ) {
-        update_path( wander_pos );
-        if( pos() == wander_pos || path.empty() ) {
+        update_path( g->m.getlocal( wander_pos ) );
+        if( pos() == g->m.getlocal( wander_pos ) || path.empty() ) {
             move_pause();
             path.clear();
             if( one_in( 30 ) ) {
@@ -2553,19 +2571,17 @@ void npc::worker_downtime()
         }
         return;
     }
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().xy() );
-    if( bcp ) {
-        std::vector<tripoint> pts;
-        tripoint origin = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( ( *bcp )->camp_omt_pos() ) ) ) +
-                          point(
-                              SEEX, SEEY );
-        for( tripoint elem : g->m.points_in_radius( origin, 60 ) ) {
-            if( g->m.furn( elem ) == f_bulletin ) {
-                origin = elem;
-                break;
-            }
+    if( assigned_camp ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        if( !bcp ) {
+            assigned_camp = cata::nullopt;
+            move_pause();
+            return;
         }
-        for( tripoint elem : g->m.points_in_radius( origin, 10 ) ) {
+        basecamp *temp_camp = *bcp;
+        std::vector<tripoint> pts;
+        for( const tripoint &elem : g->m.points_in_radius( g->m.getlocal( temp_camp->get_bb_pos() ),
+                10 ) ) {
             if( g->critter_at( elem ) || !could_move_onto( elem ) || g->m.has_flag( TFLAG_DEEP_WATER, elem ) ||
                 !g->m.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
                 continue;
@@ -2573,7 +2589,7 @@ void npc::worker_downtime()
             pts.push_back( elem );
         }
         if( !pts.empty() ) {
-            wander_pos = random_entry( pts );
+            wander_pos = g->m.getabs( random_entry( pts ) );
             return;
         }
     }
@@ -4170,7 +4186,7 @@ std::string npc_action_name( npc_action action )
         case npc_pause:
             return "Pause";
         case npc_worker_downtime:
-            return "relaxing";
+            return "Relaxing";
         case npc_reload:
             return "Reload";
         case npc_investigate_sound:

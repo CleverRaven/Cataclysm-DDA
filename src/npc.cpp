@@ -1332,6 +1332,9 @@ void npc::mutiny()
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
+    if( assigned_camp ) {
+        assigned_camp = cata::nullopt;
+    }
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
@@ -2005,37 +2008,6 @@ bool npc::within_boundaries_of_camp() const
     return false;
 }
 
-bool npc::is_assigned_to_camp() const
-{
-    if( has_companion_mission() || !has_job() ) {
-        return false;
-    }
-    cata::optional<basecamp *> bcp = cata::nullopt;
-    const int x = global_omt_location().x;
-    const int y = global_omt_location().y;
-    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
-        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
-            bcp = overmap_buffer.find_camp( point( x2, y2 ) );
-            if( bcp ) {
-                break;
-            }
-        }
-        if( bcp ) {
-            break;
-        }
-    }
-    if( !bcp ) {
-        return false;
-    }
-    std::vector<npc_ptr> assigned_npcs = ( *bcp )->get_npcs_assigned();
-    for( const npc_ptr guy : assigned_npcs ) {
-        if( guy->getID() == getID() ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool npc::is_enemy() const
 {
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
@@ -2445,6 +2417,13 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
+    if( assigned_camp ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        if( bcp ) {
+            ( *bcp )->remove_assignee( getID() );
+        }
+    }
+    assigned_camp = cata::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {

@@ -482,19 +482,32 @@ void basecamp::reset_camp_workers()
 
 void basecamp::add_assignee( character_id id )
 {
-    assigned_npcs.push_back( overmap_buffer.find_npc( id ) );
+    npc_ptr npc_to_add = overmap_buffer.find_npc( id );
+    if( !npc_to_add ) {
+        debugmsg( "cant find npc to assign to basecamp, on the overmap_buffer" );
+        return;
+    }
+    npc_to_add->assigned_camp = omt_pos;
+    assigned_npcs.push_back( npc_to_add );
+}
+
+void basecamp::remove_assignee( character_id id )
+{
+    npc_ptr npc_to_remove = overmap_buffer.find_npc( id );
+    if( !npc_to_remove ) {
+        debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
+        return;
+    }
+    assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
+                         assigned_npcs.end() );
 }
 
 void basecamp::validate_assignees()
 {
-    for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
-        auto ptr = *it2;
-        // new workers have no job yet, so dont discount them until after theyve chosen one.
-        if( !ptr->has_job() || !ptr->within_boundaries_of_camp() ||
-            ptr->has_companion_mission() ) {
-            it2 = assigned_npcs.erase( it2 );
-        } else {
-            ++it2;
+    for( npc_ptr guy : assigned_npcs ) {
+        if( !guy || !guy->assigned_camp || *guy->assigned_camp != omt_pos ) {
+            assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), guy ),
+                                 assigned_npcs.end() );
         }
     }
     for( character_id elem : g->get_follower_list() ) {
@@ -505,13 +518,8 @@ void basecamp::validate_assignees()
         if( std::find( assigned_npcs.begin(), assigned_npcs.end(), npc_to_add ) != assigned_npcs.end() ) {
             continue;
         } else {
-            for( int x2 = omt_pos.x - 3; x2 < omt_pos.x + 3; x2++ ) {
-                for( int y2 = omt_pos.y - 3; y2 < omt_pos.y + 3; y2++ ) {
-                    if( tripoint( x2, y2, omt_pos.z ) == npc_to_add->global_omt_location() && npc_to_add->has_job() &&
-                        !npc_to_add->has_companion_mission() ) {
-                        assigned_npcs.push_back( npc_to_add );
-                    }
-                }
+            if( npc_to_add->assigned_camp && *npc_to_add->assigned_camp == omt_pos ) {
+                assigned_npcs.push_back( npc_to_add );
             }
         }
     }

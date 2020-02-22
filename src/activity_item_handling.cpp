@@ -1620,7 +1620,7 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
         player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
 {
     if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
-        if( guy->is_assigned_to_camp() &&
+        if( guy->assigned_camp &&
             mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
             std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
                     g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
@@ -2055,7 +2055,6 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         continue;
                     }
                     item leftovers = it;
-
                     if( pickup_count != 1 && it.count_by_charges() ) {
                         // Reinserting leftovers happens after item removal to avoid stacking issues.
                         leftovers.charges = it.charges - pickup_count;
@@ -2066,12 +2065,13 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         leftovers.charges = 0;
                     }
                     it.set_var( "activity_var", p.name );
+                    const std::string item_name = it.tname();
                     p.i_add( it );
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
-                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
+                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), item_name );
                         } else {
-                            add_msg( _( "%s picks up several items." ), p.disp_name() );
+                            add_msg( _( "%s picks up several items." ),  p.disp_name() );
                         }
                     }
                     items_there.erase( item_iter );
@@ -2869,7 +2869,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     return true;
 }
 
-void generic_multi_activity_handler( player_activity &act, player &p )
+bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)

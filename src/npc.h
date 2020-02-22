@@ -130,36 +130,51 @@ class job_data
             { ACT_TIDY_UP, 0 },
         };
     public:
-        bool set_task_priority( const activity_id task, int new_priority ){
+        bool set_task_priority( const activity_id task, int new_priority ) {
             auto it = task_priorities.find( task );
-            if( it != task_priorities.end() ){
+            if( it != task_priorities.end() ) {
                 task_priorities[task] = new_priority;
                 return true;
             }
             return false;
         }
-        void clear_all_priorities(){
-            for( auto &elem : task_priorities ){
+        void clear_all_priorities() {
+            for( auto &elem : task_priorities ) {
                 elem.second = 0;
             }
         }
         bool has_job() const {
-            for( auto &elem : task_priorities ){
-                if( elem.second > 0 ){
+            for( auto &elem : task_priorities ) {
+                if( elem.second > 0 ) {
                     return true;
                 }
             }
             return false;
         }
-        int get_priority_of_job( const activity_id req_job ) const
-        {
-            auto it = task_priorities.find(req_job);
-            if( it != task_priorities.end() ){
+        int get_priority_of_job( const activity_id req_job ) const {
+            auto it = task_priorities.find( req_job );
+            if( it != task_priorities.end() ) {
                 return it->second;
             } else {
                 return 0;
             }
         }
+        std::vector<activity_id> get_prioritised_vector() const {
+            std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
+
+            std::vector<activity_id> ret;
+            sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
+            const std::pair<activity_id, int> &b ) {
+                return a.second > b.second;
+            } );
+            for( std::pair<activity_id, int> elem : pairs ) {
+                ret.push_back( elem.first );
+            }
+            return ret;
+        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+
 };
 
 enum npc_mission : int {
@@ -893,7 +908,6 @@ class npc : public player
         // Has a guard patrol mission
         bool is_patrolling() const;
         bool within_boundaries_of_camp() const;
-        bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -1125,6 +1139,7 @@ class npc : public player
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         // workers at camp relaxing/wandering
         void worker_downtime();
+        bool find_job_to_perform();
         // Same as if the player pressed '.'
         void move_pause();
 
@@ -1241,6 +1256,7 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
+        cata::optional<tripoint> assigned_camp = cata::nullopt;
 
     private:
         npc_attitude attitude; // What we want to do to the player

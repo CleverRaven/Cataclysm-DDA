@@ -411,10 +411,12 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->validate_assignees();
+    if( p.assigned_camp ) {
+        if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
+            p.assigned_camp = cata::nullopt;
+            ( *bcp )->remove_assignee( p.getID() );
+            ( *bcp )->validate_assignees();
+        }
     }
 }
 
