@@ -478,7 +478,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
-    const oter_id forest = oter_str_id( "forest" ).id();
+    const oter_id forest = oter_forest.id();
 
     std::string sZoneName;
     tripoint tripointZone = tripoint( -1, -1, -1 );

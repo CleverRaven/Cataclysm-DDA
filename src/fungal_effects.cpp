@@ -40,7 +40,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
-            !critter.type->in_species( FUNGUS ) ) {
+            !critter.type->in_species( species_FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {

@@ -2418,9 +2418,9 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
-        } else if( !has_flag_ter( "FLAT", point( x2, y2 ) ) ) {
+        } else if( !has_flag_ter( flag_FLAT, point( x2, y2 ) ) ) {
             loop = false;
-            if( !has_flag_ter( "WALL", point( x2, y2 ) ) ) {
+            if( !has_flag_ter( flag_WALL, point( x2, y2 ) ) ) {
                 result = false;
             }
         }
@@ -2574,7 +2574,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
+        if( has_flag_ter_or_furn( flag_USABLE_FIRE, p ) ) {
             return true;
         }
     }
@@ -3058,12 +3058,12 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // Clear out any partially grown seeds
-    if( has_flag_ter_or_furn( "PLANT", p ) ) {
+    if( has_flag_ter_or_furn( flag_PLANT, p ) ) {
         i_clear( p );
     }
 
-    if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
-        ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
+    if( ( smash_furn && has_flag_furn( flag_FUNGUS, p ) ) ||
+        ( smash_ter && has_flag_ter( flag_FUNGUS, p ) ) ) {
         fungal_effects( *g, *this ).create_spores( p );
     }
 
@@ -3251,7 +3251,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
+        if( bashed_item->made_of( material_glass ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
             for( const item &bashed_content : bashed_item->contents ) {
@@ -6799,7 +6799,7 @@ void map::grow_plant( const tripoint &p )
             rotten_item_spawn( *seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
-            if( has_flag_furn( "GROWTH_MATURE", p ) ) {
+            if( has_flag_furn( flag_GROWTH_MATURE, p ) ) {
                 return;
             }
 
@@ -6813,17 +6813,17 @@ void map::grow_plant( const tripoint &p )
 
             rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
-            if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
+            if( !has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
                 rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
-            if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
+            if( has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
                 rotten_item_spawn( *seed, p );
                 rotten_item_spawn( *seed, p );
                 //One stage change
-            } else if( has_flag_furn( "GROWTH_MATURE", p ) ) {
+            } else if( has_flag_furn( flag_GROWTH_MATURE, p ) ) {
                 rotten_item_spawn( *seed, p );
                 //Goes from seed to harvest in one check
             } else {
@@ -6972,13 +6972,13 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_str_id( "t_dirt" )},
-            {t_tree_young, ter_str_id( "t_dirt" )},
-            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
-            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
-            {t_tree_willow, ter_str_id( "t_tree_willow_harvested" )},
-            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
-            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
+            {t_grass, ter_dirt},
+            {t_tree_young, ter_dirt},
+            {t_tree_pine, ter_tree_deadpine},
+            {t_tree_birch, ter_tree_birch_harvested},
+            {t_tree_willow, ter_tree_willow_harvested},
+            {t_tree_hickory, ter_tree_hickory_dead},
+            {t_tree_hickory_harvested, ter_tree_hickory_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -6991,7 +6991,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     if( tr.has_flag( flag_SHRUB ) ) {
         ter_set( p, t_dirt );
     } else if( tr.has_flag( flag_TREE ) ) {
-        ter_set( p, ter_str_id( "t_tree_dead" ) );
+        ter_set( p, ter_tree_dead );
     }
 }
 

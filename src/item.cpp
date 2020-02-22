@@ -2736,7 +2736,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( is_armor() && g->u.has_trait( trait_WOOLALLERGY ) &&
-        ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+        ( made_of( material_wool ) || item_tags.count( flag_wooled ) ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This clothing will give you an <bad>allergic "
                                      "reaction</bad>." ) ) );
@@ -3460,7 +3460,7 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
     } else if( is_armor() && u.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+               ( made_of( material_wool ) || item_tags.count( flag_wooled ) ) ) {
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
@@ -5703,7 +5703,7 @@ bool item::is_gun() const
 
 bool item::is_firearm() const
 {
-    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
+    static const std::string primitive_flag( flag_PRIMITIVE_RANGED_WEAPON );
     return is_gun() && !has_flag( primitive_flag );
 }
 
@@ -8669,14 +8669,14 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( corpse->in_species( ROBOT ) ) {
+                if( corpse->in_species( species_ROBOT ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
                 }
             }
         } else {
-            if( corpse->in_species( ROBOT ) ) {
+            if( corpse->in_species( species_ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
@@ -9386,10 +9386,13 @@ int item::get_gun_ups_drain() const
 {
     int draincount = 0;
     if( type->gun ) {
-        draincount += type->gun->ups_charges;
+        int modifier = 0;
+        float multiplier = 1.0f;
         for( const item *mod : gunmods() ) {
-            draincount *= mod->type->gunmod->ups_charges_multiplier;
+            modifier += mod->type->gunmod->ups_charges_modifier;
+            multiplier *= mod->type->gunmod->ups_charges_multiplier;
         }
+        draincount = ( type->gun->ups_charges * multiplier ) + modifier;
     }
     return draincount;
 }

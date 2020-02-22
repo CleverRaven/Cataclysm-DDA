@@ -539,7 +539,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_magnet ) {
         static const std::set<material_id> affected_materials =
-        { material_id( "iron" ), material_id( "steel" ) };
+        { material_iron, material_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;

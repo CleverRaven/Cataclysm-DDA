@@ -135,7 +135,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
             // this is where we are able to check if the food actually is changed by the trait
-            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
+            if( mat.first == material_all || it.made_of( mat.first ) ) {
                 const std::map<vitamin_id, double> &mat_vit_map = mat.second;
                 for( auto &vit : res ) {
                     auto vit_factor = mat_vit_map.find( vit.first );
@@ -530,7 +530,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
-    if( food.item_tags.count( "DIRTY" ) ) {
+    if( food.item_tags.count( flag_DIRTY ) ) {
         return ret_val<edible_rating>::make_failure(
                    _( "This is full of dirt after being on the ground." ) );
     }
@@ -632,7 +632,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( flag_CANNIBAL ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1441,10 +1441,10 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
 
             // TODO: JSONize.
-            if( it.made_of( material_id( "leather" ) ) ) {
+            if( it.made_of( material_leather ) ) {
                 amount /= 4;
             }
-            if( it.made_of( material_id( "wood" ) ) ) {
+            if( it.made_of( material_wood ) ) {
                 amount /= 2;
             }
 
