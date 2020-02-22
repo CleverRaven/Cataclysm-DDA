@@ -10284,10 +10284,24 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     int best = INT_MAX;
     const int movez = z_after - get_levz();
     Creature *blocking_creature = nullptr;
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        stairs.emplace( u.pos() + tripoint_below );
+    }
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
+        stairs.emplace( u.pos() + tripoint_above );
+    }
+    if( stairs ) {
+        // We found stairs above or below, no need to do anything else
+        return stairs;
+    }
+    // Otherwise, search the map for them
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
-            ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
-              ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
+            ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
+              ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
             if( mp.has_zlevels() && critter_at( dest ) ) {
