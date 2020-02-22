@@ -38,6 +38,7 @@
 #include "options.h"
 #include "pldata.h"
 #include "string_formatter.h"
+#include "ui_manager.h"
 
 static const holiday current_holiday = holiday::none;
 
@@ -467,21 +468,63 @@ bool main_menu::opening_screen()
         sel1 = 2;
     }
 
-    while( !start ) {
-        // disable ime at program start
-        // somehow this need to be here to actually work
-        disable_ime();
-
+    ui_adaptor ui;
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         print_menu( w_open, sel1, menu_offset );
 
         if( layer == 1 ) {
             if( sel1 == 0 ) { // Print MOTD.
                 display_text( mmenu_motd, "MOTD", sel_line );
-
             } else if( sel1 == 7 ) { // Print Credits.
                 display_text( mmenu_credits, "Credits", sel_line );
             }
+        } else if( layer == 2 ) {
+            if( sel1 == 4 ) { // Special game
+                std::vector<std::string> special_names;
+                int xlen = 0;
+                for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
+                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
+                    special_names.push_back( spec_name );
+                    xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
+                }
+                xlen += special_names.size() - 1;
+                point offset( menu_offset + point( -( xlen / 4 ) + 32 + extra_w / 2, -2 ) );
+                print_menu_items( w_open, special_names, sel2, offset );
 
+                wrefresh( w_open );
+            } else if( sel1 == 5 ) {  // Settings Menu
+                int settings_subs_to_display = vSettingsSubItems.size();
+                std::vector<std::string> settings_subs;
+                int xlen = 0;
+                for( int i = 0; i < settings_subs_to_display; ++i ) {
+                    settings_subs.push_back( vSettingsSubItems[i] );
+                    // Open and close brackets added
+                    xlen += utf8_width( shortcut_text( c_white, vSettingsSubItems[i] ), true ) + 2;
+                }
+                xlen += settings_subs.size() - 1;
+                point offset = menu_offset + point( 46 + extra_w / 2 - ( xlen / 4 ), -2 );
+                if( settings_subs.size() > 1 ) {
+                    offset.x -= 6;
+                }
+                print_menu_items( w_open, settings_subs, sel2, offset );
+                wrefresh( w_open );
+            }
+        }
+    } );
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        init_windows();
+        ui.position_from_window( w_background );
+    } );
+    ui.position_from_window( w_background );
+
+    while( !start ) {
+        // disable ime at program start
+        // somehow this need to be here to actually work
+        disable_ime();
+
+        ui_manager::redraw();
+
+        if( layer == 1 ) {
             std::string action = handle_input_timeout( ctxt );
 
             std::string sInput = ctxt.get_raw_input().text;
@@ -535,7 +578,6 @@ bool main_menu::opening_screen()
                 } else {
                     sel2 = 0;
                     layer = 2;
-                    print_menu( w_open, sel1, menu_offset );
 
                     switch( sel1 ) {
                         case 1:
@@ -560,19 +602,6 @@ bool main_menu::opening_screen()
                     continue;
                 }
 
-                std::vector<std::string> special_names;
-                int xlen = 0;
-                for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
-                    special_names.push_back( spec_name );
-                    xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
-                }
-                xlen += special_names.size() - 1;
-                point offset( menu_offset + point( -( xlen / 4 ) + 32 + extra_w / 2, -2 ) );
-                print_menu_items( w_open, special_names, sel2, offset );
-
-                wrefresh( w_open );
-                catacurses::refresh();
                 std::string action = handle_input_timeout( ctxt );
                 if( action == "LEFT" ) {
                     if( sel2 > 0 ) {
@@ -620,21 +649,6 @@ bool main_menu::opening_screen()
                 }
             } else if( sel1 == 5 ) {  // Settings Menu
                 int settings_subs_to_display = vSettingsSubItems.size();
-                std::vector<std::string> settings_subs;
-                int xlen = 0;
-                for( int i = 0; i < settings_subs_to_display; ++i ) {
-                    settings_subs.push_back( vSettingsSubItems[i] );
-                    // Open and close brackets added
-                    xlen += utf8_width( shortcut_text( c_white, vSettingsSubItems[i] ), true ) + 2;
-                }
-                xlen += settings_subs.size() - 1;
-                point offset = menu_offset + point( 46 + extra_w / 2 - ( xlen / 4 ), -2 );
-                if( settings_subs.size() > 1 ) {
-                    offset.x -= 6;
-                }
-                print_menu_items( w_open, settings_subs, sel2, offset );
-                wrefresh( w_open );
-                catacurses::refresh();
                 std::string action = handle_input_timeout( ctxt );
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
