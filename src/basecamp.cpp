@@ -504,10 +504,12 @@ void basecamp::remove_assignee( character_id id )
 
 void basecamp::validate_assignees()
 {
-    for( npc_ptr guy : assigned_npcs ) {
-        if( !guy || !guy->assigned_camp || *guy->assigned_camp != omt_pos ) {
-            assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), guy ),
-                                 assigned_npcs.end() );
+    std::vector<npc_ptr>::iterator iter = assigned_npcs.begin();
+    while( iter != assigned_npcs.end() ) {
+        if( !( *iter ) || !( *iter )->assigned_camp || *( *iter )->assigned_camp != omt_pos ) {
+            iter = assigned_npcs.erase( iter );
+        } else {
+            ++iter;
         }
     }
     for( character_id elem : g->get_follower_list() ) {
