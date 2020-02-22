@@ -595,12 +595,7 @@
       [ "box_small", 400 ],
       [ "box_medium", 400 ],
       [ "box_large", 200 ],
-      [ "one_year_old_newspaper", 200 ],
-      [ "months_old_newspaper", 250 ],
-      [ "weeks_old_newspaper", 250 ],
-      [ "one_year_old_newspaper", 200 ],
-      [ "years_old_newspaper", 200 ],
-      [ "many_years_old_newspaper", 200 ]
+      { "group": "newspaper", "prob": 500 }
     ]
   },
   {
