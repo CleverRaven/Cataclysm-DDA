@@ -358,16 +358,16 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "result_mult": 4,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "water", 11 ], [ "water_clean", 11 ] ],
+      [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "sweet_fruit", 3, "LIST" ] ],
-      [ [ "sugar", 20 ] ]
+      [ [ "sweet_fruit", 4, "LIST" ] ],
+      [ [ "sugar_standard", 2, "LIST" ] ]
     ]
   },
   {
@@ -570,12 +570,12 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "result_mult": 4,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ] ]
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "jar_glass", 1 ] ], [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -682,7 +682,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "24 m",
-    "charges": 1,
+    "charges": 2,
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
@@ -697,8 +697,8 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sweet_fruit", 1, "LIST" ] ],
-      [ [ "sugar", 15 ] ]
+      [ [ "sweet_fruit", 2, "LIST" ] ],
+      [ [ "sugar_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -712,6 +712,7 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
+    "charges": 2,
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
@@ -723,7 +724,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "tomato", 1 ] ]
+      [ [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ]
     ]
   },
   {
@@ -890,12 +891,17 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "result_mult": 24,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "sweet_fruit", 36, "LIST" ] ] ]
+    "components": [
+      [ [ "water", 22 ], [ "water_clean", 22 ] ],
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "sweet_fruit", 24, "LIST" ] ],
+      [ [ "sugar_standard", 12, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -950,13 +956,13 @@
     "time": "40 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "charges": 12,
+    "charges": 24,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "water", 16 ], [ "water_clean", 16 ] ],
+      [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "tomato", 12 ], [ "irradiated_tomato", 12 ] ]
+      [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ]
     ]
   },
   {
@@ -1332,6 +1338,7 @@
     "result": "apple_cider",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
+    "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -1391,6 +1398,7 @@
     "result": "oj",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
+    "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -1454,6 +1462,7 @@
     "result": "cranberry_juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
+    "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -1513,6 +1522,7 @@
     "result": "juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 2 ] ],
+    "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",

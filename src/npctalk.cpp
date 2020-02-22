@@ -1970,31 +1970,25 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn );
-        if( u.has_charges( item_name, count ) ) {
-            u.use_charges( item_name, count );
+        if( item::count_by_charges( item_name ) && u.has_charges( item_name, count ) ) {
+            for( const item &it : u.use_charges( item_name, count ) ) {
+                p.i_add( it );
+            }
         } else if( u.has_amount( item_name, count ) ) {
-            u.use_amount( item_name, count );
+            for( const item &it : u.use_amount( item_name, count ) ) {
+                p.i_add( it );
+            }
         } else {
             //~ %1$s is a translated item name
-            popup( _( "You don't have a %1$s!" ), old_item.tname() );
+            popup( _( "You don't have a %1$s!" ), item::nname( item_name ) );
             return;
         }
-        if( old_item.count_by_charges() ) {
-            old_item.mod_charges( count - 1 );
-            p.i_add( old_item );
-        } else {
-            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                p.i_add( old_item );
-            }
-        }
-
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "You give %1$s a %2$s." ), p.name, old_item.tname() );
+            popup( _( "You give %1$s a %2$s." ), p.name, item::nname( item_name ) );
         } else {
             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, old_item.tname() );
+            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, item::nname( item_name, count ) );
         }
         p.op_of_u.owed += cost;
     };
@@ -2070,7 +2064,7 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        if( p.get_faction()->id != faction_id( "no_faction" ) ) {
+        if( p.get_faction()->id != faction_no_faction ) {
             p.get_faction()->likes_u += rep_change;
             p.get_faction()->respects_u += rep_change;
         }
@@ -3211,8 +3205,8 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
-            given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &g->u.weapon && given.has_flag( flag_NO_UNWIELD ) ) || ( g->u.is_worn( given ) &&
+            given.has_flag( flag_NO_TAKEOFF ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

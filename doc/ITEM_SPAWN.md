@@ -222,6 +222,8 @@ Instead of a full JSON object, one can also write a JSON array. The default subt
 
 ### Notes
 
+#### Testing
+
 You can test your item groups in the game:
 
 1. Load a game and call the debug menu
@@ -236,3 +238,9 @@ You can test your item groups in the game:
     > *TIP*: You can filter anything in the debug menu using <kbd>/</kbd>
 
 You should not add items to the item group `EMPTY_GROUP`. This group can be used when the game requires a group id, but you don't want to spawn any items there. The group will never spawn items.
+
+#### SUS
+
+When adding items to item groups, attempt to locate or create **SUS item groups.** SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given piece of storage furniture. SUS stands for "specific use storage." One of the aims of organizing item groups into specific use storage is to promote reusable tables that can be maintained and extended.
+
+You can find SUS item groups at /data/json/itemgroups/SUS

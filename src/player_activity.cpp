@@ -4,6 +4,7 @@
 
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "cata_string_consts.h"
 #include "construction.h"
 #include "map.h"
 #include "game.h"
@@ -67,16 +68,16 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
-    if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
+    if( type == ACT_NULL || get_verb().empty() ) {
         return cata::optional<std::string>();
     }
 
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
+    if( type == ACT_CRAFT ) {
         if( const item *craft = targets.front().get_item() ) {
             extra_info = craft->tname();
         }
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    } else if( type == ACT_READ ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -93,24 +94,24 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_BURROW" ) ||
-            type == activity_id( "ACT_HACKSAW" ) ||
-            type == activity_id( "ACT_JACKHAMMER" ) ||
-            type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_DISASSEMBLE" ) ||
-            type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
-            type == activity_id( "ACT_CHOP_TREE" ) ||
-            type == activity_id( "ACT_CHOP_LOGS" ) ||
-            type == activity_id( "ACT_CHOP_PLANKS" )
+        if( type == ACT_BURROW ||
+            type == ACT_HACKSAW ||
+            type == ACT_JACKHAMMER ||
+            type == ACT_PICKAXE ||
+            type == ACT_DISASSEMBLE ||
+            type == ACT_FILL_PIT ||
+            type == ACT_DIG ||
+            type == ACT_DIG_CHANNEL ||
+            type == ACT_CHOP_TREE ||
+            type == ACT_CHOP_LOGS ||
+            type == ACT_CHOP_PLANKS
           ) {
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
         }
 
-        if( type == activity_id( "ACT_BUILD" ) ) {
+        if( type == ACT_BUILD ) {
             partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
@@ -158,16 +159,23 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-
+    const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
     // Activities should never excessively drain stamina.
-    if( p.get_stamina() < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
+    // adjusted stamina because
+    // autotravel doesn't reduce stamina after do_turn()
+    // it just sets a destination, clears the activity, then moves afterwards
+    // so set stamina -1 if that is the case
+    // to simulate that the next step will surely use up some stamina anyway
+    // this is to ensure that resting will occur when travelling overburdened
+    const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
+    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
         auto_resume = true;
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 1_minutes ) );
         new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
         p.assign_activity( new_act );
         return;
@@ -218,11 +226,11 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return false;
     }
 
-    if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
+    if( id() == ACT_CLEAR_RUBBLE ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_READ" ) ) {
+    } else if( id() == ACT_READ ) {
         // Return false if any NPCs joined or left the study session
         // the vector {1, 2} != {2, 1}, so we'll have to check manually
         if( values.size() != other.values.size() ) {
@@ -236,7 +244,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
+    } else if( id() == ACT_DIG || id() == ACT_DIG_CHANNEL ) {
         // We must be digging in the same location.
         if( placement != other.placement ) {
             return false;

@@ -20,7 +20,6 @@ class generic_factory;
 using Group_tag = std::string;
 class item;
 
-using itype_id = std::string;
 class avatar;
 class player;
 class JsonObject;

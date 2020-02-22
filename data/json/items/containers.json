@@ -1180,7 +1180,7 @@
     "id": "can_food_big_unsealed",
     "copy-from": "can_food_big",
     "type": "CONTAINER",
-    "name": "opened large tin can",
+    "name": "large opened tin can",
     "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",

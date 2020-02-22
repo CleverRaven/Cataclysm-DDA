@@ -3,6 +3,7 @@
 Use the `Home` key to return to the top.
 
 - [Introduction](#introduction)
+- [Navigating the JSON](#navigating-the-json)
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
@@ -161,6 +162,16 @@ Use the `Home` key to return to the top.
 
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+
+# Navigating the JSON
+A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
+
+To run the script you'll need Python 3.  On Windows you'll probably need to install that, and associate `.py` files with Python.  Then open a command prompt, navigate to your CDDA folder, and run `tools\json_tools\cddatags.py`.
+
+To use this feature your editor will need [ctags support](http://ctags.sourceforge.net/).  When that's working you should be able to easily jump to the definition of any entity.  For example, by positioning your cursor over an id and hitting the appropriate key combination.
+
+* In Vim, this feature exists by default, and you can jump to a definition using [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
+* In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin.  Then select any id and press Alt+Space to open the references window.
 
 # File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
@@ -1130,6 +1141,7 @@ Note that even though most statistics yield an integer, you should still use
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
+"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
 ```
 
 ### Vehicle Groups
@@ -1282,6 +1294,33 @@ See also VEHICLE_JSON.md
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
+"ascii_picture": [
+      "        ,,,,,,,,,,,,,",
+      "    .;;;;;;;;;;;;;;;;;;;,.",
+      " .;;;;;;;;;;;;;;;;;;;;;;;;,",
+      ".;;;;;;;;;;;;;;;;;;;;;;;;;;;;.",
+      ";;;;;@;;;;;;;;;;;;;;;;;;;;;;;;' .............",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
+      ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
+      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
+      "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
+      "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
+      "        `;;;;;;;;;;;;'   ...;;...............;.....",
+      "           `;;;;;;'        ...;;..................",
+      "              ;;              ..;...............",
+      "              `                  ............",
+      "             `                      ......",
+      "             `                         ..",
+      "           `                           '",
+      "          `                           '",
+      "         `                           '",
+      "        `                           `",
+      "        `                           `,",
+      "        `",
+      "         `",
+      "           `."
+    ],
 "phase": "solid",                // (Optional, default = "solid") What phase it is
 "weight": "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume": "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
@@ -1656,7 +1695,8 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
-"ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+"ups_charges_modifier": 200,   // Optional field increasing or decreasing base gun UPS consumption (per shot) by adding given value
+"ups_charges_multiplier": 2.5, // Optional field increasing or decreasing base gun UPS consumption (per shot) by multiplying by given value
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
@@ -1716,7 +1756,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 ```C++
 "seed_data" : {
-    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "fruit": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.

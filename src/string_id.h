@@ -25,8 +25,6 @@ class int_id;
  *
  * Example:
  * \code
- * struct itype;
- * using itype_id = string_id<itype>;
  * struct mtype;
  * using mtype_id = string_id<mtype>;
  * \endcode

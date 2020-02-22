@@ -35,13 +35,7 @@
 #include "colony.h"
 #include "player_activity.h"
 #include "regional_settings.h"
-
-static const efftype_id effect_glare( "glare" );
-static const efftype_id effect_snow_glare( "snow_glare" );
-static const efftype_id effect_sleep( "sleep" );
-
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
+#include "cata_string_consts.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -65,8 +59,8 @@ void weather_effect::glare( sun_intensity intensity )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( "SUN_GLASSES" ) ||
-        g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
+        g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
         return;
     }
@@ -360,8 +354,8 @@ static void wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
-        g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
+        g->u.weapon.has_flag( flag_RAIN_PROTECT ) ||
+        ( !one_in( 50 ) && g->u.worn_with_flag( flag_RAINPROOF ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
@@ -486,10 +480,10 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
+        if( g->u.weapon.has_flag( flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
         } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
+            if( g->u.worn_with_flag( flag_RAINPROOF ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
             } else {
                 bool has_helmet = false;
@@ -513,10 +507,10 @@ void weather_effect::light_acid()
 void weather_effect::acid()
 {
     if( calendar::once_every( 2_turns ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
+        if( g->u.weapon.has_flag( flag_RAIN_PROTECT ) && one_in( 4 ) ) {
             add_msg( _( "Your umbrella protects you from the acid rain." ) );
         } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
+            if( g->u.worn_with_flag( flag_RAINPROOF ) && one_in( 2 ) ) {
                 add_msg( _( "Your clothing protects you from the acid rain." ) );
             } else {
                 bool has_helmet = false;
@@ -881,7 +875,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return g->m.has_flag( "BLOCK_WIND", location );
+    return g->m.has_flag( flag_BLOCK_WIND, location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
@@ -991,13 +985,13 @@ void weather_manager::update_weather()
         const weather_datum wdata = weather_data( weather );
         if( weather != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && g->m.is_outside( g->u.pos() )
-            && !g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
+            && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), wdata.name ) );
         }
 
-        if( weather != old_weather && g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            g->u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0 );
+        if( weather != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+            g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( wdata.sight_penalty !=

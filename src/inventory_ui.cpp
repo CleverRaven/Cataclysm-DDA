@@ -713,7 +713,9 @@ void inventory_column::add_entry( const inventory_entry &entry )
 void inventory_column::move_entries_to( inventory_column &dest )
 {
     for( const auto &elem : entries ) {
-        if( elem.is_item() ) {
+        if( elem.is_item() &&
+            // this column already has this entry, no need to try to add it again
+            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
@@ -1603,8 +1605,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( filter.empty() ? _( "[%s]Filter" ) : _( "[%s]Filter: " ),
-                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
+        std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                          ctxt.get_desc( "INVENTORY_FILTER" ) );
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );

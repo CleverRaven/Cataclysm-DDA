@@ -635,7 +635,7 @@
     "id": "stillsuit",
     "type": "ARMOR",
     "name": "WS-47G moisture retention suit",
-    "description": "The WebbStar moisture retention suit utilizes advanced technology to prevent up to 30% of moisture loss through perspiration.  The suit is powered by the micro-motions of the body, especially breathing and walking motions.  Because of this your walking speed is impaired while wearing it.",
+    "description": "The WebbStar moisture retention suit utilizes advanced technology to prevent up to 30% of moisture loss through perspiration.  The suit is powered by the micro-motions of the body, especially breathing and walking motions.  Because of this, your walking speed is impaired while wearing it.",
     "weight": "3481 g",
     "volume": "7500 ml",
     "price": 4500000,

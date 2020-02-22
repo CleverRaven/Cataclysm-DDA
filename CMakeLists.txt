@@ -193,7 +193,7 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
     MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
     ADD_DEFINITIONS(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Usefull only on *nix OS.
+    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     IF (PREFIX AND NOT WIN32)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
@@ -222,11 +222,12 @@ ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
        -Wmissing-declarations \
+       -Wmissing-noreturn \
        -Wold-style-cast \
        -Woverloaded-virtual \
        -Wsuggest-override \
-       -Wno-unknown-warning-option \
-       -Wpedantic")
+       -Wpedantic \
+       -Wno-unknown-warning-option")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
