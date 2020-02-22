@@ -2714,7 +2714,6 @@ void game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
-    draw();
 }
 
 void game::load_world_modfiles( loading_ui &ui )
