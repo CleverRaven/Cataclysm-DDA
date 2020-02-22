@@ -762,7 +762,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
-        if( jar.has_string( 0 ) ) {
+        if( jar.has_string( 0 ) ) { // TEMPORARY until 0.F
             for( const std::string id : jar ) {
                 emit_fields.emplace( emit_id( id ), 1_seconds );
             }
