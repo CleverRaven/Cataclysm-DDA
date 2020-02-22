@@ -424,11 +424,34 @@
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
-    "id": "sig552",
+    "id": "sig550",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "SIG 552",
+    "name": "SIG SG 550",
+    "description": "SIG SG 550 is an assault rifle made to be operated under the coldest, harshest conditions in the mountains of Switzerland.  Accurate and reliable, like a Swiss watch.",
+    "weight": "3600 g",
+    "volume": "2500 ml",
+    "price": 400000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "ammo": "223",
+    "ranged_damage": 1,
+    "dispersion": 140,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "default_mods": [ "bipod" ],
+    "built_in_mods": [ "folding_stock" ],
+    "magazines": [ [ "223", [ "sig_sg30", "sig_sg20" ] ] ]
+  },
+  {
+    "id": "sig553",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": "SIG SG 553",
     "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
     "weight": "3000 g",
     "volume": "1750 ml",
@@ -442,7 +465,7 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "sig_sg30", "sig_sg20" ] ] ]
   },
   {
     "id": "steyr_aug",

@@ -244,7 +244,8 @@
       { "item": "rm51_assault_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
       { "item": "rm614_lmg", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "rm88_battle_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
-      { "item": "sig552", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "sig553", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "sig550", "prob": 3, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
@@ -278,7 +279,9 @@
       { "item": "trex_gun", "prob": 60 },
       { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 },
-      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "sig553", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "sig550", "prob": 3, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {

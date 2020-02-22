@@ -252,7 +252,9 @@
       [ "m1918bigmag", 40 ],
       [ "ruger1022bigmag", 70 ],
       [ "lw223mag", 20 ],
-      [ "lw223bigmag", 20 ]
+      [ "lw223bigmag", 20 ],
+      [ "sig_sg20", 3 ],
+      [ "sig_sg30", 5 ]
     ]
   },
   {

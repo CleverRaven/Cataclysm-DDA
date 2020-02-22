@@ -116,6 +116,38 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "sig_sg20",
+    "type": "MAGAZINE",
+    "name": "SIG SG 20-round magazine",
+    "description": "A slick 20-round capacity magazine used with SIG SG rifles.",
+    "weight": "90 g",
+    "volume": "400 ml",
+    "price": 15000,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "223",
+    "capacity": 20,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "sig_sg30",
+    "type": "MAGAZINE",
+    "name": "SIG SG 30-round magazine",
+    "description": "A standard capacity magazine used with SIG SG rifles.",
+    "weight": "110 g",
+    "volume": "500 ml",
+    "price": 17500,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "223",
+    "capacity": 30,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "stanag30",
     "type": "MAGAZINE",
     "name": "STANAG magazine",
