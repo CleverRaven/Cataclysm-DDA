@@ -652,7 +652,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // No blood from hallucinations
             if( critter != nullptr && !critter->is_hallucination() ) {
-                if( part_flag( ret.part, "SHARP" ) ) {
+                if( part_flag( ret.part, flag_SHARP ) ) {
                     parts[ret.part].blood += ( 20 + dam ) * 5;
                 } else if( dam > rng( 10, 30 ) ) {
                     parts[ret.part].blood += ( 10 + dam / 2 ) * 5;
@@ -669,7 +669,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( ph != nullptr ) {
                 ph->hitall( dam, 40, driver );
             } else {
-                const int armor = part_flag( ret.part, "SHARP" ) ?
+                const int armor = part_flag( ret.part, flag_SHARP ) ?
                                   critter->get_armor_cut( bp_torso ) :
                                   critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
@@ -727,7 +727,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
 
-            if( part_flag( ret.part, "SHARP" ) ) {
+            if( part_flag( ret.part, flag_SHARP ) ) {
                 critter->bleed();
             } else {
                 sounds::sound( p, 20, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );

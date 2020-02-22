@@ -198,7 +198,7 @@
     "category": "spare_parts",
     "name": "titanium",
     "name_plural": "titanium",
-    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio, it was an excellent upgrade to aluminium for those properties albeit a lot more expensive due to rarity.  More commonly used in jewellery and medical implants.",
+    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio, it was an excellent upgrade to aluminum for those properties albeit a lot more expensive due to rarity.  More commonly used in jewelery and medical implants.",
     "weight": "1 g",
     "//": "Density 4.506g/cm³ ~ 1.127kg/250ml @ stack 1000 = 1g/unit",
     "volume": "50 ml",

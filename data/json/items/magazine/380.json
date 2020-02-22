@@ -3,7 +3,7 @@
     "id": "kp3atmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Kel-Tec P3AT magazine",
+    "name": { "str": "Kel-Tec P3AT magazine" },
     "description": "A standard 6-round steel box magazine for the Kel-Tec P3AT.",
     "weight": "60 g",
     "volume": "50ml",

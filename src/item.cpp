@@ -8330,7 +8330,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
         // Process the past of this item since the last time it was processed
         while( time < now - 1_hours ) {
-            // Get the enviroment temperature
+            // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
 
@@ -8363,8 +8363,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
-            // Calculate item temperature from enviroment temperature
-            // If the time was more than 2 d ago just set the item to enviroment temperature
+            // Calculate item temperature from environment temperature
+            // If the time was more than 2 d ago just set the item to environment temperature
             if( now - time > 2_days ) {
                 // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
@@ -8413,7 +8413,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     }
     const float mass = to_gram( weight() ); // g
 
-    // If item has negative energy set to enviroment temperature (it not been processed ever)
+    // If item has negative energy set to environment temperature (it not been processed ever)
     if( specific_energy < 0 ) {
         set_item_temperature( env_temperature );
         last_temp_check = time;
@@ -8441,7 +8441,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
 
     // Temperature calculations based on Newton's law of cooling.
     // Calculations are done assuming that the item stays in its phase.
-    // This assumption can cause over heating when transitioning from meltiong to liquid.
+    // This assumption can cause over heating when transitioning from melting to liquid.
     // In other transitions the item may cool/heat too little but that won't be a problem.
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
@@ -8464,7 +8464,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             if( new_specific_energy > completely_liquid_specific_energy ) {
                 // The item then also finished melting.
                 // This may happen rarely with very small items
-                // Just set the item to enviroment temperature
+                // Just set the item to environment temperature
                 set_item_temperature( env_temperature );
                 last_temp_check = time;
                 return;
@@ -8493,7 +8493,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             if( new_specific_energy < completely_frozen_specific_energy ) {
                 // The item then also finished freezing.
                 // This may happen rarely with very small items
-                // Just set the item to enviroment temperature
+                // Just set the item to environment temperature
                 set_item_temperature( env_temperature );
                 last_temp_check = time;
                 return;

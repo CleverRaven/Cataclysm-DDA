@@ -114,7 +114,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
 
 void vehicle::control_doors()
 {
-    const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
+    const auto door_motors = get_avail_parts( flag_DOOR_MOTOR );
     // Indices of doors
     std::vector< int > doors_with_motors;
     // Locations used to display the doors
@@ -174,7 +174,7 @@ void vehicle::control_doors()
                 if( open ) {
                     int part = next_part_to_open( motor );
                     if( part != -1 ) {
-                        if( !part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
+                        if( !part_flag( part, flag_CURTAIN ) &&  option == OPENCURTAINS ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -188,7 +188,7 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, flag_CURTAIN ) &&  option == CLOSEDOORS ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -447,7 +447,7 @@ void vehicle::smash_security_system()
     int s = -1;
     int c = -1;
     for( int p : speciality ) {
-        if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
+        if( part_flag( p, flag_SECURITY ) && !parts[ p ].is_broken() ) {
             s = p;
             c = part_with_feature( s, "CONTROLS", true );
             break;
@@ -815,7 +815,7 @@ bool vehicle::fold_up()
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( g->u.pos(), bicycle );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
@@ -1057,10 +1057,10 @@ void vehicle::honk_horn()
     const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
 
-    for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
+    for( const vpart_reference &vp : get_avail_parts( flag_HORN ) ) {
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = vp.info();
-        if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
+        if( ( horn_type.get_id() != vpart_horn_bicycle ) && no_power ) {
             continue;
         }
         if( !honked ) {
@@ -1138,7 +1138,7 @@ void vehicle::beeper_sound()
     }
 
     const bool odd_turn = calendar::once_every( 2_turns );
-    for( const vpart_reference &vp : get_avail_parts( "BEEPER" ) ) {
+    for( const vpart_reference &vp : get_avail_parts( flag_BEEPER ) ) {
         if( ( odd_turn && vp.has_feature( VPFLAG_EVENTURN ) ) ||
             ( !odd_turn && vp.has_feature( VPFLAG_ODDTURN ) ) ) {
             continue;
@@ -1716,7 +1716,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
     } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
         return;
-    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
+    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, flag_HARNESS_any ) ) {
         add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }

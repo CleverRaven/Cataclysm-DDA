@@ -102,6 +102,9 @@ struct construction {
 
         // make the construction available for selection
         bool on_display = true;
+
+        //can be build in the dark
+        bool dark_craftable = false;
     private:
         std::string get_time_string() const;
 };
