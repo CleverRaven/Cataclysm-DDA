@@ -2007,7 +2007,7 @@ bool npc::within_boundaries_of_camp() const
 
 bool npc::is_assigned_to_camp() const
 {
-    if( has_companion_mission() || !job.has_job() ) {
+    if( has_companion_mission() || !has_job() ) {
         return false;
     }
     cata::optional<basecamp *> bcp = cata::nullopt;

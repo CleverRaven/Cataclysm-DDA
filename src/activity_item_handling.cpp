@@ -2869,7 +2869,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     return true;
 }
 
-bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only )
+void generic_multi_activity_handler( player_activity &act, player &p )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)

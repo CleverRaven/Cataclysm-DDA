@@ -1227,6 +1227,9 @@ class npc : public player
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
+        bool has_job() const {
+            return job.has_job();
+        }
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
