@@ -6838,7 +6838,9 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
 
 }
 
+#if defined(TILES)
 #define MAXIMUM_ZOOM_LEVEL 4
+#endif
 void game::zoom_out()
 {
 #if defined(TILES)
