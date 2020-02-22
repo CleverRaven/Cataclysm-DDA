@@ -1610,9 +1610,9 @@ void replace_name_tags( std::string &input )
         replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
                            false );
     }
-    while (input.find("<town_name>") != std::string::npos) {
-        replace_substring(input, "<town_name>", Name::get(nameIsTownName),
-                           false);
+    while( input.find( "<town_name>" ) != std::string::npos ) {
+        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
+                           false );
     }
 }
 
