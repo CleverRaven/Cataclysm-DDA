@@ -720,56 +720,6 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
     } while( !skip_spaces() );
     return result;
 }
-template<typename T>
-T read_from_json_string( std::string string, const std::vector<std::pair<std::string, T>> &units )
-{
-    size_t i = 0;
-    // returns whether we are at the end of the string
-    const auto skip_spaces = [&]() {
-        while( i < string.size() && string[i] == ' ' ) {
-            ++i;
-        }
-        return i >= string.size();
-    };
-    const auto get_unit = [&]() {
-        if( skip_spaces() ) {
-            debugmsg( "invalid quantity string: missing unit" );
-        }
-        for( const auto &pair : units ) {
-            const std::string &unit = pair.first;
-            if( string.size() >= unit.size() + i && string.compare( i, unit.size(), unit ) == 0 ) {
-                i += unit.size();
-                return pair.second;
-            }
-        }
-        debugmsg( "invalid quantity string: unknown unit" );
-        // above always throws
-        throw;
-    };
-
-    if( skip_spaces() ) {
-        debugmsg( "invalid quantity string: empty string" );
-    }
-    T result{};
-    do {
-        int sign_value = +1;
-        if( string[i] == '-' ) {
-            sign_value = -1;
-            ++i;
-        } else if( string[i] == '+' ) {
-            ++i;
-        }
-        if( i >= string.size() || !isdigit( string[i] ) ) {
-            debugmsg( "invalid quantity string: number expected" );
-        }
-        int value = 0;
-        for( ; i < string.size() && isdigit( string[i] ); ++i ) {
-            value = value * 10 + ( string[i] - '0' );
-        }
-        result += sign_value * value * get_unit();
-    } while( !skip_spaces() );
-    return result;
-}
 
 template<typename T>
 void dump_to_json_string( T t, JsonOut &jsout,
