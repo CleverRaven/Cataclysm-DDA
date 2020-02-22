@@ -419,7 +419,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     if( min != -1 ) {
         if( veh != nullptr && get_items_from == prompt ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( flag_CARGO, false );
             const bool veh_has_items = carg && !veh->get_items( carg->part_index() ).empty();
             const bool map_has_items = g->m.has_items( p );
             if( veh_has_items && map_has_items ) {
@@ -433,7 +433,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
         }
         if( get_items_from == from_cargo ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( flag_CARGO, false );
             cargo_part = carg ? carg->part_index() : -1;
             from_vehicle = cargo_part >= 0;
         } else {

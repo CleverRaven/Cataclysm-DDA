@@ -256,11 +256,11 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     add_toggle( pgettext( "electronics menu option", "water purifier" ),
                 keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
-    if( has_part( "DOOR_MOTOR" ) ) {
+    if( has_part( flag_DOOR_MOTOR ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
         actions.push_back( [&] { control_doors(); refresh(); } );
     }
-    if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+    if( camera_on || ( has_part( flag_CAMERA ) && has_part( flag_CAMERA_CONTROL ) ) ) {
         options.emplace_back( camera_on ?
                               colorize( _( "Turn off camera system" ), c_pink ) :
                               _( "Turn on camera system" ),
@@ -449,7 +449,7 @@ void vehicle::smash_security_system()
     for( int p : speciality ) {
         if( part_flag( p, flag_SECURITY ) && !parts[ p ].is_broken() ) {
             s = p;
-            c = part_with_feature( s, "CONTROLS", true );
+            c = part_with_feature( s, flag_CONTROLS, true );
             break;
         }
     }
@@ -493,7 +493,7 @@ std::string vehicle::tracking_toggle_string()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), g->m.getabs( global_pos3() ), 60 ) ) {
+    if( mgr.has_near( zone_type_VEHICLE_PATROL, g->m.getabs( global_pos3() ), 60 ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -562,7 +562,7 @@ void vehicle::use_controls( const tripoint &pos )
             refresh();
         } );
 
-        has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
+        has_electronic_controls = has_part( flag_CTRL_ELECTRONIC ) || has_part( flag_REMOTE_CONTROLS );
 
     } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
         if( g->u.controlling_vehicle ) {
@@ -573,11 +573,12 @@ void vehicle::use_controls( const tripoint &pos )
                 refresh();
             } );
         }
-        has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC",
+        has_electronic_controls = !get_parts_at( pos, flag_CTRL_ELECTRONIC,
                                   part_status_flag::any ).empty();
     }
 
-    if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
+    if( get_parts_at( pos, flag_CONTROLS, part_status_flag::any ).empty() &&
+        !has_electronic_controls ) {
         add_msg( m_info, _( "No controls there" ) );
         return;
     }
@@ -587,7 +588,7 @@ void vehicle::use_controls( const tripoint &pos )
         return;
     }
 
-    if( has_part( "ENGINE" ) ) {
+    if( has_part( flag_ENGINE ) ) {
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
@@ -649,12 +650,12 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if( has_part( "HORN" ) ) {
+    if( has_part( flag_HORN ) ) {
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
         actions.push_back( [&] { honk_horn(); refresh(); } );
     }
-    if( has_part( "AUTOPILOT" ) && ( has_part( "CTRL_ELECTRONIC" ) ||
-                                     has_part( "REMOTE_CONTROLS" ) ) ) {
+    if( has_part( flag_AUTOPILOT ) && ( has_part( flag_CTRL_ELECTRONIC ) ||
+                                        has_part( flag_REMOTE_CONTROLS ) ) ) {
         options.emplace_back( _( "Control autopilot" ),
                               keybind( "CONTROL_AUTOPILOT" ) );
         actions.push_back( [&] { toggle_autopilot(); refresh(); } );
@@ -684,7 +685,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&] { fold_up(); } );
     }
 
-    if( has_part( "ENGINE" ) ) {
+    if( has_part( flag_ENGINE ) ) {
         options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
         actions.push_back( [&] { control_engines(); refresh(); } );
     }
@@ -694,7 +695,7 @@ void vehicle::use_controls( const tripoint &pos )
             options.emplace_back( _( "Try to disarm alarm." ), keybind( "TOGGLE_ALARM" ) );
             actions.push_back( [&] { smash_security_system(); refresh(); } );
 
-        } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
+        } else if( has_electronic_controls && has_part( flag_SECURITY ) ) {
             options.emplace_back( _( "Trigger alarm" ), keybind( "TOGGLE_ALARM" ) );
             actions.push_back( [&] {
                 is_alarm_on = true;
@@ -704,7 +705,7 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if( has_part( "TURRET" ) ) {
+    if( has_part( flag_TURRET ) ) {
         options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
         actions.push_back( [&] { turrets_set_targeting(); refresh(); } );
 
@@ -780,7 +781,7 @@ bool vehicle::fold_up()
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
-    for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
+    for( const vpart_reference &vp : get_any_parts( flag_CARGO ) ) {
         const size_t p = vp.part_index();
         for( auto &elem : get_items( p ) ) {
             g->m.add_item_or_charges( g->u.pos(), elem );
@@ -1152,7 +1153,7 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_STEREO ) ) {
         iuse::play_music( g->u, vp.pos(), 15, 30 );
     }
 }
@@ -1163,7 +1164,7 @@ void vehicle::play_chimes()
         return;
     }
 
-    for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_CHIMES ) ) {
         sounds::sound( vp.pos(), 40, sounds::sound_t::music,
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
     }
@@ -1174,7 +1175,7 @@ void vehicle::crash_terrain_around()
     if( total_power_w() <= 0 ) {
         return;
     }
-    for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_CRASH_TERRAIN_AROUND ) ) {
         tripoint crush_target( 0, 0, -OVERMAP_LAYERS );
         const tripoint start_pos = vp.pos();
         const transform_terrain_data &ttd = vp.info().transform_terrain;
@@ -1205,7 +1206,7 @@ void vehicle::crash_terrain_around()
 
 void vehicle::transform_terrain()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_TRANSFORM_TERRAIN ) ) {
         const tripoint start_pos = vp.pos();
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         bool prereq_fulfilled = false;
@@ -1240,7 +1241,7 @@ void vehicle::transform_terrain()
 
 void vehicle::operate_reaper()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_REAPER ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = vp.pos();
         const int plant_produced = rng( 1, vp.info().bonus );
@@ -1267,7 +1268,7 @@ void vehicle::operate_reaper()
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
-        if( vp.has_feature( "CARGO" ) ) {
+        if( vp.has_feature( flag_CARGO ) ) {
             for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&
                     add_item( reaper_id, *iter ) ) {
@@ -1282,14 +1283,14 @@ void vehicle::operate_reaper()
 
 void vehicle::operate_planter()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_PLANTER ) ) {
         const size_t planter_id = vp.part_index();
         const tripoint loc = vp.pos();
         vehicle_stack v = get_items( planter_id );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( g->m.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( g->m.ter( loc ) != t_dirtmound && vp.has_feature( flag_ADVANCED_PLANTER ) ) {
                     //then don't put the item there.
                     break;
                 } else if( g->m.ter( loc ) == t_dirtmound ) {
@@ -1319,7 +1320,7 @@ void vehicle::operate_planter()
 
 void vehicle::operate_scoop()
 {
-    for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
+    for( const vpart_reference &vp : get_enabled_parts( flag_SCOOP ) ) {
         const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = vp.info().size / 10;
@@ -1842,43 +1843,45 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     auto turret = turret_query( pos );
 
-    const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
+    const int curtain_part = avail_part_with_feature( interact_part, flag_CURTAIN, true );
     const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
-    const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
-    const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
-    const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
-    const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
-    const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
-    const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
-    const bool has_controls = avail_part_with_feature( interact_part, "CONTROLS", true ) >= 0;
-    const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC", true ) >= 0;
-    const int cargo_part = part_with_feature( interact_part, "CARGO", false );
+    const bool has_kitchen = avail_part_with_feature( interact_part, flag_KITCHEN, true ) >= 0;
+    const bool has_faucet = avail_part_with_feature( interact_part, flag_FAUCET, true ) >= 0;
+    const bool has_towel = avail_part_with_feature( interact_part, flag_TOWEL, true ) >= 0;
+    const bool has_weldrig = avail_part_with_feature( interact_part, flag_WELDRIG, true ) >= 0;
+    const bool has_chemlab = avail_part_with_feature( interact_part, flag_CHEMLAB, true ) >= 0;
+    const bool has_purify = avail_part_with_feature( interact_part, flag_WATER_PURIFIER, true ) >= 0;
+    const bool has_controls = avail_part_with_feature( interact_part, flag_CONTROLS, true ) >= 0;
+    const bool has_electronics = avail_part_with_feature( interact_part, flag_CTRL_ELECTRONIC,
+                                 true ) >= 0;
+    const int cargo_part = part_with_feature( interact_part, flag_CARGO, false );
     const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
     const bool can_be_folded = is_foldable();
     const bool is_convertible = tags.count( "convertible" ) > 0;
     const bool remotely_controlled = g->remoteveh() == this;
-    const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
+    const int autoclave_part = avail_part_with_feature( interact_part, flag_AUTOCLAVE, true );
     const bool has_autoclave = autoclave_part >= 0;
     bool autoclave_on = ( autoclave_part == -1 ) ? false :
                         parts[autoclave_part].enabled;
-    const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
+    const int washing_machine_part = avail_part_with_feature( interact_part, flag_WASHING_MACHINE,
+                                     true );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               parts[washing_machine_part].enabled;
-    const int dishwasher_part = avail_part_with_feature( interact_part, "DISHWASHER", true );
+    const int dishwasher_part = avail_part_with_feature( interact_part, flag_DISHWASHER, true );
     const bool has_dishwasher = dishwasher_part >= 0;
     bool dishwasher_on = ( dishwasher_part == -1 ) ? false :
                          parts[dishwasher_part].enabled;
-    const int monster_capture_part = avail_part_with_feature( interact_part, "CAPTURE_MONSTER_VEH",
+    const int monster_capture_part = avail_part_with_feature( interact_part, flag_CAPTURE_MONSTER_VEH,
                                      true );
     const bool has_monster_capture = monster_capture_part >= 0;
-    const int bike_rack_part = avail_part_with_feature( interact_part, "BIKE_RACK_VEH", true );
-    const int harness_part = avail_part_with_feature( interact_part, "ANIMAL_CTRL", true );
+    const int bike_rack_part = avail_part_with_feature( interact_part, flag_BIKE_RACK_VEH, true );
+    const int harness_part = avail_part_with_feature( interact_part, flag_ANIMAL_CTRL, true );
     const bool has_harness = harness_part >= 0;
     const bool has_bike_rack = bike_rack_part >= 0;
-    const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
-                             avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
-    const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
+    const bool has_planter = avail_part_with_feature( interact_part, flag_PLANTER, true ) >= 0 ||
+                             avail_part_with_feature( interact_part, flag_ADVANCED_PLANTER, true ) >= 0;
+    const int workbench_part = avail_part_with_feature( interact_part, flag_WORKBENCH, true );
     const bool has_workbench = workbench_part >= 0;
 
     enum {
@@ -2055,7 +2058,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                     act.coords.push_back( pos );
                     // Finally tell if it is the vehicle part with welding rig
                     act.values.resize( 2 );
-                    act.values[1] = part_with_feature( interact_part, "WELDRIG", true );
+                    act.values[1] = part_with_feature( interact_part, flag_WELDRIG, true );
                 }
             }
             return;

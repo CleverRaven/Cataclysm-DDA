@@ -1773,14 +1773,14 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp.part_with_feature( "SHARP", true ) ) {
+        if( vp.part_with_feature( flag_SHARP, true ) ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && vp->part_with_feature( "ROOF", true ) ) {
+        if( !slam && vp->part_with_feature( flag_ROOF, true ) ) {
             // Roof offers better landing than frame or pavement
             // TODO: Make this not happen with heavy duty/plated roof
             effective_force /= 2;
@@ -4414,8 +4414,8 @@ void player::try_to_sleep( const time_duration &dur )
                          ter_at_pos == t_improvised_shelter ||
                          trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
-                         vp.part_with_feature( "SEAT", true ) ||
-                         vp.part_with_feature( "BED", true ) ) ) {
+                         vp.part_with_feature( flag_SEAT, true ) ||
+                         vp.part_with_feature( flag_BED, true ) ) ) {
         add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
     } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
         if( !vp && ter_at_pos != t_floor ) {

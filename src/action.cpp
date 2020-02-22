@@ -650,7 +650,7 @@ static bool can_pickup_at( const tripoint &p )
     bool veh_has_items = false;
     const optional_vpart_position vp = g->m.veh_at( p );
     if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), flag_CARGO, false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
     return g->m.has_items( p ) || veh_has_items;

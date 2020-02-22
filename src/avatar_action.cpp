@@ -304,7 +304,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         } else if( veh1 != veh0 ) {
             add_msg( m_info, _( "There is another vehicle in the way." ) );
             return false;
-        } else if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
+        } else if( !vp1.part_with_feature( flag_BOARDABLE, true ) ) {
             add_msg( m_info, _( "That part of the vehicle is currently unsafe." ) );
             return false;
         }
@@ -679,7 +679,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             }
 
             if( mode_map.second->has_flag( flag_MOUNTED_GUN ) ) {
-                const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
+                const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( flag_MOUNTABLE,
                                          true ) );
                 bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
                 if( !t_mountable && !v_mountable ) {
