@@ -201,7 +201,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
 void item_pricing::set_values( int ip_count )
 {
-    item *i_p = loc.get_item();
+    const item *i_p = loc.get_item();
     is_container = i_p->is_container() || i_p->is_ammo_container();
     vol = i_p->volume();
     weight = i_p->weight();
@@ -217,7 +217,7 @@ void item_pricing::set_values( int ip_count )
 
 // Adjusts the pricing of an item, *unless* it is the currency of the
 // faction we're trading with, as that should always be worth face value.
-void item_pricing::adjust_values( const double adjust, faction *fac )
+void item_pricing::adjust_values( const double adjust, const faction *fac )
 {
     if( !fac || fac->currency != loc.get_item()->typeId() ) {
         price *= adjust;
