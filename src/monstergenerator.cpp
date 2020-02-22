@@ -760,9 +760,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         dies.push_back( mdeath::normal );
     }
 
-    for( JsonArray ja : jo.get_array( "emit_fields" ) ) {
-        emit_fields.emplace( ja.get_string( 0 ), read_from_json_string<time_duration>( ja.get_string( 1 ),
-                             time_duration::units ) );
+    if( jo.has_array( "emit_fields" ) ) {
+        JsonArray jar = jo.get_array( "emit_fields" );
+        if( jar.has_string( 0 ) ) {
+            for( const std::string id : jar ) {
+                emit_fields.emplace( emit_id( id ), 1_seconds );
+            }
+        } else {
+            while( jar.has_more() ) {
+                JsonObject obj = jar.next_object();
+                emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
+                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+            }
+        }
     }
 
     if( jo.has_member( "special_when_hit" ) ) {
