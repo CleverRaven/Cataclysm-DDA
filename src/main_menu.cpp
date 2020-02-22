@@ -513,16 +513,22 @@ bool main_menu::opening_screen()
     ui.position_from_window( w_open );
 
     while( !start ) {
-        // disable ime at program start
-        // somehow this need to be here to actually work
-        disable_ime();
-
         ui_manager::redraw();
 
         if( layer == 1 ) {
             std::string action = ctxt.handle_input();
 
             std::string sInput = ctxt.get_raw_input().text;
+
+            // switch off ime at program start
+            if( ctxt.get_raw_input().sequence.empty() ) {
+                // FIXME: disable_ime only seems to work after receiving an input event
+                // with empty input sequence. (empty input event is also fired when the
+                // window loses focus, might be related?)
+                disable_ime();
+                continue;
+            }
+
             // check automatic menu shortcuts
             for( size_t i = 0; i < vMenuHotkeys.size(); ++i ) {
                 for( const std::string &hotkey : vMenuHotkeys[i] ) {
