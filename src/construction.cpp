@@ -745,7 +745,7 @@ bool player_can_build( player &p, const inventory &inv, const construction &con 
     const bool can_build = con.requirements->can_make_with_inventory( inv, is_crafting_component );
     if( !can_build ) {
         popup( _( "You can't build that!" ) );
-    } else if( g->u.fine_detail_vision_mod() > 4 && !con.dark_craftable ) {
+    } else if( p.fine_detail_vision_mod() > 4 && !con.dark_craftable ) {
         popup( _( "It is too dark to construct right now." ) );
         return false;
     }
