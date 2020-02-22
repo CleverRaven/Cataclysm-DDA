@@ -16,6 +16,32 @@
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
+static const efftype_id effect_blind( "blind" );
+
+static void reset_player()
+{
+    // Move player somewhere safe
+    REQUIRE( !g->u.in_vehicle );
+    g->u.setpos( tripoint_zero );
+    // Blind the player to avoid needless drawing-related overhead
+    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+}
+
+// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
+// terrain, and no furniture, traps, or items.
+static void build_test_map( const ter_id &terrain )
+{
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        g->m.furn_set( p, furn_id( "f_null" ) );
+        g->m.ter_set( p, terrain );
+        g->m.trap_set( p, trap_id( "tr_null" ) );
+        g->m.i_clear( p );
+    }
+
+    g->m.invalidate_map_cache( 0 );
+    g->m.build_map_cache( 0, true );
+}
 
 static void remove_all_vehicles()
 {
@@ -25,36 +51,18 @@ static void remove_all_vehicles()
         veh_ptr = vehs_v.v;
         g->m.destroy_vehicle( veh_ptr );
     }
+    REQUIRE( g->m.get_vehicles().empty() );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
-    // Set up a sandbox world
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, ter_id( "t_pavement" ) );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
-    }
-
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
-
-    REQUIRE( !g->u.in_vehicle );
-
-    const tripoint player_origin( 15, 15, 0 );
-    vehicle *veh_ptr;
-
-    g->u.setpos( player_origin );
-    g->refresh_all();
-
+    reset_player();
+    build_test_map( ter_id( "t_pavement" ) );
     remove_all_vehicles();
-    REQUIRE( g->m.get_vehicles().empty() );
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
 
@@ -83,7 +91,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with solar panels" ) {
         const tripoint solar_origin = tripoint( 5, 5, 0 );
-        veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
 
@@ -139,3 +147,62 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
         }
     }
 }
+
+TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
+{
+    reset_player();
+    build_test_map( ter_id( "t_pavement" ) );
+    remove_all_vehicles();
+
+    GIVEN( "a scooter with combustion engine and charged battery" ) {
+        const tripoint origin = tripoint( 10, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_test" ), origin, 0, 0, 0 );
+        REQUIRE( veh_ptr != nullptr );
+        g->refresh_all();
+        veh_ptr->charge_battery( 500 );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
+
+        WHEN( "the engine is started" ) {
+            veh_ptr->start_engines();
+
+            THEN( "it can go in both forward and reverse" ) {
+                int max_fwd = veh_ptr->max_velocity( false );
+                int max_rev = veh_ptr->max_reverse_velocity( false );
+
+                CHECK( max_rev < 0 );
+                CHECK( max_fwd > 0 );
+
+                AND_THEN( "its maximum reverse velocity is 1/4 of the maximum forward velocity" ) {
+                    CHECK( std::abs( max_fwd / max_rev ) == 4 );
+                }
+            }
+
+        }
+    }
+
+    GIVEN( "a scooter with an electric motor and charged battery" ) {
+        const tripoint origin = tripoint( 15, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0, 0, 0 );
+        REQUIRE( veh_ptr != nullptr );
+        g->refresh_all();
+        veh_ptr->charge_battery( 5000 );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 5000 );
+
+        WHEN( "the engine is started" ) {
+            veh_ptr->start_engines();
+
+            THEN( "it can go in both forward and reverse" ) {
+                int max_fwd = veh_ptr->max_velocity( false );
+                int max_rev = veh_ptr->max_reverse_velocity( false );
+
+                CHECK( max_rev < 0 );
+                CHECK( max_fwd > 0 );
+
+                AND_THEN( "its maximum reverse velocity is equal to maximum forward velocity" ) {
+                    CHECK( std::abs( max_rev ) == std::abs( max_fwd ) );
+                }
+            }
+        }
+    }
+}
+

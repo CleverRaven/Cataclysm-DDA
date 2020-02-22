@@ -182,5 +182,32 @@
       { "x": 1, "y": 3, "parts": [ "frame_vertical", "solar_panel" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat", "battery_car" ] }
     ]
+  },
+  {
+    "id": "scooter_test",
+    "type": "vehicle",
+    "name": "TEST Scooter",
+    "blueprint": [ "o>o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "headlight", "saddle", "controls", "controls_electronic" ] },
+      { "x": 0, "y": 0, "parts": [ "horn_car", "motorcycle_kickstand", "engine_1cyl", "alternator_motorbike" ] },
+      { "x": 0, "y": 0, "parts": [ "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] },
+      { "x": -1, "y": 0, "part": "muffler" }
+    ]
+  },
+  {
+    "id": "scooter_electric_test",
+    "type": "vehicle",
+    "name": "TEST Electric Scooter",
+    "blueprint": [ "o>o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "headlight", "saddle", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
+      { "x": 0, "y": 0, "parts": [ "medium_storage_battery", "engine_electric_small" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] }
+    ]
   }
 ]
