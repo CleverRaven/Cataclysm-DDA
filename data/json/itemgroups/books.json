@@ -658,27 +658,16 @@
   {
     "id": "newspaper",
     "type": "item_group",
-    "items": [
-      { "group": "newspaper_recent", "prob": 80 },
-      { "group": "newspaper_old", "prob": 20 }
-    ]
+    "items": [ { "group": "newspaper_recent", "prob": 80 }, { "group": "newspaper_old", "prob": 20 } ]
   },
   {
     "id": "newspaper_recent",
     "type": "item_group",
-    "items": [
-      [ "months_old_newspaper", 10 ],
-      [ "weeks_old_newspaper", 15 ],
-      [ "newest_newspaper", 20 ]
-    ]
+    "items": [ [ "months_old_newspaper", 10 ], [ "weeks_old_newspaper", 15 ], [ "newest_newspaper", 20 ] ]
   },
   {
     "id": "newspaper_old",
     "type": "item_group",
-    "items": [
-      [ "many_years_old_newspaper", 5 ],
-      [ "years_old_newspaper", 10 ],
-      [ "one_year_old_newspaper", 20 ]
-    ]
+    "items": [ [ "many_years_old_newspaper", 5 ], [ "years_old_newspaper", 10 ], [ "one_year_old_newspaper", 20 ] ]
   }
 ]
