@@ -3502,34 +3502,67 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    int hunger = get_hunger();
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const units::volume contains = stomach.contains();
+    const units::volume cap = stomach.capacity( *this );
     std::string hunger_string;
     nc_color hunger_color = c_white;
-    if( hunger >= 300 && get_starvation() > 2500 ) {
-        hunger_color = c_red;
-        hunger_string = _( "Starving!" );
-    } else if( hunger >= 300 && get_starvation() > 1100 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Near starving" );
-    } else if( hunger > 250 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Famished" );
-    } else if( hunger > 100 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Very hungry" );
-    } else if( hunger > 40 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Hungry" );
-    } else if( hunger < -60 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Engorged" );
-    } else if( hunger < -20 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Sated" );
-    } else if( hunger < 0 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Full" );
+    // i ate just now!
+    const bool just_ate = stomach.time_since_ate() < 15_minutes;
+    // i ate a meal recently enough that i shouldn't need another meal
+    const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    if( calorie_deficit ) {
+        if( contains >= cap ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 3 / 4 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( just_ate ) {
+            hunger_string = _( "Hungry" );
+            hunger_color = c_yellow;
+        } else if( recently_ate ) {
+            hunger_string = _( "Very Hungry" );
+            hunger_color = c_yellow;
+        } else if( get_bmi() < character_weight_category::emaciated ) {
+            hunger_string = _( "Starving!" );
+            hunger_color = c_red;
+        } else if( get_bmi() < character_weight_category::underweight ) {
+            hunger_string = _( "Near starving" );
+            hunger_color = c_red;
+        } else {
+            hunger_string = _( "Famished" );
+            hunger_color = c_light_red;
+        }
+    } else {
+        if( contains >= cap * 5 / 6 ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 11 / 20 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( recently_ate && contains >= cap * 3 / 8 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
+                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
+            hunger_string = _( "Peckish" );
+            hunger_color = c_dark_gray;
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+            hunger_string.clear();
+        } else {
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_string = _( "Hungry" );
+            } else {
+                hunger_string = _( "Very Hungry" );
+            }
+            hunger_color = c_yellow;
+        }
     }
+
     return std::make_pair( hunger_string, hunger_color );
 }
 
