@@ -1369,7 +1369,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ "steel_chunk", 1 ] ]
+    "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
