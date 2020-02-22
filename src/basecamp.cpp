@@ -498,6 +498,7 @@ void basecamp::remove_assignee( character_id id )
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
     }
+    npc_to_remove->assigned_camp = cata::nullopt;
     assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
                          assigned_npcs.end() );
 }

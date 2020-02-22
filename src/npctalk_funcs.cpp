@@ -413,10 +413,10 @@ void talk_function::stop_guard( npc &p )
     p.guard_pos = npc::no_goal_point;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
-            p.assigned_camp = cata::nullopt;
             ( *bcp )->remove_assignee( p.getID() );
             ( *bcp )->validate_assignees();
         }
+        p.assigned_camp = cata::nullopt;
     }
 }
 
