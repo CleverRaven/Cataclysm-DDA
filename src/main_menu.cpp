@@ -732,11 +732,43 @@ bool main_menu::new_character_tab()
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
     }
 
-    bool start = false;
-    while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
+    ui_adaptor ui;
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         print_menu( w_open, 1, menu_offset );
+
         if( layer == 2 && sel1 == 1 ) {
             center_print( w_open, getmaxy( w_open ) - 7, c_yellow, hints[sel2] );
+
+            print_menu_items( w_open, vSubItems, sel2, menu_offset + point( 0, -2 ) );
+            wrefresh( w_open );
+        } else if( layer == 3 && sel1 == 1 ) {
+            // Then view presets
+            if( templates.empty() ) {
+                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
+                           c_red, "%s", _( "No templates found!" ) );
+            } else {
+                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
+                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
+                for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
+                    int line = menu_offset.y - 4 - i;
+                    mvwprintz( w_open, point( 20 + menu_offset.x + extra_w / 2, line ),
+                               ( sel3 == i ? h_white : c_white ), "%s",
+                               templates[i] );
+                }
+            }
+            wrefresh( w_open );
+        }
+    } );
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        init_windows();
+        ui.position_from_window( w_background );
+    } );
+    ui.position_from_window( w_background );
+
+    bool start = false;
+    while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
+        ui_manager::redraw();
+        if( layer == 2 && sel1 == 1 ) {
             // Then choose custom character, random character, preset, etc
             if( MAP_SHARING::isSharing() &&
                 world_generator->all_worldnames().empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
@@ -744,10 +776,6 @@ bool main_menu::new_character_tab()
                 sel1 = 1;
                 continue;
             }
-
-            print_menu_items( w_open, vSubItems, sel2, menu_offset + point( 0, -2 ) );
-            wrefresh( w_open );
-            catacurses::refresh();
 
             std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
@@ -812,15 +840,10 @@ bool main_menu::new_character_tab()
                     }
                     if( !g->u.create( play_type ) ) {
                         load_char_templates();
-                        werase( w_background );
-                        wrefresh( w_background );
                         MAPBUFFER.reset();
                         overmap_buffer.clear();
                         continue;
                     }
-
-                    werase( w_background );
-                    wrefresh( w_background );
 
                     if( !g->start_game() ) {
                         continue;
@@ -835,27 +858,13 @@ bool main_menu::new_character_tab()
         } else if( layer == 3 && sel1 == 1 ) {
             // Then view presets
             if( templates.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
-                           c_red, "%s", _( "No templates found!" ) );
                 on_error();
-            } else {
-                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
-                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
-                for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
-                    int line = menu_offset.y - 4 - i;
-                    mvwprintz( w_open, point( 20 + menu_offset.x + extra_w / 2, line ),
-                               ( sel3 == i ? h_white : c_white ), "%s",
-                               templates[i] );
-                }
             }
-            wrefresh( w_open );
-            catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
                 sel1 = 1;
                 layer = 2;
-                print_menu( w_open, sel1, menu_offset );
             } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
@@ -871,7 +880,6 @@ bool main_menu::new_character_tab()
             } else if( action == "LEFT"  || action == "QUIT" ) {
                 sel1 = 1;
                 layer = 2;
-                print_menu( w_open, sel1, menu_offset );
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
@@ -903,14 +911,10 @@ bool main_menu::new_character_tab()
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
-                    werase( w_background );
-                    wrefresh( w_background );
                     MAPBUFFER.reset();
                     overmap_buffer.clear();
                     continue;
                 }
-                werase( w_background );
-                wrefresh( w_background );
                 if( !g->start_game() ) {
                     continue;
                 }
