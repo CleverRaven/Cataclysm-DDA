@@ -35,6 +35,7 @@ class JsonObject;
 class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
+class JsonValue;
 
 template<typename T>
 class string_id;
@@ -70,6 +71,14 @@ struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
     Enum operator()( const std::string &s ) {
         return io::string_to_enum<Enum>( s );
     }
+};
+
+struct number_sci_notation {
+    bool negative = false;
+    // AKA the significand
+    uint64_t number = 0;
+    // AKA the order of magnitude
+    int64_t exp = 0;
 };
 
 /* JsonIn
@@ -198,7 +207,9 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
-        std::int64_t get_int64(); // get the next value as an int64
+        unsigned int get_uint(); // get the next value as an unsigned int
+        int64_t get_int64(); // get the next value as an int64
+        uint64_t get_uint64(); // get the next value as a uint64
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -213,7 +224,6 @@ class JsonIn
             } catch( const io::InvalidEnumString & ) {
                 seek( old_offset ); // so the error message points to the correct place.
                 error( "invalid enumeration value" );
-                throw; // ^^ error already throws, but the compiler doesn't know that )-:
             }
         }
 
@@ -248,7 +258,8 @@ class JsonIn
         bool read( short unsigned int &s, bool throw_on_error = false );
         bool read( short int &s, bool throw_on_error = false );
         bool read( int &i, bool throw_on_error = false );
-        bool read( std::int64_t &i, bool throw_on_error = false );
+        bool read( int64_t &i, bool throw_on_error = false );
+        bool read( uint64_t &i, bool throw_on_error = false );
         bool read( unsigned int &u, bool throw_on_error = false );
         bool read( float &f, bool throw_on_error = false );
         bool read( double &d, bool throw_on_error = false );
@@ -496,6 +507,11 @@ class JsonIn
         bool error_or_false( bool throw_, const std::string &message, int offset = 0 );
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
+    private:
+        // This should be used to get any and all numerical data types.
+        number_sci_notation get_any_number();
+        // Calls get_any_number() then applies operations common to all integer types.
+        number_sci_notation get_any_int();
 };
 
 /* JsonOut
@@ -779,14 +795,17 @@ class JsonObject
 {
     private:
         std::map<std::string, int> positions;
-        mutable std::set<std::string> visited_members;
         int start;
         int end_;
         bool final_separator;
-        mutable bool report_unvisited_members = true;
 #ifndef CATA_IN_TOOL
+        mutable std::set<std::string> visited_members;
+        mutable bool report_unvisited_members = true;
         mutable bool reported_unvisited_members = false;
 #endif
+        void mark_visited( const std::string &name ) const;
+        void report_unvisited() const;
+
         JsonIn *jsin;
         int verify_position( const std::string &name,
                              bool throw_exception = true ) const;
@@ -814,12 +833,12 @@ class JsonObject
 
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
-        std::set<std::string> get_member_names() const;
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
+        JsonValue get_member( const std::string &name ) const;
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
@@ -838,11 +857,13 @@ class JsonObject
             if( !has_member( name ) ) {
                 return fallback;
             }
+            mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name ) const {
+            mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
@@ -886,6 +907,7 @@ class JsonObject
             if( !pos ) {
                 return false;
             }
+            mark_visited( name );
             jsin->seek( pos );
             return jsin->read( t, throw_on_error );
         }
@@ -893,8 +915,6 @@ class JsonObject
         // useful debug info
         std::string line_number() const; // for occasional use only
 };
-
-class JsonValue;
 
 /* JsonArray
  * =========
@@ -980,7 +1000,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
-        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), jsin( nullptr ) {}
+        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }
@@ -992,8 +1012,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, int idx );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1098,7 +1118,26 @@ class JsonValue
             return seek().read( t );
         }
 
-        void throw_error( const std::string &err ) const {
+        bool test_string() const {
+            return seek().test_string();
+        }
+        bool test_int() const {
+            return seek().test_int();
+        }
+        bool test_bool() const {
+            return seek().test_bool();
+        }
+        bool test_float() const {
+            return seek().test_float();
+        }
+        bool test_object() const {
+            return seek().test_object();
+        }
+        bool test_array() const {
+            return seek().test_array();
+        }
+
+        [[noreturn]] void throw_error( const std::string &err ) const {
             seek().error( err );
         }
 
@@ -1204,7 +1243,7 @@ class JsonObject::const_iterator
             return *this;
         }
         JsonMember operator*() const {
-            object_.visited_members.insert( iter_->first );
+            object_.mark_visited( iter_->first );
             return JsonMember( iter_->first, JsonValue( *object_.jsin, iter_->second ) );
         }
 
@@ -1240,7 +1279,7 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
         return res;
     }
 
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 
@@ -1255,6 +1294,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     if( !pos ) {
         return res;
     }
+    mark_visited( name );
     jsin->seek( pos );
 
     // allow single string as tag
@@ -1264,7 +1304,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     }
 
     // otherwise assume it's an array and error if it isn't.
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 

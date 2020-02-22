@@ -203,8 +203,6 @@
       [ "pistol_scope", 10 ],
       [ "improve_sights", 20 ],
       [ "combatsaw_off", 5 ],
-      [ "firemachete_off", 5 ],
-      [ "shishkebab_off", 5 ],
       [ "helsing", 5 ],
       [ "tihar", 5 ],
       [ "ashot", 5 ]
@@ -415,7 +413,6 @@
       "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "om_special": "evac_center",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
@@ -426,14 +423,13 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "om_special": "evac_center",
         "set": [ { "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the Cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
       "accepted": "Please be careful, we don't need any more deaths.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
@@ -441,7 +437,7 @@
       "inquire": "Will they be bothering us any longer?",
       "success": "Thank you, having that big of a threat close to home was nerve wracking.  Here's some of our local certified notes, we've been paying these to our workers in exchange for supplies.  They're getting some value in the center as a trade item, I'm afraid they're all we have to spare at the moment.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -519,15 +515,15 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard.  I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying, plus thirty certified notes - that's our own internal money, good for trading and such.",
       "accepted": "Our community survives on trade, we appreciate it.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
       "inquire": "Have you dealt with them?",
-      "success": "Thank you, the world is a better place without them.  Two of our more skilled individuals accepted the assistance of the Old Guard in setting up an outpost while you were out.  We didn't have many other options, refugees are still streaming in and we don't know what else to do with our limited food supply.  If you get a chance, you should see if they need your assistance in the future...",
+      "success": "Thank you, the world is a better place without them.  Two of our more skilled individuals accepted the assistance of the Old Guard in setting up an outpost while you were out.  We didn't have many other options, refugees are still streaming in and we don't know what else to do with our limited food supply.  If you get a chance, you should see if they need your assistance in the future…",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -556,7 +552,6 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_8",
-        "om_special": "evac_center",
         "set": [
           { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 1 },
           { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 3 }
@@ -566,7 +561,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "We recently set out some skilled people to start an outpost, to secure us some food supplies in a safer location.  The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.  We've got 50 Certified Notes for you if you can do this for us.",
       "accepted": "I'm sure the outpost will expand quickly with your assistance.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
@@ -574,7 +569,7 @@
       "inquire": "Do you have the prospectus?",
       "success": "With this we'll be able to convince others to invest in the commune.  Thank you, here's your money.  We also managed to get a manual crank hooked up to the garage in the back, so feel free to make use of that - you've been a great help to us.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -596,7 +591,7 @@
       ]
     },
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online… unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  We have a big flat roof up top, and if we had a few solar panels we could use them to top up our usage.  We could pay you pretty handsomely to bring us, say, ten solar panels?",
       "accepted": "If you can do this for us our survival options would vastly increase.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
@@ -604,7 +599,7 @@
       "inquire": "How is the search going?",
       "success": "Great, I know it isn't much but we hope to continue to expand thanks to your help.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -625,15 +620,15 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We need help...",
-      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
+      "describe": "We need help…",
+      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth.  Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
       "accepted": "It'll take a load off my shoulders if I can finally stop worrying about this.",
       "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying.  If you reconsider let me know.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
       "inquire": "How is the search going?",
       "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

@@ -1,6 +1,6 @@
 #include "magic_teleporter_list.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <algorithm>
 #include <memory>
@@ -23,6 +23,7 @@
 #include "color.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "cata_string_consts.h"
 
 static bool popup_string( std::string &result, std::string &title )
 {
@@ -61,7 +62,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     tinymap checker;
     checker.load( sm_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+        if( checker.has_flag_furn( flag_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }
@@ -184,7 +185,7 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     int index = 0;
     int column_width = 25;
     std::map<int, tripoint> index_pairs;
-    for( const std::pair<tripoint, std::string> &gate : known_teleporters ) {
+    for( const std::pair<const tripoint, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
         column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );

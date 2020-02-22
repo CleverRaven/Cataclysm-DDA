@@ -217,11 +217,8 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             actions[action_id].name = action.get_string( "name" );
         }
 
-        // Iterate over the bindings JSON array
-        JsonArray bindings = action.get_array( "bindings" );
         t_input_event_list events;
-        while( bindings.has_more() ) {
-            JsonObject keybinding = bindings.next_object();
+        for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
             std::string input_method = keybinding.get_string( "input_method" );
             input_event new_event;
             if( input_method == "keyboard" ) {
@@ -233,11 +230,8 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             if( keybinding.has_array( "key" ) ) {
-                JsonArray keys = keybinding.get_array( "key" );
-                while( keys.has_more() ) {
-                    new_event.sequence.push_back(
-                        get_keycode( keys.next_string() )
-                    );
+                for( const std::string line : keybinding.get_array( "key" ) ) {
+                    new_event.sequence.push_back( get_keycode( line ) );
                 }
             } else { // assume string if not array, and throw if not string
                 new_event.sequence.push_back(
@@ -740,9 +734,22 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
+const input_context::input_event_filter input_context::disallow_lower_case =
+[]( const input_event &evt ) -> bool {
+    return evt.type != CATA_INPUT_KEYBOARD ||
+    // std::lower from <cctype> is undefined outside unsigned char range
+    // and std::lower from <locale> may throw bad_cast for some locales
+    evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+};
+
+const input_context::input_event_filter input_context::allow_all_keys =
+[]( const input_event & ) -> bool {
+    return true;
+};
+
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
-                                     const std::function<bool( const input_event & )> evt_filter ) const
+                                     const input_context::input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -753,7 +760,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
             category, &is_local );
 
     if( events.empty() ) {
-        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" ) ;
+        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" );
     }
 
     std::vector<input_event> inputs_to_show;
@@ -776,25 +783,25 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
-    std::stringstream rval;
+    std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         for( size_t j = 0; j < inputs_to_show[i].sequence.size(); ++j ) {
-            rval << inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
+            rval += inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
         }
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
-            rval << _( " or " );
+            rval += _( " or " );
         } else if( i + 1 < inputs_to_show.size() ) {
-            rval << ", ";
+            rval += ", ";
         }
     }
-    return rval.str();
+    return rval;
 }
 
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const std::string &text,
-                                     const std::function<bool( const input_event & )> evt_filter ) const
+                                     const input_context::input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         // \u00A0 is the non-breaking space
@@ -833,7 +840,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
-        const std::function<bool( const input_event & )> evt_filter ) const
+        const input_context::input_event_filter &evt_filter ) const
 {
     return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
 }
@@ -981,12 +988,13 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
 const std::string display_help_hotkeys =
-    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
+    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
-void input_context::display_menu()
+action_id input_context::display_menu( const bool permit_execute_action )
 {
-    // Shamelessly stolen from help.cpp
+    action_id action_to_execute = ACTION_NULL;
 
+    // Shamelessly stolen from help.cpp
     input_context ctxt( "HELP_KEYBINDINGS" );
     ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
     ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
@@ -995,6 +1003,7 @@ void input_context::display_menu()
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
+    ctxt.register_action( "EXECUTE" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
 
@@ -1017,8 +1026,8 @@ void input_context::display_menu()
     bool changed = false;
     // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
-    // current status: adding/removing/showing keybindings
-    enum { s_remove, s_add, s_add_global, s_show } status = s_show;
+    // current status: adding/removing/executing/showing keybindings
+    enum { s_remove, s_add, s_add_global, s_execute, s_show } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
     org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
@@ -1038,11 +1047,14 @@ void input_context::display_menu()
     // width of the legend
     const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
-    std::ostringstream legend;
-    legend << colorize( _( "Unbound keys" ), unbound_key ) << "\n";
-    legend << colorize( _( "Keybinding active only on this screen" ), local_key ) << "\n";
-    legend << colorize( _( "Keybinding active globally" ), global_key ) << "\n";
-    legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
+    std::string legend;
+    legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
+    legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
+    legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
+    legend += _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
+    if( permit_execute_action ) {
+        legend += _( "Press . to execute action\n" );
+    }
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
@@ -1060,7 +1072,7 @@ void input_context::display_menu()
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), point( 0, 10 ), c_white, true );
-        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1085,6 +1097,8 @@ void input_context::display_menu()
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
+            } else if( status == s_execute ) {
+                mvwprintz( w_help, point( 2, i + 10 ), c_white, "%c ", invlet );
             } else {
                 mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
@@ -1123,7 +1137,7 @@ void input_context::display_menu()
         }
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
-        // keys, e.g. '+', '-', '=', in order to prevent the user from
+        // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
         if( action == "ADD_LOCAL" || raw_input_char == '+' ) {
             status = s_add;
@@ -1131,6 +1145,8 @@ void input_context::display_menu()
             status = s_add_global;
         } else if( action == "REMOVE" || raw_input_char == '-' ) {
             status = s_remove;
+        } else if( ( action == "EXECUTE" || raw_input_char == '.' ) && permit_execute_action ) {
+            status = s_execute;
         } else if( action == "ANY_INPUT" ) {
             const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
             if( hotkey_index == std::string::npos ) {
@@ -1204,6 +1220,9 @@ void input_context::display_menu()
                     inp_mngr.add_input_for_action( action_id, category_to_access, new_event );
                     changed = true;
                 }
+            } else if( status == s_execute && permit_execute_action ) {
+                action_to_execute = look_up_action( action_id );
+                break;
             }
             status = s_show;
         } else if( action == "DOWN" ) {
@@ -1254,6 +1273,8 @@ void input_context::display_menu()
     }
     werase( w_help );
     wrefresh( w_help );
+
+    return action_to_execute;
 }
 
 input_event input_context::get_raw_input()
@@ -1272,8 +1293,13 @@ void input_manager::wait_for_any_key()
     input_context ctxt( "WAIT_FOR_ANY_KEY" );
 #endif
     while( true ) {
-        switch( inp_mngr.get_input_event().type ) {
+        const input_event evt = inp_mngr.get_input_event();
+        switch( evt.type ) {
             case CATA_INPUT_KEYBOARD:
+                if( !evt.sequence.empty() ) {
+                    return;
+                }
+                break;
             // errors are accepted as well to avoid an infinite loop
             case CATA_INPUT_ERROR:
                 return;
@@ -1368,18 +1394,17 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( events.empty() ) {
         return key_unbound;
     }
-    std::ostringstream keyed;
-    keyed << key_bound_pre;
+    std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
         for( size_t k = 0; k < events[j].sequence.size(); ++k ) {
-            keyed << inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
+            keyed += inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
         }
         if( j + 1 < events.size() ) {
-            keyed << _( " or " );
+            keyed += _( " or " );
         }
     }
-    keyed << key_bound_suf;
-    return keyed.str();
+    keyed += key_bound_suf;
+    return keyed;
 }
 
 void input_context::set_iso( bool mode )

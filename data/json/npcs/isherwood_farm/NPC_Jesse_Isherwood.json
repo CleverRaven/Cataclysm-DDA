@@ -164,7 +164,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -202,11 +202,11 @@
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "I appreciate it, I've got this old saddle I want you to have. I'll be happy to put a horse under it if you want to do some more heroics.",
+      "success": "I appreciate it, I've got this old saddle I want you to have.  I'll be happy to put a horse under it if you want to do some more heroics.",
       "success_lie": "Show me the bodies.",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
-    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "horse_tack", "count": 1 } ] }
   },
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",
@@ -228,11 +228,11 @@
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "I appreciate it, I've got this old saddle I want you to have. I'll be happy to put a horse under it if you want to do some more heroics.",
+      "success": "I appreciate it, I've got this old saddle I want you to have.  I'll be happy to put a horse under it if you want to do some more heroics.",
       "success_lie": "Show me the bodies.",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
-    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "horse_tack", "count": 1 } ] }
   },
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",
@@ -254,9 +254,9 @@
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "I appreciate it, this will help keep our animals safe. This is, Steve, he's a good, steady horse.  You should talk to Carlos about some armor for him.",
+      "success": "I appreciate it, this will help keep our animals safe.  This is, Steve, he's a good, steady horse.  You should talk to Carlos about some armor for him.",
       "success_lie": "Show me the bodies.",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },

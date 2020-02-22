@@ -19,6 +19,18 @@ struct nutrients {
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 
+    /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
+     * values taken from r. */
+    void min_in_place( const nutrients &r );
+    void max_in_place( const nutrients &r );
+
+    int get_vitamin( const vitamin_id & ) const;
+
+    bool operator==( const nutrients &r ) const;
+    bool operator!=( const nutrients &r ) const {
+        return !( *this == r );
+    }
+
     nutrients &operator+=( const nutrients &r );
     nutrients &operator-=( const nutrients &r );
     nutrients &operator*=( int r );
@@ -119,7 +131,7 @@ class stomach_contents
         // overflow draws from player thirst
         void mod_water( units::volume h2o );
         // changes water amount in stomach converted from quench value
-        // @TODO: Move to mL values of water
+        // TODO: Move to mL values of water
         void mod_quench( int quench );
         // adds volume to your stomach
         void mod_contents( units::volume vol );

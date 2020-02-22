@@ -9,17 +9,17 @@
 
 static std::string get_scores_text( stats_tracker &stats )
 {
-    std::ostringstream os;
+    std::string os;
     std::vector<const score *> valid_scores = stats.valid_scores();
     for( const score *scr : valid_scores ) {
-        os << scr->description( stats ) << '\n';
+        os += scr->description( stats ) + "\n";
     }
     if( valid_scores.empty() ) {
-        os << _( "This game has no valid scores.\n" );
+        os += _( "This game has no valid scores.\n" );
     }
-    os << _( "\nNote that only scores that existed when you started this game and still exist now "
+    os += _( "\nNote that only scores that existed when you started this game and still exist now "
              "will appear here." );
-    return os.str();
+    return os;
 }
 
 void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )

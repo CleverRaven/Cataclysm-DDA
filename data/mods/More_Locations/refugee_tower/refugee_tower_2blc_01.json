@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "refugee_tower_2blc",
-    "comment": "bottom left corner, second story",
+    "//": "bottom left corner, second story",
     "weight": 250,
     "method": "json",
     "object": {

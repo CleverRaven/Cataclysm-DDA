@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-using itype_id = std::string;
+#include "type_id.h"
 
 struct tripoint;
 class JsonObject;
@@ -17,6 +17,15 @@ struct shrapnel_data {
     // Percentage
     int recovery        = 0;
     itype_id drop       = "null";
+
+    shrapnel_data() = default;
+    shrapnel_data( int casing_mass, float fragment_mass = 0.005, int recovery = 0,
+                   itype_id drop = "null" )
+        : casing_mass( casing_mass )
+        , fragment_mass( fragment_mass )
+        , recovery( recovery )
+        , drop( drop ) {
+    }
 };
 
 struct explosion_data {
@@ -31,6 +40,15 @@ struct explosion_data {
     float power_at_range( float dist ) const;
     /** Returns the distance at which the power drops below 1. */
     int safe_range() const;
+
+    explosion_data() = default;
+    explosion_data( float power, float distance_factor = 0.8f, bool fire = false,
+                    shrapnel_data shrapnel = {} )
+        : power( power )
+        , distance_factor( distance_factor )
+        , fire( fire )
+        , shrapnel( shrapnel ) {
+    }
 };
 
 // handles explosion related functions
@@ -54,8 +72,6 @@ void resonance_cascade( const tripoint &p );
 void scrambler_blast( const tripoint &p );
 /** Triggers an EMP blast at p. */
 void emp_blast( const tripoint &p );
-/** Nuke the area at p - global overmap terrain coordinates! */
-void nuke( const tripoint &p );
 // shockwave applies knockback to all targets within radius of p
 // parameters force, stun, and dam_mult are passed to knockback()
 // ignore_player determines if player is affected, useful for bionic, etc.

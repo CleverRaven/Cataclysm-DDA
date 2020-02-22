@@ -1,6 +1,6 @@
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <set>
 #include <algorithm>
 #include <array>
@@ -44,6 +44,7 @@
 #include "translations.h"
 #include "timed_event.h"
 #include "teleport.h"
+#include "cata_string_consts.h"
 
 namespace spell_detail
 {
@@ -110,6 +111,15 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
         return;
     }
     teleport::teleport( caster, min_distance, max_distance, safe, false );
+}
+
+static void swap_pos( Creature &caster, const tripoint &target )
+{
+    Creature *const critter = g->critter_at<Creature>( target );
+    critter->setpos( caster.pos() );
+    caster.setpos( target );
+    //update map in case a monster swapped positions with the player
+    g->update_map( g->u );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -447,6 +457,9 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
 {
     damage_targets( sp, caster, spell_effect_area( sp, epicenter, spell_effect_blast, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
+    if( sp.has_flag( spell_flag::SWAP_POS ) ) {
+        swap_pos( caster, epicenter );
+    }
 }
 
 void spell_effect::cone_attack( const spell &sp, Creature &caster,
@@ -650,13 +663,13 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
-        granted.set_flag( "ETHEREAL_ITEM" );
+        granted.set_flag( flag_ETHEREAL_ITEM );
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
     }
     if( g->u.can_wear( granted ).success() ) {
-        granted.set_flag( "FIT" );
+        granted.set_flag( flag_FIT );
         g->u.wear_item( granted, false );
     } else if( !g->u.is_armed() ) {
         g->u.weapon = granted;
@@ -686,7 +699,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     if( energy_source == "MANA" ) {
         p->magic.mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
-        p->mod_stat( "stamina", healing );
+        p->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
         p->mod_fatigue( -healing );
@@ -694,11 +707,15 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         if( healing > 0 ) {
             p->mod_power_level( units::from_kilojoule( healing ) );
         } else {
-            p->mod_stat( "stamina", healing );
+            p->mod_stamina( healing );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
-        p->mod_pain_noresist( -healing );
+        if( sp.has_flag( PAIN_NORESIST ) ) {
+            p->mod_pain_noresist( -healing );
+        } else {
+            p->mod_pain( -healing );
+        }
     } else if( energy_source == "HEALTH" ) {
         p->mod_healthy( healing );
     } else {

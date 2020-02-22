@@ -108,7 +108,9 @@
       [ "pump_complex", 5 ],
       [ "well_pump", 5 ],
       [ "plastic_sheet", 20 ],
-      [ "recharge_station", 20 ]
+      [ "recharge_station", 20 ],
+      [ "plunger_toilet", 75 ],
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -128,7 +130,9 @@
       [ "jerrycan", 10 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] }
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
+      [ "plunger_futuristic", 50 ]
     ]
   },
   {
@@ -491,6 +495,17 @@
       [ "heatpack", 10 ],
       [ "whistle", 5 ],
       [ "airhorn", 2 ]
+    ]
+  },
+  {
+    "id": "fuel_barrel",
+    "type": "item_group",
+    "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 },
+      { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
+      { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
     ]
   }
 ]

@@ -1874,7 +1874,7 @@
   {
     "type": "speech",
     "speaker": "mon_nursebot_defective",
-    "sound": "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"",
+    "sound": "a soft robotic voice say, \"Come here and stand still for a few minutes, I'll give you a check-up.\"",
     "volume": 8
   },
   {
@@ -2137,6 +2137,30 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"visceral chittering.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"a clear high-pitched hum.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"the hum of static electricity.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_leech_blossom",
+    "sound": "\"a low buzzing sound.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
     "speaker": "foodperson_mask",
     "sound": "\"I AM FOODPERSON.  AND I BRING SUSTENANCE!\"",
     "volume": 17
@@ -2149,7 +2173,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"FoodPlace: The best restaurant in an area!\"",
     "volume": 15
   },
@@ -2179,19 +2203,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "Wanna play with me?",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "Sing with me!",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "I love you!",
     "volume": 10
   },
@@ -2203,7 +2227,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "May I have a cookie?",
     "volume": 10
   },
@@ -2221,7 +2245,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "Om nom nom!  Delicious!",
     "volume": 10
   },

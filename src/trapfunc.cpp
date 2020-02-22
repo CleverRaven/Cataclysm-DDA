@@ -33,27 +33,7 @@
 #include "int_id.h"
 #include "point.h"
 #include "teleport.h"
-
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_shadow( "mon_shadow" );
-static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
-
-static const species_id ROBOT( "ROBOT" );
-
-static const skill_id skill_throw( "throw" );
-
-static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_heavysnare( "heavysnare" );
-static const efftype_id effect_in_pit( "in_pit" );
-static const efftype_id effect_lightsnare( "lightsnare" );
-static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_tetanus( "tetanus" );
-static const efftype_id effect_ridden( "ridden" );
-
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+#include "cata_string_consts.h"
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -674,7 +654,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         if( z->type->id != mon_blob ) {
             z->set_speed_base( z->get_speed_base() - 15 );
             //All monsters that aren't blobs or robots transform into a blob
-            if( !z->type->in_species( ROBOT ) ) {
+            if( !z->type->in_species( species_ROBOT ) ) {
                 z->poly( mon_blob );
                 z->set_hp( z->get_speed() );
             }
@@ -695,7 +675,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     }
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
-        if( z->type->in_species( ROBOT ) ) {
+        if( z->type->in_species( species_ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
             //Dissector error sound.
             sounds::sound( p, 4, sounds::sound_t::electronic_speech,
@@ -764,7 +744,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
-        } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
         } else {
@@ -813,7 +793,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
-        } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
@@ -896,7 +876,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
-        } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
@@ -986,16 +966,16 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of_any( Creature::cmat_flesh ) ) {
             dam = 50;
         }
-        if( z->made_of( material_id( "veggy" ) ) ) {
+        if( z->made_of( material_veggy ) ) {
             dam = 80;
         }
         if( z->made_of( LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
-        if( z->made_of( material_id( "stone" ) ) ) {
+        if( z->made_of( material_stone ) ) {
             dam = 15;
         }
-        if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
+        if( z->made_of( material_kevlar ) || z->made_of( material_steel ) ) {
             dam = 5;
         }
         z->deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, dam ) );
@@ -1126,7 +1106,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
             if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
                     g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
-            } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+            } else if( g->u.has_active_bionic( bio_shock_absorber ) ) {
                 add_msg( m_info,
                          _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             } else {
@@ -1207,7 +1187,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
             pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
-    } else if( pl->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+    } else if( pl->has_active_bionic( bio_shock_absorber ) ) {
         pl->add_msg_if_player( m_info,
                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
     } else {

@@ -10,7 +10,6 @@
 #include <set>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 #include "calendar.h"
 #include "color.h"
@@ -23,8 +22,6 @@
 #include "requirements.h"
 #include "point.h"
 #include "translations.h"
-
-using itype_id = std::string;
 
 class JsonObject;
 class Character;
@@ -222,7 +219,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, const nc_color &format_color, int width ) const;
+        int format_description( std::string &msg, const nc_color &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;

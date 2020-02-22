@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -24,8 +25,6 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        // not needed for compilation, but keeps syntax plugins happy
-        using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -80,7 +79,8 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        std::string last_construction;
+        cata::optional<std::string> last_construction;
+        construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;
@@ -206,9 +206,9 @@ class uistatedata
             }
             // viewing vehicle cargo
             if( jo.has_array( "adv_inv_in_vehicle" ) ) {
-                auto ja = jo.get_array( "adv_inv_in_vehicle" );
-                for( size_t i = 0; ja.has_more(); ++i ) {
-                    adv_inv_in_vehicle[i] = ja.next_bool();
+                const JsonArray ja = jo.get_array( "adv_inv_in_vehicle" );
+                for( size_t i = 0; i < adv_inv_in_vehicle.size() && i < ja.size(); ++i ) {
+                    adv_inv_in_vehicle[i] = ja.get_bool( i );
                 }
             }
             // filter strings
@@ -255,12 +255,11 @@ class uistatedata
             jo.read( "list_item_downvote_active", list_item_downvote_active );
             jo.read( "list_item_priority_active", list_item_priority_active );
 
-            for( const JsonMember &member : jo.get_object( "input_history" ) ) {
-                JsonArray ja = member.get_array();
+            for( const JsonMember member : jo.get_object( "input_history" ) ) {
                 std::vector<std::string> &v = gethistory( member.name() );
                 v.clear();
-                while( ja.has_more() ) {
-                    v.push_back( ja.next_string() );
+                for( const std::string line : member.get_array() ) {
+                    v.push_back( line );
                 }
             }
             // fetch list_item settings from input_history

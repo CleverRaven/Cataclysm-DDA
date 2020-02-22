@@ -11,6 +11,8 @@ Monster types are specified as JSON object with "type" member set to "MONSTER":
 
 The id member should be the unique id of the type. It can be any string, by convention it has the prefix "mon_". This id can be referred to in various places, like monster groups or in mapgen to spawn specific monsters.
 
+For quantity strings (ie. volume, weight) use the largest unit you can keep full precision with.
+
 Monster types support the following properties (mandatory, except if noted otherwise):
 
 ## "name"
@@ -24,13 +26,21 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
-Name displayed in-game, and optionally the plural name and a translation context.
+Name displayed in-game, and optionally the plural name and a translation context (ctxt).
+
 If the plural name is not specified, it defaults to singular name + "s".
+
+Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 
 ## "description"
 (string)
 
 In-game description for the monster.
+
+## "categories"
+(array of strings, optional)
+
+Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
 
 ## "species"
 (array of strings, optional)
@@ -39,15 +49,31 @@ A list of species ids. One can add or remove entries in mods via "add:species" a
 
 In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
-## "categories"
-(array of strings, optional)
+## "volume"
+(string)
 
-Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
+```JSON
+"volume": "40 L"
+```
+The numeric part of the string must be an integer. Accepts L, and ml as units. Note that l and mL are not currently accepted.
+
+## "weight"
+(string)
+
+```JSON
+"weight": "3 kg"
+```
+The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
 
 ## "scent_tracked"
 (array of strings, optional)
 
 List of scenttype_id tracked by this monster. scent_types are defined in scent_types.json
+
+## "scent_ignored"
+(array of strings, optional)
+
+List of scenttype_id ignored by this monster. scent_types are defined in scent_types.json
 
 ## "symbol", "color"
 (string)
@@ -151,9 +177,17 @@ Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_B
 Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 
 ## "melee_damage"
-(integer, optional)
+(array of objects, optional)
 
-Amount of bash damage added to die roll on monster melee attack.
+List of damage instances added to die roll on monster melee attack.
+    - `damage_type` valid entries are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric".
+    - `amount` amount of damage.
+    - `armor_penetration` how much of the armor the damage instance ignores.
+    - `armor_multiplier` is a multiplier on `armor_penetration`.
+    - `damage_multiplier` is a multiplier on `amount`.
+```JSON
+    "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],
+```
 
 ## "melee_dice", "melee_dice_sides"
 (integer, optional)
@@ -295,6 +329,10 @@ The upgraded monster's type is taken from the specified group. The cost in these
 ### "into"
 (string, optional)
 The upgraded monster's type.
+
+### "age_grow"
+(int, optional)
+Number of days needed for monster to change into another monster.
 
 ## "reproduction"
 (dictionary, optional)

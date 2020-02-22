@@ -15,12 +15,14 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
+class npc_template;
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "optional.h"
+#include "cata_string_consts.h"
 
 class Character;
 class item;
@@ -32,7 +34,6 @@ enum hp_part : int;
 enum body_part : int;
 class JsonObject;
 
-using itype_id = std::string;
 struct furn_t;
 struct itype;
 class item_location;
@@ -311,6 +312,52 @@ class place_monster_iuse : public iuse_actor
 };
 
 /**
+ * This iuse contains the logic to change one's scent.
+ */
+class change_scent_iuse : public iuse_actor
+{
+    public:
+        /** The scent type id of the new scent. */
+        scenttype_id scenttypeid;
+        /** How many move points this action takes. */
+        int moves = 100;
+        /**How many charge are consumed on use*/
+        int charges_to_use = 1;
+        /**Scent value modifier*/
+        int scent_mod = 0;
+        /**How long does the scent stays*/
+        time_duration duration;
+        /**Is the scent mask waterproof*/
+        bool waterproof = false;
+        /**Side effect of using the item*/
+        std::vector<effect_data> effects;
+
+        change_scent_iuse() : iuse_actor( "change_scent" ) { }
+        ~change_scent_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
+ * This iuse contains the logic to summon an npc on the map.
+ */
+class place_npc_iuse : public iuse_actor
+{
+    public:
+        string_id<npc_template> npc_class_id;
+        bool place_randomly = false;
+        int moves = 100;
+        std::string summon_msg;
+
+        place_npc_iuse() : iuse_actor( "place_npc" ) { }
+        ~place_npc_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
  * Items that can be worn and can be activated to consume energy from UPS.
  * Note that the energy consumption is done in @ref player::process_active_items, it is
  * *not* done by this class!
@@ -455,23 +502,23 @@ class salvage_actor : public iuse_actor
 
         /** Materials it can cut */
         std::set<material_id> material_whitelist = {
-            material_id( "acidchitin" ),
-            material_id( "alien_resin" ),
-            material_id( "bone" ),
-            material_id( "chitin" ),
-            material_id( "cotton" ),
-            material_id( "faux_fur" ),
-            material_id( "fur" ),
-            material_id( "kevlar" ),
-            material_id( "kevlar_rigid" ),
-            material_id( "leather" ),
-            material_id( "lycra" ),
-            material_id( "neoprene" ),
-            material_id( "nomex" ),
-            material_id( "nylon" ),
-            material_id( "plastic" ),
-            material_id( "wood" ),
-            material_id( "wool" )
+            material_acidchitin,
+            material_alien_resin,
+            material_bone,
+            material_chitin,
+            material_cotton,
+            material_faux_fur,
+            material_fur,
+            material_kevlar,
+            material_kevlar_rigid,
+            material_leather,
+            material_lycra,
+            material_neoprene,
+            material_nomex,
+            material_nylon,
+            material_plastic,
+            material_wood,
+            material_wool
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
@@ -502,14 +549,14 @@ class inscribe_actor : public iuse_actor
 
         // Materials it can write on
         std::set<material_id> material_whitelist = {
-            material_id( "wood" ),
-            material_id( "plastic" ),
-            material_id( "glass" ),
-            material_id( "chitin" ),
-            material_id( "iron" ),
-            material_id( "steel" ),
-            material_id( "silver" ),
-            material_id( "bone" )
+            material_wood,
+            material_plastic,
+            material_glass,
+            material_chitin,
+            material_iron,
+            material_steel,
+            material_silver,
+            material_bone
         };
 
         // How will the inscription be described

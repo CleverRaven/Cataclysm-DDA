@@ -21,6 +21,12 @@
         "default": true
       },
       {
+        "text": "We need to abandon this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_DONE",
+        "effect": "abandon_camp"
+      },
+      {
         "text": "Show me what needs to be done at the camp.",
         "topic": "TALK_DONE",
         "effect": "basecamp_mission",
@@ -83,7 +89,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_MISSIONS",
     "type": "talk_topic",
-    "dynamic_line": "When you assign an NPC to a faction camp mission, they'll disappear while they go do whatever you want them to do.  When the duration of the mission has elapsed, you'll see a new mission on the bulletin board to have them return and complete the mission by upgrading your camp, returning their hunting kills, dropping off whatever they were crafting, or whatever else the mission results are.\n  There are all kinds of faction camp missions: building up the camp, recruiting new allies, hunting and trapping game, scrounging for materials, farming, disassembling cars, and more.  Not all activities can be done at every camp - you may need to build some additional buildings, or expand the camp, to get access to some missions.\n  Some faction camp missions can be duplicated by companion activities, but building up the camp can only be done via faction camp missions.\n  You assign missions by interacting with the bulletin board.  You'll see a list of available missions for your central camp tile.  If your camp has expansions, you can tab through the expansions to see the available missions at each expansion.\n  Remember, companions on camp missions need to be fed, and will become angry if they complete a mission but there isn't any food in the larder.\n  There is one special mission called 'Emergency Recall'.  You can use this to retrieve any companion on a faction camp mission, but this cancels the mission and wastes any resources used on it.  Only use it to recover allies when something has gone really wrong with your camp and you can't get them to come back any ohter way.",
+    "dynamic_line": "When you assign an NPC to a faction camp mission, they'll disappear while they go do whatever you want them to do.  When the duration of the mission has elapsed, you'll see a new mission on the bulletin board to have them return and complete the mission by upgrading your camp, returning their hunting kills, dropping off whatever they were crafting, or whatever else the mission results are.\n  There are all kinds of faction camp missions: building up the camp, recruiting new allies, hunting and trapping game, scrounging for materials, farming, disassembling cars, and more.  Not all activities can be done at every camp - you may need to build some additional buildings, or expand the camp, to get access to some missions.\n  Some faction camp missions can be duplicated by companion activities, but building up the camp can only be done via faction camp missions.\n  You assign missions by interacting with the bulletin board.  You'll see a list of available missions for your central camp tile.  If your camp has expansions, you can tab through the expansions to see the available missions at each expansion.\n  Remember, companions on camp missions need to be fed, and will become angry if they complete a mission but there isn't any food in the larder.\n  There is one special mission called 'Emergency Recall'.  You can use this to retrieve any companion on a faction camp mission, but this cancels the mission and wastes any resources used on it.  Only use it to recover allies when something has gone really wrong with your camp and you can't get them to come back any other way.",
     "responses": [
       { "text": "What do you mean by angry?", "topic": "TALK_ALLY_TUTORIAL_MUTINY" },
       { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
@@ -209,7 +215,7 @@
   {
     "id": "TALK_CAMP_OVERSEER",
     "type": "talk_topic",
-    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  it's a cushy job, but I could do more. We could put up a bulletin board and you could write up what you want done there.  What do you say?",
+    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  It's a cushy job, but I could do more.  We could put up a bulletin board and you could write up what you want done there.  What do you say?",
     "responses": [
       { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
       {

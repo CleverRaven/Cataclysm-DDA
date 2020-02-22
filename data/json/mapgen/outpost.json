@@ -68,7 +68,7 @@
         "!": "f_locker",
         "l": "f_locker",
         "L": "f_locker",
-        "b": "f_bed",
+        "b": "f_bunkbed",
         "T": "f_trashcan"
       },
       "items": {
@@ -190,7 +190,7 @@
         "!": "f_locker",
         "l": "f_locker",
         "L": "f_locker",
-        "b": "f_bed",
+        "b": "f_bunkbed",
         "d": "f_desk",
         "f": "f_fridge",
         "T": "f_trashcan"

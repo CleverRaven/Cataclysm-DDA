@@ -1,0 +1,29 @@
+[
+  {
+    "result": "broken_claygolem",
+    "type": "uncraft",
+    "skill_used": "spellcraft",
+    "difficulty": 2,
+    "time": "4 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "clay_lump", 231 ] ] ]
+  },
+  {
+    "result": "broken_stonegolem",
+    "type": "uncraft",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 222 ] ], [ [ "sharp_rock", 33 ] ] ]
+  },
+  {
+    "result": "broken_irongolem",
+    "type": "uncraft",
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "time": "6 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 800 ] ], [ [ "steel_lump", 200 ] ] ]
+  }
+]

@@ -77,13 +77,13 @@
         "text": "[$200, 30m] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
-        "condition": { "npc_service": 20000 }
+        "condition": { "npc_service": true }
       },
       {
         "text": "[$500, 1h] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
-        "condition": { "npc_service": 50000 }
+        "condition": { "npc_service": true }
       },
       { "text": "I should be fine.", "topic": "TALK_RANCH_NURSE" }
     ]
@@ -106,7 +106,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment… in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting a few bottles of aspirin to start with.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -114,7 +114,7 @@
       "inquire": "Do you have the aspirin?",
       "success": "We'll go through this pretty quickly but it does help.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -130,7 +130,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I was given a few bottles of bleach when I arrived but I need a number of hotplates to actually sterilize equipment.  I'm sure you can find them in any old house or appliance store.  Three should be enough for now.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -138,7 +138,7 @@
       "inquire": "Do you have the hotplates?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -154,7 +154,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Disease is spreading rapidly due to poor nutrition and there is little that I can do about it.  With food being scarce, people are willing to survive on whatever they can.  I need to start supplementing the outpost's diet with vitamins to prevent potential deaths indirectly attributable to nutrition.  I know it is a lot but if you could bring me 200 multivitamin pills I'd be able to treat the most vulnerable before they spread anything to the rest of us.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -162,7 +162,7 @@
       "inquire": "Do you have the vitamins?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -178,7 +178,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_5",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Despite my recommendations, we continue to have travelers come in with illnesses I've been able to trace back to contaminated drinking water.  When boiling water isn't an option they need some form of charcoal water filter that they can use.  If you could build me four charcoal water filters I'll distribute them to groups as they pass through.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -186,7 +186,7 @@
       "inquire": "Do you have the charcoal water filters?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -201,7 +201,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_6",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I've been working on producing some of our own medical supplies but I'm going to need a chemistry set to get everything that I need in order.  Is there any way you could go through one of the school chemistry labs and steal me a chemistry set?",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -209,7 +209,7 @@
       "inquire": "Do you have the chemistry set?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -225,7 +225,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_7",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The number of airway infections that I've encountered in the past week has depleted my supply of masks.  Could you find me 10 filter masks?  I tend to only distribute them in severe cases so I'll be sure to make them last.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -233,7 +233,7 @@
       "inquire": "Do you have the filter masks?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -249,7 +249,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_8",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The bodily fluids that I often have to clean up and the caustic chemicals I deal with have done a number on my current pair of gloves.  Could you find me four pairs of heavy rubber gloves?  That should be enough that I can task a few laborers with cleanup details in the event of an outbreak.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -257,7 +257,7 @@
       "inquire": "Do you have the rubber gloves?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -273,7 +273,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_9",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "I heard that we may have a physician on his way here.  The workers have already begun expanding the clinic but I need you to locate a pair of scalpels to use in surgery when he arrives.  I'm sure you should be able to find them in a hospital or craft shop.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -281,7 +281,7 @@
       "inquire": "Do you have the scalpels?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -296,7 +296,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_10",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Have you heard of a book called the 'Guide to Advanced Emergency Care?'  I really need a copy.  The doctor is requesting a lot of supplies that I'm not familiar with but I believe I could make if I could get a copy of the book.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -304,7 +304,7 @@
       "inquire": "Do you have the Guide to Advanced Emergency Care?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -319,7 +319,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_11",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The doctor has some ideas on how to recreate a vaccination program for the common flu.  If you come across an unused flu shot please bring it to me.  We haven't had any fatalities from the flu yet but it is only a matter of time until one of the older or younger members of the outpost gets a bad case.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -327,7 +327,7 @@
       "inquire": "Do you have the flu shot?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
@@ -342,7 +342,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "We are starting to isolate a few natural antibiotic serums but we don't have the supplies to administer the cocktails.  I need you to bring me 10 empty syringes to use.  I'll take care of cleaning them to prevent transferring infections.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -350,7 +350,7 @@
       "inquire": "Do you have the empty syringes?",
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

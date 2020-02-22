@@ -95,14 +95,8 @@
       [ "pockknife", 20 ],
       [ "wristwatch", 20 ],
       [ "teleumbrella", 5 ],
-      [ "novel_coa", 10 ],
-      [ "child_book", 50 ],
-      [ "manual_dodge_kid", 10 ],
-      [ "tall_tales", 20 ],
-      [ "story_book", 5 ],
+      { "group": "kids_books", "prob": 155 },
       [ "novel_pulp", 20 ],
-      [ "fairy_tales", 20 ],
-      [ "mag_comic", 40 ],
       [ "folding_bicycle", 5 ],
       [ "sunglasses", 25 ],
       [ "cowboy_hat", 25 ],
@@ -172,7 +166,10 @@
       [ "backpack_leather", 7 ],
       [ "pants_leather", 20 ],
       [ "bikini_top_leather", 20 ],
-      [ "jacket_leather", 5 ]
+      [ "jacket_leather", 5 ],
+      [ "horse_tack", 5 ],
+      [ "yoke_harness", 5 ],
+      [ "reins_tackle", 5 ]
     ]
   },
   {
@@ -283,7 +280,13 @@
       [ "soap", 45 ],
       [ "tailors_kit", 25 ],
       [ "shavingkit", 20 ],
-      [ "elec_hairtrimmer", 20 ]
+      [ "elec_hairtrimmer", 20 ],
+      [ "razor_shaving", 20 ],
+      [ "curler_hair", 30 ],
+      [ "hair_dryer", 40 ],
+      [ "curling_iron", 40 ],
+      [ "comb_pocket", 10 ],
+      [ "hairbrush", 10 ]
     ]
   },
   {

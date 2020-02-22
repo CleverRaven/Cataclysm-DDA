@@ -1,6 +1,6 @@
 #include "ui.h"
 
-#include <assert.h>
+#include <cassert>
 #include <cctype>
 #include <climits>
 #include <cstdlib>

@@ -664,20 +664,14 @@
       [ "talking_doll", 50 ],
       [ "basketball", 50 ],
       [ "fc_hairpin", 50 ],
-      [ "fairy_tales", 40 ],
-      [ "child_book", 40 ],
-      [ "manual_dodge_kid", 10 ],
-      [ "tall_tales", 40 ],
+      { "group": "kids_books", "prob": 170 },
       [ "backpack", 40 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "orangesoda", 30 ],
       [ "hairpin", 30 ],
       [ "purple_drink", 20 ],
-      [ "mag_comic", 20 ],
       [ "candy", 20 ],
-      [ "story_book", 10 ],
-      [ "novel_coa", 10 ],
       [ "slingshot", 10 ],
       [ "rock", 10 ],
       [ "bat", 10 ],
@@ -814,7 +808,9 @@
       [ "jar_glass", 50 ],
       [ "jar_3l_glass", 40 ],
       [ "tongs", 25 ],
-      [ "coffeemaker", 10 ]
+      [ "coffeemaker", 10 ],
+      [ "cookbook_daintydishes", 40 ],
+      [ "cookbook_foodfashions", 18 ]
     ]
   },
   {
@@ -895,13 +891,11 @@
       [ "bottle_plastic", 30 ],
       { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "bag_plastic", 30 ],
-      { "group": "vending_food", "prob": 20 },
       [ "rag_bloody", 20 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       { "group": "tinware", "prob": 20 },
-      { "group": "vending_drink", "prob": 10 },
       [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 }
@@ -937,8 +931,6 @@
       [ "matches", 20 ],
       [ "jersey", 20 ],
       [ "fanny", 20 ],
-      { "group": "vending_drink", "prob": 10 },
-      { "group": "vending_food", "prob": 10 },
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
       [ "contacts", 10 ],
@@ -976,6 +968,7 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
+      [ "toothbrush_plain", 10 ],
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },
@@ -1120,10 +1113,7 @@
       [ "gloves_light", 40 ],
       [ "gloves_leather", 30 ],
       [ "flyer", 30 ],
-      [ "mag_news", 20 ],
-      [ "mag_tv", 20 ],
-      [ "mag_beauty", 10 ],
-      [ "mag_glam", 10 ],
+      { "group": "book_mag_gen", "prob": 60 },
       [ "purse", 5 ]
     ]
   },
@@ -1144,7 +1134,10 @@
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
-      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
+      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
+      [ "toilet_paper", 30 ],
+      [ "plunger_toilet", 10 ],
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -1162,15 +1155,10 @@
     "items": [
       { "group": "beer_selection", "prob": 30 },
       { "group": "glass_of_wine", "prob": 30 },
-      [ "novel_pulp", 30 ],
-      [ "mag_news", 30 ],
-      [ "mag_tv", 30 ],
+      { "group": "book_mag_gen", "prob": 120 },
       { "group": "tobacco_products", "prob": 50 },
+      [ "novel_pulp", 30 ],
       [ "gum", 30 ],
-      { "group": "vending_drink", "prob": 20 },
-      [ "mag_beauty", 20 ],
-      [ "mag_dude", 20 ],
-      [ "mag_glam", 20 ],
       [ "glass", 20 ],
       [ "bandana", 10 ],
       [ "mp3", 10 ],
@@ -1198,7 +1186,6 @@
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
       { "group": "glass_of_wine", "prob": 40 },
-      { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
       { "group": "tobacco_products", "prob": 75 },
       [ "money_bundle", 10 ],
@@ -1225,7 +1212,7 @@
     "id": "wetbar_fridge",
     "type": "item_group",
     "subtype": "distribution",
-    "groups": [ [ "beer_selection", 70 ], [ "vending_drink", 50 ], [ "chilled_wine", 20 ] ]
+    "groups": [ [ "beer_selection", 70 ], [ "chilled_wine", 20 ] ]
   },
   {
     "id": "beer_selection",
@@ -1301,39 +1288,12 @@
       [ "sewing_kit", 10 ],
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "group": "harddrugs", "prob": 5 }
-    ]
-  },
-  {
-    "id": "nightstand",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      [ "alarmclock", 60 ],
-      [ "glasses_reading", 50 ],
-      [ "novel_drama", 50 ],
-      [ "novel_romance", 40 ],
-      [ "novel_mystery", 40 ],
-      [ "glasses_bifocal", 20 ],
-      [ "cotton_ball", 20 ],
-      [ "contacts", 20 ],
-      [ "vitamins", 20 ],
-      [ "aspirin", 20 ],
-      [ "nic_gum", 20 ],
-      [ "inhaler", 20 ],
-      [ "cig", 20 ],
-      { "item": "water", "prob": 10, "container-item": "glass" },
-      { "group": "glass_of_wine", "prob": 10 },
-      [ "gummy_vitamins", 10 ],
-      [ "cell_phone", 3 ],
-      [ "smart_phone", 10 ],
-      [ "eyedrops", 10 ],
-      [ "holy_symbol", 5 ],
-      [ "pills_sleep", 5 ],
-      [ "nyquil", 5 ],
-      { "group": "mansion_guns", "prob": 3 },
-      { "group": "harddrugs", "prob": 1 },
-      [ "joint", 1 ]
+      { "group": "harddrugs", "prob": 5 },
+      [ "hairbrush", 30 ],
+      [ "comb_pocket", 15 ],
+      [ "curler_hair", 10 ],
+      [ "curling_iron", 15 ],
+      [ "brush_toilet", 15 ]
     ]
   },
   {
@@ -1562,8 +1522,6 @@
       { "group": "softdrugs", "prob": 30 },
       [ "lighter", 20 ],
       [ "matches", 20 ],
-      { "group": "vending_drink", "prob": 10 },
-      { "group": "vending_food", "prob": 10 },
       [ "pocket_survival", 5 ]
     ]
   },

@@ -112,8 +112,8 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
-            auto format_tokenized_description = []( const std::string description,
-            const std::vector<std::pair<int, std::string>> rewards ) {
+            auto format_tokenized_description = []( const std::string & description,
+            const std::vector<std::pair<int, std::string>> &rewards ) {
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
                     std::string token = "<reward_count:" + reward.second + ">";

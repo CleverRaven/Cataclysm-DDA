@@ -200,19 +200,12 @@
     "//3": "Frequency of pet food appearing based on percentage of Massachusetts homes with a pet.",
     "subtype": "collection",
     "entries": [
-      { "group": "pantry_liquids", "prob": 100, "count": [ 1, 3 ] },
-      { "group": "pantry_liquids", "prob": 50, "count": [ 1, 3 ] },
-      { "group": "pasta", "prob": 90, "count": [ 1, 3 ] },
-      { "group": "pasta", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "pantry_liquids", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "pasta", "prob": 70, "count": [ 1, 3 ] },
       { "group": "cannedfood", "prob": 100, "count": [ 1, 6 ] },
-      { "group": "cannedfood", "prob": 75, "count": [ 1, 6 ] },
-      { "group": "cannedfood", "prob": 50, "count": [ 1, 6 ] },
-      { "group": "big_canned_food", "prob": 80, "count": [ 1, 3 ] },
-      { "group": "big_canned_food", "prob": 40, "count": [ 1, 3 ] },
-      { "group": "dry_goods", "prob": 90, "count": [ 1, 3 ] },
-      { "group": "dry_goods", "prob": 50, "count": [ 1, 3 ] },
-      { "group": "preserved_food", "prob": 70, "count": [ 1, 3 ] },
-      { "group": "preserved_food", "prob": 40, "count": [ 1, 3 ] },
+      { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "dry_goods", "prob": 80, "count": [ 1, 3 ] },
+      { "group": "preserved_food", "prob": 20, "count": [ 1, 2 ] },
       { "group": "pet_food", "prob": 50 }
     ]
   },
@@ -293,7 +286,6 @@
         "prob": 80
       },
       { "item": "jam_fruit", "prob": 80 },
-      { "item": "butter", "prob": 80 },
       { "item": "peanutbutter", "prob": 80 },
       { "item": "syrup", "prob": 50 },
       {
@@ -321,8 +313,7 @@
     "//3": "In the future could make several fridge lists, eg SUS_fridge_vegetarian or SUS_fridge_bachelor, and have this be a distribution to randomly choose them",
     "subtype": "collection",
     "entries": [
-      { "group": "fresh_produce", "count": [ 1, 15 ] },
-      { "group": "fresh_produce", "count": [ 1, 15 ], "prob": 50 },
+      { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
         "distribution": [ { "item": "milk", "prob": 94 }, { "item": "almond_milk", "prob": 3 }, { "item": "soy_milk", "prob": 3 } ],
         "prob": 95
@@ -373,7 +364,7 @@
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
           { "item": "chili", "charges-min": 1, "prob": 10 }
         ],
-        "prob": 95
+        "prob": 75
       },
       {
         "distribution": [
@@ -606,6 +597,166 @@
       { "item": "thyme", "prob": 65 },
       { "item": "seasoning_italian", "prob": 65 },
       { "item": "seasoning_salt", "prob": 65 }
+    ]
+  },
+  {
+    "id": "SUS_bathroom_sink",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a bathroom sink.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap_holder", "prob": 40 },
+      { "item": "soap", "count": [ 1, 4 ], "prob": 90 },
+      { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "bleach", "prob": 15 },
+      { "item": "ammonia", "prob": 20 },
+      { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 }
+    ]
+  },
+  {
+    "id": "SUS_hair_drawer",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a drawer for haircare tools.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hairbrush", "count": [ 1, 2 ], "prob": 90 },
+      { "item": "comb_pocket", "count": [ 1, 2 ], "prob": 75 },
+      { "item": "curler_hair", "prob": 25 },
+      { "item": "hair_dryer", "prob": 60 },
+      { "item": "curling_iron", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_toilet",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for things you often find stored on or next to a toilet.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "plunger_toilet", "prob": 90 }, { "item": "plunger_futuristic", "prob": 10 } ] },
+      { "item": "brush_toilet", "prob": 75 },
+      { "item": "toilet_paper", "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_bathroom_cabinet",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a bathroom cabinet.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
+      {
+        "distribution": [ { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 }, { "item": "shavingkit", "prob": 50 } ],
+        "prob": 75
+      },
+      { "item": "mirror", "prob": 25 },
+      { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
+      { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
+      { "item": "toilet_paper", "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_desks_bedroom_unisex",
+    "type": "item_group",
+    "//": "clothing and wearable items for domestic desks, tables, etc.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
+      { "group": "accesories_personal_womens", "prob": 50 },
+      { "group": "accesories_personal_mens", "prob": 50 },
+      { "group": "masks_unisex", "prob": 20 },
+      { "group": "socks_unisex", "prob": 60 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "gloves_womens", "prob": 10 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_wardrobe_mens",
+    "type": "item_group",
+    "//": "clothing found in a man's wardrobe",
+    "subtype": "collection",
+    "entries": [
+      { "group": "shoes_unisex", "prob": 50 },
+      { "item": "fishing_waders", "prob": 3 },
+      { "item": "kilt", "prob": 10 },
+      { "item": "football_armor", "prob": 10 },
+      { "item": "sleeping_bag", "prob": 10 },
+      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "item": "bscabbard", "prob": 5 },
+      { "item": "kilt_leather", "prob": 5 },
+      { "item": "chaps_leather", "prob": 5 },
+      { "group": "coats_unisex", "prob": 50 },
+      { "group": "suits_unisex", "prob": 30 },
+      { "group": "suits_mens", "prob": 30 },
+      { "group": "bags_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_wardrobe_womens",
+    "type": "item_group",
+    "//": "clothing found in a woman's wardrobe",
+    "subtype": "collection",
+    "entries": [
+      { "group": "shoes_unisex", "prob": 50 },
+      { "group": "shoes_womens", "prob": 60 },
+      { "item": "fishing_waders", "prob": 2 },
+      { "item": "football_armor", "prob": 5 },
+      { "item": "skirt", "prob": 20 },
+      { "item": "skirt_leather", "prob": 10 },
+      { "item": "bscabbard", "prob": 3 },
+      { "item": "sleeping_bag", "prob": 10 },
+      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "item": "chaps_leather", "prob": 5 },
+      { "group": "coats_unisex", "prob": 50 },
+      { "group": "suits_unisex", "prob": 30 },
+      { "group": "suits_womens", "prob": 40 },
+      { "group": "bags_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_mens",
+    "type": "item_group",
+    "//": "clothing found in a man's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 10 },
+      { "group": "accesories_personal_mens", "prob": 10 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_mens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_mens", "prob": 60 },
+      { "group": "gloves_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_womens",
+    "type": "item_group",
+    "//": "clothing found in a woman's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 30 },
+      { "group": "accesories_personal_womens", "prob": 5 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 10 },
+      { "group": "shirts_womens", "prob": 60 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_womens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_womens", "prob": 60 },
+      { "group": "gloves_womens", "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 }
     ]
   }
 ]

@@ -328,7 +328,7 @@
     "item": "landough_calrisean",
     "start": {
       "assign_mission_target": { "om_terrain": "bakery", "reveal_radius": 1, "random": true, "search_range": 120 },
-      "update_mapgen": { "om_terrain": "bakery", "om_special": "bakery", "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
+      "update_mapgen": { "om_terrain": "bakery", "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
       "effect": { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
@@ -339,11 +339,11 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "I could get my real sourdough starter...",
+      "describe": "I could get my real sourdough starter…",
       "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and has been in my family for generations… if you can bring him to me, I'll bake you the finest bread you've ever had.",
       "accepted": "Take care of yourself out there.  And listen, when you bring my sourdough back, I don't want to see a scratch on him, you understand?",
       "rejected": "I can understand why you think you wouldn't want to risk your life for a bread starter.  You haven't tried that bread.",
-      "advice": "He'll be in the right-hand fridge, in a jar with a picture of the Millenium Falcon on it.",
+      "advice": "He'll be in the right-hand fridge, in a jar with a picture of the Millennium Falcon on it.",
       "inquire": "So, you seen my sourdough starter?",
       "success": "Oh, you will not regret this.  He may not look like much, but he's got it where it counts, kid.  It's gonna take me a few days to revive him after being abandoned so long, but he'll be operational soon and then you can come back for some real bread.",
       "success_lie": "This ain't it.",
@@ -356,7 +356,7 @@
     "copy-from": "sourdough_starter",
     "looks_like": "sourdough_starter",
     "name": "Dana's family sourdough starter",
-    "description": "This crusty old jar has a glow-in-the-dark millenium falcon decal on the side, and a label that reads, \"Landough Calrisean.  Dana's.  Do not touch on pain of death\".  It's been abandoned for some time and doesn't look like it could be readily salvaged as a sourdough culture, but maybe an experienced sourdough baker could manage it."
+    "description": "This crusty old jar has a glow-in-the-dark millennium falcon decal on the side, and a label that reads, \"Landough Calrisean.  Dana's.  Do not touch on pain of death\".  It's been abandoned for some time and doesn't look like it could be readily salvaged as a sourdough culture, but maybe an experienced sourdough baker could manage it."
   },
   {
     "type": "COMESTIBLE",

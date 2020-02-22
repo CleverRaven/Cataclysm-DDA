@@ -247,8 +247,8 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
-    if( jo.has_array( "traits" ) ) {
-        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
+    if( jo.has_member( "traits" ) ) {
+        traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );
     }
 
     if( jo.has_array( "spells" ) ) {
@@ -267,7 +267,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "mutation_rounds" ) ) {
         const std::map<std::string, mutation_category_trait> &mutation_categories =
             mutation_category_trait::get_all();
-        for( const JsonMember &member : jo.get_object( "mutation_rounds" ) ) {
+        for( const JsonMember member : jo.get_object( "mutation_rounds" ) ) {
             const std::string &mutation = member.name();
             const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
             &p ) {

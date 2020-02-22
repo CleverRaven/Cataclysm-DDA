@@ -4,8 +4,8 @@
     "type": "terrain",
     "name": "gravel",
     "description": "A small mallet that a judge uses to call - er, wait.  Oh, gravel!  Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
-    "symbol": "^",
-    "color": [ "brown" ],
+    "symbol": ",",
+    "color": "light_gray",
     "move_cost": 2,
     "bash": {
       "str_min": 30,
@@ -16,8 +16,12 @@
       "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_null",
-      "items": [ { "item": "pebble", "count": [ 2, 6 ] }, { "item": "sharp_rock", "count": [ 1, 3 ] } ]
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "pebble", "count": [ 75, 100 ] },
+        { "item": "sharp_rock", "count": [ 0, 2 ] },
+        { "item": "rock", "count": [ 4, 12 ] }
+      ]
     },
     "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
@@ -27,7 +31,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -58,7 +62,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -89,7 +93,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -120,7 +124,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -151,7 +155,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -182,7 +186,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -213,7 +217,7 @@
     "name": "railroad tie",
     "description": "This crosstie is used to support the rails.",
     "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
+    "color": "dark_gray_yellow",
     "move_cost": 2,
     "bash": {
       "str_min": 10,
@@ -236,7 +240,7 @@
     "name": "railroad tie",
     "description": "This crosstie is used to support the rails.",
     "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
+    "color": "dark_gray_yellow",
     "move_cost": 2,
     "bash": {
       "str_min": 10,
@@ -259,7 +263,7 @@
     "name": "railroad tie",
     "description": "This crosstie is used to support the rails.",
     "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
+    "color": "dark_gray_yellow",
     "move_cost": 2,
     "bash": {
       "str_min": 10,
@@ -282,7 +286,7 @@
     "name": "railroad tie",
     "description": "This crosstie is used to support the rails.",
     "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
+    "color": "dark_gray_yellow",
     "move_cost": 2,
     "bash": {
       "str_min": 10,
@@ -305,7 +309,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -339,7 +343,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -373,7 +377,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -407,7 +411,7 @@
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "bash": {
       "str_min": 60,
@@ -441,7 +445,7 @@
     "name": "buffer stop",
     "description": "A tiny blockade on the train tracks, meant to signify the end of a track, or mark a 'no-go' zone for trains.",
     "symbol": "S",
-    "color": [ "brown" ],
+    "color": "brown",
     "move_cost": 3,
     "bash": {
       "str_min": 4,
@@ -459,7 +463,7 @@
     "name": "railroad tie",
     "description": "This crosstie is used to support the rails.",
     "symbol": "/",
-    "color": [ "dark_gray_yellow" ],
+    "color": "dark_gray_yellow",
     "move_cost": 2,
     "bash": {
       "str_min": 10,
@@ -482,7 +486,7 @@
     "name": "railroad tie",
     "description": "This crosstie is used to support the rails.",
     "symbol": "\\",
-    "color": [ "dark_gray_yellow" ],
+    "color": "dark_gray_yellow",
     "move_cost": 2,
     "bash": {
       "str_min": 10,
@@ -505,7 +509,7 @@
     "name": "railroad crossing signal",
     "description": "Traffic lights meant to light and make noise when a train approaches, to prevent people from turning into meaty mush while they cross the tracks.  Won't stop people from turning into meaty mush by other means, though.",
     "symbol": "1",
-    "color": [ "light_gray" ],
+    "color": "light_gray",
     "move_cost": 0,
     "bash": {
       "str_min": 16,
@@ -529,7 +533,7 @@
     "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
     "name": "crossbuck",
     "symbol": "X",
-    "color": [ "brown" ],
+    "color": "brown",
     "move_cost": 0,
     "bash": {
       "str_min": 6,
@@ -551,7 +555,7 @@
     "name": "crossbuck",
     "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
     "symbol": "X",
-    "color": [ "light_gray" ],
+    "color": "light_gray",
     "move_cost": 0,
     "bash": {
       "str_min": 10,
@@ -569,7 +573,7 @@
     "name": "small railroad track",
     "description": "Like a railroad track, only smaller.  You could probably run a small vehicle on this.",
     "symbol": "=",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "move_cost": 3,
     "looks_like": "t_railroad_track",
     "bash": {
@@ -603,7 +607,7 @@
     "name": "small railroad track",
     "description": "Like a railroad track, only smaller.  You could probably run a small vehicle on this.",
     "symbol": "=",
-    "color": [ "cyan" ],
+    "color": "cyan",
     "looks_like": "t_railroad_track_d",
     "move_cost": 3,
     "bash": {

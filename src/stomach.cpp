@@ -7,6 +7,63 @@
 #include "units.h"
 #include "game.h"
 #include "itype.h"
+#include "vitamin.h"
+#include "cata_string_consts.h"
+
+void nutrients::min_in_place( const nutrients &r )
+{
+    kcal = std::min( kcal, r.kcal );
+    for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
+        const vitamin_id &vit = vit_pair.first;
+        int other = r.get_vitamin( vit );
+        if( other == 0 ) {
+            vitamins.erase( vit );
+        } else {
+            auto our_vit = vitamins.find( vit );
+            if( our_vit != vitamins.end() ) {
+                our_vit->second = std::min( our_vit->second, other );
+            }
+        }
+    }
+}
+
+void nutrients::max_in_place( const nutrients &r )
+{
+    kcal = std::max( kcal, r.kcal );
+    for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
+        const vitamin_id &vit = vit_pair.first;
+        int other = r.get_vitamin( vit );
+        if( other != 0 ) {
+            int &val = vitamins[vit];
+            val = std::max( val, other );
+        }
+    }
+}
+
+int nutrients::get_vitamin( const vitamin_id &vit ) const
+{
+    auto it = vitamins.find( vit );
+    if( it == vitamins.end() ) {
+        return 0;
+    }
+    return it->second;
+}
+
+bool nutrients::operator==( const nutrients &r ) const
+{
+    if( kcal != r.kcal ) {
+        return false;
+    }
+    // Can't just use vitamins == r.vitamins, because there might be zero
+    // entries in the map, which need to compare equal to missing entries.
+    for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
+        const vitamin_id &vit = vit_pair.first;
+        if( get_vitamin( vit ) != r.get_vitamin( vit ) ) {
+            return false;
+        }
+    }
+    return true;
+}
 
 nutrients &nutrients::operator+=( const nutrients &r )
 {
@@ -93,16 +150,16 @@ void stomach_contents::deserialize( JsonIn &json )
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
     float max_mod = 1;
-    if( owner.has_trait( trait_id( "GIZZARD" ) ) ) {
+    if( owner.has_trait( trait_GIZZARD ) ) {
         max_mod *= 0.9;
     }
-    if( owner.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
+    if( owner.has_active_mutation( trait_HIBERNATE ) ) {
         max_mod *= 3;
     }
-    if( owner.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
+    if( owner.has_active_mutation( trait_GOURMAND ) ) {
         max_mod *= 2;
     }
-    if( owner.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+    if( owner.has_trait( trait_SLIMESPAWNER ) ) {
         max_mod *= 3;
     }
     return max_volume * max_mod;

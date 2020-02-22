@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -146,6 +145,7 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
@@ -310,6 +310,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
+std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
@@ -323,8 +324,8 @@ int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
-void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption = "", int begin_y = 0 );
+void scrollable_text( const catacurses::window &w, const std::string &title,
+                      const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
@@ -665,18 +666,18 @@ std::string enumerate_as_string( const _Container &values,
         return _( ", " );
     }
     ();
-    std::ostringstream res;
+    std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
             if( std::next( iter ) == values.end() ) {
-                res << final_separator;
+                res += final_separator;
             } else {
-                res << _( ", " );
+                res += _( ", " );
             }
         }
-        res << *iter;
+        res += *iter;
     }
-    return res.str();
+    return res;
 }
 
 /**
@@ -975,12 +976,12 @@ void refresh_display();
 template<typename F>
 std::string colorize_symbols( const std::string &str, F color_of )
 {
-    std::ostringstream res;
+    std::string res;
     nc_color prev_color = c_unset;
 
     const auto closing_tag = [ &res, prev_color ]() {
         if( prev_color != c_unset ) {
-            res << "</color>";
+            res += "</color>";
         }
     };
 
@@ -989,16 +990,16 @@ std::string colorize_symbols( const std::string &str, F color_of )
 
         if( prev_color != new_color ) {
             closing_tag();
-            res << "<color_" << get_all_colors().get_name( new_color ) << ">";
+            res += "<color_" + get_all_colors().get_name( new_color ) + ">";
             prev_color = new_color;
         }
 
-        res << elem;
+        res += elem;
     }
 
     closing_tag();
 
-    return res.str();
+    return res;
 }
 
 #endif

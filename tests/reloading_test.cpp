@@ -1,4 +1,4 @@
-#include <limits.h>
+#include <climits>
 #include <list>
 #include <memory>
 #include <set>
@@ -18,12 +18,13 @@
 #include "player_activity.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "cata_string_consts.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -45,7 +46,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -60,7 +61,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( gun.magazine_integral() );
     REQUIRE( loader_pos != INT_MIN );
     REQUIRE( speedloader.ammo_remaining() == 0 );
-    REQUIRE( speedloader.has_flag( "SPEEDLOADER" ) );
+    REQUIRE( speedloader.has_flag( flag_SPEEDLOADER ) );
 
     bool speedloader_success = speedloader.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
@@ -80,7 +81,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -100,8 +101,9 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 
     int gun_pos = dummy.inv.position_by_type( "glock_19" );
     REQUIRE( gun_pos != INT_MIN );
+    item &glock = dummy.i_at( gun_pos );
     // We're expecting the magazine to end up in the inventory.
-    g->unload( gun_pos );
+    g->unload( glock );
     int magazine_pos = dummy.inv.position_by_type( "glockmag" );
     REQUIRE( magazine_pos != INT_MIN );
     item &magazine = dummy.inv.find_item( magazine_pos );
@@ -139,7 +141,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 

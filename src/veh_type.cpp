@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <memory>
 #include <numeric>
-#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
@@ -32,6 +31,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "mapdata.h"
+#include "cata_string_consts.h"
 
 class npc;
 
@@ -216,14 +216,14 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     auto excludes = jo.get_array( "exclusions" );
     if( !excludes.empty() ) {
         e_info.exclusions.clear();
-        for( const std::string &line : excludes ) {
+        for( const std::string line : excludes ) {
             e_info.exclusions.push_back( line );
         }
     }
     auto fuel_opts = jo.get_array( "fuel_options" );
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
-        for( const std::string &line : fuel_opts ) {
+        for( const std::string line : fuel_opts ) {
             e_info.fuel_opts.push_back( itype_id( line ) );
         }
     } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
@@ -342,7 +342,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "transform_terrain" ) ) {
         JsonObject jttd = jo.get_object( "transform_terrain" );
-        for( const std::string &pre_flag : jttd.get_array( "pre_flags" ) ) {
+        for( const std::string pre_flag : jttd.get_array( "pre_flags" ) ) {
             def.transform_terrain.pre_flags.emplace( pre_flag );
         }
         def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
@@ -377,9 +377,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
     }
-    if( jo.has_member( "looks_like" ) ) {
-        def.looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", def.looks_like );
 
     if( jo.has_member( "color" ) ) {
         def.color = color_from_string( jo.get_string( "color" ) );
@@ -389,8 +387,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        JsonIn &stream = *jo.get_raw( "breaks_into" );
-        def.breaks_into_group = item_group::load_item_group( stream, "collection" );
+        def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
     }
 
     auto qual = jo.get_array( "qualities" );
@@ -406,15 +403,15 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         def.damage_reduction = load_damage_array( dred );
     }
 
-    if( def.has_flag( "ENGINE" ) ) {
+    if( def.has_flag( flag_ENGINE ) ) {
         load_engine( def.engine_info, jo, def.fuel_type );
     }
 
-    if( def.has_flag( "WHEEL" ) ) {
+    if( def.has_flag( flag_WHEEL ) ) {
         load_wheel( def.wheel_info, jo );
     }
 
-    if( def.has_flag( "WORKBENCH" ) ) {
+    if( def.has_flag( flag_WORKBENCH ) ) {
         load_workbench( def.workbench_info, jo );
     }
 
@@ -440,7 +437,7 @@ void vpart_info::finalize()
 
     for( auto &e : vpart_info_all ) {
         if( e.second.folded_volume > 0_ml ) {
-            e.second.set_flag( "FOLDABLE" );
+            e.second.set_flag( flag_FOLDABLE );
         }
 
         for( const auto &f : e.second.flags ) {
@@ -471,7 +468,7 @@ void vpart_info::finalize()
         } else if( e.second.location == "engine_block" ) {
             // Should be hidden by frames
             e.second.z_order = 4;
-            e.second.list_order = 8 ;
+            e.second.list_order = 8;
         } else if( e.second.location == "on_battery_mount" ) {
             // Should be hidden by frames
             e.second.z_order = 3;
@@ -580,7 +577,7 @@ void vpart_info::check()
         if( part.folded_volume < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
+        if( part.has_flag( flag_FOLDABLE ) && part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
@@ -599,19 +596,19 @@ void vpart_info::check()
             part.fuel_type = "null";
         } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
                    ( !base_item_type.container || !base_item_type.container->watertight ) ) {
-            // Tanks are allowed to specify non-fuel "fuel",
+            // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );
             part.fuel_type = "null";
         }
-        if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
+        if( part.has_flag( flag_TURRET ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
-        if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
+        if( !part.emissions.empty() && !part.has_flag( flag_EMITTER ) ) {
             debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
         }
-        if( part.has_flag( "EMITTER" ) ) {
+        if( part.has_flag( flag_EMITTER ) ) {
             if( part.emissions.empty() ) {
                 debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
             } else {
@@ -623,7 +620,7 @@ void vpart_info::check()
                 }
             }
         }
-        if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
+        if( part.has_flag( flag_WHEEL ) && !base_item_type.wheel ) {
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  THIS WILL CRASH!",
                       part.id.c_str(), part.item );
         }
@@ -673,51 +670,51 @@ std::string vpart_info::name() const
     }
 }
 
-int vpart_info::format_description( std::ostringstream &msg, const nc_color &format_color,
+int vpart_info::format_description( std::string &msg, const nc_color &format_color,
                                     int width ) const
 {
     int lines = 1;
-    msg << _( "<color_white>Description</color>\n" );
-    msg << "> " << "<color_" << string_from_color( format_color ) << ">";
+    msg += _( "<color_white>Description</color>\n" );
+    msg += "> <color_" + string_from_color( format_color ) + ">";
 
-    std::ostringstream long_descrip;
+    std::string long_descrip;
     if( !description.empty() ) {
-        long_descrip << description;
+        long_descrip += description.translated();
     }
     for( const auto &flagid : flags ) {
-        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+        if( flagid == flag_ALARMCLOCK || flagid == flag_WATCH ) {
             continue;
         }
         json_flag flag = json_flag::get( flagid );
         if( !flag.info().empty() ) {
-            if( !long_descrip.str().empty() ) {
-                long_descrip << "  ";
+            if( !long_descrip.empty() ) {
+                long_descrip += "  ";
             }
-            long_descrip << _( flag.info() );
+            long_descrip += _( flag.info() );
         }
     }
-    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
-        json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << _( nobelt.info() );
+    if( ( has_flag( flag_SEAT ) || has_flag( flag_BED ) ) && !has_flag( flag_BELTABLE ) ) {
+        json_flag nobelt = json_flag::get( flag_NONBELTABLE );
+        long_descrip += "  " + _( nobelt.info() );
     }
-    if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << _( nobelt.info() );
+    if( has_flag( flag_BOARDABLE ) && has_flag( flag_OPENABLE ) ) {
+        json_flag nobelt = json_flag::get( flag_DOOR );
+        long_descrip += "  " + _( nobelt.info() );
     }
-    if( has_flag( "TURRET" ) ) {
+    if( has_flag( flag_TURRET ) ) {
         class::item base( item );
-        long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
+        long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
     }
 
-    if( !long_descrip.str().empty() ) {
-        const auto wrap_descrip = foldstring( long_descrip.str(), width );
-        msg << wrap_descrip[0];
+    if( !long_descrip.empty() ) {
+        const auto wrap_descrip = foldstring( long_descrip, width );
+        msg += wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
-            msg << "\n  " << wrap_descrip[i];
+            msg += "\n  " + wrap_descrip[i];
         }
-        msg << "</color>\n";
+        msg += "</color>\n";
         lines += wrap_descrip.size();
     }
 
@@ -725,14 +722,14 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
-        msg << "> " << "<color_" << string_from_color( format_color ) << ">" << string_format(
-                _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
+        msg += "> <color_" + string_from_color( format_color ) + ">" + string_format(
+                   _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
-            msg << string_format( _( " and is rated at %1$d %2$s" ),
+            msg += string_format( _( " and is rated at %1$d %2$s" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
-        msg << ".</color>\n";
+        msg += ".</color>\n";
         lines += 1;
     }
     return lines;
@@ -947,13 +944,12 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
         } else if( part.has_array( "parts" ) ) {
-            JsonArray subparts = part.get_array( "parts" );
-            while( subparts.has_more() ) {
-                if( subparts.test_string() ) {
-                    std::string part_name = subparts.next_string();
+            for( const JsonValue entry : part.get_array( "parts" ) ) {
+                if( entry.test_string() ) {
+                    std::string part_name = entry.get_string();
                     add_part_string( part_name, pos );
                 } else {
-                    JsonObject subpart = subparts.next_object();
+                    JsonObject subpart = entry.get_object();
                     add_part_obj( subpart, pos );
                 }
             }
@@ -979,9 +975,8 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
-            JsonArray item_group = spawn_info.get_array( "items" );
-            while( item_group.has_more() ) {
-                next_spawn.item_ids.push_back( item_group.next_string() );
+            for( const std::string line : spawn_info.get_array( "items" ) ) {
+                next_spawn.item_ids.push_back( line );
             }
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
@@ -989,9 +984,8 @@ void vehicle_prototype::load( const JsonObject &jo )
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
-            JsonArray item_group_names = spawn_info.get_array( "item_groups" );
-            while( item_group_names.has_more() ) {
-                next_spawn.item_groups.push_back( item_group_names.next_string() );
+            for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
+                next_spawn.item_groups.push_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
             next_spawn.item_groups.push_back( spawn_info.get_string( "item_groups" ) );
@@ -1074,7 +1068,7 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( pt.part.obj().has_flag( "CARGO" ) ) {
+            if( pt.part.obj().has_flag( flag_CARGO ) ) {
                 cargo_spots.insert( pt.pos );
             }
         }

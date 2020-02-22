@@ -3,7 +3,7 @@
     "id": "SUS_evac_shelter_locker",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "Each locker contains by spec one jacket, one blanket, one gas mask, a flashlight, a plastic bowl and utensils, a lighter, and two bottles of water.  Not every locker is fully stocked.",
+    "//2": "Each locker contains by spec one jacket, one blanket, one gas mask, a flashlight, a whistle, a plastic bowl and utensils, a lighter, and two bottles of water.  Not every locker is fully stocked.",
     "subtype": "collection",
     "entries": [
       { "item": "evac_pamphlet", "prob": 99 },
@@ -13,6 +13,7 @@
       { "item": "flashlight", "prob": 50 },
       { "item": "light_disposable_cell", "prob": 10 },
       { "item": "lighter", "prob": 20 },
+      { "item": "whistle", "prob": 70 },
       { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },
       { "item": "protein_bar_evac", "count": [ 2, 3 ] },
       {
@@ -83,7 +84,8 @@
               { "item": "1st_aid", "count": [ 1, 3 ], "prob": 65 },
               { "item": "two_way_radio", "prob": 65 },
               { "item": "light_disposable_cell", "count": [ 2, 4 ], "prob": 65 },
-              { "item": "electric_lantern", "prob": 35 }
+              { "item": "electric_lantern", "prob": 35 },
+              { "item": "barometer", "prob": 8 }
             ],
             "prob": 10
           },
@@ -92,7 +94,8 @@
               { "item": "detergent", "count": [ 0, 2 ] },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
-              { "item": "ammonia", "prob": 15 }
+              { "item": "ammonia", "prob": 15 },
+              { "item": "vinegar", "prob": 10 }
             ],
             "prob": 15
           },
@@ -121,6 +124,7 @@
         "distribution": [
           {
             "collection": [
+              { "item": "folding_poncho", "count": [ 1, 10 ], "prob": 60 },
               { "item": "emer_blanket", "count": [ 1, 10 ], "prob": 60 },
               { "item": "jacket_evac", "count": [ 1, 10 ], "prob": 50 }
             ],
@@ -139,7 +143,8 @@
               { "item": "extinguisher", "prob": 50 },
               { "item": "1st_aid", "prob": 5 },
               { "item": "two_way_radio", "prob": 25 },
-              { "item": "electric_lantern", "prob": 5 }
+              { "item": "electric_lantern", "prob": 5 },
+              { "item": "wearable_light", "prob": 5 }
             ],
             "prob": 10
           },
@@ -163,6 +168,7 @@
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
+              { "item": "vitamins", "prob": 5 },
               { "item": "can_food_unsealed", "count": [ 1, 30 ], "prob": 90 },
               { "item": "can_opener", "prob": 90 }
             ],
@@ -184,6 +190,7 @@
       { "item": "brush", "prob": 90 },
       { "item": "bleach", "prob": 45 },
       { "item": "ammonia", "prob": 25 },
+      { "item": "mirror", "prob": 12 },
       { "item": "1st_aid", "prob": 60 },
       { "item": "paper", "count": [ 1, 3 ] },
       { "item": "evac_pamphlet", "prob": 10 }

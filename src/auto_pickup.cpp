@@ -576,7 +576,7 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
 
 void player_settings::create_rule( const item *it )
 {
-    // @todo change it to be a reference
+    // TODO: change it to be a reference
     global_rules.create_rule( map_items, *it );
     character_rules.create_rule( map_items, *it );
 }
@@ -795,7 +795,7 @@ void rule_list::load_legacy_rules( std::istream &fin )
             const int iNum = std::count( sLine.begin(), sLine.end(), ';' );
 
             if( iNum != 2 ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
+                debugmsg( "Bad Rule: %s (will be skipped)", sLine );
             } else {
                 std::string sRule;
                 bool bActive = true;

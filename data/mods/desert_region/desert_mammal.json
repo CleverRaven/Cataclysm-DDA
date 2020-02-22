@@ -9,7 +9,7 @@
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "volume": "5896700 ml",
-    "weight": 5896700,
+    "weight": "5896700 g",
     "hp": 360,
     "speed": 200,
     "material": [ "flesh" ],

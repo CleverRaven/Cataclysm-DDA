@@ -23,7 +23,7 @@
     "skill": "archery",
     "min_strength": 5,
     "ammo": "arrow",
-    "weight": 360,
+    "weight": "360 g",
     "volume": "1750 ml",
     "bashing": 9,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 13 },

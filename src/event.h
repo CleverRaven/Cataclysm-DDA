@@ -10,8 +10,6 @@
 #include "enum_conversions.h"
 #include "type_id.h"
 
-using itype_id = std::string;
-
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
 //
@@ -64,7 +62,6 @@ enum class event_type {
     game_start,
     installs_cbm,
     installs_faulty_cbm,
-    launches_nuke,
     learns_martial_art,
     loses_addiction,
     npc_becomes_hostile,
@@ -134,7 +131,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 62,
+static_assert( static_cast<int>( event_type::num_event_types ) == 61,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -429,14 +426,6 @@ struct event_spec<event_type::installs_faulty_cbm> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "bionic", cata_variant_type::bionic_id },
-        }
-    };
-};
-
-template<>
-struct event_spec<event_type::launches_nuke> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
-            { "target_terrain", cata_variant_type::oter_id },
         }
     };
 };

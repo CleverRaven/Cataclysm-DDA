@@ -24,8 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wheat",
-    "name": "wheat",
-    "name_plural": "wheat",
+    "name": { "str": "wheat", "str_pl": "wheat" },
     "weight": "203 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -44,8 +43,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_raw",
-    "name": "raw spaghetti pasta",
-    "name_plural": "raw spaghetti pasta",
+    "name": { "str": "raw spaghetti pasta", "str_pl": "raw spaghetti pasta" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -64,8 +62,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lasagne_raw",
-    "name": "raw lasagne pasta",
-    "name_plural": "raw lasagne pasta",
+    "name": { "str": "raw lasagne pasta", "str_pl": "raw lasagne pasta" },
     "spoils_in": "360 days",
     "weight": "60 g",
     "color": "yellow",
@@ -84,8 +81,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_cooked",
-    "name": "boiled noodles",
-    "name_plural": "boiled noodles",
+    "name": { "str": "boiled noodles", "str_pl": "boiled noodles" },
     "weight": "148 g",
     "color": "yellow",
     "spoils_in": "20 hours",
@@ -104,8 +100,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_raw",
-    "name": "raw macaroni",
-    "name_plural": "raw macaroni",
+    "name": { "str": "raw macaroni", "str_pl": "raw macaroni" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -124,8 +119,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_cooked",
-    "name": "mac & cheese",
-    "name_plural": "mac & cheese",
+    "name": { "str": "mac & cheese", "str_pl": "mac & cheese" },
     "weight": "209 g",
     "color": "yellow",
     "spoils_in": "10 hours",
@@ -145,8 +139,7 @@
   {
     "type": "COMESTIBLE",
     "id": "flour",
-    "name": "flour",
-    "name_plural": "flour",
+    "name": { "str": "flour", "str_pl": "flour" },
     "weight": "13 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -167,7 +160,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal",
-    "name": "oatmeal",
+    "name": { "str": "oatmeal", "str_pl": "oatmeal" },
     "weight": "25 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -188,8 +181,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oats",
-    "name": "oats",
-    "name_plural": "oats",
+    "name": { "str": "oats", "str_pl": "oats" },
     "weight": "86 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -208,7 +200,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_cooked",
-    "name": "cooked oatmeal",
+    "name": { "str": "cooked oatmeal", "str_pl": "cooked oatmeal" },
     "weight": "247 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -227,7 +219,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_deluxe",
-    "name": "deluxe cooked oatmeal",
+    "name": { "str": "deluxe cooked oatmeal", "str_pl": "deluxe cooked oatmeal" },
     "weight": "164 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -247,8 +239,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pancakes",
-    "name": "pancake",
-    "name_plural": "pancakes",
+    "name": { "str": "pancake" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -270,8 +261,7 @@
     "type": "COMESTIBLE",
     "id": "fruit_pancakes",
     "copy-from": "pancakes",
-    "name": "fruit pancake",
-    "name_plural": "fruit pancakes",
+    "name": { "str": "fruit pancake" },
     "weight": "80 g",
     "color": "brown",
     "calories": 113,
@@ -283,8 +273,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frenchtoast",
-    "name": "French toast",
-    "name_plural": "French toasts",
+    "name": { "str": "French toast", "str_pl": "French toasts" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -409,7 +398,7 @@
   {
     "type": "COMESTIBLE",
     "id": "granola",
-    "name": "granola",
+    "name": { "str": "granola", "str_pl": "granola" },
     "weight": "32 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -455,8 +444,7 @@
   {
     "type": "COMESTIBLE",
     "id": "noodles_fast",
-    "name": "fast noodles",
-    "name_plural": "fast noodles",
+    "name": { "str": "fast noodles", "str_pl": "fast noodles" },
     "weight": "81 g",
     "color": "yellow",
     "spoils_in": "360 days",

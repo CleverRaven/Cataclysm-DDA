@@ -99,7 +99,7 @@ color_id color_manager::name_to_id( const std::string &name ) const
 {
     auto iter = name_map.find( name );
     if( iter == name_map.end() ) {
-        DebugLog( D_ERROR, DC_ALL ) << "couldn't parse color: " << name ;
+        debugmsg( "couldn't parse color: %s", name );
         return def_c_unset;
     }
 
@@ -559,8 +559,8 @@ nc_color color_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            DebugLog( D_WARNING, DC_ALL ) << "Deprecated foreground color suffix was used: (" <<
-                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
+            debugmsg( "Deprecated foreground color suffix was used: (%s) in (%s).  Please update mod that uses that.",
+                      i.second, color );
         }
     }
 
@@ -604,8 +604,8 @@ nc_color bgcolor_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            DebugLog( D_WARNING, DC_ALL ) << "Deprecated background color suffix was used: (" <<
-                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
+            debugmsg( "Deprecated background color suffix was used: (%s) in (%s).  Please update mod that uses that.",
+                      i.second, color );
         }
     }
 
@@ -736,22 +736,30 @@ void color_manager::show_gui()
     catacurses::window w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                   point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
 
-    draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
-    mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
-              LINE_XOXX ); // -|
+    /**
+     * All of the stuff in this lambda needs to be drawn (1) initially, and
+     * (2) after closing the HELP_KEYBINDINGS window (since it mangles the screen)
+    */
+    const auto initial_draw = [&]() {
+        draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
+        mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
+        mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
+                  LINE_XOXX ); // -|
 
-    for( auto &iCol : vLines ) {
-        if( iCol > -1 ) {
-            mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-                      LINE_XXOX ); // _|_
-            mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
+        for( auto &iCol : vLines ) {
+            if( iCol > -1 ) {
+                mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
+                          LINE_XXOX ); // _|_
+                mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
+            }
         }
-    }
-    wrefresh( w_colors_border );
+        wrefresh( w_colors_border );
 
-    draw_header( w_colors_header );
+        draw_header( w_colors_header );
 
+    };
+
+    initial_draw();
     int iCurrentLine = 0;
     int iCurrentCol = 1;
     int iStartPos = 0;
@@ -936,6 +944,7 @@ void color_manager::show_gui()
             }
 
             ui_colors.query();
+            initial_draw();
 
             if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < name_color_map.size() ) {
                 bStuffChanged = true;
@@ -956,7 +965,7 @@ void color_manager::show_gui()
 
             finalize(); // Need to recalculate caches
         } else if( action == "HELP_KEYBINDINGS" ) {
-            draw_header( w_colors_header );
+            initial_draw();
         }
     }
 

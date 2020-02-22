@@ -133,7 +133,7 @@ class generic_factory
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
-            if( is_valid( result ) && list[result].id == id ) {
+            if( is_valid( result ) && list[result.to_i()].id == id ) {
                 return true;
             }
             const auto iter = map.find( id );
@@ -266,7 +266,7 @@ class generic_factory
         T &insert( const T &obj ) {
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
-                T &result = list[iter->second];
+                T &result = list[iter->second.to_i()];
                 result = obj;
                 result.id.set_cid( iter->second );
                 return result;
@@ -341,7 +341,7 @@ class generic_factory
                 debugmsg( "invalid %s id \"%d\"", type_name, id.to_i() );
                 return dummy_obj;
             }
-            return list[id];
+            return list[id.to_i()];
         }
         /**
          * Returns the object with the given id.
@@ -356,14 +356,14 @@ class generic_factory
                 debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
                 return dummy_obj;
             }
-            return list[i_id];
+            return list[i_id.to_i()];
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return static_cast<size_t>( id ) < list.size();
+            return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
@@ -832,6 +832,38 @@ class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType
 };
 
 using string_reader = auto_flags_reader<>;
+
+class volume_reader : public generic_typed_reader<units::volume>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::volume &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::volume>( *jo.get_raw( member_name ), units::volume_units );
+            return true;
+        }
+        units::volume get_next( JsonIn &jin ) const {
+            return read_from_json_string<units::volume>( jin, units::volume_units );
+        }
+};
+
+class mass_reader : public generic_typed_reader<units::mass>
+{
+    public:
+        bool operator()( const JsonObject &jo, const std::string &member_name,
+                         units::mass &member, bool /* was_loaded */ ) const {
+            if( !jo.has_member( member_name ) ) {
+                return false;
+            }
+            member = read_from_json_string<units::mass>( *jo.get_raw( member_name ), units::mass_units );
+            return true;
+        }
+        units::mass get_next( JsonIn &jin ) const {
+            return read_from_json_string<units::mass>( jin, units::mass_units );
+        }
+};
 
 /**
  * Uses a map (unordered or standard) to convert strings from JSON to some other type

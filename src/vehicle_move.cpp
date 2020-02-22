@@ -34,15 +34,7 @@
 #include "enums.h"
 #include "int_id.h"
 #include "monster.h"
-
-static const std::string part_location_structure( "structure" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_animal( "animal" );
-
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const skill_id skill_driving( "driving" );
+#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -395,7 +387,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     }
 
     if( empty ) {
-        // Hack for dirty vehicles that didn't yet get properly removed
+        // HACK: Hack for dirty vehicles that didn't yet get properly removed
         veh_collision fake_coll;
         fake_coll.type = veh_coll_other;
         colls.push_back( fake_coll );
@@ -471,7 +463,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( g->m.has_flag( flag_SWIMMABLE, critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const int angle = move.dir() + 45 * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
@@ -517,13 +509,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
                  // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                  ( part_with_feature( ret.part, VPFLAG_WHEEL, true ) >= 0 ||
-                   !g->m.has_flag_ter_or_furn( "TINY", p ) ) &&
+                   !g->m.has_flag_ter_or_furn( flag_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
                  !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
-                    g->m.has_flag_ter_or_furn( "SHORT", p ) ) &&
+                    g->m.has_flag_ter_or_furn( flag_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
-                 !g->m.has_flag_ter_or_furn( "NOCOLLIDE", p ) &&
+                 !g->m.has_flag_ter_or_furn( flag_NOCOLLIDE, p ) &&
                  // Do not collide with track tiles if we can use rails
                  !( g->m.has_flag_ter_or_furn( TFLAG_RAIL, p ) && this->can_use_rails() ) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
@@ -544,7 +536,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Hit nothing or we aren't actually hitting
         return ret;
     }
-
+    stop_autodriving();
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     const float mass = to_kilogram( total_mass() );
@@ -660,7 +652,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // No blood from hallucinations
             if( critter != nullptr && !critter->is_hallucination() ) {
-                if( part_flag( ret.part, "SHARP" ) ) {
+                if( part_flag( ret.part, flag_SHARP ) ) {
                     parts[ret.part].blood += ( 20 + dam ) * 5;
                 } else if( dam > rng( 10, 30 ) ) {
                     parts[ret.part].blood += ( 10 + dam / 2 ) * 5;
@@ -677,7 +669,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( ph != nullptr ) {
                 ph->hitall( dam, 40, driver );
             } else {
-                const int armor = part_flag( ret.part, "SHARP" ) ?
+                const int armor = part_flag( ret.part, flag_SHARP ) ?
                                   critter->get_armor_cut( bp_torso ) :
                                   critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
@@ -735,7 +727,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
 
-            if( part_flag( ret.part, "SHARP" ) ) {
+            if( part_flag( ret.part, flag_SHARP ) ) {
                 critter->bleed();
             } else {
                 sounds::sound( p, 20, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );
@@ -852,6 +844,20 @@ void vehicle::handle_trap( const tripoint &p, int part )
             }
         }
     }
+}
+
+bool vehicle::has_harnessed_animal() const
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_pet( e );
+            if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void vehicle::autodrive( int x, int y )

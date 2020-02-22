@@ -32,7 +32,7 @@
     "type": "GENERIC",
     "id": "FlatCoin",
     "name": "FlatCoin",
-    "description": "This is a coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlayed with a handwritten emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
+    "description": "This is a coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a handwritten emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
     "price": 5,
     "price_postapoc": 320,
     "weight": "18 g",

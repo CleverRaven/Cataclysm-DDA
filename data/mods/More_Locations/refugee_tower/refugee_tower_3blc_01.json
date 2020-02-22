@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "refugee_tower_3blc",
-    "comment": "bottom left corner, third and odd level floors.",
+    "//": "bottom left corner, third and odd level floors.",
     "weight": 250,
     "method": "json",
     "object": {

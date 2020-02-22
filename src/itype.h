@@ -36,8 +36,6 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-using itype_id = std::string;
-
 class gun_modifier_data
 {
     private:
@@ -162,6 +160,9 @@ struct islot_comestible {
         float specific_heat_liquid = 4.186;
         float specific_heat_solid = 2.108;
         float latent_heat = 333;
+
+        /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
+        int monotony_penalty = 2;
 
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
@@ -588,6 +589,12 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
 
+    /** Increases base gun UPS consumption by this value per shot */
+    int ups_charges_modifier = 0;
+
+    /** Increases gun weight by this many times */
+    float weight_multiplier = 1.0f;
+
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
 
@@ -828,7 +835,7 @@ struct itype {
         bool stackable_ = false;
 
         /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // @todo create and use a MinMax class or similar to put both values into one object.
+        // TODO: create and use a MinMax class or similar to put both values into one object.
         /// @{
         int damage_min_ = -1000;
         int damage_max_ = +4000;
@@ -856,8 +863,12 @@ struct itype {
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
+        // What item this item repairs like if it doesn't have a recipe
+        itype_id repairs_like;
+
         std::string snippet_category;
         translation description; // Flavor text
+        std::vector<std::string> ascii_picture;
 
         // The container it comes in
         cata::optional<itype_id> default_container;
@@ -961,6 +972,9 @@ struct itype {
 
         /** What items can be used to repair this item? @see Item_factory::finalize */
         std::set<itype_id> repair;
+
+        /** What recipes can make this item */
+        std::vector<recipe_id> recipes;
 
         /** What faults (if any) can occur */
         std::set<fault_id> faults;

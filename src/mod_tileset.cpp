@@ -24,6 +24,11 @@ void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::
     for( const std::string &compatible_tileset_id : compatibility ) {
         all_mod_tilesets.back().add_compatible_tileset( compatible_tileset_id );
     }
+    if( jsobj.has_member( "tiles-new" ) ) {
+        // tiles-new is read when initializing graphics, inside `tileset_loader::load`.
+        // calling get_array here to suppress warnings in the unit test.
+        jsobj.get_array( "tiles-new" );
+    }
 }
 
 void reset_mod_tileset()

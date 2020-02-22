@@ -230,7 +230,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
-    "dynamic_line": "Jesse and her family live up at the horse farm. Her husband, Carlos, may have some jobs for you.",
+    "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -327,7 +327,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Thanks.  Here's your reward.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the jars went..."
+      "failure": "I wonder where all the jars went…"
     }
   },
   {
@@ -359,7 +359,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Thanks.  Here's your reward.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the seeds went..."
+      "failure": "I wonder where all the seeds went…"
     }
   }
 ]

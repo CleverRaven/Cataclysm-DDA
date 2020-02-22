@@ -1,5 +1,5 @@
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <list>
 #include <memory>
 #include <string>
@@ -15,6 +15,7 @@
 #include "pimpl.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 static void clear_bionics( player &p )
 {
@@ -63,7 +64,7 @@ static void give_and_activate( player &p, bionic_id const &bioid )
 static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
                                      bool when_max )
 {
-    item it = item( itemname, 0, 0 ) ;
+    item it = item( itemname, 0, 0 );
 
     INFO( "\'" + it.tname() + "\' is count-by-charges" );
     CHECK( it.count_by_charges() );
@@ -80,7 +81,7 @@ static void test_consumable_charges( player &p, std::string &itemname, bool when
 static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
                                   bool when_full )
 {
-    item it = item( itemname, 0, 0 ) ;
+    item it = item( itemname, 0, 0 );
 
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
@@ -102,14 +103,14 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     INFO( "no power capacity at first" );
     CHECK( !dummy.has_max_power() );
 
-    dummy.add_bionic( bionic_id( "bio_power_storage" ) );
+    dummy.add_bionic( bio_power_storage );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_advreactor" ) {
-        give_and_activate( dummy, bionic_id( "bio_advreactor" ) );
+        give_and_activate( dummy, bio_advreactor );
 
         static const std::list<std::string> always = {
             "plut_cell",  // solid
@@ -129,7 +130,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     }
 
     SECTION( "bio_batteries" ) {
-        give_and_activate( dummy, bionic_id( "bio_batteries" ) );
+        give_and_activate( dummy, bio_batteries );
 
         static const std::list<std::string> always = {
             "battery" // old-school

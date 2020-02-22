@@ -1,6 +1,6 @@
 #include "npctrade.h"
 
-#include <limits.h>
+#include <climits>
 #include <cstdlib>
 #include <algorithm>
 #include <string>
@@ -31,8 +31,7 @@
 #include "type_id.h"
 #include "faction.h"
 #include "pimpl.h"
-
-static const skill_id skill_barter( "barter" );
+#include "cata_string_consts.h"
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
@@ -63,9 +62,6 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         if( ip.loc.where() == item_location::type::character ) {
-            if( gift.typeId() == giver.weapon.typeId() ) {
-                giver.remove_weapon();
-            }
             if( ip.charges > 0 ) {
                 giver.use_charges( gift.typeId(), charges );
             } else if( ip.count > 0 ) {
@@ -74,6 +70,11 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
                 }
             }
         } else {
+            if( ip.charges > 0 ) {
+                ip.loc.get_item()->set_var( "trade_charges", charges );
+            } else {
+                ip.loc.get_item()->set_var( "trade_amount", 1 );
+            }
             from_map.push_back( &ip.loc );
         }
     }
@@ -89,14 +90,14 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
         }
     }
 
     if(
         np.will_exchange_items_freely() &&
         !np.weapon.is_null() &&
-        !np.weapon.has_flag( "NO_UNWIELD" )
+        !np.weapon.has_flag( flag_NO_UNWIELD )
     ) {
         result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
     }
@@ -170,7 +171,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &i->front() ), i->size() );
     }
 
-    if( !seller.weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( !seller.weapon.has_flag( flag_NO_UNWIELD ) ) {
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
@@ -611,7 +612,23 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
-            loc_ptr->remove_item();
+            if( !loc_ptr ) {
+                continue;
+            }
+            item *it = loc_ptr->get_item();
+            if( !it ) {
+                continue;
+            }
+            if( it->has_var( "trade_charges" ) && it->count_by_charges() ) {
+                it->charges -= static_cast<int>( it->get_var( "trade_charges", 0 ) );
+                if( it->charges <= 0 ) {
+                    loc_ptr->remove_item();
+                } else {
+                    it->erase_var( "trade_charges" );
+                }
+            } else if( it->has_var( "trade_amount" ) ) {
+                loc_ptr->remove_item();
+            }
         }
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts

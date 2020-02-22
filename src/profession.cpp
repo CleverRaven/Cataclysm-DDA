@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "json.h"
 #include "mtype.h"
+#include "options.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"
@@ -22,6 +23,7 @@
 #include "item.h"
 #include "flat_set.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -37,17 +39,18 @@ static class json_item_substitution
         void check_consistency();
 
     private:
-        void do_load( const JsonObject &jo );
-
         struct trait_requirements {
-            static trait_requirements load( JsonArray &arr );
-            std::vector<trait_id> present, absent;
+            trait_requirements( const JsonObject &obj );
+            trait_requirements() = default;
+            std::vector<trait_id> present;
+            std::vector<trait_id> absent;
             bool meets_condition( const std::vector<trait_id> &traits ) const;
         };
         struct substitution {
             trait_requirements trait_reqs;
             struct info {
-                static info load( JsonArray &arr );
+                info( const JsonValue &value );
+                info() = default;
                 itype_id new_item;
                 double ratio = 1.0; // new charges / old charges
             };
@@ -127,11 +130,11 @@ class item_reader : public generic_typed_reader<item_reader>
             // either a plain item type id string, or an array with item type id
             // and as second entry the item description.
             if( jin.test_string() ) {
-                return profession::itypedec( jin.get_string(), "" );
+                return profession::itypedec( jin.get_string() );
             }
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
-            const auto snippet = jarr.get_string( 1 );
+            const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -196,19 +199,19 @@ void profession::load( const JsonObject &jo, const std::string & )
             optional( items_obj, was_loaded, "both", legacy_starting_items, item_reader {} );
         }
         if( items_obj.has_object( "both" ) ) {
-            _starting_items = item_group::load_item_group( *items_obj.get_raw( "both" ), "collection" );
+            _starting_items = item_group::load_item_group( items_obj.get_member( "both" ), "collection" );
         }
         if( items_obj.has_array( "male" ) ) {
             optional( items_obj, was_loaded, "male", legacy_starting_items_male, item_reader {} );
         }
         if( items_obj.has_object( "male" ) ) {
-            _starting_items_male = item_group::load_item_group( *items_obj.get_raw( "male" ), "collection" );
+            _starting_items_male = item_group::load_item_group( items_obj.get_member( "male" ), "collection" );
         }
         if( items_obj.has_array( "female" ) ) {
             optional( items_obj, was_loaded, "female",  legacy_starting_items_female, item_reader {} );
         }
         if( items_obj.has_object( "female" ) ) {
-            _starting_items_female = item_group::load_item_group( *items_obj.get_raw( "female" ),
+            _starting_items_female = item_group::load_item_group( items_obj.get_member( "female" ),
                                      "collection" );
         }
     }
@@ -252,15 +255,14 @@ void profession::check_item_definitions( const itypedecvec &items ) const
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id );
-        } else if( !itd.snippet_id.empty() ) {
+        } else if( !itd.snip_id.is_null() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
                           id.str(), itd.type_id );
             } else {
-                if( !SNIPPET.get_snippet_by_id( itd.snippet_id ).has_value() ) {
-                    debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
-                              id.str(), itd.snippet_id, itd.type_id, type->snippet_category );
+                if( !itd.snip_id.is_valid() ) {
+                    debugmsg( "profession %s: there's no snippet with id %s", id.str(), itd.snip_id.str() );
                 }
             }
         }
@@ -337,9 +339,25 @@ std::string profession::description( bool male ) const
     }
 }
 
+static time_point advanced_spawn_time()
+{
+    const int initial_days = get_option<int>( "INITIAL_DAY" );
+    return calendar::before_time_starts + 1_days * initial_days;
+}
+
 signed int profession::point_cost() const
 {
     return _point_cost;
+}
+
+static void clear_faults( item &it )
+{
+    if( it.get_var( "dirt", 0 ) > 0 ) {
+        it.set_var( "dirt", 0 );
+    }
+    if( it.is_faulty() ) {
+        it.faults.clear();
+    }
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
@@ -347,9 +365,9 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     std::list<item> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            item it( elem.type_id, 0, item::default_charges_tag {} );
-            if( !elem.snippet_id.empty() ) {
-                it.set_snippet( elem.snippet_id );
+            item it( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
+            if( !elem.snip_id.is_null() ) {
+                it.set_snippet( elem.snip_id );
             }
             it = it.in_its_container();
             result.push_back( it );
@@ -359,16 +377,17 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items );
+    const std::vector<item> group_both = item_group::items_from( _starting_items,
+                                         advanced_spawn_time() );
     const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female );
+                                           _starting_items_female, advanced_spawn_time() );
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item( elem, 0, item::default_charges_tag {} ) );
+            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
@@ -381,7 +400,11 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        if( it.has_flag( "VARSIZE" ) ) {
+        clear_faults( it );
+        if( it.is_holster() && it.contents.size() == 1 ) {
+            clear_faults( it.contents.front() );
+        }
+        if( it.has_flag( flag_VARSIZE ) ) {
             it.item_tags.insert( "FIT" );
         }
     }
@@ -482,39 +505,31 @@ void json_item_substitution::reset()
     bonuses.clear();
 }
 
-json_item_substitution::substitution::info json_item_substitution::substitution::info::load(
-    JsonArray &arr )
+json_item_substitution::substitution::info::info( const JsonValue &value )
 {
-    json_item_substitution::substitution::info ret;
-    ret.new_item = arr.next_string();
-    if( arr.test_float() && ( ret.ratio = arr.next_float() ) <= 0.0 ) {
-        arr.throw_error( "Ratio must be positive" );
+    if( value.test_string() ) {
+        new_item = value.get_string();
+    } else {
+        const JsonObject jo = value.get_object();
+        new_item = jo.get_string( "item" );
+        ratio = jo.get_float( "ratio" );
+        if( ratio <= 0.0 ) {
+            jo.throw_error( "Ratio must be positive", "ratio" );
+        }
     }
-    return ret;
 }
 
-json_item_substitution::trait_requirements json_item_substitution::trait_requirements::load(
-    JsonArray &arr )
+json_item_substitution::trait_requirements::trait_requirements( const JsonObject &obj )
 {
-    trait_requirements ret;
-    arr.read_next( ret.present );
-    if( arr.test_array() ) {
-        arr.read_next( ret.absent );
+    for( const std::string line : obj.get_array( "present" ) ) {
+        present.emplace_back( line );
     }
-    return ret;
+    for( const std::string line : obj.get_array( "absent" ) ) {
+        absent.emplace_back( line );
+    }
 }
 
 void json_item_substitution::load( const JsonObject &jo )
-{
-    if( !jo.has_array( "substitutions" ) ) {
-        jo.throw_error( "No `substitutions` array found." );
-    }
-    for( JsonObject subobj : jo.get_array( "substitutions" ) ) {
-        do_load( subobj );
-    }
-}
-
-void json_item_substitution::do_load( const JsonObject &jo )
 {
     const bool item_mode = jo.has_string( "item" );
     const std::string title = jo.get_string( item_mode ? "item" : "trait" );
@@ -530,32 +545,33 @@ void json_item_substitution::do_load( const JsonObject &jo )
         jo.throw_error( "Duplicate definition of item" );
     }
 
-    if( jo.has_array( "bonus" ) ) {
-        if( !item_mode ) {
-            jo.throw_error( "Bonuses can only be used in item mode" );
+    if( item_mode ) {
+        if( jo.has_member( "bonus" ) ) {
+            bonuses.emplace_back( title, trait_requirements( jo.get_object( "bonus" ) ) );
         }
-        JsonArray arr = jo.get_array( "bonus" );
-        bonuses.emplace_back( title, trait_requirements::load( arr ) );
-    } else if( !jo.has_array( "sub" ) ) {
-        jo.throw_error( "Missing sub array" );
-    }
 
-    for( JsonArray line : jo.get_array( "sub" ) ) {
-        substitution s;
-        const itype_id old_it = item_mode ? title : line.next_string();
-        if( item_mode ) {
-            s.trait_reqs = trait_requirements::load( line );
-        } else {
+        for( const JsonValue sub : jo.get_array( "sub" ) ) {
+            substitution s;
+            JsonObject obj = sub.get_object();
+            s.trait_reqs = trait_requirements( obj );
+            for( const JsonValue info : obj.get_array( "new" ) ) {
+                s.infos.emplace_back( info );
+            }
+            substitutions[title].push_back( s );
+        }
+    } else {
+        for( const JsonObject sub : jo.get_array( "sub" ) ) {
+            substitution s;
+            const itype_id old_it = sub.get_string( "item" );
             if( check_duplicate_item( old_it ) ) {
-                line.throw_error( "Duplicate definition of item" );
+                sub.throw_error( "Duplicate definition of item" );
             }
             s.trait_reqs.present.push_back( trait_id( title ) );
+            for( const JsonValue info : sub.get_array( "new" ) ) {
+                s.infos.emplace_back( info );
+            }
+            substitutions[old_it].push_back( s );
         }
-        // Error if the array doesn't have at least one new_item
-        do {
-            s.infos.push_back( substitution::info::load( line ) );
-        } while( line.has_more() );
-        substitutions[old_it].push_back( s );
     }
 }
 
@@ -628,7 +644,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        item result( inf.new_item );
+        item result( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {

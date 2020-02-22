@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "type_id.h"
 #include "clone_ptr.h"
 #include "units.h"
 
@@ -17,7 +18,6 @@ class monster;
 template<typename T> class ret_val;
 struct iteminfo;
 
-using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -57,6 +57,7 @@ class iuse
         int flusleep( player *, item *, bool, const tripoint & );
         int inhaler( player *, item *, bool, const tripoint & );
         int blech( player *, item *, bool, const tripoint & );
+        int blech_because_unclean( player *, item *, bool, const tripoint & );
         int plantblech( player *, item *, bool, const tripoint & );
         int chew( player *, item *, bool, const tripoint & );
         int purifier( player *, item *, bool, const tripoint & );
@@ -174,7 +175,6 @@ class iuse
         int gun_repair( player *, item *, bool, const tripoint & );
         int gunmod_attach( player *, item *, bool, const tripoint & );
         int toolmod_attach( player *, item *, bool, const tripoint & );
-        int misc_repair( player *, item *, bool, const tripoint & );
         int rm13armor_off( player *, item *, bool, const tripoint & );
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );
@@ -203,7 +203,7 @@ class iuse
         int weak_antibiotic( player *, item *, bool, const tripoint & );
         int strong_antibiotic( player *, item *, bool, const tripoint & );
         int panacea( player *, item *, bool, const tripoint & );
-        int magnesium_tablet( player *, item *, bool, const tripoint & );
+        int melatonin_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
@@ -250,7 +250,7 @@ struct washing_requirements {
     int cleanser;
     int time;
 };
-washing_requirements washing_requirements_for_volume( units::volume );
+washing_requirements washing_requirements_for_volume( const units::volume & );
 
 using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 
@@ -297,7 +297,7 @@ class iuse_actor
         /**
          * Finalizes the actor. Must be called after all items are loaded.
          */
-        virtual void finalize( const itype_id &/*my_item_type*/ ) { }
+        virtual void finalize( const itype_id & ) { }
 };
 
 struct use_function {

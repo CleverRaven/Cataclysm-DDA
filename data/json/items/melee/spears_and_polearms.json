@@ -1,6 +1,25 @@
 [
   {
     "type": "GENERIC",
+    "id": "pitchfork",
+    "name": "pitchfork",
+    "category": "tools",
+    "description": "An agricultural tool with long wooden shaft and four spikes.  Is used to lift hay.",
+    "weight": "1000 g",
+    "to_hit": 1,
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "steel", "wood" ],
+    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
+    "volume": "1750 ml",
+    "bashing": 5,
+    "cutting": 18,
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "price": 2000
+  },
+  {
+    "type": "GENERIC",
     "id": "pointy_stick",
     "symbol": "/",
     "color": "brown",
@@ -294,8 +313,7 @@
   {
     "type": "GENERIC",
     "id": "naginata",
-    "name": "naginata",
-    "name_plural": "naginata",
+    "name": { "str": "naginata", "str_pl": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
     "weight": "1700 g",
     "to_hit": 2,
@@ -313,8 +331,7 @@
   {
     "type": "GENERIC",
     "id": "naginata_inferior",
-    "name": "naginata",
-    "name_plural": "naginata",
+    "name": { "str": "naginata", "str_pl": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
     "weight": "1700 g",
     "color": "light_gray",
@@ -332,8 +349,7 @@
   {
     "type": "GENERIC",
     "id": "naginata_fake",
-    "name": "naginata",
-    "name_plural": "naginata",
+    "name": { "str": "naginata", "str_pl": "naginata" },
     "description": "This is a dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
     "weight": "1400 g",
     "color": "light_gray",
@@ -350,8 +366,7 @@
   {
     "type": "GENERIC",
     "id": "spear_survivor",
-    "name": "survivor naginata",
-    "name_plural": "survivor naginata",
+    "name": { "str": "survivor naginata", "str_pl": "survivor naginata" },
     "description": "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
     "weight": "1700 g",
     "to_hit": 2,
@@ -485,8 +500,7 @@
   {
     "id": "spear_dory",
     "type": "GENERIC",
-    "name": "dory",
-    "name_plural": "dories",
+    "name": { "str": "dory", "str_pl": "dories" },
     "description": "A well-made spear with a bronze head, Greek in origin.",
     "weight": "1598 g",
     "volume": "3500 ml",
@@ -504,8 +518,7 @@
   {
     "id": "ji",
     "type": "GENERIC",
-    "name": "ji",
-    "name_plural": "ji",
+    "name": { "str": "ji", "str_pl": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
     "weight": "3175 g",

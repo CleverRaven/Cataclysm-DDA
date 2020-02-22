@@ -40,7 +40,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
-    "description": "Connection where wheels can be connected on. This particular one is fit for normal car wheels.",
+    "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt", 1 ] ] },
@@ -69,7 +69,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
-    "description": "Connection where wheels can be connected on. This particular one is fit for large car wheels.",
+    "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_bolt", 1 ] ] },
@@ -310,6 +310,34 @@
     ],
     "rolling_resistance": 29,
     "wheel_type": "rigid",
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
+  },
+  {
+    "id": "wheel_10",
+    "type": "vehicle_part",
+    "name": "wheels",
+    "item": "wheel_10",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "durability": 120,
+    "description": "A set of 10\" wheels with tough rubber tires.",
+    "folded_volume": 10,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 5 ] },
+      { "item": "scrap", "count": [ 1, 5 ] },
+      { "item": "plastic_chunk", "count": [ 1, 5 ] }
+    ],
+    "rolling_resistance": 29,
+    "wheel_type": "off-road",
     "contact_area": 4,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },

@@ -258,7 +258,9 @@
     "id": "DEBUG_spell_mutation",
     "name": "Debug Spell Mutation",
     "points": 20,
+    "valid": false,
     "description": "Gives all of the debug spells at max level.",
+    "debug": true,
     "spells_learned": [ [ "example_template", 10 ], [ "debug_stamina", 0 ], [ "debug_hp", 0 ], [ "debug_bionic", 0 ], [ "debug_effect", 0 ] ]
   }
 ]

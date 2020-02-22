@@ -86,5 +86,66 @@
     "//": "For sale display appropriate packaging",
     "subtype": "distribution",
     "items": [ [ "jar_3l_glass", 100 ], { "item": "weed", "charges": [ 10, 420 ], "prob": 100, "container-item": "jar_3l_glass" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "softdrugs",
+    "items": [
+      [ "bandages", 50 ],
+      [ "cotton_ball", 50 ],
+      [ "1st_aid", 35 ],
+      [ "saline", 25 ],
+      [ "contacts", 10 ],
+      [ "vitamins", 75 ],
+      [ "gummy_vitamins", 25 ],
+      [ "calcium_tablet", 75 ],
+      [ "aspirin", 85 ],
+      [ "caffeine", 25 ],
+      [ "pills_sleep", 15 ],
+      [ "iodine", 5 ],
+      [ "prussian_blue", 5 ],
+      [ "dayquil", 70 ],
+      [ "nyquil", 70 ],
+      [ "disinfectant", 35 ],
+      [ "vaccine_shot", 10 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
+      [ "caff_gum", 10 ],
+      [ "oxygen_tank", 20 ],
+      [ "smoxygen_tank", 5 ],
+      [ "eyedrops", 35 ],
+      [ "shavingkit", 5 ],
+      [ "elec_hairtrimmer", 2 ],
+      [ "nic_gum", 25 ],
+      [ "weak_antibiotic", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "harddrugs",
+    "items": [
+      [ "inhaler", 14 ],
+      [ "codeine", 15 ],
+      [ "oxycodone", 4 ],
+      [ "morphine", 4 ],
+      [ "tramadol", 11 ],
+      [ "xanax", 10 ],
+      [ "adderall", 10 ],
+      [ "thorazine", 7 ],
+      [ "prozac", 10 ],
+      [ "antibiotics", 25 ],
+      [ "strong_antibiotic", 5 ],
+      [ "antifungal", 2 ],
+      [ "antiparasitic", 3 ],
+      [ "survnote", 1 ],
+      [ "diazepam", 4 ],
+      [ "flu_shot", 5 ],
+      [ "syringe", 8 ]
+    ]
   }
 ]

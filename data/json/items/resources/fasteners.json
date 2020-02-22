@@ -81,7 +81,7 @@
     "category": "spare_parts",
     "name": "short plastic zipper",
     "description": "A short zipper made from plastic, usually found on footwear or clothing pockets.",
-    "weight": 4,
+    "weight": "4 g",
     "volume": "4 ml",
     "price": 100,
     "material": [ "plastic", "cotton" ],

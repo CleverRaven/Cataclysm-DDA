@@ -14,7 +14,6 @@
     "sym": "O",
     "color": "red",
     "see_cost": 2,
-    "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -95,7 +94,6 @@
     "sym": "F",
     "color": "green",
     "see_cost": 3,
-    "extras": "field",
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
   },
@@ -187,7 +185,6 @@
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
-    "extras": "field",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -206,7 +203,6 @@
     "sym": "8",
     "color": "yellow",
     "see_cost": 3,
-    "extras": "field",
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
@@ -216,7 +212,6 @@
     "sym": "F",
     "color": "green",
     "see_cost": 3,
-    "extras": "field",
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {

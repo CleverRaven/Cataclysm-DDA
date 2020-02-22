@@ -3,7 +3,7 @@
     "type": "material",
     "ident": "sugar",
     "name": "Sugar",
-    "density": 1.54,
+    "density": 1,
     "specific_heat_liquid": 2.03,
     "specific_heat_solid": 2.03,
     "latent_heat": 57,

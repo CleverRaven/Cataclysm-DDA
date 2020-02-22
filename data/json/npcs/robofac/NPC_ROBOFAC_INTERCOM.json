@@ -9,7 +9,6 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_ROBOFAC_INTERCOM",
-    "mission_offered": "MISSION_ROBOFAC_INTERCOM_1",
     "faction": "robofac"
   },
   {
@@ -78,7 +77,7 @@
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
         "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
-        "items": { "@": { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 100 } },
+        "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
         "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
@@ -93,15 +92,15 @@
     "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_2",
     "dialogue": {
-      "describe": "No, I said … [*You hear a short, muffled conversation from across the intercom*]/nWell, it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
-      "offer": "One of our scientists recently left the lab to perform a field test on a prototype robot, but failed to return, and has not been heard of since.  Investigate the test and return with her and the prototype. Failing that, return with the data recorder that was attached to our prototype.",
+      "describe": "…",
+      "offer": "One of our scientists recently left the lab to perform a field test on a prototype robot, but failed to return, and has not been heard of since.  Investigate the test and return with her and the prototype.  Failing that, return with the data recorder that was attached to our prototype.",
       "accepted": "We appreciate your help, good luck.",
       "rejected": "Don't expect our help then.",
       "advice": "If the robot remains operational don’t try to fight it head on, because it WILL kill you.  Dr. Prado left the Hub with a handful of EMP grenades, use those to disable the robot.",
       "inquire": "Don't you have a job to do?",
       "success": "Unfortunate only the data was salvageable, but you have our thanks for returning it nonetheless.",
       "success_lie": "What good does this do us?",
-      "failure": "Simply useless..."
+      "failure": "Simply useless…"
     }
   },
   {
@@ -122,12 +121,10 @@
       "update_mapgen": [
         {
           "om_terrain": "robofachq_surface_b0",
-          "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
         },
         {
           "om_terrain": "robofachq_surface_entrance",
-          "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
         }
       ],
@@ -141,11 +138,11 @@
       "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
       "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
-      "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully...",
+      "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully…",
       "inquire": "Do you have the scan?",
       "success": "You have our thanks and payment.",
       "success_lie": "What good does this do us?",
-      "failure": "Simply useless..."
+      "failure": "Simply useless…"
     }
   },
   {
@@ -180,7 +177,7 @@
       "inquire": "Have you retrieved the blueprints?",
       "success": "You have our thanks and payment.",
       "success_lie": "What good does this do us?",
-      "failure": "Simply useless..."
+      "failure": "Simply useless…"
     }
   },
   {
@@ -191,7 +188,29 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "yes": "So, do you need something?",
+      "yes": [
+        "So, do you need something?",
+        "Yes, mercenary?",
+        "Mercenary.",
+        "Mercenary.",
+        "Don't you have a mission to do?",
+        "Well?",
+        "Say it.",
+        "Get with it.",
+        "Make it quick.",
+        "Don't loiter.",
+        "Don't do anything stupid.",
+        "Ugh I hate intercom duty…  Wait is the speaker still on?",
+        "Please don't bother us senselessly.",
+        "[Silence]",
+        "[Crackles On]",
+        "[A red LED blinks on]",
+        "[Unintelligible]",
+        "Whats up with the interference in this thing?",
+        "Speak slowly and clearly.  Please.",
+        "Say again?",
+        "If/you speak to/understand… you/me. Yes?"
+      ],
       "no": {
         "u_has_var": "u_met_robofac_intercom",
         "type": "dialogue",
@@ -207,7 +226,17 @@
     },
     "responses": [
       {
-        "text": "So how's it down there?",
+        "text": "Wait!  What??",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PLEAD"
+      },
+      {
+        "text": "You do realize that the front door is just open?",
         "condition": {
           "and": [
             { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
@@ -223,7 +252,17 @@
         "effect": "start_trade"
       },
       {
-        "text": "I came looking for valuables, maybe I can trade with you instead?",
+        "text": "It's the apocalypse out here!  Please let me in!",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PLEAD"
+      },
+      {
+        "text": "I was just looking for valuables, maybe I can trade with you instead?",
         "condition": {
           "and": [
             { "not": { "npc_has_var": "npc_failed_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" } },
@@ -235,16 +274,6 @@
         "trial": { "type": "PERSUADE", "difficulty": 1 },
         "success": { "topic": "TALK_ROBOFAC_INTERCOM_TRADE" },
         "failure": { "topic": "TALK_ROBOFAC_INTERCOM_NO_TRADE" }
-      },
-      {
-        "text": "It's the apocalypse out here!  Please let me in!",
-        "condition": {
-          "and": [
-            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_PLEAD"
       },
       {
         "text": "Any jobs you need done?",
@@ -301,7 +330,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
     "type": "talk_topic",
-    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went…  Shame about what happened, with the evisceration and all...",
+    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went…  Shame about what happened, with the evisceration and all…",
     "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM" } ]
   },
   {
@@ -311,7 +340,7 @@
     "responses": [
       {
         "text": "[ 2 HGC ] Deal!",
-        "condition": { "u_has_item": "RobofacCoin" },
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
           { "u_buy_item": "mask_gas" },
@@ -332,9 +361,46 @@
       {
         "text": "Wait!  Maybe I can help you!",
         "condition": { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } },
-        "topic": "TALK_MISSION_LIST"
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_INTRODUCTION"
       },
       { "text": "Alright, I'll leave", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_INTRODUCTION",
+    "type": "talk_topic",
+    "dynamic_line": "There's nothing you could do for us, now leave before I'm forced to…\n[You hear a short, muffled conversation from across the intercom]\n\nthe intercom: Well, it seems we do have some use for you.  It's a dangerous task, but if you complete it we will allow you limited trading access.",
+    "responses": [
+      { "text": "Tell me about it.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
+      { "text": "I'm not risking myself for a deal that bad.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_OFFER",
+    "type": "talk_topic",
+    "dynamic_line": "One of our scientists recently left the lab to perform a field test on a prototype robot, but failed to return, and has not been heard of since.  Investigate the test and return with her and the prototype.  Failing that, return with the data recorder that was attached to our prototype.",
+    "responses": [
+      {
+        "text": "I'll do it!",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+        "effect": { "add_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+      },
+      { "text": "Not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "You know the deal, good luck.",
+    "responses": [
+      { "text": "Got any advice?", "topic": "MISSION_ROBOFAC_INTERCOM_1_ADVICE" },
+      { "text": "I'll be back soon!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "If the robot remains operational don’t try to fight it head on, because it WILL kill you.  Dr. Prado left the Hub with a handful of EMP grenades, use those to disable the robot.",
+    "responses": [ { "text": "Got it.", "topic": "TALK_DONE" } ]
   }
 ]

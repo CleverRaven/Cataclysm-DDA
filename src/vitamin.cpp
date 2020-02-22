@@ -78,6 +78,10 @@ void vitamin::load_vitamin( const JsonObject &jo )
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
+    for( std::string e : jo.get_array( "flags" ) ) {
+        vit.flags_.insert( e );
+    }
+
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
         jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
     } else {

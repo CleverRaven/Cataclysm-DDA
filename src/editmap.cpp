@@ -50,6 +50,7 @@
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "colony.h"
+#include "cata_string_consts.h"
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
@@ -222,7 +223,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( g->m.furn( p ) > 0 ) {
+                if( g->m.furn( p ).to_i() > 0 ) {
                     const furn_t &furniture_type = g->m.furn( p ).obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
@@ -568,7 +569,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                terrain_type.movecost
              );
     off++; // 2
-    if( g->m.furn( target ) > 0 ) {
+    if( g->m.furn( target ).to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
                    g->m.furn( target ).to_i(),
@@ -642,7 +643,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = g->m.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
+    if( !g->m.has_flag( flag_CONTAINER, target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );
@@ -1003,7 +1004,7 @@ void editmap::edit_feature()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id idx )
+void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx )
 {
     int field_intensity = 1;
     const field_type &ftype = idx.obj();
@@ -1011,13 +1012,13 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
     if( fld != nullptr ) {
         field_intensity = fld->get_field_intensity();
     }
-    fmenu.entries[idx].txt = ftype.get_name( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].txt = ftype.get_name( field_intensity - 1 );
     if( fld != nullptr ) {
-        fmenu.entries[idx].txt += " " + std::string( field_intensity, '*' );
+        fmenu.entries[idx.to_i()].txt += " " + std::string( field_intensity, '*' );
     }
-    fmenu.entries[idx].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
-    fmenu.entries[idx].extratxt.color = ftype.get_color( field_intensity - 1 );
-    fmenu.entries[idx].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
+    fmenu.entries[idx.to_i()].extratxt.color = ftype.get_color( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
@@ -1025,8 +1026,8 @@ void editmap::setup_fmenu( uilist &fmenu )
     fmenu.entries.clear();
     for( int i = 0; i < static_cast<int>( field_type::count() ); i++ ) {
         const field_type_id fid = static_cast<field_type_id>( i );
-        fmenu.addentry( fid, true, -2, "" );
-        fmenu.entries[fid].extratxt.left = 1;
+        fmenu.addentry( fid.to_i(), true, -2, "" );
+        fmenu.entries[fid.to_i()].extratxt.left = 1;
         update_fmenu_entry( fmenu, g->m.get_field( target ), fid );
     }
     if( sel_field >= 0 ) {
@@ -1296,9 +1297,7 @@ void editmap::edit_itm()
     } while( ilmenu.ret != UILIST_CANCEL );
 }
 
-/*
- *  Todo
- */
+// TODO:
 void editmap::edit_critter( Creature &critter )
 {
     if( monster *const mon_ptr = dynamic_cast<monster *>( &critter ) ) {
@@ -1949,8 +1948,9 @@ void editmap::edit_mapgen()
  */
 void editmap::cleartmpmap( tinymap &tmpmap )
 {
-    for( auto &smap : tmpmap.grid ) {
+    for( submap *&smap : tmpmap.grid ) {
         delete smap;
+        smap = nullptr;
     }
 
     auto &ch = tmpmap.get_cache( target.z );

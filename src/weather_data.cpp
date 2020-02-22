@@ -18,7 +18,7 @@ weather_animation_t get_weather_animation( weather_type const type )
     static const std::map<weather_type, weather_animation_t> map {
         {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_light_green, '.'}},
         {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_light_green, ','}},
-        {WEATHER_LIGHT_DRIZZLE, weather_animation_t{0.01f, c_light_green, ','}},
+        {WEATHER_LIGHT_DRIZZLE, weather_animation_t{0.01f, c_light_blue, ','}},
         {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_light_blue,  '.'}},
         {WEATHER_RAINY,        weather_animation_t {0.02f, c_light_blue,  ','}},
         {WEATHER_THUNDER,      weather_animation_t {0.02f, c_light_blue,  '.'}},
@@ -47,7 +47,7 @@ static weather_result weather_data_internal( weather_type const type )
      * light modifier, sound attenuation, warn player?
      * Note light modifier assumes baseline of default_daylight_level() at 60
      */
-    // @todo but it actually isn't 60, it's 100. Fix this comment or fix the value
+    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value
     static const std::array<weather_datum, NUM_WEATHER_TYPES> data {{
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta, c_magenta_red,

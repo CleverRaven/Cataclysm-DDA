@@ -55,7 +55,7 @@
         "#": "f_counter",
         "%": "f_sink",
         "R": "f_rack",
-        "r": "f_rack",
+        "r": "f_warehouse_shelf",
         "O": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
         "o": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
         "X": "f_safe_l",

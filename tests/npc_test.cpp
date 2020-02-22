@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <memory>
 #include <set>
@@ -29,6 +29,9 @@
 #include "type_id.h"
 #include "point.h"
 #include "memory_fast.h"
+
+#include "player_helpers.h"
+#include "cata_string_consts.h"
 
 class Creature;
 
@@ -306,8 +309,6 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
-    const vpart_id vpart_frame_vertical( "frame_vertical" );
-    const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
@@ -381,9 +382,9 @@ TEST_CASE( "npc-movement" )
                 REQUIRE( g->m.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
+                REQUIRE( g->m.has_flag( flag_UNSTABLE, p ) );
             } else {
-                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
+                REQUIRE( !g->m.has_flag( flag_UNSTABLE, p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
@@ -434,26 +435,14 @@ TEST_CASE( "npc_can_target_player" )
     clear_npcs();
     clear_creatures();
 
-    const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
-        const string_id<npc_template> test_guy( npc_class );
-        const character_id model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
-        g->load_npcs();
-
-        npc *guy = g->find_npc( model_id );
-        REQUIRE( guy != nullptr );
-        CHECK( !guy->in_vehicle );
-        guy->setpos( g->u.pos() + point( x, y ) );
-        return guy;
-    };
-
-    npc *hostile = spawn_npc( 0, 1, "thug" );
-    REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
-    hostile->set_attitude( NPCATT_KILL );
-    hostile->name = "Enemy NPC";
+    npc &hostile = spawn_npc( g->u.pos().xy() + point_south, "thug" );
+    REQUIRE( rl_dist( g->u.pos(), hostile.pos() ) <= 1 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
 
     INFO( get_list_of_npcs( "NPCs after spawning one" ) );
 
-    hostile->regen_ai_cache();
-    REQUIRE( hostile->current_target() != nullptr );
-    CHECK( hostile->current_target() == static_cast<Creature *>( &g->u ) );
+    hostile.regen_ai_cache();
+    REQUIRE( hostile.current_target() != nullptr );
+    CHECK( hostile.current_target() == static_cast<Creature *>( &g->u ) );
 }
