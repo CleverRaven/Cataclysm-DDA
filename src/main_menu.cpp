@@ -256,10 +256,6 @@ void main_menu::init_windows()
         return;
     }
 
-    w_background = catacurses::newwin( TERMY, TERMX, point_zero );
-    werase( w_background );
-    wrefresh( w_background );
-
     // main window should also expand to use available display space.
     // expanding to evenly use up half of extra space, for now.
     extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
@@ -468,6 +464,16 @@ bool main_menu::opening_screen()
         sel1 = 2;
     }
 
+    ui_adaptor background;
+    background.on_redraw( []( const ui_adaptor & ) {
+        catacurses::erase();
+        catacurses::refresh();
+    } );
+    background.on_screen_resize( []( ui_adaptor & background ) {
+        background.position_from_window( catacurses::stdscr );
+    } );
+    background.position_from_window( catacurses::stdscr );
+
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         print_menu( w_open, sel1, menu_offset );
@@ -513,9 +519,9 @@ bool main_menu::opening_screen()
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         init_windows();
-        ui.position_from_window( w_background );
+        ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_background );
+    ui.position_from_window( w_open );
 
     while( !start ) {
         // disable ime at program start
@@ -761,9 +767,9 @@ bool main_menu::new_character_tab()
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         init_windows();
-        ui.position_from_window( w_background );
+        ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_background );
+    ui.position_from_window( w_open );
 
     bool start = false;
     while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
@@ -1018,9 +1024,9 @@ bool main_menu::load_character_tab( bool transfer )
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         init_windows();
-        ui.position_from_window( w_background );
+        ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_background );
+    ui.position_from_window( w_open );
 
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
         ui_manager::redraw();
@@ -1180,9 +1186,9 @@ void main_menu::world_tab()
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         init_windows();
-        ui.position_from_window( w_background );
+        ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_background );
+    ui.position_from_window( w_open );
 
     while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
         ui_manager::redraw();

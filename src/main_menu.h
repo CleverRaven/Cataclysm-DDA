@@ -71,7 +71,6 @@ class main_menu
         int layer = 1;
         point LAST_TERM;
         catacurses::window w_open;
-        catacurses::window w_background;
         point menu_offset;
         std::vector<std::string> templates;
         int extra_w = 0;
