@@ -1128,7 +1128,7 @@ void player::pause()
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
-                practice( skill_id( "driving" ), experience );
+                practice( skill_driving, experience );
                 break;
             }
         }
@@ -1186,7 +1186,7 @@ int player::talk_skill() const
     /** @EFFECT_PER slightly increases talking skill */
 
     /** @EFFECT_SPEECH increases talking skill */
-    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
+    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
     return ret;
 }
 
@@ -4906,7 +4906,7 @@ nc_color encumb_color( int level )
 
 float player::get_melee() const
 {
-    return get_skill_level( skill_id( "melee" ) );
+    return get_skill_level( skill_melee );
 }
 
 bool player::uncanny_dodge()

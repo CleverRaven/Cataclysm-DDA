@@ -63,7 +63,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         return item( null_item_id, birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
-        tmp.item_tags.insert( "FIT" );
+        tmp.item_tags.insert( flag_FIT );
     }
     if( modifier ) {
         modifier->modify( tmp );

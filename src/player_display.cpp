@@ -242,8 +242,8 @@ static bool is_cqb_skill( const skill_id &id )
     // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
     // by the bionic?
     static const std::array<skill_id, 5> cqb_skills = { {
-            skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
-            skill_id( "bashing" ), skill_id( "stabbing" ),
+            skill_melee, skill_unarmed, skill_cutting,
+            skill_bashing, skill_stabbing,
         }
     };
     return std::find( cqb_skills.begin(), cqb_skills.end(), id ) != cqb_skills.end();

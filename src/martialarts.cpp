@@ -256,7 +256,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
         skill_level = stoi( skill_level_string );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
-    optional( jo, was_loaded, "primary_skill", primary_skill, skill_id( "unarmed" ) );
+    optional( jo, was_loaded, "primary_skill", primary_skill, skill_unarmed );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );

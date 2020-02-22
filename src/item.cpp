@@ -196,7 +196,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( type->gun ) {
         for( const std::string &mod : type->gun->built_in_mods ) {
-            emplace_back( mod, turn, qty ).item_tags.insert( "IRREMOVABLE" );
+            emplace_back( mod, turn, qty ).item_tags.insert( flag_IRREMOVABLE );
         }
         for( const std::string &mod : type->gun->default_mods ) {
             emplace_back( mod, turn, qty );
@@ -316,7 +316,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
     if( result.corpse->has_flag( MF_REVIVES ) ) {
         if( one_in( 20 ) ) {
-            result.item_tags.insert( "REVIVE_SPECIAL" );
+            result.item_tags.insert( flag_REVIVE_SPECIAL );
         }
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
@@ -427,8 +427,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         ammo_unset();
         emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            contents.back().item_tags.insert( "NO_DROP" );
-            contents.back().item_tags.insert( "IRREMOVABLE" );
+            contents.back().item_tags.insert( flag_NO_DROP );
+            contents.back().item_tags.insert( flag_IRREMOVABLE );
         }
 
     } else if( magazine_integral() ) {
@@ -3462,7 +3462,7 @@ nc_color item::color_in_inventory() const
     } else if( is_armor() && u.has_trait( trait_WOOLALLERGY ) &&
                ( made_of( material_wool ) || item_tags.count( flag_wooled ) ) ) {
         ret = c_red;
-    } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
+    } else if( is_filthy() || item_tags.count( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
         if( !u.has_bionic( type->bionic->id ) ) {
@@ -3917,7 +3917,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
-        if( item_tags.count( "DIRTY" ) ) {
+        if( item_tags.count( flag_DIRTY ) ) {
             tagtext += _( " (dirty)" );
         } else if( rotten() ) {
             tagtext += _( " (rotten)" );
@@ -4886,7 +4886,7 @@ void item::calc_rot( time_point time, int temp )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
+    if( item_tags.count( flag_FROZEN ) ) {
         last_rot_check = time;
         return;
     }
@@ -4895,11 +4895,11 @@ void item::calc_rot( time_point time, int temp )
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
         factor = 0.75;
     }
-    if( item_tags.count( "MUSHY" ) ) {
+    if( item_tags.count( flag_MUSHY ) ) {
         factor = 3.0;
     }
 
-    if( item_tags.count( "COLD" ) ) {
+    if( item_tags.count( flag_COLD ) ) {
         temp = temperatures::fridge;
     }
 
@@ -4919,7 +4919,7 @@ void item::calc_rot( time_point time, int temp )
 
 void item::calc_rot_while_processing( time_duration processing_duration )
 {
-    if( !item_tags.count( "PROCESSING" ) ) {
+    if( !item_tags.count( flag_PROCESSING ) ) {
         debugmsg( "calc_rot_while_processing called on non smoking item: %s", tname() );
         return;
     }
@@ -7786,31 +7786,31 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( item_tags.count( flag_FROZEN ) ) {
+        item_tags.erase( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( item_tags.count( flag_COLD ) ) {
+        item_tags.erase( flag_COLD );
+    } else if( item_tags.count( flag_HOT ) ) {
+        item_tags.erase( flag_HOT );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        item_tags.insert( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        item_tags.insert( flag_FROZEN );
         current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
+            if( !( item_tags.count( flag_NO_PARASITES ) ) ) {
+                item_tags.insert( flag_NO_PARASITES );
             }
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        item_tags.insert( flag_COLD );
     }
     temperature = lround( 100000 * new_item_temperature );
     specific_energy = lround( 100000 * new_specific_energy );
@@ -7863,31 +7863,31 @@ void item::set_item_temperature( float new_temperature )
         freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( item_tags.count( flag_FROZEN ) ) {
+        item_tags.erase( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( item_tags.count( flag_COLD ) ) {
+        item_tags.erase( flag_COLD );
+    } else if( item_tags.count( flag_HOT ) ) {
+        item_tags.erase( flag_HOT );
     }
     if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        item_tags.insert( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        item_tags.insert( flag_FROZEN );
         current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
+            if( !( item_tags.count( flag_NO_PARASITES ) ) ) {
+                item_tags.insert( flag_NO_PARASITES );
             }
         }
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        item_tags.insert( flag_COLD );
     }
     reset_temp_check();
 }
@@ -8245,8 +8245,8 @@ void item::apply_freezerburn()
     if( !has_flag( flag_FREEZERBURN ) ) {
         return;
     }
-    if( !item_tags.count( "MUSHY" ) ) {
-        item_tags.insert( "MUSHY" );
+    if( !item_tags.count( flag_MUSHY ) ) {
+        item_tags.insert( flag_MUSHY );
     }
 }
 
@@ -8548,31 +8548,31 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     // Warm = over temperatures::warm
     // Cold = below temperatures::cold
     // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
+    if( item_tags.count( flag_FROZEN ) ) {
+        item_tags.erase( flag_FROZEN );
         if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
         }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
+    } else if( item_tags.count( flag_COLD ) ) {
+        item_tags.erase( flag_COLD );
+    } else if( item_tags.count( flag_HOT ) ) {
+        item_tags.erase( flag_HOT );
     }
     if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
+        item_tags.insert( flag_HOT );
     } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
+        item_tags.insert( flag_FROZEN );
         current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
+            if( !( item_tags.count( flag_NO_PARASITES ) ) ) {
+                item_tags.insert( flag_NO_PARASITES );
             }
         }
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
+        item_tags.insert( flag_COLD );
     }
     temperature = lround( 100000 * new_item_temperature );
     specific_energy = lround( 100000 * new_specific_energy );
@@ -8588,9 +8588,9 @@ float item::get_item_thermal_energy()
 
 void item::heat_up()
 {
-    item_tags.erase( "COLD" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "HOT" );
+    item_tags.erase( flag_COLD );
+    item_tags.erase( flag_FROZEN );
+    item_tags.insert( flag_HOT );
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
@@ -8602,9 +8602,9 @@ void item::heat_up()
 
 void item::cold_up()
 {
-    item_tags.erase( "HOT" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "COLD" );
+    item_tags.erase( flag_HOT );
+    item_tags.erase( flag_FROZEN );
+    item_tags.insert( flag_COLD );
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
@@ -8998,7 +8998,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
         if( is_tool() && type->tool->revert_to ) {
             convert( *type->tool->revert_to );
         }
-        item_tags.erase( "WET" );
+        item_tags.erase( flag_WET );
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
@@ -9447,8 +9447,8 @@ bool item::on_drop( const tripoint &pos, map &m )
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
     if( made_of_from_type( LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
-        !item_tags.count( "DIRTY" ) ) {
-        item_tags.insert( "DIRTY" );
+        !item_tags.count( flag_DIRTY ) ) {
+        item_tags.insert( flag_DIRTY );
     }
 
     g->u.flag_encumbrance();

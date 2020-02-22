@@ -3774,7 +3774,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 {
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + p->get_skill_level( skill_id( "fabrication" ) ), 1 );
+    int planks = normal_roll( 2 + p->get_skill_level( skill_fabrication ), 1 );
     int wasted_planks = max_planks - planks;
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
@@ -4160,7 +4160,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const int computer_skill = p->get_skill_level( skill_id( "computer" ) );
+    const int computer_skill = p->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, p->int_cur ) + computer_skill;
     float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -4180,7 +4180,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         //damage it a little
         z->apply_damage( p, bp_torso, rng( 1, 10 ) );
         if( z->is_dead() ) {
-            p->practice( skill_id( "computer" ), 10 );
+            p->practice( skill_computer, 10 );
             // Do not do the other effects if the robot died
             return;
         }
@@ -4568,7 +4568,7 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        p->practice( skill_id( "spellcraft" ), total_exp_gained,
+        p->practice( skill_spellcraft, total_exp_gained,
                      p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );

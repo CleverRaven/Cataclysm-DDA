@@ -270,7 +270,7 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
     if( it.has_flag( flag_FIT ) ) {
-        dummy.item_tags.insert( "FIT" );
+        dummy.item_tags.insert( flag_FIT );
     }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
@@ -1556,7 +1556,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
-                result.item_tags.insert( "FILTHY" );
+                result.item_tags.insert( flag_FILTHY );
             }
             if( cut_type == item_location::type::character ) {
                 p.i_add_or_drop( result, amount );
@@ -3346,7 +3346,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             if( !fix->has_flag( flag_FIT ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
-                fix->item_tags.insert( "FIT" );
+                fix->item_tags.insert( flag_FIT );
             }
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
@@ -3360,7 +3360,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                   fix->tname().c_str() );
-            fix->item_tags.insert( "UNDERSIZE" );
+            fix->item_tags.insert( flag_UNDERSIZE );
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -3372,7 +3372,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                   fix->tname().c_str() );
-            fix->item_tags.erase( "UNDERSIZE" );
+            fix->item_tags.erase( flag_UNDERSIZE );
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -4013,7 +4013,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     const auto &data = bury ? buried_data : unburied_data;
 
     p.add_msg_if_player( m_info, _( data.done_message ), distance_to_trap_center );
-    p.practice( skill_id( "traps" ), data.practice );
+    p.practice( skill_traps, data.practice );
     p.mod_moves( -data.moves );
 
     place_and_add_as_known( p, pos, data.trap );

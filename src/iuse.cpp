@@ -167,12 +167,12 @@ void remove_radio_mod( item &it, player &p )
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
     item mod( "radio_mod" );
     p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "RADIO_ACTIVATION" );
-    it.item_tags.erase( "RADIO_MOD" );
-    it.item_tags.erase( "RADIOSIGNAL_1" );
-    it.item_tags.erase( "RADIOSIGNAL_2" );
-    it.item_tags.erase( "RADIOSIGNAL_3" );
-    it.item_tags.erase( "RADIOCARITEM" );
+    it.item_tags.erase( flag_RADIO_ACTIVATION );
+    it.item_tags.erase( flag_RADIO_MOD );
+    it.item_tags.erase( flag_RADIOSIGNAL_1 );
+    it.item_tags.erase( flag_RADIOSIGNAL_2 );
+    it.item_tags.erase( flag_RADIOSIGNAL_3 );
+    it.item_tags.erase( flag_RADIOCARITEM );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
@@ -1508,9 +1508,9 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
         modded.tname(), colorname );
-    modded.item_tags.insert( "RADIO_ACTIVATION" );
-    modded.item_tags.insert( "RADIOCARITEM" );
-    modded.item_tags.insert( "RADIO_MOD" );
+    modded.item_tags.insert( flag_RADIO_ACTIVATION );
+    modded.item_tags.insert( flag_RADIOCARITEM );
+    modded.item_tags.insert( flag_RADIO_MOD );
     modded.item_tags.insert( newtag );
     return 1;
 }
@@ -5421,7 +5421,7 @@ static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
-        return food && !food->item_tags.count( "HOT" );
+        return food && !food->item_tags.count( flag_HOT );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5434,7 +5434,7 @@ static bool heat_item( player &p )
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
     int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
-    if( target->item_tags.count( "FROZEN" ) && !target->has_flag( flag_EATEN_COLD ) ) {
+    if( target->item_tags.count( flag_FROZEN ) && !target->has_flag( flag_EATEN_COLD ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
@@ -5564,7 +5564,7 @@ int iuse::towel_common( player *p, item *it, bool t )
             }
 
             // WET, active items have their timer decremented every turn
-            it->item_tags.insert( "WET" );
+            it->item_tags.insert( flag_WET );
             it->active = true;
         }
     }
@@ -6067,7 +6067,7 @@ static void init_memory_card_with_random_stuff( item &it )
                                            it.has_flag( flag_MC_SCIENCE_STUFF ) ) && !( it.has_flag( flag_MC_USED ) ||
                                                    it.has_flag( flag_MC_HAS_DATA ) ) ) {
 
-        it.item_tags.insert( "MC_HAS_DATA" );
+        it.item_tags.insert( flag_MC_HAS_DATA );
 
         bool encrypted = false;
 
@@ -7694,7 +7694,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( "mobile_memory_card" );
         mc.clear_vars();
         mc.unset_flags();
-        mc.item_tags.insert( "MC_HAS_DATA" );
+        mc.item_tags.insert( flag_MC_HAS_DATA );
 
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
@@ -7713,7 +7713,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
 
         if( g->m.has_flag( flag_SWIMMABLE, pos.xy() ) ) {
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->item_tags.erase( flag_NO_UNWIELD );
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
@@ -7723,7 +7723,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( it->charges == 0 ) {
 
             sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->item_tags.erase( flag_NO_UNWIELD );
             it->active = false;
 
             if( p->has_item( *it ) && p->weapon.typeId() == "e_handcuffs" ) {
@@ -7738,7 +7738,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 one_in( 5 ) ) {
                 p->mod_power_level( -2_kJ );
 
-                it->item_tags.erase( "NO_UNWIELD" );
+                it->item_tags.erase( flag_NO_UNWIELD );
                 it->ammo_unset();
                 it->active = false;
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),

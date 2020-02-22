@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "item.h"
 #include "ret_val.h"
+#include "cata_string_consts.h"
 
 struct tripoint;
 
@@ -130,7 +131,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( item_tags.count( "CAN_HAVE_CHARGES" ) ) {
+    if( item_tags.count( flag_CAN_HAVE_CHARGES ) ) {
         return true;
     }
     return false;

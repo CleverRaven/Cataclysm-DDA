@@ -4012,7 +4012,7 @@ void map::spawn_item( const tripoint &p, const std::string &type_id,
     // spawn the item
     item new_item( type_id, birthday );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.item_tags.insert( flag_FIT );
     }
 
     spawn_an_item( p, new_item, charges, damlevel );
@@ -4297,9 +4297,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
-            static const std::string filthy( "FILTHY" );
             if( time_left <= 0_turns ) {
-                n.item_tags.erase( filthy );
+                n.item_tags.erase( flag_FILTHY );
                 washing_machine_finished = true;
                 cur_veh.parts[part].enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
@@ -4324,10 +4323,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration cycle_time = 90_minutes;
             const time_duration time_left = cycle_time - n.age();
-            static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
                 if( !n.has_flag( flag_NO_PACKED ) ) {
-                    n.item_tags.erase( no_sterile );
+                    n.item_tags.erase( flag_NO_STERILE );
                 }
                 autoclave_finished = true;
                 cur_veh.parts[part].enabled = false;
@@ -7949,7 +7947,7 @@ void map::add_corpse( const tripoint &p )
         body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
-        body.item_tags.insert( "REVIVE_SPECIAL" );
+        body.item_tags.insert( flag_REVIVE_SPECIAL );
     }
 
     put_items_from_loc( "default_zombie_clothes", p, 0 );

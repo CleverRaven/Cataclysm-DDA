@@ -2227,7 +2227,7 @@ void item::io( Archive &archive )
 
     // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
     // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
-    item_tags.erase( "ENCUMBRANCE_UPDATE" );
+    item_tags.erase( flag_ENCUMBRANCE_UPDATE );
 
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
@@ -2248,8 +2248,8 @@ void item::io( Archive &archive )
         active = true;
     }
     if( !active &&
-        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-          item_tags.count( "WET" ) > 0 ) ) {
+        ( item_tags.count( flag_HOT ) > 0 || item_tags.count( flag_COLD ) > 0 ||
+          item_tags.count( flag_WET ) > 0 ) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
@@ -2292,7 +2292,7 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
+    if( item_tags.count( flag_FROZEN ) && current_phase == LIQUID ) {
         current_phase = SOLID;
     }
 
@@ -2335,26 +2335,26 @@ static void migrate_toolmod( item &it )
 {
     // Convert legacy flags on tools to contained toolmods
     if( it.is_tool() ) {
-        if( it.item_tags.count( "ATOMIC_AMMO" ) ) {
-            it.item_tags.erase( "ATOMIC_AMMO" );
-            it.item_tags.erase( "NO_UNLOAD" );
-            it.item_tags.erase( "RADIOACTIVE" );
-            it.item_tags.erase( "LEAK_DAM" );
+        if( it.item_tags.count( flag_ATOMIC_AMMO ) ) {
+            it.item_tags.erase( flag_ATOMIC_AMMO );
+            it.item_tags.erase( flag_NO_UNLOAD );
+            it.item_tags.erase( flag_RADIOACTIVE );
+            it.item_tags.erase( flag_LEAK_DAM );
             it.emplace_back( "battery_atomic" );
 
-        } else if( it.item_tags.count( "DOUBLE_REACTOR" ) ) {
-            it.item_tags.erase( "DOUBLE_REACTOR" );
-            it.item_tags.erase( "DOUBLE_AMMO" );
+        } else if( it.item_tags.count( flag_DOUBLE_REACTOR ) ) {
+            it.item_tags.erase( flag_DOUBLE_REACTOR );
+            it.item_tags.erase( flag_DOUBLE_AMMO );
             it.emplace_back( "double_plutonium_core" );
 
-        } else if( it.item_tags.count( "DOUBLE_AMMO" ) ) {
-            it.item_tags.erase( "DOUBLE_AMMO" );
+        } else if( it.item_tags.count( flag_DOUBLE_AMMO ) ) {
+            it.item_tags.erase( flag_DOUBLE_AMMO );
             it.emplace_back( "battery_compartment" );
 
-        } else if( it.item_tags.count( "USE_UPS" ) ) {
-            it.item_tags.erase( "USE_UPS" );
-            it.item_tags.erase( "NO_RELOAD" );
-            it.item_tags.erase( "NO_UNLOAD" );
+        } else if( it.item_tags.count( flag_USE_UPS ) ) {
+            it.item_tags.erase( flag_USE_UPS );
+            it.item_tags.erase( flag_NO_RELOAD );
+            it.item_tags.erase( flag_NO_UNLOAD );
             it.emplace_back( "battery_ups" );
 
         }
@@ -2529,7 +2529,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         if( ammo_capacity() > 0 ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
-        base.item_tags.insert( "VEHICLE" );
+        base.item_tags.insert( flag_VEHICLE );
     }
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {

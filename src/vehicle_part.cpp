@@ -36,7 +36,7 @@ vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
-    base.item_tags.insert( "VEHICLE" );
+    base.item_tags.insert( flag_VEHICLE );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -62,7 +62,7 @@ void vehicle_part::set_base( const item &new_base )
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
-    tmp.item_tags.erase( "VEHICLE" );
+    tmp.item_tags.erase( flag_VEHICLE );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
@@ -70,7 +70,7 @@ item vehicle_part::properties_to_item() const
         const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
-            tmp.item_tags.insert( "NO_DROP" );
+            tmp.item_tags.insert( flag_NO_DROP );
         }
 
         tmp.set_var( "source_x", target.first.x );

@@ -14,6 +14,7 @@
 #include "recipe.h"
 #include "rng.h"
 #include "translations.h"
+#include "cata_string_consts.h"
 
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
@@ -161,13 +162,13 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id i
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-            skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
-            skill_id( "bashing" ), skill_id( "cutting" ), skill_id( "stabbing" ), skill_id( "throw" ),
-            skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
-            skill_id( "rifle" ), skill_id( "archery" ), skill_id( "launcher" ), skill_id( "mechanics" ),
-            skill_id( "electronics" ), skill_id( "cooking" ), skill_id( "tailor" ), skill_id::NULL_ID(),
-            skill_id( "firstaid" ), skill_id( "speech" ), skill_id( "barter" ), skill_id( "computer" ),
-            skill_id( "survival" ), skill_id( "traps" ), skill_id( "swimming" ), skill_id( "driving" ),
+            skill_id::NULL_ID(), skill_dodge, skill_melee, skill_unarmed,
+            skill_bashing, skill_cutting, skill_stabbing, skill_throw,
+            skill_gun, skill_pistol, skill_shotgun, skill_smg,
+            skill_rifle, skill_archery, skill_launcher, skill_mechanics,
+            skill_electronics, skill_cooking, skill_tailor, skill_id::NULL_ID(),
+            skill_firstaid, skill_speech, skill_barter, skill_computer,
+            skill_survival, skill_traps, skill_swimming, skill_driving,
         }
     };
     if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {

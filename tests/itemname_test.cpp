@@ -7,6 +7,7 @@
 #include "item.h"
 #include "flat_set.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 TEST_CASE( "item_name_check", "[item][iteminfo]" )
 {
@@ -29,8 +30,8 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.item_tags.insert( flag_UNDERSIZE );
+            i.item_tags.insert( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -47,7 +48,7 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
 
     GIVEN( "player is a huge size" ) {
         g->u.empty_traits();
-        g->u.toggle_trait( trait_id( "HUGE_OK" ) );
+        g->u.toggle_trait( trait_HUGE_OK );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -65,8 +66,8 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.item_tags.insert( flag_UNDERSIZE );
+            i.item_tags.insert( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -101,8 +102,8 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.item_tags.insert( flag_UNDERSIZE );
+            i.item_tags.insert( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {

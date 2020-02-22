@@ -128,10 +128,10 @@ void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
-        obj.item_tags.insert( "NO_REPAIR" );
+        obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
+    if( obj.item_tags.count( flag_STAB ) || obj.item_tags.count( flag_SPEAR ) ) {
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
     }
 
@@ -354,7 +354,7 @@ void Item_factory::finalize_pre( itype &obj )
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
                 return translate_marker( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+            } else if( obj.gun->skill_used == skill_pistol && obj.item_tags.count( flag_RELOAD_ONE ) ) {
                 return translate_marker( "revolver" );
             } else {
                 return translate_marker( "semi-auto" );
@@ -362,27 +362,27 @@ void Item_factory::finalize_pre( itype &obj )
         };
 
         // if the gun doesn't have a DEFAULT mode then add one now
-        obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
+        obj.gun->modes.emplace( gun_mode_DEFAULT,
                                 gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
-        if( obj.item_tags.count( "REACH_ATTACK" ) ) {
-            obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
+        if( obj.item_tags.count( flag_REACH_ATTACK ) ) {
+            obj.gun->modes.emplace( gun_mode_MELEE,
                                     gun_modifier_data( translate_marker( "melee" ), 1,
             { "MELEE" } ) );
         }
         if( obj.gun->burst > 1 ) {
             // handle legacy JSON format
-            obj.gun->modes.emplace( gun_mode_id( "AUTO" ),
+            obj.gun->modes.emplace( gun_mode_AUTO,
                                     gun_modifier_data( translate_marker( "auto" ), obj.gun->burst,
                                             std::set<std::string>() ) );
         }
 
         if( obj.gun->handling < 0 ) {
             // TODO: specify in JSON via classes
-            if( obj.gun->skill_used == skill_id( "rifle" ) ||
-                obj.gun->skill_used == skill_id( "smg" ) ||
-                obj.gun->skill_used == skill_id( "shotgun" ) ) {
+            if( obj.gun->skill_used == skill_rifle ||
+                obj.gun->skill_used == skill_smg ||
+                obj.gun->skill_used == skill_shotgun ) {
                 obj.gun->handling = 20;
             } else {
                 obj.gun->handling = 10;
@@ -392,11 +392,11 @@ void Item_factory::finalize_pre( itype &obj )
         obj.gun->reload_noise = _( obj.gun->reload_noise );
 
         // TODO: Move to jsons?
-        if( obj.gun->skill_used == skill_id( "archery" ) ||
-            obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags.insert( "WATERPROOF_GUN" );
-            obj.item_tags.insert( "NEVER_JAMS" );
-            obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
+        if( obj.gun->skill_used == skill_archery ||
+            obj.gun->skill_used == skill_throw ) {
+            obj.item_tags.insert( flag_WATERPROOF_GUN );
+            obj.item_tags.insert( flag_NEVER_JAMS );
+            obj.gun->ammo_effects.insert( flag_NEVER_MISFIRES );
         }
     }
 
@@ -448,17 +448,17 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.item_tags.count( "PERSONAL" ) ) {
+    if( obj.item_tags.count( flag_PERSONAL ) ) {
         obj.layer = PERSONAL_LAYER;
-    } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
+    } else if( obj.item_tags.count( flag_SKINTIGHT ) ) {
         obj.layer = UNDERWEAR_LAYER;
-    } else if( obj.item_tags.count( "WAIST" ) ) {
+    } else if( obj.item_tags.count( flag_WAIST ) ) {
         obj.layer = WAIST_LAYER;
-    } else if( obj.item_tags.count( "OUTER" ) ) {
+    } else if( obj.item_tags.count( flag_OUTER ) ) {
         obj.layer = OUTER_LAYER;
-    } else if( obj.item_tags.count( "BELTED" ) ) {
+    } else if( obj.item_tags.count( flag_BELTED ) ) {
         obj.layer = BELTED_LAYER;
-    } else if( obj.item_tags.count( "AURA" ) ) {
+    } else if( obj.item_tags.count( flag_AURA ) ) {
         obj.layer = AURA_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
@@ -490,7 +490,7 @@ void Item_factory::register_cached_uses( const itype &obj )
 void Item_factory::finalize_post( itype &obj )
 {
     // handle complex firearms as a special case
-    if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( obj.gun && !obj.item_tags.count( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
@@ -1159,12 +1159,12 @@ void Item_factory::check_definitions() const
                     msg += "cannot specify clip_size or magazine without ammo type\n";
                 }
 
-                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) ) {
+                if( type->item_tags.count( flag_RELOAD_AND_SHOOT ) ) {
                     msg += "RELOAD_AND_SHOOT requires an ammo type to be specified\n";
                 }
 
             } else {
-                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
+                if( type->item_tags.count( flag_RELOAD_AND_SHOOT ) && !type->magazines.empty() ) {
                     msg += "RELOAD_AND_SHOOT cannot be used with magazines\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
@@ -1267,7 +1267,7 @@ void Item_factory::check_definitions() const
                                           ammo_variety.first.str() );
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
                     msg += string_format( "magazine \"%s\" does not take compatible ammo\n", magazine );
-                } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
+                } else if( mag_ptr->item_tags.count( flag_SPEEDLOADER ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
                     msg += string_format( "speedloader %s capacity (%d) does not match gun capacity (%d).\n", magazine,
                                           mag_ptr->magazine->capacity, type->gun->clip );
@@ -2167,29 +2167,29 @@ void hflesh_to_flesh( itype &item_template )
 void npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) > 0 ) {
-        item_template.item_tags.insert( "DANGEROUS" );
+        item_template.item_tags.insert( flag_DANGEROUS );
     }
 
-    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_THROW_NOW" );
+    if( item_template.item_tags.count( flag_DANGEROUS ) > 0 ) {
+        item_template.item_tags.insert( flag_NPC_THROW_NOW );
     }
 
-    if( item_template.item_tags.count( "BOMB" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_ACTIVATE" );
+    if( item_template.item_tags.count( flag_BOMB ) > 0 ) {
+        item_template.item_tags.insert( flag_NPC_ACTIVATE );
     }
 
-    if( item_template.item_tags.count( "NPC_THROW_NOW" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_THROWN" );
+    if( item_template.item_tags.count( flag_NPC_THROW_NOW ) > 0 ) {
+        item_template.item_tags.insert( flag_NPC_THROWN );
     }
 
-    if( item_template.item_tags.count( "NPC_ACTIVATE" ) > 0 ||
-        item_template.item_tags.count( "NPC_THROWN" ) > 0 ) {
-        item_template.item_tags.insert( "NPC_ALT_ATTACK" );
+    if( item_template.item_tags.count( flag_NPC_ACTIVATE ) > 0 ||
+        item_template.item_tags.count( flag_NPC_THROWN ) > 0 ) {
+        item_template.item_tags.insert( flag_NPC_ALT_ATTACK );
     }
 
-    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ||
-        item_template.item_tags.count( "PSEUDO" ) > 0 ) {
-        item_template.item_tags.insert( "TRADER_AVOID" );
+    if( item_template.item_tags.count( flag_DANGEROUS ) > 0 ||
+        item_template.item_tags.count( flag_PSEUDO ) > 0 ) {
+        item_template.item_tags.insert( flag_TRADER_AVOID );
     }
 }
 

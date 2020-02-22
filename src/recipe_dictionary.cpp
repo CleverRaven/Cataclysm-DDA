@@ -21,6 +21,7 @@
 #include "requirements.h"
 #include "units.h"
 #include "string_id.h"
+#include "cata_string_consts.h"
 
 recipe_dictionary recipe_dict;
 
@@ -373,7 +374,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+        if( !i->comestible || i->item_tags.count( flag_NUTRIENT_OVERRIDE ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
