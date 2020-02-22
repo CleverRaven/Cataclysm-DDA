@@ -408,9 +408,8 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        static const itype_id fuel_type_animal( "animal" );
-        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
-        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
+        const bool has_animal_controls = veh->part_with_feature( part, flag_CONTROL_ANIMAL, true ) >= 0;
+        const bool has_controls = veh->part_with_feature( part, flag_CONTROLS, true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
                                 veh->has_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
@@ -423,7 +422,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
+        if( empty( veh->get_avail_parts( flag_REMOTE_CONTROLS ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }

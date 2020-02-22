@@ -308,9 +308,7 @@ TEST_CASE( "npc-movement" )
     const ter_id t_reinforced_glass( "t_reinforced_glass" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
-    const furn_id f_null( "f_null" );
-    const vpart_id vpart_frame_vertical( "frame_vertical" );
-    const vpart_id vpart_seat( "seat" );
+    const furn_id f_null( "f_null" );    
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
