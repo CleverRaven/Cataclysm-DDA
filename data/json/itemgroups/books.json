@@ -659,12 +659,8 @@
     "id": "newspaper",
     "type": "item_group",
     "items": [
-      [ "many_years_old_newspaper", 5 ],
-      [ "years_old_newspaper", 10 ],
-      [ "one_year_old_newspaper", 20 ],
-      [ "months_old_newspaper", 30 ],
-      [ "weeks_old_newspaper", 35 ],
-      [ "newest_newspaper", 40 ]
+      { "group": "newspaper_recent", "prob": 80 },
+      { "group": "newspaper_old", "prob": 20 }
     ]
   },
   {
