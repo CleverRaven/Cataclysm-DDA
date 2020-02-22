@@ -964,15 +964,17 @@ bool main_menu::load_character_tab( bool transfer )
         }
     }
 
-    const int offset_x = transfer ? 25 : 15;
-    const int offset_y = transfer ? -1 : 0;
-    while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
+    ui_adaptor ui;
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        const int offset_x = transfer ? 25 : 15;
+        const int offset_y = transfer ? -1 : 0;
+
         print_menu( w_open, transfer ? 3 : 2, menu_offset );
+
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
-                on_error();
             } else {
                 for( int i = 0; i < static_cast<int>( all_worldnames.size() ); ++i ) {
                     int line = menu_offset.y - 2 - i;
@@ -992,7 +994,40 @@ bool main_menu::load_character_tab( bool transfer )
                 }
             }
             wrefresh( w_open );
-            catacurses::refresh();
+        } else if( layer == 3 && sel1 == 2 ) {
+            const std::string &wn = all_worldnames[sel2];
+
+            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
+                       "%s", wn );
+
+            if( savegames.empty() ) {
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
+                           c_red, "%s", _( "No save games found!" ) );
+            } else {
+                int line = menu_offset.y - 2;
+
+                for( const auto &savename : savegames ) {
+                    const bool selected = sel3 + line == menu_offset.y - 2;
+                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
+                               selected ? h_white : c_white,
+                               "%s", savename.player_name() );
+                }
+            }
+            wrefresh( w_open );
+        }
+    } );
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        init_windows();
+        ui.position_from_window( w_background );
+    } );
+    ui.position_from_window( w_background );
+
+    while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
+        ui_manager::redraw();
+        if( layer == 2 && sel1 == 2 ) {
+            if( all_worldnames.empty() ) {
+                on_error();
+            }
             std::string action = handle_input_timeout( ctxt );
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
@@ -1018,7 +1053,6 @@ bool main_menu::load_character_tab( bool transfer )
             }
         } else if( layer == 3 && sel1 == 2 ) {
             savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
-            const std::string &wn = all_worldnames[sel2];
 
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
@@ -1028,25 +1062,9 @@ bool main_menu::load_character_tab( bool transfer )
                 savegames.erase( new_end, savegames.end() );
             }
 
-            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
-                       "%s", wn );
-
             if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
-                           c_red, "%s", _( "No save games found!" ) );
                 on_error();
-            } else {
-                int line = menu_offset.y - 2;
-
-                for( const auto &savename : savegames ) {
-                    const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
-                               selected ? h_white : c_white,
-                               "%s", savename.player_name() );
-                }
             }
-            wrefresh( w_open );
-            catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
@@ -1066,7 +1084,6 @@ bool main_menu::load_character_tab( bool transfer )
             } else if( action == "LEFT" || action == "QUIT" ) {
                 layer = transfer ? 1 : 2;
                 sel3 = 0;
-                print_menu( w_open, sel1, menu_offset );
             }
             if( action == "RIGHT" || action == "CONFIRM" ) {
                 if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
@@ -1074,9 +1091,6 @@ bool main_menu::load_character_tab( bool transfer )
                         g->u = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
-
-                    werase( w_background );
-                    wrefresh( w_background );
 
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
