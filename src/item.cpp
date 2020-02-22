@@ -1102,9 +1102,9 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
             // Just use the dynamic description
-            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
+            info.push_back( iteminfo( "DESCRIPTION", SNIPPET.expand( snippet.value().translated() ) ) );
         } else if( idescription != item_vars.end() ) {
-            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
+            info.push_back( iteminfo( "DESCRIPTION", SNIPPET.expand( idescription->second ) ) );
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -1119,7 +1119,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           craft_data_->making->result_name(),
                                           percent_progress ) ) );
             } else {
-                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
+                info.push_back( iteminfo( "DESCRIPTION", SNIPPET.expand( type->description.translated() ) ) );
             }
         }
         insert_separation_line( info );
