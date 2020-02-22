@@ -98,7 +98,6 @@ WARNINGS = \
   -Woverloaded-virtual \
   -Wpedantic \
   -Wredundant-decls \
-  -Wrestrict \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
