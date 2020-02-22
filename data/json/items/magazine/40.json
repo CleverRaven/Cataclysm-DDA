@@ -89,7 +89,7 @@
     "id": "bhp40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Hi-Power .40 S&W magazine",
+    "name": { "str": "Hi-Power .40 S&W magazine" },
     "description": "A 10 round steel box magazine for the Browning Hi-Power .40 S&W.",
     "weight": "120 g",
     "volume": "185 ml",
