@@ -656,15 +656,6 @@
     "items": [ [ "mag_survival", 40 ], [ "mag_traps", 20 ], [ "fun_survival", 10 ], [ "mag_archery", 20 ] ]
   },
   {
-    "id": "newspaper_recent",
-    "type": "item_group",
-    "items": [
-      [ "months_old_newspaper", 10 ],
-      [ "weeks_old_newspaper", 15 ],
-      [ "newest_newspaper", 20 ]
-    ]
-  },
-  {
     "id": "newspaper",
     "type": "item_group",
     "items": [
@@ -674,6 +665,24 @@
       [ "months_old_newspaper", 30 ],
       [ "weeks_old_newspaper", 35 ],
       [ "newest_newspaper", 40 ]
+    ]
+  },
+  {
+    "id": "newspaper_recent",
+    "type": "item_group",
+    "items": [
+      [ "months_old_newspaper", 10 ],
+      [ "weeks_old_newspaper", 15 ],
+      [ "newest_newspaper", 20 ]
+    ]
+  },
+  {
+    "id": "newspaper_old",
+    "type": "item_group",
+    "items": [
+      [ "many_years_old_newspaper", 5 ],
+      [ "years_old_newspaper", 10 ],
+      [ "one_year_old_newspaper", 20 ]
     ]
   }
 ]
