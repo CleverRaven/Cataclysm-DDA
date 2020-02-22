@@ -1125,8 +1125,67 @@ bool main_menu::load_character_tab( bool transfer )
 
 void main_menu::world_tab()
 {
+    ui_adaptor ui;
+    ui.on_redraw( [this]( const ui_adaptor & ) {
+        if( sel1 == 3 ) { // bail out if we're actually in load_character_tab
+            print_menu( w_open, 3, menu_offset );
+
+            if( layer == 3 ) { // World Menu
+                const point offset = menu_offset + point( 40 + extra_w / 2, -2 - sel2 );
+
+                const auto all_worldnames = world_generator->all_worldnames();
+                mvwprintz( w_open, offset + point( -15, 0 ), h_white, "%s", all_worldnames[sel2 - 1] );
+
+                for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
+                    nc_color text_color;
+                    nc_color key_color;
+                    if( sel3 == static_cast<int>( i ) ) {
+                        text_color = h_white;
+                        key_color = h_white;
+                    } else {
+                        text_color = c_light_gray;
+                        key_color = c_white;
+                    }
+                    wmove( w_open, offset + point( 0, -i ) );
+                    wprintz( w_open, c_light_gray, "[" );
+                    shortcut_print( w_open, text_color, key_color, vWorldSubItems[i] );
+                    wprintz( w_open, c_light_gray, "]" );
+                }
+
+                wrefresh( w_open );
+            } else if( layer == 2 ) { // Show world names
+                mvwprintz( w_open, menu_offset + point( 25 + extra_w / 2, -2 ),
+                           ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
+
+                int i = 1;
+                const auto all_worldnames = world_generator->all_worldnames();
+                for( auto it = all_worldnames.begin(); it != all_worldnames.end(); ++it, i++ ) {
+                    int savegames_count = world_generator->get_world( *it )->world_saves.size();
+                    int line = menu_offset.y - 2 - i;
+                    nc_color color1, color2;
+                    if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
+                        color1 = c_light_cyan;
+                        color2 = h_light_cyan;
+                    } else {
+                        color1 = c_white;
+                        color2 = h_white;
+                    }
+                    mvwprintz( w_open, point( 25 + menu_offset.x + extra_w / 2, line ),
+                               ( sel2 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
+                }
+
+                wrefresh( w_open );
+            }
+        }
+    } );
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        init_windows();
+        ui.position_from_window( w_background );
+    } );
+    ui.position_from_window( w_background );
+
     while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
-        print_menu( w_open, 3, menu_offset );
+        ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
             if( load_character_tab( true ) ) {
                 points_left points;
@@ -1145,9 +1204,6 @@ void main_menu::world_tab()
 
                 load_char_templates();
 
-                werase( w_background );
-                wrefresh( w_background );
-
                 layer = 3;
             }
         } else if( layer == 3 ) { // World Menu
@@ -1156,29 +1212,8 @@ void main_menu::world_tab()
             // Reset empties world of everything but options, then makes new world within it.
             // Destroy asks for confirmation, then destroys everything in world and then removes world folder.
 
-            const point offset = menu_offset + point( 40 + extra_w / 2, -2 - sel2 );
-
             const auto all_worldnames = world_generator->all_worldnames();
-            mvwprintz( w_open, offset + point( -15, 0 ), h_white, "%s", all_worldnames[sel2 - 1] );
 
-            for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
-                nc_color text_color;
-                nc_color key_color;
-                if( sel3 == static_cast<int>( i ) ) {
-                    text_color = h_white;
-                    key_color = h_white;
-                } else {
-                    text_color = c_light_gray;
-                    key_color = c_white;
-                }
-                wmove( w_open, offset + point( 0, -i ) );
-                wprintz( w_open, c_light_gray, "[" );
-                shortcut_print( w_open, text_color, key_color, vWorldSubItems[i] );
-                wprintz( w_open, c_light_gray, "]" );
-            }
-
-            wrefresh( w_open );
-            catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
@@ -1256,28 +1291,8 @@ void main_menu::world_tab()
                 continue;
             }
 
-            mvwprintz( w_open, menu_offset + point( 25 + extra_w / 2, -2 ),
-                       ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
-
-            int i = 1;
             const auto all_worldnames = world_generator->all_worldnames();
-            for( auto it = all_worldnames.begin(); it != all_worldnames.end(); ++it, i++ ) {
-                int savegames_count = world_generator->get_world( *it )->world_saves.size();
-                int line = menu_offset.y - 2 - i;
-                nc_color color1, color2;
-                if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
-                    color1 = c_light_cyan;
-                    color2 = h_light_cyan;
-                } else {
-                    color1 = c_white;
-                    color2 = h_white;
-                }
-                mvwprintz( w_open, point( 25 + menu_offset.x + extra_w / 2, line ),
-                           ( sel2 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
-            }
 
-            wrefresh( w_open );
-            catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
 
             if( action == "DOWN" ) {
