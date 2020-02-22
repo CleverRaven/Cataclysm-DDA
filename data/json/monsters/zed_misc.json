@@ -1017,7 +1017,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "exempt",
-    "emit_fields": [ "emit_smoke_stream" ],
+    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
     "flags": [
