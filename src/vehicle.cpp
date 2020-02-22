@@ -183,7 +183,7 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
+    if( myorigin->part_flag( part_num, flag_CARGO ) && myorigin->parts[part_num].is_available() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
         return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
@@ -245,7 +245,7 @@ bool vehicle::remote_controlled( const player &p ) const
         return false;
     }
 
-    for( const vpart_reference &vp : get_avail_parts( "REMOTE_CONTROLS" ) ) {
+    for( const vpart_reference &vp : get_avail_parts( flag_REMOTE_CONTROLS ) ) {
         if( rl_dist( p.pos(), vp.pos() ) <= 40 ) {
             return true;
         }
@@ -260,7 +260,6 @@ bool vehicle::remote_controlled( const player &p ) const
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()
 {
-    static const vpart_id frame_id( "frame_vertical" );
     //No need to check the same spot more than once
     std::set<point> locations_checked;
     for( auto &i : parts ) {
@@ -278,7 +277,7 @@ void vehicle::add_missing_frames()
         }
         if( !found ) {
             // Install missing frame
-            parts.emplace_back( frame_id, i.mount, item( frame_id->item ) );
+            parts.emplace_back( vpart_frame_vertical, i.mount, item( vpart_frame_vertical->item ) );
         }
     }
 }
@@ -403,7 +402,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
-        if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
+        if( veh_fuel_mult > 0 && !empty( get_avail_parts( flag_ENGINE ) ) &&
             one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
@@ -1108,7 +1107,7 @@ bool vehicle::has_security_working() const
     bool found_security = false;
     if( fuel_left( fuel_type_battery ) > 0 ) {
         for( int s : speciality ) {
-            if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
+            if( part_flag( s, flag_SECURITY ) && parts[ s ].is_available() ) {
                 found_security = true;
                 break;
             }
@@ -2007,7 +2006,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const tripoint part_loc = global_part_pos3( p );
 
     // Unboard any entities standing on removed boardable parts
-    if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
+    if( part_flag( p, flag_BOARDABLE ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
         handler.unboard( part_loc );
     }
 
@@ -2044,7 +2043,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     }
 
     // Update current engine configuration if needed
-    if( part_flag( p, "ENGINE" ) && engines.size() > 1 ) {
+    if( part_flag( p, flag_ENGINE ) && engines.size() > 1 ) {
         bool any_engine_on = false;
 
         for( auto &e : engines ) {
@@ -2066,7 +2065,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const auto lz_iter = loot_zones.find( parts[p].mount );
     const bool no_zone = lz_iter != loot_zones.end();
 
-    if( no_zone && part_flag( p, "CARGO" ) ) {
+    if( no_zone && part_flag( p, flag_CARGO ) ) {
         // Using the key here (instead of the iterator) will remove all zones on
         // this mount points regardless of how many there are
         loot_zones.erase( parts[p].mount );
@@ -2348,7 +2347,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
 
 void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
-    const auto boardables = get_avail_parts( "BOARDABLE" );
+    const auto boardables = get_avail_parts( flag_BOARDABLE );
     for( player *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
@@ -2438,7 +2437,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
 
             player *passenger = nullptr;
             // Unboard any entities standing on any transferred part
-            if( part_flag( mov_part, "BOARDABLE" ) ) {
+            if( part_flag( mov_part, flag_BOARDABLE ) ) {
                 passenger = get_passenger( mov_part );
                 if( passenger ) {
                     passengers.push_back( passenger );
@@ -2792,7 +2791,7 @@ int vehicle::next_part_to_close( int p, bool outside ) const
         if( part_flag( *part_it, VPFLAG_OPENABLE )
             && parts[ *part_it ].is_available()
             && parts[*part_it].open == 1
-            && ( !outside || !part_flag( *part_it, "OPENCLOSE_INSIDE" ) ) ) {
+            && ( !outside || !part_flag( *part_it, flag_OPENCLOSE_INSIDE ) ) ) {
             return *part_it;
         }
     }
@@ -2806,7 +2805,7 @@ int vehicle::next_part_to_open( int p, bool outside ) const
     // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) && parts[ elem ].is_available() && parts[elem].open == 0 &&
-            ( !outside || !part_flag( elem, "OPENCLOSE_INSIDE" ) ) ) {
+            ( !outside || !part_flag( elem, flag_OPENCLOSE_INSIDE ) ) ) {
             return elem;
         }
     }
@@ -3115,7 +3114,7 @@ int vehicle::roof_at_part( const int part ) const
 {
     std::vector<int> parts_in_square = parts_at_relative( parts[part].mount, true );
     for( const int p : parts_in_square ) {
-        if( part_info( p ).location == "on_roof" || part_flag( p, "ROOF" ) ) {
+        if( part_info( p ).location == "on_roof" || part_flag( p, flag_ROOF ) ) {
             return p;
         }
     }
@@ -3769,7 +3768,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     double muffle = 1.0;
     double m = 0.0;
     int exhaust_part = -1;
-    for( const vpart_reference &vp : get_avail_parts( "MUFFLER" ) ) {
+    for( const vpart_reference &vp : get_avail_parts( flag_MUFFLER ) ) {
         m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.part().health_percent();
         if( m < muffle ) {
             muffle = m;
@@ -5629,7 +5628,8 @@ void vehicle::remove_remote_part( int part_num )
             int remote_partnum = veh->loose_parts[j];
             auto remote_part = &veh->parts[remote_partnum];
 
-            if( veh->part_flag( remote_partnum, "POWER_TRANSFER" ) && remote_part->target.first == local_abs ) {
+            if( veh->part_flag( remote_partnum, flag_POWER_TRANSFER ) &&
+                remote_part->target.first == local_abs ) {
                 veh->remove_part( remote_partnum );
                 return;
             }
@@ -5643,7 +5643,7 @@ void vehicle::shed_loose_parts()
     // it will stay empty.
     while( !loose_parts.empty() ) {
         const int elem = loose_parts.front();
-        if( part_flag( elem, "POWER_TRANSFER" ) ) {
+        if( part_flag( elem, flag_POWER_TRANSFER ) ) {
             remove_remote_part( elem );
         }
 
@@ -5694,12 +5694,12 @@ void vehicle::refresh_insides()
             bool cover = false;
             for( auto &j : parts_n3ar ) {
                 // another roof -- cover
-                if( part_flag( j, "ROOF" ) && parts[ j ].is_available() ) {
+                if( part_flag( j, flag_ROOF ) && parts[ j ].is_available() ) {
                     cover = true;
                     break;
-                } else if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
+                } else if( part_flag( j, flag_OBSTACLE ) && parts[ j ].is_available() ) {
                     // found an obstacle, like board or windshield or door
-                    if( parts[j].inside || ( part_flag( j, "OPENABLE" ) && parts[j].open ) ) {
+                    if( parts[j].inside || ( part_flag( j, flag_OPENABLE ) && parts[j].open ) ) {
                         // door and it's open -- can't cover
                         continue;
                     }
@@ -5748,8 +5748,8 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
     if( !aimed ) {
         bool found_obs = false;
         for( auto &i : pl ) {
-            if( part_flag( i, "OBSTACLE" ) &&
-                ( !part_flag( i, "OPENABLE" ) || !parts[i].open ) ) {
+            if( part_flag( i, flag_OBSTACLE ) &&
+                ( !part_flag( i, flag_OPENABLE ) || !parts[i].open ) ) {
                 found_obs = true;
                 break;
             }
@@ -5763,12 +5763,12 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
     int target_part = random_entry( pl );
 
     // door motor mechanism is protected by closed doors
-    if( part_flag( target_part, "DOOR_MOTOR" ) ) {
+    if( part_flag( target_part, flag_DOOR_MOTOR ) ) {
         // find the most strong openable that is not open
         int strongest_door_part = -1;
         int strongest_door_durability = INT_MIN;
         for( int part : pl ) {
-            if( part_flag( part, "OPENABLE" ) && !parts[part].open ) {
+            if( part_flag( part, flag_OPENABLE ) && !parts[part].open ) {
                 int door_durability = part_info( part ).durability;
                 if( door_durability > strongest_door_durability ) {
                     strongest_door_part = part;
@@ -5793,7 +5793,8 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
         int protection = part_info( armor_part ).damage_reduction[ type ];
         // Parts on roof aren't protected
-        bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
+        bool overhead = part_flag( target_part, flag_ROOF ) ||
+                        part_info( target_part ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefore the other index (target_part) becomes
         // wrong if target_part > armor_part.
@@ -6037,7 +6038,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
     if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
-    } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
+    } else if( parts[ p ].is_broken() && part_flag( p, flag_UNMOUNT_ON_DAMAGE ) ) {
         g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
         monster *mon = get_pet( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {

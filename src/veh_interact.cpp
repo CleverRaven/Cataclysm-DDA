@@ -629,7 +629,7 @@ bool veh_interact::can_self_jack()
 {
     int lvl = jack_quality( *veh );
 
-    for( const vpart_reference &vp : veh->get_avail_parts( "SELF_JACK" ) ) {
+    for( const vpart_reference &vp : veh->get_avail_parts( flag_SELF_JACK ) ) {
         if( vp.part().base.has_quality( quality_SELF_JACK, lvl ) ) {
             return true;
         }
@@ -679,8 +679,8 @@ bool veh_interact::can_install_part()
     int engines = 0;
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( flag_E_HIGHER_SKILL ) ) {
-        for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
-            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
+        for( const vpart_reference &vp : veh->get_avail_parts( flag_ENGINE ) ) {
+            if( vp.has_feature( flag_E_HIGHER_SKILL ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }
@@ -691,7 +691,7 @@ bool veh_interact::can_install_part()
     if( sel_vpart_info->has_flag( flag_STEERABLE ) ) {
         std::set<int> axles;
         for( auto &p : veh->steering ) {
-            if( !veh->part_flag( p, "TRACKED" ) ) {
+            if( !veh->part_flag( p, flag_TRACKED ) ) {
                 // tracked parts don't contribute to axle complexity
                 axles.insert( veh->parts[p].mount.x );
             }
@@ -2987,7 +2987,7 @@ void veh_interact::complete_vehicle( player &p )
             contents.clear();
 
             // Power cables must remove parts from the target vehicle, too.
-            if( veh->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
+            if( veh->part_flag( vehicle_part, flag_POWER_TRANSFER ) ) {
                 veh->remove_remote_part( vehicle_part );
             }
 

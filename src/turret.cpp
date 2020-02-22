@@ -331,7 +331,7 @@ void vehicle::turrets_set_targeting()
             turrets[sel]->enabled = false;
         }
 
-        for( const vpart_reference &vp : get_avail_parts( "TURRET_CONTROLS" ) ) {
+        for( const vpart_reference &vp : get_avail_parts( flag_TURRET_CONTROLS ) ) {
             vehicle_part &e = vp.part();
             if( e.mount == turrets[sel]->mount ) {
                 e.enabled = turrets[sel]->enabled;
