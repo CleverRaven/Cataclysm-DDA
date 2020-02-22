@@ -5683,24 +5683,3 @@ std::set<tripoint> player::get_path_avoid() const
 
     return ret;
 }
-
-std::pair<std::string, nc_color> player::get_pain_description() const
-{
-    auto pain = Creature::get_pain_description();
-    nc_color pain_color = pain.second;
-    std::string pain_string;
-    // get pain color
-    if( get_perceived_pain() >= 60 ) {
-        pain_color = c_red;
-    } else if( get_perceived_pain() >= 40 ) {
-        pain_color = c_light_red;
-    }
-    // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
-        get_perceived_pain() > 0 ) {
-        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
-    } else if( get_perceived_pain() > 0 ) {
-        pain_string = pain.first;
-    }
-    return std::make_pair( pain_string, pain_color );
-}
