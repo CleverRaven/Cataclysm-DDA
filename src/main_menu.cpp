@@ -239,17 +239,6 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-std::string main_menu::handle_input_timeout( input_context &ctxt )
-{
-    std::string action = ctxt.handle_input( 1000 );
-
-    if( action == "TIMEOUT" ) {
-        init_windows();
-    }
-
-    return action;
-}
-
 void main_menu::init_windows()
 {
     if( LAST_TERM == point( TERMX, TERMY ) ) {
@@ -531,7 +520,7 @@ bool main_menu::opening_screen()
         ui_manager::redraw();
 
         if( layer == 1 ) {
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
 
             std::string sInput = ctxt.get_raw_input().text;
             // check automatic menu shortcuts
@@ -608,7 +597,7 @@ bool main_menu::opening_screen()
                     continue;
                 }
 
-                std::string action = handle_input_timeout( ctxt );
+                std::string action = ctxt.handle_input();
                 if( action == "LEFT" ) {
                     if( sel2 > 0 ) {
                         sel2--;
@@ -655,7 +644,7 @@ bool main_menu::opening_screen()
                 }
             } else if( sel1 == 5 ) {  // Settings Menu
                 int settings_subs_to_display = vSettingsSubItems.size();
-                std::string action = handle_input_timeout( ctxt );
+                std::string action = ctxt.handle_input();
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
                     for( const std::string &hotkey : vSettingsHotkeys[i] ) {
@@ -783,7 +772,7 @@ bool main_menu::new_character_tab()
                 continue;
             }
 
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
                 for( const std::string &hotkey : vNewGameHotkeys[i] ) {
@@ -866,7 +855,7 @@ bool main_menu::new_character_tab()
             if( templates.empty() ) {
                 on_error();
             }
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
                 sel1 = 1;
@@ -1034,7 +1023,7 @@ bool main_menu::load_character_tab( bool transfer )
             if( all_worldnames.empty() ) {
                 on_error();
             }
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
                 layer = 1;
@@ -1071,7 +1060,7 @@ bool main_menu::load_character_tab( bool transfer )
             if( savegames.empty() ) {
                 on_error();
             }
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
                 layer = transfer ? 1 : 2;
@@ -1220,7 +1209,7 @@ void main_menu::world_tab()
 
             const auto all_worldnames = world_generator->all_worldnames();
 
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vWorldHotkeys[i] ) {
@@ -1299,7 +1288,7 @@ void main_menu::world_tab()
 
             const auto all_worldnames = world_generator->all_worldnames();
 
-            std::string action = handle_input_timeout( ctxt );
+            std::string action = ctxt.handle_input();
 
             if( action == "DOWN" ) {
                 if( sel2 > 0 ) {
