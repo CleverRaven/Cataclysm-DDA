@@ -484,7 +484,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             std::string material = "flesh";
             if( t.is_monster() ) {
                 const monster *m = dynamic_cast<const monster *>( &t );
-                if( m->made_of( material_steel ) ) {
+                if( m->made_of( material_id( "steel" ) ) ) {
                     material = "steel";
                 }
             }
@@ -1641,7 +1641,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     if( tec != matec_tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( weapon.made_of( material_glass ) ) {
+        } else if( weapon.made_of( material_id( "glass" ) ) ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -1727,7 +1727,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     const int vol = weap.volume() / 250_ml;
     // Glass weapons shatter sometimes
-    if( weap.made_of( material_glass ) &&
+    if( weap.made_of( material_id( "glass" ) ) &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {

@@ -593,7 +593,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
-    static const std::set<material_id> ferric = { material_iron, material_steel };
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                       !throw_assist;
@@ -618,7 +618,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.made_of( material_glass ) &&
+    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
                          rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents

@@ -1075,11 +1075,11 @@ void sfx::do_projectile_hit( const Creature &target )
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         static const std::set<material_id> fleshy = {
-            material_flesh,
-            material_hflesh,
-            material_iflesh,
-            material_veggy,
-            material_bone,
+            material_id( "flesh" ),
+            material_id( "hflesh" ),
+            material_id( "iflesh" ),
+            material_id( "veggy" ),
+            material_id( "bone" ),
         };
         const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const material_id & m ) {
             return mon.made_of( m );
@@ -1088,10 +1088,10 @@ void sfx::do_projectile_hit( const Creature &target )
         if( is_fleshy ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_stone ) ) {
+        } else if( mon.made_of( material_id( "stone" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_steel ) ) {
+        } else if( mon.made_of( material_id( "steel" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {

@@ -135,7 +135,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
             // this is where we are able to check if the food actually is changed by the trait
-            if( mat.first == material_all || it.made_of( mat.first ) ) {
+            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
                 const std::map<vitamin_id, double> &mat_vit_map = mat.second;
                 for( auto &vit : res ) {
                     auto vit_factor = mat_vit_map.find( vit.first );
@@ -1441,10 +1441,10 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
 
             // TODO: JSONize.
-            if( it.made_of( material_leather ) ) {
+            if( it.made_of( material_id( "leather" ) ) ) {
                 amount /= 4;
             }
-            if( it.made_of( material_wood ) ) {
+            if( it.made_of( material_id( "wood" ) ) ) {
                 amount /= 2;
             }
 

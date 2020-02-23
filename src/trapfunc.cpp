@@ -966,16 +966,16 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of_any( Creature::cmat_flesh ) ) {
             dam = 50;
         }
-        if( z->made_of( material_veggy ) ) {
+        if( z->made_of( material_id( "veggy" ) ) ) {
             dam = 80;
         }
         if( z->made_of( LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
-        if( z->made_of( material_stone ) ) {
+        if( z->made_of( material_id( "stone" ) ) ) {
             dam = 15;
         }
-        if( z->made_of( material_kevlar ) || z->made_of( material_steel ) ) {
+        if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
             dam = 5;
         }
         z->deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, dam ) );
