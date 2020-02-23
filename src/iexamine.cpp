@@ -5647,7 +5647,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                 pgettext( "in progress craft", "You start working on the %s." ),
                 pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                 selected_craft->tname() );
-            p.assign_activity( ACT_CRAFT );
+            p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft
             break;

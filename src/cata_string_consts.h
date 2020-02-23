@@ -398,6 +398,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_winded( "winded" );
 static const efftype_id effect_zapped( "zapped" );
 
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
@@ -757,6 +758,7 @@ static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_ant( "mon_ant" );
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
@@ -822,7 +824,6 @@ static const mtype_id mon_hologram( "mon_hologram" );
 static const mtype_id mon_horse( "mon_horse" );
 static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
-static const mtype_id mon_laserturret( "mon_laserturret" );
 static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
 static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
@@ -834,7 +835,6 @@ static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_mink( "mon_mink" );
 static const mtype_id mon_moose( "mon_moose" );
 static const mtype_id mon_muskrat( "mon_muskrat" );
-static const mtype_id mon_null( "mon_null" );
 static const mtype_id mon_opossum( "mon_opossum" );
 static const mtype_id mon_otter( "mon_otter" );
 static const mtype_id mon_pheasant( "mon_pheasant" );
@@ -1348,6 +1348,7 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+
 
 static const zone_type_id z_camp_food( "CAMP_FOOD" );
 static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
