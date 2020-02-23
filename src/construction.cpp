@@ -698,9 +698,9 @@ construction_id construction_menu( const bool blueprint )
                     }
                     exit = true;
                 } else {
+                    popup( _( "You can't build that!" ) );
                     draw_grid( w_con, w_list_width + w_list_x0 );
                     update_info = true;
-                    popup( _( "You can't build that!" ) );
                 }
             } else {
                 // get the index of the overall constructions list from current_desc
