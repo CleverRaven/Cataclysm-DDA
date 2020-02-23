@@ -34,7 +34,8 @@
     "flavor_text_mount": "You spur your steed into a gallop.",
     "flavor_text_mech": "You set the power of your mech's leg servos to maximum.",
     "stamina_burn_multiplier": 7.0,
-    "volume_multiplier": 1.5
+    "volume_multiplier": 1.5,
+    "swim_cost_modifier": -80
   },
   {
     "id": "MM_CROUCH",
@@ -50,6 +51,7 @@
     "flavor_text_mount": "You slow your steed to a walk.",
     "flavor_text_mech": "You reduce the power of your mech's leg servos to minimum.",
     "stamina_burn_multiplier": 1.0,
-    "volume_multiplier": 0.5
+    "volume_multiplier": 0.5,
+    "swim_cost_modifier": 50
   }
 ]
