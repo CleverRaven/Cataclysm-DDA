@@ -1937,7 +1937,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_fungal_haze ) {
-            if( !z.type->in_species( species_FUNGUS ) &&
+            if( !z.type->in_species( FUNGUS ) &&
                 !z.type->has_flag( MF_NO_BREATHE ) &&
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
@@ -1947,14 +1947,14 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_fungicidal_gas ) {
-            if( z.type->in_species( species_FUNGUS ) ) {
+            if( z.type->in_species( FUNGUS ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
+            if( z.type->in_species( INSECT ) || z.type->in_species( SPIDER ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

@@ -183,7 +183,7 @@ field_type_id Character::gibType() const
 
 bool Character::in_species( const species_id &spec ) const
 {
-    return spec == species_HUMAN;
+    return spec == HUMAN;
 }
 
 bool Character::is_warm() const
@@ -2139,7 +2139,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
-                                            it.item_tags.count( flag_wooled ) ) ) {
+                                            it.item_tags.count( "wooled" ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
@@ -5699,7 +5699,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
     if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( species_ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
         return true;
     }
 

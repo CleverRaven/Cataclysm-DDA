@@ -2248,7 +2248,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         }
 
         if( filthy ) {
-            act_item.item_tags.insert( flag_FILTHY );
+            act_item.item_tags.insert( "FILTHY" );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();

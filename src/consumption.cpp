@@ -530,7 +530,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
-    if( food.item_tags.count( flag_DIRTY ) ) {
+    if( food.item_tags.count( "DIRTY" ) ) {
         return ret_val<edible_rating>::make_failure(
                    _( "This is full of dirt after being on the ground." ) );
     }

@@ -498,8 +498,8 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     }
 
     // applies to all butchery actions
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
-                          !corpse.in_species( species_ZOMBIE ) );
+    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
+                          !corpse.in_species( ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( flag_CANNIBAL ) ||
                        u.has_trait_flag( flag_PSYCHOPATH ) ||
                        u.has_trait_flag( flag_SAPIOVORE ) ) ) {
@@ -2559,7 +2559,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item &target = *heat->get_food();
-    if( target.item_tags.count( flag_FROZEN ) ) {
+    if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
             target.cold_up();
@@ -2696,7 +2696,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
-    mod.item_tags.insert( flag_IRREMOVABLE );
+    mod.item_tags.insert( "IRREMOVABLE" );
     tool.contents.push_back( mod );
     act->targets[1].remove_item();
 }
@@ -3866,7 +3866,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
-                it->item_tags.insert( flag_FILTHY );
+                it->item_tags.insert( "FILTHY" );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }

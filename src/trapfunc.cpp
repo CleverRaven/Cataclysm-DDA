@@ -654,7 +654,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         if( z->type->id != mon_blob ) {
             z->set_speed_base( z->get_speed_base() - 15 );
             //All monsters that aren't blobs or robots transform into a blob
-            if( !z->type->in_species( species_ROBOT ) ) {
+            if( !z->type->in_species( ROBOT ) ) {
                 z->poly( mon_blob );
                 z->set_hp( z->get_speed() );
             }
@@ -675,7 +675,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     }
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
-        if( z->type->in_species( species_ROBOT ) ) {
+        if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
             //Dissector error sound.
             sounds::sound( p, 4, sounds::sound_t::electronic_speech,

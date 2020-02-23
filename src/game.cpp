@@ -3948,7 +3948,7 @@ void game::mon_info_update( )
                 monster &critter = *new_seen_mon.back();
                 cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                  string_format( _( "%s spotted!" ), critter.name() ) );
-                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( species_PLANT ) ) {
+                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
                     add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
                     if( !u.has_effect( effect_adrenaline_mycus ) ) {
                         u.add_effect( effect_adrenaline_mycus, 30_minutes );

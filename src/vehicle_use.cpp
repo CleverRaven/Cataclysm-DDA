@@ -1491,7 +1491,7 @@ void vehicle::use_autoclave( int p )
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
-    } else if( fuel_left( fuel_type_water ) < 8 && fuel_left( fuel_type_water_clean ) < 8 ) {
+    } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
@@ -1507,10 +1507,10 @@ void vehicle::use_autoclave( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( fuel_type_water ) >= 8 ) {
-            drain( fuel_type_water, 8 );
+        if( fuel_left( "water" ) >= 8 ) {
+            drain( "water", 8 );
         } else {
-            drain( fuel_type_water_clean, 8 );
+            drain( "water_clean", 8 );
         }
 
         add_msg( m_good,
@@ -1543,7 +1543,7 @@ void vehicle::use_washing_machine( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The washing machine is empty, there's no point in starting it." ) );
-    } else if( fuel_left( fuel_type_water ) < 24 && fuel_left( fuel_type_water_clean ) < 24 ) {
+    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
     } else if( detergents.empty() ) {
@@ -1588,10 +1588,10 @@ void vehicle::use_washing_machine( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( fuel_type_water ) >= 24 ) {
-            drain( fuel_type_water, 24 );
+        if( fuel_left( "water" ) >= 24 ) {
+            drain( "water", 24 );
         } else {
-            drain( fuel_type_water_clean, 24 );
+            drain( "water_clean", 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1629,7 +1629,7 @@ void vehicle::use_dishwasher( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The dishwasher is empty, there's no point in starting it." ) );
-    } else if( fuel_left( fuel_type_water ) < 24 && fuel_left( fuel_type_water_clean ) < 24 ) {
+    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
@@ -1645,10 +1645,10 @@ void vehicle::use_dishwasher( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( fuel_type_water ) >= 24 ) {
-            drain( fuel_type_water, 24 );
+        if( fuel_left( "water" ) >= 24 ) {
+            drain( "water", 24 );
         } else {
-            drain( fuel_type_water_clean, 24 );
+            drain( "water_clean", 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1930,25 +1930,25 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( fuel_type_battery, true ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery", true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
-    if( has_faucet && fuel_left( fuel_type_water_clean ) > 0 ) {
+    if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( fuel_type_battery, true ) > 0 ) {
+    if( has_weldrig && fuel_left( "battery", true ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( fuel_type_battery, true ) >=
+        bool can_purify = fuel_left( "battery", true ) >=
                           item::find_type( "water_purifier" )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
-        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( fuel_type_water ),
+        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
                              'P', _( "Purify water in vehicle tank" ) );
     }
     if( has_monster_capture ) {

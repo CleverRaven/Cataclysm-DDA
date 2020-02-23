@@ -52,13 +52,13 @@ bool monster::wander()
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
-        return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
+        return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
     }
     if( fid == fd_fungicidal_gas ) {
-        return !type->in_species( species_FUNGUS );
+        return !type->in_species( FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
+        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -462,7 +462,7 @@ void monster::plan()
             friendly = 100;
             for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
-                if( mon != nullptr && mon->type->in_species( species_ZOMBIE ) ) {
+                if( mon != nullptr && mon->type->in_species( ZOMBIE ) ) {
                     anger = 100;
                 } else {
                     anger = 0;

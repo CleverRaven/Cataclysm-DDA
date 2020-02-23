@@ -1095,7 +1095,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !t.in_species( species_HUMAN ) ) {
+        if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
         }
         // if aoe, check if there are valid targets

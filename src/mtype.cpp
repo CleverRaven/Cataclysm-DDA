@@ -166,7 +166,7 @@ field_type_id mtype::bloodType() const
 
 field_type_id mtype::gibType() const
 {
-    if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
+    if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
         return fd_gibs_invertebrate;
     }
     if( made_of( material_id( "veggy" ) ) ) {

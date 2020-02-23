@@ -2735,7 +2735,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
         uilist smenu;
         smenu.text = _( "Remove what?" );
         for( auto &fuel : fuels ) {
-            if( fuel == fuel_type_plutonium_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
+            if( fuel == "plut_cell" && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
                 continue;
             }
             smenu.addentry( item::nname( fuel ) );
@@ -2751,7 +2751,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     }
 
     int qty = veh->fuel_left( fuel );
-    if( fuel == fuel_type_plutonium_cell ) {
+    if( fuel == "plut_cell" ) {
         if( qty / PLUTONIUM_CHARGES == 0 ) {
             add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
             return;
