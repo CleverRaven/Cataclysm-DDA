@@ -32,22 +32,22 @@
         "     ,     ~~     ,     ",
         "'~~~~~~~~~~~~~~~~~~~~~~'",
         "'----------++----------'",
-        "'--].y-]%C......-lt-tl-'",
-        "'--%c.-]cC.....D-ll-ll-'",
-        "'--d..-r.C......-ls-sl-'",
+        "'--].y-]%C.....b-lt-tl-'",
+        "'--%c.-]cC.....b-ll-ll-'",
+        "'--d..-r.C.....b-ls-sl-'",
         "'----i-R.C.....y-+---+-'",
-        "'-<+..................-*",
+        "'-<+............D.....-*",
         "'-....................-*",
         "*----------++----------'",
-        "*-|=====|F-ll-FFss#kkk-'",
+        "*-|lllll|R-ll-FFss#kkk-'",
         "'-|lllllal-ll-Qlllllll-*",
-        "'-|=====|l-ll+llTllTll-'",
-        "'-|lllllal-ll-ll#ll#ll-'",
-        "'-|=====|l+ll----------'",
-        "'-|lllllal-ll-FFss#kkk-'",
-        "'-|=====|l-ll-Qlllllll-'",
-        "'-|lllllal-ll+llTllTll-'",
-        "*-|=====|R-ll-ll#ll#ll-'",
+        "'-|=====|l-ll+llTllldc-'",
+        "'-|lllll|l-ll-ll#lllll-'",
+        "'-|lllllal+ll----------'",
+        "'-|=====|l-ll-FFss#kkk-'",
+        "'-|lllll|l-ll-Qlllllll-'",
+        "'-|lllllal-ll+llTllldc-'",
+        "*-|=====|R-ll-ll#lllll-'",
         "'----------M-----------4",
         "'~~~~~~~~~~~~~~~~~~~~ff~",
         "''''''''''''''''''''''''"
@@ -88,6 +88,7 @@
         "F": "f_locker",
         "T": "f_table",
         "]": "f_bookcase",
+        "b": "f_bench",
         "c": "f_chair",
         "d": "f_desk",
         "r": "f_rack",
@@ -96,45 +97,46 @@
         "y": "f_indoor_plant"
       },
       "toilets": { "t": {  } },
-      "place_items": [
-        { "item": "trash", "x": 14, "y": 3, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 14, "y": 15, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 22, "y": [ 15, 16 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "item": "cleaning", "x": 3, "y": 13, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 9, "y": 17, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 7, "y": 6, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 14, "y": 13, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_softdrug", "x": 3, "y": 5, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 3, "y": 13, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 9, "y": 17, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 7, "y": 5, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": [ 18, 20 ], "y": 13, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 16, "y": 16, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 19, "y": 16, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_hardrug", "x": 15, "y": 13, "chance": 75, "repeat": [ 1, 3 ] },
-        { "item": "waitingroom", "x": 3, "y": 5, "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "waitingroom", "x": 9, "y": [ 5, 6 ], "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_utility", "x": 3, "y": 13, "chance": 45, "repeat": [ 2, 3 ] },
-        { "item": "animalshelter_utility", "x": 17, "y": 17, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_utility", "x": 14, "y": 13, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "animalshelter_utility", "x": 15, "y": 13, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "cubical_office", "x": 3, "y": 3, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "cubical_office", "x": 3, "y": 5, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 7, "y": [ 3, 4 ], "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "doctors_books", "x": 3, "y": 3, "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "doctors_books", "x": 15, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
+      "items": {
+      "f": { "item": "trash", "chance": 50, "repeat": [ 2, 7 ] },
+      "R": { "item": "cleaning", "chance": 45, "repeat": [ 2, 6 ] },
+      "F": [
+        { "item": "animalshelter_softdrug", "chance": 45, "repeat": [ 2, 6 ] },
+        { "item": "animalshelter_hardrug", "chance": 75, "repeat": [ 1, 3 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ANIMALPOUND_CATS", "x": 14, "y": 10, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_CATS", "x": 16, "y": 10, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_CATS", "x": 18, "y": 10, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_CATS", "x": 20, "y": 10, "chance": 10, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 11, "chance": 20, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 11, "chance": 20, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 17, "chance": 20, "density": 0.05 },
-        { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 17, "chance": 20, "density": 0.05 }
+      "]": { "item": "doctors_books", "chance": 25, "repeat": [ 1, 3 ] },
+      "d": { "item": "cubical_office", "chance": 25, "repeat": [ 1, 4 ] },
+      "b": { "item": "waitingroom", "chance": 30, "repeat": [ 1, 4 ] },
+      "r": { "item": "office", "chance": 40, "repeat": [ 1, 3 ] },
+      "k": { "item": "animalshelter_utility", "chance": 40, "repeat": [ 2, 5 ] }
+  },
+    "place_monsters": [
+      {
+        "monster": "GROUP_ANIMALPOUND_CATS",
+        "x": [ 4, 8 ],
+        "y": [ 13, 14 ],
+        "chance": 20,
+        "repeat": [ 1, 2 ],
+        "density": 0.05
+      },
+      {
+        "monster": "GROUP_ANIMALPOUND_DOGS",
+        "x": [ 4, 8 ],
+        "y": [ 16, 17 ],
+        "chance": 20,
+        "repeat": [ 1, 2 ],
+        "density": 0.05
+      },
+      {
+        "monster": "GROUP_ANIMALPOUND_DOGS",
+        "x": [ 4, 8 ],
+        "y": [ 19, 20 ],
+        "chance": 20,
+        "repeat": [ 1, 2 ],
+        "density": 0.05
+      }
       ],
-      "place_vehicles": [ { "vehicle": "animalshelter", "x": 17, "y": 22, "chance": 25, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "animalshelter", "x": 19, "y": 0, "chance": 25, "rotation": 360 } ]
     }
   },
   {
@@ -147,26 +149,24 @@
       "rows": [
         "                        ",
         "                        ",
-        " |-------------------3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |>..................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |...................3  ",
-        " |..c................3  ",
-        " |...&...............3  ",
-        " |-------------------5  ",
         "                        ",
         "                        ",
-        "                        ",
-        "                        ",
+        " |--------------------3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |>...................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |..c.................3 ",
+        " |...&................3 ",
+        " |--------------------35",
         "                        ",
         "                        "
       ],
@@ -180,15 +180,10 @@
         "5": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent", "c": "f_cellphone_booster" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 6 ], "y": [ 3, 5 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "roof_trash", "x": [ 6, 8 ], "y": [ 5, 7 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
-        { "chunks": [ [ "roof_2x2_golf", 15 ], [ "null", 80 ] ], "x": 7, "y": 7 },
-        { "chunks": [ [ "roof_2x2_utilities", 50 ], [ "null", 50 ] ], "x": 5, "y": 4 },
-        {
-          "chunks": [ [ "null", 40 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_utility", 45 ], [ "roof_5x5_coop", 10 ] ],
-          "x": [ 9, 12 ],
-          "y": [ 9, 12 ]
-        }
+        { "chunks": [ [ "roof_2x2_golf", 15 ], [ "null", 80 ] ], "x": 9, "y": 9 },
+        { "chunks": [ [ "roof_2x2_utilities", 50 ], [ "null", 50 ] ], "x": 14, "y": 4 }
       ]
     }
   }
