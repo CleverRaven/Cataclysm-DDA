@@ -5806,9 +5806,9 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
 {
     if( !m.sees_some_items( lp, u ) ) {
         return;
-    } else if( m.has_flag( flag_CONTAINER, lp ) && !m.could_see_items( lp, u ) ) {
+    } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
-    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
+    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
         return;
@@ -9464,7 +9464,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              critter_at<npc>( fdest ) == nullptr &&
                              critter_at<monster>( fdest ) == nullptr &&
                              ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-                             ( !has_floor || m.has_flag( flag_FLAT, fdest ) ) &&
+                             ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
                              !m.has_furn( fdest ) &&
                              !m.veh_at( fdest ) &&
                              ( !has_floor || m.tr_at( fdest ).is_null() )
@@ -9894,7 +9894,7 @@ void game::vertical_move( int movez, bool force )
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
-    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( flag_GOES_UP, u.pos() ) ) {
+    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
@@ -9932,10 +9932,10 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
-    if( !force && movez == -1 && !m.has_flag( flag_GOES_DOWN, u.pos() ) ) {
+    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
         add_msg( m_info, _( "You can't go down here!" ) );
         return;
-    } else if( !climbing && !force && movez == 1 && !m.has_flag( flag_GOES_UP, u.pos() ) ) {
+    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }

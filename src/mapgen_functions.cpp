@@ -3531,8 +3531,8 @@ static bool is_suitable_for_stairs( const map *const m, const tripoint &p )
     const ter_t &p_ter = m->ter( p ).obj();
 
     return
-        p_ter.has_flag( flag_INDOORS ) &&
-        p_ter.has_flag( flag_FLAT ) &&
+        p_ter.has_flag( "INDOORS" ) &&
+        p_ter.has_flag( "FLAT" ) &&
         m->furn( p ) == f_null;
 }
 
@@ -3547,8 +3547,8 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             << " terrain: " << p_ter.name()
             << " movecost: " << p_ter.movecost
             << " furniture: " << m->furn( p ).to_i()
-            << " indoors: " << p_ter.has_flag( flag_INDOORS )
-            << " flat: " << p_ter.has_flag( flag_FLAT )
+            << " indoors: " << p_ter.has_flag( "INDOORS" )
+            << " flat: " << p_ter.has_flag( "FLAT" )
             ;
 }
 
