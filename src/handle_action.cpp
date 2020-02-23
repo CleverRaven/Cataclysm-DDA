@@ -486,7 +486,7 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
+            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( flag_OPENABLE,
                     true ) ) {
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
@@ -1039,25 +1039,25 @@ static void loot()
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
-    flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
-    if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
+    flags |= g->check_near_zone( zone_type_LOOT_UNSORTED, u.pos() ) ? SortLoot : 0;
+    if( g->check_near_zone( zone_type_FARM_PLOT, u.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
-    flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
+    flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
                                  u.pos() ) ? ConstructPlots : 0;
 
-    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ), u.pos() ) ? Multichoptrees : 0;
-    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ), u.pos() ) ? Multichopplanks : 0;
-    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+    flags |= g->check_near_zone( zone_type_CHOP_TREES, u.pos() ) ? Multichoptrees : 0;
+    flags |= g->check_near_zone( zone_type_LOOT_WOOD, u.pos() ) ? Multichopplanks : 0;
+    flags |= g->check_near_zone( zone_type_VEHICLE_DECONSTRUCT,
                                  u.pos() ) ? Multideconvehicle : 0;
-    flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
-    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_VEHICLE_REPAIR, u.pos() ) ? Multirepairvehicle : 0;
+    flags |= g->check_near_zone( zone_type_LOOT_CORPSE, u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
-                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
-                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
+                 mgr.get_name_from_type( zone_type_LOOT_UNSORTED ),
+                 mgr.get_name_from_type( zone_type_FARM_PLOT ) );
         return;
     }
 
@@ -1277,7 +1277,7 @@ static void fire()
             return;
         }
 
-        if( vp.part_with_feature( "CONTROLS", true ) ) {
+        if( vp.part_with_feature( flag_CONTROLS, true ) ) {
             if( vp->vehicle().turrets_aim_and_fire() ) {
                 return;
             }

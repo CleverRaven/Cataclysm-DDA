@@ -512,7 +512,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                    !g->m.has_flag_ter_or_furn( flag_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
-                 !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
+                 !( part_with_feature( ret.part, flag_PROTRUSION, true ) >= 0 &&
                     g->m.has_flag_ter_or_furn( flag_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
                  !g->m.has_flag_ter_or_furn( flag_NOCOLLIDE, p ) &&

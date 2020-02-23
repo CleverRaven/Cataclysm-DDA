@@ -2644,7 +2644,7 @@ void game::load( const save_t &name )
         // The vehicle stores the IDs of the boarded players, so update it, too.
         if( u.in_vehicle ) {
             if( const cata::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+                        u.pos() ).part_with_feature( flag_BOARDABLE, true ) ) {
                 vp->part().passenger_id = u.getID();
             }
         }
@@ -5058,14 +5058,14 @@ void game::control_vehicle()
         }
     }
     if( veh != nullptr && veh->player_in_control( u ) &&
-        veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+        veh->avail_part_with_feature( veh_part, flag_CONTROLS, true ) >= 0 ) {
         veh->use_controls( u.pos() );
     } else if( veh && veh->player_in_control( u ) &&
-               veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 ) {
+               veh->avail_part_with_feature( veh_part, flag_CONTROL_ANIMAL, true ) >= 0 ) {
         u.controlling_vehicle = false;
         add_msg( m_info, _( "You let go of the reins." ) );
-    } else if( veh && ( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ||
-                        ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 &&
+    } else if( veh && ( veh->avail_part_with_feature( veh_part, flag_CONTROLS, true ) >= 0 ||
+                        ( veh->avail_part_with_feature( veh_part, flag_CONTROL_ANIMAL, true ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
@@ -5090,7 +5090,8 @@ void game::control_vehicle()
         cata::optional<vpart_reference> vehicle_controls;
         for( const tripoint elem : m.points_in_radius( g->u.pos(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
-                const cata::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
+                const cata::optional<vpart_reference> controls = vp.value().part_with_feature( flag_CONTROLS,
+                        true );
                 if( controls ) {
                     num_valid_controls++;
                     vehicle_position = elem;
@@ -5108,7 +5109,7 @@ void game::control_vehicle()
             }
             const optional_vpart_position vp = m.veh_at( *vehicle_position );
             if( vp ) {
-                vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
+                vehicle_controls = vp.value().part_with_feature( flag_CONTROLS, true );
                 if( !vehicle_controls ) {
                     add_msg( _( "The vehicle doesn't have controls there." ) );
                     return;
@@ -6171,7 +6172,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
                 as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
-                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
+                                           zone.get_type() == zone_type_LOOT_CUSTOM ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
                 as_m.query();
 
@@ -8450,7 +8451,8 @@ void game::wield( item_location &loc )
                 m.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( flag_CARGO,
+                        false );
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
                 if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
                     m.add_item( pos, to_wield );
@@ -8642,7 +8644,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at( dest_loc );
-        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
+        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( flag_BOARDABLE,
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
@@ -9223,7 +9225,7 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
+    if( vp1.part_with_feature( flag_BOARDABLE, true ) && !u.is_mounted() ) {
         m.board_vehicle( u.pos(), &u );
     }
 
@@ -9243,7 +9245,7 @@ point game::place_player( const tripoint &dest_loc )
     // List items here
     if( !m.has_flag( flag_SEALED, u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
-            !g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() ) ) {
+            !g->check_zone( zone_type_NO_AUTO_PICKUP, u.pos() ) ) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
                 add_msg( _( "There's something here, but you can't see what it is." ) );
             } else if( m.has_items( u.pos() ) ) {
@@ -9316,13 +9318,13 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( ( vp1.part_with_feature( "CONTROL_ANIMAL", true ) ||
-          vp1.part_with_feature( "CONTROLS", true ) ) && u.in_vehicle && !u.is_mounted() ) {
+    if( ( vp1.part_with_feature( flag_CONTROL_ANIMAL, true ) ||
+          vp1.part_with_feature( flag_CONTROLS, true ) ) && u.in_vehicle && !u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here." ) );
         if( !u.has_trait( trait_WAYFARER ) ) {
             add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
         }
-    } else if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle &&
+    } else if( vp1.part_with_feature( flag_CONTROLS, true ) && u.in_vehicle &&
                u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here but you cannot reach them whilst mounted." ) );
     }
@@ -9423,7 +9425,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
-        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+        if( m.veh_at( u.pos() ).part_with_feature( flag_BOARDABLE, true ) ) {
             m.board_vehicle( u.pos(), &u );
         }
 

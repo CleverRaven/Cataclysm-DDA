@@ -553,7 +553,7 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
 bool monster::is_aquatic_danger( const tripoint &at_pos )
 {
     return g->m.has_flag_ter( TFLAG_DEEP_WATER, at_pos ) && g->m.has_flag( flag_LIQUID, at_pos ) &&
-           can_drown() && !g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false );
+           can_drown() && !g->m.veh_at( at_pos ).part_with_feature( flag_BOARDABLE, false );
 }
 
 bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
@@ -697,7 +697,7 @@ void monster::move()
 
     // don't move if a passenger in a moving vehicle
     auto vp = g->m.veh_at( pos() );
-    bool harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
+    bool harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( flag_ANIMAL_CTRL,
                                            true ) );
     if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;

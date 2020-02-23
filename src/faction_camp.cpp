@@ -3605,7 +3605,7 @@ std::string camp_car_description( vehicle *car )
 {
     std::string entry = string_format( _( "Name:     %s\n" ), right_justify( car->name, 25 ) );
     entry += _( "----          Engines          ----\n" );
-    for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
+    for( const vpart_reference &vpr : car->get_any_parts( flag_ENGINE ) ) {
         const vehicle_part &pt = vpr.part();
         const vpart_info &vp = pt.info();
         entry += string_format( _( "Engine:   %s\n" ), right_justify( vp.name(), 25 ) );
