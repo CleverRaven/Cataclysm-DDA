@@ -1276,8 +1276,8 @@ bool mattack::growplants( monster *z )
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( g->m.has_flag_ter( flag_DIGGABLE, p ) ||
-               g->m.has_flag_ter( flag_TREE, p ) ||
+        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
+               g->m.has_flag_ter( "TREE", p ) ||
                g->m.ter( p ) == t_tree_young ) ) {
             continue;
         }
@@ -2106,7 +2106,7 @@ bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
     const tripoint monster_position = z->pos();
-    const bool is_fungi = g->m.has_flag_ter( flag_FUNGUS, monster_position );
+    const bool is_fungi = g->m.has_flag_ter( "FUNGUS", monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -2724,8 +2724,8 @@ bool mattack::stare( monster *z )
     z->moves -= 200;
     if( z->sees( g->u ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
-        if( g->u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            g->u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+        if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -2747,7 +2747,7 @@ bool mattack::fear_paralyze( monster *z )
         return false;
     }
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( flag_PSYSHIELD_PARTIAL ) &&
+        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
                 one_in( 4 ) ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack

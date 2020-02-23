@@ -361,8 +361,8 @@ void start_location::burn( const tripoint &omtstart,
     const int uy = g->u.posy() % HALF_MAPSIZE_Y;
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
-        if( !( m.has_flag_ter( flag_DOOR, p ) ||
-               m.has_flag_ter( flag_OPENCLOSE_INSIDE, p ) ||
+        if( !( m.has_flag_ter( "DOOR", p ) ||
+               m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                m.is_outside( p ) ||
                ( p.x >= ux - rad && p.x <= ux + rad && p.y >= uy - rad && p.y <= uy + rad ) ) ) {
             if( m.has_flag( flag_FLAMMABLE, p ) || m.has_flag( flag_FLAMMABLE_ASH, p ) ) {

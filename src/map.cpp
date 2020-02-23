@@ -2418,9 +2418,9 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
-        } else if( !has_flag_ter( flag_FLAT, point( x2, y2 ) ) ) {
+        } else if( !has_flag_ter( "FLAT", point( x2, y2 ) ) ) {
             loop = false;
-            if( !has_flag_ter( flag_WALL, point( x2, y2 ) ) ) {
+            if( !has_flag_ter( "WALL", point( x2, y2 ) ) ) {
                 result = false;
             }
         }
@@ -2574,7 +2574,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( has_flag_ter_or_furn( flag_USABLE_FIRE, p ) ) {
+        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
             return true;
         }
     }
@@ -3062,12 +3062,12 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // Clear out any partially grown seeds
-    if( has_flag_ter_or_furn( flag_PLANT, p ) ) {
+    if( has_flag_ter_or_furn( "PLANT", p ) ) {
         i_clear( p );
     }
 
-    if( ( smash_furn && has_flag_furn( flag_FUNGUS, p ) ) ||
-        ( smash_ter && has_flag_ter( flag_FUNGUS, p ) ) ) {
+    if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
+        ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
         fungal_effects( *g, *this ).create_spores( p );
     }
 
@@ -6803,7 +6803,7 @@ void map::grow_plant( const tripoint &p )
             rotten_item_spawn( *seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
-            if( has_flag_furn( flag_GROWTH_MATURE, p ) ) {
+            if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
 
@@ -6817,17 +6817,17 @@ void map::grow_plant( const tripoint &p )
 
             rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
-            if( !has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
+            if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
-            if( has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
+            if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( *seed, p );
                 rotten_item_spawn( *seed, p );
                 //One stage change
-            } else if( has_flag_furn( flag_GROWTH_MATURE, p ) ) {
+            } else if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 rotten_item_spawn( *seed, p );
                 //Goes from seed to harvest in one check
             } else {

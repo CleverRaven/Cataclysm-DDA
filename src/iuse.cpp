@@ -1855,7 +1855,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
-        bionic.get_item()->unset_flag( flag_NO_PACKED );
+        bionic.get_item()->unset_flag( "NO_PACKED" );
     } else {
         p->add_msg_if_player( m_bad, _( "You fail to properly prepare the CBM." ) );
     }
@@ -8309,7 +8309,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             it->erase_var( "CYCLETIME" );
             for( item &bio : it->contents ) {
                 if( bio.is_bionic() && !bio.has_flag( flag_NO_PACKED ) ) {
-                    bio.unset_flag( flag_NO_STERILE );
+                    bio.unset_flag( "NO_STERILE" );
                 }
             }
         } else {

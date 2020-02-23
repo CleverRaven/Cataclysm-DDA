@@ -2619,9 +2619,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_trait_flag( "PRED2" ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( "PRED3" ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( "PRED4" ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -2928,7 +2928,7 @@ bool Character::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
-        if( worn_with_flag( flag_CLIMATE_CONTROL ) ) {
+        if( worn_with_flag( "CLIMATE_CONTROL" ) ) {
             return true;
         }
     }
@@ -3586,7 +3586,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( flag_NO_THIRST ) ) {
+    if( has_trait_flag( "NO_THIRST" ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -4369,7 +4369,7 @@ void Character::check_needs_extremes()
 void Character::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait_flag( flag_NO_DISEASE ) ) {
+    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
@@ -5497,34 +5497,34 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            return has_effect_with_flag( flag_EFFECT_BIO_IMMUNE ) ||
-                   worn_with_flag( flag_BIO_IMMUNE );
+            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
+                   worn_with_flag( "BIO_IMMUNE" );
         case DT_BASH:
-            return has_effect_with_flag( flag_EFFECT_BASH_IMMUNE ) ||
-                   worn_with_flag( flag_BASH_IMMUNE );
+            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
+                   worn_with_flag( "BASH_IMMUNE" );
         case DT_CUT:
-            return has_effect_with_flag( flag_EFFECT_CUT_IMMUNE ) ||
-                   worn_with_flag( flag_CUT_IMMUNE );
+            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
+                   worn_with_flag( "CUT_IMMUNE" );
         case DT_ACID:
             return has_trait( trait_ACIDPROOF ) ||
-                   has_effect_with_flag( flag_EFFECT_ACID_IMMUNE ) ||
-                   worn_with_flag( flag_ACID_IMMUNE );
+                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
+                   worn_with_flag( "ACID_IMMUNE" );
         case DT_STAB:
-            return has_effect_with_flag( flag_EFFECT_STAB_IMMUNE ) ||
-                   worn_with_flag( flag_STAB_IMMUNE );
+            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
+                   worn_with_flag( "STAB_IMMUNE" );
         case DT_HEAT:
             return has_trait( trait_M_SKIN2 ) ||
                    has_trait( trait_M_SKIN3 ) ||
-                   has_effect_with_flag( flag_EFFECT_HEAT_IMMUNE ) ||
-                   worn_with_flag( flag_HEAT_IMMUNE );
+                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
+                   worn_with_flag( "HEAT_IMMUNE" );
         case DT_COLD:
-            return has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
-                   worn_with_flag( flag_COLD_IMMUNE );
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+                   worn_with_flag( "COLD_IMMUNE" );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
-                   worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
+                   worn_with_flag( "ELECTRIC_IMMUNE" ) ||
                    has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
-                   has_effect_with_flag( flag_EFFECT_ELECTRIC_IMMUNE );
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
     }
@@ -5533,7 +5533,7 @@ bool Character::is_immune_damage( const damage_type dt ) const
 bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
-    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }
 
 int Character::throw_range( const item &it ) const
@@ -6462,7 +6462,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_trait_flag( flag_NO_RADIATION ) ) {
+    if( has_trait_flag( "NO_RADIATION" ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
@@ -7953,7 +7953,7 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
 
 bool Character::is_waterproof( const body_part_set &parts ) const
 {
-    return covered_with_flag( flag_WATERPROOF, parts );
+    return covered_with_flag( "WATERPROOF", parts );
 }
 
 void Character::update_morale()
@@ -8627,10 +8627,10 @@ bool Character::has_fire( const int quantity ) const
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
                 return true;
@@ -8686,10 +8686,10 @@ void Character::use_fire( const int quantity )
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
                 use_charges( i->typeId(), quantity );
