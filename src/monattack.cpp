@@ -192,7 +192,7 @@ bool mattack::none( monster * )
 bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.has_flag( flag_PLANT, p ) && one_in( 4 ) ) {
+        if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
             g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant->base ) );
             g->m.i_clear( p );
             return true;
@@ -205,7 +205,7 @@ bool mattack::eat_food( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
-        if( g->m.has_flag( flag_PLANT, p ) ) {
+        if( g->m.has_flag( "PLANT", p ) ) {
             continue;
         }
         auto items = g->m.i_at( p );
@@ -672,7 +672,7 @@ bool mattack::pull_metal_weapon( monster *z )
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
+        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
             ( foe->weapon.made_of( material_id( "iron" ) ) ||
               foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
