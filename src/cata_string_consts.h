@@ -1369,7 +1369,7 @@ static const matype_id style_wingchun( "style_wingchun" );
 static const matype_id style_zui_quan( "style_zui_quan" );
 
 static const species_id ABERRATION( "ABERRATION" );
-static const species_id species_BLOB( "BLOB" );
+static const species_id BLOB( "BLOB" );
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id HALLUCINATION( "HALLUCINATION" );
