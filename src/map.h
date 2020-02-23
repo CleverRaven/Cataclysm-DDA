@@ -170,6 +170,7 @@ struct level_cache {
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
@@ -1559,6 +1560,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );

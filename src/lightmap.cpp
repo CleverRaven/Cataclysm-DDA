@@ -143,6 +143,40 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
+bool map::build_vision_transparency_cache( const int zlev )
+{
+    auto &map_cache = get_cache( zlev );
+    auto &transparency_cache = map_cache.transparency_cache;
+    auto &vision_transparency_cache = map_cache.vision_transparency_cache;
+
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
+    const tripoint &p = g->u.pos();
+
+    if( p.z != zlev ) {
+        return false;
+    }
+
+    bool dirty = false;
+
+    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be visible
+            if( ( has_furn( p ) && !furn( p )->transparent ) || !ter( p )->transparent ) {
+                vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+            }
+        } else if( is_crouching && coverage( loc ) >= 30 ) {
+            // If we're crouching behind an obstacle, we can't see past it.
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            map_cache.transparency_cache_dirty = true;
+            dirty = true;
+        }
+    }
+
+    return dirty;
+}
+
 void map::apply_character_light( player &p )
 {
     if( p.has_effect( effect_onfire ) ) {
@@ -1102,7 +1136,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {
     auto &map_cache = get_cache( target_z );
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
+    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
     float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
     float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
 
@@ -1125,7 +1159,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         array_of_grids_of<const bool> floor_caches;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
-            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
             std::uninitialized_fill_n(
