@@ -749,7 +749,7 @@
     "name": "The Master and Margarita",
     "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this is a satire on Stalinist tyranny written by Mikhail Bulgakov.",
     "copy-from": "book_fict_soft_satire_tpl",
-    "relative": { "chapters": 16, "fun": 1}
+    "relative": { "chapters": 16, "fun": 1 }
   },
   {
     "id": "book_fict_soft_satire_dust",

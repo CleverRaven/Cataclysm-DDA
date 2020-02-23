@@ -6,7 +6,7 @@
     "description": "theoretically this isn't a book at all",
     "price": 550,
     "price_postapoc": 550,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
