@@ -1438,7 +1438,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !g->u.has_trait_flag( flag_CANNIBAL ) ) {
+        if( !g->u.has_trait_flag( trait_flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {

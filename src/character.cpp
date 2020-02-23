@@ -5430,7 +5430,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) ) {
+    if( has_trait( debug_nodmg ) ) {
         return true;
     }
     // Check to see if we are immune
