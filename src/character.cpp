@@ -1939,6 +1939,7 @@ int Character::best_nearby_lifting_assist() const
 
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
+    const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
@@ -1946,9 +1947,9 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( quality_LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( quality_LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( quality_LIFT )
+    return std::max( { this->max_quality( LIFT ), mech_lift,
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
                      } );
 }
 

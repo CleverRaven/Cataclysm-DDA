@@ -1765,7 +1765,7 @@ bool overmap::generate_sub( const int z )
             continue;
         }
         mongroup_id ant_group( ter( i.pos + tripoint_above ) == "anthill" ?
-                               GROUP_ANT : GROUP_ANT_ACID );
+                               "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group( mongroup( ant_group, tripoint( i.pos.x * 2, i.pos.y * 2, z ),
                                  ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
         build_anthill( tripoint( i.pos, z ), i.size );

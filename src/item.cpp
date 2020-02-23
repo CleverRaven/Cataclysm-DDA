@@ -2556,7 +2556,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 {
     auto name_quality = [&info]( const std::pair<quality_id, int> &q ) {
         std::string str;
-        if( q.first == quality_JACK || q.first == quality_LIFT ) {
+        if( q.first == qual_JACK || q.first == qual_LIFT ) {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality and "
                                     "is rated at <info>%3$d</info> %4$s" ),
                                  q.second, q.first.obj().name,

@@ -260,7 +260,7 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
         res = std::max( res, bio.get_quality( qual ) );
     }
 
-    if( qual == quality_BUTCHER ) {
+    if( qual == qual_BUTCHER ) {
         if( self->has_trait( trait_CLAWS_ST ) ) {
             res = std::max( res, 8 );
         } else if( self->has_trait( trait_TALONS ) || self->has_trait( trait_MANDIBLES ) ||

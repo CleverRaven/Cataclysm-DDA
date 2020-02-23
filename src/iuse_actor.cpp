@@ -4004,7 +4004,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
 
-    const bool has_shovel = p.has_quality( quality_DIG, 3 );
+    const bool has_shovel = p.has_quality( qual_DIG, 3 );
     const bool is_diggable = g->m.has_flag( flag_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
