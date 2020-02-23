@@ -241,6 +241,13 @@ void enchantment::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    if( !id.is_empty() ) {
+        jsout.member( "id", id );
+        jsout.end_object();
+        // if the enchantment has an id then it is defined elsewhere and does not need to be serialized.
+        return;
+    }
+
     jsout.member( "has", io::enum_to_string<has>( active_conditions.first ) );
     jsout.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
 
