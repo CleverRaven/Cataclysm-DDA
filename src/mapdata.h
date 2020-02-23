@@ -26,6 +26,8 @@ struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 
+using itype_id = std::string;
+
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
