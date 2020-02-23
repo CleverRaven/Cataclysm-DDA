@@ -159,7 +159,7 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 tripoint npc::good_escape_direction( bool include_pos )
 {
     if( path.empty() ) {
-        zone_type_id retreat_zone = zone_type_NPC_RETREAT;
+        zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
         const tripoint &abs_pos = global_square_location();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
@@ -2719,13 +2719,15 @@ void npc::find_item()
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+        static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
-        if( !cargo || cargo->has_feature( flag_LOCKED ) ) {
+        if( !cargo || cargo->has_feature( locked_string ) ) {
             cache_tile();
             continue;
         }
 
-        if( vp.part_with_feature( flag_CARGO_LOCKING, true ) ) {
+        static const std::string cargo_locking_string( "CARGO_LOCKING" );
+        if( vp.part_with_feature( cargo_locking_string, true ) ) {
             cache_tile();
             continue;
         }
@@ -2778,11 +2780,11 @@ void npc::pick_up_item()
 
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
-    const bool has_cargo = vp && !vp->has_feature( flag_LOCKED );
+    const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;

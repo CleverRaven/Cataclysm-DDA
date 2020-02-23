@@ -506,14 +506,14 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( flag_KITCHEN, true );
-        const cata::optional<vpart_reference> faupart = vp.part_with_feature( flag_FAUCET, true );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( flag_WELDRIG, true );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( flag_CRAFTRIG, true );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( flag_FORGE, true );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( flag_KILN, true );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( flag_CHEMLAB, true );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( flag_CARGO, true );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );

@@ -326,8 +326,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items,
                                const tripoint &where, bool force_ground )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( flag_CARGO,
-            false );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO", false );
     if( vp && !force_ground ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
@@ -884,7 +883,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
         tripoint cart_position = g->u.pos() + g->u.grab_point;
 
         if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                    cart_position ).part_with_feature( flag_CARGO, false ) ) {
+                    cart_position ).part_with_feature( "CARGO", false ) ) {
             auto veh = vp->vehicle();
             auto vstor = vp->part_index();
             auto capacity = veh.free_volume( vstor );
@@ -1217,7 +1216,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             temp_inv += elem2;
         }
         if( !in_loot_zones ) {
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( elem ).part_with_feature( flag_CARGO,
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( elem ).part_with_feature( "CARGO",
                     false ) ) {
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
@@ -1233,7 +1232,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             const optional_vpart_position vp = g->m.veh_at( elem );
             if( vp ) {
                 vehicle &veh = vp->vehicle();
-                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( flag_WELDRIG, true );
+                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
                     item welder( "welder", 0 );
                     welder.charges = veh.fuel_left( fuel_type_battery, true );
@@ -1898,7 +1897,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     vehicle *dest_veh;
     int dest_part;
     if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                loot_src_lot ).part_with_feature( flag_CARGO,
+                loot_src_lot ).part_with_feature( "CARGO",
                         false ) ) {
         dest_veh = &vp->vehicle();
         dest_part = vp->part_index();
@@ -1938,7 +1937,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
     auto items_there = g->m.i_at( src_loc );
     vehicle *src_veh = nullptr;
     int src_part = 0;
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( flag_CARGO,
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
             false ) ) {
         src_veh = &vp->vehicle();
         src_part = vp->part_index();
@@ -2143,7 +2142,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             }
 
             //nothing to sort?
-            const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( flag_CARGO,
+            const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                     false );
             if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
                 && g->m.i_at( src_loc ).empty() ) {
@@ -2214,7 +2213,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( flag_CARGO,
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
                 false ) ) {
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
@@ -2259,9 +2258,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 const tripoint &dest_loc = g->m.getlocal( dest );
 
                 //Check destination for cargo part
-                if( const cata::optional<vpart_reference> vp = g->m.veh_at( dest_loc ).part_with_feature(
-                            flag_CARGO,
-                            false ) ) {
+                if( const cata::optional<vpart_reference> vp = g->m.veh_at( dest_loc ).part_with_feature( "CARGO",
+                        false ) ) {
                     dest_veh = &vp->vehicle();
                     dest_part = vp->part_index();
                 } else {

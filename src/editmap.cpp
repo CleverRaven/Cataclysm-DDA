@@ -1630,7 +1630,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
                         const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
-                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( flag_CARGO, true );
+                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         int veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
