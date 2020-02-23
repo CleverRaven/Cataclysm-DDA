@@ -2,11 +2,7 @@
   {
     "type": "item_group",
     "id": "oa_discarded_news",
-    "items": [
-      { "group": "newspaper", "prob": 60 },
-      [ "news_regional", 20 ],
-      [ "mag_news", 20 ]
-    ]
+    "items": [ { "group": "newspaper", "prob": 60 }, [ "news_regional", 20 ], [ "mag_news", 20 ] ]
   },
   {
     "type": "item_group",
