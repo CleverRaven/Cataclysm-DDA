@@ -2362,7 +2362,7 @@ struct weldrig_hack {
             return false;
         }
 
-        part = veh->part_with_feature( part, "WELDRIG", true );
+        part = veh->part_with_feature( part, flag_WELDRIG, true );
         return part >= 0;
     }
 

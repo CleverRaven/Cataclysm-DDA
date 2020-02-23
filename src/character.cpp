@@ -4432,7 +4432,7 @@ void Character::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( flag_BOARDABLE, true );
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
@@ -4934,8 +4934,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( flag_CARGO, false );
+            const cata::optional<vpart_reference> board = vp.part_with_feature( flag_BOARDABLE, true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
@@ -8335,7 +8335,7 @@ int Character::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( flag_BOARDABLE, true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
