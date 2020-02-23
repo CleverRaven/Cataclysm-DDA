@@ -1105,7 +1105,8 @@ static vpart_id vpart_from_item( const std::string &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    return vpart_frame_vertical_2;
+    static const vpart_id frame_id( "frame_vertical_2" );
+    return frame_id;
 }
 
 void construct::done_vehicle( const tripoint &p )

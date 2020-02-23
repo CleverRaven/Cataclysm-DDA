@@ -2475,7 +2475,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_wheel_wide;
+            pid = vpart_id( "wheel_wide" );
         } else {
             data.throw_error( "bad vehicle part", "id" );
         }
@@ -2518,7 +2518,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
     if( base.has_flag( flag_VEHICLE ) ) {
-        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != fuel_type_battery ) {
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != "battery" ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
 
@@ -2684,7 +2684,7 @@ void vehicle::deserialize( JsonIn &jsin )
     }
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
-        install_part( vp.mount(), vpart_turret_mount, false );
+        install_part( vp.mount(), vpart_id( "turret_mount" ), false );
 
         //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
         if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
@@ -2699,23 +2699,23 @@ void vehicle::deserialize( JsonIn &jsin )
     // Add vehicle mounts to cars that are missing them.
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
         if( vp.info().has_flag( flag_STEERABLE ) ) {
-            install_part( vp.mount(), vpart_wheel_mount_light_steerable, false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
         } else {
-            install_part( vp.mount(), vpart_wheel_mount_light, false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
         if( vp.info().has_flag( flag_STEERABLE ) ) {
-            install_part( vp.mount(), vpart_wheel_mount_medium_steerable, false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
         } else {
-            install_part( vp.mount(), vpart_wheel_mount_medium, false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
         if( vp.info().has_flag( flag_STEERABLE ) ) {
-            install_part( vp.mount(), vpart_wheel_mount_heavy_steerable, false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
         } else {
-            install_part( vp.mount(), vpart_wheel_mount_heavy, false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
         }
     }
 

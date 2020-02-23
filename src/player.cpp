@@ -1034,7 +1034,7 @@ bool player::has_alarm_clock() const
 {
     return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
              ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( flag_ALARMCLOCK ) ) ) ||
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
 }
 
@@ -1042,7 +1042,7 @@ bool player::has_watch() const
 {
     return ( has_item_with_flag( flag_WATCH, true ) ||
              ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( flag_WATCH ) ) ) ||
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
 }
 
