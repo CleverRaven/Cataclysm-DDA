@@ -43,5 +43,10 @@
     "type": "enchantment",
     "id": "AEP_SPEED_DOWN",
     "values": [ { "value": "SPEED", "add": -20 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_SMOKE",
+    "emitter": "emit_AEP_SMOKE"
   }
 ]
