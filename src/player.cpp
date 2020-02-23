@@ -2767,7 +2767,7 @@ bool player::add_faction_warning( const faction_id &id )
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_player() && fac->id != faction_no_faction ) {
+    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
@@ -5444,7 +5444,7 @@ void player::place_corpse()
             cbm.set_flag( "FILTHY" );
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_bionic_salvaged );
+            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
             body.put_in( cbm );
         }
     }

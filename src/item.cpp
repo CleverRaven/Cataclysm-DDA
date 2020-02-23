@@ -5204,7 +5204,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammo_money );
+    return ammo_types().count( ammotype( "money" ) );
 }
 
 bool item::count_by_charges() const
@@ -6397,7 +6397,7 @@ gun_type_type item::gun_type() const
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammo_bolt ) || typeId() == "bullet_crossbow" ) {
+        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == "bullet_crossbow" ) {
             return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else {
             return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
