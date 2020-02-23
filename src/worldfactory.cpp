@@ -139,19 +139,32 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
         retworld->COPY_WORLD( world_generator->get_world( world_to_copy ) );
     }
 
-    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
-
     if( show_prompt ) {
         // set up window
-        catacurses::window wf_win = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
+        catacurses::window wf_win;
+        ui_adaptor ui;
+
+        const auto init_windows = [&]( ui_adaptor & ui ) {
+            const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+            const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+            wf_win = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
+            ui.position_from_window( wf_win );
+        };
+        init_windows( ui );
+        ui.on_screen_resize( init_windows );
 
         int curtab = 0;
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
+            wrefresh( wf_win );
+        } );
+
         int lasttab = 0; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
         while( static_cast<size_t>( curtab ) < numtabs ) {
+            ui_manager::redraw();
             lasttab = curtab;
-            draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
             curtab += tabs[curtab]( wf_win, retworld.get() );
 
             // If it is -1, or for unsigned size_t, it would be max.
@@ -162,8 +175,6 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             }
         }
         if( curtab < 0 ) {
-            catacurses::clear();
-            catacurses::refresh();
             return nullptr;
         }
     }
