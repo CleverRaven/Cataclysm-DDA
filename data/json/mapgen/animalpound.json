@@ -98,43 +98,43 @@
       },
       "toilets": { "t": {  } },
       "items": {
-      "f": { "item": "trash", "chance": 50, "repeat": [ 2, 7 ] },
-      "R": { "item": "cleaning", "chance": 45, "repeat": [ 2, 6 ] },
-      "F": [
-        { "item": "animalshelter_softdrug", "chance": 45, "repeat": [ 2, 6 ] },
-        { "item": "animalshelter_hardrug", "chance": 75, "repeat": [ 1, 3 ] }
-      ],
-      "]": { "item": "doctors_books", "chance": 25, "repeat": [ 1, 3 ] },
-      "d": { "item": "cubical_office", "chance": 25, "repeat": [ 1, 4 ] },
-      "b": { "item": "waitingroom", "chance": 30, "repeat": [ 1, 4 ] },
-      "r": { "item": "office", "chance": 40, "repeat": [ 1, 3 ] },
-      "k": { "item": "animalshelter_utility", "chance": 40, "repeat": [ 2, 5 ] }
-  },
-    "place_monsters": [
-      {
-        "monster": "GROUP_ANIMALPOUND_CATS",
-        "x": [ 4, 8 ],
-        "y": [ 13, 14 ],
-        "chance": 20,
-        "repeat": [ 1, 2 ],
-        "density": 0.05
+        "f": { "item": "trash", "chance": 50, "repeat": [ 2, 7 ] },
+        "R": { "item": "cleaning", "chance": 45, "repeat": [ 2, 6 ] },
+        "F": [
+          { "item": "animalshelter_softdrug", "chance": 45, "repeat": [ 2, 6 ] },
+          { "item": "animalshelter_hardrug", "chance": 75, "repeat": [ 1, 3 ] }
+        ],
+        "]": { "item": "doctors_books", "chance": 25, "repeat": [ 1, 3 ] },
+        "d": { "item": "cubical_office", "chance": 25, "repeat": [ 1, 4 ] },
+        "b": { "item": "waitingroom", "chance": 30, "repeat": [ 1, 4 ] },
+        "r": { "item": "office", "chance": 40, "repeat": [ 1, 3 ] },
+        "k": { "item": "animalshelter_utility", "chance": 40, "repeat": [ 2, 5 ] }
       },
-      {
-        "monster": "GROUP_ANIMALPOUND_DOGS",
-        "x": [ 4, 8 ],
-        "y": [ 16, 17 ],
-        "chance": 20,
-        "repeat": [ 1, 2 ],
-        "density": 0.05
-      },
-      {
-        "monster": "GROUP_ANIMALPOUND_DOGS",
-        "x": [ 4, 8 ],
-        "y": [ 19, 20 ],
-        "chance": 20,
-        "repeat": [ 1, 2 ],
-        "density": 0.05
-      }
+      "place_monsters": [
+        {
+          "monster": "GROUP_ANIMALPOUND_CATS",
+          "x": [ 4, 8 ],
+          "y": [ 13, 14 ],
+          "chance": 20,
+          "repeat": [ 1, 2 ],
+          "density": 0.05
+        },
+        {
+          "monster": "GROUP_ANIMALPOUND_DOGS",
+          "x": [ 4, 8 ],
+          "y": [ 16, 17 ],
+          "chance": 20,
+          "repeat": [ 1, 2 ],
+          "density": 0.05
+        },
+        {
+          "monster": "GROUP_ANIMALPOUND_DOGS",
+          "x": [ 4, 8 ],
+          "y": [ 19, 20 ],
+          "chance": 20,
+          "repeat": [ 1, 2 ],
+          "density": 0.05
+        }
       ],
       "place_vehicles": [ { "vehicle": "animalshelter", "x": 19, "y": 0, "chance": 25, "rotation": 360 } ]
     }
