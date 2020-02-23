@@ -37,7 +37,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
 
-        WHEN( "player neither loves nore hates books" ) {
+        WHEN( "player neither loves nor hates books" ) {
             REQUIRE( !dummy.has_trait( trait_LOVES_BOOKS ) );
             REQUIRE( !dummy.has_trait( trait_HATES_BOOKS ) );
 
