@@ -1972,7 +1972,7 @@ void mapgen_cave( mapgendata &dat )
         m->place_spawns( GROUP_CAVE, 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
     } else { // We're above ground!
         // First, draw a forest
-        mapgendata forest_mapgen_dat( dat, oter_forest.id() );
+        mapgendata forest_mapgen_dat( dat, oter_str_id( "forest" ).id() );
         mapgen_forest( forest_mapgen_dat );
         // Clear the center with some rocks
         square( m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5 );
@@ -2933,7 +2933,7 @@ void mapgen_forest( mapgendata &dat )
 void mapgen_forest_trail_straight( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
+    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -2971,7 +2971,7 @@ void mapgen_forest_trail_straight( mapgendata &dat )
 void mapgen_forest_trail_curved( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
+    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -3017,7 +3017,7 @@ void mapgen_forest_trail_curved( mapgendata &dat )
 void mapgen_forest_trail_tee( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
+    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {
@@ -3062,7 +3062,7 @@ void mapgen_forest_trail_tee( mapgendata &dat )
 void mapgen_forest_trail_four_way( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapgendata forest_mapgen_dat( dat, oter_forest_thick.id() );
+    mapgendata forest_mapgen_dat( dat, oter_str_id( "forest_thick" ).id() );
     mapgen_forest( forest_mapgen_dat );
 
     const auto center_offset = [&dat]() {

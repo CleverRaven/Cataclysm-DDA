@@ -6976,13 +6976,13 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_dirt},
-            {t_tree_young, ter_dirt},
-            {t_tree_pine, ter_tree_deadpine},
-            {t_tree_birch, ter_tree_birch_harvested},
-            {t_tree_willow, ter_tree_willow_harvested},
-            {t_tree_hickory, ter_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_tree_hickory_dead},
+            {t_grass, ter_str_id( "t_dirt" )},
+            {t_tree_young, ter_str_id( "t_dirt" )},
+            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
+            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
+            {t_tree_willow, ter_str_id( "t_tree_willow_harvested" )},
+            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
+            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -6995,7 +6995,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     if( tr.has_flag( flag_SHRUB ) ) {
         ter_set( p, t_dirt );
     } else if( tr.has_flag( flag_TREE ) ) {
-        ter_set( p, ter_tree_dead );
+        ter_set( p, ter_str_id( "t_tree_dead" ) );
     }
 }
 

@@ -149,14 +149,14 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         std::vector<monster *> &monster_vec, std::vector<player *> &player_vec );
 
 static const std::vector<std::string> camera_ter_whitelist_flags = {
-    flag_HIDE_PLACE, flag_FUNGUS, flag_TREE, flag_PERMEABLE, flag_SHRUB,
-    flag_PLACE_ITEM, flag_GROWTH_HARVEST, flag_GROWTH_MATURE, flag_GOES_UP,
-    flag_GOES_DOWN, flag_RAMP, flag_SHARP, flag_SIGN, flag_CLIMBABLE
+    "HIDE_PLACE", "FUNGUS", "TREE", "PERMEABLE", "SHRUB",
+    "PLACE_ITEM", "GROWTH_HARVEST", "GROWTH_MATURE", "GOES_UP",
+    "GOES_DOWN", "RAMP", "SHARP", "SIGN", "CLIMBABLE"
 };
 static const std::vector<ter_str_id> camera_ter_whitelist_types = {
-    ter_pit_covered, ter_grave_new, ter_grave, ter_pit,
-    ter_pit_shallow, ter_pit_corpsed, ter_pit_spiked,
-    ter_pit_spiked_covered, ter_pit_glass, ter_pit_glass, ter_utility_light
+    ter_str_id( "t_pit_covered" ), ter_str_id( "t_grave_new" ), ter_str_id( "t_grave" ), ter_str_id( "t_pit" ),
+    ter_str_id( "t_pit_shallow" ), ter_str_id( "t_pit_corpsed" ), ter_str_id( "t_pit_spiked" ),
+    ter_str_id( "t_pit_spiked_covered" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_utility_light" )
 };
 
 void remove_radio_mod( item &it, player &p )
