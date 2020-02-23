@@ -28,6 +28,7 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "game.h"
 #include "string_id.h"
@@ -373,62 +374,75 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
 
     const int iTooltipHeight = 3;
-    const int iContentHeight = TERMY - 3 - iTooltipHeight;
-    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
-    const size_t num_pages = world_names.size() / iContentHeight + 1; // at least 1 page
+    int iContentHeight = 0;
+    int iMinScreenWidth = 0;
+    size_t num_pages = 1;
 
     std::map<int, bool> mapLines;
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    size_t worldnum = 0;
-    for( size_t i = 0; i < num_pages; ++i ) {
-        for( int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j ) {
-            world_pages[i].push_back( world_names[ worldnum++ ] );
-        }
-    }
     size_t sel = 0, selpage = 0;
 
-    catacurses::window w_worlds_border  = catacurses::newwin( TERMY, iMinScreenWidth,
-                                          point( iOffsetX, 0 ) );
-    catacurses::window w_worlds_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
-                                          point( 1 + iOffsetX, 1 ) );
-    catacurses::window w_worlds_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
-                                          point( 1 + iOffsetX, 1 + iTooltipHeight ) );
-    catacurses::window w_worlds         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
-                                          point( 1 + iOffsetX, iTooltipHeight + 2 ) );
+    catacurses::window w_worlds_border;
+    catacurses::window w_worlds_tooltip;
+    catacurses::window w_worlds_header;
+    catacurses::window w_worlds;
 
-    draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
-    mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    ui_adaptor ui;
 
-    for( auto &mapLine : mapLines ) {
-        mvwputch( w_worlds_border, point( mapLine.first + 1, TERMY - 1 ), BORDER_COLOR,
-                  LINE_XXOX ); // _|_
-    }
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        iContentHeight = TERMY - 3 - iTooltipHeight;
+        iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+        num_pages = world_names.size() / iContentHeight + 1; // at least 1 page
 
-    wrefresh( w_worlds_border );
-
-    for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
-        if( mapLines[i] ) {
-            mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-        } else {
-            mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // Draw header line
+        world_pages.clear();
+        size_t worldnum = 0;
+        for( size_t i = 0; i < num_pages; ++i ) {
+            for( int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j ) {
+                world_pages[i].push_back( world_names[ worldnum++ ] );
+            }
         }
-    }
 
-    wrefresh( w_worlds_header );
+        w_worlds_border  = catacurses::newwin( TERMY, iMinScreenWidth,
+                                               point( iOffsetX, 0 ) );
+        w_worlds_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
+                                               point( 1 + iOffsetX, 1 ) );
+        w_worlds_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
+                                               point( 1 + iOffsetX, 1 + iTooltipHeight ) );
+        w_worlds         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
+                                               point( 1 + iOffsetX, iTooltipHeight + 2 ) );
 
-    input_context ctxt( "PICK_WORLD_DIALOG" );
-    ctxt.register_updown();
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "CONFIRM" );
+        ui.position_from_window( w_worlds_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
+        mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
+        mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+
+        for( auto &mapLine : mapLines ) {
+            if( mapLine.second ) {
+                mvwputch( w_worlds_border, point( mapLine.first + 1, TERMY - 1 ), BORDER_COLOR,
+                          LINE_XXOX ); // _|_
+            }
+        }
+
+        wrefresh( w_worlds_border );
+
+        for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
+            if( mapLines[i] ) {
+                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
+            } else {
+                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // Draw header line
+            }
+        }
+
+        wrefresh( w_worlds_header );
+
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
             for( int j = 0; j < getmaxx( w_worlds ); j++ ) {
@@ -481,12 +495,22 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         wrefresh( w_worlds_tooltip );
 
         wrefresh( w_worlds );
+    } );
+
+    input_context ctxt( "PICK_WORLD_DIALOG" );
+    ctxt.register_updown();
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "CONFIRM" );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
-            catacurses::clear();
-            catacurses::refresh();
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
@@ -520,18 +544,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 }
             } while( world_pages[selpage].empty() );
         } else if( action == "CONFIRM" ) {
-            werase( w_worlds );
-            werase( w_worlds_border );
-            werase( w_worlds_header );
-            werase( w_worlds_tooltip );
             return get_world( world_pages[selpage][sel] );
         }
     }
-
-    werase( w_worlds );
-    werase( w_worlds_border );
-    werase( w_worlds_header );
-    werase( w_worlds_tooltip );
 
     return nullptr;
 }
