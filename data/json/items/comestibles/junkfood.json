@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toastem",
-    "name": "toast-em",
+    "name": { "str": "toast-em" },
     "weight": "50 g",
     "color": "red",
     "spoils_in": "90 days",
@@ -23,7 +23,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toastem2",
-    "name": "toast-em",
+    "name": { "str": "toast-em" },
     "copy-from": "toastem",
     "description": "Dry toaster pastries, usually coated with solid frosting, these are blueberry flavored!",
     "fun": 15
@@ -31,7 +31,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toastem3",
-    "name": "toast-em",
+    "name": { "str": "toast-em" },
     "copy-from": "toastem",
     "description": "Dry toaster pastries, usually coated with solid frosting.  Sadly, these are not.",
     "fun": 10
@@ -168,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chocpretzels",
-    "name": "chocolate-covered pretzel",
+    "name": { "str": "chocolate-covered pretzel" },
     "weight": "96 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -188,7 +188,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chocolate",
-    "name": "chocolate bar",
+    "name": { "str": "chocolate bar" },
     "weight": "34 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -347,7 +347,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grahmcrackers",
-    "name": "graham cracker",
+    "name": { "str": "graham cracker" },
     "weight": "31 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -368,7 +368,147 @@
   {
     "type": "COMESTIBLE",
     "id": "cookies",
-    "name": "cookie",
+    "name": { "str": "cookie" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple cookies", "str_pl": "apple cookies" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str": "apricot cookies", "str_pl": "apricot cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "banana",
+        "name": { "str": "banana cookies", "str_pl": "banana fruit leather" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberry",
+        "name": { "str": "blackberry cookies", "str_pl": "blackberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberry",
+        "name": { "str": "blueberry cookies", "str_pl": "blueberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str": "cherry cookies", "str_pl": "cherry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberry",
+        "name": { "str": "cranberry cookies", "str_pl": "cranberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "grapefruit cookies", "str_pl": "grapefruit cookies" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape cookies", "str_pl": "grape cookies" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi cookies", "str_pl": "kiwi cookies" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon cookies", "str_pl": "melon cookies" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "orange",
+        "name": { "str": "orange cookies", "str_pl": "orange cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "papaya",
+        "name": { "str": "papaya cookies", "str_pl": "papaya cookies" }
+      },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach cookies", "str_pl": "peach cookies" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear cookies", "str_pl": "pear cookies" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum cookies", "str_pl": "plum cookies" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "pomegranate cookies", "str_pl": "pomegranate cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberry",
+        "name": { "str": "raspberry cookies", "str_pl": "raspberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "rose hips cookies", "str_pl": "rose hips cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberry",
+        "name": { "str": "strawberry cookies", "str_pl": "strawberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberry",
+        "name": { "str": "huckleberry cookies", "str_pl": "huckleberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberry",
+        "name": { "str": "mulberry cookies", "str_pl": "mulberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberry",
+        "name": { "str": "elderberry cookies", "str_pl": "elderberry cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "watermelon cookies", "str_pl": "watermelon cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "rhubarb cookies", "str_pl": "rhubarb cookies" }
+      },
+      { "type": "COMPONENT_ID", "condition": "lemon", "name": { "str": "lemon cookies", "str_pl": "lemon cookies" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "can_peach",
+        "name": { "str": "peach cookies", "str_pl": "peach cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apple_canned",
+        "name": { "str": "fruit cookies", "str_pl": "fruit cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dry_fruit",
+        "name": { "str": "fruit cookies", "str_pl": "fruit cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chocolate",
+        "name": { "str": "chocolate cookies", "str_pl": "chocolate cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "candy",
+        "name": { "str": "peanut butter candy cookies", "str_pl": "peanut butter candy cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "candy2",
+        "name": { "str": "chocolate candy cookies", "str_pl": "chocolate candy cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "coffee",
+        "name": { "str": "cocoa-coffee cookies", "str_pl": "cocoa-coffee cookies" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "jam_fruit",
+        "name": { "str": "jam-filled cookies", "str_pl": "jam-filled cookies" }
+      }
+    ],
     "weight": "33 g",
     "color": "brown",
     "spoils_in": "60 days",
@@ -430,7 +570,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jihelucake",
-    "name": "cake",
+    "name": { "str": "cake" },
     "weight": "38 g",
     "color": "white",
     "spoils_in": "52 hours",
@@ -448,7 +588,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cake2",
-    "name": "cake",
+    "name": { "str": "cake" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
     "description": "Delicious chocolate cake.  It has all the icing.  All of it."
@@ -456,7 +596,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cake3",
-    "name": "cake",
+    "name": { "str": "cake" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
     "quench": -5,
@@ -466,7 +606,7 @@
   {
     "type": "COMESTIBLE",
     "id": "choco_coffee_beans",
-    "name": "chocolate-covered coffee bean",
+    "name": { "str": "chocolate-covered coffee bean" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -514,7 +654,7 @@
     "name": { "str": "French fries", "str_pl": "French fries" },
     "copy-from": "fries",
     "spoils_in": "3 days",
-    "description": "Deep-fried potatoes with a touch of salt.  Crunchy and delicious.",
+    "description": "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
     "fun": 3
   },
   {
@@ -560,7 +700,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candycigarette",
-    "name": "candy cigarette",
+    "name": { "str": "candy cigarette" },
     "weight": "18 g",
     "color": "white",
     "spoils_in": "180 days",
@@ -622,7 +762,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal",
-    "name": "sugary cereal",
+    "name": { "str": "sugary cereal" },
     "weight": "38 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -642,7 +782,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal3",
-    "name": "corn cereal",
+    "name": { "str": "corn cereal" },
     "weight": "39 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -765,7 +905,7 @@
   {
     "type": "COMESTIBLE",
     "id": "porkstick",
-    "name": "pork stick",
+    "name": { "str": "pork stick" },
     "weight": "56 g",
     "color": "brown",
     "spoils_in": "24 days",
@@ -786,7 +926,7 @@
   {
     "type": "COMESTIBLE",
     "id": "junk_burrito",
-    "name": "microwave burrito",
+    "name": { "str": "microwave burrito" },
     "weight": "142 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",
@@ -807,7 +947,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frozen_dinner",
-    "name": "uncooked TV dinner",
+    "name": { "str": "uncooked TV dinner" },
     "weight": "453 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",
@@ -828,7 +968,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_dinner",
-    "name": "cooked TV dinner",
+    "name": { "str": "cooked TV dinner" },
     "weight": "450 g",
     "color": "brown",
     "spoils_in": "12 hours",
@@ -849,7 +989,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fchicken",
-    "name": "deep-fried chicken",
+    "name": { "str": "deep-fried chicken" },
     "weight": "168 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -899,7 +1039,7 @@
     "symbol": "%",
     "healthy": -6,
     "calories": 195,
-    "description": "A heavily processed sausage, dipped in batter and deep-fried.  It would taste much better prepared.",
+    "description": "A heavily processed sausage, dipped in batter and deep fried.  It would taste much better prepared.",
     "price": 900,
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
@@ -911,12 +1051,12 @@
   {
     "type": "COMESTIBLE",
     "id": "corndogs_cooked",
-    "name": "cooked corn dog",
+    "name": { "str": "cooked corn dog" },
     "copy-from": "corndogs_frozen",
     "spoils_in": "1 day",
     "container": "wrapper",
     "healthy": -2,
-    "description": "A heavily processed sausage, dipped in batter and deep-fried.  Cooked, this corn dog now tastes much better, but will spoil.",
+    "description": "A heavily processed sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18
   },
   {
@@ -937,7 +1077,7 @@
   {
     "type": "COMESTIBLE",
     "id": "choc_waffles",
-    "name": "chocolate waffle",
+    "name": { "str": "chocolate waffle" },
     "weight": "70 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -956,7 +1096,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_cheese",
-    "name": "cheese spread",
+    "name": { "str": "cheese spread" },
     "weight": "30 g",
     "color": "yellow",
     "spoils_in": "4 days",
@@ -998,7 +1138,7 @@
   {
     "type": "COMESTIBLE",
     "id": "onion_rings",
-    "name": "onion ring",
+    "name": { "str": "onion ring" },
     "weight": "166 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -1018,7 +1158,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_frozen",
-    "name": { "str": "uncooked hot dog" },
+    "name": { "str": "uncooked hot dog", "str_pl": "uncooked hot dogs" },
     "weight": "43 g",
     "color": "red",
     "spoils_in": "11 days 16 hours",
@@ -1069,7 +1209,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maltballs",
-    "name": "malted milk ball",
+    "name": { "str": "malted milk ball" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "180 days",
