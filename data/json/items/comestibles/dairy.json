@@ -66,7 +66,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yoghurt",
-    "name": { "str": "yogurt" },
+    "name": { "str": "yogurt", "str_pl": "yogurt" },
     "weight": "238 g",
     "color": "magenta",
     "spoils_in": "20 hours",
@@ -138,7 +138,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pudding",
-    "name": { "str": "pudding" },
+    "name": { "str": "pudding", "str_pl": "pudding" },
     "weight": "232 g",
     "color": "light_gray",
     "spoils_in": "7 days 12 hours",
@@ -157,7 +157,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_curdled",
-    "name": { "str": "curdled milk" },
+    "name": { "str": "curdled milk", "str_pl": "curdled milk" },
     "weight": "236 g",
     "color": "white",
     "spoils_in": "28 days",
