@@ -4,10 +4,11 @@
 #include <array>
 #include <memory>
 
+#include "catacharset.h"
 #include "ime.h"
 #include "input.h"
 #include "output.h"
-#include "catacharset.h"
+#include "ui_manager.h"
 
 extern bool test_mode;
 
@@ -129,10 +130,6 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
 void query_popup::invalidate_ui() const
 {
     if( win ) {
-        werase( win );
-        wrefresh( win );
-        catacurses::refresh();
-        refresh_display();
         win = {};
         folded_msg.clear();
         buttons.clear();
@@ -208,6 +205,11 @@ void query_popup::init() const
     const int win_x = ( TERMX - win_width ) / 2;
     const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
     win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
+
+    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    if( ui ) {
+        ui->position_from_window( win );
+    }
 }
 
 void query_popup::show() const
@@ -233,10 +235,24 @@ void query_popup::show() const
     }
 
     wrefresh( win );
-    // Need to refresh display when displaying popups wihout taking input, such
-    // as during saving.
-    catacurses::refresh();
-    refresh_display();
+}
+
+std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
+{
+    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    if( !ui ) {
+        adaptor = ui = std::make_shared<ui_adaptor>();
+        ui->on_redraw( [this]( const ui_adaptor & ) {
+            show();
+        } );
+        ui->on_screen_resize( [this]( ui_adaptor & ) {
+            init();
+        } );
+        if( win ) {
+            ui->position_from_window( win );
+        }
+    }
+    return ui;
 }
 
 query_popup::result query_popup::query_once()
@@ -249,7 +265,9 @@ query_popup::result query_popup::query_once()
         return { false, "ERROR", {} };
     }
 
-    show();
+    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+
+    ui_manager::redraw();
 
     input_context ctxt( category );
     if( cancel || !options.empty() ) {
@@ -325,6 +343,8 @@ query_popup::result query_popup::query_once()
 query_popup::result query_popup::query()
 {
     ime_sentry sentry( ime_sentry::disable );
+
+    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     result res;
     do {
