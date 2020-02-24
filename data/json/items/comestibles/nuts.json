@@ -392,7 +392,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_ambrosia",
-    "name": "hickory nut ambrosia",
+    "name": { "str": "hickory nut ambrosia" },
     "weight": "254 g",
     "color": "brown",
     "spoils_in": "10 days 19 hours",
