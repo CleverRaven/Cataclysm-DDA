@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_mycus_wine",
-    "name": { "str": "mycus wine must" },
+    "name": { "str": "mycus wine must", "str_pl": "mycus wine must" },
     "description": "Unfermented mycus wine.  A goopy white mess, made from fruit of mycus.  It smells sweetly of mushrooms.",
     "weight": "33 g",
     "color": "white",
@@ -22,7 +22,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_whiskey",
-    "name": { "str": "whiskey wort" },
+    "name": { "str": "whiskey wort", "str_pl": "whiskey wort" },
     "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.",
     "weight": "33 g",
     "color": "brown",
@@ -42,7 +42,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_whiskey",
-    "name": { "str": "whiskey wash", "str_pl": "whiskey washes" },
+    "name": { "str": "whiskey wash", "str_pl": "whiskey wash" },
     "description": "Fermented, but not distilled whiskey.  No longer tastes sweet.",
     "weight": "33 g",
     "color": "brown",
@@ -66,7 +66,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_gin",
-    "name": { "str": "fermenting gin mash", "str_pl": "fermenting gin mashes" },
+    "name": { "str": "fermenting gin mash", "str_pl": "fermenting gin mash" },
     "description": "Undistilled gin mash.  Distilling it will produce gin.",
     "weight": "33 g",
     "color": "brown",
@@ -86,7 +86,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gin_mash",
-    "name": { "str": "gin mash", "str_pl": "gin mashes" },
+    "name": { "str": "gin mash", "str_pl": "gin mash" },
     "description": "Gin mash, after the junipers have had time to add flavor, ready to be distilled or drunk as is.",
     "weight": "33 g",
     "color": "yellow",
@@ -110,7 +110,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_vodka",
-    "name": { "str": "vodka wort" },
+    "name": { "str": "vodka wort", "str_pl": "vodka wort" },
     "description": "Unfermented vodka.  Water with sugar from enzymatic breakdown of malted grains or just added in pure form.",
     "weight": "50 g",
     "color": "light_cyan",
@@ -130,7 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_vodka",
-    "name": { "str": "vodka wash", "str_pl": "vodka washes" },
+    "name": { "str": "vodka wash", "str_pl": "vodka wash" },
     "description": "Fermented, but not distilled vodka.  No longer tastes sweet.",
     "weight": "33 g",
     "color": "light_cyan",
@@ -154,7 +154,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_rum",
-    "name": { "str": "rum wort" },
+    "name": { "str": "rum wort", "str_pl": "rum wort" },
     "description": "Unfermented rum.  Sugar caramel or molasses brewed into sweet water.  Basically a saccharine soup.",
     "weight": "33 g",
     "color": "light_cyan",
@@ -174,7 +174,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_rum",
-    "name": { "str": "rum wash", "str_pl": "rum washes" },
+    "name": { "str": "rum wash", "str_pl": "rum wash" },
     "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
     "weight": "50 g",
     "color": "light_cyan",
@@ -198,7 +198,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_fruit_wine",
-    "name": { "str": "fruit wine must" },
+    "name": { "str": "fruit wine must", "str_pl": "fruit wine must" },
     "description": "Unfermented fruit wine.  A sweet, boiled juice made from berries or fruit.",
     "weight": "46 g",
     "color": "light_red",
@@ -219,7 +219,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_mead",
-    "name": { "str": "spiced mead must" },
+    "name": { "str": "spiced mead must", "str_pl": "spiced mead must" },
     "description": "Unfermented spiced mead.  Diluted honey and yeast.",
     "weight": "38 g",
     "color": "yellow",
@@ -241,7 +241,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_dandelion_wine",
-    "name": { "str": "dandelion wine must" },
+    "name": { "str": "dandelion wine must", "str_pl": "dandelion wine must" },
     "description": "Unfermented dandelion wine.  A sticky mixture of water, sugar, yeast, and dandelion petals.",
     "weight": "38 g",
     "color": "yellow",
@@ -261,7 +261,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_pine_wine",
-    "name": { "str": "pine wine must" },
+    "name": { "str": "pine wine must", "str_pl": "pine wine must" },
     "description": "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine resins.",
     "weight": "38 g",
     "color": "green",
@@ -281,7 +281,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_hb_beer",
-    "name": { "str": "beer wort" },
+    "name": { "str": "beer wort", "str_pl": "beer wort" },
     "description": "Unfermented homebrew beer.  A boiled and chilled mash of malted barley, spiced with some fine hops.",
     "weight": "249 g",
     "color": "brown",
@@ -300,7 +300,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_moonshine",
-    "name": { "str": "moonshine mash", "str_pl": "moonshine mashes" },
+    "name": { "str": "moonshine mash", "str_pl": "moonshine mash" },
     "description": "Unfermented moonshine.  Just some water, sugar and corn, like good ol' aunt's recipe.",
     "weight": "50 g",
     "color": "brown",
@@ -320,7 +320,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wash_moonshine",
-    "name": { "str": "moonshine wash", "str_pl": "moonshine washes" },
+    "name": { "str": "moonshine wash", "str_pl": "moonshine wash" },
     "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine.",
     "weight": "50 g",
     "color": "brown",
@@ -344,7 +344,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_milk_curdled",
-    "name": { "str": "curdling milk" },
+    "name": { "str": "curdling milk", "str_pl": "curdling milk" },
     "weight": "236 g",
     "color": "white",
     "spoils_in": "28 days",
@@ -365,7 +365,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_vinegar",
-    "name": { "str": "unfermented vinegar" },
+    "name": { "str": "unfermented vinegar", "str_pl": "unfermented vinegar" },
     "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar.",
     "weight": "15 g",
     "color": "yellow",
