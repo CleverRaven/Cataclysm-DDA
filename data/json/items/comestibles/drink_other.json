@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "name": "red sauce",
+    "name": { "str": "red sauce" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
@@ -71,7 +71,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "red",
-    "name": "ketchup",
+    "name": { "str": "ketchup" },
     "description": "A viscous paste of tomato, salt, and vinegar.",
     "price": 1875,
     "material": [ "veggy", "junk" ],
@@ -131,7 +131,7 @@
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
-    "name": "peanut butter",
+    "name": { "str": "peanut butter" },
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
     "price": 195,
     "//": "Two tablespoons per charge.",
@@ -151,7 +151,40 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
-    "name": "imitation peanutbutter",
+    "name": { "str": "imitation peanutbutter" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "pine", "name": { "str": "pine nut butter", "str_pl": "pine nut butter" } },
+      { "type": "COMPONENT_ID", "condition": "pecan", "name": { "str": "pecan butter", "str_pl": "pecan butter" } },
+      { "type": "COMPONENT_ID", "condition": "cashew", "name": { "str": "cashew butter", "str_pl": "cashew butter" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pistachio",
+        "name": { "str": "pistachio butter", "str_pl": "pistachio butter" }
+      },
+      { "type": "COMPONENT_ID", "condition": "almond", "name": { "str": "almond butter", "str_pl": "almond butter" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "beech",
+        "name": { "str": "beech nut butter", "str_pl": "beech nut butter" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "hickory",
+        "name": { "str": "hickory nut butter", "str_pl": "hickory nut butter" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chestnut",
+        "name": { "str": "chestnut butter", "str_pl": "chestnut butter" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "hazelnut",
+        "name": { "str": "hazelnut butter", "str_pl": "hazelnut butter" }
+      },
+      { "type": "COMPONENT_ID", "condition": "walnut", "name": { "str": "walnut butter", "str_pl": "walnut butter" } },
+      { "type": "COMPONENT_ID", "condition": "acorn", "name": { "str": "acorn butter", "str_pl": "acorn butter" } }
+    ],
     "description": "A thick, nutty brown paste.",
     "copy-from": "peanutbutter",
     "container": "jar_glass"
@@ -178,6 +211,39 @@
     "type": "COMESTIBLE",
     "id": "cooking_oil",
     "name": { "str": "vegetable cooking oil", "str_pl": "vegetable cooking oil" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant_sac",
+        "name": { "str": "fungal cooking oil", "str_pl": "fungal cooking oil" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "seed_cotton_boll",
+        "name": { "str": "cottonseedoil", "str_pl": "cottonseed oil" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "seed_pumpkin",
+        "name": { "str": "pumpkin seed oil", "str_pl": "pumpkin seed oil" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "seed_sunflower",
+        "name": { "str": "sunflower seed oil", "str_pl": "sunflower seed oil" }
+      },
+      { "type": "COMPONENT_ID", "condition": "seed_canola", "name": { "str": "canola oil", "str_pl": "canola oil" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "seed_grapes",
+        "name": { "str": "grapeseed oil", "str_pl": "grapeseed oil" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "seed_weed",
+        "name": { "str": "hempseed oil", "str_pl": "hempseed oil" }
+      }
+    ],
     "weight": "15 g",
     "color": "yellow",
     "container": "jug_plastic",
@@ -192,7 +258,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [  ],
     "vitamins": [  ],
     "freezing_point": 14
   },
@@ -200,6 +266,14 @@
     "type": "COMESTIBLE",
     "id": "cooking_oil2",
     "name": { "str": "animal cooking oil", "str_pl": "animal cooking oil" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "clod cooking oil", "str_pl": "clod cooking oil" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mutant",
+        "name": { "str": "monster cooking oil", "str_pl": "monster cooking oil" }
+      }
+    ],
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
     "material": [ "flesh", "oil" ],
