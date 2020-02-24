@@ -48,17 +48,17 @@ const std::map<std::string, m_size> Creature::size_map = {
 };
 
 const std::set<material_id> Creature::cmat_flesh{
-    material_id( "flesh" ), material_id( "iflesh" )
+    material_flesh, material_iflesh
 };
 const std::set<material_id> Creature::cmat_fleshnveg{
-    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+    material_flesh,  material_iflesh, material_veggy
 };
 const std::set<material_id> Creature::cmat_flammable{
-    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
-    material_id( "cotton" ), material_id( "wool" )
+    material_paper, material_powder, material_wood,
+    material_cotton, material_wool
 };
 const std::set<material_id> Creature::cmat_flameres{
-    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+    material_stone, material_kevlar, material_steel
 };
 
 Creature::Creature()
@@ -684,13 +684,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
     if( proj.proj_effects.count( "INCENDIARY" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
+        if( made_of( material_veggy ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
             add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
+        if( made_of( material_veggy ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, 6_turns, bp_hit );
         } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit );

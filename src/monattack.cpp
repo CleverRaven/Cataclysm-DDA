@@ -192,7 +192,7 @@ bool mattack::none( monster * )
 bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
+        if( g->m.has_flag( flag_PLANT, p ) && one_in( 4 ) ) {
             g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant->base ) );
             g->m.i_clear( p );
             return true;
@@ -205,7 +205,7 @@ bool mattack::eat_food( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
-        if( g->m.has_flag( "PLANT", p ) ) {
+        if( g->m.has_flag( flag_PLANT, p ) ) {
             continue;
         }
         auto items = g->m.i_at( p );
@@ -672,11 +672,11 @@ bool mattack::pull_metal_weapon( monster *z )
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
-            ( foe->weapon.made_of( material_id( "iron" ) ) ||
-              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
-              foe->weapon.made_of( material_id( "steel" ) ) ||
-              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+        if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
+            ( foe->weapon.made_of( material_iron ) ||
+              foe->weapon.made_of( material_hardsteel ) ||
+              foe->weapon.made_of( material_steel ) ||
+              foe->weapon.made_of( material_budget_steel ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -832,7 +832,7 @@ bool mattack::resurrect( monster *z )
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
-                   mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
+                   mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
 
@@ -873,7 +873,8 @@ bool mattack::resurrect( monster *z )
         // Check to see if there are any nearby living zombies to see if we should get angry
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
-            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) && zed->type->in_species( ZOMBIE ) &&
+            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) &&
+                   zed->type->in_species( species_ZOMBIE ) &&
                    z->attitude_to( *zed ) == Creature::Attitude::A_FRIENDLY  &&
                    within_target_range( z, zed, 10 );
         } );
@@ -1276,8 +1277,8 @@ bool mattack::growplants( monster *z )
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
-               g->m.has_flag_ter( "TREE", p ) ||
+        if( !( g->m.has_flag_ter( flag_DIGGABLE, p ) ||
+               g->m.has_flag_ter( flag_TREE, p ) ||
                g->m.ter( p ) == t_tree_young ) ) {
             continue;
         }
@@ -2106,7 +2107,7 @@ bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
     const tripoint monster_position = z->pos();
-    const bool is_fungi = g->m.has_flag_ter( "FUNGUS", monster_position );
+    const bool is_fungi = g->m.has_flag_ter( flag_FUNGUS, monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -2239,9 +2240,9 @@ bool mattack::formblob( monster *z )
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( ( othermon.made_of( material_id( "flesh" ) ) ||
-                     othermon.made_of( material_id( "veggy" ) ) ||
-                     othermon.made_of( material_id( "iflesh" ) ) ) &&
+        } else if( ( othermon.made_of( material_flesh ) ||
+                     othermon.made_of( material_veggy ) ||
+                     othermon.made_of( material_iflesh ) ) &&
                    rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
             didit = blobify( *z, othermon );
         }
@@ -2311,7 +2312,7 @@ bool mattack::jackson( monster *z )
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
+        if( candidate.type->in_species( species_ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( &candidate );
@@ -2724,8 +2725,8 @@ bool mattack::stare( monster *z )
     z->moves -= 200;
     if( z->sees( g->u ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
-        if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+        if( g->u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
+            g->u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -2747,7 +2748,7 @@ bool mattack::fear_paralyze( monster *z )
         return false;
     }
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( flag_PSYSHIELD_PARTIAL ) &&
                 one_in( 4 ) ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
@@ -3376,7 +3377,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zposx - 24; x < zposx + 24; x++ ) {
             for( int y = zposy - 24; y < zposy + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( g->m.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
+                if( g->m.ter( dest ) == ter_plut_generator ) {
                     generator_ok = true;
                 }
             }
@@ -4099,8 +4100,8 @@ bool mattack::absorb_meat( monster *z )
         auto items = g->m.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
-            if( current_item_material == material_id( "flesh" ) ||
-                current_item_material == material_id( "hflesh" ) ) {
+            if( current_item_material == material_flesh ||
+                current_item_material == material_hflesh ) {
                 //We have something meaty! Calculate how much it will heal the monster
                 const int ml_of_meat = units::to_milliliter<int>( current_item.volume() );
                 const int total_charges = current_item.count();
@@ -4788,7 +4789,7 @@ bool mattack::leech_spawner( monster *z )
     const bool u_see = g->u.sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( LEECH_PLANT ) && !candidate.has_flag( MF_IMMOBILE ) ) {
+        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( MF_IMMOBILE ) ) {
             allies.push_back( &candidate );
         }
     }
@@ -4821,7 +4822,7 @@ bool mattack::mon_leech_evolution( monster *z )
     const bool is_queen = z->has_flag( MF_QUEEN );
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
+        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
             rl_dist( z->pos(), candidate.pos() ) < 35 ) {
             queens.push_back( &candidate );
         }

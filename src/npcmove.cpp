@@ -159,7 +159,7 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 tripoint npc::good_escape_direction( bool include_pos )
 {
     if( path.empty() ) {
-        zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
+        zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint &abs_pos = global_square_location();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
@@ -2279,7 +2279,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
             moved = true;
         }
-    } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+    } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( flag_CLIMBABLE, p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
@@ -2719,15 +2719,13 @@ void npc::find_item()
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
-        static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
-        if( !cargo || cargo->has_feature( locked_string ) ) {
+        if( !cargo || cargo->has_feature( flag_LOCKED ) ) {
             cache_tile();
             continue;
         }
 
-        static const std::string cargo_locking_string( "CARGO_LOCKING" );
-        if( vp.part_with_feature( cargo_locking_string, true ) ) {
+        if( vp.part_with_feature( flag_CARGO_LOCKING, true ) ) {
             cache_tile();
             continue;
         }
@@ -2780,11 +2778,11 @@ void npc::pick_up_item()
 
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
-    const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
+    const bool has_cargo = vp && !vp->has_feature( flag_LOCKED );
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
@@ -3815,8 +3813,8 @@ void npc::reach_omt_destination()
         if( is_player_ally() ) {
             talk_function::assign_guard( *this );
             if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
-                if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                    has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                if( g->u.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
+                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
                                         "'I've arrived, boss!'" ), disp_name() );
                 }

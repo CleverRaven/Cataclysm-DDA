@@ -183,7 +183,7 @@ field_type_id Character::gibType() const
 
 bool Character::in_species( const species_id &spec ) const
 {
-    return spec == HUMAN;
+    return spec == species_HUMAN;
 }
 
 bool Character::is_warm() const
@@ -1939,7 +1939,6 @@ int Character::best_nearby_lifting_assist() const
 
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
-    const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
@@ -1947,9 +1946,9 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+    return std::max( { this->max_quality( quality_LIFT ), mech_lift,
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( quality_LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( quality_LIFT )
                      } );
 }
 
@@ -2139,8 +2138,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
     }
 
-    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
-                                            it.item_tags.count( "wooled" ) ) ) {
+    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
+                                            it.item_tags.count( flag_wooled ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
@@ -2159,8 +2158,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( bp_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
-            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
+            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
+            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -2620,9 +2619,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( "PRED2" ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( "PRED3" ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( "PRED4" ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_trait_flag( flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -2929,7 +2928,7 @@ bool Character::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
-        if( worn_with_flag( "CLIMATE_CONTROL" ) ) {
+        if( worn_with_flag( flag_CLIMATE_CONTROL ) ) {
             return true;
         }
     }
@@ -2964,13 +2963,13 @@ int Character::get_wind_resistance( body_part bp ) const
 
     for( auto &i : worn ) {
         if( i.covers( bp ) ) {
-            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
-                i.made_of( material_id( "bone" ) ) ||
-                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
+            if( i.made_of( material_leather ) || i.made_of( material_plastic ) ||
+                i.made_of( material_bone ) ||
+                i.made_of( material_chitin ) || i.made_of( material_nomex ) ) {
                 penalty = 10; // 90% effective
-            } else if( i.made_of( material_id( "cotton" ) ) ) {
+            } else if( i.made_of( material_cotton ) ) {
                 penalty = 30;
-            } else if( i.made_of( material_id( "wool" ) ) ) {
+            } else if( i.made_of( material_wool ) ) {
                 penalty = 40;
             } else {
                 penalty = 1; // 99% effective
@@ -3554,7 +3553,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( "NO_THIRST" ) ) {
+    if( has_trait_flag( flag_NO_THIRST ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -4316,7 +4315,7 @@ void Character::check_needs_extremes()
 void Character::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
+    if( is_npc() || has_trait_flag( flag_NO_DISEASE ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
@@ -4433,7 +4432,7 @@ void Character::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( flag_BOARDABLE, true );
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
@@ -4935,8 +4934,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( flag_CARGO, false );
+            const cata::optional<vpart_reference> board = vp.part_with_feature( flag_BOARDABLE, true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
@@ -5444,34 +5443,34 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
-                   worn_with_flag( "BIO_IMMUNE" );
+            return has_effect_with_flag( flag_EFFECT_BIO_IMMUNE ) ||
+                   worn_with_flag( flag_BIO_IMMUNE );
         case DT_BASH:
-            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
-                   worn_with_flag( "BASH_IMMUNE" );
+            return has_effect_with_flag( flag_EFFECT_BASH_IMMUNE ) ||
+                   worn_with_flag( flag_BASH_IMMUNE );
         case DT_CUT:
-            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
-                   worn_with_flag( "CUT_IMMUNE" );
+            return has_effect_with_flag( flag_EFFECT_CUT_IMMUNE ) ||
+                   worn_with_flag( flag_CUT_IMMUNE );
         case DT_ACID:
             return has_trait( trait_ACIDPROOF ) ||
-                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
-                   worn_with_flag( "ACID_IMMUNE" );
+                   has_effect_with_flag( flag_EFFECT_ACID_IMMUNE ) ||
+                   worn_with_flag( flag_ACID_IMMUNE );
         case DT_STAB:
-            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
-                   worn_with_flag( "STAB_IMMUNE" );
+            return has_effect_with_flag( flag_EFFECT_STAB_IMMUNE ) ||
+                   worn_with_flag( flag_STAB_IMMUNE );
         case DT_HEAT:
             return has_trait( trait_M_SKIN2 ) ||
                    has_trait( trait_M_SKIN3 ) ||
-                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
-                   worn_with_flag( "HEAT_IMMUNE" );
+                   has_effect_with_flag( flag_EFFECT_HEAT_IMMUNE ) ||
+                   worn_with_flag( flag_HEAT_IMMUNE );
         case DT_COLD:
-            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
-                   worn_with_flag( "COLD_IMMUNE" );
+            return has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
+                   worn_with_flag( flag_COLD_IMMUNE );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
-                   worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+                   worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
                    has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
-                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
+                   has_effect_with_flag( flag_EFFECT_ELECTRIC_IMMUNE );
         default:
             return true;
     }
@@ -5480,7 +5479,7 @@ bool Character::is_immune_damage( const damage_type dt ) const
 bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
-    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
+    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
 }
 
 int Character::throw_range( const item &it ) const
@@ -5510,7 +5509,7 @@ int Character::throw_range( const item &it ) const
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1_liter;
-    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> affected_materials = { material_iron, material_steel };
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -5528,7 +5527,7 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
-const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
+const std::vector<material_id> Character::fleshy = { material_flesh, material_hflesh };
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
@@ -5646,7 +5645,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
     if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        ( critter.in_species( species_ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
         return true;
     }
 
@@ -6409,7 +6408,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_trait_flag( "NO_RADIATION" ) ) {
+    if( has_trait_flag( flag_NO_RADIATION ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
@@ -7752,8 +7751,8 @@ void Character::rooted()
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
-            vitamin_mod( vitamin_id( "iron" ), 1, true );
-            vitamin_mod( vitamin_id( "calcium" ), 1, true );
+            vitamin_mod( vitamin_iron, 1, true );
+            vitamin_mod( vitamin_calcium, 1, true );
         }
         if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
             mod_thirst( -1 );
@@ -7900,7 +7899,7 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
 
 bool Character::is_waterproof( const body_part_set &parts ) const
 {
-    return covered_with_flag( "WATERPROOF", parts );
+    return covered_with_flag( flag_WATERPROOF, parts );
 }
 
 void Character::update_morale()
@@ -8260,7 +8259,7 @@ int Character::warmth( body_part bp ) const
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
-            if( !i.made_of( material_id( "wool" ) ) ) {
+            if( !i.made_of( material_wool ) ) {
                 warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }
             ret += warmth;
@@ -8287,17 +8286,17 @@ int Character::bonus_item_warmth( body_part bp ) const
 
     // If the player is not wielding anything big, check if hands can be put in pockets
     if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 500_ml ) {
-        ret += bestwarmth( worn, "POCKETS" );
+        ret += bestwarmth( worn, flag_POCKETS );
     }
 
     // If the player's head is not encumbered, check if hood can be put up
     if( bp == bp_head && encumb( bp_head ) < 10 ) {
-        ret += bestwarmth( worn, "HOOD" );
+        ret += bestwarmth( worn, flag_HOOD );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
     if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
-        ret += bestwarmth( worn, "COLLAR" );
+        ret += bestwarmth( worn, flag_COLLAR );
     }
 
     return ret;
@@ -8306,26 +8305,26 @@ int Character::bonus_item_warmth( body_part bp ) const
 bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
-           has_activity( activity_id( "ACT_WAIT" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
-           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
-           has_activity( activity_id( "ACT_READ" ) ) ||
-           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
-           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
-           has_activity( activity_id( "ACT_FISH" ) ) ||
-           has_activity( activity_id( "ACT_GAME" ) ) ||
-           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
-           has_activity( activity_id( "ACT_HEATING" ) ) ||
-           has_activity( activity_id( "ACT_VIBE" ) ) ||
-           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
-           has_activity( activity_id( "ACT_OPERATION" ) ) ||
-           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
-           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
-           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
+           has_activity( ACT_WAIT ) ||
+           has_activity( ACT_WAIT_NPC ) ||
+           has_activity( ACT_WAIT_STAMINA ) ||
+           has_activity( ACT_AUTODRIVE ) ||
+           has_activity( ACT_READ ) ||
+           has_activity( ACT_SOCIALIZE ) ||
+           has_activity( ACT_MEDITATE ) ||
+           has_activity( ACT_FISH ) ||
+           has_activity( ACT_GAME ) ||
+           has_activity( ACT_HAND_CRANK ) ||
+           has_activity( ACT_HEATING ) ||
+           has_activity( ACT_VIBE ) ||
+           has_activity( ACT_TRY_SLEEP ) ||
+           has_activity( ACT_OPERATION ) ||
+           has_activity( ACT_TREE_COMMUNION ) ||
+           has_activity( ACT_EAT_MENU ) ||
+           has_activity( ACT_CONSUME_FOOD_MENU ) ||
+           has_activity( ACT_CONSUME_DRINK_MENU ) ||
+           has_activity( ACT_CONSUME_MEDS_MENU ) ||
+           has_activity( ACT_STUDY_SPELL );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
@@ -8336,7 +8335,7 @@ int Character::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( flag_BOARDABLE, true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
@@ -8574,10 +8573,10 @@ bool Character::has_fire( const int quantity ) const
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
-    } else if( has_item_with_flag( "FIRE" ) ) {
+    } else if( has_item_with_flag( flag_FIRE ) ) {
         return true;
-    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
-        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
+        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
                 return true;
@@ -8633,10 +8632,10 @@ void Character::use_fire( const int quantity )
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
-    } else if( has_item_with_flag( "FIRE" ) ) {
+    } else if( has_item_with_flag( flag_FIRE ) ) {
         return;
-    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
-        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
+        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
                 use_charges( i->typeId(), quantity );

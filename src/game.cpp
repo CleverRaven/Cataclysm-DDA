@@ -895,7 +895,7 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
     tmp->toggle_trait( trait_NPC_STARTING_NPC );
-    tmp->set_fac( no_faction );
+    tmp->set_fac( faction_no_faction );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -1791,7 +1791,7 @@ void game::remove_npc_follower( const character_id &id )
 static void update_faction_api( npc *guy )
 {
     if( guy->get_faction_ver() < 2 ) {
-        guy->set_fac( your_followers );
+        guy->set_fac( faction_your_followers );
         guy->set_faction_ver( 2 );
     }
 }
@@ -2644,7 +2644,7 @@ void game::load( const save_t &name )
         // The vehicle stores the IDs of the boarded players, so update it, too.
         if( u.in_vehicle ) {
             if( const cata::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+                        u.pos() ).part_with_feature( flag_BOARDABLE, true ) ) {
                 vp->part().passenger_id = u.getID();
             }
         }
@@ -3948,7 +3948,7 @@ void game::mon_info_update( )
                 monster &critter = *new_seen_mon.back();
                 cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                  string_format( _( "%s spotted!" ), critter.name() ) );
-                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
+                if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( species_PLANT ) ) {
                     add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
                     if( !u.has_effect( effect_adrenaline_mycus ) ) {
                         u.add_effect( effect_adrenaline_mycus, 30_minutes );
@@ -4426,7 +4426,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        !u.has_effect( effect_contacts ) && !u.has_bionic( bio_eye_optic ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -4996,7 +4996,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( it->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            if( it->made_of( material_glass ) && one_in( 2 ) ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
                 } else {
@@ -5058,14 +5058,14 @@ void game::control_vehicle()
         }
     }
     if( veh != nullptr && veh->player_in_control( u ) &&
-        veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+        veh->avail_part_with_feature( veh_part, flag_CONTROLS, true ) >= 0 ) {
         veh->use_controls( u.pos() );
     } else if( veh && veh->player_in_control( u ) &&
-               veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 ) {
+               veh->avail_part_with_feature( veh_part, flag_CONTROL_ANIMAL, true ) >= 0 ) {
         u.controlling_vehicle = false;
         add_msg( m_info, _( "You let go of the reins." ) );
-    } else if( veh && ( veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ||
-                        ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 &&
+    } else if( veh && ( veh->avail_part_with_feature( veh_part, flag_CONTROLS, true ) >= 0 ||
+                        ( veh->avail_part_with_feature( veh_part, flag_CONTROL_ANIMAL, true ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
@@ -5090,7 +5090,8 @@ void game::control_vehicle()
         cata::optional<vpart_reference> vehicle_controls;
         for( const tripoint elem : m.points_in_radius( g->u.pos(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
-                const cata::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
+                const cata::optional<vpart_reference> controls = vp.value().part_with_feature( flag_CONTROLS,
+                        true );
                 if( controls ) {
                     num_valid_controls++;
                     vehicle_position = elem;
@@ -5108,7 +5109,7 @@ void game::control_vehicle()
             }
             const optional_vpart_position vp = m.veh_at( *vehicle_position );
             if( vp ) {
-                vehicle_controls = vp.value().part_with_feature( "CONTROLS", true );
+                vehicle_controls = vp.value().part_with_feature( flag_CONTROLS, true );
                 if( !vehicle_controls ) {
                     add_msg( _( "The vehicle doesn't have controls there." ) );
                     return;
@@ -6171,7 +6172,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
                 as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
-                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
+                                           zone.get_type() == zone_type_LOOT_CUSTOM ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
                 as_m.query();
 
@@ -7813,12 +7814,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
 
-    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factor = g->u.max_quality( quality_BUTCHER );
     const std::string msgFactor = factor > INT_MIN
                                   ? string_format( _( "Your best tool has %d butchering." ), factor )
                                   :  _( "You have no butchering tool." );
 
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
+    const int factorD = g->u.max_quality( quality_CUT_FINE );
     const std::string msgFactorD = factorD > INT_MIN
                                    ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
                                    :  _( "You have no fine cutting tool." );
@@ -7945,8 +7946,8 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.max_quality( qual_BUTCHER );
-    const int factorD = u.max_quality( qual_CUT_FINE );
+    const int factor = u.max_quality( quality_BUTCHER );
+    const int factorD = u.max_quality( quality_CUT_FINE );
     const std::string no_knife_msg = _( "You don't have a butchering tool." );
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -8366,7 +8367,7 @@ void game::reload_weapon( bool try_everything )
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
         item::reload_option opt = g->u.select_ammo( *turret.base(), true );
         if( opt ) {
-            g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+            g->u.assign_activity( activity_id( ACT_RELOAD ), opt.moves(), opt.qty() );
             g->u.activity.targets.emplace_back( turret.base() );
             g->u.activity.targets.push_back( std::move( opt.ammo ) );
         }
@@ -8450,7 +8451,8 @@ void game::wield( item_location &loc )
                 m.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+                const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( flag_CARGO,
+                        false );
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
                 if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
                     m.add_item( pos, to_wield );
@@ -8642,7 +8644,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
     if( !u.is_blind() ) {
         const trap &tr = m.tr_at( dest_loc );
-        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
+        const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( flag_BOARDABLE,
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
@@ -8832,11 +8834,11 @@ bool game::walk_move( const tripoint &dest_loc )
     if( u.is_mounted() ) {
         auto crit = u.mounted_creature.get();
         if( !crit->has_flag( MF_RIDEABLE_MECH ) &&
-            ( m.has_flag_ter_or_furn( "MOUNTABLE", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR", dest_loc ) ||
-              m.has_flag_ter_or_furn( "OPENCLOSE_INSIDE", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_DAMAGED", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_REINFORCED", dest_loc ) ) ) {
+            ( m.has_flag_ter_or_furn( flag_MOUNTABLE, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_BARRICADABLE_DOOR, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_OPENCLOSE_INSIDE, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_BARRICADABLE_DOOR_DAMAGED, dest_loc ) ||
+              m.has_flag_ter_or_furn( flag_BARRICADABLE_DOOR_REINFORCED, dest_loc ) ) ) {
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
@@ -9178,7 +9180,7 @@ point game::place_player( const tripoint &dest_loc )
         }
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" && u.max_quality( qual_BUTCHER ) > INT_MIN ) {
+        if( pulp_butcher == "butcher" && u.max_quality( quality_BUTCHER ) > INT_MIN ) {
             std::vector<item *> corpses;
 
             for( item &it : m.i_at( u.pos() ) ) {
@@ -9223,7 +9225,7 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
+    if( vp1.part_with_feature( flag_BOARDABLE, true ) && !u.is_mounted() ) {
         m.board_vehicle( u.pos(), &u );
     }
 
@@ -9243,7 +9245,7 @@ point game::place_player( const tripoint &dest_loc )
     // List items here
     if( !m.has_flag( flag_SEALED, u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
-            !g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() ) ) {
+            !g->check_zone( zone_type_NO_AUTO_PICKUP, u.pos() ) ) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
                 add_msg( _( "There's something here, but you can't see what it is." ) );
             } else if( m.has_items( u.pos() ) ) {
@@ -9316,13 +9318,13 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( ( vp1.part_with_feature( "CONTROL_ANIMAL", true ) ||
-          vp1.part_with_feature( "CONTROLS", true ) ) && u.in_vehicle && !u.is_mounted() ) {
+    if( ( vp1.part_with_feature( flag_CONTROL_ANIMAL, true ) ||
+          vp1.part_with_feature( flag_CONTROLS, true ) ) && u.in_vehicle && !u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here." ) );
         if( !u.has_trait( trait_WAYFARER ) ) {
             add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
         }
-    } else if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle &&
+    } else if( vp1.part_with_feature( flag_CONTROLS, true ) && u.in_vehicle &&
                u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here but you cannot reach them whilst mounted." ) );
     }
@@ -9423,7 +9425,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
-        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+        if( m.veh_at( u.pos() ).part_with_feature( flag_BOARDABLE, true ) ) {
             m.board_vehicle( u.pos(), &u );
         }
 
@@ -10864,8 +10866,8 @@ void game::perhaps_add_random_npc()
     new_fac_id += tmp->name;
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
-                            no_faction );
-    tmp->set_fac( new_solo_fac ? new_solo_fac->id : no_faction );
+                            faction_no_faction );
+    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     // adds the npc to the correct overmap.
     tripoint submap_spawn = omt_to_sm_copy( spawn_point );
     tmp->spawn_at_sm( submap_spawn.x, submap_spawn.y, 0 );
