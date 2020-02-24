@@ -333,7 +333,7 @@ bool monster::eat_from_inventory() {
             }
 
             if (g->u.sees(*this)) {
-                add_msg(m_warning, "%1$s eats some %2$s!", name().c_str(), itm.display_name());
+                add_msg(m_warning, "%1$s eats some of %2$s!", name().c_str(), itm.display_name());
             }
 
             //Remove item
@@ -1549,7 +1549,7 @@ bool monster::pickup_at(const tripoint& p, item_location &target)
 
     int charges = target->charges;
     
-    if (charges > 1) {
+    if (charges >= 1) {
         //Adjust volume and weight for units in a stack
         units::volume vol_each = vol / charges;
         units::mass weigh_each = weight / charges;
@@ -1561,12 +1561,11 @@ bool monster::pickup_at(const tripoint& p, item_location &target)
             amount_taken = 2;
 
         target->mod_charges(-amount_taken);
-        stored_item->charges = amount_taken;
+        inv.back().charges = amount_taken;
 
         //If we've taken all the stack, let's remove the item
         if (amount_taken == charges)
             target.remove_item();
-
     }
     else {
         //Remove item from ground

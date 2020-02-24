@@ -964,6 +964,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMELLS``` It can smell you.
+- ```STEALS_FOOD``` Will steal and eat food from the ground.
+- ```STEALS_SHINY``` Will steal items shiny items with materials like gold, silver, diamond and platinum.
 - ```STUMBLES``` Stumbles in its movement.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and form loose packs.

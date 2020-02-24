@@ -2258,6 +2258,8 @@ void monster::drop_items_on_death()
             items.push_back(itm);
         }
 
+    inv.erase(inv.begin(), inv.end());
+
     const auto dropped = g->m.spawn_items( pos(), items );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
