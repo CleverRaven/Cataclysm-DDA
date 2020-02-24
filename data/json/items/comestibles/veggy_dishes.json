@@ -57,7 +57,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_cooked",
-    "name": "cooked plant marrow",
+    "name": { "str": "cooked plant marrow" },
     "copy-from": "veggy",
     "spoils_in": "2 days 2 hours",
     "description": "A freshly cooked chunk of plant matter, tasty and nutritious.",
@@ -77,7 +77,38 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_aspic",
-    "name": "vegetable aspic",
+    "name": { "str": "vegetable aspic" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "dandelion", "name": { "str": "dandelion %s", "str_pl": "dandelion %s" } },
+      { "type": "COMPONENT_ID", "condition": "salsify", "name": { "str": "salsify %s", "str_pl": "salsify %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "fiddlehead %s", "str_pl": "fiddlehead %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "broccoli", "name": { "str": "broccoli %s", "str_pl": "broccoli %s" } },
+      { "type": "COMPONENT_ID", "condition": "cabbage", "name": { "str": "cabbage %s", "str_pl": "cabbage %s" } },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn %s", "str_pl": "corn %s" } },
+      { "type": "COMPONENT_ID", "condition": "cattail", "name": { "str": "cattail %s", "str_pl": "cattail %s" } },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot %s", "str_pl": "carrot %s" } },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "celery %s", "str_pl": "celery %s" } },
+      { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str": "cucumber %s", "str_pl": "cucumber %s" } },
+      { "type": "COMPONENT_ID", "condition": "lettuce", "name": { "str": "lettuce %s", "str_pl": "lettuce %s" } },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "onion %s", "str_pl": "onion %s" } },
+      { "type": "COMPONENT_ID", "condition": "alien", "name": { "str": "alien %s", "str_pl": "alien %s" } },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "potato %s", "str_pl": "potato %s" } },
+      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str": "pumpkin %s", "str_pl": "pumpkin %s" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb %s", "str_pl": "rhubarb %s" } },
+      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "sugar beet %s", "str_pl": "sugar beet %s" } },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "tomato %s", "str_pl": "tomato %s" } },
+      { "type": "COMPONENT_ID", "condition": "spinach", "name": { "str": "spinach %s", "str_pl": "spinach %s" } },
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str": "zucchini %s", "str_pl": "zucchini %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "wild root %s", "str_pl": "wild root %s" }
+      }
+    ],
     "weight": "120 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
@@ -149,6 +180,118 @@
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_beans",
     "name": { "str": "vegetarian baked beans", "str_pl": "vegetarian baked beans" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "baked beans with dandelion", "str_pl": "baked beans with dandelion" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salsify",
+        "name": { "str": "baked beans with salsify", "str_pl": "baked beans with salsify" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "baked beans with fiddleheads", "str_pl": "baked beans with fiddleheads" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "baked beans with broccoli", "str_pl": "baked beans with broccoli" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cabbage",
+        "name": { "str": "baked beans with cabbage", "str_pl": "baked beans with cabbage" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "corn",
+        "name": { "str": "baked beans with corn", "str_pl": "baked beans with corn" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cattail",
+        "name": { "str": "baked beans with cattail", "str_pl": "baked beans with cattail" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "carrot",
+        "name": { "str": "baked beans with carrots", "str_pl": "baked beans with carrots" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "celery",
+        "name": { "str": "baked beans with celery", "str_pl": "baked beans with celery" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "baked beans with cucumber", "str_pl": "baked beans with cucumber" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "baked beans with lettuce", "str_pl": "baked beans with lettuce" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "onion",
+        "name": { "str": "baked beans with onion", "str_pl": "baked beans with onion" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant_sac",
+        "name": { "str": "baked beans with fungaloid", "str_pl": "baked beans with fungaloid" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "potato",
+        "name": { "str": "baked beans with potato", "str_pl": "baked beans with potato" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str": "baked beans with pumpkin", "str_pl": "baked beans with pumpkin" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "baked beans with rhubarb", "str_pl": "baked beans with rhubarb" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "beet",
+        "name": { "str": "baked beans with beet", "str_pl": "baked beans with beet" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "tomato",
+        "name": { "str": "baked beans with tomato", "str_pl": "baked beans with tomato" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant marrow",
+        "name": { "str": "baked beans with plant marrow", "str_pl": "baked beans with plant marrow" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spinach",
+        "name": { "str": "baked beans with spinach", "str_pl": "baked beans with spinach" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "baked beans with zucchini", "str_pl": "baked beans with zucchini" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "baked beans with wild root", "str_pl": "baked beans with wild root" }
+      }
+    ],
     "weight": "270 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -325,7 +468,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_pumpkin",
-    "name": "mashed pumpkin",
+    "name": { "str": "mashed pumpkin" },
     "copy-from": "pumpkin",
     "color": "light_red",
     "spoils_in": "1 day 12 hours",
@@ -341,7 +484,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pie_veggy",
-    "name": "vegetable pie",
+    "name": { "str": "vegetable pie" },
     "weight": "240 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -363,7 +506,98 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_veggy",
-    "name": "vegetable pizza",
+    "name": { "str": "vegetable pizza", "str_pl": "vegetable pizza" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "dandelion", "name": { "str": "dandelion pizza", "str_pl": "dandelion pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salsify",
+        "name": { "str": "salsify pizza", "str_pl": "salsify pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "fiddlehead pizza", "str_pl": "fiddlehead pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "broccoli pizza", "str_pl": "broccoli pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cabbage",
+        "name": { "str": "cabbage pizza", "str_pl": "cabbage pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn pizza", "str_pl": "corn pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cattail",
+        "name": { "str": "cattail pizza", "str_pl": "cattail pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot pizza", "str_pl": "carrot pizza" } },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "celery pizza", "str_pl": "celery pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "cucumber pizza", "str_pl": "cucumber pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "lettuce pizza", "str_pl": "lettuce pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "onion pizza", "str_pl": "onion pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "alien",
+        "name": { "str": "alien fungus pizza", "str_pl": "alien fungus pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "potato pizza", "str_pl": "potato pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str": "pumpkin pizza", "str_pl": "pumpkin pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "rhubarb pizza", "str_pl": "rhubarb pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "beet",
+        "name": { "str": "sugar beet pizza", "str_pl": "sugar beet pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "tomato pizza", "str_pl": "tomato pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant marrow",
+        "name": { "str": "plant marrow pizza", "str_pl": "plant marrow pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spinach",
+        "name": { "str": "spinach pizza", "str_pl": "spinach pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "zucchini pizza", "str_pl": "zucchini pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "wild root pizza", "str_pl": "wild root pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy_wild",
+        "name": { "str": "wild veggy pizza", "str_pl": "wild veggy pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "tofu", "name": { "str": "tofu pizza", "str_pl": "tofu pizza" } },
+      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel pizza", "str_pl": "morel pizza" } }
+    ],
     "weight": "230 g",
     "color": "light_green",
     "spoils_in": "2 days",
@@ -383,7 +617,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_pesto",
-    "name": "pesto",
+    "name": { "str": "pesto" },
     "weight": "65 g",
     "color": "light_green",
     "spoils_in": 144,
@@ -405,6 +639,99 @@
     "type": "COMESTIBLE",
     "id": "veggy_canned",
     "name": { "str": "canned veggy", "str_pl": "canned veggies" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "canned dandelion", "str_pl": "canned dandelions" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salsify",
+        "name": { "str": "canned salsify", "str_pl": "canned salsify" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "canned fiddleheads", "str_pl": "canned fiddleheads" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "canned broccoli", "str_pl": "canned broccoli" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cabbage",
+        "name": { "str": "canned cabbage", "str_pl": "canned cabbage" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "canned corn", "str_pl": "canned corn" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cattail",
+        "name": { "str": "canned cattail", "str_pl": "canned cattail" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "carrot",
+        "name": { "str": "canned carrots", "str_pl": "canned carrots" }
+      },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "canned celery", "str_pl": "canned celery" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "canned cucumber", "str_pl": "canned cucumber" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "canned lettuce", "str_pl": "canned lettuce" }
+      },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "canned onion", "str_pl": "canned onion" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant_sac",
+        "name": { "str": "canned alien fungus", "str_pl": "canned alien fungus" }
+      },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "canned potato", "str_pl": "canned potato" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str": "canned pumpkin", "str_pl": "canned pumpkin" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "canned rhubarb", "str_pl": "canned rhubarb" }
+      },
+      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "canned beet", "str_pl": "canned beet" } },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "canned tomato", "str_pl": "canned tomato" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant marrow",
+        "name": { "str": "canned plant marrow", "str_pl": "canned plant marrow" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spinach",
+        "name": { "str": "canned spinach", "str_pl": "canned spinach" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "canned zucchini", "str_pl": "canned zucchini" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "canned wild root", "str_pl": "canned wild roots" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mushroom",
+        "name": { "str": "canned mushroom", "str_pl": "canned mushrooms" }
+      }
+    ],
     "weight": "259 g",
     "color": "green",
     "spoils_in": "2 days 12 hours",
@@ -422,7 +749,100 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_salted",
-    "name": "salted veggy chunk",
+    "name": { "str": "salted veggy chunk" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "salted dandelion", "str_pl": "salted dandelions" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salsify",
+        "name": { "str": "salted salsify", "str_pl": "salted salsify" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "salted fiddleheads", "str_pl": "salted fiddleheads" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "salted broccoli", "str_pl": "salted broccoli" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cabbage",
+        "name": { "str": "salted cabbage", "str_pl": "salted cabbage" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "salted corn", "str_pl": "salted corn" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cattail",
+        "name": { "str": "salted cattail", "str_pl": "salted cattail" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "carrot",
+        "name": { "str": "salted carrots", "str_pl": "salted carrots" }
+      },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "salted celery", "str_pl": "salted celery" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "salted cucumber", "str_pl": "salted cucumber" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "salted lettuce", "str_pl": "salted lettuce" }
+      },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "salted onion", "str_pl": "salted onion" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant_sac",
+        "name": { "str": "salted alien fungus", "str_pl": "salted alien fungus" }
+      },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "salted potato", "str_pl": "salted potato" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str": "salted pumpkin", "str_pl": "salted pumpkin" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "salted rhubarb", "str_pl": "salted rhubarb" }
+      },
+      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "salted beet", "str_pl": "salted beet" } },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "salted tomato", "str_pl": "salted tomato" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "salted plant marrow", "str_pl": "salted plant marrow" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spinach",
+        "name": { "str": "salted spinach", "str_pl": "salted spinach" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "salted zucchini", "str_pl": "salted zucchini" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "salted wild root", "str_pl": "salted wild roots" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mushroom",
+        "name": { "str": "salted mushroom", "str_pl": "salted mushrooms" }
+      }
+    ],
     "weight": "192 g",
     "color": "green",
     "spoils_in": "3 days",
@@ -461,7 +881,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pickle",
-    "name": "pickle",
+    "name": { "str": "pickle" },
     "copy-from": "cucumber",
     "color": "green",
     "spoils_in": "30 days",
@@ -497,6 +917,56 @@
     "type": "COMESTIBLE",
     "id": "veggy_pickled",
     "name": { "str": "pickled veggy", "str_pl": "pickled veggies" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mushroom",
+        "name": { "str": "pickled mushroom", "str_pl": "pickled mushrooms" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "tomato",
+        "name": { "str": "pickled tomato", "str_pl": "pickled tomatoes" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "pickled broccoli", "str_pl": "pickled broccoli" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "pickled zucchini", "str_pl": "pickled zucchini" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "pickled cucumber", "str_pl": "pickled cucumbers" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "potato",
+        "name": { "str": "pickled potato", "str_pl": "pickled potatoes" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "pickled corn", "str_pl": "pickled corn" } },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "pickled onion", "str_pl": "pickled onion" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "garlic_clove",
+        "name": { "str": "pickled garlic", "str_pl": "pickled garlic" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "pickled corn", "str_pl": "pickled corns" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "pickled plant marrow", "str_pl": "pickled plant marrow" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy_wild",
+        "name": { "str": "pickled wild veggy", "str_pl": "pickled wild veggies" }
+      }
+    ],
     "copy-from": "veggy",
     "color": "light_green",
     "spoils_in": "30 days",
@@ -508,7 +978,97 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_veggy",
-    "name": "dehydrated vegetable",
+    "name": { "str": "dehydrated vegetable" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "dandelion", "name": { "str": "dried dandelion", "str_pl": "dried dandelions" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salsify",
+        "name": { "str": "dried salsify", "str_pl": "dried salsify" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "dried fiddleheads", "str_pl": "dried fiddleheads" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "dried broccoli", "str_pl": "dried broccoli" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cabbage",
+        "name": { "str": "dried cabbage", "str_pl": "dried cabbage" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "dried corn", "str_pl": "dried corn" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cattail",
+        "name": { "str": "dried cattail", "str_pl": "dried cattail" }
+      },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "dried carrots", "str_pl": "dried carrots" } },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "dried celery", "str_pl": "dried celery" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "dried cucumber", "str_pl": "dried cucumber" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "dried lettuce", "str_pl": "dried lettuce" }
+      },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "dried onion", "str_pl": "dried onion" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant_sac",
+        "name": { "str": "dried alien fungus", "str_pl": "dried alien fungus" }
+      },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "dried potato", "str_pl": "dried potato" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str": "dried pumpkin", "str_pl": "dried pumpkin" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "dried rhubarb", "str_pl": "dried rhubarb" }
+      },
+      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "dried beet", "str_pl": "dried beet" } },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "dried tomato", "str_pl": "dried tomato" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spinach",
+        "name": { "str": "dried spinach", "str_pl": "dried spinach" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "dried zucchini", "str_pl": "dried zucchini" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "dried wild root", "str_pl": "dried wild roots" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "herbs",
+        "name": { "str": "dried wild herbs", "str_pl": "dried wild herbs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "dried plant marrow", "str_pl": "dried plant marrow" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy_wild",
+        "name": { "str": "dried wild vegetable", "str_pl": "dried wild vegetables" }
+      }
+    ],
     "copy-from": "veggy",
     "proportional": { "weight": 0.5 },
     "color": "green",
@@ -525,7 +1085,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_veggy",
-    "name": "rehydrated vegetable",
+    "name": { "str": "rehydrated vegetable" },
     "copy-from": "veggy",
     "color": "light_green",
     "spoils_in": "1 day",
@@ -537,7 +1097,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_salad",
-    "name": "vegetable salad",
+    "name": { "str": "vegetable salad" },
     "weight": "227 g",
     "color": "green",
     "spoils_in": "5 days 20 hours",
@@ -558,7 +1118,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dried_salad",
-    "name": "dried salad",
+    "name": { "str": "dried salad" },
     "copy-from": "veggy_salad",
     "weight": "150 g",
     "spoils_in": "360 days",
@@ -574,7 +1134,7 @@
   {
     "type": "COMESTIBLE",
     "id": "insta_salad",
-    "name": "insta-salad",
+    "name": { "str": "insta-salad" },
     "copy-from": "veggy_salad",
     "quench": 16,
     "description": "Dried salad with water added, not very tasty but still a decent substitution for real salad.",
@@ -583,7 +1143,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dahlia_baked",
-    "name": "baked dahlia root",
+    "name": { "str": "baked dahlia root" },
     "copy-from": "dahlia_root",
     "spoils_in": "2 days",
     "healthy": 2,
@@ -596,7 +1156,7 @@
   {
     "type": "COMESTIBLE",
     "id": "salsify_baked",
-    "name": "roasted salsify",
+    "name": { "str": "roasted salsify" },
     "copy-from": "salsify_raw",
     "spoils_in": "2 days",
     "healthy": 2,
@@ -631,6 +1191,29 @@
     "type": "COMESTIBLE",
     "id": "onigiri",
     "name": { "str": "onigiri", "str_pl": "onigiri" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "cabbage", "name": { "str": "cabbage onigiri", "str_pl": "cabbage onigiri" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "lettuce onigiri", "str_pl": "lettuce onigiri" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "plant marrow onigiri", "str_pl": "plant marrow onigiri" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "dandelion onigiri", "str_pl": "dandelion onigiri" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_veggy",
+        "name": { "str": "wild vegetable onigiri", "str_pl": "wild vegetable onigiri" }
+      }
+    ],
     "weight": "99 g",
     "color": "white",
     "spoils_in": "1 day 12 hours",
@@ -651,6 +1234,30 @@
     "type": "COMESTIBLE",
     "id": "sushi_veggyroll",
     "name": { "str": "vegetable hosomaki", "str_pl": "vegetable hosomaki" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot hosomaki", "str_pl": "carrot hosomaki" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "cucumber hosomaki", "str_pl": "cucumber hosomaki" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "celery",
+        "name": { "str": "celery hosomaki", "str_pl": "celery hosomaki" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "plant marrow hosomaki", "str_pl": "plant marrow hosomaki" }
+      },
+      { "type": "COMPONENT_ID", "condition": "tofu", "name": { "str": "tofu hosomaki", "str_pl": "tofu hosomaki" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_veggy",
+        "name": { "str": "wild vegetable hosomaki", "str_pl": "wild vegetable hosomaki" }
+      }
+    ],
     "weight": "312 g",
     "color": "green",
     "spoils_in": "1 day 12 hours",
@@ -670,7 +1277,7 @@
     "type": "COMESTIBLE",
     "id": "dry_veggy_tainted",
     "category": "other",
-    "name": "dehydrated alien fungus chunk",
+    "name": { "str": "dehydrated alien fungus chunk" },
     "copy-from": "dry_veggy",
     "looks_like": "dry_mushroom",
     "use_action": "POISON",
@@ -701,7 +1308,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nopalitos",
-    "name": "nopalito",
+    "name": { "str": "nopalito" },
     "weight": "298 g",
     "color": "green",
     "spoils_in": "10 days",
