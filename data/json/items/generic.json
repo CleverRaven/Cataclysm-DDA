@@ -1808,6 +1808,7 @@
     "type": "GENERIC",
     "id": "poppy_bud",
     "name": "poppy bud",
+    "category": "chems",
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
     "weight": "30 g",
     "to_hit": -3,
