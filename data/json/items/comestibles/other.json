@@ -66,7 +66,7 @@
   {
     "type": "COMESTIBLE",
     "id": "royal_jelly",
-    "name": { "str": "royal jelly", "str_pl": "royal jellies" },
+    "name": { "str": "royal jelly", "str_pl": "royal jelly" },
     "category": "drugs",
     "weight": "150 g",
     "color": "white",
@@ -128,7 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": { "str": "mycus fruit", "str_pl": "mycus fruits" },
+    "name": { "str": "mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": "MYCUS",
@@ -254,7 +254,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_beans",
-    "name": { "str": "canned beans", "str_pl": "beans" },
+    "name": { "str": "canned beans", "str_pl": "canned beans" },
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
