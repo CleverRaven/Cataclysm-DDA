@@ -383,7 +383,7 @@
     "id": "pocketwatch",
     "type": "TOOL",
     "name": { "str": "pocket watch", "str_pl": "pocket watches" },
-    "description": "An old fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
+    "description": "An old-fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": "65 g",
     "volume": "5 ml",
     "price": 25000,

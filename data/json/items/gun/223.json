@@ -30,7 +30,7 @@
     "type": "GUN",
     "name": { "str": "AR-15" },
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
-    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi automatic civilian version.",
+    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
     "weight": "3500 g",
     "volume": "2 L",
     "price": 125000,

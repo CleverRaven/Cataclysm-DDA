@@ -18,10 +18,9 @@
 #include "type_id.h"
 #include "point.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 using efficiency_stat = statistics<long>;
-
-const efftype_id effect_blind( "blind" );
 
 static void clear_game_drag( const ter_id &terrain )
 {
@@ -60,7 +59,7 @@ static void clear_game_drag( const ter_id &terrain )
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
-    clear_game_drag( ter_id( "t_pavement" ) );
+    clear_game_drag( ter_pavement );
 
     const tripoint map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
@@ -77,7 +76,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
         veh_ptr->toggle_specific_part( vp.part_index(), true );
     }
     // close the doors
-    const auto doors = veh_ptr->get_avail_parts( "OPENABLE" );
+    const auto doors = veh_ptr->get_avail_parts( flag_OPENABLE );
     for( const vpart_reference vp :  doors ) {
         const size_t door = vp.part_index();
         veh_ptr->close( door );

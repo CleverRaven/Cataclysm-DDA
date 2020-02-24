@@ -326,7 +326,8 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items,
                                const tripoint &where, bool force_ground )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( "CARGO", false );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( where ).part_with_feature( flag_CARGO,
+            false );
     if( vp && !force_ground ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
@@ -631,7 +632,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( "FILTHY" );
+        filthy_item->item_tags.erase( flag_FILTHY );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -883,7 +884,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
         tripoint cart_position = g->u.pos() + g->u.grab_point;
 
         if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                    cart_position ).part_with_feature( "CARGO", false ) ) {
+                    cart_position ).part_with_feature( flag_CARGO, false ) ) {
             auto veh = vp->vehicle();
             auto vstor = vp->part_index();
             auto capacity = veh.free_volume( vstor );
@@ -1184,7 +1185,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                               activity_to_restore == ACT_MULTIPLE_FISH;
     bool found_welder = false;
     for( item *elem : p.inv_dump() ) {
-        if( elem->has_quality( qual_WELD ) ) {
+        if( elem->has_quality( quality_WELD ) ) {
             found_welder = true;
         }
         temp_inv += *elem;
@@ -1216,7 +1217,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             temp_inv += elem2;
         }
         if( !in_loot_zones ) {
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( elem ).part_with_feature( "CARGO",
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( elem ).part_with_feature( flag_CARGO,
                     false ) ) {
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
@@ -1232,15 +1233,15 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             const optional_vpart_position vp = g->m.veh_at( elem );
             if( vp ) {
                 vehicle &veh = vp->vehicle();
-                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( flag_WELDRIG, true );
                 if( weldpart ) {
                     item welder( "welder", 0 );
-                    welder.charges = veh.fuel_left( "battery", true );
-                    welder.item_tags.insert( "PSEUDO" );
+                    welder.charges = veh.fuel_left( fuel_type_battery, true );
+                    welder.item_tags.insert( flag_PSEUDO );
                     temp_inv.add_item( welder );
                     item soldering_iron( "soldering_iron", 0 );
-                    soldering_iron.charges = veh.fuel_left( "battery", true );
-                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    soldering_iron.charges = veh.fuel_left( fuel_type_battery, true );
+                    soldering_iron.item_tags.insert( flag_PSEUDO );
                     temp_inv.add_item( soldering_iron );
                 }
             }
@@ -1400,7 +1401,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
         if( g->m.has_flag( flag_TREE, src_loc ) || g->m.ter( src_loc ) == t_trunk ||
             g->m.ter( src_loc ) == t_stump ) {
-            if( p.has_quality( qual_AXE ) ) {
+            if( p.has_quality( quality_AXE ) ) {
                 return activity_reason_info::ok( NEEDS_TREE_CHOPPING );
             } else {
                 return activity_reason_info::fail( NEEDS_TREE_CHOPPING );
@@ -1436,8 +1437,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !b_rack_present || !g->m.has_nearby_table( src_loc, 2 ) ) {
                     return activity_reason_info::fail( NO_ZONE );
                 }
-                if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||
-                        p.has_quality( qual_SAW_M ) ) ) {
+                if( p.has_quality( quality_id( quality_BUTCHER ), 1 ) && ( p.has_quality( quality_SAW_W ) ||
+                        p.has_quality( quality_SAW_M ) ) ) {
                     return activity_reason_info::ok( NEEDS_BIG_BUTCHERING );
                 } else {
                     return activity_reason_info::fail( NEEDS_BIG_BUTCHERING );
@@ -1445,7 +1446,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             if( ( big_count > 0 && small_count > 0 ) || ( big_count == 0 ) ) {
                 // there are small corpses here, so we can ignore any big corpses here for the moment.
-                if( p.has_quality( qual_BUTCHER, 1 ) ) {
+                if( p.has_quality( quality_BUTCHER, 1 ) ) {
                     return activity_reason_info::ok( NEEDS_BUTCHERING );
                 } else {
                     return activity_reason_info::fail( NEEDS_BUTCHERING );
@@ -1459,7 +1460,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         for( auto &i : g->m.i_at( src_loc ) ) {
             if( i.typeId() == "log" ) {
                 // do we have an axe?
-                if( p.has_quality( qual_AXE, 1 ) ) {
+                if( p.has_quality( quality_AXE, 1 ) ) {
                     return activity_reason_info::ok( NEEDS_CHOPPING );
                 } else {
                     return activity_reason_info::fail( NEEDS_CHOPPING );
@@ -1506,7 +1507,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( NEEDS_HARVESTING );
             } else if( g->m.has_flag( flag_PLOWABLE, src_loc ) && !g->m.has_furn( src_loc ) ) {
-                if( p.has_quality( qual_DIG, 1 ) ) {
+                if( p.has_quality( quality_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
                     return activity_reason_info::ok( NEEDS_TILLING );
                 } else {
@@ -1897,7 +1898,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     vehicle *dest_veh;
     int dest_part;
     if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                loot_src_lot ).part_with_feature( "CARGO",
+                loot_src_lot ).part_with_feature( flag_CARGO,
                         false ) ) {
         dest_veh = &vp->vehicle();
         dest_part = vp->part_index();
@@ -1937,12 +1938,11 @@ static void fetch_activity( player &p, const tripoint &src_loc,
     auto items_there = g->m.i_at( src_loc );
     vehicle *src_veh = nullptr;
     int src_part = 0;
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( flag_CARGO,
             false ) ) {
         src_veh = &vp->vehicle();
         src_part = vp->part_index();
     }
-    std::string picked_up;
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     // TODO: vehicle_stack and map_stack into one loop.
@@ -1992,15 +1992,14 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                     }
                     it.set_var( "activity_var", p.name );
                     p.i_add( it );
-                    picked_up = it.tname();
                     items_there.erase( item_iter );
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
                     if( leftovers.charges > 0 ) {
                         g->m.add_item_or_charges( src_loc, leftovers );
                     }
-                    if( p.is_npc() && !picked_up.empty() ) {
+                    if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
-                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), picked_up );
+                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
                         } else {
                             add_msg( _( "%s picks up several items." ), p.disp_name() );
                         }
@@ -2048,7 +2047,7 @@ static item *best_quality_item( player &p, const quality_id &qual )
 
 static bool chop_plank_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, qual_AXE );
+    item *best_qual = best_quality_item( p, quality_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2144,7 +2143,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             }
 
             //nothing to sort?
-            const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+            const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( flag_CARGO,
                     false );
             if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
                 && g->m.i_at( src_loc ).empty() ) {
@@ -2215,7 +2214,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( "CARGO",
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( src_loc ).part_with_feature( flag_CARGO,
                 false ) ) {
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
@@ -2260,8 +2259,9 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 const tripoint &dest_loc = g->m.getlocal( dest );
 
                 //Check destination for cargo part
-                if( const cata::optional<vpart_reference> vp = g->m.veh_at( dest_loc ).part_with_feature( "CARGO",
-                        false ) ) {
+                if( const cata::optional<vpart_reference> vp = g->m.veh_at( dest_loc ).part_with_feature(
+                            flag_CARGO,
+                            false ) ) {
                     dest_veh = &vp->vehicle();
                     dest_part = vp->part_index();
                 } else {
@@ -2316,7 +2316,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 static int chop_moves( player &p, item *it )
 {
     // quality of tool
-    const int quality = it->get_quality( qual_AXE );
+    const int quality = it->get_quality( quality_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( flag_POWERED ) ? p.dex_cur : p.str_cur;
@@ -2329,7 +2329,7 @@ static int chop_moves( player &p, item *it )
 
 static bool chop_tree_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, qual_AXE );
+    item *best_qual = best_quality_item( p, quality_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2591,21 +2591,21 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
             if( reason == NEEDS_TILLING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_DIG, 1, 1 ) } );
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_DIG, 1, 1 ) } );
             } else if( reason == NEEDS_CHOPPING || reason == NEEDS_TREE_CHOPPING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_AXE, 1, 1 ) } );
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_AXE, 1, 1 ) } );
             } else if( reason == NEEDS_PLANTING ) {
                 requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
                                                    ( zone->get_options() ).get_seed() ), 1 )
                                                                           } );
             } else if( reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_BUTCHER, 1, 1 ) } );
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_BUTCHER, 1, 1 ) } );
                 if( reason == NEEDS_BIG_BUTCHERING ) {
-                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_SAW_M, 1, 1 ), quality_requirement( qual_SAW_W, 1, 1 ) } );
+                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_SAW_M, 1, 1 ), quality_requirement( quality_SAW_W, 1, 1 ) } );
                 }
 
             } else if( reason == NEEDS_FISHING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING, 1, 1 )} );
+                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( quality_FISHING, 1, 1 )} );
             }
             // ok, we need a shovel/hoe/axe/etc
             // this is an activity that only requires this one tool, so we will fetch and wield it.
@@ -2681,7 +2681,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     if( reason == NEEDS_HARVESTING && g->m.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
         iexamine::harvest_plant( p, src_loc, true );
     } else if( reason == NEEDS_TILLING && g->m.has_flag( flag_PLOWABLE, src_loc ) &&
-               p.has_quality( qual_DIG, 1 ) && !g->m.has_furn( src_loc ) ) {
+               p.has_quality( quality_DIG, 1 ) && !g->m.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
         p.backlog.push_front( act_id );
         p.activity.placement = src;
@@ -2702,7 +2702,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
             break;
         }
-    } else if( reason == NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
+    } else if( reason == NEEDS_CHOPPING && p.has_quality( quality_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
             p.backlog.push_front( act_id );
             return false;
@@ -2731,16 +2731,16 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         // Because some player activities are necessarily not marked as auto-resume.
         activity_handlers::resume_for_multi_activities( p );
         return false;
-    } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
+    } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( quality_AXE, 1 ) ) {
         p.backlog.push_front( act_id );
         if( chop_tree_activity( p, src_loc ) ) {
             return false;
         }
-    } else if( reason == NEEDS_FISHING && p.has_quality( qual_FISHING, 1 ) ) {
+    } else if( reason == NEEDS_FISHING && p.has_quality( quality_FISHING, 1 ) ) {
         p.backlog.push_front( act_id );
         // we dont want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
-        item *best_rod = best_quality_item( p, qual_FISHING );
+        item *best_rod = best_quality_item( p, quality_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                            p.get_item_position( best_rod ), best_rod->tname() );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );

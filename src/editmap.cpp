@@ -50,6 +50,7 @@
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "colony.h"
+#include "cata_string_consts.h"
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
@@ -642,7 +643,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = g->m.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
+    if( !g->m.has_flag( flag_CONTAINER, target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );
@@ -1629,7 +1630,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
                         const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
-                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( flag_CARGO, true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         int veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );

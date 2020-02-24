@@ -89,12 +89,19 @@
 RELEASE_FLAGS =
 WARNINGS = \
   -Werror -Wall -Wextra \
+  -Wformat-signedness \
+  -Wlogical-op \
   -Wmissing-declarations \
+  -Wmissing-noreturn \
+  -Wnon-virtual-dtor \
   -Wold-style-cast \
   -Woverloaded-virtual \
+  -Wpedantic \
+  -Wredundant-decls \
   -Wsuggest-override \
-  -Wno-unknown-warning-option \
-  -Wpedantic
+  -Wunused-macros \
+  -Wzero-as-null-pointer-constant \
+  -Wno-unknown-warning-option
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -162,6 +169,13 @@ endif
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
+endif
+
+# Determine JSON formatter binary name
+ifeq ($(MSYS2), 1)
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
+else
+  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 endif
 
 # Enable backtrace by default
@@ -361,7 +375,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc LICENSE.txt
+BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -1039,12 +1053,13 @@ endif
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
 
-ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+ctags: $(ASTYLE_SOURCES)
+	ctags $^
+	./tools/json_tools/cddatags.py
 
-etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
-	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
+etags: $(ASTYLE_SOURCES)
+	etags $^
+	./tools/json_tools/cddatags.py
 
 astyle: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
@@ -1065,11 +1080,6 @@ endif
 
 JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
-ifeq ($(MSYS2), 1)
-  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
-else
-  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
-endif
 
 style-json: $(JSON_WHITELIST)
 

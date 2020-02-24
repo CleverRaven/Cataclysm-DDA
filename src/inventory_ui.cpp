@@ -41,6 +41,7 @@
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
+#include "cata_string_consts.h"
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -650,7 +651,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
         }
     } else if( location.where() == item_location::type::vehicle ) {
         const cata::optional<vpart_reference> vp = g->m.veh_at(
-                    location.position() ).part_with_feature( "CARGO", true );
+                    location.position() ).part_with_feature( flag_CARGO, true );
         assert( vp );
 
         auto items = vp->vehicle().get_items( vp->part_index() );
@@ -713,7 +714,9 @@ void inventory_column::add_entry( const inventory_entry &entry )
 void inventory_column::move_entries_to( inventory_column &dest )
 {
     for( const auto &elem : entries ) {
-        if( elem.is_item() ) {
+        if( elem.is_item() &&
+            // this column already has this entry, no need to try to add it again
+            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
@@ -1182,7 +1185,8 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( flag_CARGO,
+            true );
     if( !vp ) {
         return;
     }
@@ -1603,8 +1607,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( filter.empty() ? _( "[%s]Filter" ) : _( "[%s]Filter: " ),
-                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
+        std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                          ctxt.get_desc( "INVENTORY_FILTER" ) );
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );

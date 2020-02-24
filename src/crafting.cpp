@@ -17,6 +17,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
@@ -172,7 +173,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
     } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                   loc ).part_with_feature( "WORKBENCH", true ) ) {
+                   loc ).part_with_feature( flag_WORKBENCH, true ) ) {
         // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
         if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
@@ -454,7 +455,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( flag_CARGO,
                 true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
@@ -641,7 +642,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( flag_CARGO,
             false ) ) {
 
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
@@ -709,7 +710,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                 target = adj;
             }
         } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                       adj ).part_with_feature( "WORKBENCH", true ) ) {
+                       adj ).part_with_feature( flag_WORKBENCH, true ) ) {
             if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_bench_multi = wb_info->multiplier;
@@ -1127,15 +1128,18 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
+
+            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
+            std::list<item> usedbp = used;
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
                     byproduct.set_flag( flag_BYPRODUCT );
-                    used.push_back( byproduct );
+                    usedbp.push_back( byproduct );
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( food_contained.components, used, batch_size, newit_counter );
+            set_components( food_contained.components, usedbp, batch_size, newit_counter );
 
             // store the number of charges the recipe would create with batch size 1.
             if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
@@ -2244,7 +2248,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         }
 
         if( filthy ) {
-            act_item.item_tags.insert( "FILTHY" );
+            act_item.item_tags.insert( flag_FILTHY );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();
