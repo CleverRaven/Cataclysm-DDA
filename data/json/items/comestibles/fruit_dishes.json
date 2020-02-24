@@ -191,16 +191,16 @@
     "id": "fruit_cooked",
     "name": { "str": "cooked fruit", "str_pl": "cooked fruit" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "cooked apple", "str_pl": "cooked apples" } },
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "cooked apple" } },
       {
         "type": "COMPONENT_ID",
         "condition": "apricot",
-        "name": { "str": "cooked apricot", "str_pl": "cooked apricots" }
+        "name": { "str": "cooked apricot" }
       },
       {
         "type": "COMPONENT_ID",
         "condition": "banana",
-        "name": { "str": "cooked banana", "str_pl": "cooked bananas" }
+        "name": { "str": "cooked banana" }
       },
       {
         "type": "COMPONENT_ID",
@@ -233,7 +233,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "orange",
-        "name": { "str": "cooked orange", "str_pl": "cooked oranges" }
+        "name": { "str": "cooked orange" }
       },
       {
         "type": "COMPONENT_ID",
@@ -241,7 +241,7 @@
         "name": { "str": "cooked papaya", "str_pl": "cooked papayas" }
       },
       { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "cooked peach", "str_pl": "cooked peaches" } },
-      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "cooked pear", "str_pl": "cooked pears" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "cooked pear" } },
       { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "cooked plums", "str_pl": "cooked plums" } },
       {
         "type": "COMPONENT_ID",
@@ -411,7 +411,7 @@
         "condition": "apricot",
         "name": { "str": "dried apricot", "str_pl": "dried apricots" }
       },
-      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "dried banana", "str_pl": "dried bananas" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "dried banana" } },
       {
         "type": "COMPONENT_ID",
         "condition": "blackberries",
@@ -444,7 +444,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "pomegranate",
-        "name": { "str": "dried pomegranate", "str_pl": "dried pomegranate" }
+        "name": { "str": "dried pomegranate" }
       },
       {
         "type": "COMPONENT_ID",
@@ -527,13 +527,13 @@
     "id": "apple_sugar",
     "name": { "str": "fruit slice" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "sliced apple", "str_pl": "sliced apple" } },
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "sliced apple" },
       {
         "type": "COMPONENT_ID",
         "condition": "apricot",
         "name": { "str": "sliced apricot", "str_pl": "sliced apricot" }
       },
-      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "sliced banana", "str_pl": "sliced banana" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "sliced banana" } },
       {
         "type": "COMPONENT_ID",
         "condition": "blackberries",
@@ -562,10 +562,10 @@
       { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "sliced grapes", "str_pl": "sliced grapes" } },
       { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "sliced kiwi", "str_pl": "sliced kiwi" } },
       { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "sliced melon", "str_pl": "sliced melon" } },
-      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "sliced orange", "str_pl": "sliced orange" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "sliced orange" } },
       { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "sliced papaya", "str_pl": "sliced papaya" } },
-      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "sliced peach", "str_pl": "sliced peach" } },
-      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "sliced pear", "str_pl": "sliced pear" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "sliced peach", "str_pl": "sliced peaches" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "sliced pear" } },
       { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "sliced plums", "str_pl": "sliced plums" } },
       {
         "type": "COMPONENT_ID",
