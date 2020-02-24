@@ -171,7 +171,7 @@
     "description": "A small, sealed plastic bag for liquids used in intravenous therapy.",
     "looks_like": "bag_plastic",
     "weight": "10 g",
-    "volume": "2 ml",
+    "volume": "50 ml",
     "price": 0,
     "to_hit": -1,
     "rigid": false,
