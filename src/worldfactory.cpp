@@ -742,30 +742,46 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
 {
-    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+    ui_adaptor ui;
+    catacurses::window w_border;
+    catacurses::window w_mods;
 
-    catacurses::window w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth / 2 - 3,
-                                  point( iOffsetX, 4 ) );
-    catacurses::window w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
-                                  point( iOffsetX, 5 ) );
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+
+        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth / 2 - 3,
+                                       point( iOffsetX, 4 ) );
+        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+                                       point( iOffsetX, 5 ) );
+
+        ui.position_from_window( w_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int start = 0;
     int cursor = 0;
     const size_t num_mods = world_mods.size();
 
-    draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
-    wrefresh( w_border );
+    input_context ctxt( "DEFAULT" );
+    ctxt.register_updown();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
+        wrefresh( w_border );
+
         draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,
                        true, _( "--NO ACTIVE MODS--" ), catacurses::window() );
         wrefresh( w_mods );
+    } );
 
-        input_context ctxt( "DEFAULT" );
-        ctxt.register_updown();
-        ctxt.register_action( "QUIT" );
-        ctxt.register_action( "CONFIRM" );
+    while( true ) {
+        ui_manager::redraw();
+
         const std::string action = ctxt.handle_input();
 
         if( action == "UP" ) {
@@ -783,8 +799,6 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
-            catacurses::clear();
-            catacurses::refresh();
             break;
         }
     }
