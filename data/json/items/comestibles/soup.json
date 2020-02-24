@@ -89,11 +89,7 @@
     "id": "soup_veggy",
     "name": { "str": "vegetable soup" },
     "conditional_names": [
-      {
-        "type": "COMPONENT_ID",
-        "condition": "dandelion",
-        "name": { "str": "dandelion %s", "str_pl": "dandelion %s" }
-      },
+      { "type": "COMPONENT_ID", "condition": "dandelion", "name": { "str": "dandelion %s", "str_pl": "dandelion %s" } },
       { "type": "COMPONENT_ID", "condition": "salsify", "name": { "str": "salsify soup", "str_pl": "salsify soup" } },
       {
         "type": "COMPONENT_ID",
