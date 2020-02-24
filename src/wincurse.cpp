@@ -24,6 +24,7 @@
 #include "font_loader.h"
 #include "platform_win.h"
 #include "mmsystem.h"
+#include "ui_manager.h"
 #include "wcwidth.h"
 
 //***********************************
@@ -189,6 +190,7 @@ bool handle_resize( int, int )
             throw std::runtime_error( "SetDIBColorTable failed" );
         }
         catacurses::refresh();
+        ui_manager::screen_resized();
     }
 
     return true;
@@ -372,6 +374,9 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
 
         case WM_PAINT:
             BitBlt( WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0, SRCCOPY );
+            ui_manager::invalidate( rectangle( point_zero, point( getmaxx( catacurses::stdscr ),
+                                               getmaxy( catacurses::stdscr ) ) ) );
+            ui_manager::redraw();
             ValidateRect( WindowHandle, nullptr );
             return 0;
 
