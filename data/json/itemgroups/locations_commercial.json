@@ -43,8 +43,7 @@
       [ "nic_gum", 2 ],
       [ "razor_blade", 3 ],
       [ "knitting_needles", 1 ],
-      [ "weeks_old_newspaper", 5 ],
-      [ "newest_newspaper", 10 ],
+      { "group": "newspaper_recent", "prob": 15 },
       [ "survnote", 2 ],
       [ "eclipse_glasses", 1 ],
       [ "thermos", 10 ]

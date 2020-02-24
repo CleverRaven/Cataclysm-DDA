@@ -101,8 +101,7 @@
   {
     "id": "chestpouch",
     "type": "ARMOR",
-    "name": "chest ammo pouch",
-    "name_plural": "chest ammo pouches",
+    "name": { "str": "chest ammo pouch", "str_pl": "chest ammo pouches" },
     "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding a single magazine close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
@@ -129,8 +128,7 @@
   {
     "id": "chestrig",
     "type": "ARMOR",
-    "name": "chest rig",
-    "name_plural": "chest rig",
+    "name": { "str": "chest rig", "str_pl": "chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
     "weight": "425 g",
     "volume": "500 ml",
@@ -158,8 +156,7 @@
   {
     "id": "javelin_bag",
     "type": "ARMOR",
-    "name": "javelin bag",
-    "name_plural": "javelin bags",
+    "name": { "str": "javelin bag" },
     "description": "An open medieval-looking bag, designed to store javelins for easy reach.",
     "weight": "600 g",
     "volume": "1250 ml",
@@ -214,8 +211,7 @@
   {
     "type": "ARMOR",
     "id": "legpouch_large",
-    "name": "leg ammo pouch",
-    "name_plural": "leg ammo pouches",
+    "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
     "description": "A fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
     "weight": "120 g",
     "volume": "250 ml",

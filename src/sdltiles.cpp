@@ -57,6 +57,7 @@
 #include "json.h"
 #include "optional.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -401,6 +402,12 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
+
+    // Fix Back button crash on Android 9
+#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON )
+    const bool trap_back_button = get_option<bool>( "ANDROID_TRAP_BACK_BUTTON" );
+    SDL_SetHint( SDL_HINT_ANDROID_TRAP_BACK_BUTTON, trap_back_button ? "1" : "0" );
+#endif
 
     // Prevent mouse|touch input confusion
 #if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
@@ -1829,7 +1836,7 @@ input_context touch_input_context;
 
 std::string get_quick_shortcut_name( const std::string &category )
 {
-    if( category == "DEFAULTMODE" && g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), g->u.pos() ) &&
+    if( category == "DEFAULTMODE" && g->check_zone( zone_type_NO_AUTO_PICKUP, g->u.pos() ) &&
         get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
@@ -2609,7 +2616,7 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                    if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -2643,19 +2650,19 @@ static void CheckMessages()
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;
-                                if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+                                if( veh->part_with_feature( veh_part, flag_CONTROLS, true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( veh_part, flag_OPENABLE, true );
                                 if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( veh_part, flag_CURTAIN, true );
                                 if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
+                                const int cargopart = veh->part_with_feature( veh_part, flag_CARGO, true );
                                 if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }
@@ -3409,7 +3416,7 @@ static void init_term_size_and_scaling_factor()
 
         int max_width, max_height;
 
-        int current_display_id = get_option<int>( "DISPLAY" );
+        int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;
 
         if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
@@ -3865,6 +3872,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     : Font( w, h )
     , fontblending( fontblending )
 {
+    const std::string original_typeface = typeface;
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
         typeface = *sysfnt;
@@ -3872,19 +3880,19 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     }
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::user_font() + typeface + ".ttf";
+        typeface = PATH_INFO::user_font() + original_typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in user font dir.";
     }
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + typeface + ".ttf";
+        typeface = PATH_INFO::fontdir() + original_typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in font dir.";
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
+        typeface = PATH_INFO::fontdir() + "unifont.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";

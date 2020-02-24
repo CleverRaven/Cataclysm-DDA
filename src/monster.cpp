@@ -435,16 +435,16 @@ std::string monster::name( unsigned int quantity ) const
 std::string monster::name_with_armor() const
 {
     std::string ret;
-    if( type->in_species( INSECT ) ) {
+    if( type->in_species( species_INSECT ) ) {
         ret = _( "carapace" );
-    } else if( made_of( material_id( "veggy" ) ) ) {
+    } else if( made_of( material_veggy ) ) {
         ret = _( "thick bark" );
-    } else if( made_of( material_id( "bone" ) ) ) {
+    } else if( made_of( material_bone ) ) {
         ret = _( "exoskeleton" );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
-               made_of( material_id( "iflesh" ) ) ) {
+    } else if( made_of( material_flesh ) || made_of( material_hflesh ) ||
+               made_of( material_iflesh ) ) {
         ret = _( "thick hide" );
-    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
+    } else if( made_of( material_iron ) || made_of( material_steel ) ) {
         ret = _( "armor plating" );
     } else if( made_of( LIQUID ) ) {
         ret = _( "dense jelly mass" );
@@ -933,7 +933,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( species_ZOMBIE ) ) {
             return MATT_FRIEND;
         }
         if( np != nullptr && np->is_hallucination() ) {
@@ -961,14 +961,14 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_MYCUS_THRESH ) ||
-                                            u->has_trait( trait_MYCUS_FRIEND ) ) ) {
+        if( type->in_species( species_FUNGUS ) && ( u->has_trait( trait_MYCUS_THRESH ) ||
+                u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
-              ( type->in_species( INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
+            ( ( type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
+              ( type->in_species( species_INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
             effective_anger -= 20;
         }
 
@@ -1158,14 +1158,14 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
-               !made_of( material_id( "flesh" ) );
+               !made_of( material_flesh );
     }
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
         effect == effect_poison ) {
         return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+               ( !made_of( material_flesh ) && !made_of( material_iflesh ) );
     }
 
     if( effect == effect_stunned ) {
@@ -1195,7 +1195,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return false;
         case DT_HEAT:
             // Ugly hardcode - remove later
-            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
+            return made_of( material_steel ) || made_of( material_stone );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
@@ -1538,8 +1538,8 @@ bool monster::move_effects( bool )
         }
         // non-friendly monster will struggle to get free occasionally.
         // some monsters cant be tangled up with a net/bolas/lassoo etc.
-        bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
-                               type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
+        bool immediate_break = type->in_species( species_FISH ) || type->in_species( species_MOLLUSK ) ||
+                               type->in_species( species_ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
             if( u_see_me ) {
                 add_msg( _( "The %s struggles to break free of its bonds." ), name() );
@@ -2012,7 +2012,7 @@ void monster::process_turn()
                     explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
                 const auto t = g->m.ter( zap );
-                if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+                if( t == ter_gas_pump || t == ter_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( pos(), 40, 0.8, true );
                         if( player_sees ) {
@@ -2303,9 +2303,9 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[MOVEMENT_IMPAIRED] = true;
     } else if( id == effect_onfire ) {
         int dam = 0;
-        if( made_of( material_id( "veggy" ) ) ) {
+        if( made_of( material_veggy ) ) {
             dam = rng( 10, 20 );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of( material_flesh ) || made_of( material_iflesh ) ) {
             dam = rng( 5, 10 );
         }
 
@@ -2402,12 +2402,12 @@ bool monster::make_fungus()
     }
     char polypick = 0;
     const mtype_id &tid = type->id;
-    if( type->in_species( FUNGUS ) ) { // No friendly-fungalizing ;-)
+    if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "hflesh" ) ) &&
-        !made_of( material_id( "veggy" ) ) && !made_of( material_id( "iflesh" ) ) &&
-        !made_of( material_id( "bone" ) ) ) {
+    if( !made_of( material_flesh ) && !made_of( material_hflesh ) &&
+        !made_of( material_veggy ) && !made_of( material_iflesh ) &&
+        !made_of( material_bone ) ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
@@ -2441,7 +2441,7 @@ bool monster::make_fungus()
         polypick = 7;
     } else if( tid == mon_zombie_gasbag ) {
         polypick = 8;
-    } else if( type->in_species( SPIDER ) && get_size() > MS_TINY ) {
+    } else if( type->in_species( species_SPIDER ) && get_size() > MS_TINY ) {
         polypick = 9;
     }
 
@@ -2851,7 +2851,7 @@ void monster::on_load()
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
             regen = 1.0f / to_turns<int>( 1_hours );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_flesh ) || made_of( material_veggy ) ) {
             // Most living stuff here
             regen = 0.25f / to_turns<int>( 1_hours );
         }

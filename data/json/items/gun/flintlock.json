@@ -35,7 +35,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "flintlock pistol",
-    "description": "A beautifully decorated flintlock pistol.  If using this doesn't makes you feel a pirate, nothing will.",
+    "description": "A beautifully decorated flintlock pistol.  If using this doesn't make you feel a pirate, nothing will.",
     "weight": "753 g",
     "volume": "750 ml",
     "price": 35000,

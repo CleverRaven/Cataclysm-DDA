@@ -594,13 +594,17 @@ void debug_menu::wishskill( player *p )
     skmenu.allow_anykey = true;
     skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
-    std::vector<int> origskills;
-    origskills.reserve( Skill::skills.size() );
+    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
+        return a.name() < b.name();
+    } );
 
-    for( const auto &s : Skill::skills ) {
-        const int level = p->get_skill_level( s.ident() );
+    std::vector<int> origskills;
+    origskills.reserve( sorted_skills.size() );
+
+    for( const auto &s : sorted_skills ) {
+        const int level = p->get_skill_level( s->ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
-                         s.name() );
+                         s->name() );
         origskills.push_back( level );
     }
 
@@ -611,15 +615,15 @@ void debug_menu::wishskill( player *p )
         const int sksel = skmenu.selected - skoffset;
         if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
                                               skmenu.keypress == KEY_RIGHT ) ) {
-            if( sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
+            if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
-                skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
+                skset = p->get_skill_level( sorted_skills[skill_id]->ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
-                   sksel < static_cast<int>( Skill::skills.size() ) ) {
+                   sksel < static_cast<int>( sorted_skills.size() ) ) {
             skill_id = sksel;
-            const Skill &skill = Skill::skills[skill_id];
+            const Skill &skill = *sorted_skills[skill_id];
             const int NUM_SKILL_LVL = 21;
             uilist sksetmenu;
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
@@ -639,7 +643,7 @@ void debug_menu::wishskill( player *p )
         }
 
         if( skill_id >= 0 && skset >= 0 ) {
-            const Skill &skill = Skill::skills[skill_id];
+            const Skill &skill = *sorted_skills[skill_id];
             p->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
                                       skill.name(),
@@ -664,8 +668,8 @@ void debug_menu::wishskill( player *p )
                 } else if( ret < 7 ) {
                     skset = ( ret - 4 ) * 5;
                 }
-                for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
-                    const Skill &skill = Skill::skills[skill_id];
+                for( size_t skill_id = 0; skill_id < sorted_skills.size(); skill_id++ ) {
+                    const Skill &skill = *sorted_skills[skill_id];
                     int changeto = skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
                                    skset != -1 ? skset : origskills[skill_id];
                     p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
