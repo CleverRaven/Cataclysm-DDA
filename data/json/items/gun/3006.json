@@ -44,7 +44,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "M1 Garand",
+    "name": { "str": "M1 Garand" },
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "weight": "4280 g",
     "volume": "2500 ml",
